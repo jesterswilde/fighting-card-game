@@ -1,4 +1,4 @@
-import { Card, Mechanic } from "./cardInterface";
+import { Card, Mechanic } from "./card";
 
 export interface GameState{
     playerStates: PlayerState[]

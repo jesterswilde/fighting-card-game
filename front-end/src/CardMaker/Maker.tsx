@@ -44,7 +44,6 @@ export default class Maker extends React.Component<Props, State>{
     }
     public render() {
         const { name = '', effects = [], requirements = [], optional = [] } = this.state;
-        console.log(effects);
         return (
             <div>
                 <input placeholder="Card Name" className="form-control-lg" type="text" value={name} onChange={(e) => this.updateName(e.target.value)} />

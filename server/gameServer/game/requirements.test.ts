@@ -10,7 +10,7 @@ describe('Requirements', () => {
         state.distance = DistanceEnum.CLOSE; 
     })
 
-    describe('meetsRequirements', () => {
+    describe    ('meetsRequirements', () => {
         it('should return true if state is met', () => {
             const req1: StatePiece = { axis: AxisEnum.STANDING, player: PlayerEnum.PLAYER }
             const req2: StatePiece = { axis: AxisEnum.BALANCED, player: PlayerEnum.BOTH }

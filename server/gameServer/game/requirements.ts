@@ -1,10 +1,22 @@
-import { Card, StatePiece, AxisEnum, MechanicEnum, PlayerEnum } from "../interfaces/cardInterface";
+import { Card, StatePiece, AxisEnum, MechanicEnum, PlayerEnum, RequirementEffect, Mechanic } from "../interfaces/cardInterface";
 import { GameState, DistanceEnum, StandingEnum, MotionEnum, BalanceEnum } from "../interfaces/stateInterface";
 import { BLOODIED_HP } from "../gameSettings";
+import { playerEnumToPlayerArray } from "../util";
 
 export const canPlayCard = (card: Card, state: GameState): boolean => {
-    const opponent = state.currentPlayer === 0 ? 1 : 0;
+    const opponent = state.currentPlayer === 1 ? 0 : 1; 
     return card.requirements.every((req) => meetsRequirements(req, state, state.currentPlayer, opponent));
+}
+export const canUseOptional = (reqs: RequirementEffect, opponent: number, state: GameState): boolean => {
+    return reqs.requirements.every((req) => {
+        return meetsRequirements(req, state, state.currentPlayer, opponent)
+    });
+}
+export const mechReqsMet = (mech: Mechanic, opponent: number, player: number, state: GameState): boolean =>{
+    const reqs = mech.mechanicRequirements || []; 
+    return reqs.every((req)=>{
+        return meetsRequirements(req, state, player, opponent); 
+    })
 }
 
 export const meetsRequirements = (req: StatePiece, state: GameState, player: number, opponent: number): boolean => {
@@ -12,16 +24,7 @@ export const meetsRequirements = (req: StatePiece, state: GameState, player: num
     if (checkGlobal !== undefined) {
         return checkGlobal(state);
     }
-    let whoToCheck: number[];
-    if (req.player === PlayerEnum.PLAYER) {
-        whoToCheck = [player];
-    }
-    else if (req.player === PlayerEnum.OPPONENT) {
-        whoToCheck = [opponent];
-    }
-    else {
-        whoToCheck = [player, opponent];
-    }
+    const whoToCheck = playerEnumToPlayerArray(req.player, player, opponent); 
     const checkPlayers = playerAxis[req.axis];
     if (checkPlayers !== undefined) {
         return checkPlayers(whoToCheck, state);
@@ -45,7 +48,7 @@ const playerAxis: { [axis: string]: (check: number[], state: GameState) => boole
     [AxisEnum.MOVING]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].motion === MotionEnum.MOVING),
     [AxisEnum.BALANCED]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].balance === BalanceEnum.BALANCED || state.playerStates[i].balance === BalanceEnum.ANTICIPATING),
     [AxisEnum.ANTICIPATING]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].balance === BalanceEnum.ANTICIPATING),
-    [AxisEnum.UNBALANCED]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].balance === BalanceEnum.BALANCED || state.playerStates[i].balance === BalanceEnum.UNBALANCED),
+    [AxisEnum.UNBALANCED]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].balance === BalanceEnum.UNBALANCED),
     [AxisEnum.BLOODIED]: (check: number[], state: GameState) => check.every((i) => state.health[i] <= BLOODIED_HP),
     [AxisEnum.DAMAGE]: (check: number[], state: GameState) => check.every((i) => state.damaged[i]),
 }
