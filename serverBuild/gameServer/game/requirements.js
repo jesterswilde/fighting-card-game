@@ -4,13 +4,23 @@ const cardInterface_1 = require("../interfaces/cardInterface");
 const stateInterface_1 = require("../interfaces/stateInterface");
 const gameSettings_1 = require("../gameSettings");
 const util_1 = require("../util");
+const errors_1 = require("../errors");
 exports.canPlayCard = (card, state) => {
-    const { opponent } = card;
+    if (card === undefined) {
+        throw errors_1.ErrorEnum.NO_CARD;
+    }
+    const opponent = state.currentPlayer === 1 ? 0 : 1;
     return card.requirements.every((req) => exports.meetsRequirements(req, state, state.currentPlayer, opponent));
 };
 exports.canUseOptional = (reqs, opponent, state) => {
     return reqs.requirements.every((req) => {
         return exports.meetsRequirements(req, state, state.currentPlayer, opponent);
+    });
+};
+exports.mechReqsMet = (mech, opponent, player, state) => {
+    const reqs = mech.mechanicRequirements || [];
+    return reqs.every((req) => {
+        return exports.meetsRequirements(req, state, player, opponent);
     });
 };
 exports.meetsRequirements = (req, state, player, opponent) => {

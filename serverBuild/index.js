@@ -19,11 +19,17 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const bodyParser = require("body-parser");
+const socketIO = require("socket.io");
 const path = require("path");
 const cors = require("cors");
+const http = require("http");
+const lobby_1 = require("./gameServer/lobby");
 const Cards_1 = require("./cards/Cards");
 const port = process.env.PORT || 8080;
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
+lobby_1.default(io);
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname, '..', 'front-end', 'build')));
@@ -45,4 +51,4 @@ app.delete('/card', (req, res) => __awaiter(this, void 0, void 0, function* () {
         res.status(400).send();
     }
 }));
-app.listen(port, () => console.log("listening on port " + port));
+server.listen(port, () => console.log("listening on port " + port));

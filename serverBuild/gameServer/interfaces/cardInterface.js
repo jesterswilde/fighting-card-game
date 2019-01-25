@@ -1,13 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var PredictionEnum;
-(function (PredictionEnum) {
-    PredictionEnum[PredictionEnum["NONE"] = 0] = "NONE";
-    PredictionEnum[PredictionEnum["DISTANCE"] = 1] = "DISTANCE";
-    PredictionEnum[PredictionEnum["STANDING"] = 2] = "STANDING";
-    PredictionEnum[PredictionEnum["MOTION"] = 3] = "MOTION";
-    PredictionEnum[PredictionEnum["BALANCE"] = 4] = "BALANCE";
-})(PredictionEnum = exports.PredictionEnum || (exports.PredictionEnum = {}));
 var MechanicEnum;
 (function (MechanicEnum) {
     MechanicEnum["TELEGRAPH"] = "Telegraph";

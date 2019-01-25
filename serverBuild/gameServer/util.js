@@ -42,20 +42,21 @@ exports.makeMechanic = () => {
 exports.makeGameState = () => {
     return {
         currentPlayer: 0,
-        playerStates: [makePlayerState(), makePlayerState()],
-        stateDurations: [makeStateDurations(), makeStateDurations()],
+        playerStates: [exports.makePlayerState(), exports.makePlayerState()],
+        stateDurations: [exports.makeStateDurations(), exports.makeStateDurations()],
         block: [0, 0],
-        queues: [[], []],
+        queue: [[], []],
         distance: stateInterface_1.DistanceEnum.FAR,
         decks: [],
         damaged: [],
         hands: [],
         health: [],
         readiedEffects: [],
-        modifiedAxis: makeModifiedAxis()
+        modifiedAxis: exports.makeModifiedAxis(),
+        sockets: []
     };
 };
-const makeModifiedAxis = () => {
+exports.makeModifiedAxis = () => {
     return {
         balance: false,
         distance: false,
@@ -63,14 +64,14 @@ const makeModifiedAxis = () => {
         standing: false
     };
 };
-const makeStateDurations = () => {
+exports.makeStateDurations = () => {
     return {
         standing: null,
         motion: null,
         balance: null
     };
 };
-const makePlayerState = () => {
+exports.makePlayerState = () => {
     return {
         standing: stateInterface_1.StandingEnum.STANDING,
         motion: stateInterface_1.MotionEnum.STILL,
@@ -89,13 +90,4 @@ exports.playerEnumToPlayerArray = (playerEnum, player, opponent) => {
         whoToCheck = [player, opponent];
     }
     return whoToCheck;
-};
-exports.getLastPlayedCard = (state) => {
-    const { queues, currentPlayer: player } = state;
-    const queue = queues[player];
-    const index = queue[player].length - 1;
-    if (index < 0) {
-        return null;
-    }
-    return queue[player][index];
 };

@@ -46,14 +46,15 @@ export const makeGameState = (): GameState => {
         playerStates: [makePlayerState(), makePlayerState()],
         stateDurations: [makeStateDurations(), makeStateDurations()],
         block: [0, 0],
-        queues: [[], []],
+        queue: [[], []],
         distance: DistanceEnum.FAR,
         decks: [],
         damaged: [],
         hands: [],
         health: [],
         readiedEffects: [],
-        modifiedAxis: makeModifiedAxis()
+        modifiedAxis: makeModifiedAxis(),
+        sockets:[]
     }
 }
 
@@ -66,7 +67,7 @@ export const makeModifiedAxis = (): ModifiedAxis => {
     }
 }
 
-const makeStateDurations = () => {
+export const makeStateDurations = () => {
     return {
         standing: null,
         motion: null,
@@ -74,7 +75,7 @@ const makeStateDurations = () => {
     }
 }
 
-const makePlayerState = (): PlayerState => {
+export const makePlayerState = (): PlayerState => {
     return {
         standing: StandingEnum.STANDING,
         motion: MotionEnum.STILL,

@@ -2,8 +2,12 @@ import { Card, StatePiece, AxisEnum, MechanicEnum, PlayerEnum, RequirementEffect
 import { GameState, DistanceEnum, StandingEnum, MotionEnum, BalanceEnum } from "../interfaces/stateInterface";
 import { BLOODIED_HP } from "../gameSettings";
 import { playerEnumToPlayerArray } from "../util";
+import { ErrorEnum } from "../errors";
 
 export const canPlayCard = (card: Card, state: GameState): boolean => {
+    if(card === undefined){
+        throw ErrorEnum.NO_CARD
+    }
     const opponent = state.currentPlayer === 1 ? 0 : 1; 
     return card.requirements.every((req) => meetsRequirements(req, state, state.currentPlayer, opponent));
 }

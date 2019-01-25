@@ -4,15 +4,22 @@
   "main": "index.js",
   "author": "Corey Wolff",
   "license": "MIT",
+  "scripts": {
+    "sass": "sass --watch src/styles/sass:src/styles/css"
+  },
   "dependencies": {
     "@types/redux": "^3.6.0",
+    "@types/socket.io-client": "^1.4.32",
+    "bootstrap": "^4.2.1",
     "preact": "^8.4.2",
     "preact-redux": "^2.0.3",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
     "parcel-bundler": "^1.11.0",
     "preact-dom": "^1.0.1",
+    "sass": "^1.16.1",
     "typescript": "^3.2.4"
   }
 }

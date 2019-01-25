@@ -1,10 +1,17 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as socketIO from 'socket.io';
 import * as path from 'path';
 import * as cors from 'cors';
+import * as http from 'http';
+import lobby from './gameServer/lobby'
 import { addCard, cards, removeCard } from './cards/Cards';
 const port = process.env.PORT || 8080;
 const app = express();
+const server = http.createServer(app);
+
+const io = socketIO(server);
+lobby(io);
 
 app.use(bodyParser.json())
 app.use(cors());
@@ -28,4 +35,4 @@ app.delete('/card', async(req,res)=>{
     }
 })
 
-app.listen(port, () => console.log("listening on port " + port));
+server.listen(port, () => console.log("listening on port " + port));

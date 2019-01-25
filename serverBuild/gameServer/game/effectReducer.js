@@ -145,11 +145,12 @@ const playerAxis = {
     },
 };
 const getMaxAmount = (currentAmount, nextAmount, changed) => {
+    //The *2 is a hack for decrement counters
     if (changed) {
-        return nextAmount;
+        return nextAmount * 2;
     }
     if (currentAmount === null || nextAmount === null) {
         return null;
     }
-    return Math.max(currentAmount, nextAmount);
+    return Math.max(currentAmount, nextAmount * 2);
 };

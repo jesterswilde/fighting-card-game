@@ -1,11 +1,13 @@
 import { Card, Mechanic } from "./cardInterface";
+import { Socket } from "socket.io";
 
 export interface GameState{
+    sockets: Socket[]
     playerStates: PlayerState[]
     stateDurations: PlayerStateDuration[]
     modifiedAxis: ModifiedAxis
     block: number[]
-    queues: Card[][][]
+    queue: Card[][]
     distance: DistanceEnum
     currentPlayer: number
     health: number[]
@@ -18,6 +20,7 @@ export interface GameState{
     turnIsOver?: boolean
     predictions?: PredictionState[]
     checkedFocus?: boolean
+    incrementedQueue?: boolean
 }
 export interface ModifiedAxis {
     standing: boolean

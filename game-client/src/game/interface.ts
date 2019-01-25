@@ -1,23 +1,15 @@
-import { Card, Mechanic } from "./card";
+import { Card, Mechanic } from "../interfaces/card";
 
 export interface GameState{
     playerStates: PlayerState[]
     stateDurations: PlayerStateDuration[]
-    modifiedAxis: ModifiedAxis
     block: number[]
-    queues: Card[][][]
+    queue: Card[][]
     distance: DistanceEnum
     currentPlayer: number
+    player: number
     health: number[]
-    decks: Card[][]
-    hands: Card[][]
     damaged: boolean[]
-    pickedCard?: Card
-    readiedEffects: Mechanic[]
-    winner?: number
-    turnIsOver?: boolean
-    predictions?: PredictionState[]
-    checkedFocus?: boolean
 }
 export interface ModifiedAxis {
     standing: boolean

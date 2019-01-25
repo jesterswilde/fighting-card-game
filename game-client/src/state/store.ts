@@ -1,32 +1,28 @@
-import {createStore} from 'redux'; 
-import { GameState, DistanceEnum } from '../interfaces/game';
-import { Card } from '../interfaces/card';
+import {createStore, combineReducers, Store} from 'redux'; 
+import { GameState, DistanceEnum } from '../game/interface';
+import { gameReducer } from '../game/reducer';
+import { ActionType } from './actionTypes';
+import { HandState } from '../hand/interface';
+import { handReducer } from '../hand/reducer';
+import { displayReducer } from '../display/reducer';
+import { DisplayState } from '../display/interface';
+import { deckReducer } from '../deck/reducer';
+import { DecksState } from '../deck/interfaces';
 
-interface StoreState{
+export interface StoreState{
     game: GameState
-    hand: Card[]
-    screen: ScreenEnum
-}
+    hand: HandState
+    display: DisplayState
+    deck: DecksState
+}    
 
-enum ScreenEnum {
-    PREDICT,
-    CHOOSE_CARD,
-    OPPONENTS_TURN
-}
+const rootReducer = combineReducers({
+    game: gameReducer,
+    hand: handReducer,
+    display: displayReducer,
+    deck: deckReducer
+})
 
-const makeDefaultState = ():StoreState=>{
-    return {
-        game:{
-            health: [],
-            playerStates:[],
-            stateDurations:[],
-            block:[],
-            queues:[],
-            distance: DistanceEnum.FAR,
-            currentPlayer: 0,
-            damaged:[],
-        },
-        hand:[],
-        screen: ScreenEnum.OPPONENTS_TURN
-    }
-}
+
+
+export const store: Store<StoreState, ActionType> = createStore(rootReducer); 
