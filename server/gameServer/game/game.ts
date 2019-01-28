@@ -27,10 +27,10 @@ export const playGame = async (state: GameState) => {
 
 const startGame = (state: GameState) => {
     assignPlayerToDecks(state);
+    sendState(state);
     state.sockets.forEach((socket, i) => {
         socket.emit(SocketEnum.START_GAME, { player: i });
     })
-    sendState(state);
 }
 
 const endGame = (state: GameState) => {
@@ -46,9 +46,14 @@ const sendState = (state: GameState) => {
         distance: state.distance,
         currentPlayer: state.currentPlayer,
         health: state.health,
-        damaged: state.damaged
+        damaged: state.damaged,
+        predictions: state.predictions
     }
-    state.sockets.forEach((socket) => {
+    state.sockets.forEach((socket, i) => {
+        const playerState = deepCopy(sendState); 
+        if(playerState.predictions.player !== i){
+            playerState.predictions.enum = null; 
+        }
         socket.emit(SocketEnum.GOT_STATE, sendState);
     })
 }
@@ -60,10 +65,9 @@ export const playTurn = async (state: GameState) => {
 }
 
 export const startTurn = async (state: GameState) => {
-    console.log(state.currentPlayer); 
+    console.log(state.currentPlayer);
     shuffleDeck(state);
     drawHand(state);
-    console.log(state.decks.map((deck)=>deck.map(({ player }) => player))); 
     await playerPicksCard(state);
 }
 
@@ -75,12 +79,12 @@ export const endTurn = async (state: GameState) => {
 }
 
 const assignPlayerToDecks = (state: GameState) => {
-    for(let player = 0; player < state.decks.length; player++){
-        const deck = state.decks[player]; 
-        for(let i = 0; i < deck.length; i++){
-            deck[i].player = player; 
+    for (let player = 0; player < state.decks.length; player++) {
+        const deck = state.decks[player];
+        for (let i = 0; i < deck.length; i++) {
+            deck[i].player = player;
         }
-        console.log(deck.map(({player})=> player)); 
+        console.log(deck.map(({ player }) => player));
     }
 }
 
@@ -185,7 +189,7 @@ export const shuffleDeck = (state: GameState, playerToShuffle?: number) => {
 }
 
 export const playCard = async (state: GameState) => {
-    try{
+    try {
         getMechanicsReady(state);
         await makePredictions(state);
         markAxisChanges(state);
@@ -193,10 +197,10 @@ export const playCard = async (state: GameState) => {
         addCardToQueue(state);
         applyEffects(state);
         sendState(state);
-    }catch (err) {
+    } catch (err) {
         console.log("err", err)
         if (err === ControlEnum.PLAY_CARD) {
-            console.log('caught and playing card'); 
+            console.log('caught and playing card');
             await playCard(state);
         } else {
             throw err;
@@ -220,16 +224,26 @@ export const makePredictions = async (state: GameState, { _getPredictions = getP
         const eff = readiedEffects[i];
         if (eff.mechanic === MechanicEnum.PREDICT) {
             const prediction: PredictionState = {} as PredictionState;
-            prediction.enum = await _getPredictions();
+            prediction.prediction = await _getPredictions(state);
             prediction.mechanics = deepCopy(eff.mechanicEffects);
+            prediction.player = state.currentPlayer; 
             state.predictions = state.predictions || [];
             state.predictions.push(prediction);
         }
     }
 }
 
-const getPredictions = async (): Promise<PredictionEnum> => {
-    return PredictionEnum.NONE;
+const getPredictions = (state: GameState): Promise<PredictionEnum> => {
+    console.log('getting predictin'); 
+    return new Promise((res, rej) => {
+        const { currentPlayer: player, sockets } = state;
+        const socket = sockets[player];
+        socket.emit(SocketEnum.SHOULD_PREDICT);
+        socket.once(SocketEnum.MADE_PREDICTION, (prediction: PredictionEnum) => {
+            console.log('gotPrediction'); 
+            res(prediction); 
+        })
+    })
 }
 
 

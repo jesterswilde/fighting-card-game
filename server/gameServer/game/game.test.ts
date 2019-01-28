@@ -1,6 +1,6 @@
-import { makeBlankCard, makeGameState, deepCopy, playerEnumToPlayerArray, makeModifiedAxis } from "../util";
+import { makeBlankCard, makeGameState, deepCopy } from "../util";
 import { Card, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "../interfaces/cardInterface";
-import { GameState, StandingEnum, BalanceEnum, DistanceEnum, MotionEnum, PredictionEnum, ModifiedAxis } from "../interfaces/stateInterface";
+import { GameState, StandingEnum, BalanceEnum, DistanceEnum, MotionEnum, PredictionEnum, ModifiedAxis, PredictionState } from "../interfaces/stateInterface";
 import { drawHand, pickCard, addCardToQueue, incrementQueue, getMechanicsReady, makePredictions, applyEffects, markAxisChanges, checkForVictor, removeStoredEffects, checkPredictions, checkTelegraph, checkReflex, checkFocus, makeEffectsReduceable } from "./game";
 import { STARTING_HEALTH, HAND_SIZE } from "../gameSettings";
 import { ControlEnum } from "../errors";
@@ -278,10 +278,10 @@ describe('game', () => {
 
             await makePredictions(state, { _getPredictions });
 
-            expect(state.predictions[0].enum).toEqual(PredictionEnum.BALANCE);
+            expect(state.predictions[0].prediction).toEqual(PredictionEnum.BALANCE);
             expect(state.predictions[0].mechanics).toEqual(card.effects[0].mechanicEffects);
             expect(state.predictions[0].mechanics).not.toBe(card.effects[0].mechanicEffects);
-            expect(state.predictions[1].enum).toEqual(PredictionEnum.MOTION);
+            expect(state.predictions[1].prediction).toEqual(PredictionEnum.MOTION);
             expect(state.predictions[1].mechanics).toEqual(card.effects[2].mechanicEffects);
             expect(state.predictions[1].mechanics).not.toBe(card.effects[2].mechanicEffects);
         })
@@ -425,7 +425,7 @@ describe('game', () => {
         it('should mark victory if a player\'s health drops to 0', () => {
             state.health = [5, 0]
 
-            checkForVictor(state);
+            expect(()=>checkForVictor(state)).toThrowError(ControlEnum.GAME_OVER);
 
             expect(state.winner).toEqual(0);
         })
@@ -439,7 +439,7 @@ describe('game', () => {
         it('should mark -1 if both players health is at or below 0', () => {
             state.health = [-1, 0];
 
-            checkForVictor(state);
+            expect(()=>checkForVictor(state)).toThrow();
 
             expect(state.winner).toEqual(-1);
         })
@@ -455,10 +455,10 @@ describe('game', () => {
         it('should remove the prediction if the prediction was wrong', () => {
             state.predictions = [
                 {
-                    enum: PredictionEnum.MOTION, mechanics: [
+                    prediction: PredictionEnum.MOTION, mechanics: [
                         { axis: AxisEnum.DAMAGE, amount: 2, player: PlayerEnum.OPPONENT }
                     ]
-                }
+                } as PredictionState
             ]
 
             expect(() => checkPredictions(state)).not.toThrow();
@@ -468,7 +468,7 @@ describe('game', () => {
         it('should apply the effects if the prediction was correct & remove the prediction', () => {
             const mech = { axis: AxisEnum.DAMAGE, amount: 2, player: PlayerEnum.OPPONENT }
             state.predictions = [
-                { enum: PredictionEnum.BALANCE, mechanics: [mech] }
+                { prediction: PredictionEnum.BALANCE, mechanics: [mech] } as PredictionState
             ]
             state.modifiedAxis.balance = true;
 
@@ -523,13 +523,13 @@ describe('game', () => {
         it('should add a reflex', () => {
             const refCard = makeBlankCard();
             refCard.shouldReflex = true;
-            refCard.player = 0;
-            refCard.opponent = 1;
+            refCard.player = 1;
+            refCard.opponent = 0;
             state.currentPlayer = 1;
             const drawnCard = makeBlankCard();
             drawnCard.name = 'drawn';
-            drawnCard.player = 0; 
-            state.decks[0] = [drawnCard]
+            drawnCard.player = 1; 
+            state.decks[1] = [drawnCard]
             state.queue = [
                 [], [refCard], [], [], [], [], []
             ]
@@ -538,7 +538,7 @@ describe('game', () => {
 
             expect(refCard.shouldReflex).toBeFalsy();
             expect(state.pickedCard.name).toEqual('drawn');
-            expect(drawnCard.opponent).toEqual(1);
+            expect(drawnCard.opponent).toEqual(0);
         })
     })
     describe('checkFocus', () => {

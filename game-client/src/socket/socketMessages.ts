@@ -6,6 +6,7 @@ import { dispatchStartGame, dispatchGameState } from '../game/dispatch';
 import { SocketEnum } from './socketEnum';
 import { dispatchGotDeckChoices } from '../deck/dispatch';
 import { GameState } from '../game/interface';
+import { dispatchShouldPredict } from '../gameDisplay/dispatch';
 
 export const setupSockets = (socket: SocketIOClient.Socket)=>{
     console.log('running socket messsages'); 
@@ -34,5 +35,10 @@ export const setupSockets = (socket: SocketIOClient.Socket)=>{
         console.log('gotState', state);  
         dispatchGameState(state); 
      })
+
+     socket.on(SocketEnum.SHOULD_PREDICT,()=>{
+        console.log('should predict'); 
+        dispatchShouldPredict(); 
+     }); 
 }
 

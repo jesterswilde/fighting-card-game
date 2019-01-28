@@ -15,7 +15,7 @@ lobby(io);
 
 app.use(bodyParser.json())
 app.use(cors());
-app.use(express.static(path.join(__dirname, '..', 'front-end', 'build')));
+app.use(express.static(path.join(__dirname, '..', 'game-client', 'dist')));
 
 app.post('/card', (req, res) => {
     const { index, ...card } = req.body;

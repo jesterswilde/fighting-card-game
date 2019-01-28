@@ -10,6 +10,7 @@ export interface GameState{
     player: number
     health: number[]
     damaged: boolean[]
+    predictions?: PredictionState[]
 }
 export interface ModifiedAxis {
     standing: boolean
@@ -29,7 +30,8 @@ export interface PlayerState {
 }
 
 export interface PredictionState{
-    enum: PredictionEnum
+    player:number
+    prediction: PredictionEnum | null
     mechanics: Mechanic[]
 }
 

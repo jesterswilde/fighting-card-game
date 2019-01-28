@@ -1,6 +1,17 @@
 import {store} from '../state/store'; 
-import { GameState } from './interface';
-import { GameActionEnum, ReplaceGameAction, StartGameAction } from './actions';
+import { GameState, PredictionEnum } from './interface';
+import { GameActionEnum, ReplaceGameAction, StartGameAction, MadePredictionAction } from './actions';
+import { socket } from '../socket/socket';
+import { SocketEnum } from '../socket/socketEnum';
+
+export const dispatchMadePrediction = (prediction: PredictionEnum)=>{
+    const action: MadePredictionAction = {
+        type: GameActionEnum.MADE_PREDICTION,
+        prediction
+    }
+    socket.emit(SocketEnum.MADE_PREDICTION, prediction); 
+    store.dispatch(action); 
+}
 
 export const dispatchGameState = (gameState: GameState)=>{
     const action: ReplaceGameAction = {

@@ -1,7 +1,7 @@
 import { GameState, PredictionState, PredictionEnum } from "../interfaces/stateInterface";
 
 export const checkPrediction = (prediction: PredictionState, state: GameState): boolean=>{
-    switch(prediction.enum){
+    switch(prediction.prediction){
         case(PredictionEnum.BALANCE):
             return state.modifiedAxis.balance;
         case(PredictionEnum.DISTANCE):

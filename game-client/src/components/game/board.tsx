@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { getUUID } from '../../util';
 import { Card } from '../../interfaces/card';
 import CardComp from './card/viewer';
+import QueueCard from './card/queueCard'
 
 interface Props {
     queue: Card[][]
@@ -28,12 +29,11 @@ export const Board = (props: Props) => {
 }
 
 const renderBoard = (queue: Card[][] = [], playerNum: number, currentPlayer: number) => {
-    console.log('rednerinb oard');
     return queue.map((cards = [], i) => {
         return <div key={i + JSON.stringify(cards)}>
             {cards.map((card, i) => {
                 return <div class='text-center queue-card' key={card.name}>
-                    {card.name}
+                    <QueueCard {...card}/>
                 </div>
             })}
         </div>

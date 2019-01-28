@@ -19,6 +19,7 @@ export interface GameState{
     winner?: number
     turnIsOver?: boolean
     predictions?: PredictionState[]
+    predictionByPlayer?: number
     checkedFocus?: boolean
     incrementedQueue?: boolean
 }
@@ -40,7 +41,8 @@ export interface PlayerState {
 }
 
 export interface PredictionState{
-    enum: PredictionEnum
+    player: number,
+    prediction: PredictionEnum,
     mechanics: Mechanic[]
 }
 

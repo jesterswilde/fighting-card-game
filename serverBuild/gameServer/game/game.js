@@ -37,10 +37,10 @@ exports.playGame = (state) => __awaiter(this, void 0, void 0, function* () {
 });
 const startGame = (state) => {
     assignPlayerToDecks(state);
+    sendState(state);
     state.sockets.forEach((socket, i) => {
         socket.emit(socket_1.SocketEnum.START_GAME, { player: i });
     });
-    sendState(state);
 };
 const endGame = (state) => {
 };
@@ -68,7 +68,6 @@ exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     console.log(state.currentPlayer);
     exports.shuffleDeck(state);
     exports.drawHand(state);
-    console.log(state.decks.map((deck) => deck.map(({ player }) => player)));
     yield exports.playerPicksCard(state);
 });
 exports.endTurn = (state) => __awaiter(this, void 0, void 0, function* () {
@@ -214,16 +213,25 @@ exports.makePredictions = (state, { _getPredictions = getPredictions } = {}) => 
         const eff = readiedEffects[i];
         if (eff.mechanic === cardInterface_1.MechanicEnum.PREDICT) {
             const prediction = {};
-            prediction.enum = yield _getPredictions();
+            prediction.enum = yield _getPredictions(state);
             prediction.mechanics = util_1.deepCopy(eff.mechanicEffects);
             state.predictions = state.predictions || [];
             state.predictions.push(prediction);
         }
     }
 });
-const getPredictions = () => __awaiter(this, void 0, void 0, function* () {
-    return stateInterface_1.PredictionEnum.NONE;
-});
+const getPredictions = (state) => {
+    console.log('getting predictin');
+    return new Promise((res, rej) => {
+        const { currentPlayer: player, sockets } = state;
+        const socket = sockets[player];
+        socket.emit(socket_1.SocketEnum.SHOULD_PREDICT);
+        socket.once(socket_1.SocketEnum.MADE_PREDICTION, (prediction) => {
+            console.log('gotPrediction');
+            res(prediction);
+        });
+    });
+};
 exports.markAxisChanges = (state) => {
     const card = state.pickedCard;
     if (state.readiedEffects) {

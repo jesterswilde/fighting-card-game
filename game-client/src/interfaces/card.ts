@@ -3,7 +3,6 @@ export interface Card extends RequirementEffect{
     optional: RequirementEffect[]
     telegraphs?: Mechanic[]
     focuses?: Mechanic[]
-    predictions?: Mechanic[]
     shouldReflex?: boolean
     player?: number
     opponent?: number

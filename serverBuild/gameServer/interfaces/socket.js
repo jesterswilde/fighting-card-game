@@ -10,4 +10,6 @@ var SocketEnum;
     SocketEnum["GOT_DECK_OPTIONS"] = "gotDeckOptions";
     SocketEnum["PICKED_DECK"] = "pickedDeck";
     SocketEnum["GOT_STATE"] = "gotState";
+    SocketEnum["SHOULD_PREDICT"] = "shouldPredict";
+    SocketEnum["MADE_PREDICTION"] = "madePrediction";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));

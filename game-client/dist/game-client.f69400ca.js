@@ -2796,6 +2796,7 @@ var GameActionEnum;
   GameActionEnum["REPLACE_STATE"] = "replaceGameState";
   GameActionEnum["START_GAME"] = "startGame";
   GameActionEnum["PICKED_CARD"] = "pickedCard";
+  GameActionEnum["MADE_PREDICTION"] = "madePrediction";
 })(GameActionEnum = exports.GameActionEnum || (exports.GameActionEnum = {}));
 },{}],"src/game/reducer.ts":[function(require,module,exports) {
 "use strict";
@@ -12100,6 +12101,8 @@ var SocketEnum;
   SocketEnum["GOT_DECK_OPTIONS"] = "gotDeckOptions";
   SocketEnum["PICKED_DECK"] = "pickedDeck";
   SocketEnum["GOT_STATE"] = "gotState";
+  SocketEnum["SHOULD_PREDICT"] = "shouldPredict";
+  SocketEnum["MADE_PREDICTION"] = "madePrediction";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
 },{}],"src/hand/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12186,6 +12189,19 @@ var store_1 = require("../state/store");
 
 var actions_1 = require("./actions");
 
+var socket_1 = require("../socket/socket");
+
+var socketEnum_1 = require("../socket/socketEnum");
+
+exports.dispatchMadePrediction = function (prediction) {
+  var action = {
+    type: actions_1.GameActionEnum.MADE_PREDICTION,
+    prediction: prediction
+  };
+  socket_1.socket.emit(socketEnum_1.SocketEnum.MADE_PREDICTION, prediction);
+  store_1.store.dispatch(action);
+};
+
 exports.dispatchGameState = function (gameState) {
   var action = {
     type: actions_1.GameActionEnum.REPLACE_STATE,
@@ -12201,7 +12217,7 @@ exports.dispatchStartGame = function (player) {
   };
   store_1.store.dispatch(action);
 };
-},{"../state/store":"src/state/store.ts","./actions":"src/game/actions.ts"}],"src/deck/actions.ts":[function(require,module,exports) {
+},{"../state/store":"src/state/store.ts","./actions":"src/game/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/deck/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12244,7 +12260,35 @@ exports.dispatchPickedDeck = function (choice) {
   socket_1.socket.emit(socketEnum_1.SocketEnum.PICKED_DECK, choice);
   store_1.store.dispatch(action);
 };
-},{"./actions":"src/deck/actions.ts","../state/store":"src/state/store.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/socket/socketMessages.ts":[function(require,module,exports) {
+},{"./actions":"src/deck/actions.ts","../state/store":"src/state/store.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/gameDisplay/actions.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var GameDisplayActionEnum;
+
+(function (GameDisplayActionEnum) {
+  GameDisplayActionEnum["SHOULD_PREDICT"] = "shouldPredict";
+})(GameDisplayActionEnum = exports.GameDisplayActionEnum || (exports.GameDisplayActionEnum = {}));
+},{}],"src/gameDisplay/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var actions_1 = require("./actions");
+
+var store_1 = require("../state/store");
+
+exports.dispatchShouldPredict = function () {
+  var action = {
+    type: actions_1.GameDisplayActionEnum.SHOULD_PREDICT
+  };
+  store_1.store.dispatch(action);
+};
+},{"./actions":"src/gameDisplay/actions.ts","../state/store":"src/state/store.ts"}],"src/socket/socketMessages.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12262,6 +12306,8 @@ var dispatch_3 = require("../game/dispatch");
 var socketEnum_1 = require("./socketEnum");
 
 var dispatch_4 = require("../deck/dispatch");
+
+var dispatch_5 = require("../gameDisplay/dispatch");
 
 exports.setupSockets = function (socket) {
   console.log('running socket messsages');
@@ -12286,8 +12332,12 @@ exports.setupSockets = function (socket) {
     console.log('gotState', state);
     dispatch_3.dispatchGameState(state);
   });
+  socket.on(socketEnum_1.SocketEnum.SHOULD_PREDICT, function () {
+    console.log('should predict');
+    dispatch_5.dispatchShouldPredict();
+  });
 };
-},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","./socketEnum":"src/socket/socketEnum.ts","../deck/dispatch":"src/deck/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
+},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","./socketEnum":"src/socket/socketEnum.ts","../deck/dispatch":"src/deck/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -12308,7 +12358,12 @@ var socketClient = __importStar(require("socket.io-client"));
 
 var socketMessages_1 = require("./socketMessages");
 
-var url = 'localhost:8080';
+var url;
+
+if (location.host.split(':')[0] === 'localhost') {
+  url = 'localhost:8080';
+}
+
 exports.socket = socketClient.connect(url);
 socketMessages_1.setupSockets(exports.socket);
 },{"socket.io-client":"node_modules/socket.io-client/lib/index.js","./socketMessages":"src/socket/socketMessages.ts"}],"src/hand/reducer.ts":[function(require,module,exports) {
@@ -12428,7 +12483,53 @@ exports.deckReducer = function () {
       return state;
   }
 };
-},{"./actions":"src/deck/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
+},{"./actions":"src/deck/actions.ts"}],"src/gameDisplay/interface.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var GameDisplayEnum;
+
+(function (GameDisplayEnum) {
+  GameDisplayEnum[GameDisplayEnum["NORMAL"] = 0] = "NORMAL";
+  GameDisplayEnum[GameDisplayEnum["PREDICT"] = 1] = "PREDICT";
+})(GameDisplayEnum = exports.GameDisplayEnum || (exports.GameDisplayEnum = {}));
+},{}],"src/gameDisplay/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var interface_1 = require("./interface");
+
+var actions_1 = require("../game/actions");
+
+var actions_2 = require("./actions");
+
+exports.gameDisplayReducer = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    screen: interface_1.GameDisplayEnum.NORMAL
+  };
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case actions_1.GameActionEnum.MADE_PREDICTION:
+      return Object.assign({}, state, {
+        screen: interface_1.GameDisplayEnum.NORMAL
+      });
+
+    case actions_2.GameDisplayActionEnum.SHOULD_PREDICT:
+      return Object.assign({}, screen, {
+        screen: interface_1.GameDisplayEnum.PREDICT
+      });
+
+    default:
+      return state;
+  }
+};
+},{"./interface":"src/gameDisplay/interface.ts","../game/actions":"src/game/actions.ts","./actions":"src/gameDisplay/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12445,60 +12546,17 @@ var reducer_3 = require("../display/reducer");
 
 var reducer_4 = require("../deck/reducer");
 
+var reducer_5 = require("../gameDisplay/reducer");
+
 var rootReducer = redux_1.combineReducers({
   game: reducer_1.gameReducer,
   hand: reducer_2.handReducer,
   display: reducer_3.displayReducer,
-  deck: reducer_4.deckReducer
+  deck: reducer_4.deckReducer,
+  gameDisplay: reducer_5.gameDisplayReducer
 });
 exports.store = redux_1.createStore(rootReducer);
-},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../deck/reducer":"src/deck/reducer.ts"}],"src/components/game/board.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var NUM_PLAYERS = 2;
-var MAX_QUEUE_LENGTH = 3;
-
-exports.Thing = function () {
-  return preact_1.h("h2", null, " Thing ");
-};
-
-exports.Board = function (props) {
-  var _props$queue = props.queue,
-      queue = _props$queue === void 0 ? [] : _props$queue,
-      player = props.player,
-      currentPlayer = props.currentPlayer;
-  return preact_1.h("div", {
-    class: 'board'
-  }, preact_1.h("h2", null, "Board"), preact_1.h("div", {
-    class: 'card-container'
-  }, renderBoard(queue, player, currentPlayer)));
-};
-
-var renderBoard = function renderBoard() {
-  var queue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var playerNum = arguments.length > 1 ? arguments[1] : undefined;
-  var currentPlayer = arguments.length > 2 ? arguments[2] : undefined;
-  console.log('rednerinb oard');
-  return queue.map(function () {
-    var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var i = arguments.length > 1 ? arguments[1] : undefined;
-    return preact_1.h("div", {
-      key: i + JSON.stringify(cards)
-    }, cards.map(function (card, i) {
-      return preact_1.h("div", {
-        class: 'text-center queue-card',
-        key: card.name
-      }, card.name);
-    }));
-  });
-};
-},{"preact":"node_modules/preact/dist/preact.mjs"}],"src/interfaces/card.ts":[function(require,module,exports) {
+},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../deck/reducer":"src/deck/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts"}],"src/interfaces/card.ts":[function(require,module,exports) {
 "use strict";
 
 var _exports$MechanicDisp;
@@ -12768,7 +12826,99 @@ var renderEffect = function renderEffect(effect) {
 };
 
 exports.default = Effect;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx"}],"src/components/game/card/requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var effect_1 = __importDefault(require("./effect"));
+
+var QueueCard = function QueueCard(_ref) {
+  var name = _ref.name,
+      _ref$telegraphs = _ref.telegraphs,
+      telegraphs = _ref$telegraphs === void 0 ? [] : _ref$telegraphs,
+      _ref$focuses = _ref.focuses,
+      focuses = _ref$focuses === void 0 ? [] : _ref$focuses;
+  return preact_1.h("div", null, preact_1.h("div", null, name), telegraphs.map(function (eff, i) {
+    return preact_1.h("div", {
+      key: i
+    }, preact_1.h(effect_1.default, {
+      effect: eff
+    }));
+  }), focuses.map(function (eff, i) {
+    return preact_1.h("div", {
+      key: i
+    }, preact_1.h(effect_1.default, {
+      effect: eff
+    }));
+  }));
+};
+
+exports.default = QueueCard;
+},{"preact":"node_modules/preact/dist/preact.mjs","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/board.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var queueCard_1 = __importDefault(require("./card/queueCard"));
+
+var NUM_PLAYERS = 2;
+var MAX_QUEUE_LENGTH = 3;
+
+exports.Thing = function () {
+  return preact_1.h("h2", null, " Thing ");
+};
+
+exports.Board = function (props) {
+  var _props$queue = props.queue,
+      queue = _props$queue === void 0 ? [] : _props$queue,
+      player = props.player,
+      currentPlayer = props.currentPlayer;
+  return preact_1.h("div", {
+    class: 'board'
+  }, preact_1.h("h2", null, "Board"), preact_1.h("div", {
+    class: 'card-container'
+  }, renderBoard(queue, player, currentPlayer)));
+};
+
+var renderBoard = function renderBoard() {
+  var queue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var playerNum = arguments.length > 1 ? arguments[1] : undefined;
+  var currentPlayer = arguments.length > 2 ? arguments[2] : undefined;
+  return queue.map(function () {
+    var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var i = arguments.length > 1 ? arguments[1] : undefined;
+    return preact_1.h("div", {
+      key: i + JSON.stringify(cards)
+    }, cards.map(function (card, i) {
+      return preact_1.h("div", {
+        class: 'text-center queue-card',
+        key: card.name
+      }, preact_1.h(queueCard_1.default, Object.assign({}, card)));
+    }));
+  });
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx"}],"src/components/game/card/requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12925,7 +13075,315 @@ exports.default = function (_ref) {
     }));
   })));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/viewer":"src/components/game/card/viewer.tsx"}],"src/components/game.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/viewer":"src/components/game/card/viewer.tsx"}],"src/components/game/choices.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var dispatch_1 = require("../../game/dispatch");
+
+var interface_1 = require("../../game/interface");
+
+var interface_2 = require("../../gameDisplay/interface");
+
+var preact_redux_1 = require("preact-redux");
+
+var selector = function selector(state) {
+  return {
+    display: state.gameDisplay.screen
+  };
+};
+
+var Choices = function Choices(_ref) {
+  var display = _ref.display;
+  console.log('got displays', display);
+
+  switch (display) {
+    case interface_2.GameDisplayEnum.PREDICT:
+      return preact_1.h("div", null, preact_1.h(Prediction, null));
+
+    default:
+      return preact_1.h("span", null);
+  }
+};
+
+var Prediction = function Prediction() {
+  console.log('prediction');
+  return preact_1.h("div", null, preact_1.h("h2", null, "Make Prediction"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.DISTANCE);
+    }
+  }, "Distance"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.BALANCE);
+    }
+  }, "Balance"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.MOTION);
+    }
+  }, "Motion"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.STANDING);
+    }
+  }, "Standing"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.NONE);
+    }
+  }, "None"));
+};
+
+exports.default = preact_redux_1.connect(selector)(Choices);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../game/dispatch":"src/game/dispatch.ts","../../game/interface":"src/game/interface.ts","../../gameDisplay/interface":"src/gameDisplay/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game/stateMachine.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var interface_1 = require("../../game/interface");
+
+var preact_redux_1 = require("preact-redux");
+
+var images_1 = require("../../images");
+
+var card_1 = require("../../interfaces/card");
+
+;
+
+var selector = function selector(state) {
+  return state.game;
+};
+
+var StateMachine = function StateMachine(props) {
+  var player = props.player;
+  var opponent = player === 0 ? 1 : 0;
+
+  if (props.playerStates === undefined) {
+    return null;
+  }
+
+  return preact_1.h("div", {
+    class: 'state-machine'
+  }, preact_1.h("div", {
+    class: 'state-row'
+  }, preact_1.h(Standing, Object.assign({}, props, {
+    playerIndex: player
+  })), preact_1.h("div", {
+    class: 'middle'
+  }, " ", preact_1.h("h3", null, "State"), " "), preact_1.h(Standing, Object.assign({}, props, {
+    playerIndex: opponent
+  }))), preact_1.h("div", {
+    class: 'state-row'
+  }, preact_1.h(Motion, Object.assign({}, props, {
+    playerIndex: player
+  })), preact_1.h(Distance, Object.assign({}, props)), preact_1.h(Motion, Object.assign({}, props, {
+    playerIndex: opponent
+  }))), preact_1.h("div", {
+    class: 'state-row'
+  }, preact_1.h(Balance, Object.assign({}, props, {
+    playerIndex: player
+  })), preact_1.h("div", {
+    class: 'middle'
+  }, preact_1.h(Health, Object.assign({}, props))), preact_1.h(Balance, Object.assign({}, props, {
+    playerIndex: player
+  }))));
+};
+
+var Health = function Health(_ref) {
+  var health = _ref.health,
+      player = _ref.player;
+  var opponent = player === 0 ? 1 : 0;
+  return preact_1.h("div", {
+    class: 'center-it'
+  }, health[player], " Health ", health[opponent]);
+};
+
+var Distance = function Distance(_ref2) {
+  var distance = _ref2.distance;
+  return preact_1.h("div", {
+    class: 'state-piece-container middle'
+  }, preact_1.h("div", {
+    class: 'state-piece-title distance'
+  }, "Distance"), preact_1.h("div", {
+    class: 'state-pieces'
+  }, preact_1.h("div", {
+    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.GRAPPLED ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.GRAPPLED
+  })), preact_1.h("div", {
+    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.CLOSE ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.CLOSE
+  })), preact_1.h("div", {
+    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.FAR ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.FAR
+  }))));
+};
+
+var Motion = function Motion(_ref3) {
+  var _ref3$playerIndex = _ref3.playerIndex,
+      playerIndex = _ref3$playerIndex === void 0 ? 0 : _ref3$playerIndex,
+      _ref3$stateDurations = _ref3.stateDurations,
+      stateDurations = _ref3$stateDurations === void 0 ? [] : _ref3$stateDurations,
+      _ref3$playerStates = _ref3.playerStates,
+      playerStates = _ref3$playerStates === void 0 ? [] : _ref3$playerStates;
+  var motion = playerStates[playerIndex].motion;
+  var duration = stateDurations[playerIndex].motion;
+  return preact_1.h("div", {
+    class: 'state-piece-container'
+  }, preact_1.h("div", {
+    class: 'state-piece-title motion'
+  }, "Motion"), preact_1.h("div", {
+    class: 'state-pieces'
+  }, preact_1.h("div", {
+    class: "state-piece motion ".concat(motion === interface_1.MotionEnum.STILL ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.STILL
+  })), preact_1.h("div", {
+    class: "state-piece motion ".concat(motion === interface_1.MotionEnum.MOVING ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.MOVING
+  }), " ", duration)));
+};
+
+var Standing = function Standing(_ref4) {
+  var _ref4$playerStates = _ref4.playerStates,
+      playerStates = _ref4$playerStates === void 0 ? [] : _ref4$playerStates,
+      _ref4$stateDurations = _ref4.stateDurations,
+      stateDurations = _ref4$stateDurations === void 0 ? [] : _ref4$stateDurations,
+      _ref4$playerIndex = _ref4.playerIndex,
+      playerIndex = _ref4$playerIndex === void 0 ? 0 : _ref4$playerIndex;
+  var standing = playerStates[playerIndex].standing;
+  var duration = stateDurations[playerIndex].standing;
+  return preact_1.h("div", {
+    class: 'state-piece-container'
+  }, preact_1.h("div", {
+    class: 'state-piece-title standing'
+  }, "Standing"), preact_1.h("div", {
+    class: 'state-pieces'
+  }, preact_1.h("div", {
+    class: "state-piece standing ".concat(standing === interface_1.StandingEnum.STANDING ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.STANDING
+  })), preact_1.h("div", {
+    class: "state-piece standing ".concat(standing === interface_1.StandingEnum.PRONE ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.PRONE
+  }), " ", duration)));
+};
+
+var Balance = function Balance(_ref5) {
+  var _ref5$playerStates = _ref5.playerStates,
+      playerStates = _ref5$playerStates === void 0 ? [] : _ref5$playerStates,
+      _ref5$stateDurations = _ref5.stateDurations,
+      stateDurations = _ref5$stateDurations === void 0 ? [] : _ref5$stateDurations,
+      _ref5$playerIndex = _ref5.playerIndex,
+      playerIndex = _ref5$playerIndex === void 0 ? 0 : _ref5$playerIndex;
+  var balance = playerStates[playerIndex].balance;
+  var duration = stateDurations[playerIndex].balance;
+  return preact_1.h("div", {
+    class: 'state-piece-container'
+  }, preact_1.h("div", {
+    class: 'state-piece-title balance'
+  }, "Balance"), preact_1.h("div", {
+    class: 'state-pieces'
+  }, preact_1.h("div", {
+    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.UNBALANCED ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.UNBALANCED
+  })), preact_1.h("div", {
+    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.BALANCED ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.BALANCED
+  })), preact_1.h("div", {
+    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.ANTICIPATING ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.ANTICIPATING
+  }))));
+};
+
+exports.default = preact_redux_1.connect(selector)(StateMachine);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/predictions.tsx":[function(require,module,exports) {
+"use strict";
+
+var _predictionRouter;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var interface_1 = require("../../game/interface");
+
+var effect_1 = __importDefault(require("./card/effect"));
+
+var selector = function selector(state) {
+  var isMyPrediction = false;
+
+  if (state.predictions) {
+    isMyPrediction = state.predictions[0].player === state.player;
+  }
+
+  return {
+    predictions: state.predictions,
+    isMyPrediction: isMyPrediction
+  };
+};
+
+var Prediction = function Prediction(_ref) {
+  var predictions = _ref.predictions,
+      isMyPrediction = _ref.isMyPrediction;
+
+  if (predictions) {
+    if (isMyPrediction) {
+      return preact_1.h("div", null, preact_1.h("h3", null, "My Prediction"), renderPrediction(predictions));
+    } else {
+      return preact_1.h("div", null, preact_1.h("h3", null, " Opponents Prediction"), renderPrediction(predictions));
+    }
+  } else {
+    return preact_1.h("div", null, "No Prediction");
+  }
+};
+
+var renderPrediction = function renderPrediction(predictions) {
+  return predictions.map(function (_ref2) {
+    var prediction = _ref2.prediction,
+        mechanics = _ref2.mechanics;
+    return preact_1.h("div", null, prediction !== undefined && predictionRouter[prediction], mechanics.map(function (eff) {
+      return preact_1.h(effect_1.default, {
+        effect: eff
+      });
+    }));
+  });
+};
+
+var predictionRouter = (_predictionRouter = {}, _defineProperty(_predictionRouter, interface_1.PredictionEnum.BALANCE, 'Balance'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.DISTANCE, 'Distance'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.MOTION, 'Motion'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.STANDING, 'Standing'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.NONE, 'None'), _predictionRouter);
+
+exports.default = function (props) {
+  return Prediction(selector(props));
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","./card/effect":"src/components/game/card/effect.tsx"}],"src/components/game.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -12946,32 +13404,43 @@ var board_1 = require("./game/board");
 
 var hand_1 = __importDefault(require("./game/hand"));
 
+var choices_1 = __importDefault(require("./game/choices"));
+
+var stateMachine_1 = __importDefault(require("./game/stateMachine"));
+
+var predictions_1 = __importDefault(require("./game/predictions"));
+
+var interface_1 = require("../gameDisplay/interface");
+
 var selector = function selector(state) {
   var game = state.game,
-      hand = state.hand;
+      hand = state.hand,
+      gameDisplay = state.gameDisplay;
   return {
     game: game,
-    hand: hand
+    hand: hand,
+    screen: gameDisplay.screen
   };
 };
 
 var game = function game(_ref) {
-  var _ref$game = _ref.game,
-      currentPlayer = _ref$game.currentPlayer,
-      queue = _ref$game.queue,
-      player = _ref$game.player,
-      hand = _ref.hand;
-  return preact_1.h("div", null, preact_1.h("h2", null, "Game"), preact_1.h(board_1.Board, {
+  var game = _ref.game,
+      hand = _ref.hand,
+      screen = _ref.screen;
+  var currentPlayer = game.currentPlayer,
+      queue = game.queue,
+      player = game.player;
+  return preact_1.h("div", null, preact_1.h("h2", null, "Game"), preact_1.h(stateMachine_1.default, null), preact_1.h(predictions_1.default, Object.assign({}, game)), preact_1.h(board_1.Board, {
     player: player,
     currentPlayer: currentPlayer,
     queue: queue
-  }), preact_1.h(hand_1.default, {
+  }), screen === interface_1.GameDisplayEnum.NORMAL && preact_1.h(hand_1.default, {
     hand: hand.cards
-  }));
+  }), screen !== interface_1.GameDisplayEnum.NORMAL && preact_1.h(choices_1.default, null));
 };
 
 exports.default = preact_redux_1.connect(selector)(game);
-},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/board":"src/components/game/board.tsx","./game/hand":"src/components/game/hand.tsx"}],"src/components/PickDeck.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/board":"src/components/game/board.tsx","./game/hand":"src/components/game/hand.tsx","./game/choices":"src/components/game/choices.tsx","./game/stateMachine":"src/components/game/stateMachine.tsx","./game/predictions":"src/components/game/predictions.tsx","../gameDisplay/interface":"src/gameDisplay/interface.ts"}],"src/components/PickDeck.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13115,7 +13584,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60812" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59227" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

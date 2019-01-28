@@ -391,7 +391,7 @@ describe('game', () => {
     describe("checkForVictor", () => {
         it('should mark victory if a player\'s health drops to 0', () => {
             state.health = [5, 0];
-            game_1.checkForVictor(state);
+            expect(() => game_1.checkForVictor(state)).toThrowError(errors_1.ControlEnum.GAME_OVER);
             expect(state.winner).toEqual(0);
         });
         it('should not erroneously makr victory', () => {
@@ -401,7 +401,7 @@ describe('game', () => {
         });
         it('should mark -1 if both players health is at or below 0', () => {
             state.health = [-1, 0];
-            game_1.checkForVictor(state);
+            expect(() => game_1.checkForVictor(state)).toThrow();
             expect(state.winner).toEqual(-1);
         });
     });
@@ -478,20 +478,20 @@ describe('game', () => {
         it('should add a reflex', () => {
             const refCard = util_1.makeBlankCard();
             refCard.shouldReflex = true;
-            refCard.player = 0;
-            refCard.opponent = 1;
+            refCard.player = 1;
+            refCard.opponent = 0;
             state.currentPlayer = 1;
             const drawnCard = util_1.makeBlankCard();
             drawnCard.name = 'drawn';
-            drawnCard.player = 0;
-            state.decks[0] = [drawnCard];
+            drawnCard.player = 1;
+            state.decks[1] = [drawnCard];
             state.queue = [
                 [], [refCard], [], [], [], [], []
             ];
             expect(() => game_1.checkReflex(state)).toThrowError(errors_1.ControlEnum.PLAY_CARD);
             expect(refCard.shouldReflex).toBeFalsy();
             expect(state.pickedCard.name).toEqual('drawn');
-            expect(drawnCard.opponent).toEqual(1);
+            expect(drawnCard.opponent).toEqual(0);
         });
     });
     describe('checkFocus', () => {

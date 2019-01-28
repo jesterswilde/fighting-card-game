@@ -1,28 +1,36 @@
 import { h } from 'preact';
 import { GameState } from '../game/interface';
-import { Card } from '../interfaces/card';
 import { StoreState } from '../state/store';
 import { connect } from 'preact-redux';
 import { HandState } from '../hand/interface';
-import {Thing, Board} from './game/board';
+import {Board} from './game/board';
 import Hand from './game/hand';
+import Choices from './game/choices';
+import StateMachine from './game/stateMachine'; 
+import Prediction from './game/predictions'
+import { GameDisplayEnum } from '../gameDisplay/interface';
 
 interface Props {
     game: GameState,
     hand: HandState
+    screen: GameDisplayEnum
 }
 
 const selector = (state: StoreState): Props => {
-    const { game, hand } = state;
-    return { game, hand };
+    const { game, hand, gameDisplay } = state;
+    return { game, hand, screen: gameDisplay.screen};
 }
 
-const game = ({ game:{currentPlayer, queue, player}, hand }: Props) => (
-    <div>
+const game = ({ game, hand, screen }: Props) => {
+    const {currentPlayer, queue, player} = game; 
+    return <div>
         <h2>Game</h2>
+        <StateMachine />
+        <Prediction {...game}/>
         <Board  player={player} currentPlayer={currentPlayer} queue={queue}/>
-        <Hand hand={hand.cards} />
+        {screen === GameDisplayEnum.NORMAL && <Hand hand={hand.cards} />}
+        {screen !== GameDisplayEnum.NORMAL && <Choices />}
     </div>
-)
+}
 
 export default connect(selector)(game); 
