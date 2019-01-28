@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const stateInterface_1 = require("../interfaces/stateInterface");
 exports.checkPrediction = (prediction, state) => {
-    switch (prediction.enum) {
+    switch (prediction.prediction) {
         case (stateInterface_1.PredictionEnum.BALANCE):
             return state.modifiedAxis.balance;
         case (stateInterface_1.PredictionEnum.DISTANCE):

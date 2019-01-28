@@ -259,10 +259,10 @@ describe('game', () => {
             state.readiedEffects = util_1.deepCopy(card.effects);
             state.pickedCard = card;
             yield game_1.makePredictions(state, { _getPredictions });
-            expect(state.predictions[0].enum).toEqual(stateInterface_1.PredictionEnum.BALANCE);
+            expect(state.predictions[0].prediction).toEqual(stateInterface_1.PredictionEnum.BALANCE);
             expect(state.predictions[0].mechanics).toEqual(card.effects[0].mechanicEffects);
             expect(state.predictions[0].mechanics).not.toBe(card.effects[0].mechanicEffects);
-            expect(state.predictions[1].enum).toEqual(stateInterface_1.PredictionEnum.MOTION);
+            expect(state.predictions[1].prediction).toEqual(stateInterface_1.PredictionEnum.MOTION);
             expect(state.predictions[1].mechanics).toEqual(card.effects[2].mechanicEffects);
             expect(state.predictions[1].mechanics).not.toBe(card.effects[2].mechanicEffects);
         }));
@@ -416,7 +416,7 @@ describe('game', () => {
         it('should remove the prediction if the prediction was wrong', () => {
             state.predictions = [
                 {
-                    enum: stateInterface_1.PredictionEnum.MOTION, mechanics: [
+                    prediction: stateInterface_1.PredictionEnum.MOTION, mechanics: [
                         { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.OPPONENT }
                     ]
                 }
@@ -427,7 +427,7 @@ describe('game', () => {
         it('should apply the effects if the prediction was correct & remove the prediction', () => {
             const mech = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.OPPONENT };
             state.predictions = [
-                { enum: stateInterface_1.PredictionEnum.BALANCE, mechanics: [mech] }
+                { prediction: stateInterface_1.PredictionEnum.BALANCE, mechanics: [mech] }
             ];
             state.modifiedAxis.balance = true;
             expect(() => game_1.checkPredictions(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);

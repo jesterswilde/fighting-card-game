@@ -53,9 +53,14 @@ const sendState = (state) => {
         distance: state.distance,
         currentPlayer: state.currentPlayer,
         health: state.health,
-        damaged: state.damaged
+        damaged: state.damaged,
+        predictions: state.predictions
     };
-    state.sockets.forEach((socket) => {
+    state.sockets.forEach((socket, i) => {
+        const playerState = util_1.deepCopy(sendState);
+        if (playerState.predictions.player !== i) {
+            playerState.predictions.enum = null;
+        }
         socket.emit(socket_1.SocketEnum.GOT_STATE, sendState);
     });
 };
@@ -213,8 +218,9 @@ exports.makePredictions = (state, { _getPredictions = getPredictions } = {}) => 
         const eff = readiedEffects[i];
         if (eff.mechanic === cardInterface_1.MechanicEnum.PREDICT) {
             const prediction = {};
-            prediction.enum = yield _getPredictions(state);
+            prediction.prediction = yield _getPredictions(state);
             prediction.mechanics = util_1.deepCopy(eff.mechanicEffects);
+            prediction.player = state.currentPlayer;
             state.predictions = state.predictions || [];
             state.predictions.push(prediction);
         }
