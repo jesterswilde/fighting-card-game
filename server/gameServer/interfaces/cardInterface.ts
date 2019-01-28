@@ -1,12 +1,16 @@
 export interface Card extends RequirementEffect{
     name: string,
-    optional: RequirementEffect[]
+    optional: Optional[]
     telegraphs?: Mechanic[]
     focuses?: Mechanic[]
     predictions?: Mechanic[]
     shouldReflex?: boolean
     player?: number
     opponent?: number
+}
+
+export interface Optional extends RequirementEffect{
+    canPlay?: boolean
 }
 
 export interface RequirementEffect{

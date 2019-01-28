@@ -43,6 +43,7 @@ const renderMechanic = (mechanic: Mechanic) => {
         <div class='h-divider'/>
         <div>
             <div>{reqs.map((req, i) => <span key={i}><Requirement requirement={req} /></span>)}</div>
+            <div class='h-divider thin'/>
             <div>{effs.map((eff, i) => <span key={i}><Effect effect={eff} /></span>)}</div>
         </div>
     </div>

@@ -4,7 +4,7 @@ import {StoreState} from './state/store'
 import {connect} from 'preact-redux';
 import Game from './components/game'; 
 import PickDeck from './components/PickDeck';
-
+import './listeners'; 
 
 interface Props {
     screen: ScreenEnum

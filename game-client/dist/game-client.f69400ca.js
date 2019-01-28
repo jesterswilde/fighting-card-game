@@ -12270,6 +12270,7 @@ var GameDisplayActionEnum;
 
 (function (GameDisplayActionEnum) {
   GameDisplayActionEnum["SHOULD_PREDICT"] = "shouldPredict";
+  GameDisplayActionEnum["SET_HAND_CARD_DISPLAY"] = "setHandCardDisplay";
 })(GameDisplayActionEnum = exports.GameDisplayActionEnum || (exports.GameDisplayActionEnum = {}));
 },{}],"src/gameDisplay/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12285,6 +12286,14 @@ var store_1 = require("../state/store");
 exports.dispatchShouldPredict = function () {
   var action = {
     type: actions_1.GameDisplayActionEnum.SHOULD_PREDICT
+  };
+  store_1.store.dispatch(action);
+};
+
+exports.dispatchSetHandCardDisplay = function (value) {
+  var action = {
+    type: actions_1.GameDisplayActionEnum.SET_HAND_CARD_DISPLAY,
+    value: value
   };
   store_1.store.dispatch(action);
 };
@@ -12510,6 +12519,7 @@ var actions_2 = require("./actions");
 
 exports.gameDisplayReducer = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    showFullCard: false,
     screen: interface_1.GameDisplayEnum.NORMAL
   };
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -12521,8 +12531,13 @@ exports.gameDisplayReducer = function () {
       });
 
     case actions_2.GameDisplayActionEnum.SHOULD_PREDICT:
-      return Object.assign({}, screen, {
+      return Object.assign({}, state, {
         screen: interface_1.GameDisplayEnum.PREDICT
+      });
+
+    case actions_2.GameDisplayActionEnum.SET_HAND_CARD_DISPLAY:
+      return Object.assign({}, state, {
+        showFullCard: action.value
       });
 
     default:
@@ -12648,6 +12663,10 @@ module.exports = "/downArrow.e0e20d12.png";
 module.exports = "/bothArrow.2dedb92f.png";
 },{}],"src/images/damage.png":[function(require,module,exports) {
 module.exports = "/damage.8dcb1185.png";
+},{}],"src/images/further.png":[function(require,module,exports) {
+module.exports = "/further.d4b8f7c0.png";
+},{}],"src/images/closer.png":[function(require,module,exports) {
+module.exports = "/closer.ec89e5b5.png";
 },{}],"src/images/index.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -12697,9 +12716,13 @@ var bothArrow_png_1 = __importDefault(require("./bothArrow.png"));
 
 var damage_png_1 = __importDefault(require("./damage.png"));
 
+var further_png_1 = __importDefault(require("./further.png"));
+
+var closer_png_1 = __importDefault(require("./closer.png"));
+
 var playerRouter = (_playerRouter = {}, _defineProperty(_playerRouter, card_1.PlayerEnum.PLAYER, downArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.OPPONENT, upArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.BOTH, bothArrow_png_1.default), _playerRouter);
-var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum.GRAPPLED, grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSE, close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FAR, far_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.MOVING, moving_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STILL, still_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STANDING, standing_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.PRONE, prone_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.BALANCED, balanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.ANTICIPATING, anticipating_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.UNBALANCED, unbalanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.DAMAGE, damage_png_1.default), _iconRouter);
-var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
+var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum.GRAPPLED, grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSE, close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FAR, far_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.MOVING, moving_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STILL, still_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STANDING, standing_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.PRONE, prone_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.BALANCED, balanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.ANTICIPATING, anticipating_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.UNBALANCED, unbalanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.DAMAGE, damage_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSER, closer_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FURTHER, further_png_1.default), _iconRouter);
+var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FURTHER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
 
 exports.Arrow = function (_ref) {
   var player = _ref.player;
@@ -12720,7 +12743,7 @@ exports.Icon = function (_ref2) {
     src: iconRouter[name]
   }));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12806,7 +12829,9 @@ var renderMechanic = function renderMechanic(mechanic) {
     }, preact_1.h(Requirement_1.default, {
       requirement: req
     }));
-  })), preact_1.h("div", null, effs.map(function (eff, i) {
+  })), preact_1.h("div", {
+    class: 'h-divider thin'
+  }), preact_1.h("div", null, effs.map(function (eff, i) {
     return preact_1.h("span", {
       key: i
     }, preact_1.h(Effect, {
@@ -12960,7 +12985,7 @@ var effect_1 = __importDefault(require("./effect"));
 exports.default = function (props) {
   return preact_1.h("div", {
     className: "optional"
-  }, preact_1.h("div", null, props.requirements.map(function (req, i) {
+  }, !props.hideReqs && preact_1.h("div", null, preact_1.h("div", null, props.requirements.map(function (req, i) {
     return preact_1.h("span", {
       key: i
     }, preact_1.h(requirement_1.default, {
@@ -12968,7 +12993,7 @@ exports.default = function (props) {
     }));
   })), preact_1.h("div", {
     class: 'h-divider'
-  }), preact_1.h("div", null, props.effects.map(function (eff, i) {
+  })), preact_1.h("div", null, props.effects.map(function (eff, i) {
     return preact_1.h("span", {
       key: i
     }, preact_1.h(effect_1.default, {
@@ -12976,7 +13001,57 @@ exports.default = function (props) {
     }));
   })));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/game/card/requirement.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/game/card/requirement.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var optional_1 = __importDefault(require("./optional"));
+
+var effect_1 = __importDefault(require("./effect"));
+
+var HandCard = function HandCard(card) {
+  var name = card.name,
+      optional = card.optional,
+      effects = card.effects;
+  return preact_1.h("div", {
+    class: 'game-card text-center'
+  }, preact_1.h("div", {
+    class: 'title'
+  }, name), preact_1.h("div", {
+    class: 'card-section'
+  }, optional.filter(function (_ref) {
+    var canPlay = _ref.canPlay;
+    return canPlay;
+  }).map(function (opt, i) {
+    return preact_1.h("span", {
+      key: i
+    }, " ", preact_1.h(optional_1.default, Object.assign({}, opt, {
+      hideReqs: true
+    })), " ");
+  })), preact_1.h("div", {
+    class: 'card-section effect'
+  }, effects.map(function (effect, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(effect_1.default, {
+      effect: effect
+    }));
+  })));
+};
+
+exports.default = HandCard;
+},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
 "use strict";
 
 var _exports$playerRouter;
@@ -13005,12 +13080,11 @@ var optional_1 = __importDefault(require("./optional"));
 
 exports.playerRouter = (_exports$playerRouter = {}, _defineProperty(_exports$playerRouter, card_1.PlayerEnum.PLAYER, '↓'), _defineProperty(_exports$playerRouter, card_1.PlayerEnum.OPPONENT, '↑'), _defineProperty(_exports$playerRouter, card_1.PlayerEnum.BOTH, '↕'), _exports$playerRouter);
 
-exports.default = function (props) {
-  var _props$card = props.card,
-      name = _props$card.name,
-      optional = _props$card.optional,
-      requirements = _props$card.requirements,
-      effects = _props$card.effects;
+exports.default = function (_ref) {
+  var name = _ref.name,
+      optional = _ref.optional,
+      requirements = _ref.requirements,
+      effects = _ref.effects;
   return preact_1.h("div", {
     class: 'game-card text-center'
   }, preact_1.h("div", {
@@ -13056,10 +13130,22 @@ var preact_1 = require("preact");
 
 var dispatch_1 = require("../../hand/dispatch");
 
+var handCard_1 = __importDefault(require("./card/handCard"));
+
 var viewer_1 = __importDefault(require("./card/viewer"));
 
-exports.default = function (_ref) {
-  var hand = _ref.hand;
+var preact_redux_1 = require("preact-redux");
+
+var selector = function selector(state) {
+  return {
+    hand: state.hand.cards,
+    showFullCard: state.gameDisplay.showFullCard
+  };
+};
+
+var Hand = function Hand(_ref) {
+  var hand = _ref.hand,
+      showFullCard = _ref.showFullCard;
   return preact_1.h("div", null, preact_1.h("h2", null, "Hand"), preact_1.h("div", {
     class: 'coard-container'
   }, hand.map(function (card, i) {
@@ -13070,12 +13156,12 @@ exports.default = function (_ref) {
       onClick: function onClick() {
         return dispatch_1.dispatchPickedCard(i);
       }
-    }, " ", preact_1.h(viewer_1.default, {
-      card: card
-    }));
+    }, showFullCard && preact_1.h(viewer_1.default, Object.assign({}, card)), showFullCard || preact_1.h(handCard_1.default, Object.assign({}, card)));
   })));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/viewer":"src/components/game/card/viewer.tsx"}],"src/components/game/choices.tsx":[function(require,module,exports) {
+
+exports.default = preact_redux_1.connect(selector)(Hand);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/handCard":"src/components/game/card/handCard.tsx","./card/viewer":"src/components/game/card/viewer.tsx","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game/choices.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13178,24 +13264,20 @@ var StateMachine = function StateMachine(props) {
   }, preact_1.h("div", {
     class: 'state-row'
   }, preact_1.h(Standing, Object.assign({}, props, {
-    playerIndex: player
-  })), preact_1.h("div", {
-    class: 'middle'
-  }, " ", preact_1.h("h3", null, "State"), " "), preact_1.h(Standing, Object.assign({}, props, {
     playerIndex: opponent
+  })), preact_1.h(Motion, Object.assign({}, props, {
+    playerIndex: opponent
+  })), preact_1.h(Balance, Object.assign({}, props, {
+    playerIndex: player
   }))), preact_1.h("div", {
     class: 'state-row'
-  }, preact_1.h(Motion, Object.assign({}, props, {
-    playerIndex: player
-  })), preact_1.h(Distance, Object.assign({}, props)), preact_1.h(Motion, Object.assign({}, props, {
-    playerIndex: opponent
-  }))), preact_1.h("div", {
+  }, preact_1.h(Distance, Object.assign({}, props)), preact_1.h(Health, Object.assign({}, props))), preact_1.h("div", {
     class: 'state-row'
-  }, preact_1.h(Balance, Object.assign({}, props, {
+  }, preact_1.h(Standing, Object.assign({}, props, {
     playerIndex: player
-  })), preact_1.h("div", {
-    class: 'middle'
-  }, preact_1.h(Health, Object.assign({}, props))), preact_1.h(Balance, Object.assign({}, props, {
+  })), preact_1.h(Motion, Object.assign({}, props, {
+    playerIndex: player
+  })), preact_1.h(Balance, Object.assign({}, props, {
     playerIndex: player
   }))));
 };
@@ -13205,14 +13287,14 @@ var Health = function Health(_ref) {
       player = _ref.player;
   var opponent = player === 0 ? 1 : 0;
   return preact_1.h("div", {
-    class: 'center-it'
+    class: 'center-it state-piece-container'
   }, health[player], " Health ", health[opponent]);
 };
 
 var Distance = function Distance(_ref2) {
   var distance = _ref2.distance;
   return preact_1.h("div", {
-    class: 'state-piece-container middle'
+    class: 'state-piece-container'
   }, preact_1.h("div", {
     class: 'state-piece-title distance'
   }, "Distance"), preact_1.h("div", {
@@ -13434,9 +13516,7 @@ var game = function game(_ref) {
     player: player,
     currentPlayer: currentPlayer,
     queue: queue
-  }), screen === interface_1.GameDisplayEnum.NORMAL && preact_1.h(hand_1.default, {
-    hand: hand.cards
-  }), screen !== interface_1.GameDisplayEnum.NORMAL && preact_1.h(choices_1.default, null));
+  }), screen === interface_1.GameDisplayEnum.NORMAL && preact_1.h(hand_1.default, null), screen !== interface_1.GameDisplayEnum.NORMAL && preact_1.h(choices_1.default, null));
 };
 
 exports.default = preact_redux_1.connect(selector)(game);
@@ -13478,7 +13558,32 @@ var PickDeck = function PickDeck(_ref) {
 };
 
 exports.default = preact_redux_1.connect(selector)(PickDeck);
-},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../deck/dispatch":"src/deck/dispatch.ts"}],"src/app.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../deck/dispatch":"src/deck/dispatch.ts"}],"src/listeners/index.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var dispatch_1 = require("../gameDisplay/dispatch");
+
+var tabDown = function tabDown(ev) {
+  if (ev.keyCode === 192) {
+    dispatch_1.dispatchSetHandCardDisplay(true);
+  }
+};
+
+var tabUp = function tabUp(ev) {
+  console.log(ev.keyCode);
+
+  if (ev.keyCode === 192) {
+    dispatch_1.dispatchSetHandCardDisplay(false);
+  }
+};
+
+document.addEventListener("keydown", tabDown);
+document.addEventListener("keyup", tabUp);
+},{"../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts"}],"src/app.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -13500,6 +13605,8 @@ var preact_redux_1 = require("preact-redux");
 var game_1 = __importDefault(require("./components/game"));
 
 var PickDeck_1 = __importDefault(require("./components/PickDeck"));
+
+require("./listeners");
 
 var selector = function selector(state) {
   return {
@@ -13526,7 +13633,7 @@ var App = function App(_ref) {
 };
 
 exports.default = preact_redux_1.connect(selector)(App);
-},{"preact":"node_modules/preact/dist/preact.mjs","./display/interface":"src/display/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./components/game":"src/components/game.tsx","./components/PickDeck":"src/components/PickDeck.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./display/interface":"src/display/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./components/game":"src/components/game.tsx","./components/PickDeck":"src/components/PickDeck.tsx","./listeners":"src/listeners/index.ts"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {

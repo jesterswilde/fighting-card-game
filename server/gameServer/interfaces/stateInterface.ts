@@ -19,7 +19,7 @@ export interface GameState{
     winner?: number
     turnIsOver?: boolean
     predictions?: PredictionState[]
-    predictionByPlayer?: number
+    pendingPredictions?: PredictionState[]
     checkedFocus?: boolean
     incrementedQueue?: boolean
 }

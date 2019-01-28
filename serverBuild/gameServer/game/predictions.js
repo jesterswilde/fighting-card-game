@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const stateInterface_1 = require("../interfaces/stateInterface");
-exports.checkPrediction = (prediction, state) => {
+exports.didPredictionHappen = (prediction, state) => {
     switch (prediction.prediction) {
         case (stateInterface_1.PredictionEnum.BALANCE):
             return state.modifiedAxis.balance;

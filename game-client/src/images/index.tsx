@@ -14,6 +14,8 @@ import upArrow from './upArrow.png';
 import downArrow from './downArrow.png';
 import bothArrow from './bothArrow.png';
 import damage from './damage.png'
+import further from './further.png';
+import closer from './closer.png'; 
 
 const playerRouter: {[name: number]: string} ={
     [PlayerEnum.PLAYER]: downArrow,
@@ -33,12 +35,16 @@ const iconRouter: { [name: string]: string } = {
     [AxisEnum.ANTICIPATING]: anticipating,
     [AxisEnum.UNBALANCED]: unbalanced,
     [AxisEnum.DAMAGE]: damage,
+    [AxisEnum.CLOSER]: closer,
+    [AxisEnum.FURTHER]: further
 }
 
 const classRouter: { [name: string]: string } = {
     [AxisEnum.GRAPPLED]: 'distance',
     [AxisEnum.CLOSE]: 'distance',
     [AxisEnum.FAR]: 'distance',
+    [AxisEnum.CLOSER]: 'distance',
+    [AxisEnum.FURTHER]: 'distance',
     [AxisEnum.MOVING]: 'motion',
     [AxisEnum.STILL]: 'motion',
     [AxisEnum.STANDING]: 'standing',

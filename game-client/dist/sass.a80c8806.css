@@ -9530,6 +9530,13 @@ ul {
   background-color: black;
 }
 
+.h-divider.thin {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  height: 2px;
+  width: 60%;
+}
+
 .card-container {
   display: flex;
   flex-flow: row nowrap;
@@ -9623,7 +9630,7 @@ ul {
 }
 
 .distance {
-  background-color: #fbf3b5;
+  background-color: #f2fbb5;
 }
 
 .standing {
@@ -9631,7 +9638,7 @@ ul {
 }
 
 .motion {
-  background-color: #f0ed79;
+  background-color: #eed264;
 }
 
 .balance {
@@ -9652,17 +9659,12 @@ ul {
   display: flex;
   flex-direction: row;
 }
-.state-machine .state-row .middle {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
 
 .state-piece-container {
   display: flex;
   flex-direction: column;
   width: 100px;
+  flex-grow: 1;
 }
 .state-piece-container .state-piece-title {
   display: flex;

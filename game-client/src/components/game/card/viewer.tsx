@@ -5,9 +5,7 @@ import Requirement from './requirement';
 import Optional from './optional'; 
 
 
-interface Props {
-    card: Card
-}
+interface Props extends Card {}
 
 export const playerRouter = {
     [PlayerEnum.PLAYER]: '↓',
@@ -15,8 +13,7 @@ export const playerRouter = {
     [PlayerEnum.BOTH]: '↕'
 }
 
-export default (props: Props)=>{
-    const { name, optional, requirements, effects } = props.card;
+export default ({ name, optional, requirements, effects }: Props)=>{
     return <div class='game-card text-center'>
             <div class='title'>{name}</div>
             <div class='card-section req'>

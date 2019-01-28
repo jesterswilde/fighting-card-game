@@ -1,17 +1,21 @@
-import {h} from 'preact'; 
+import { h } from 'preact';
 import Requirement from './requirement';
 import Effect from './effect';
-import { RequirementEffect } from '../../../interfaces/card';
+import { Optional } from '../../../interfaces/card';
 
+interface Props extends Optional {
+    hideReqs?: boolean
+}
 
-export default (props: RequirementEffect)=>{
+export default (props: Props) => {
     return <div className="optional">
-        <div>
-            {props.requirements.map((req, i)=> <span key={i}><Requirement requirement={req}/></span>)}
+        {!props.hideReqs && <div><div>
+            {props.requirements.map((req, i) => <span key={i}><Requirement requirement={req} /></span>)}
         </div>
-        <div class='h-divider' />
-        <div> 
-            {props.effects.map((eff, i)=> <span key={i}><Effect effect={eff}/></span>)}
+            <div class='h-divider' /></div>
+        }
+        <div>
+            {props.effects.map((eff, i) => <span key={i}><Effect effect={eff} /></span>)}
         </div>
     </div>
 }

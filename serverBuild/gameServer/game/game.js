@@ -45,6 +45,9 @@ const startGame = (state) => {
 const endGame = (state) => {
 };
 const sendState = (state) => {
+    if (!state) {
+        return;
+    }
     const sendState = {
         playerStates: state.playerStates,
         stateDurations: state.stateDurations,
@@ -54,23 +57,27 @@ const sendState = (state) => {
         currentPlayer: state.currentPlayer,
         health: state.health,
         damaged: state.damaged,
-        predictions: state.predictions
+        predictions: state.pendingPredictions
     };
     state.sockets.forEach((socket, i) => {
         const playerState = util_1.deepCopy(sendState);
-        if (playerState.predictions.player !== i) {
-            playerState.predictions.enum = null;
+        if (playerState.predictions) {
+            playerState.predictions.forEach((pred) => {
+                if (pred.player !== i) {
+                    pred.prediction = null;
+                }
+            });
         }
-        socket.emit(socket_1.SocketEnum.GOT_STATE, sendState);
+        socket.emit(socket_1.SocketEnum.GOT_STATE, playerState);
     });
 };
 exports.playTurn = (state) => __awaiter(this, void 0, void 0, function* () {
+    sendState(state);
     yield exports.startTurn(state);
     yield exports.playCard(state);
     exports.endTurn(state);
 });
 exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
-    console.log(state.currentPlayer);
     exports.shuffleDeck(state);
     exports.drawHand(state);
     yield exports.playerPicksCard(state);
@@ -110,6 +117,7 @@ exports.drawHand = (state, { _sendHand = sendHand } = {}) => {
         });
         decks[currentPlayer] = decks[currentPlayer].filter((card) => card !== undefined);
         hands[currentPlayer] = hand;
+        markOptional(hand, state);
         if (hand.length === 0) {
             addPanicCard(state);
         }
@@ -120,6 +128,13 @@ exports.drawHand = (state, { _sendHand = sendHand } = {}) => {
             console.log("No card", deck);
         }
     }
+};
+const markOptional = (cards, state) => {
+    cards.forEach(({ optional = [], opponent }) => {
+        optional.forEach((opt) => {
+            opt.canPlay = requirements_1.canUseOptional(opt, opponent, state);
+        });
+    });
 };
 const addPanicCard = (state) => {
     const { currentPlayer: player } = state;
@@ -223,6 +238,7 @@ exports.makePredictions = (state, { _getPredictions = getPredictions } = {}) => 
             prediction.player = state.currentPlayer;
             state.predictions = state.predictions || [];
             state.predictions.push(prediction);
+            console.log('prediction: ', state.predictions);
         }
     }
 });
@@ -294,17 +310,17 @@ exports.checkForVictor = (state) => {
     }
 };
 exports.checkPredictions = (state) => {
-    const { predictions } = state;
+    const { pendingPredictions: predictions } = state;
     let stateChanged = false;
     if (predictions) {
         predictions.forEach((pred) => {
-            if (predictions_1.checkPrediction(pred, state)) {
+            if (predictions_1.didPredictionHappen(pred, state)) {
                 stateChanged = true;
                 state.readiedEffects = state.readiedEffects || [];
                 state.readiedEffects.push(...util_1.deepCopy(pred.mechanics));
             }
         });
-        state.predictions = undefined;
+        state.pendingPredictions = undefined;
     }
     if (stateChanged) {
         throw errors_1.ControlEnum.NEW_EFFECTS;
@@ -442,9 +458,10 @@ const changePlayers = (state) => {
 };
 const clearTurnData = (state) => {
     state.damaged = [false, false];
-    state.predictions = null;
     state.turnIsOver = false;
     state.modifiedAxis = util_1.makeModifiedAxis();
     state.turnIsOver = false;
     state.incrementedQueue = false;
+    state.pendingPredictions = state.predictions;
+    state.predictions = undefined;
 };

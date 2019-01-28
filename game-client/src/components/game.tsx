@@ -28,7 +28,7 @@ const game = ({ game, hand, screen }: Props) => {
         <StateMachine />
         <Prediction {...game}/>
         <Board  player={player} currentPlayer={currentPlayer} queue={queue}/>
-        {screen === GameDisplayEnum.NORMAL && <Hand hand={hand.cards} />}
+        {screen === GameDisplayEnum.NORMAL && <Hand />}
         {screen !== GameDisplayEnum.NORMAL && <Choices />}
     </div>
 }

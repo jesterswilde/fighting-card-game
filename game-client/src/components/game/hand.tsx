@@ -1,13 +1,24 @@
 import { h } from 'preact';
 import { Card } from '../../interfaces/card';
 import { dispatchPickedCard } from '../../hand/dispatch'
-import CardViewer from './card/viewer'
+import HandCard from './card/handCard'
+import Viewer from './card/viewer'; 
+import { StoreState } from '../../state/store';
+import { connect } from 'preact-redux';
 
 interface Props {
     hand: Card[]
+    showFullCard: boolean
 }
 
-export default ({ hand }: Props) => {
+const selector = (state: StoreState): Props=>{
+    return {
+        hand: state.hand.cards,
+        showFullCard: state.gameDisplay.showFullCard
+    }
+}
+
+const Hand = ({ hand, showFullCard }: Props) => {
     return <div>
         <h2>Hand</h2>
         <div class='coard-container'>
@@ -17,8 +28,13 @@ export default ({ hand }: Props) => {
                     class='inline'
                     key={key}
                     onClick={() => dispatchPickedCard(i)}
-                > <CardViewer card={card} /></div>
+                >
+                    { showFullCard && <Viewer {...card} />}
+                    { showFullCard || <HandCard {...card} />}
+                </div>
             })}
         </div>
     </div>
 }
+
+export default connect(selector)(Hand); 

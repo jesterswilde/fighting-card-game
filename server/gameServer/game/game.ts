@@ -1,10 +1,10 @@
 import { GameState, PredictionEnum, PredictionState, BalanceEnum, MotionEnum, StandingEnum } from "../interfaces/stateInterface";
 import { Card, Mechanic, MechanicEnum } from "../interfaces/cardInterface";
 import { canPlayCard, canUseOptional, mechReqsMet } from "./requirements";
-import { deepCopy, makeGameState, makeModifiedAxis } from "../util";
+import { deepCopy, makeModifiedAxis } from "../util";
 import { markAxisChange } from "./modifiedAxis";
 import { reduceMechanics } from "./effectReducer";
-import { checkPrediction } from "./predictions";
+import { didPredictionHappen } from "./predictions";
 import { ControlEnum, ErrorEnum } from "../errors";
 import { HAND_SIZE, QUEUE_LENGTH } from "../gameSettings";
 import { getLastPlayedCard } from "./queue";
@@ -38,6 +38,9 @@ const endGame = (state: GameState) => {
 }
 
 const sendState = (state: GameState) => {
+    if(!state){
+        return;
+    }
     const sendState = {
         playerStates: state.playerStates,
         stateDurations: state.stateDurations,
@@ -47,25 +50,29 @@ const sendState = (state: GameState) => {
         currentPlayer: state.currentPlayer,
         health: state.health,
         damaged: state.damaged,
-        predictions: state.predictions
+        predictions: state.pendingPredictions
     }
     state.sockets.forEach((socket, i) => {
-        const playerState = deepCopy(sendState); 
-        if(playerState.predictions.player !== i){
-            playerState.predictions.enum = null; 
+        const playerState = deepCopy(sendState) as GameState; 
+        if(playerState.predictions){
+            playerState.predictions.forEach((pred)=>{
+                if(pred.player !== i){
+                    pred.prediction = null; 
+                }
+            })
         }
-        socket.emit(SocketEnum.GOT_STATE, sendState);
+        socket.emit(SocketEnum.GOT_STATE, playerState);
     })
 }
 
 export const playTurn = async (state: GameState) => {
+    sendState(state); 
     await startTurn(state);
     await playCard(state);
     endTurn(state);
 }
 
 export const startTurn = async (state: GameState) => {
-    console.log(state.currentPlayer);
     shuffleDeck(state);
     drawHand(state);
     await playerPicksCard(state);
@@ -108,6 +115,7 @@ export const drawHand = (state: GameState, { _sendHand = sendHand } = {}) => {
         })
         decks[currentPlayer] = decks[currentPlayer].filter((card) => card !== undefined);
         hands[currentPlayer] = hand;
+        markOptional(hand, state); 
         if (hand.length === 0) {
             addPanicCard(state);
         }
@@ -117,6 +125,14 @@ export const drawHand = (state: GameState, { _sendHand = sendHand } = {}) => {
             console.log("No card", deck)
         }
     }
+}
+
+const markOptional = (cards: Card[], state: GameState)=>{
+    cards.forEach(({optional = [], opponent})=>{
+        optional.forEach((opt)=>{
+            opt.canPlay = canUseOptional(opt, opponent, state); 
+        })
+    })
 }
 
 const addPanicCard = (state: GameState) => {
@@ -229,6 +245,7 @@ export const makePredictions = async (state: GameState, { _getPredictions = getP
             prediction.player = state.currentPlayer; 
             state.predictions = state.predictions || [];
             state.predictions.push(prediction);
+            console.log('prediction: ', state.predictions); 
         }
     }
 }
@@ -304,17 +321,17 @@ export const checkForVictor = (state: GameState) => {
 }
 
 export const checkPredictions = (state: GameState) => {
-    const { predictions } = state;
+    const { pendingPredictions: predictions } = state;
     let stateChanged = false;
     if (predictions) {
         predictions.forEach((pred) => {
-            if (checkPrediction(pred, state)) {
+            if (didPredictionHappen(pred, state)) {
                 stateChanged = true;
                 state.readiedEffects = state.readiedEffects || [];
                 state.readiedEffects.push(...deepCopy(pred.mechanics));
             }
         })
-        state.predictions = undefined;
+        state.pendingPredictions = undefined;
     }
     if (stateChanged) {
         throw ControlEnum.NEW_EFFECTS;
@@ -461,9 +478,10 @@ const changePlayers = (state: GameState) => {
 
 const clearTurnData = (state: GameState) => {
     state.damaged = [false, false];
-    state.predictions = null;
     state.turnIsOver = false;
     state.modifiedAxis = makeModifiedAxis();
     state.turnIsOver = false;
     state.incrementedQueue = false;
+    state.pendingPredictions = state.predictions;
+    state.predictions = undefined; 
 }

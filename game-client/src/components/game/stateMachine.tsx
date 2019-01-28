@@ -25,18 +25,17 @@ const StateMachine = (props: Props) => {
 
     return <div class='state-machine'>
         <div class='state-row'>
-            <Standing {...props} playerIndex={player} />
-            <div class='middle'> <h3>State</h3> </div>
             <Standing {...props} playerIndex={opponent} />
-        </div>
-        <div class='state-row'>
-            <Motion {...props} playerIndex={player} />
-            <Distance {...props} />
             <Motion {...props} playerIndex={opponent} />
+            <Balance {...props} playerIndex={player} />
         </div>
         <div class='state-row'>
-            <Balance {...props} playerIndex={player} />
-            <div class='middle'><Health {...props} /></div>
+            <Distance {...props} />
+            <Health {...props} />
+        </div>
+        <div class='state-row'>
+            <Standing {...props} playerIndex={player} />
+            <Motion {...props} playerIndex={player} />
             <Balance {...props} playerIndex={player} />
         </div>
     </div>
@@ -44,12 +43,12 @@ const StateMachine = (props: Props) => {
 
 const Health = ({ health, player }: Props) => {
     const opponent = player === 0 ? 1 : 0;
-    return <div class='center-it'>{health[player]} Health {health[opponent]}</div>
+    return <div class='center-it state-piece-container'>{health[player]} Health {health[opponent]}</div>
 
 }
 
 const Distance = ({ distance }: Props) => {
-    return <div class='state-piece-container middle'>
+    return <div class='state-piece-container'>
         <div class='state-piece-title distance'>Distance</div>
         <div class='state-pieces'>
             <div class={`state-piece distance ${distance === DistanceEnum.GRAPPLED ? '' : 'inactive'}`}>
