@@ -127,6 +127,9 @@ exports.drawHand = (state, { _sendHand = sendHand } = {}) => {
         if (err === errors_1.ErrorEnum.NO_CARD) {
             console.log("No card", deck);
         }
+        else {
+            throw err;
+        }
     }
 };
 const markOptional = (cards, state) => {

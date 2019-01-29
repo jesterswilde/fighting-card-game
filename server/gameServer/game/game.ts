@@ -123,6 +123,8 @@ export const drawHand = (state: GameState, { _sendHand = sendHand } = {}) => {
     } catch (err) {
         if (err === ErrorEnum.NO_CARD) {
             console.log("No card", deck)
+        }else{
+            throw err
         }
     }
 }
