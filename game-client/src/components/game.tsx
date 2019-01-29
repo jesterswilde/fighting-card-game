@@ -9,6 +9,7 @@ import Choices from './game/choices';
 import StateMachine from './game/stateMachine'; 
 import Prediction from './game/predictions'
 import { GameDisplayEnum } from '../gameDisplay/interface';
+import ReactTooltip from 'react-tooltip'; 
 
 interface Props {
     game: GameState,
@@ -26,6 +27,7 @@ const game = ({ game, hand, screen }: Props) => {
     return <div>
         <h2>Game</h2>
         <StateMachine />
+        <ReactTooltip id='icon-tooltip' effect="solid"></ReactTooltip>
         <Prediction {...game}/>
         <Board  player={player} currentPlayer={currentPlayer} queue={queue}/>
         {screen === GameDisplayEnum.NORMAL && <Hand />}

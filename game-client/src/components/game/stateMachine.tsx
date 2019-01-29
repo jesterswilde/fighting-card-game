@@ -4,6 +4,7 @@ import { StoreState } from '../../state/store';
 import { connect } from 'preact-redux';
 import { Icon } from '../../images';
 import { AxisEnum } from '../../interfaces/card';
+import { JSXElementConstructor } from 'react';
 
 interface Props extends GameState { };
 
@@ -16,11 +17,11 @@ const selector = (state: StoreState): Props => {
 }
 
 
-const StateMachine = (props: Props) => {
+const StateMachine = (props: Props):JSX.Element => {
     const { player } = props;
     const opponent = player === 0 ? 1 : 0;
     if (props.playerStates === undefined) {
-        return null
+        return <div></div>
     }
 
     return <div class='state-machine'>
@@ -116,7 +117,6 @@ const Balance = ({ playerStates = [], stateDurations = [], playerIndex = 0 }: Co
         </div>
     </div>
 }
-
 
 
 export default connect(selector)(StateMachine); 

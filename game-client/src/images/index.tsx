@@ -17,6 +17,7 @@ import damage from './damage.png'
 import further from './further.png';
 import closer from './closer.png';
 import { playerEnumToPlayerArray } from '../../../serverBuild/gameServer/util';
+import ReactTooltip from 'react-tooltip';
 
 const playerRouter: { [name: number]: string } = {
     [PlayerEnum.PLAYER]: downArrow,
@@ -57,11 +58,10 @@ const classRouter: { [name: string]: string } = {
 }
 
 export const Arrow = ({ player, shouldFlip }: { player: PlayerEnum, shouldFlip?: boolean }) => {
-    if(shouldFlip){
-        console.log('should flip')
-        if(player === PlayerEnum.OPPONENT){
-            player = PlayerEnum.PLAYER; 
-        }else if(player === PlayerEnum.PLAYER){
+    if (shouldFlip) {
+        if (player === PlayerEnum.OPPONENT) {
+            player = PlayerEnum.PLAYER;
+        } else if (player === PlayerEnum.PLAYER) {
             player = PlayerEnum.OPPONENT;
         }
     }
@@ -74,7 +74,9 @@ export const Arrow = ({ player, shouldFlip }: { player: PlayerEnum, shouldFlip?:
 
 
 export const Icon = ({ name }: { name: string }) => (
-    <div class={`inline axis-bg ${classRouter[name]}`}>
-        <img class='axis-icon' src={iconRouter[name]} />
+    <div class='inline'>
+        <div class={`inline axis-bg ${classRouter[name]}`}>
+            <img data-tip={name} data-for={'icon-tooltip'} class='axis-icon' src={iconRouter[name]} />
+        </div>
     </div>
 )
