@@ -28,12 +28,12 @@ export const Board = (props: Props) => {
 
 }
 
-const renderBoard = (queue: Card[][] = [], playerNum: number, currentPlayer: number) => {
+const renderBoard = (queue: Card[][] = [], identity: number, currentPlayer: number) => {
     return queue.map((cards = [], i) => {
         return <div key={i + JSON.stringify(cards)}>
             {cards.map((card, i) => {
                 return <div class='text-center queue-card' key={card.name}>
-                    <QueueCard {...card}/>
+                    <QueueCard {...card} identity={identity}/>
                 </div>
             })}
         </div>

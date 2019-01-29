@@ -27,7 +27,7 @@ const StateMachine = (props: Props) => {
         <div class='state-row'>
             <Standing {...props} playerIndex={opponent} />
             <Motion {...props} playerIndex={opponent} />
-            <Balance {...props} playerIndex={player} />
+            <Balance {...props} playerIndex={opponent} />
         </div>
         <div class='state-row'>
             <Distance {...props} />

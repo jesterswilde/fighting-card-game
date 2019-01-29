@@ -2,13 +2,16 @@ import { h } from 'preact';
 import { Card } from '../../../interfaces/card';
 import Effect from './effect'
 
-interface Props extends Card { }
+interface Props extends Card {
+    identity: number
+}
 
-const QueueCard = ({name, telegraphs = [], focuses = [] }: Props) => {
+const QueueCard = ({identity, name, telegraphs = [], focuses = [], player }: Props) => {
+    const shouldFlip = identity !== player; 
     return <div>
         <div>{name}</div>
-        {telegraphs.map((eff, i) => <div key={i}><Effect effect={eff} /></div>)}
-        {focuses.map((eff, i) => <div key={i}><Effect effect={eff} /></div>)}
+        {telegraphs.map((eff, i) => <div key={i}><Effect shouldFlip={shouldFlip} effect={eff} /></div>)}
+        {focuses.map((eff, i) => <div key={i}><Effect shouldFlip={shouldFlip} effect={eff} /></div>)}
     </div>
 }
 

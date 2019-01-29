@@ -34,7 +34,7 @@ export const addCard = async (cardObj: Card, index: string | null) => {
     }
     return new Promise((res, rej) => {
         cards[cardObj.name] = cardObj;
-        writeFile(path.join(__dirname,'..','..','Cards.txt'), JSON.stringify(cards), (err) => {
+        writeFile(path.join(__dirname,'..','..','Cards.txt'), JSON.stringify(cards, null, 2), (err) => {
             if (err) {
                 rej(err);
             } else {

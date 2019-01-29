@@ -41,7 +41,7 @@ exports.addCard = (cardObj, index) => __awaiter(this, void 0, void 0, function* 
     }
     return new Promise((res, rej) => {
         exports.cards[cardObj.name] = cardObj;
-        fs_1.writeFile(path.join(__dirname, '..', '..', 'Cards.txt'), JSON.stringify(exports.cards), (err) => {
+        fs_1.writeFile(path.join(__dirname, '..', '..', 'Cards.txt'), JSON.stringify(exports.cards, null, 2), (err) => {
             if (err) {
                 rej(err);
             }

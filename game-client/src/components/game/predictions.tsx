@@ -23,12 +23,12 @@ const Prediction = ({ predictions, isMyPrediction }: Props) => {
         if (isMyPrediction) {
             return <div>
                 <h3>My Prediction</h3>
-                {renderPrediction(predictions)}
+                {renderPrediction(predictions, !isMyPrediction)}
             </div>
         } else {
             return <div>
                 <h3> Opponents Prediction</h3>
-                {renderPrediction(predictions)}
+                {renderPrediction(predictions, !isMyPrediction)}
             </div>
         }
     } else {
@@ -36,11 +36,11 @@ const Prediction = ({ predictions, isMyPrediction }: Props) => {
     }
 }
 
-const renderPrediction = (predictions: PredictionState[]) => {
+const renderPrediction = (predictions: PredictionState[], shouldFlip: boolean) => {
     return predictions.map(({prediction, mechanics}) => {
         return <div>
             {prediction !== undefined && predictionRouter[prediction]}
-            {mechanics.map((eff) => <Effect effect={eff} />)}
+            {mechanics.map((eff) => <Effect effect={eff} shouldFlip={shouldFlip} />)}
         </div>
     });
 };

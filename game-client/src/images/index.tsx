@@ -10,17 +10,18 @@ import prone from './prone.png';
 import balanced from './balanced.png';
 import anticipating from './anticipating.png';
 import unbalanced from './unbalanced.png';
-import upArrow from './upArrow.png'; 
+import upArrow from './upArrow.png';
 import downArrow from './downArrow.png';
 import bothArrow from './bothArrow.png';
 import damage from './damage.png'
 import further from './further.png';
-import closer from './closer.png'; 
+import closer from './closer.png';
+import { playerEnumToPlayerArray } from '../../../serverBuild/gameServer/util';
 
-const playerRouter: {[name: number]: string} ={
+const playerRouter: { [name: number]: string } = {
     [PlayerEnum.PLAYER]: downArrow,
     [PlayerEnum.OPPONENT]: upArrow,
-    [PlayerEnum.BOTH]: bothArrow, 
+    [PlayerEnum.BOTH]: bothArrow,
 }
 
 const iconRouter: { [name: string]: string } = {
@@ -55,11 +56,21 @@ const classRouter: { [name: string]: string } = {
     [AxisEnum.DAMAGE]: 'damage',
 }
 
-export const Arrow =({player}: {player:number})=>(
-    <div class='inline'>
+export const Arrow = ({ player, shouldFlip }: { player: PlayerEnum, shouldFlip?: boolean }) => {
+    if(shouldFlip){
+        console.log('should flip')
+        if(player === PlayerEnum.OPPONENT){
+            player = PlayerEnum.PLAYER; 
+        }else if(player === PlayerEnum.PLAYER){
+            player = PlayerEnum.OPPONENT;
+        }
+    }
+    return <div class='inline'>
         <img class='player-icon' src={playerRouter[player]} />
     </div>
-)
+}
+
+
 
 
 export const Icon = ({ name }: { name: string }) => (

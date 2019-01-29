@@ -53,15 +53,15 @@ const sendState = (state: GameState) => {
         predictions: state.pendingPredictions
     }
     state.sockets.forEach((socket, i) => {
-        const playerState = deepCopy(sendState) as GameState; 
-        if(playerState.predictions){
-            playerState.predictions.forEach((pred)=>{
+        const stateToSend = deepCopy(sendState) as GameState; 
+        if(stateToSend.predictions){
+            stateToSend.predictions.forEach((pred)=>{
                 if(pred.player !== i){
                     pred.prediction = null; 
                 }
             })
         }
-        socket.emit(SocketEnum.GOT_STATE, playerState);
+        socket.emit(SocketEnum.GOT_STATE, stateToSend);
     })
 }
 
@@ -130,7 +130,10 @@ export const drawHand = (state: GameState, { _sendHand = sendHand } = {}) => {
 }
 
 const markOptional = (cards: Card[], state: GameState)=>{
-    cards.forEach(({optional = [], opponent})=>{
+    cards.forEach(({optional = [], opponent, player})=>{
+        if(opponent === undefined){
+            opponent = player === 0 ? 1 : 0; 
+        }
         optional.forEach((opt)=>{
             opt.canPlay = canUseOptional(opt, opponent, state); 
         })
@@ -485,5 +488,5 @@ const clearTurnData = (state: GameState) => {
     state.turnIsOver = false;
     state.incrementedQueue = false;
     state.pendingPredictions = state.predictions;
-    state.predictions = undefined; 
+    state.predictions = null; 
 }

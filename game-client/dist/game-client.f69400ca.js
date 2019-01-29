@@ -12725,7 +12725,19 @@ var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum
 var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FURTHER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
 
 exports.Arrow = function (_ref) {
-  var player = _ref.player;
+  var player = _ref.player,
+      shouldFlip = _ref.shouldFlip;
+
+  if (shouldFlip) {
+    console.log('should flip');
+
+    if (player === card_1.PlayerEnum.OPPONENT) {
+      player = card_1.PlayerEnum.PLAYER;
+    } else if (player === card_1.PlayerEnum.PLAYER) {
+      player = card_1.PlayerEnum.OPPONENT;
+    }
+  }
+
   return preact_1.h("div", {
     class: 'inline'
   }, preact_1.h("img", {
@@ -12752,18 +12764,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var preact_1 = require("preact");
 
-var index_tsx_1 = require("../../../images/index.tsx");
+var index_1 = require("../../../images/index");
 
 exports.default = function (props) {
   return preact_1.h("div", {
     class: 'inline'
-  }, preact_1.h(index_tsx_1.Arrow, {
-    player: props.requirement.player
-  }), " ", preact_1.h(index_tsx_1.Icon, {
+  }, preact_1.h(index_1.Arrow, {
+    player: props.requirement.player,
+    shouldFlip: props.shouldFlip
+  }), " ", preact_1.h(index_1.Icon, {
     name: props.requirement.axis
   }));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index.tsx":"src/images/index.tsx"}],"src/components/game/card/effect.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/components/game/card/effect.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -12784,19 +12797,21 @@ var card_1 = require("../../../interfaces/card");
 
 var images_1 = require("../../../images");
 
-var Effect = function Effect(props) {
-  return renderSwitch(props.effect);
+var Effect = function Effect(_ref) {
+  var effect = _ref.effect,
+      shouldFlip = _ref.shouldFlip;
+  return renderSwitch(effect, shouldFlip);
 };
 
-var renderSwitch = function renderSwitch(effect) {
+var renderSwitch = function renderSwitch(effect, shouldFlip) {
   if (effect.mechanic === undefined) {
-    return renderEffect(effect);
+    return renderEffect(effect, shouldFlip);
   }
 
   switch (card_1.MechanicDisplay[effect.mechanic]) {
     case card_1.DisplayEnum.EFF:
     case card_1.DisplayEnum.REQ_EFF:
-      return renderMechanic(effect);
+      return renderMechanic(effect, shouldFlip);
 
     case card_1.DisplayEnum.NONE:
       return renderNone(effect);
@@ -12804,7 +12819,7 @@ var renderSwitch = function renderSwitch(effect) {
     case card_1.DisplayEnum.AMOUNT:
     case card_1.DisplayEnum.NAME:
     case card_1.DisplayEnum.NORMAL:
-      return renderEffect(effect);
+      return renderEffect(effect, shouldFlip);
   }
 
   return null;
@@ -12816,7 +12831,7 @@ var renderNone = function renderNone(mechanic) {
   }, preact_1.h("div", null, preact_1.h("b", null, mechanic.mechanic)));
 };
 
-var renderMechanic = function renderMechanic(mechanic) {
+var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
   var reqs = mechanic.mechanicRequirements || [];
   var effs = mechanic.mechanicEffects || [];
   return preact_1.h("div", {
@@ -12827,7 +12842,8 @@ var renderMechanic = function renderMechanic(mechanic) {
     return preact_1.h("span", {
       key: i
     }, preact_1.h(Requirement_1.default, {
-      requirement: req
+      requirement: req,
+      shouldFlip: shouldFlip
     }));
   })), preact_1.h("div", {
     class: 'h-divider thin'
@@ -12835,16 +12851,18 @@ var renderMechanic = function renderMechanic(mechanic) {
     return preact_1.h("span", {
       key: i
     }, preact_1.h(Effect, {
-      effect: eff
+      effect: eff,
+      shouldFlip: shouldFlip
     }));
   }))));
 };
 
-var renderEffect = function renderEffect(effect) {
+var renderEffect = function renderEffect(effect, shouldFlip) {
   return preact_1.h("div", {
     class: 'inline'
   }, effect.mechanic !== undefined && preact_1.h("b", null, " ", effect.mechanic, " "), preact_1.h(images_1.Arrow, {
-    player: effect.player
+    player: effect.player,
+    shouldFlip: shouldFlip
   }), " ", preact_1.h(images_1.Icon, {
     name: effect.axis
   }), " ", preact_1.h("b", null, effect.amount));
@@ -12869,21 +12887,26 @@ var preact_1 = require("preact");
 var effect_1 = __importDefault(require("./effect"));
 
 var QueueCard = function QueueCard(_ref) {
-  var name = _ref.name,
+  var identity = _ref.identity,
+      name = _ref.name,
       _ref$telegraphs = _ref.telegraphs,
       telegraphs = _ref$telegraphs === void 0 ? [] : _ref$telegraphs,
       _ref$focuses = _ref.focuses,
-      focuses = _ref$focuses === void 0 ? [] : _ref$focuses;
+      focuses = _ref$focuses === void 0 ? [] : _ref$focuses,
+      player = _ref.player;
+  var shouldFlip = identity !== player;
   return preact_1.h("div", null, preact_1.h("div", null, name), telegraphs.map(function (eff, i) {
     return preact_1.h("div", {
       key: i
     }, preact_1.h(effect_1.default, {
+      shouldFlip: shouldFlip,
       effect: eff
     }));
   }), focuses.map(function (eff, i) {
     return preact_1.h("div", {
       key: i
     }, preact_1.h(effect_1.default, {
+      shouldFlip: shouldFlip,
       effect: eff
     }));
   }));
@@ -12928,7 +12951,7 @@ exports.Board = function (props) {
 
 var renderBoard = function renderBoard() {
   var queue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var playerNum = arguments.length > 1 ? arguments[1] : undefined;
+  var identity = arguments.length > 1 ? arguments[1] : undefined;
   var currentPlayer = arguments.length > 2 ? arguments[2] : undefined;
   return queue.map(function () {
     var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
@@ -12939,7 +12962,9 @@ var renderBoard = function renderBoard() {
       return preact_1.h("div", {
         class: 'text-center queue-card',
         key: card.name
-      }, preact_1.h(queueCard_1.default, Object.assign({}, card)));
+      }, preact_1.h(queueCard_1.default, Object.assign({}, card, {
+        identity: identity
+      })));
     }));
   });
 };
@@ -12952,18 +12977,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var preact_1 = require("preact");
 
-var index_tsx_1 = require("../../../images/index.tsx");
+var index_1 = require("../../../images/index");
 
 exports.default = function (props) {
   return preact_1.h("div", {
     class: 'inline'
-  }, preact_1.h(index_tsx_1.Arrow, {
-    player: props.requirement.player
-  }), " ", preact_1.h(index_tsx_1.Icon, {
+  }, preact_1.h(index_1.Arrow, {
+    player: props.requirement.player,
+    shouldFlip: props.shouldFlip
+  }), " ", preact_1.h(index_1.Icon, {
     name: props.requirement.axis
   }));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index.tsx":"src/images/index.tsx"}],"src/components/game/card/optional.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/components/game/card/optional.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -13268,7 +13294,7 @@ var StateMachine = function StateMachine(props) {
   })), preact_1.h(Motion, Object.assign({}, props, {
     playerIndex: opponent
   })), preact_1.h(Balance, Object.assign({}, props, {
-    playerIndex: player
+    playerIndex: opponent
   }))), preact_1.h("div", {
     class: 'state-row'
   }, preact_1.h(Distance, Object.assign({}, props)), preact_1.h(Health, Object.assign({}, props))), preact_1.h("div", {
@@ -13439,22 +13465,23 @@ var Prediction = function Prediction(_ref) {
 
   if (predictions) {
     if (isMyPrediction) {
-      return preact_1.h("div", null, preact_1.h("h3", null, "My Prediction"), renderPrediction(predictions));
+      return preact_1.h("div", null, preact_1.h("h3", null, "My Prediction"), renderPrediction(predictions, !isMyPrediction));
     } else {
-      return preact_1.h("div", null, preact_1.h("h3", null, " Opponents Prediction"), renderPrediction(predictions));
+      return preact_1.h("div", null, preact_1.h("h3", null, " Opponents Prediction"), renderPrediction(predictions, !isMyPrediction));
     }
   } else {
     return preact_1.h("div", null, "No Prediction");
   }
 };
 
-var renderPrediction = function renderPrediction(predictions) {
+var renderPrediction = function renderPrediction(predictions, shouldFlip) {
   return predictions.map(function (_ref2) {
     var prediction = _ref2.prediction,
         mechanics = _ref2.mechanics;
     return preact_1.h("div", null, prediction !== undefined && predictionRouter[prediction], mechanics.map(function (eff) {
       return preact_1.h(effect_1.default, {
-        effect: eff
+        effect: eff,
+        shouldFlip: shouldFlip
       });
     }));
   });
@@ -13691,7 +13718,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59227" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59699" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

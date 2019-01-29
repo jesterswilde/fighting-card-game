@@ -60,15 +60,15 @@ const sendState = (state) => {
         predictions: state.pendingPredictions
     };
     state.sockets.forEach((socket, i) => {
-        const playerState = util_1.deepCopy(sendState);
-        if (playerState.predictions) {
-            playerState.predictions.forEach((pred) => {
+        const stateToSend = util_1.deepCopy(sendState);
+        if (stateToSend.predictions) {
+            stateToSend.predictions.forEach((pred) => {
                 if (pred.player !== i) {
                     pred.prediction = null;
                 }
             });
         }
-        socket.emit(socket_1.SocketEnum.GOT_STATE, playerState);
+        socket.emit(socket_1.SocketEnum.GOT_STATE, stateToSend);
     });
 };
 exports.playTurn = (state) => __awaiter(this, void 0, void 0, function* () {
@@ -133,7 +133,10 @@ exports.drawHand = (state, { _sendHand = sendHand } = {}) => {
     }
 };
 const markOptional = (cards, state) => {
-    cards.forEach(({ optional = [], opponent }) => {
+    cards.forEach(({ optional = [], opponent, player }) => {
+        if (opponent === undefined) {
+            opponent = player === 0 ? 1 : 0;
+        }
         optional.forEach((opt) => {
             opt.canPlay = requirements_1.canUseOptional(opt, opponent, state);
         });
@@ -466,5 +469,5 @@ const clearTurnData = (state) => {
     state.turnIsOver = false;
     state.incrementedQueue = false;
     state.pendingPredictions = state.predictions;
-    state.predictions = undefined;
+    state.predictions = null;
 };

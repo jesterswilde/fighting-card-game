@@ -5,26 +5,27 @@ import { Arrow, Icon } from '../../../images'
 
 interface Props {
     effect: Mechanic
+    shouldFlip?: boolean
 }
 
-const Effect = (props: Props) => {
-    return renderSwitch(props.effect)
+const Effect = ({effect, shouldFlip}: Props) => {
+    return renderSwitch(effect, shouldFlip)
 }
 
-const renderSwitch = (effect: Mechanic) => {
+const renderSwitch = (effect: Mechanic, shouldFlip: boolean) => {
     if (effect.mechanic === undefined) {
-        return renderEffect(effect);
+        return renderEffect(effect, shouldFlip);
     }
     switch (MechanicDisplay[effect.mechanic]) {
         case DisplayEnum.EFF:
         case DisplayEnum.REQ_EFF:
-            return renderMechanic(effect);
+            return renderMechanic(effect, shouldFlip);
         case DisplayEnum.NONE:
             return renderNone(effect); 
         case DisplayEnum.AMOUNT:
         case DisplayEnum.NAME:
         case DisplayEnum.NORMAL:
-            return renderEffect(effect);
+            return renderEffect(effect, shouldFlip);
     }
     return null;
 }
@@ -35,24 +36,24 @@ const renderNone = (mechanic: Mechanic) => (
     </div>
 )
 
-const renderMechanic = (mechanic: Mechanic) => {
+const renderMechanic = (mechanic: Mechanic, shouldFlip) => {
     const reqs = mechanic.mechanicRequirements || [];
     const effs = mechanic.mechanicEffects || [];
     return <div class='mechanic'>
         <div><b>{mechanic.mechanic}</b></div>
         <div class='h-divider'/>
         <div>
-            <div>{reqs.map((req, i) => <span key={i}><Requirement requirement={req} /></span>)}</div>
+            <div>{reqs.map((req, i) => <span key={i}><Requirement requirement={req} shouldFlip={shouldFlip} /></span>)}</div>
             <div class='h-divider thin'/>
-            <div>{effs.map((eff, i) => <span key={i}><Effect effect={eff} /></span>)}</div>
+            <div>{effs.map((eff, i) => <span key={i}><Effect effect={eff} shouldFlip={shouldFlip} /></span>)}</div>
         </div>
     </div>
 }
 
-const renderEffect = (effect: Mechanic) => {
+const renderEffect = (effect: Mechanic, shouldFlip) => {
     return <div class='inline'>
         {effect.mechanic !== undefined && <b> {effect.mechanic} </b>}
-        <Arrow player={effect.player} /> <Icon name={effect.axis} /> <b>{effect.amount}</b>
+        <Arrow player={effect.player} shouldFlip={shouldFlip} /> <Icon name={effect.axis} /> <b>{effect.amount}</b>
     </div>
 }
 
