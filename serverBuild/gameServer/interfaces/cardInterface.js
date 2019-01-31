@@ -10,6 +10,7 @@ var MechanicEnum;
     MechanicEnum["REFLEX"] = "Reflex";
     MechanicEnum["BUFF"] = "Buff";
     MechanicEnum["CRIPPLE"] = "Cripple";
+    MechanicEnum["PICK_ONE"] = "Pick One";
 })(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
 var DisplayEnum;
 (function (DisplayEnum) {
@@ -49,6 +50,10 @@ var AxisEnum;
     AxisEnum["CLOSER"] = "Closer";
     AxisEnum["FURTHER"] = "Further";
     AxisEnum["BLOODIED"] = "Bloodied";
+    AxisEnum["MOTION"] = "Motion";
+    AxisEnum["DISTANCE"] = "Distance";
+    AxisEnum["POISE"] = "POISE";
+    AxisEnum["STANCE"] = "Stance";
 })(AxisEnum = exports.AxisEnum || (exports.AxisEnum = {}));
 var PlayerEnum;
 (function (PlayerEnum) {

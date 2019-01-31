@@ -21,6 +21,8 @@ const renderSwitch = (effect: Mechanic) => {
         case DisplayEnum.EFF:
         case DisplayEnum.REQ_EFF:
             return renderMechanic(effect);
+        case DisplayEnum.PICK_ONE:
+            return renderPickOne(effect);
         case DisplayEnum.NONE:
         case DisplayEnum.AMOUNT:
         case DisplayEnum.NAME:
@@ -28,6 +30,17 @@ const renderSwitch = (effect: Mechanic) => {
             return renderEffect(effect);
     }
     return null;
+}
+
+const renderPickOne = ({ mechanic, choices = [] }: Mechanic) => {
+    return <div className="seperate">
+        <div><b>{mechanic}</b></div>
+        <div className="ml-3">
+            {choices.map((choice, k) => <div key={k} className='seperate'>
+                {choice.map((eff, i) => <span key={i} className='mr-3'><Effect effect={eff} /></span>)}
+            </div>)}
+        </div>
+    </div>
 }
 
 const renderMechanic = (mechanic: Mechanic) => {

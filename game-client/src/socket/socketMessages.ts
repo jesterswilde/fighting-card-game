@@ -1,8 +1,8 @@
-import { Card } from '../interfaces/card';
+import { Card, Mechanic } from '../interfaces/card';
 import { dispatchGotCards } from '../hand/dispatch';
 import { dispatchSwitchScreen } from '../display/dispatch';
 import { ScreenEnum } from '../display/interface';
-import { dispatchStartGame, dispatchGameState } from '../game/dispatch';
+import { dispatchStartGame, dispatchGameState, dispatchShouldPickOne } from '../game/dispatch';
 import { SocketEnum } from './socketEnum';
 import { dispatchGotDeckChoices } from '../deck/dispatch';
 import { GameState } from '../game/interface';
@@ -39,6 +39,11 @@ export const setupSockets = (socket: SocketIOClient.Socket)=>{
      socket.on(SocketEnum.SHOULD_PREDICT,()=>{
         console.log('should predict'); 
         dispatchShouldPredict(); 
-     }); 
+     });
+
+     socket.on(SocketEnum.SHOULD_PICK_ONE, (choices: Mechanic[][])=>{
+        console.log("pick one", choices); 
+        dispatchShouldPickOne(choices)
+     })
 }
 

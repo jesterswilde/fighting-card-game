@@ -206,6 +206,7 @@ exports.shuffleDeck = (state, playerToShuffle) => {
 exports.playCard = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
         exports.getMechanicsReady(state);
+        yield exports.playerPicksOne(state);
         yield exports.makePredictions(state);
         exports.markAxisChanges(state);
         exports.incrementQueue(state);
@@ -232,6 +233,32 @@ exports.getMechanicsReady = (state) => {
         return effsArr;
     }, []);
     state.readiedEffects = [...util_1.deepCopy(effects), ...util_1.deepCopy(validOptEff)];
+};
+exports.playerPicksOne = (state, { _waitForPlayerToChoose = waitForPlayerToChoose } = {}) => __awaiter(this, void 0, void 0, function* () {
+    const { sockets, currentPlayer, readiedEffects = [] } = state;
+    const pickedEffects = [];
+    const unusedEffs = [];
+    const player = sockets[currentPlayer];
+    for (let i = 0; i < readiedEffects.length; i++) {
+        const effect = state.readiedEffects[i];
+        if (effect.mechanic === cardInterface_1.MechanicEnum.PICK_ONE) {
+            const choice = yield _waitForPlayerToChoose(effect.choices, player);
+            const picked = effect.choices[choice];
+            pickedEffects.push(...picked);
+            unusedEffs.push(false);
+        }
+        unusedEffs.push(true);
+    }
+    state.readiedEffects = state.readiedEffects.filter((_, i) => unusedEffs[i]);
+    state.readiedEffects.push(...pickedEffects);
+});
+const waitForPlayerToChoose = (choices, player) => {
+    return new Promise((res, rej) => {
+        player.emit(socket_1.SocketEnum.SHOULD_PICK_ONE, choices);
+        player.once(socket_1.SocketEnum.PICKED_ONE, (choice) => {
+            res(choice);
+        });
+    });
 };
 exports.makePredictions = (state, { _getPredictions = getPredictions } = {}) => __awaiter(this, void 0, void 0, function* () {
     const { readiedEffects = [] } = state;
@@ -463,6 +490,7 @@ const changePlayers = (state) => {
     state.currentPlayer = player;
 };
 const clearTurnData = (state) => {
+    const opponent = state.currentPlayer === 0 ? 1 : 0;
     state.damaged = [false, false];
     state.turnIsOver = false;
     state.modifiedAxis = util_1.makeModifiedAxis();
@@ -470,4 +498,5 @@ const clearTurnData = (state) => {
     state.incrementedQueue = false;
     state.pendingPredictions = state.predictions;
     state.predictions = null;
+    state.block[opponent] = 0;
 };

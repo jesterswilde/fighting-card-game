@@ -2410,5 +2410,29 @@
         "player": 0
       }
     ]
+  },
+  "PickIt": {
+    "effects": [
+      {
+        "mechanic": "Pick One",
+        "choices": [
+          [
+            {
+              "mechanic": "Reflex"
+            }
+          ],
+          [
+            {
+              "player": 1,
+              "axis": "Damage",
+              "amount": 3
+            }
+          ]
+        ]
+      }
+    ],
+    "name": "PickIt",
+    "optional": [],
+    "requirements": []
   }
 }

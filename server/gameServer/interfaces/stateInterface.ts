@@ -1,4 +1,4 @@
-import { Card, Mechanic } from "./cardInterface";
+import { Card, Mechanic, AxisEnum } from "./cardInterface";
 import { Socket } from "socket.io";
 
 export interface GameState{
@@ -22,13 +22,27 @@ export interface GameState{
     pendingPredictions?: PredictionState[]
     checkedFocus?: boolean
     incrementedQueue?: boolean
+    lockedState: LockState
 }
+
 export interface ModifiedAxis {
     standing: boolean
     motion: boolean 
     balance: boolean
     distance: boolean
 }
+
+export interface LockState {
+    distance: number | null,
+    players: PlayerLockState []
+}
+
+export interface PlayerLockState{
+    poise: number | null,
+    motion: number | null,
+    stance: number | null,
+}
+
 export interface PlayerStateDuration{
     standing: number | null, 
     motion: number | null,

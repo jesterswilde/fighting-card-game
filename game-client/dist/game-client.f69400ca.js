@@ -2797,6 +2797,8 @@ var GameActionEnum;
   GameActionEnum["START_GAME"] = "startGame";
   GameActionEnum["PICKED_CARD"] = "pickedCard";
   GameActionEnum["MADE_PREDICTION"] = "madePrediction";
+  GameActionEnum["SHOULD_PICK_ONE"] = "shouldPickOne";
+  GameActionEnum["DID_PICK_ONE"] = "didPickOne";
 })(GameActionEnum = exports.GameActionEnum || (exports.GameActionEnum = {}));
 },{}],"src/game/reducer.ts":[function(require,module,exports) {
 "use strict";
@@ -2822,6 +2824,16 @@ exports.gameReducer = function () {
         player: action.player
       });
 
+    case actions_1.GameActionEnum.SHOULD_PICK_ONE:
+      return Object.assign({}, state, {
+        choices: action.choices
+      });
+
+    case actions_1.GameActionEnum.DID_PICK_ONE:
+      return Object.assign({}, state, {
+        choices: undefined
+      });
+
     default:
       return state;
   }
@@ -2837,7 +2849,19 @@ var makeDefaultGameState = function makeDefaultGameState() {
     distance: interface_1.DistanceEnum.FAR,
     currentPlayer: 0,
     damaged: [],
-    player: 0
+    player: 0,
+    lockedState: {
+      distance: null,
+      players: [{
+        motion: null,
+        poise: null,
+        stance: null
+      }, {
+        motion: null,
+        poise: null,
+        stance: null
+      }]
+    }
   };
 };
 },{"./interface":"src/game/interface.ts","./actions":"src/game/actions.ts"}],"src/hand/actions.ts":[function(require,module,exports) {
@@ -12103,6 +12127,8 @@ var SocketEnum;
   SocketEnum["GOT_STATE"] = "gotState";
   SocketEnum["SHOULD_PREDICT"] = "shouldPredict";
   SocketEnum["MADE_PREDICTION"] = "madePrediction";
+  SocketEnum["SHOULD_PICK_ONE"] = "shouldPickOne";
+  SocketEnum["PICKED_ONE"] = "pickedOne";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
 },{}],"src/hand/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12215,6 +12241,24 @@ exports.dispatchStartGame = function (player) {
     type: actions_1.GameActionEnum.START_GAME,
     player: player
   };
+  store_1.store.dispatch(action);
+};
+
+exports.dispatchShouldPickOne = function (choices) {
+  var action = {
+    type: actions_1.GameActionEnum.SHOULD_PICK_ONE,
+    choices: choices
+  };
+  store_1.store.dispatch(action);
+};
+
+exports.dispatchDidPickOne = function (choice) {
+  var action = {
+    type: actions_1.GameActionEnum.DID_PICK_ONE,
+    choice: choice
+  };
+  console.log("sending picked one");
+  socket_1.socket.emit(socketEnum_1.SocketEnum.PICKED_ONE, choice);
   store_1.store.dispatch(action);
 };
 },{"../state/store":"src/state/store.ts","./actions":"src/game/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/deck/actions.ts":[function(require,module,exports) {
@@ -12344,6 +12388,10 @@ exports.setupSockets = function (socket) {
   socket.on(socketEnum_1.SocketEnum.SHOULD_PREDICT, function () {
     console.log('should predict');
     dispatch_5.dispatchShouldPredict();
+  });
+  socket.on(socketEnum_1.SocketEnum.SHOULD_PICK_ONE, function (choices) {
+    console.log("pick one", choices);
+    dispatch_3.dispatchShouldPickOne(choices);
   });
 };
 },{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","./socketEnum":"src/socket/socketEnum.ts","../deck/dispatch":"src/deck/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
@@ -12503,6 +12551,7 @@ var GameDisplayEnum;
 (function (GameDisplayEnum) {
   GameDisplayEnum[GameDisplayEnum["NORMAL"] = 0] = "NORMAL";
   GameDisplayEnum[GameDisplayEnum["PREDICT"] = 1] = "PREDICT";
+  GameDisplayEnum[GameDisplayEnum["PICK_ONE"] = 2] = "PICK_ONE";
 })(GameDisplayEnum = exports.GameDisplayEnum || (exports.GameDisplayEnum = {}));
 },{}],"src/gameDisplay/reducer.ts":[function(require,module,exports) {
 "use strict";
@@ -12538,6 +12587,16 @@ exports.gameDisplayReducer = function () {
     case actions_2.GameDisplayActionEnum.SET_HAND_CARD_DISPLAY:
       return Object.assign({}, state, {
         showFullCard: action.value
+      });
+
+    case actions_1.GameActionEnum.SHOULD_PICK_ONE:
+      return Object.assign({}, state, {
+        screen: interface_1.GameDisplayEnum.PICK_ONE
+      });
+
+    case actions_1.GameActionEnum.DID_PICK_ONE:
+      return Object.assign({}, state, {
+        screen: interface_1.GameDisplayEnum.NORMAL
       });
 
     default:
@@ -12592,6 +12651,7 @@ var MechanicEnum;
   MechanicEnum["REFLEX"] = "Reflex";
   MechanicEnum["BUFF"] = "Buff";
   MechanicEnum["CRIPPLE"] = "Cripple";
+  MechanicEnum["PICK_ONE"] = "Pick One";
 })(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
 
 var DisplayEnum;
@@ -12602,10 +12662,11 @@ var DisplayEnum;
   DisplayEnum[DisplayEnum["NORMAL"] = 2] = "NORMAL";
   DisplayEnum[DisplayEnum["NAME"] = 3] = "NAME";
   DisplayEnum[DisplayEnum["AMOUNT"] = 4] = "AMOUNT";
-  DisplayEnum[DisplayEnum["NONE"] = 5] = "NONE";
+  DisplayEnum[DisplayEnum["PICK_ONE"] = 5] = "PICK_ONE";
+  DisplayEnum[DisplayEnum["NONE"] = 6] = "NONE";
 })(DisplayEnum = exports.DisplayEnum || (exports.DisplayEnum = {}));
 
-exports.MechanicDisplay = (_exports$MechanicDisp = {}, _defineProperty(_exports$MechanicDisp, MechanicEnum.TELEGRAPH, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.FOCUS, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.PREDICT, DisplayEnum.EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.BUFF, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.BLOCK, DisplayEnum.AMOUNT), _defineProperty(_exports$MechanicDisp, MechanicEnum.LOCK, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.REFLEX, DisplayEnum.NONE), _defineProperty(_exports$MechanicDisp, MechanicEnum.CRIPPLE, DisplayEnum.NAME), _exports$MechanicDisp);
+exports.MechanicDisplay = (_exports$MechanicDisp = {}, _defineProperty(_exports$MechanicDisp, MechanicEnum.TELEGRAPH, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.FOCUS, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.PREDICT, DisplayEnum.EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.BUFF, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.BLOCK, DisplayEnum.AMOUNT), _defineProperty(_exports$MechanicDisp, MechanicEnum.LOCK, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.REFLEX, DisplayEnum.NONE), _defineProperty(_exports$MechanicDisp, MechanicEnum.CRIPPLE, DisplayEnum.NAME), _defineProperty(_exports$MechanicDisp, MechanicEnum.PICK_ONE, DisplayEnum.PICK_ONE), _exports$MechanicDisp);
 var AxisEnum;
 
 (function (AxisEnum) {
@@ -12626,6 +12687,10 @@ var AxisEnum;
   AxisEnum["CLOSER"] = "Closer";
   AxisEnum["FURTHER"] = "Further";
   AxisEnum["BLOODIED"] = "Bloodied";
+  AxisEnum["MOTION"] = "Motion";
+  AxisEnum["DISTANCE"] = "Distance";
+  AxisEnum["POISE"] = "POISE";
+  AxisEnum["STANCE"] = "Stance";
 })(AxisEnum = exports.AxisEnum || (exports.AxisEnum = {}));
 
 var PlayerEnum;
@@ -12667,834 +12732,7 @@ module.exports = "/damage.8dcb1185.png";
 module.exports = "/further.d4b8f7c0.png";
 },{}],"src/images/closer.png":[function(require,module,exports) {
 module.exports = "/closer.ec89e5b5.png";
-},{}],"src/images/index.tsx":[function(require,module,exports) {
-"use strict";
-
-var _playerRouter, _iconRouter, _classRouter;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var card_1 = require("../interfaces/card");
-
-var grapple_png_1 = __importDefault(require("./grapple.png"));
-
-var close_png_1 = __importDefault(require("./close.png"));
-
-var far_png_1 = __importDefault(require("./far.png"));
-
-var moving_png_1 = __importDefault(require("./moving.png"));
-
-var still_png_1 = __importDefault(require("./still.png"));
-
-var standing_png_1 = __importDefault(require("./standing.png"));
-
-var prone_png_1 = __importDefault(require("./prone.png"));
-
-var balanced_png_1 = __importDefault(require("./balanced.png"));
-
-var anticipating_png_1 = __importDefault(require("./anticipating.png"));
-
-var unbalanced_png_1 = __importDefault(require("./unbalanced.png"));
-
-var upArrow_png_1 = __importDefault(require("./upArrow.png"));
-
-var downArrow_png_1 = __importDefault(require("./downArrow.png"));
-
-var bothArrow_png_1 = __importDefault(require("./bothArrow.png"));
-
-var damage_png_1 = __importDefault(require("./damage.png"));
-
-var further_png_1 = __importDefault(require("./further.png"));
-
-var closer_png_1 = __importDefault(require("./closer.png"));
-
-var playerRouter = (_playerRouter = {}, _defineProperty(_playerRouter, card_1.PlayerEnum.PLAYER, downArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.OPPONENT, upArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.BOTH, bothArrow_png_1.default), _playerRouter);
-var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum.GRAPPLED, grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSE, close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FAR, far_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.MOVING, moving_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STILL, still_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STANDING, standing_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.PRONE, prone_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.BALANCED, balanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.ANTICIPATING, anticipating_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.UNBALANCED, unbalanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.DAMAGE, damage_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSER, closer_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FURTHER, further_png_1.default), _iconRouter);
-var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FURTHER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
-
-exports.Arrow = function (_ref) {
-  var player = _ref.player,
-      shouldFlip = _ref.shouldFlip;
-
-  if (shouldFlip) {
-    if (player === card_1.PlayerEnum.OPPONENT) {
-      player = card_1.PlayerEnum.PLAYER;
-    } else if (player === card_1.PlayerEnum.PLAYER) {
-      player = card_1.PlayerEnum.OPPONENT;
-    }
-  }
-
-  return preact_1.h("div", {
-    class: 'inline'
-  }, preact_1.h("img", {
-    class: 'player-icon',
-    src: playerRouter[player]
-  }));
-};
-
-exports.Icon = function (_ref2) {
-  var name = _ref2.name;
-  return preact_1.h("div", {
-    class: 'inline'
-  }, preact_1.h("div", {
-    class: "inline axis-bg ".concat(classRouter[name])
-  }, preact_1.h("img", {
-    "data-tip": name,
-    "data-for": 'icon-tooltip',
-    class: 'axis-icon',
-    src: iconRouter[name]
-  })));
-};
-},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var index_1 = require("../../../images/index");
-
-exports.default = function (props) {
-  return preact_1.h("div", {
-    class: 'inline'
-  }, preact_1.h(index_1.Arrow, {
-    player: props.requirement.player,
-    shouldFlip: props.shouldFlip
-  }), " ", preact_1.h(index_1.Icon, {
-    name: props.requirement.axis
-  }));
-};
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/components/game/card/effect.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var Requirement_1 = __importDefault(require("./Requirement"));
-
-var card_1 = require("../../../interfaces/card");
-
-var images_1 = require("../../../images");
-
-var Effect = function Effect(_ref) {
-  var effect = _ref.effect,
-      shouldFlip = _ref.shouldFlip;
-  return renderSwitch(effect, shouldFlip);
-};
-
-var renderSwitch = function renderSwitch(effect, shouldFlip) {
-  if (effect.mechanic === undefined) {
-    return renderEffect(effect, shouldFlip);
-  }
-
-  switch (card_1.MechanicDisplay[effect.mechanic]) {
-    case card_1.DisplayEnum.EFF:
-    case card_1.DisplayEnum.REQ_EFF:
-      return renderMechanic(effect, shouldFlip);
-
-    case card_1.DisplayEnum.NONE:
-      return renderNone(effect);
-
-    case card_1.DisplayEnum.AMOUNT:
-    case card_1.DisplayEnum.NAME:
-    case card_1.DisplayEnum.NORMAL:
-      return renderEffect(effect, shouldFlip);
-  }
-
-  return null;
-};
-
-var renderNone = function renderNone(mechanic) {
-  return preact_1.h("div", {
-    class: 'mechanic'
-  }, preact_1.h("div", null, preact_1.h("b", null, mechanic.mechanic)));
-};
-
-var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
-  var reqs = mechanic.mechanicRequirements || [];
-  var effs = mechanic.mechanicEffects || [];
-  return preact_1.h("div", {
-    class: 'mechanic'
-  }, preact_1.h("div", null, preact_1.h("b", null, mechanic.mechanic)), preact_1.h("div", {
-    class: 'h-divider'
-  }), preact_1.h("div", null, preact_1.h("div", null, reqs.map(function (req, i) {
-    return preact_1.h("span", {
-      key: i
-    }, preact_1.h(Requirement_1.default, {
-      requirement: req,
-      shouldFlip: shouldFlip
-    }));
-  })), preact_1.h("div", {
-    class: 'h-divider thin'
-  }), preact_1.h("div", null, effs.map(function (eff, i) {
-    return preact_1.h("span", {
-      key: i
-    }, preact_1.h(Effect, {
-      effect: eff,
-      shouldFlip: shouldFlip
-    }));
-  }))));
-};
-
-var renderEffect = function renderEffect(effect, shouldFlip) {
-  return preact_1.h("div", {
-    class: 'inline'
-  }, effect.mechanic !== undefined && preact_1.h("b", null, " ", effect.mechanic, " "), preact_1.h(images_1.Arrow, {
-    player: effect.player,
-    shouldFlip: shouldFlip
-  }), " ", preact_1.h(images_1.Icon, {
-    name: effect.axis
-  }), " ", preact_1.h("b", null, effect.amount));
-};
-
-exports.default = Effect;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var effect_1 = __importDefault(require("./effect"));
-
-var QueueCard = function QueueCard(_ref) {
-  var identity = _ref.identity,
-      name = _ref.name,
-      _ref$telegraphs = _ref.telegraphs,
-      telegraphs = _ref$telegraphs === void 0 ? [] : _ref$telegraphs,
-      _ref$focuses = _ref.focuses,
-      focuses = _ref$focuses === void 0 ? [] : _ref$focuses,
-      player = _ref.player;
-  var shouldFlip = identity !== player;
-  return preact_1.h("div", null, preact_1.h("div", null, name), telegraphs.map(function (eff, i) {
-    return preact_1.h("div", {
-      key: i
-    }, preact_1.h(effect_1.default, {
-      shouldFlip: shouldFlip,
-      effect: eff
-    }));
-  }), focuses.map(function (eff, i) {
-    return preact_1.h("div", {
-      key: i
-    }, preact_1.h(effect_1.default, {
-      shouldFlip: shouldFlip,
-      effect: eff
-    }));
-  }));
-};
-
-exports.default = QueueCard;
-},{"preact":"node_modules/preact/dist/preact.mjs","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/board.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var queueCard_1 = __importDefault(require("./card/queueCard"));
-
-var NUM_PLAYERS = 2;
-var MAX_QUEUE_LENGTH = 3;
-
-exports.Thing = function () {
-  return preact_1.h("h2", null, " Thing ");
-};
-
-exports.Board = function (props) {
-  var _props$queue = props.queue,
-      queue = _props$queue === void 0 ? [] : _props$queue,
-      player = props.player,
-      currentPlayer = props.currentPlayer;
-  return preact_1.h("div", {
-    class: 'board'
-  }, preact_1.h("h2", null, "Board"), preact_1.h("div", {
-    class: 'card-container'
-  }, renderBoard(queue, player, currentPlayer)));
-};
-
-var renderBoard = function renderBoard() {
-  var queue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var identity = arguments.length > 1 ? arguments[1] : undefined;
-  var currentPlayer = arguments.length > 2 ? arguments[2] : undefined;
-  return queue.map(function () {
-    var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var i = arguments.length > 1 ? arguments[1] : undefined;
-    return preact_1.h("div", {
-      key: i + JSON.stringify(cards)
-    }, cards.map(function (card, i) {
-      return preact_1.h("div", {
-        class: 'text-center queue-card',
-        key: card.name
-      }, preact_1.h(queueCard_1.default, Object.assign({}, card, {
-        identity: identity
-      })));
-    }));
-  });
-};
-},{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx"}],"src/components/game/card/requirement.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var index_1 = require("../../../images/index");
-
-exports.default = function (props) {
-  return preact_1.h("div", {
-    class: 'inline'
-  }, preact_1.h(index_1.Arrow, {
-    player: props.requirement.player,
-    shouldFlip: props.shouldFlip
-  }), " ", preact_1.h(index_1.Icon, {
-    name: props.requirement.axis
-  }));
-};
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/components/game/card/optional.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var requirement_1 = __importDefault(require("./requirement"));
-
-var effect_1 = __importDefault(require("./effect"));
-
-exports.default = function (props) {
-  return preact_1.h("div", {
-    className: "optional"
-  }, !props.hideReqs && preact_1.h("div", null, preact_1.h("div", null, props.requirements.map(function (req, i) {
-    return preact_1.h("span", {
-      key: i
-    }, preact_1.h(requirement_1.default, {
-      requirement: req
-    }));
-  })), preact_1.h("div", {
-    class: 'h-divider'
-  })), preact_1.h("div", null, props.effects.map(function (eff, i) {
-    return preact_1.h("span", {
-      key: i
-    }, preact_1.h(effect_1.default, {
-      effect: eff
-    }));
-  })));
-};
-},{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/game/card/requirement.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var optional_1 = __importDefault(require("./optional"));
-
-var effect_1 = __importDefault(require("./effect"));
-
-var HandCard = function HandCard(card) {
-  var name = card.name,
-      optional = card.optional,
-      effects = card.effects;
-  return preact_1.h("div", {
-    class: 'game-card text-center'
-  }, preact_1.h("div", {
-    class: 'title'
-  }, name), preact_1.h("div", {
-    class: 'card-section'
-  }, optional.filter(function (_ref) {
-    var canPlay = _ref.canPlay;
-    return canPlay;
-  }).map(function (opt, i) {
-    return preact_1.h("span", {
-      key: i
-    }, " ", preact_1.h(optional_1.default, Object.assign({}, opt, {
-      hideReqs: true
-    })), " ");
-  })), preact_1.h("div", {
-    class: 'card-section effect'
-  }, effects.map(function (effect, i) {
-    return preact_1.h("span", {
-      key: i
-    }, preact_1.h(effect_1.default, {
-      effect: effect
-    }));
-  })));
-};
-
-exports.default = HandCard;
-},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
-"use strict";
-
-var _exports$playerRouter;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var card_1 = require("../../../interfaces/card");
-
-var effect_1 = __importDefault(require("./effect"));
-
-var requirement_1 = __importDefault(require("./requirement"));
-
-var optional_1 = __importDefault(require("./optional"));
-
-exports.playerRouter = (_exports$playerRouter = {}, _defineProperty(_exports$playerRouter, card_1.PlayerEnum.PLAYER, '↓'), _defineProperty(_exports$playerRouter, card_1.PlayerEnum.OPPONENT, '↑'), _defineProperty(_exports$playerRouter, card_1.PlayerEnum.BOTH, '↕'), _exports$playerRouter);
-
-exports.default = function (_ref) {
-  var name = _ref.name,
-      optional = _ref.optional,
-      requirements = _ref.requirements,
-      effects = _ref.effects;
-  return preact_1.h("div", {
-    class: 'game-card text-center'
-  }, preact_1.h("div", {
-    class: 'title'
-  }, name), preact_1.h("div", {
-    class: 'card-section req'
-  }, requirements.map(function (req, i) {
-    return preact_1.h("span", {
-      key: i
-    }, preact_1.h(requirement_1.default, {
-      requirement: req
-    }));
-  })), preact_1.h("div", {
-    class: 'card-section'
-  }, optional.map(function (opt, i) {
-    return preact_1.h("span", {
-      key: i
-    }, " ", preact_1.h(optional_1.default, Object.assign({}, opt)), " ");
-  })), preact_1.h("div", {
-    class: 'card-section effect'
-  }, effects.map(function (effect, i) {
-    return preact_1.h("span", {
-      key: i
-    }, preact_1.h(effect_1.default, {
-      effect: effect
-    }));
-  })));
-};
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../interfaces/card":"src/interfaces/card.ts","./effect":"src/components/game/card/effect.tsx","./requirement":"src/components/game/card/requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/hand.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var dispatch_1 = require("../../hand/dispatch");
-
-var handCard_1 = __importDefault(require("./card/handCard"));
-
-var viewer_1 = __importDefault(require("./card/viewer"));
-
-var preact_redux_1 = require("preact-redux");
-
-var selector = function selector(state) {
-  return {
-    hand: state.hand.cards,
-    showFullCard: state.gameDisplay.showFullCard
-  };
-};
-
-var Hand = function Hand(_ref) {
-  var hand = _ref.hand,
-      showFullCard = _ref.showFullCard;
-  return preact_1.h("div", null, preact_1.h("h2", null, "Hand"), preact_1.h("div", {
-    class: 'coard-container'
-  }, hand.map(function (card, i) {
-    var key = card === undefined ? 'blank' : card.name;
-    return preact_1.h("div", {
-      class: 'inline',
-      key: key,
-      onClick: function onClick() {
-        return dispatch_1.dispatchPickedCard(i);
-      }
-    }, showFullCard && preact_1.h(viewer_1.default, Object.assign({}, card)), showFullCard || preact_1.h(handCard_1.default, Object.assign({}, card)));
-  })));
-};
-
-exports.default = preact_redux_1.connect(selector)(Hand);
-},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/handCard":"src/components/game/card/handCard.tsx","./card/viewer":"src/components/game/card/viewer.tsx","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game/choices.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var dispatch_1 = require("../../game/dispatch");
-
-var interface_1 = require("../../game/interface");
-
-var interface_2 = require("../../gameDisplay/interface");
-
-var preact_redux_1 = require("preact-redux");
-
-var selector = function selector(state) {
-  return {
-    display: state.gameDisplay.screen
-  };
-};
-
-var Choices = function Choices(_ref) {
-  var display = _ref.display;
-  console.log('got displays', display);
-
-  switch (display) {
-    case interface_2.GameDisplayEnum.PREDICT:
-      return preact_1.h("div", null, preact_1.h(Prediction, null));
-
-    default:
-      return preact_1.h("span", null);
-  }
-};
-
-var Prediction = function Prediction() {
-  console.log('prediction');
-  return preact_1.h("div", null, preact_1.h("h2", null, "Make Prediction"), preact_1.h("button", {
-    class: "btn btn-primary",
-    onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.DISTANCE);
-    }
-  }, "Distance"), preact_1.h("button", {
-    class: "btn btn-primary",
-    onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.BALANCE);
-    }
-  }, "Balance"), preact_1.h("button", {
-    class: "btn btn-primary",
-    onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.MOTION);
-    }
-  }, "Motion"), preact_1.h("button", {
-    class: "btn btn-primary",
-    onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.STANDING);
-    }
-  }, "Standing"), preact_1.h("button", {
-    class: "btn btn-primary",
-    onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.NONE);
-    }
-  }, "None"));
-};
-
-exports.default = preact_redux_1.connect(selector)(Choices);
-},{"preact":"node_modules/preact/dist/preact.mjs","../../game/dispatch":"src/game/dispatch.ts","../../game/interface":"src/game/interface.ts","../../gameDisplay/interface":"src/gameDisplay/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game/stateMachine.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var interface_1 = require("../../game/interface");
-
-var preact_redux_1 = require("preact-redux");
-
-var images_1 = require("../../images");
-
-var card_1 = require("../../interfaces/card");
-
-;
-
-var selector = function selector(state) {
-  return state.game;
-};
-
-var StateMachine = function StateMachine(props) {
-  var player = props.player;
-  var opponent = player === 0 ? 1 : 0;
-
-  if (props.playerStates === undefined) {
-    return preact_1.h("div", null);
-  }
-
-  return preact_1.h("div", {
-    class: 'state-machine'
-  }, preact_1.h("div", {
-    class: 'state-row'
-  }, preact_1.h(Standing, Object.assign({}, props, {
-    playerIndex: opponent
-  })), preact_1.h(Motion, Object.assign({}, props, {
-    playerIndex: opponent
-  })), preact_1.h(Balance, Object.assign({}, props, {
-    playerIndex: opponent
-  }))), preact_1.h("div", {
-    class: 'state-row'
-  }, preact_1.h(Distance, Object.assign({}, props)), preact_1.h(Health, Object.assign({}, props))), preact_1.h("div", {
-    class: 'state-row'
-  }, preact_1.h(Standing, Object.assign({}, props, {
-    playerIndex: player
-  })), preact_1.h(Motion, Object.assign({}, props, {
-    playerIndex: player
-  })), preact_1.h(Balance, Object.assign({}, props, {
-    playerIndex: player
-  }))));
-};
-
-var Health = function Health(_ref) {
-  var health = _ref.health,
-      player = _ref.player;
-  var opponent = player === 0 ? 1 : 0;
-  return preact_1.h("div", {
-    class: 'center-it state-piece-container'
-  }, health[player], " Health ", health[opponent]);
-};
-
-var Distance = function Distance(_ref2) {
-  var distance = _ref2.distance;
-  return preact_1.h("div", {
-    class: 'state-piece-container'
-  }, preact_1.h("div", {
-    class: 'state-piece-title distance'
-  }, "Distance"), preact_1.h("div", {
-    class: 'state-pieces'
-  }, preact_1.h("div", {
-    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.GRAPPLED ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.GRAPPLED
-  })), preact_1.h("div", {
-    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.CLOSE ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.CLOSE
-  })), preact_1.h("div", {
-    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.FAR ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.FAR
-  }))));
-};
-
-var Motion = function Motion(_ref3) {
-  var _ref3$playerIndex = _ref3.playerIndex,
-      playerIndex = _ref3$playerIndex === void 0 ? 0 : _ref3$playerIndex,
-      _ref3$stateDurations = _ref3.stateDurations,
-      stateDurations = _ref3$stateDurations === void 0 ? [] : _ref3$stateDurations,
-      _ref3$playerStates = _ref3.playerStates,
-      playerStates = _ref3$playerStates === void 0 ? [] : _ref3$playerStates;
-  var motion = playerStates[playerIndex].motion;
-  var duration = stateDurations[playerIndex].motion;
-  return preact_1.h("div", {
-    class: 'state-piece-container'
-  }, preact_1.h("div", {
-    class: 'state-piece-title motion'
-  }, "Motion"), preact_1.h("div", {
-    class: 'state-pieces'
-  }, preact_1.h("div", {
-    class: "state-piece motion ".concat(motion === interface_1.MotionEnum.STILL ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.STILL
-  })), preact_1.h("div", {
-    class: "state-piece motion ".concat(motion === interface_1.MotionEnum.MOVING ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.MOVING
-  }), " ", duration)));
-};
-
-var Standing = function Standing(_ref4) {
-  var _ref4$playerStates = _ref4.playerStates,
-      playerStates = _ref4$playerStates === void 0 ? [] : _ref4$playerStates,
-      _ref4$stateDurations = _ref4.stateDurations,
-      stateDurations = _ref4$stateDurations === void 0 ? [] : _ref4$stateDurations,
-      _ref4$playerIndex = _ref4.playerIndex,
-      playerIndex = _ref4$playerIndex === void 0 ? 0 : _ref4$playerIndex;
-  var standing = playerStates[playerIndex].standing;
-  var duration = stateDurations[playerIndex].standing;
-  return preact_1.h("div", {
-    class: 'state-piece-container'
-  }, preact_1.h("div", {
-    class: 'state-piece-title standing'
-  }, "Standing"), preact_1.h("div", {
-    class: 'state-pieces'
-  }, preact_1.h("div", {
-    class: "state-piece standing ".concat(standing === interface_1.StandingEnum.STANDING ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.STANDING
-  })), preact_1.h("div", {
-    class: "state-piece standing ".concat(standing === interface_1.StandingEnum.PRONE ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.PRONE
-  }), " ", duration)));
-};
-
-var Balance = function Balance(_ref5) {
-  var _ref5$playerStates = _ref5.playerStates,
-      playerStates = _ref5$playerStates === void 0 ? [] : _ref5$playerStates,
-      _ref5$stateDurations = _ref5.stateDurations,
-      stateDurations = _ref5$stateDurations === void 0 ? [] : _ref5$stateDurations,
-      _ref5$playerIndex = _ref5.playerIndex,
-      playerIndex = _ref5$playerIndex === void 0 ? 0 : _ref5$playerIndex;
-  var balance = playerStates[playerIndex].balance;
-  var duration = stateDurations[playerIndex].balance;
-  return preact_1.h("div", {
-    class: 'state-piece-container'
-  }, preact_1.h("div", {
-    class: 'state-piece-title balance'
-  }, "Balance"), preact_1.h("div", {
-    class: 'state-pieces'
-  }, preact_1.h("div", {
-    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.UNBALANCED ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.UNBALANCED
-  })), preact_1.h("div", {
-    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.BALANCED ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.BALANCED
-  })), preact_1.h("div", {
-    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.ANTICIPATING ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.ANTICIPATING
-  }))));
-};
-
-exports.default = preact_redux_1.connect(selector)(StateMachine);
-},{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/predictions.tsx":[function(require,module,exports) {
-"use strict";
-
-var _predictionRouter;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var interface_1 = require("../../game/interface");
-
-var effect_1 = __importDefault(require("./card/effect"));
-
-var selector = function selector(state) {
-  var isMyPrediction = false;
-
-  if (state.predictions) {
-    isMyPrediction = state.predictions[0].player === state.player;
-  }
-
-  return {
-    predictions: state.predictions,
-    isMyPrediction: isMyPrediction
-  };
-};
-
-var Prediction = function Prediction(_ref) {
-  var predictions = _ref.predictions,
-      isMyPrediction = _ref.isMyPrediction;
-
-  if (predictions) {
-    if (isMyPrediction) {
-      return preact_1.h("div", null, preact_1.h("h3", null, "My Prediction"), renderPrediction(predictions, !isMyPrediction));
-    } else {
-      return preact_1.h("div", null, preact_1.h("h3", null, " Opponents Prediction"), renderPrediction(predictions, !isMyPrediction));
-    }
-  } else {
-    return preact_1.h("div", null, "No Prediction");
-  }
-};
-
-var renderPrediction = function renderPrediction(predictions, shouldFlip) {
-  return predictions.map(function (_ref2) {
-    var prediction = _ref2.prediction,
-        mechanics = _ref2.mechanics;
-    return preact_1.h("div", null, prediction !== undefined && predictionRouter[prediction], mechanics.map(function (eff) {
-      return preact_1.h(effect_1.default, {
-        effect: eff,
-        shouldFlip: shouldFlip
-      });
-    }));
-  });
-};
-
-var predictionRouter = (_predictionRouter = {}, _defineProperty(_predictionRouter, interface_1.PredictionEnum.BALANCE, 'Balance'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.DISTANCE, 'Distance'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.MOTION, 'Motion'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.STANDING, 'Standing'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.NONE, 'None'), _predictionRouter);
-
-exports.default = function (props) {
-  return Prediction(selector(props));
-};
-},{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","./card/effect":"src/components/game/card/effect.tsx"}],"node_modules/object-assign/index.js":[function(require,module,exports) {
+},{}],"node_modules/object-assign/index.js":[function(require,module,exports) {
 /*
 object-assign
 (c) Sindre Sorhus
@@ -16684,7 +15922,948 @@ var ReactTooltip = (0, _staticMethods2.default)(_class = (0, _windowListener2.de
 
 
 module.exports = ReactTooltip;
-},{"react":"node_modules/preact-compat/dist/preact-compat.es.js","prop-types":"node_modules/prop-types/index.js","react-dom":"node_modules/preact-compat/dist/preact-compat.es.js","classnames":"node_modules/classnames/index.js","./decorators/staticMethods":"node_modules/react-tooltip/dist/decorators/staticMethods.js","./decorators/windowListener":"node_modules/react-tooltip/dist/decorators/windowListener.js","./decorators/customEvent":"node_modules/react-tooltip/dist/decorators/customEvent.js","./decorators/isCapture":"node_modules/react-tooltip/dist/decorators/isCapture.js","./decorators/getEffect":"node_modules/react-tooltip/dist/decorators/getEffect.js","./decorators/trackRemoval":"node_modules/react-tooltip/dist/decorators/trackRemoval.js","./utils/getPosition":"node_modules/react-tooltip/dist/utils/getPosition.js","./utils/getTipContent":"node_modules/react-tooltip/dist/utils/getTipContent.js","./utils/aria":"node_modules/react-tooltip/dist/utils/aria.js","./utils/nodeListToArray":"node_modules/react-tooltip/dist/utils/nodeListToArray.js","./style":"node_modules/react-tooltip/dist/style.js"}],"src/components/game.tsx":[function(require,module,exports) {
+},{"react":"node_modules/preact-compat/dist/preact-compat.es.js","prop-types":"node_modules/prop-types/index.js","react-dom":"node_modules/preact-compat/dist/preact-compat.es.js","classnames":"node_modules/classnames/index.js","./decorators/staticMethods":"node_modules/react-tooltip/dist/decorators/staticMethods.js","./decorators/windowListener":"node_modules/react-tooltip/dist/decorators/windowListener.js","./decorators/customEvent":"node_modules/react-tooltip/dist/decorators/customEvent.js","./decorators/isCapture":"node_modules/react-tooltip/dist/decorators/isCapture.js","./decorators/getEffect":"node_modules/react-tooltip/dist/decorators/getEffect.js","./decorators/trackRemoval":"node_modules/react-tooltip/dist/decorators/trackRemoval.js","./utils/getPosition":"node_modules/react-tooltip/dist/utils/getPosition.js","./utils/getTipContent":"node_modules/react-tooltip/dist/utils/getTipContent.js","./utils/aria":"node_modules/react-tooltip/dist/utils/aria.js","./utils/nodeListToArray":"node_modules/react-tooltip/dist/utils/nodeListToArray.js","./style":"node_modules/react-tooltip/dist/style.js"}],"src/util.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var uuid = 0;
+
+exports.getUUID = function (obj) {
+  if (obj.uuid === undefined) {
+    obj.uuid = uuid;
+    uuid++;
+  }
+
+  return obj.uuid;
+};
+},{}],"src/images/index.tsx":[function(require,module,exports) {
+"use strict";
+
+var _playerRouter, _iconRouter, _classRouter;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var card_1 = require("../interfaces/card");
+
+var grapple_png_1 = __importDefault(require("./grapple.png"));
+
+var close_png_1 = __importDefault(require("./close.png"));
+
+var far_png_1 = __importDefault(require("./far.png"));
+
+var moving_png_1 = __importDefault(require("./moving.png"));
+
+var still_png_1 = __importDefault(require("./still.png"));
+
+var standing_png_1 = __importDefault(require("./standing.png"));
+
+var prone_png_1 = __importDefault(require("./prone.png"));
+
+var balanced_png_1 = __importDefault(require("./balanced.png"));
+
+var anticipating_png_1 = __importDefault(require("./anticipating.png"));
+
+var unbalanced_png_1 = __importDefault(require("./unbalanced.png"));
+
+var upArrow_png_1 = __importDefault(require("./upArrow.png"));
+
+var downArrow_png_1 = __importDefault(require("./downArrow.png"));
+
+var bothArrow_png_1 = __importDefault(require("./bothArrow.png"));
+
+var damage_png_1 = __importDefault(require("./damage.png"));
+
+var further_png_1 = __importDefault(require("./further.png"));
+
+var closer_png_1 = __importDefault(require("./closer.png"));
+
+var react_tooltip_1 = __importDefault(require("react-tooltip"));
+
+var util_1 = require("../util");
+
+var playerRouter = (_playerRouter = {}, _defineProperty(_playerRouter, card_1.PlayerEnum.PLAYER, downArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.OPPONENT, upArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.BOTH, bothArrow_png_1.default), _playerRouter);
+var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum.GRAPPLED, grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSE, close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FAR, far_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.MOVING, moving_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STILL, still_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STANDING, standing_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.PRONE, prone_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.BALANCED, balanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.ANTICIPATING, anticipating_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.UNBALANCED, unbalanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.DAMAGE, damage_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSER, closer_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FURTHER, further_png_1.default), _iconRouter);
+var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FURTHER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
+
+exports.Arrow = function (_ref) {
+  var player = _ref.player,
+      shouldFlip = _ref.shouldFlip;
+
+  if (shouldFlip) {
+    if (player === card_1.PlayerEnum.OPPONENT) {
+      player = card_1.PlayerEnum.PLAYER;
+    } else if (player === card_1.PlayerEnum.PLAYER) {
+      player = card_1.PlayerEnum.OPPONENT;
+    }
+  }
+
+  return preact_1.h("div", {
+    class: 'inline'
+  }, preact_1.h("img", {
+    class: 'player-icon',
+    src: playerRouter[player]
+  }));
+};
+
+exports.Icon = function (props) {
+  var name = props.name;
+  var id = String(util_1.getUUID(props));
+  return preact_1.h("div", {
+    class: 'inline'
+  }, preact_1.h(react_tooltip_1.default, {
+    id: id,
+    effect: "solid"
+  }, name), preact_1.h("div", {
+    class: "inline axis-bg ".concat(classRouter[name])
+  }, preact_1.h("img", {
+    "data-tip": name,
+    "data-for": id,
+    class: 'axis-icon',
+    src: iconRouter[name]
+  })));
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","react-tooltip":"node_modules/react-tooltip/dist/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var index_1 = require("../../../images/index");
+
+exports.default = function (props) {
+  return preact_1.h("div", {
+    class: 'inline'
+  }, preact_1.h(index_1.Arrow, {
+    player: props.requirement.player,
+    shouldFlip: props.shouldFlip
+  }), " ", preact_1.h(index_1.Icon, {
+    name: props.requirement.axis
+  }));
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/components/game/card/effect.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var Requirement_1 = __importDefault(require("./Requirement"));
+
+var card_1 = require("../../../interfaces/card");
+
+var images_1 = require("../../../images");
+
+var Effect = function Effect(_ref) {
+  var effect = _ref.effect,
+      shouldFlip = _ref.shouldFlip;
+  return renderSwitch(effect, shouldFlip);
+};
+
+var renderSwitch = function renderSwitch(effect, shouldFlip) {
+  if (effect.mechanic === undefined) {
+    return renderEffect(effect, shouldFlip);
+  }
+
+  switch (card_1.MechanicDisplay[effect.mechanic]) {
+    case card_1.DisplayEnum.EFF:
+    case card_1.DisplayEnum.REQ_EFF:
+      return renderMechanic(effect, shouldFlip);
+
+    case card_1.DisplayEnum.PICK_ONE:
+      return renderPickOne(effect, shouldFlip);
+
+    case card_1.DisplayEnum.NONE:
+      return renderNone(effect);
+
+    case card_1.DisplayEnum.AMOUNT:
+    case card_1.DisplayEnum.NAME:
+    case card_1.DisplayEnum.NORMAL:
+      return renderEffect(effect, shouldFlip);
+  }
+
+  return null;
+};
+
+var renderNone = function renderNone(mechanic) {
+  return preact_1.h("div", {
+    class: 'mechanic'
+  }, preact_1.h("div", null, preact_1.h("b", null, mechanic.mechanic)));
+};
+
+var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
+  var reqs = mechanic.mechanicRequirements || [];
+  var effs = mechanic.mechanicEffects || [];
+  return preact_1.h("div", {
+    class: 'mechanic'
+  }, preact_1.h("div", null, preact_1.h("b", null, mechanic.mechanic)), preact_1.h("div", {
+    class: 'h-divider'
+  }), preact_1.h("div", null, preact_1.h("div", null, reqs.map(function (req, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(Requirement_1.default, {
+      requirement: req,
+      shouldFlip: shouldFlip
+    }));
+  })), preact_1.h("div", {
+    class: 'h-divider thin'
+  }), preact_1.h("div", null, effs.map(function (eff, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(Effect, {
+      effect: eff,
+      shouldFlip: shouldFlip
+    }));
+  }))));
+};
+
+var renderPickOne = function renderPickOne(mechanic, shouldFlip) {
+  return preact_1.h("div", {
+    class: 'pick-one'
+  }, preact_1.h("div", null, preact_1.h("b", null, "Pick One")), preact_1.h("div", {
+    class: 'choices'
+  }, mechanic.choices.map(function (choice, i) {
+    return preact_1.h("div", {
+      key: i,
+      class: 'choice'
+    }, choice.map(function (effect, i) {
+      return preact_1.h("div", {
+        key: i,
+        class: 'inline'
+      }, " ", preact_1.h(Effect, {
+        shouldFlip: shouldFlip,
+        effect: effect
+      }));
+    }));
+  })));
+};
+
+var renderEffect = function renderEffect(effect, shouldFlip) {
+  return preact_1.h("div", {
+    class: 'inline'
+  }, effect.mechanic !== undefined && preact_1.h("b", null, " ", effect.mechanic, " "), preact_1.h(images_1.Arrow, {
+    player: effect.player,
+    shouldFlip: shouldFlip
+  }), " ", preact_1.h(images_1.Icon, {
+    name: effect.axis
+  }), " ", preact_1.h("b", null, effect.amount));
+};
+
+exports.default = Effect;
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var effect_1 = __importDefault(require("./effect"));
+
+var QueueCard = function QueueCard(_ref) {
+  var identity = _ref.identity,
+      name = _ref.name,
+      _ref$telegraphs = _ref.telegraphs,
+      telegraphs = _ref$telegraphs === void 0 ? [] : _ref$telegraphs,
+      _ref$focuses = _ref.focuses,
+      focuses = _ref$focuses === void 0 ? [] : _ref$focuses,
+      player = _ref.player;
+  var shouldFlip = identity !== player;
+  return preact_1.h("div", null, preact_1.h("div", null, name), telegraphs.map(function (eff, i) {
+    return preact_1.h("div", {
+      key: i
+    }, preact_1.h(effect_1.default, {
+      shouldFlip: shouldFlip,
+      effect: eff
+    }));
+  }), focuses.map(function (eff, i) {
+    return preact_1.h("div", {
+      key: i
+    }, preact_1.h(effect_1.default, {
+      shouldFlip: shouldFlip,
+      effect: eff
+    }));
+  }));
+};
+
+exports.default = QueueCard;
+},{"preact":"node_modules/preact/dist/preact.mjs","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/board.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var queueCard_1 = __importDefault(require("./card/queueCard"));
+
+var NUM_PLAYERS = 2;
+var MAX_QUEUE_LENGTH = 3;
+
+exports.Thing = function () {
+  return preact_1.h("h2", null, " Thing ");
+};
+
+exports.Board = function (props) {
+  var _props$queue = props.queue,
+      queue = _props$queue === void 0 ? [] : _props$queue,
+      player = props.player,
+      currentPlayer = props.currentPlayer;
+  return preact_1.h("div", {
+    class: 'board'
+  }, preact_1.h("h2", null, "Board"), preact_1.h("div", {
+    class: 'card-container'
+  }, renderBoard(queue, player, currentPlayer)));
+};
+
+var renderBoard = function renderBoard() {
+  var queue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var identity = arguments.length > 1 ? arguments[1] : undefined;
+  var currentPlayer = arguments.length > 2 ? arguments[2] : undefined;
+  return queue.map(function () {
+    var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var i = arguments.length > 1 ? arguments[1] : undefined;
+    return preact_1.h("div", {
+      key: i + JSON.stringify(cards)
+    }, cards.map(function (card, i) {
+      return preact_1.h("div", {
+        class: 'text-center queue-card',
+        key: card.name
+      }, preact_1.h(queueCard_1.default, Object.assign({}, card, {
+        identity: identity
+      })));
+    }));
+  });
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx"}],"src/components/game/card/requirement.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var index_1 = require("../../../images/index");
+
+exports.default = function (props) {
+  return preact_1.h("div", {
+    class: 'inline'
+  }, preact_1.h(index_1.Arrow, {
+    player: props.requirement.player,
+    shouldFlip: props.shouldFlip
+  }), " ", preact_1.h(index_1.Icon, {
+    name: props.requirement.axis
+  }));
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/components/game/card/optional.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var requirement_1 = __importDefault(require("./requirement"));
+
+var effect_1 = __importDefault(require("./effect"));
+
+exports.default = function (props) {
+  return preact_1.h("div", {
+    className: "optional"
+  }, !props.hideReqs && preact_1.h("div", null, preact_1.h("div", null, props.requirements.map(function (req, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(requirement_1.default, {
+      requirement: req
+    }));
+  })), preact_1.h("div", {
+    class: 'h-divider'
+  })), preact_1.h("div", null, props.effects.map(function (eff, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(effect_1.default, {
+      effect: eff
+    }));
+  })));
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/game/card/requirement.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var optional_1 = __importDefault(require("./optional"));
+
+var effect_1 = __importDefault(require("./effect"));
+
+var HandCard = function HandCard(card) {
+  var name = card.name,
+      optional = card.optional,
+      effects = card.effects;
+  return preact_1.h("div", {
+    class: 'game-card text-center'
+  }, preact_1.h("div", {
+    class: 'title'
+  }, name), preact_1.h("div", {
+    class: 'card-section'
+  }, optional.filter(function (_ref) {
+    var canPlay = _ref.canPlay;
+    return canPlay;
+  }).map(function (opt, i) {
+    return preact_1.h("span", {
+      key: i
+    }, " ", preact_1.h(optional_1.default, Object.assign({}, opt, {
+      hideReqs: true
+    })), " ");
+  })), preact_1.h("div", {
+    class: 'card-section effect'
+  }, effects.map(function (effect, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(effect_1.default, {
+      effect: effect
+    }));
+  })));
+};
+
+exports.default = HandCard;
+},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
+"use strict";
+
+var _exports$playerRouter;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var card_1 = require("../../../interfaces/card");
+
+var effect_1 = __importDefault(require("./effect"));
+
+var requirement_1 = __importDefault(require("./requirement"));
+
+var optional_1 = __importDefault(require("./optional"));
+
+exports.playerRouter = (_exports$playerRouter = {}, _defineProperty(_exports$playerRouter, card_1.PlayerEnum.PLAYER, '↓'), _defineProperty(_exports$playerRouter, card_1.PlayerEnum.OPPONENT, '↑'), _defineProperty(_exports$playerRouter, card_1.PlayerEnum.BOTH, '↕'), _exports$playerRouter);
+
+exports.default = function (_ref) {
+  var name = _ref.name,
+      optional = _ref.optional,
+      requirements = _ref.requirements,
+      effects = _ref.effects;
+  return preact_1.h("div", {
+    class: 'game-card text-center'
+  }, preact_1.h("div", {
+    class: 'title'
+  }, name), preact_1.h("div", {
+    class: 'card-section req'
+  }, requirements.map(function (req, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(requirement_1.default, {
+      requirement: req
+    }));
+  })), preact_1.h("div", {
+    class: 'card-section'
+  }, optional.map(function (opt, i) {
+    return preact_1.h("span", {
+      key: i
+    }, " ", preact_1.h(optional_1.default, Object.assign({}, opt)), " ");
+  })), preact_1.h("div", {
+    class: 'card-section effect'
+  }, effects.map(function (effect, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(effect_1.default, {
+      effect: effect
+    }));
+  })));
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../interfaces/card":"src/interfaces/card.ts","./effect":"src/components/game/card/effect.tsx","./requirement":"src/components/game/card/requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/hand.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var dispatch_1 = require("../../hand/dispatch");
+
+var handCard_1 = __importDefault(require("./card/handCard"));
+
+var viewer_1 = __importDefault(require("./card/viewer"));
+
+var preact_redux_1 = require("preact-redux");
+
+var selector = function selector(state) {
+  return {
+    hand: state.hand.cards,
+    showFullCard: state.gameDisplay.showFullCard
+  };
+};
+
+var Hand = function Hand(_ref) {
+  var hand = _ref.hand,
+      showFullCard = _ref.showFullCard;
+  return preact_1.h("div", null, preact_1.h("h2", null, "Hand"), preact_1.h("div", {
+    class: 'coard-container'
+  }, hand.map(function (card, i) {
+    var key = card === undefined ? 'blank' : card.name;
+    return preact_1.h("div", {
+      class: 'inline',
+      key: key,
+      onClick: function onClick() {
+        return dispatch_1.dispatchPickedCard(i);
+      }
+    }, showFullCard && preact_1.h(viewer_1.default, Object.assign({}, card)), showFullCard || preact_1.h(handCard_1.default, Object.assign({}, card)));
+  })));
+};
+
+exports.default = preact_redux_1.connect(selector)(Hand);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/handCard":"src/components/game/card/handCard.tsx","./card/viewer":"src/components/game/card/viewer.tsx","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game/choices.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var dispatch_1 = require("../../game/dispatch");
+
+var interface_1 = require("../../game/interface");
+
+var interface_2 = require("../../gameDisplay/interface");
+
+var preact_redux_1 = require("preact-redux");
+
+var selector = function selector(state) {
+  return {
+    display: state.gameDisplay.screen
+  };
+};
+
+var Choices = function Choices(_ref) {
+  var display = _ref.display;
+  console.log('got displays', display);
+
+  switch (display) {
+    case interface_2.GameDisplayEnum.PREDICT:
+      return preact_1.h("div", null, preact_1.h(Prediction, null));
+
+    default:
+      return preact_1.h("span", null);
+  }
+};
+
+var Prediction = function Prediction() {
+  console.log('prediction');
+  return preact_1.h("div", null, preact_1.h("h2", null, "Make Prediction"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.DISTANCE);
+    }
+  }, "Distance"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.BALANCE);
+    }
+  }, "Balance"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.MOTION);
+    }
+  }, "Motion"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.STANDING);
+    }
+  }, "Standing"), preact_1.h("button", {
+    class: "btn btn-primary",
+    onClick: function onClick() {
+      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.NONE);
+    }
+  }, "None"));
+};
+
+exports.default = preact_redux_1.connect(selector)(Choices);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../game/dispatch":"src/game/dispatch.ts","../../game/interface":"src/game/interface.ts","../../gameDisplay/interface":"src/gameDisplay/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game/stateMachine.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var interface_1 = require("../../game/interface");
+
+var preact_redux_1 = require("preact-redux");
+
+var images_1 = require("../../images");
+
+var card_1 = require("../../interfaces/card");
+
+;
+
+var selector = function selector(state) {
+  return state.game;
+};
+
+var StateMachine = function StateMachine(props) {
+  var player = props.player;
+  var opponent = player === 0 ? 1 : 0;
+
+  if (props.playerStates === undefined) {
+    return preact_1.h("div", null);
+  }
+
+  return preact_1.h("div", {
+    class: 'state-machine'
+  }, preact_1.h("div", {
+    class: 'state-row'
+  }, preact_1.h(Standing, Object.assign({}, props, {
+    playerIndex: opponent
+  })), preact_1.h(Motion, Object.assign({}, props, {
+    playerIndex: opponent
+  })), preact_1.h(Balance, Object.assign({}, props, {
+    playerIndex: opponent
+  })), preact_1.h(Health, Object.assign({}, props, {
+    playerIndex: opponent
+  })), preact_1.h(Block, Object.assign({}, props, {
+    playerIndex: opponent
+  }))), preact_1.h("div", {
+    class: 'state-row'
+  }, preact_1.h("div", {
+    class: 'state-title'
+  }, "State"), preact_1.h(Distance, Object.assign({}, props))), preact_1.h("div", {
+    class: 'state-row'
+  }, preact_1.h(Standing, Object.assign({}, props, {
+    playerIndex: player
+  })), preact_1.h(Motion, Object.assign({}, props, {
+    playerIndex: player
+  })), preact_1.h(Balance, Object.assign({}, props, {
+    playerIndex: player
+  })), preact_1.h(Health, Object.assign({}, props, {
+    playerIndex: player
+  })), preact_1.h(Block, Object.assign({}, props, {
+    playerIndex: player
+  }))));
+};
+
+var Block = function Block(_ref) {
+  var block = _ref.block,
+      playerIndex = _ref.playerIndex;
+  return preact_1.h("div", {
+    class: "state-piece-container-sml distance "
+  }, preact_1.h("div", null, "Block"), preact_1.h("div", null, block[playerIndex]));
+};
+
+var Health = function Health(_ref2) {
+  var health = _ref2.health,
+      playerIndex = _ref2.playerIndex;
+  return preact_1.h("div", {
+    class: 'state-piece-container-sml distance sml'
+  }, preact_1.h("div", null, "Health"), preact_1.h("div", null, health[playerIndex]));
+};
+
+var Distance = function Distance(_ref3) {
+  var distance = _ref3.distance;
+  return preact_1.h("div", {
+    class: 'state-piece-container'
+  }, preact_1.h("div", {
+    class: 'state-piece-title distance'
+  }, "Distance"), preact_1.h("div", {
+    class: 'state-pieces'
+  }, preact_1.h("div", {
+    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.GRAPPLED ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.GRAPPLED
+  })), preact_1.h("div", {
+    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.CLOSE ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.CLOSE
+  })), preact_1.h("div", {
+    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.FAR ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.FAR
+  }))));
+};
+
+var Motion = function Motion(_ref4) {
+  var _ref4$playerIndex = _ref4.playerIndex,
+      playerIndex = _ref4$playerIndex === void 0 ? 0 : _ref4$playerIndex,
+      _ref4$stateDurations = _ref4.stateDurations,
+      stateDurations = _ref4$stateDurations === void 0 ? [] : _ref4$stateDurations,
+      _ref4$playerStates = _ref4.playerStates,
+      playerStates = _ref4$playerStates === void 0 ? [] : _ref4$playerStates;
+  var motion = playerStates[playerIndex].motion;
+  var duration = stateDurations[playerIndex].motion;
+  return preact_1.h("div", {
+    class: 'state-piece-container'
+  }, preact_1.h("div", {
+    class: 'state-piece-title motion'
+  }, "Motion"), preact_1.h("div", {
+    class: 'state-pieces'
+  }, preact_1.h("div", {
+    class: "state-piece motion ".concat(motion === interface_1.MotionEnum.STILL ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.STILL
+  })), preact_1.h("div", {
+    class: "state-piece motion ".concat(motion === interface_1.MotionEnum.MOVING ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.MOVING
+  }), " ", duration)));
+};
+
+var Standing = function Standing(_ref5) {
+  var _ref5$playerStates = _ref5.playerStates,
+      playerStates = _ref5$playerStates === void 0 ? [] : _ref5$playerStates,
+      _ref5$stateDurations = _ref5.stateDurations,
+      stateDurations = _ref5$stateDurations === void 0 ? [] : _ref5$stateDurations,
+      _ref5$playerIndex = _ref5.playerIndex,
+      playerIndex = _ref5$playerIndex === void 0 ? 0 : _ref5$playerIndex;
+  var standing = playerStates[playerIndex].standing;
+  var duration = stateDurations[playerIndex].standing;
+  return preact_1.h("div", {
+    class: 'state-piece-container'
+  }, preact_1.h("div", {
+    class: 'state-piece-title standing'
+  }, "Standing"), preact_1.h("div", {
+    class: 'state-pieces'
+  }, preact_1.h("div", {
+    class: "state-piece standing ".concat(standing === interface_1.StandingEnum.STANDING ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.STANDING
+  })), preact_1.h("div", {
+    class: "state-piece standing ".concat(standing === interface_1.StandingEnum.PRONE ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.PRONE
+  }), " ", duration)));
+};
+
+var Balance = function Balance(_ref6) {
+  var _ref6$playerStates = _ref6.playerStates,
+      playerStates = _ref6$playerStates === void 0 ? [] : _ref6$playerStates,
+      _ref6$stateDurations = _ref6.stateDurations,
+      stateDurations = _ref6$stateDurations === void 0 ? [] : _ref6$stateDurations,
+      _ref6$playerIndex = _ref6.playerIndex,
+      playerIndex = _ref6$playerIndex === void 0 ? 0 : _ref6$playerIndex;
+  var balance = playerStates[playerIndex].balance;
+  var duration = stateDurations[playerIndex].balance;
+  return preact_1.h("div", {
+    class: 'state-piece-container'
+  }, preact_1.h("div", {
+    class: 'state-piece-title balance'
+  }, "Balance"), preact_1.h("div", {
+    class: 'state-pieces'
+  }, preact_1.h("div", {
+    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.UNBALANCED ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.UNBALANCED
+  })), preact_1.h("div", {
+    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.BALANCED ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.BALANCED
+  })), preact_1.h("div", {
+    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.ANTICIPATING ? '' : 'inactive')
+  }, preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.ANTICIPATING
+  }))));
+};
+
+exports.default = preact_redux_1.connect(selector)(StateMachine);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/predictions.tsx":[function(require,module,exports) {
+"use strict";
+
+var _predictionRouter;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var interface_1 = require("../../game/interface");
+
+var effect_1 = __importDefault(require("./card/effect"));
+
+var selector = function selector(state) {
+  var isMyPrediction = false;
+
+  if (state.predictions) {
+    isMyPrediction = state.predictions[0].player === state.player;
+  }
+
+  return {
+    predictions: state.predictions,
+    isMyPrediction: isMyPrediction
+  };
+};
+
+var Prediction = function Prediction(_ref) {
+  var predictions = _ref.predictions,
+      isMyPrediction = _ref.isMyPrediction;
+
+  if (predictions) {
+    if (isMyPrediction) {
+      return preact_1.h("div", null, preact_1.h("h3", null, "My Prediction"), renderPrediction(predictions, !isMyPrediction));
+    } else {
+      return preact_1.h("div", null, preact_1.h("h3", null, " Opponents Prediction"), renderPrediction(predictions, !isMyPrediction));
+    }
+  } else {
+    return preact_1.h("div", null, "No Prediction");
+  }
+};
+
+var renderPrediction = function renderPrediction(predictions, shouldFlip) {
+  return predictions.map(function (_ref2) {
+    var prediction = _ref2.prediction,
+        mechanics = _ref2.mechanics;
+    return preact_1.h("div", null, prediction !== undefined && predictionRouter[prediction], mechanics.map(function (eff) {
+      return preact_1.h(effect_1.default, {
+        effect: eff,
+        shouldFlip: shouldFlip
+      });
+    }));
+  });
+};
+
+var predictionRouter = (_predictionRouter = {}, _defineProperty(_predictionRouter, interface_1.PredictionEnum.BALANCE, 'Balance'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.DISTANCE, 'Distance'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.MOTION, 'Motion'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.STANDING, 'Standing'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.NONE, 'None'), _predictionRouter);
+
+exports.default = function (props) {
+  return Prediction(selector(props));
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","./card/effect":"src/components/game/card/effect.tsx"}],"src/components/game/pickOne.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var handCard_1 = __importDefault(require("./card/handCard"));
+
+var dispatch_1 = require("../../game/dispatch");
+
+var preact_redux_1 = require("preact-redux");
+
+var selector = function selector(state) {
+  var choices = state.game.choices.map(function (choice, i) {
+    var card = {
+      name: "Choice ".concat(i),
+      requirements: [],
+      optional: [],
+      effects: choice
+    };
+    return card;
+  });
+  return {
+    choices: choices
+  };
+};
+
+var PickOne = function PickOne(_ref) {
+  var choices = _ref.choices;
+  return preact_1.h("div", null, "Pick One", preact_1.h("div", null, choices.map(function (choice, i) {
+    return preact_1.h("div", {
+      class: "inline",
+      onClick: function onClick() {
+        return dispatch_1.dispatchDidPickOne(i);
+      }
+    }, preact_1.h(handCard_1.default, Object.assign({}, choice)));
+  })));
+};
+
+exports.default = preact_redux_1.connect(selector)(PickOne);
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/handCard":"src/components/game/card/handCard.tsx","../../game/dispatch":"src/game/dispatch.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -16711,9 +16890,9 @@ var stateMachine_1 = __importDefault(require("./game/stateMachine"));
 
 var predictions_1 = __importDefault(require("./game/predictions"));
 
-var interface_1 = require("../gameDisplay/interface");
+var pickOne_1 = __importDefault(require("./game/pickOne"));
 
-var react_tooltip_1 = __importDefault(require("react-tooltip"));
+var interface_1 = require("../gameDisplay/interface");
 
 var selector = function selector(state) {
   var game = state.game,
@@ -16733,18 +16912,15 @@ var game = function game(_ref) {
   var currentPlayer = game.currentPlayer,
       queue = game.queue,
       player = game.player;
-  return preact_1.h("div", null, preact_1.h("h2", null, "Game"), preact_1.h(stateMachine_1.default, null), preact_1.h(react_tooltip_1.default, {
-    id: 'icon-tooltip',
-    effect: "solid"
-  }), preact_1.h(predictions_1.default, Object.assign({}, game)), preact_1.h(board_1.Board, {
+  return preact_1.h("div", null, preact_1.h("h2", null, "Game"), preact_1.h(stateMachine_1.default, null), preact_1.h(predictions_1.default, Object.assign({}, game)), preact_1.h(board_1.Board, {
     player: player,
     currentPlayer: currentPlayer,
     queue: queue
-  }), screen === interface_1.GameDisplayEnum.NORMAL && preact_1.h(hand_1.default, null), screen !== interface_1.GameDisplayEnum.NORMAL && preact_1.h(choices_1.default, null));
+  }), screen === interface_1.GameDisplayEnum.NORMAL && preact_1.h(hand_1.default, null), screen === interface_1.GameDisplayEnum.PREDICT && preact_1.h(choices_1.default, null), screen === interface_1.GameDisplayEnum.PICK_ONE && preact_1.h(pickOne_1.default, null));
 };
 
 exports.default = preact_redux_1.connect(selector)(game);
-},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/board":"src/components/game/board.tsx","./game/hand":"src/components/game/hand.tsx","./game/choices":"src/components/game/choices.tsx","./game/stateMachine":"src/components/game/stateMachine.tsx","./game/predictions":"src/components/game/predictions.tsx","../gameDisplay/interface":"src/gameDisplay/interface.ts","react-tooltip":"node_modules/react-tooltip/dist/index.js"}],"src/components/PickDeck.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/board":"src/components/game/board.tsx","./game/hand":"src/components/game/hand.tsx","./game/choices":"src/components/game/choices.tsx","./game/stateMachine":"src/components/game/stateMachine.tsx","./game/predictions":"src/components/game/predictions.tsx","./game/pickOne":"src/components/game/pickOne.tsx","../gameDisplay/interface":"src/gameDisplay/interface.ts"}],"src/components/PickDeck.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16915,7 +17091,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57400" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56738" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

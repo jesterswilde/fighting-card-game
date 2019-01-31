@@ -9,6 +9,7 @@ import { ControlEnum, ErrorEnum } from "../errors";
 import { HAND_SIZE, QUEUE_LENGTH } from "../gameSettings";
 import { getLastPlayedCard } from "./queue";
 import { SocketEnum } from "../interfaces/socket";
+import { Socket } from "socket.io";
 
 export const playGame = async (state: GameState) => {
     try {
@@ -212,6 +213,7 @@ export const shuffleDeck = (state: GameState, playerToShuffle?: number) => {
 export const playCard = async (state: GameState) => {
     try {
         getMechanicsReady(state);
+        await playerPicksOne(state); 
         await makePredictions(state);
         markAxisChanges(state);
         incrementQueue(state);
@@ -237,6 +239,34 @@ export const getMechanicsReady = (state: GameState) => {
             return effsArr;
         }, [])
     state.readiedEffects = [...deepCopy(effects), ...deepCopy(validOptEff)];
+}
+
+export const playerPicksOne = async(state: GameState, {_waitForPlayerToChoose = waitForPlayerToChoose} = {})=>{
+    const {sockets, currentPlayer, readiedEffects = []} = state;
+    const pickedEffects: Mechanic[] = []; 
+    const unusedEffs: boolean[] = [];
+    const player = sockets[currentPlayer];
+    for(let i = 0; i < readiedEffects.length; i++){
+        const effect = state.readiedEffects[i]; 
+        if(effect.mechanic === MechanicEnum.PICK_ONE){
+            const choice = await _waitForPlayerToChoose(effect.choices, player);
+            const picked = effect.choices[choice];
+            pickedEffects.push(...picked);
+            unusedEffs.push(false); 
+        }
+        unusedEffs.push(true); 
+    }
+    state.readiedEffects = state.readiedEffects.filter((_,i)=> unusedEffs[i]);
+    state.readiedEffects.push(...pickedEffects); 
+}
+
+const waitForPlayerToChoose = (choices: Mechanic[][], player: Socket): Promise<number>=>{
+    return new Promise((res, rej)=>{
+        player.emit(SocketEnum.SHOULD_PICK_ONE, choices); 
+        player.once(SocketEnum.PICKED_ONE, (choice: number)=>{
+            res(choice); 
+        })
+    })
 }
 
 export const makePredictions = async (state: GameState, { _getPredictions = getPredictions } = {}) => {
@@ -482,6 +512,7 @@ const changePlayers = (state: GameState) => {
 }
 
 const clearTurnData = (state: GameState) => {
+    const opponent = state.currentPlayer === 0 ? 1 : 0; 
     state.damaged = [false, false];
     state.turnIsOver = false;
     state.modifiedAxis = makeModifiedAxis();
@@ -489,4 +520,5 @@ const clearTurnData = (state: GameState) => {
     state.incrementedQueue = false;
     state.pendingPredictions = state.predictions;
     state.predictions = null; 
+    state.block[opponent] = 0; 
 }

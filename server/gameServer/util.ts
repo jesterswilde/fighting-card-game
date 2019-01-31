@@ -54,7 +54,21 @@ export const makeGameState = (): GameState => {
         health: [],
         readiedEffects: [],
         modifiedAxis: makeModifiedAxis(),
-        sockets:[]
+        sockets:[],
+        lockedState: {
+            distance: null,
+            players: [
+                {
+                    poise: null,
+                    motion: null,
+                    stance: null
+                },{
+                    poise: null,
+                    motion: null,
+                    stance: null
+                }
+            ]
+        }
     }
 }
 

@@ -16,8 +16,8 @@ import bothArrow from './bothArrow.png';
 import damage from './damage.png'
 import further from './further.png';
 import closer from './closer.png';
-import { playerEnumToPlayerArray } from '../../../serverBuild/gameServer/util';
 import ReactTooltip from 'react-tooltip';
+import { getUUID } from '../util';
 
 const playerRouter: { [name: number]: string } = {
     [PlayerEnum.PLAYER]: downArrow,
@@ -73,10 +73,13 @@ export const Arrow = ({ player, shouldFlip }: { player: PlayerEnum, shouldFlip?:
 
 
 
-export const Icon = ({ name }: { name: string }) => (
-    <div class='inline'>
+export const Icon = (props: { name: string }) => {
+    const { name } = props;
+    const id = String(getUUID(props));
+    return <div class='inline'>
+        <ReactTooltip id={id} effect="solid">{name}</ReactTooltip>
         <div class={`inline axis-bg ${classRouter[name]}`}>
-            <img data-tip={name} data-for={'icon-tooltip'} class='axis-icon' src={iconRouter[name]} />
+            <img data-tip={name} data-for={id} class='axis-icon' src={iconRouter[name]} />
         </div>
     </div>
-)
+}

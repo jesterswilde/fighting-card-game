@@ -8,6 +8,7 @@ var MechanicEnum;
     MechanicEnum["BLOCK"] = "Block";
     MechanicEnum["LOCK"] = "Lock";
     MechanicEnum["REFLEX"] = "Reflex";
+    MechanicEnum["PICK_ONE"] = "Pick One";
 })(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
 exports.MechanicHasChildren = {
     [MechanicEnum.TELEGRAPH]: true,

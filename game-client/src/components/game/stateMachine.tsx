@@ -17,7 +17,7 @@ const selector = (state: StoreState): Props => {
 }
 
 
-const StateMachine = (props: Props):JSX.Element => {
+const StateMachine = (props: Props): JSX.Element => {
     const { player } = props;
     const opponent = player === 0 ? 1 : 0;
     if (props.playerStates === undefined) {
@@ -29,22 +29,37 @@ const StateMachine = (props: Props):JSX.Element => {
             <Standing {...props} playerIndex={opponent} />
             <Motion {...props} playerIndex={opponent} />
             <Balance {...props} playerIndex={opponent} />
+            <Health {...props} playerIndex={opponent} />
+            <Block {...props} playerIndex = {opponent} />
         </div>
         <div class='state-row'>
+            <div class='state-title'>State</div>
             <Distance {...props} />
-            <Health {...props} />
         </div>
         <div class='state-row'>
             <Standing {...props} playerIndex={player} />
             <Motion {...props} playerIndex={player} />
             <Balance {...props} playerIndex={player} />
+            <Health {...props} playerIndex={player} />
+            <Block {...props} playerIndex = {player} />
         </div>
     </div>
 }
 
-const Health = ({ health, player }: Props) => {
-    const opponent = player === 0 ? 1 : 0;
-    return <div class='center-it state-piece-container'>{health[player]} Health {health[opponent]}</div>
+const Block = ({ block, playerIndex }: CompProps, ) => {
+    return <div class="state-piece-container-sml distance ">
+        <div>Block</div>
+        <div>{block[playerIndex]}</div>
+    </div>
+}
+
+const Health = ({ health, playerIndex }: CompProps) => {
+    return <div class='state-piece-container-sml distance sml'>
+        <div>Health</div>
+        <div>
+            {health[playerIndex]}
+        </div>
+    </div>
 
 }
 

@@ -32,6 +32,8 @@ export default class Effect extends React.Component<Props>{
         switch (MechanicDisplay[mechanic]) {
             case DisplayEnum.AMOUNT:
                 return this.renderAmount();
+            case DisplayEnum.PICK_ONE:
+                return this.renderChoices();
             case DisplayEnum.REQ_EFF:
                 return this.renderReqEff();
             case DisplayEnum.EFF:
@@ -68,6 +70,25 @@ export default class Effect extends React.Component<Props>{
     private renderAmount = () => {
         const { amount } = this.props.effect;
         return <input type="number" value={amount} onChange={this.changeAmount} />
+    }
+    private renderChoices = () => {
+        const { choices = [] } = this.props.effect;
+        return <div className="ml-5">
+            <div>
+                Choices:
+            <button className="btn btn-sm btn-primary" onClick={this.addChoice}> + </button>
+                <div>
+                    {choices.map((choice, choiceIndex) => <div key={getUUID(choice)}>
+                        <button className="btn btn-danger btn-sm" onClick={(e) => this.removeChoice(e, choiceIndex)}> - </button>
+                        <button className="btn btn-primary btn-sm" onClick={(e) => this.addChoiceMech(e, choiceIndex)}> + </button>
+                        {choice.map((mech, mechIndex) => <div className='ml-5' key={getUUID(mech)}>
+                            <button className="btn btn-danger btn-sm" onClick={(e) => this.removeChoiceMech(e, choiceIndex, mechIndex)}> - </button>
+                            <Effect effect={mech} update={(state: Mechanic, mechindex: number)=>this.updateChoice(state, choiceIndex, mechindex)} index={mechIndex} />
+                        </div>)}
+                    </div>)}
+                </div>
+            </div>
+        </div>
     }
     private renderEff = () => {
         const { mechanicEffects: effs = [] } = this.props.effect;
@@ -108,6 +129,24 @@ export default class Effect extends React.Component<Props>{
             </div>
         </div>
     }
+    private addChoice = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const effect = { ...this.props.effect };
+        const choices = effect.choices || [];
+        effect.choices = [...choices, []];
+        this.props.update(effect, this.props.index);
+    }
+    private addChoiceMech = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+        e.preventDefault();
+        const effect = { ...this.props.effect };
+        let choices = effect.choices || [];
+        let choice = choices[index] || [];
+        choice = [...choice, {}];
+        choices = [...choices];
+        choices[index] = choice;
+        effect.choices = choices;
+        this.props.update(effect, this.props.index);
+    }
     private addEffect = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const effect = { ...this.props.effect };
@@ -123,6 +162,24 @@ export default class Effect extends React.Component<Props>{
             axis: AxisEnum.CLOSE,
             player: PlayerEnum.OPPONENT,
         }]
+        this.props.update(effect, this.props.index);
+    }
+    private removeChoice = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+        const effect = { ...this.props.effect };
+        e.preventDefault();
+        effect.choices = effect.choices || [];
+        effect.choices = effect.choices.filter((_, i) => i !== index);
+        this.props.update(effect, this.props.index);
+    }
+    private removeChoiceMech = (e: React.MouseEvent<HTMLButtonElement>, choiceIndex: number, mechIndex: number) => {
+        const effect = { ...this.props.effect };
+        e.preventDefault();
+        let choices = effect.choices || [];
+        choices = [...choices];
+        let choice = choices[choiceIndex] || [];
+        choice = choice.filter((_, i) => i !== mechIndex);
+        choices[choiceIndex] = choice;
+        effect.choices = choices;
         this.props.update(effect, this.props.index);
     }
     private removeEffect = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
@@ -172,6 +229,17 @@ export default class Effect extends React.Component<Props>{
         const reqs = [...mechanicRequirements];
         reqs[index] = state;
         effect.mechanicRequirements = reqs;
+        this.props.update(effect, this.props.index);
+    }
+    private updateChoice = (state: Mechanic, choiceIndex: number, mechIndex: number) => {
+        const effect = { ...this.props.effect };
+        let choices = effect.choices || []; 
+        choices = [...choices]; 
+        let choice = choices[choiceIndex] || []; 
+        choice = [...choice]
+        choice[mechIndex] = state; 
+        choices[choiceIndex] = choice; 
+        effect.choices = choices; 
         this.props.update(effect, this.props.index);
     }
     private updateEffect = (state: Mechanic, index: number) => {

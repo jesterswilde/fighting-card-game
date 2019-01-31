@@ -29,7 +29,8 @@ export enum MechanicEnum{
     PREDICT = "Predict",
     BLOCK = "Block",
     LOCK = "Lock",
-    REFLEX = "Reflex"
+    REFLEX = "Reflex",
+    PICK_ONE = "Pick One",
 }
 
 export const MechanicHasChildren = {

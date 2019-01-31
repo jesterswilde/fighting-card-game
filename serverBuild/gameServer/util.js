@@ -53,7 +53,21 @@ exports.makeGameState = () => {
         health: [],
         readiedEffects: [],
         modifiedAxis: exports.makeModifiedAxis(),
-        sockets: []
+        sockets: [],
+        lockedState: {
+            distance: null,
+            players: [
+                {
+                    poise: null,
+                    motion: null,
+                    stance: null
+                }, {
+                    poise: null,
+                    motion: null,
+                    stance: null
+                }
+            ]
+        }
     };
 };
 exports.makeModifiedAxis = () => {

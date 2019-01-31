@@ -21,6 +21,7 @@ export interface Mechanic {
     axis?: AxisEnum,
     player?: PlayerEnum,
     amount?: number | string
+    choices?: Mechanic[][]
 }
 
 export enum MechanicEnum{
@@ -31,7 +32,8 @@ export enum MechanicEnum{
     LOCK = "Lock",
     REFLEX = "Reflex",
     BUFF = "Buff",
-    CRIPPLE = "Cripple"
+    CRIPPLE = "Cripple",
+    PICK_ONE = "Pick One",
 }
 
 export enum DisplayEnum {
@@ -40,6 +42,7 @@ export enum DisplayEnum {
     NORMAL,
     NAME,
     AMOUNT,
+    PICK_ONE,
     NONE
 }
 
@@ -51,7 +54,8 @@ export const MechanicDisplay = {
     [MechanicEnum.BLOCK]: DisplayEnum.AMOUNT, 
     [MechanicEnum.LOCK]: DisplayEnum.NORMAL,
     [MechanicEnum.REFLEX]: DisplayEnum.NONE,
-    [MechanicEnum.CRIPPLE]: DisplayEnum.NAME
+    [MechanicEnum.CRIPPLE]: DisplayEnum.NAME,
+    [MechanicEnum.PICK_ONE]: DisplayEnum.PICK_ONE,
 }
 
 export enum AxisEnum{

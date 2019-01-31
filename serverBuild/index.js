@@ -30,11 +30,12 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 lobby_1.default(io);
-
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, '..', 'game-client', 'dist')));
-
+app.get('/z', (req, res) => {
+    res.status(200).send(path.join(__dirname, 'game-client'));
+});
+// app.use(express.static(path.join(__dirname, 'game-client', 'dist')));
 app.post('/card', (req, res) => {
     const _a = req.body, { index } = _a, card = __rest(_a, ["index"]);
     Cards_1.addCard(card, index);

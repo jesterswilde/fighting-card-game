@@ -20,6 +20,8 @@ const renderSwitch = (effect: Mechanic, shouldFlip: boolean) => {
         case DisplayEnum.EFF:
         case DisplayEnum.REQ_EFF:
             return renderMechanic(effect, shouldFlip);
+        case DisplayEnum.PICK_ONE:
+            return renderPickOne(effect, shouldFlip); 
         case DisplayEnum.NONE:
             return renderNone(effect); 
         case DisplayEnum.AMOUNT:
@@ -29,6 +31,7 @@ const renderSwitch = (effect: Mechanic, shouldFlip: boolean) => {
     }
     return null;
 }
+
 
 const renderNone = (mechanic: Mechanic) => (
     <div class='mechanic'>
@@ -46,6 +49,19 @@ const renderMechanic = (mechanic: Mechanic, shouldFlip) => {
             <div>{reqs.map((req, i) => <span key={i}><Requirement requirement={req} shouldFlip={shouldFlip} /></span>)}</div>
             <div class='h-divider thin'/>
             <div>{effs.map((eff, i) => <span key={i}><Effect effect={eff} shouldFlip={shouldFlip} /></span>)}</div>
+        </div>
+    </div>
+}
+
+const renderPickOne = (mechanic: Mechanic, shouldFlip: boolean)=>{
+    return <div class='pick-one'>
+        <div><b>Pick One</b></div>
+        <div class='choices'>
+        {mechanic.choices.map((choice, i)=>{
+            return <div key={i} class='choice'>
+                {choice.map((effect, i)=> <div key={i} class='inline'> <Effect shouldFlip={shouldFlip} effect={effect} /></div>)}
+            </div>
+        })}
         </div>
     </div>
 }

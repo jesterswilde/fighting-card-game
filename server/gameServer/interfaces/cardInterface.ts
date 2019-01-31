@@ -31,6 +31,7 @@ export interface Mechanic {
     axis?: AxisEnum,
     player?: PlayerEnum,
     amount?: number | string,
+    choices?: Mechanic[][],
 }
 
 export enum MechanicEnum{
@@ -41,7 +42,8 @@ export enum MechanicEnum{
     LOCK = "Lock",
     REFLEX = "Reflex",
     BUFF = "Buff",
-    CRIPPLE = "Cripple"
+    CRIPPLE = "Cripple",
+    PICK_ONE = "Pick One",
 }
 
 export enum DisplayEnum {
@@ -81,7 +83,12 @@ export enum AxisEnum{
     ANTICIPATING = "Anticipating",
     CLOSER = "Closer",
     FURTHER = "Further",
-    BLOODIED = "Bloodied"
+    BLOODIED = "Bloodied",
+    MOTION = "Motion",
+    DISTANCE = "Distance",
+    POISE = "POISE",
+    STANCE = "Stance"
+
 }
 
 export enum PlayerEnum{

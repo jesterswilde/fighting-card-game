@@ -9,5 +9,7 @@ export enum SocketEnum{
     PICKED_DECK = 'pickedDeck',
     GOT_STATE = 'gotState',
     SHOULD_PREDICT = 'shouldPredict',
-    MADE_PREDICTION = 'madePrediction'
+    MADE_PREDICTION = 'madePrediction',
+    SHOULD_PICK_ONE = 'shouldPickOne',
+    PICKED_ONE = 'pickedOne',
 }

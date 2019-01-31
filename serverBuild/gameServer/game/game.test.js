@@ -14,6 +14,7 @@ const stateInterface_1 = require("../interfaces/stateInterface");
 const game_1 = require("./game");
 const gameSettings_1 = require("../gameSettings");
 const errors_1 = require("../errors");
+const effectReducer_1 = require("./effectReducer");
 const makeDeck = () => {
     const card1 = util_1.makeBlankCard();
     card1.name = "1";
@@ -414,7 +415,7 @@ describe('game', () => {
             expect(() => game_1.checkPredictions(state)).not.toThrow();
         });
         it('should remove the prediction if the prediction was wrong', () => {
-            state.predictions = [
+            state.pendingPredictions = [
                 {
                     prediction: stateInterface_1.PredictionEnum.MOTION, mechanics: [
                         { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.OPPONENT }
@@ -422,16 +423,16 @@ describe('game', () => {
                 }
             ];
             expect(() => game_1.checkPredictions(state)).not.toThrow();
-            expect(state.predictions).toBeUndefined();
+            expect(state.pendingPredictions).toBeUndefined();
         });
         it('should apply the effects if the prediction was correct & remove the prediction', () => {
             const mech = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.OPPONENT };
-            state.predictions = [
+            state.pendingPredictions = [
                 { prediction: stateInterface_1.PredictionEnum.BALANCE, mechanics: [mech] }
             ];
             state.modifiedAxis.balance = true;
             expect(() => game_1.checkPredictions(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);
-            expect(state.predictions).toBeUndefined();
+            expect(state.pendingPredictions).toBeUndefined();
             expect(state.readiedEffects).toEqual([mech]);
             expect(state.readiedEffects[0]).not.toBe(mech);
         });
@@ -514,6 +515,91 @@ describe('game', () => {
             expect(() => game_1.checkFocus(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);
             expect(state.checkedFocus).toEqual(true);
             expect(state.readiedEffects).toEqual([{ axis: cardInterface_1.AxisEnum.DAMAGE, amount: 1, player: cardInterface_1.PlayerEnum.BOTH }]);
+        });
+    });
+    describe('blocking', () => {
+        it('should redice incoming damage', () => {
+            const card = util_1.makeBlankCard();
+            const mechanic = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 3, player: opponent };
+            card.effects = [
+                mechanic
+            ];
+            card.player = 0;
+            card.opponent = 1;
+            state.block = [0, 2];
+            state.health = [10, 10];
+            effectReducer_1.reduceMechanics(card.effects, card, 0, 1, state);
+            expect(state.health[1]).toEqual(9);
+            expect(state.block[1]).toEqual(0);
+        });
+        it('should redice incoming damage to zero and keep remainder', () => {
+            const card = util_1.makeBlankCard();
+            const mechanic = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 3, player: opponent };
+            card.effects = [
+                mechanic
+            ];
+            card.player = 0;
+            card.opponent = 1;
+            state.block = [2, 4];
+            state.health = [10, 10];
+            effectReducer_1.reduceMechanics(card.effects, card, 0, 1, state);
+            expect(state.health[1]).toEqual(10);
+            expect(state.block[1]).toEqual(1);
+        });
+    });
+    describe("Lock", () => {
+        it('should prevent axis from being modified if they are locked', () => {
+            state.lockedState.distance = 2;
+            state.lockedState.players[0].poise = 3;
+            const card = util_1.makeBlankCard();
+            card.effects = [
+                { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.BOTH },
+                { axis: cardInterface_1.AxisEnum.UNBALANCED, player: cardInterface_1.PlayerEnum.BOTH }
+            ];
+            effectReducer_1.reduceMechanics(card.effects, card, 0, 1, state);
+            expect(state.distance).toEqual(stateInterface_1.DistanceEnum.CLOSE);
+            expect(state.playerStates[0].balance).toEqual(stateInterface_1.BalanceEnum.BALANCED);
+            expect(state.playerStates[1].balance).toEqual(stateInterface_1.BalanceEnum.UNBALANCED);
+        });
+    });
+    describe('playerPicksOne', () => {
+        it('should lay out the picked mechanics in readied effects', () => __awaiter(this, void 0, void 0, function* () {
+            state.sockets = [];
+            const effect1 = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 3, player: cardInterface_1.PlayerEnum.BOTH };
+            const effect2 = {
+                mechanic: cardInterface_1.MechanicEnum.PICK_ONE,
+                choices: [
+                    [
+                        { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.BOTH },
+                        { mechanic: cardInterface_1.MechanicEnum.BLOCK, amount: 3 }
+                    ], [
+                        { axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT }
+                    ]
+                ]
+            };
+            state.readiedEffects = [effect1, effect2];
+            const _waitForPlayerToChoose = jest.fn(() => __awaiter(this, void 0, void 0, function* () { return 0; }));
+            yield game_1.playerPicksOne(state, { _waitForPlayerToChoose });
+            expect(state.readiedEffects).toEqual([effect1, { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.BOTH }, { mechanic: cardInterface_1.MechanicEnum.BLOCK, amount: 3 }]);
+        }));
+    });
+    describe('buff', () => {
+        it('should increase the amount on a card if that axis/player combo exists', () => {
+            const effect1 = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 1, player: cardInterface_1.PlayerEnum.BOTH };
+            const effect2 = { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.OPPONENT };
+            const buffEff = { mechanic: cardInterface_1.MechanicEnum.BUFF, axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.BOTH };
+            const card = util_1.makeBlankCard();
+            card.effects = [effect1, effect2, buffEff];
+            effectReducer_1.reduceMechanics([buffEff], card, 0, 1, state);
+            expect(effect1.amount).toEqual(3);
+        });
+        it('should insert the effect on a card if that axis/player combo does not exists', () => {
+            const effect2 = { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.OPPONENT };
+            const buffEff = { mechanic: cardInterface_1.MechanicEnum.BUFF, axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.BOTH };
+            const card = util_1.makeBlankCard();
+            card.effects = [effect2, buffEff];
+            effectReducer_1.reduceMechanics([buffEff], card, 0, 1, state);
+            expect(card.effects[2]).toEqual({ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.BOTH, amount: 2 });
         });
     });
 });
