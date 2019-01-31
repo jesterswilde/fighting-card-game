@@ -473,7 +473,7 @@ const decrementCounters = (state) => {
             duration.motion--;
             if (duration.motion <= 0) {
                 duration.motion = null;
-                playerStates[i].motion = stateInterface_1.MotionEnum.MOVING;
+                playerStates[i].motion = stateInterface_1.MotionEnum.STILL;
             }
         }
         if (duration.standing !== null && duration.standing !== undefined) {

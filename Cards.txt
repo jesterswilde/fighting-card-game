@@ -985,6 +985,7 @@
       {
         "player": 1,
         "axis": "Prone"
+        "amount": 3
       }
     ],
     "name": "'Ol 1, 2",
@@ -1533,36 +1534,6 @@
       {
         "axis": "Standing",
         "player": 0
-      }
-    ]
-  },
-  "Throw Net": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Prone"
-      },
-      {
-        "player": 1,
-        "axis": "Moving"
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Unbalanced",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Throw Net",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
       }
     ]
   },
@@ -2276,47 +2247,6 @@
       }
     ]
   },
-  "Bloody": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 1
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 2
-      },
-      {
-        "mechanic": "Reflex"
-      }
-    ],
-    "name": "Bloody",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Anticipating",
-        "player": 0
-      }
-    ]
-  },
   "Bloody Flourish": {
     "effects": [
       {
@@ -2411,28 +2341,36 @@
       }
     ]
   },
-  "PickIt": {
+  "Throw Net": {
     "effects": [
       {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "mechanic": "Reflex"
-            }
-          ],
-          [
-            {
-              "player": 1,
-              "axis": "Damage",
-              "amount": 3
-            }
-          ]
+        "player": 1,
+        "axis": "Prone",
+        "amount": 3
+      },
+      {
+        "player": 1,
+        "axis": "Moving",
+        "amount": 3
+      },
+      {
+        "mechanic": "Predict",
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Unbalanced",
+            "amount": 3
+          }
         ]
       }
     ],
-    "name": "PickIt",
+    "name": "Throw Net",
     "optional": [],
-    "requirements": []
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ]
   }
 }
