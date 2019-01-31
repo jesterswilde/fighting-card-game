@@ -16165,12 +16165,12 @@ var renderPickOne = function renderPickOne(mechanic, shouldFlip) {
 var renderEffect = function renderEffect(effect, shouldFlip) {
   return preact_1.h("div", {
     class: 'inline'
-  }, effect.mechanic !== undefined && preact_1.h("b", null, " ", effect.mechanic, " "), preact_1.h(images_1.Arrow, {
+  }, effect.mechanic !== undefined && preact_1.h("b", null, " ", effect.mechanic, " "), effect.player && preact_1.h(images_1.Arrow, {
     player: effect.player,
     shouldFlip: shouldFlip
-  }), " ", preact_1.h(images_1.Icon, {
+  }), effect.axis && preact_1.h(images_1.Icon, {
     name: effect.axis
-  }), " ", preact_1.h("b", null, effect.amount));
+  }), preact_1.h("b", null, effect.amount));
 };
 
 exports.default = Effect;
