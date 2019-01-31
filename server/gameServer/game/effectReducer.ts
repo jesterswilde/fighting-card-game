@@ -137,7 +137,7 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
     [AxisEnum.PRONE]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
         const { stateDurations, playerStates, lockedState } = state;
         if (!lockedState.players[i].stance) {
-            stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== StandingEnum.STANDING)
+            stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== StandingEnum.PRONE)
             state.playerStates[i].standing = StandingEnum.PRONE
         }
     }),

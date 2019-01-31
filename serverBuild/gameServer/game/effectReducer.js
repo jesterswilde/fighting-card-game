@@ -140,7 +140,7 @@ const playerAxis = {
     [cardInterface_1.AxisEnum.PRONE]: (players, amount, state) => players.forEach((i) => {
         const { stateDurations, playerStates, lockedState } = state;
         if (!lockedState.players[i].stance) {
-            stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== stateInterface_1.StandingEnum.STANDING);
+            stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== stateInterface_1.StandingEnum.PRONE);
             state.playerStates[i].standing = stateInterface_1.StandingEnum.PRONE;
         }
     }),
