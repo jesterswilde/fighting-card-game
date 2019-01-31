@@ -984,7 +984,7 @@
       },
       {
         "player": 1,
-        "axis": "Prone"
+        "axis": "Prone",
         "amount": 3
       }
     ],
