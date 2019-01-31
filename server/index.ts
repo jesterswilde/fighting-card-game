@@ -16,10 +16,10 @@ lobby(io);
 app.use(bodyParser.json())
 app.use(cors());
 
-app.get('/z', (req,res)=>{
-    res.status(200).send(path.join(__dirname, 'game-client'))
-})
-// app.use(express.static(path.join(__dirname, 'game-client', 'dist')));
+// app.get('/z', (req,res)=>{
+//     res.status(200).send(path.join(__dirname, 'game-client'))
+// })
+app.use(express.static(path.join(__dirname,'..', 'game-client', 'dist')));
 
 app.post('/card', (req, res) => {
     const { index, ...card } = req.body;
