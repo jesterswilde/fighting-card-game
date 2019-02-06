@@ -59,7 +59,7 @@ const markOptional = (cards, state) => {
             opponent = player === 0 ? 1 : 0;
         }
         optional.forEach((opt) => {
-            opt.canPlay = requirements_1.canUseOptional(opt, opponent, state);
+            opt.canPlay = requirements_1.canUseOptional(opt, player, opponent, state);
         });
     });
 };

@@ -18,4 +18,5 @@ export const grappleDeck: string[] = [
     "Going For The Pin",
     "Ground Grab",
     "Throw Rock",
-    "Surefooted Smash"]
+    "Surefooted Smash",
+    "Pile Driver"]

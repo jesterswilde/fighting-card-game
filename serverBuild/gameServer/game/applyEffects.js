@@ -7,6 +7,7 @@ const predictions_1 = require("./predictions");
 const startTurn_1 = require("./startTurn");
 const util_1 = require("../util");
 const requirements_1 = require("./requirements");
+const playCard_1 = require("./playCard");
 /*
     --- TODO ---
     if a telegraph adds a focus or some other effect that lives on the queue, that new effect should be
@@ -34,7 +35,7 @@ exports.applyEffects = (state) => {
 };
 exports.makeEffectsReduceable = (state) => {
     const card = queue_1.getLastPlayedCard(state);
-    effectReducer_1.reduceMechanics(state.readiedEffects, card, state.currentPlayer, card.opponent, state);
+    effectReducer_1.reduceMechanics(state.readiedEffects, state);
 };
 exports.removeStoredEffects = (state) => {
     state.readiedEffects = undefined;
@@ -62,7 +63,8 @@ exports.checkPredictions = (state) => {
             if (predictions_1.didPredictionHappen(pred, state)) {
                 stateChanged = true;
                 state.readiedEffects = state.readiedEffects || [];
-                state.readiedEffects.push(...util_1.deepCopy(pred.mechanics));
+                const readiedeffects = playCard_1.mechanicsToReadiedEffects(pred.mechanics, pred.card);
+                state.readiedEffects.push(...readiedeffects);
             }
         });
         state.pendingPredictions = undefined;
@@ -78,11 +80,15 @@ exports.checkTelegraph = (state) => {
     queue.forEach((cards = []) => {
         cards.forEach((card) => {
             if (card !== recentCard && card) {
+                console.log("telegraph met  fro ", card.name);
                 let telegraphs = card.telegraphs || [];
                 const metTelegraphs = telegraphs.map((mech) => requirements_1.mechReqsMet(mech, card.opponent, card.player, state));
                 if (metTelegraphs.length > 0) {
                     telegraphs.filter((_, i) => metTelegraphs[i])
-                        .forEach((mech) => readied.push(...mech.mechanicEffects));
+                        .forEach((mech) => {
+                        const mechEffs = playCard_1.mechanicsToReadiedEffects(mech.mechanicEffects, card);
+                        readied.push(...mechEffs);
+                    });
                     card.telegraphs = telegraphs.filter((_, i) => !metTelegraphs[i]);
                 }
                 if (card.telegraphs && card.telegraphs.length === 0) {
@@ -92,7 +98,7 @@ exports.checkTelegraph = (state) => {
         }, state);
     });
     if (readied.length > 0) {
-        state.readiedEffects = util_1.deepCopy(readied);
+        state.readiedEffects = readied;
         throw errors_1.ControlEnum.NEW_EFFECTS;
     }
 };
@@ -102,12 +108,14 @@ exports.checkReflex = (state) => {
     queue.forEach((cards) => {
         cards.forEach((card) => {
             if (card.shouldReflex && playerToReflex === null) {
+                console.log("card name: ", card.name, " | ", card.player);
                 playerToReflex = card.player;
                 card.shouldReflex = undefined;
             }
         }, state);
     });
     if (playerToReflex !== null) {
+        console.log("player to reflex", playerToReflex, "Current player", state.currentPlayer);
         reflexCard(playerToReflex, state);
     }
 };
@@ -143,7 +151,8 @@ exports.checkFocus = (state) => {
                 const focused = card.focuses
                     .filter((mech) => requirements_1.mechReqsMet(mech, card.opponent, card.player, state))
                     .reduce((arr, mech) => {
-                    arr.push(...mech.mechanicEffects);
+                    const readiedEff = playCard_1.mechanicsToReadiedEffects(mech.mechanicEffects, card);
+                    arr.push(...readiedEff);
                     return arr;
                 }, []);
                 if (focused.length > 0) {

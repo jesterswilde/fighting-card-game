@@ -40,12 +40,19 @@ exports.playCard = (state) => __awaiter(this, void 0, void 0, function* () {
 });
 exports.getMechanicsReady = (state) => {
     const { optional = [], effects = [] } = state.pickedCard;
-    const validOptEff = optional.filter((reqEff) => requirements_1.canUseOptional(reqEff, state.pickedCard.opponent, state))
+    const validOptEff = optional.filter((reqEff) => requirements_1.canUseOptional(reqEff, state.pickedCard.player, state.pickedCard.opponent, state))
         .reduce((effsArr, reqEffs) => {
         effsArr.push(...reqEffs.effects);
         return effsArr;
     }, []);
-    state.readiedEffects = [...util_1.deepCopy(effects), ...util_1.deepCopy(validOptEff)];
+    const allEffects = [...effects, ...validOptEff];
+    state.readiedEffects = exports.mechanicsToReadiedEffects(allEffects, state.pickedCard);
+};
+exports.mechanicsToReadiedEffects = (mechanics, card) => {
+    return mechanics.map((mech) => exports.mechanicToReadiedEffect(mech, card));
+};
+exports.mechanicToReadiedEffect = (mechanic, card) => {
+    return { mechanic: util_1.deepCopy(mechanic), card };
 };
 exports.playerPicksOne = (state, { _waitForPlayerToChoose = waitForPlayerToChoose } = {}) => __awaiter(this, void 0, void 0, function* () {
     const { sockets, currentPlayer, readiedEffects = [] } = state;
@@ -53,11 +60,11 @@ exports.playerPicksOne = (state, { _waitForPlayerToChoose = waitForPlayerToChoos
     const unusedEffs = [];
     const player = sockets[currentPlayer];
     for (let i = 0; i < readiedEffects.length; i++) {
-        const effect = state.readiedEffects[i];
+        const { mechanic: effect, card } = state.readiedEffects[i];
         if (effect.mechanic === cardInterface_1.MechanicEnum.PICK_ONE) {
             const choice = yield _waitForPlayerToChoose(effect.choices, player);
             const picked = effect.choices[choice];
-            pickedEffects.push(...picked);
+            pickedEffects.push(...exports.mechanicsToReadiedEffects(picked, card));
             unusedEffs.push(false);
         }
         unusedEffs.push(true);
@@ -76,12 +83,12 @@ const waitForPlayerToChoose = (choices, player) => {
 exports.makePredictions = (state, { _getPredictions = getPredictions } = {}) => __awaiter(this, void 0, void 0, function* () {
     const { readiedEffects = [] } = state;
     for (let i = 0; i < readiedEffects.length; i++) {
-        const eff = readiedEffects[i];
+        const { mechanic: eff, card } = readiedEffects[i];
         if (eff.mechanic === cardInterface_1.MechanicEnum.PREDICT) {
             const prediction = {};
             prediction.prediction = yield _getPredictions(state);
+            prediction.card = card;
             prediction.mechanics = util_1.deepCopy(eff.mechanicEffects);
-            prediction.player = state.currentPlayer;
             state.predictions = state.predictions || [];
             state.predictions.push(prediction);
             console.log('prediction: ', state.predictions);
@@ -118,9 +125,8 @@ exports.addCardToQueue = (state) => {
     queue[0].push(pickedCard);
 };
 exports.markAxisChanges = (state) => {
-    const card = state.pickedCard;
     if (state.readiedEffects) {
-        state.readiedEffects.forEach((mechanic) => {
+        state.readiedEffects.forEach(({ mechanic, card }) => {
             modifiedAxis_1.markAxisChange(mechanic, card, state);
         });
     }

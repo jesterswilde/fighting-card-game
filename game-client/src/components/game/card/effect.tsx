@@ -69,8 +69,8 @@ const renderPickOne = (mechanic: Mechanic, shouldFlip: boolean) => {
 const renderEffect = (effect: Mechanic, shouldFlip) => {
     return <div class='inline'>
         {effect.mechanic !== undefined && <b> {effect.mechanic} </b>}
-        {effect.player && <Arrow player={effect.player} shouldFlip={shouldFlip} />}
-        {effect.axis && <Icon name={effect.axis} />}
+        {effect.player !== undefined && <Arrow player={effect.player} shouldFlip={shouldFlip} />}
+        {effect.axis !== undefined && <Icon name={effect.axis} />}
         <b>{effect.amount}</b>
     </div>
 }

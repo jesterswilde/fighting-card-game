@@ -2,8 +2,11 @@ import { GotDeckChoicesAction, PickedDeckAction, DeckActionEnum } from "./action
 import { store } from "../state/store";
 import { socket } from "../socket/socket";
 import { SocketEnum } from "../socket/socketEnum";
+import { DeckChoice } from "./interfaces";
 
-export const dispatchGotDeckChoices = (choices: string[])=>{
+
+
+export const dispatchGotDeckChoices = (choices: DeckChoice[])=>{
     const action: GotDeckChoicesAction = {
         type: DeckActionEnum.GOT_DECK_CHOICES,
         choices

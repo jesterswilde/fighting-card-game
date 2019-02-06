@@ -1,15 +1,15 @@
-import { GameState, DistanceEnum, StandingEnum, MotionEnum, BalanceEnum } from "../interfaces/stateInterface";
+import { GameState, DistanceEnum, StandingEnum, MotionEnum, BalanceEnum, ReadiedEffect } from "../interfaces/stateInterface";
 import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../interfaces/cardInterface";
 import { getCardByName } from "./getCards";
 import { playerEnumToPlayerArray } from "../util";
 
-export const reduceMechanics = (mechanics: Mechanic[], card: Card, player: number, opponent: number, state: GameState) => {
-    mechanics.forEach((mech) => {
+export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
+    readiedMechanics.forEach(({mechanic: mech, card}) => {
         const reducer = mechanicRouter[mech.mechanic];
         if (reducer !== undefined) {
-            reducer(mech, card, player, opponent, state);
+            reducer(mech, card, card.player, card.opponent, state);
         } else {
-            reduceStateChange(mech, card, player, opponent, state);
+            reduceStateChange(mech, card, card.player, card.opponent, state);
         }
     });
 }
@@ -20,24 +20,25 @@ const reduceBlock = (mechanic: Mechanic, card: Card, player: number, opponent: n
     if (typeof mechanic.amount === 'number') {
         block[player] += mechanic.amount;
     }
+    console.log('block was played', state.block);
 }
 const reduceBuff = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
-    const effect = card.effects.find(({mechanic: mechEnum, axis, player, amount})=>{
+    const effect = card.effects.find(({ mechanic: mechEnum, axis, player, amount }) => {
         return mechanic.axis === axis && player === mechanic.player && mechEnum !== MechanicEnum.BUFF
     })
-    if(effect !== undefined && typeof effect.amount === 'number' && typeof mechanic.amount === 'number'){
-        effect.amount += mechanic.amount; 
-    }else{
-        card.effects.push({axis: mechanic.axis, amount: mechanic.amount, player: mechanic.player});
+    if (effect !== undefined && typeof effect.amount === 'number' && typeof mechanic.amount === 'number') {
+        effect.amount += mechanic.amount;
+    } else {
+        card.effects.push({ axis: mechanic.axis, amount: mechanic.amount, player: mechanic.player });
     }
 }
 
 const reduceCripple = async (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState, { _getCardByName = getCardByName } = {}) => {
     const { decks } = state;
-    const { amount } = mechanic;
+    const { amount: cardName } = mechanic;
     const deck = decks[opponent];
-    if (typeof amount === 'string') {
-        const card = _getCardByName(amount);
+    if (typeof cardName === 'string') {
+        const card = _getCardByName(cardName);
         deck.push(card);
     }
 }
@@ -123,6 +124,20 @@ const globalAxis: { [axis: string]: (state: GameState) => void } = {
     [AxisEnum.GRAPPLED]: (state: GameState) => state.distance = DistanceEnum.GRAPPLED,
     [AxisEnum.CLOSE]: (state: GameState) => state.distance = DistanceEnum.CLOSE,
     [AxisEnum.FAR]: (state: GameState) => state.distance = DistanceEnum.FAR,
+    [AxisEnum.CLOSER]: (state: GameState) => {
+        if (state.distance === DistanceEnum.FAR) {
+            state.distance = DistanceEnum.CLOSE;
+        } else {
+            state.distance = DistanceEnum.GRAPPLED;
+        }
+    },
+    [AxisEnum.FURTHER]: (state: GameState)=>{
+        if(state.distance === DistanceEnum.GRAPPLED){
+            state.distance = DistanceEnum.CLOSE; 
+        }else{
+            state.distance = DistanceEnum.FAR; 
+        }
+    }
 }
 
 
@@ -162,7 +177,7 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
     [AxisEnum.BALANCED]: (players: number[], amount: number, state: GameState) => {
         const { stateDurations, playerStates, lockedState } = state;
         players.forEach((i) => {
-            if (!state.lockedState.players[i].poise ||state.playerStates[i].balance !== BalanceEnum.ANTICIPATING) {
+            if (!state.lockedState.players[i].poise || state.playerStates[i].balance !== BalanceEnum.ANTICIPATING) {
                 stateDurations[i].balance = getMaxAmount(stateDurations[i].balance, amount, playerStates[i].balance !== BalanceEnum.BALANCED)
                 state.playerStates[i].balance = BalanceEnum.BALANCED
             }
@@ -170,8 +185,8 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
     },
     [AxisEnum.ANTICIPATING]: (players: number[], amount: number, state: GameState) => {
         const { stateDurations, playerStates, lockedState } = state;
-        players.forEach((i)=>{
-            if(!lockedState.players[i].poise){
+        players.forEach((i) => {
+            if (!lockedState.players[i].poise) {
                 stateDurations[i].balance = getMaxAmount(stateDurations[i].balance, amount, playerStates[i].balance !== BalanceEnum.ANTICIPATING)
                 state.playerStates[i].balance = BalanceEnum.ANTICIPATING
             }
@@ -179,8 +194,8 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
     },
     [AxisEnum.UNBALANCED]: (players: number[], amount: number, state: GameState) => {
         const { stateDurations, playerStates, lockedState } = state;
-        players.forEach((i)=>{
-            if(!lockedState.players[i].poise){
+        players.forEach((i) => {
+            if (!lockedState.players[i].poise) {
                 stateDurations[i].balance = getMaxAmount(stateDurations[i].balance, amount, playerStates[i].balance !== BalanceEnum.UNBALANCED)
                 playerStates[i].balance = BalanceEnum.UNBALANCED
             }

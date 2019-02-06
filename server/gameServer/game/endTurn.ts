@@ -5,8 +5,8 @@ import { makeModifiedAxis } from "../util";
 export const endTurn = async (state: GameState) => {
     cullQueue(state);
     decrementCounters(state);
-    changePlayers(state);
     clearTurnData(state);
+    changePlayers(state);
 }
 
 export const cullQueue = (state: GameState) => {
@@ -21,7 +21,6 @@ export const cullQueue = (state: GameState) => {
         })
     }
 }
-
 
 const decrementCounters = (state: GameState) => {
     const { stateDurations, playerStates } = state;
@@ -51,11 +50,6 @@ const decrementCounters = (state: GameState) => {
     })
 }
 
-const changePlayers = (state: GameState) => {
-    const player = state.currentPlayer === 0 ? 1 : 0;
-    state.currentPlayer = player;
-}
-
 const clearTurnData = (state: GameState) => {
     const opponent = state.currentPlayer === 0 ? 1 : 0; 
     state.damaged = [false, false];
@@ -66,4 +60,9 @@ const clearTurnData = (state: GameState) => {
     state.pendingPredictions = state.predictions;
     state.predictions = null; 
     state.block[opponent] = 0; 
+}
+
+const changePlayers = (state: GameState) => {
+    const player = state.currentPlayer === 0 ? 1 : 0;
+    state.currentPlayer = player;
 }

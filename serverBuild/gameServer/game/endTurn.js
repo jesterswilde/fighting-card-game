@@ -14,8 +14,8 @@ const util_1 = require("../util");
 exports.endTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     exports.cullQueue(state);
     decrementCounters(state);
-    changePlayers(state);
     clearTurnData(state);
+    changePlayers(state);
 });
 exports.cullQueue = (state) => {
     const { decks, queue } = state;
@@ -55,10 +55,6 @@ const decrementCounters = (state) => {
         }
     });
 };
-const changePlayers = (state) => {
-    const player = state.currentPlayer === 0 ? 1 : 0;
-    state.currentPlayer = player;
-};
 const clearTurnData = (state) => {
     const opponent = state.currentPlayer === 0 ? 1 : 0;
     state.damaged = [false, false];
@@ -69,4 +65,8 @@ const clearTurnData = (state) => {
     state.pendingPredictions = state.predictions;
     state.predictions = null;
     state.block[opponent] = 0;
+};
+const changePlayers = (state) => {
+    const player = state.currentPlayer === 0 ? 1 : 0;
+    state.currentPlayer = player;
 };

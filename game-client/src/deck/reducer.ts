@@ -9,7 +9,7 @@ export const deckReducer = (state: DecksState = {}, action: ActionType): DecksSt
         case DeckActionEnum.PICKED_DECK:
             const { deckChoices } = state;
             const { choice } = action;
-            return { ...state, deckName: deckChoices[choice], deckChoices: undefined}
+            return { ...state, deckName: deckChoices[choice].name, deckChoices: undefined}
         default:
             return state
     }

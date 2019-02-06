@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 interface Props {
     card: Card
+    changeCard: (index: number) => void
 }
 
 export default class Viewer extends React.Component<Props>{
@@ -31,6 +32,10 @@ export default class Viewer extends React.Component<Props>{
                 {effects.map((effect, i) => <Effect key={i} effect={effect} />)}
             </ul>
             <Link to="/maker"><button className="btn btn-primary">Edit</button></Link>
+            <div className="mt-2">
+                <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(-1)}> {'<-'} </button>
+                <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(1)}> {'->'} </button>
+            </div>
         </div>
     }
 }

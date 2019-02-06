@@ -7,6 +7,7 @@ import { SocketEnum } from './socketEnum';
 import { dispatchGotDeckChoices } from '../deck/dispatch';
 import { GameState } from '../game/interface';
 import { dispatchShouldPredict } from '../gameDisplay/dispatch';
+import { DeckChoice } from '../deck/interfaces';
 
 export const setupSockets = (socket: SocketIOClient.Socket)=>{
     console.log('running socket messsages'); 
@@ -26,7 +27,8 @@ export const setupSockets = (socket: SocketIOClient.Socket)=>{
         dispatchStartGame(player); 
      })
 
-     socket.on(SocketEnum.GOT_DECK_OPTIONS, (choices: string[])=>{
+
+     socket.on(SocketEnum.GOT_DECK_OPTIONS, (choices: DeckChoice[])=>{
          console.log('got deck options: ', choices); 
         dispatchGotDeckChoices(choices); 
      })

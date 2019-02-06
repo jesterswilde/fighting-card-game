@@ -15,7 +15,7 @@ export interface GameState{
     hands: Card[][]
     damaged: boolean[]
     pickedCard?: Card
-    readiedEffects: Mechanic[]
+    readiedEffects: ReadiedEffect[]
     winner?: number
     turnIsOver?: boolean
     predictions?: PredictionState[]
@@ -23,6 +23,11 @@ export interface GameState{
     checkedFocus?: boolean
     incrementedQueue?: boolean
     lockedState: LockState
+}
+
+export interface ReadiedEffect{
+    card: Card,
+    mechanic: Mechanic
 }
 
 export interface ModifiedAxis {
@@ -55,7 +60,7 @@ export interface PlayerState {
 }
 
 export interface PredictionState{
-    player: number,
+    card: Card,
     prediction: PredictionEnum,
     mechanics: Mechanic[]
 }

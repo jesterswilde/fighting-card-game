@@ -12532,7 +12532,7 @@ exports.deckReducer = function () {
       var deckChoices = state.deckChoices;
       var choice = action.choice;
       return Object.assign({}, state, {
-        deckName: deckChoices[choice],
+        deckName: deckChoices[choice].name,
         deckChoices: undefined
       });
 
@@ -16165,10 +16165,10 @@ var renderPickOne = function renderPickOne(mechanic, shouldFlip) {
 var renderEffect = function renderEffect(effect, shouldFlip) {
   return preact_1.h("div", {
     class: 'inline'
-  }, effect.mechanic !== undefined && preact_1.h("b", null, " ", effect.mechanic, " "), effect.player && preact_1.h(images_1.Arrow, {
+  }, effect.mechanic !== undefined && preact_1.h("b", null, " ", effect.mechanic, " "), effect.player !== undefined && preact_1.h(images_1.Arrow, {
     player: effect.player,
     shouldFlip: shouldFlip
-  }), effect.axis && preact_1.h(images_1.Icon, {
+  }), effect.axis !== undefined && preact_1.h(images_1.Icon, {
     name: effect.axis
   }), preact_1.h("b", null, effect.amount));
 };
@@ -16943,14 +16943,19 @@ var PickDeck = function PickDeck(_ref) {
   var decks = _ref.decks;
 
   if (decks) {
-    return preact_1.h("div", null, preact_1.h("h1", null, "Choose Deck"), decks.map(function (deck, i) {
-      return preact_1.h("button", {
-        key: i,
+    return preact_1.h("div", {
+      class: 'container mt-3'
+    }, preact_1.h("h1", {
+      class: 'mb-3 mt-3'
+    }, "Choose Deck"), decks.map(function (deck, i) {
+      return preact_1.h("div", {
+        class: "mb-3 ml-2 deck-choice",
         onClick: function onClick() {
           return dispatch_1.dispatchPickedDeck(i);
-        },
-        class: 'btn btn-primary'
-      }, deck);
+        }
+      }, preact_1.h("h3", null, deck.name), preact_1.h("div", {
+        class: 'ml-2'
+      }, deck.description));
     }));
   }
 
@@ -17091,7 +17096,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56738" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49899" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

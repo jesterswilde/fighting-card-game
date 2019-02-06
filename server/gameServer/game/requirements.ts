@@ -8,12 +8,12 @@ export const canPlayCard = (card: Card, state: GameState): boolean => {
     if(card === undefined){
         throw ErrorEnum.NO_CARD
     }
-    const opponent = state.currentPlayer === 1 ? 0 : 1; 
-    return card.requirements.every((req) => meetsRequirements(req, state, state.currentPlayer, opponent));
+    const opponent = card.player === 1 ? 0 : 1; 
+    return card.requirements.every((req) => meetsRequirements(req, state, card.player, opponent));
 }
-export const canUseOptional = (reqs: RequirementEffect, opponent: number, state: GameState): boolean => {
+export const canUseOptional = (reqs: RequirementEffect, player: number, opponent: number, state: GameState): boolean => {
     return reqs.requirements.every((req) => {
-        return meetsRequirements(req, state, state.currentPlayer, opponent)
+        return meetsRequirements(req, state, player, opponent)
     });
 }
 export const mechReqsMet = (mech: Mechanic, opponent: number, player: number, state: GameState): boolean =>{

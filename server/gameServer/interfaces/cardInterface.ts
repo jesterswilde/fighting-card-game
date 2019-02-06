@@ -31,8 +31,10 @@ export interface Mechanic {
     axis?: AxisEnum,
     player?: PlayerEnum,
     amount?: number | string,
-    choices?: Mechanic[][],
+    choices?: Mechanic[][]
 }
+
+
 
 export enum MechanicEnum{
     TELEGRAPH = "Telegraph",

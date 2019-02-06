@@ -53,7 +53,7 @@ const markOptional = (cards: Card[], state: GameState)=>{
             opponent = player === 0 ? 1 : 0; 
         }
         optional.forEach((opt)=>{
-            opt.canPlay = canUseOptional(opt, opponent, state); 
+            opt.canPlay = canUseOptional(opt, player, opponent, state); 
         })
     })
 }

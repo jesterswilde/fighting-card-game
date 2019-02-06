@@ -13,9 +13,17 @@ interface State extends Card {
 interface Props {
     card?: Card
     pickCard: (card: Card) => void
+    changeCard: (index: number) => void
 }
 
 export default class Maker extends React.Component<Props, State>{
+    public static getDerivedStateFromProps(props: Props, state: State){
+        console.log(props.card)
+        if(props.card && props.card.name !== state.name){
+            return {...props.card, index: props.card.name}
+        }
+        return null; 
+    }
     constructor(props: Props) {
         super(props);
         if (props.card !== undefined) {
@@ -40,7 +48,7 @@ export default class Maker extends React.Component<Props, State>{
         this.removeOptional = this.removeOptional.bind(this);
         this.updateOptional = this.updateOptional.bind(this);
         this.updateCard = this.updateCard.bind(this);
-        this.stripUID = this.stripUID.bind(this); 
+        this.stripUID = this.stripUID.bind(this);
     }
     public render() {
         const { name = '', effects = [], requirements = [], optional = [] } = this.state;
@@ -89,10 +97,14 @@ export default class Maker extends React.Component<Props, State>{
                     </Link>
                     <button className="btn btn-primary btn-large ml-2" onClick={this.newCard}>New Card</button>
                 </div>
+                <div className="mt-2">
+                    <button className="btn btn-primary btn-large ml-2" onClick={()=>this.props.changeCard(-1)}> {'<-'} </button>
+                    <button className="btn btn-primary btn-large ml-2" onClick={()=>this.props.changeCard(1)}> {'->'} </button>
+                </div>
             </div>
         )
     }
-    private newCard = ()=> {
+    private newCard = () => {
         this.setState({
             effects: [],
             index: null,
@@ -102,7 +114,7 @@ export default class Maker extends React.Component<Props, State>{
         })
     }
     private updateCard() {
-        const card = this.stripUID(this.state); 
+        const card = this.stripUID(this.state);
         fetch(hostURL + 'card', {
             body: JSON.stringify(card),
             headers: {
@@ -161,22 +173,22 @@ export default class Maker extends React.Component<Props, State>{
     private updateName(name: string) {
         this.setState({ name });
     }
-    private stripUID(obj: object){
+    private stripUID(obj: object) {
         let newObj: object;
-        if(Array.isArray(obj)){
-            newObj = [...obj]; 
+        if (Array.isArray(obj)) {
+            newObj = [...obj];
         }
-        else{
-            newObj = {...obj}
+        else {
+            newObj = { ...obj }
         }
-        for(const key in newObj){
-            if(key === 'uuid'){
+        for (const key in newObj) {
+            if (key === 'uuid') {
                 delete newObj[key]
             }
-            else if(typeof obj[key] === 'object'){
-                newObj[key] = this.stripUID(obj[key]); 
+            else if (typeof obj[key] === 'object') {
+                newObj[key] = this.stripUID(obj[key]);
             }
         }
-        return newObj; 
+        return newObj;
     }
 }

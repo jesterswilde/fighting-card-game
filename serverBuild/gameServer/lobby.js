@@ -45,7 +45,7 @@ const playerPicksDeck = (player) => {
         player.emit(socket_1.SocketEnum.GOT_DECK_OPTIONS, deckOptions);
         player.once(socket_1.SocketEnum.PICKED_DECK, (index) => {
             console.log('got deck choice');
-            const deck = decks_1.getDeck(deckOptions[index]);
+            const deck = decks_1.getDeck(deckOptions[index].name);
             res(deck);
         });
     });

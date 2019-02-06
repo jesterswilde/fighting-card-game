@@ -1,12 +1,13 @@
 import { reduceMechanics } from "./effectReducer";
 import { getLastPlayedCard } from "./queue";
-import { GameState } from "../interfaces/stateInterface";
+import { GameState, ReadiedEffect } from "../interfaces/stateInterface";
 import { ControlEnum } from "../errors";
 import { didPredictionHappen } from "./predictions";
 import { shuffleDeck } from "./startTurn";
 import { deepCopy } from "../util";
 import { mechReqsMet, canPlayCard } from "./requirements";
 import { Mechanic } from "../interfaces/cardInterface";
+import { mechanicsToReadiedEffects } from "./playCard";
 
 /*
     --- TODO ---
@@ -34,7 +35,7 @@ export const applyEffects = (state: GameState) => {
 
 export const makeEffectsReduceable = (state: GameState) => {
     const card = getLastPlayedCard(state);
-    reduceMechanics(state.readiedEffects, card, state.currentPlayer, card.opponent, state);
+    reduceMechanics(state.readiedEffects, state);
 }
 
 export const removeStoredEffects = (state: GameState) => {
@@ -63,7 +64,8 @@ export const checkPredictions = (state: GameState) => {
             if (didPredictionHappen(pred, state)) {
                 stateChanged = true;
                 state.readiedEffects = state.readiedEffects || [];
-                state.readiedEffects.push(...deepCopy(pred.mechanics));
+                const readiedeffects = mechanicsToReadiedEffects(pred.mechanics, pred.card); 
+                state.readiedEffects.push(...readiedeffects);
             }
         })
         state.pendingPredictions = undefined;
@@ -76,15 +78,19 @@ export const checkPredictions = (state: GameState) => {
 export const checkTelegraph = (state: GameState) => {
     const { queue } = state;
     const recentCard = getLastPlayedCard(state);
-    let readied = [];
+    let readied: ReadiedEffect[] = [];
     queue.forEach((cards = []) => {
         cards.forEach((card) => {
             if (card !== recentCard && card) {
+                console.log("telegraph met  fro ", card.name);
                 let telegraphs = card.telegraphs || [];
                 const metTelegraphs = telegraphs.map((mech) => mechReqsMet(mech, card.opponent, card.player, state));
                 if (metTelegraphs.length > 0) {
                     telegraphs.filter((_, i) => metTelegraphs[i])
-                        .forEach((mech) => readied.push(...mech.mechanicEffects));
+                        .forEach((mech) => {
+                            const mechEffs = mechanicsToReadiedEffects(mech.mechanicEffects, card); 
+                            readied.push(...mechEffs)
+                        });
                     card.telegraphs = telegraphs.filter((_, i) => !metTelegraphs[i]);
                 }
                 if (card.telegraphs && card.telegraphs.length === 0) {
@@ -94,7 +100,7 @@ export const checkTelegraph = (state: GameState) => {
         }, state);
     })
     if (readied.length > 0) {
-        state.readiedEffects = deepCopy(readied);
+        state.readiedEffects = readied;
         throw ControlEnum.NEW_EFFECTS;
     }
 }
@@ -105,12 +111,14 @@ export const checkReflex = (state: GameState) => {
     queue.forEach((cards) => {
         cards.forEach((card) => {
             if (card.shouldReflex && playerToReflex === null) {
+                console.log("card name: ", card.name, " | " , card.player); 
                 playerToReflex = card.player;
                 card.shouldReflex = undefined;
             }
         }, state);
     })
     if (playerToReflex !== null) {
+        console.log("player to reflex", playerToReflex, "Current player", state.currentPlayer); 
         reflexCard(playerToReflex, state);
     }
 }
@@ -146,8 +154,9 @@ export const checkFocus = (state: GameState) => {
                 console.log('card has focus');
                 const focused = card.focuses
                     .filter((mech) => mechReqsMet(mech, card.opponent, card.player, state))
-                    .reduce((arr: Mechanic[], mech) => {
-                        arr.push(...mech.mechanicEffects)
+                    .reduce((arr: ReadiedEffect[], mech) => {
+                        const readiedEff = mechanicsToReadiedEffects(mech.mechanicEffects, card); 
+                        arr.push(...readiedEff); 
                         return arr;
                     }, []);
                 if (focused.length > 0) {

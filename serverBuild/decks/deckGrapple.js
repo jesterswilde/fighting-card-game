@@ -20,5 +20,6 @@ exports.grappleDeck = [
     "Going For The Pin",
     "Ground Grab",
     "Throw Rock",
-    "Surefooted Smash"
+    "Surefooted Smash",
+    "Pile Driver"
 ];

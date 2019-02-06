@@ -1,7 +1,7 @@
 import { Card, StatePiece, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "./interfaces/cardInterface";
 import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, BalanceEnum, ModifiedAxis } from "./interfaces/stateInterface";
 
-export const deepCopy = (obj: any) => {
+export const deepCopy = <T>(obj: T): T => {
     if (null == obj || "object" != typeof obj) return obj;
     const copy = obj.constructor();
     for (const attr in obj) {

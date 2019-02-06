@@ -4,7 +4,7 @@ import { hostURL } from 'src/Logic/Util';
 import { Link } from 'react-router-dom';
 
 interface State {
-    cards: { [name: string]: Card }
+    cards: Card[]
 }
 
 interface Props {
@@ -15,7 +15,7 @@ export default class Viewer extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props);
         this.state = {
-            cards: {}
+            cards: []
         }
         this.getCards = this.getCards.bind(this);
         this.getCards();
@@ -25,17 +25,18 @@ export default class Viewer extends React.Component<Props, State>{
         return <div>
             <h2>Cards</h2>
             <ul className='ml-3'>
-                {Object.keys(cards).map((name) => <li className="mb-1" key={name} onClick={() => this.props.pickCard(cards[name])}>
-                    <Link to="/viewer" >{name}</Link>
+                {cards.map((card) => <li className="mb-1" key={card.name} onClick={() => this.props.pickCard(card)}>
+                    <Link to="/viewer" >{card.name}</Link>
                     <Link to="/maker" className="ml-3 mr-1"><button className="btn btn-primary btn-sm">Edit</button></Link>
-                    <button className="btn btn-danger btn-sm" onClick={() => this.deleteCard(name)}> Delete </button>
+                    <button className="btn btn-danger btn-sm" onClick={() => this.deleteCard(card.name)}> Delete </button>
                 </li>)}
             </ul>
         </div>
     }
     private async getCards() {
         const response = await fetch(hostURL + 'cards');
-        const cards = await response.json();
+        const cardsObj: { [name: string]: Card } = await response.json();
+        const cards = Object.keys(cardsObj).sort().map((name)=> cardsObj[name]);
         this.setState({ cards });
     }
     private async deleteCard(name: string) {

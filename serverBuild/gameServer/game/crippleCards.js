@@ -1,13 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const cardInterface_1 = require("../interfaces/cardInterface");
-const util_1 = require("../util");
-exports.getCardByName = (name) => {
-    const card = crippledObj[name];
-    if (card === undefined) {
-        return util_1.makeBlankCard();
-    }
-    return card;
+exports.getCrippleCard = (name) => {
+    return crippledObj[name];
 };
 const crippledObj = {
     "Crippled Leg": {

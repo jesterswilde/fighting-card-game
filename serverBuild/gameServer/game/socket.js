@@ -25,7 +25,7 @@ exports.sendState = (state) => {
         const stateToSend = util_1.deepCopy(sendState);
         if (stateToSend.predictions) {
             stateToSend.predictions.forEach((pred) => {
-                if (pred.player !== i) {
+                if (pred.card.player !== i) {
                     pred.prediction = null;
                 }
             });

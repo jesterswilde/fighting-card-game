@@ -42,7 +42,7 @@ const playerPicksDeck = (player: Socket):Promise<Card[]> => {
         player.emit(SocketEnum.GOT_DECK_OPTIONS, deckOptions);
         player.once(SocketEnum.PICKED_DECK, (index) => {
             console.log('got deck choice')
-            const deck = getDeck(deckOptions[index]); 
+            const deck = getDeck(deckOptions[index].name); 
             res(deck); 
         })
     })

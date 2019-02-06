@@ -1,37 +1,41 @@
-import {cards} from '../cards/Cards'; 
+import { cards } from '../cards/Cards';
 import { grappleDeck } from './deckGrapple';
 import { highGroundDeck } from './deckHighGround';
 import { gladiatorDeck } from './deckGaldiator';
 import { Z_FILTERED } from 'zlib';
 
-interface DeckDescription{
+interface DeckDescription {
     name: string,
     deckList: string[]
+    description?: string
 }
+
+const testDeck = ["Blocker"]
 
 export const decks: DeckDescription[] = [
-    {name: 'Grapple', deckList: grappleDeck}, 
-    {name: 'High Ground', deckList: highGroundDeck}, 
-    {name: 'Gladiator', deckList: gladiatorDeck}
+    { name: 'Grapple', deckList: grappleDeck, description: "Excels at fighting while Grappled and Prone. Wants to play the card Neck Break (requires Grappled, Both Prone, and Balanced." },
+    { name: 'High Ground', deckList: highGroundDeck, description: "Wants to be standing while the opponent is prone. Tries very hard to avoid negative statuses" },
+    { name: 'Gladiator', deckList: gladiatorDeck, description: "The deck wants to have anticipation, and the enemy be off balanced. It wants to be on it's feet, with the opponent moving or prone" },
+    { name: 'test', deckList: testDeck, description: "Test deck, don't click this" }
 ]
 
-export const getDeckOptions = ()=>{
-    return decks.map((desc)=> desc.name); 
+export const getDeckOptions = () => {
+    return decks.map((deck) => ({name: deck.name, description: deck.description}));
 }
 
-export const getDeck = (name: string)=>{
-    const deck = decks.find((deck)=> deck.name === name);
-    if(!deck){
-        return null; 
-    } 
-    const fiteredDeck =  deck.deckList.map((name)=> {
+export const getDeck = (name: string) => {
+    const deck = decks.find((deck) => deck.name === name);
+    if (!deck) {
+        return null;
+    }
+    const fiteredDeck = deck.deckList.map((name) => {
         const card = cards[name]
-        if(!card){
-            console.log("error, card not found", name); 
+        if (!card) {
+            console.log("error, card not found", name);
             return null;
         }
-        return card; 
-    }).filter((card)=> card !== null);
-    return fiteredDeck;  
+        return card;
+    }).filter((card) => card !== null);
+    return fiteredDeck;
 }
 

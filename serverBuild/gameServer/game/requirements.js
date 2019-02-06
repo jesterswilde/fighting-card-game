@@ -9,12 +9,12 @@ exports.canPlayCard = (card, state) => {
     if (card === undefined) {
         throw errors_1.ErrorEnum.NO_CARD;
     }
-    const opponent = state.currentPlayer === 1 ? 0 : 1;
-    return card.requirements.every((req) => exports.meetsRequirements(req, state, state.currentPlayer, opponent));
+    const opponent = card.player === 1 ? 0 : 1;
+    return card.requirements.every((req) => exports.meetsRequirements(req, state, card.player, opponent));
 };
-exports.canUseOptional = (reqs, opponent, state) => {
+exports.canUseOptional = (reqs, player, opponent, state) => {
     return reqs.requirements.every((req) => {
-        return exports.meetsRequirements(req, state, state.currentPlayer, opponent);
+        return exports.meetsRequirements(req, state, player, opponent);
     });
 };
 exports.mechReqsMet = (mech, opponent, player, state) => {

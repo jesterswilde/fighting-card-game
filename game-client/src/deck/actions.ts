@@ -1,11 +1,14 @@
+import { DeckChoice } from "./interfaces";
+
 export enum DeckActionEnum{
     GOT_DECK_CHOICES = 'gotDeckChoices',
     PICKED_DECK = 'pickedDeck'
 }
 
+
 export interface GotDeckChoicesAction{
     type: DeckActionEnum.GOT_DECK_CHOICES,
-    choices: string[]
+    choices: DeckChoice[]
 }
 
 export interface PickedDeckAction{

@@ -38,6 +38,7 @@ const startGame = (state) => {
     });
 };
 const endGame = (state) => {
+    socket_2.sendState(state);
 };
 exports.playTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     socket_2.sendState(state);
@@ -53,4 +54,10 @@ const assignPlayerToDecks = (state) => {
         }
         console.log(deck.map(({ player }) => player));
     }
+};
+const assignPlayerToMechanics = (state) => {
+    state.decks.forEach((deck, i) => {
+        deck.forEach((card) => {
+        });
+    });
 };

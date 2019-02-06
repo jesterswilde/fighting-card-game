@@ -2,9 +2,10 @@ import { h } from 'preact';
 import { StoreState } from "../state/store";
 import { connect } from "preact-redux";
 import { dispatchPickedDeck } from "../deck/dispatch";
+import { DeckChoice } from '../deck/interfaces';
 
 interface Props {
-    decks: string[]
+    decks: DeckChoice[]
 }
 
 const selector = (state: StoreState): Props => {
@@ -12,19 +13,17 @@ const selector = (state: StoreState): Props => {
 }
 
 const PickDeck = ({ decks }: Props) => {
-    if(decks){
-        return <div>
-        <h1>Choose Deck</h1>
-        {decks.map((deck, i) => (
-            <button
-                key={i}
-                onClick={() => dispatchPickedDeck(i)}
-                class='btn btn-primary'
-            >
-                {deck}
-            </button>
-        ))}
-    </div>
+    if (decks) {
+        return <div class='container mt-3'>
+            <h1 class='mb-3 mt-3'>Choose Deck</h1>
+            {decks.map((deck, i) => (
+                <div class="mb-3 ml-2 deck-choice" onClick={() => dispatchPickedDeck(i)}>
+                    <h3>{deck.name}</h3>
+                    <div class='ml-2'>{deck.description}</div>
+    
+                </div>
+            ))}
+        </div>
     }
     return <div>
         <h2>Waiting For Opponent To Pick Deck</h2>

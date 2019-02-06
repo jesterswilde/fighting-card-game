@@ -12,14 +12,14 @@ const stateInterface_1 = require("../interfaces/stateInterface");
 const cardInterface_1 = require("../interfaces/cardInterface");
 const getCards_1 = require("./getCards");
 const util_1 = require("../util");
-exports.reduceMechanics = (mechanics, card, player, opponent, state) => {
-    mechanics.forEach((mech) => {
+exports.reduceMechanics = (readiedMechanics, state) => {
+    readiedMechanics.forEach(({ mechanic: mech, card }) => {
         const reducer = mechanicRouter[mech.mechanic];
         if (reducer !== undefined) {
-            reducer(mech, card, player, opponent, state);
+            reducer(mech, card, card.player, card.opponent, state);
         }
         else {
-            reduceStateChange(mech, card, player, opponent, state);
+            reduceStateChange(mech, card, card.player, card.opponent, state);
         }
     });
 };
@@ -29,6 +29,7 @@ const reduceBlock = (mechanic, card, player, opponent, state) => {
     if (typeof mechanic.amount === 'number') {
         block[player] += mechanic.amount;
     }
+    console.log('block was played', state.block);
 };
 const reduceBuff = (mechanic, card, player, opponent, state) => {
     const effect = card.effects.find(({ mechanic: mechEnum, axis, player, amount }) => {
@@ -43,10 +44,10 @@ const reduceBuff = (mechanic, card, player, opponent, state) => {
 };
 const reduceCripple = (mechanic, card, player, opponent, state, { _getCardByName = getCards_1.getCardByName } = {}) => __awaiter(this, void 0, void 0, function* () {
     const { decks } = state;
-    const { amount } = mechanic;
+    const { amount: cardName } = mechanic;
     const deck = decks[opponent];
-    if (typeof amount === 'string') {
-        const card = _getCardByName(amount);
+    if (typeof cardName === 'string') {
+        const card = _getCardByName(cardName);
         deck.push(card);
     }
 });
@@ -128,6 +129,22 @@ const globalAxis = {
     [cardInterface_1.AxisEnum.GRAPPLED]: (state) => state.distance = stateInterface_1.DistanceEnum.GRAPPLED,
     [cardInterface_1.AxisEnum.CLOSE]: (state) => state.distance = stateInterface_1.DistanceEnum.CLOSE,
     [cardInterface_1.AxisEnum.FAR]: (state) => state.distance = stateInterface_1.DistanceEnum.FAR,
+    [cardInterface_1.AxisEnum.CLOSER]: (state) => {
+        if (state.distance === stateInterface_1.DistanceEnum.FAR) {
+            state.distance = stateInterface_1.DistanceEnum.CLOSE;
+        }
+        else {
+            state.distance = stateInterface_1.DistanceEnum.GRAPPLED;
+        }
+    },
+    [cardInterface_1.AxisEnum.FURTHER]: (state) => {
+        if (state.distance === stateInterface_1.DistanceEnum.GRAPPLED) {
+            state.distance = stateInterface_1.DistanceEnum.CLOSE;
+        }
+        else {
+            state.distance = stateInterface_1.DistanceEnum.FAR;
+        }
+    }
 };
 const playerAxis = {
     [cardInterface_1.AxisEnum.STANDING]: (players, amount, state) => players.forEach((i) => {
