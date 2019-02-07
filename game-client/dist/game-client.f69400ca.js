@@ -17069,10 +17069,10 @@ function (_preact_1$Component) {
       var opponent = event.playedBy !== _this.props.player;
       return preact_1.h("div", {
         class: "event-effect ".concat(opponent ? 'opponent' : '')
-      }, mechanic, player && preact_1.h(images_1.Arrow, {
+      }, mechanic, player !== undefined && preact_1.h(images_1.Arrow, {
         player: player,
         shouldFlip: opponent
-      }), axis && preact_1.h(images_1.Icon, {
+      }), axis !== undefined && preact_1.h(images_1.Icon, {
         name: axis
       }), amount);
     };

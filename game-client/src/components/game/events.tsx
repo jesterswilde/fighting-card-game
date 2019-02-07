@@ -4,6 +4,7 @@ import { StoreState } from '../../state/store';
 import { connect } from 'preact-redux';
 import { Arrow, Icon } from '../../images'
 import { dispatchFinishedDisplayingEvents } from '../../events/dispatch';
+import { JsxElement } from 'typescript';
 
 interface Props extends EventState {
     player: number
@@ -70,8 +71,8 @@ class Events extends Component<Props, State>{
         const opponent = event.playedBy !== this.props.player;
         return <div class={`event-effect ${opponent ? 'opponent' : ''}`}>
             {mechanic}
-            {player && <Arrow player={player} shouldFlip={opponent} />}
-            {axis && <Icon name={axis} />} 
+            {player !== undefined && <Arrow player={player} shouldFlip={opponent} />}
+            {axis !== undefined && <Icon name={axis} />} 
             {amount}
         </div>
     }
