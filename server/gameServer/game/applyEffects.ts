@@ -84,7 +84,6 @@ export const checkTelegraph = (state: GameState) => {
     queue.forEach((cards = []) => {
         cards.forEach((card) => {
             if (card !== recentCard && card) {
-                console.log("telegraph met  fro ", card.name);
                 let telegraphs = card.telegraphs || [];
                 const metTelegraphs = telegraphs.map((mech) => mechReqsMet(mech, card.opponent, card.player, state));
                 if (metTelegraphs.length > 0) {

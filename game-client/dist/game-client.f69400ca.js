@@ -16324,21 +16324,22 @@ exports.default = function (props) {
     class: 'board'
   }, preact_1.h("h2", null, "Board"), preact_1.h("div", {
     class: 'card-container'
-  }, renderBoard(queue, player, currentPlayer)));
+  }, renderBoard(queue, player)));
 };
 
 var renderBoard = function renderBoard() {
   var queue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var identity = arguments.length > 1 ? arguments[1] : undefined;
-  var currentPlayer = arguments.length > 2 ? arguments[2] : undefined;
   return queue.map(function () {
     var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var i = arguments.length > 1 ? arguments[1] : undefined;
+    var opponent = cards[0] && cards[0].player !== identity;
     return preact_1.h("div", {
-      key: i + JSON.stringify(cards)
+      key: i + JSON.stringify(cards),
+      class: !opponent ? 'played-by-me' : ''
     }, cards.map(function (card, i) {
       return preact_1.h("div", {
-        class: 'text-center queue-card',
+        class: "text-center queue-card ".concat(opponent ? 'opponent' : ''),
         key: card.name
       }, preact_1.h(queueCard_1.default, Object.assign({}, card, {
         identity: identity
@@ -17174,6 +17175,7 @@ var game = function game(_ref) {
   var currentPlayer = game.currentPlayer,
       queue = game.queue,
       player = game.player;
+  var foo = {};
   return preact_1.h("div", null, shouldDisplayEvents && preact_1.h(events_1.default, null), preact_1.h("h2", null, "Game"), preact_1.h(stateMachine_1.default, null), preact_1.h(predictions_1.default, Object.assign({}, game)), preact_1.h(board_1.default, {
     player: player,
     currentPlayer: currentPlayer,

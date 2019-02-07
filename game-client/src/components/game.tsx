@@ -27,6 +27,7 @@ const selector = (state: StoreState): Props => {
 
 const game = ({ game, screen, shouldDisplayEvents }: Props) => {
     const { currentPlayer, queue, player} = game;
+    const foo = {}
     return <div>
         {shouldDisplayEvents && <Events />}
         <h2>Game</h2>

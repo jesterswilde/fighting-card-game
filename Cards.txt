@@ -2439,5 +2439,601 @@
         "player": 0
       }
     ]
+  },
+  "Guarded Maneuvers": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Moving",
+        "amount": 2
+      },
+      {
+        "mechanic": "Block",
+        "amount": 12
+      },
+      {
+        "mechanic": "Pick One",
+        "choices": [
+          [
+            {
+              "player": 2,
+              "axis": "Closer"
+            }
+          ],
+          [
+            {
+              "player": 2,
+              "axis": "Further"
+            }
+          ]
+        ]
+      }
+    ],
+    "name": "Guarded Maneuvers",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ]
+  },
+  "Jaw Break": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Standing"
+      },
+      {
+        "player": 1,
+        "axis": "Prone",
+        "amount": 4
+      },
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 12
+      },
+      {
+        "mechanic": "Pick One",
+        "choices": [
+          [
+            {
+              "player": 1,
+              "axis": "Damage",
+              "amount": 4
+            }
+          ],
+          [
+            {
+              "player": 1,
+              "axis": "Unbalanced",
+              "amount": 4
+            }
+          ]
+        ]
+      }
+    ],
+    "name": "Jaw Break",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 1
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      }
+    ]
+  },
+  "Stone Strength": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Anticipating",
+        "amount": 2
+      },
+      {
+        "mechanic": "Block",
+        "amount": 8
+      }
+    ],
+    "name": "Stone Strength",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ]
+  },
+  "Headbutt": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Still"
+      },
+      {
+        "player": 1,
+        "axis": "Moving",
+        "amount": 3
+      },
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 11
+      }
+    ],
+    "name": "Headbutt",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 2,
+            "axis": "Close"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Far",
+            "player": 1
+          }
+        ]
+      },
+      {
+        "effects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 6
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ]
+  },
+  "Immovable Wall": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Still"
+      },
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 7
+      },
+      {
+        "mechanic": "Block",
+        "amount": 7
+      },
+      {
+        "mechanic": "Lock",
+        "player": 0,
+        "axis": "Balanced",
+        "amount": 1
+      }
+    ],
+    "name": "Immovable Wall",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 1
+      }
+    ]
+  },
+  "Leaping Smash": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Still"
+      },
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 11
+      },
+      {
+        "mechanic": "Lock",
+        "player": 1,
+        "axis": "Prone",
+        "amount": 1
+      }
+    ],
+    "name": "Leaping Smash",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 4
+          },
+          {
+            "player": 2,
+            "axis": "Close"
+          },
+          {
+            "player": 0,
+            "axis": "Unbalanced",
+            "amount": 2
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Far",
+            "player": 2
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 1
+      }
+    ]
+  },
+  "Low Stance": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Standing"
+      },
+      {
+        "mechanic": "Pick One",
+        "choices": [
+          [
+            {
+              "player": 0,
+              "axis": "Balanced"
+            }
+          ],
+          [
+            {
+              "mechanic": "Lock",
+              "player": 0,
+              "axis": "Balanced",
+              "amount": 1
+            }
+          ],
+          [
+            {
+              "mechanic": "Block",
+              "amount": 3
+            }
+          ]
+        ]
+      }
+    ],
+    "name": "Low Stance",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ]
+  },
+  "Mounting Force": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Anticipating"
+      },
+      {
+        "mechanic": "Telegraph",
+        "mechanicRequirements": [
+          {
+            "axis": "Moving",
+            "player": 0
+          },
+          {
+            "axis": "Still",
+            "player": 1
+          },
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Block",
+            "amount": 7
+          },
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 7
+          }
+        ]
+      }
+    ],
+    "name": "Mounting Force",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ]
+  },
+  "Ankle Smash": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Still"
+      },
+      {
+        "player": 1,
+        "axis": "Prone",
+        "amount": 3
+      },
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 9
+      },
+      {
+        "mechanic": "Predict",
+        "mechanicEffects": [
+          {
+            "mechanic": "Cripple",
+            "amount": "Cripple Leg"
+          }
+        ]
+      }
+    ],
+    "name": "Ankle Smash",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 1
+      }
+    ]
+  },
+  "Incoming!": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Standing"
+      },
+      {
+        "player": 0,
+        "axis": "Moving",
+        "amount": 4
+      },
+      {
+        "mechanic": "Telegraph",
+        "mechanicRequirements": [
+          {
+            "axis": "Still",
+            "player": 0
+          },
+          {
+            "axis": "Moving",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 11
+          }
+        ]
+      }
+    ],
+    "name": "Incoming!",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 0,
+            "axis": "Anticipating",
+            "amount": 2
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ]
+  },
+  "Inertia": {
+    "effects": [
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Moving",
+            "player": 0
+          },
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 5
+          }
+        ]
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Still",
+            "player": 0
+          },
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Block",
+            "amount": 5
+          }
+        ]
+      }
+    ],
+    "name": "Inertia",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ]
+  },
+  "Break The Wheel": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 5
+      },
+      {
+        "player": 0,
+        "axis": "Prone",
+        "amount": 1
+      },
+      {
+        "mechanic": "Pick One",
+        "choices": [
+          [
+            {
+              "mechanic": "Cripple",
+              "amount": "Cripple Leg"
+            }
+          ],
+          [
+            {
+              "player": 1,
+              "axis": "Damage",
+              "amount": 4
+            },
+            {
+              "player": 1,
+              "axis": "Unbalanced",
+              "amount": 3
+            }
+          ]
+        ]
+      }
+    ],
+    "name": "Break The Wheel",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      }
+    ]
   }
 }

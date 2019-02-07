@@ -11,13 +11,13 @@ export const getCardByName = (name: string): Card=>{
 
 
 const crippledObj: { [name: string]: Card } = {
-    "Crippled Leg": {
+    "Cripple Leg": {
         name: "Crippled Leg",
         requirements: [{ axis: AxisEnum.MOVING, player: PlayerEnum.PLAYER }],
         effects: [{ axis: AxisEnum.PRONE, player: PlayerEnum.PLAYER }, { axis: AxisEnum.DAMAGE, player: PlayerEnum.PLAYER, amount: 3 }],
         optional: []
     },
-    "Crippled Chest": {
+    "Cripple Chest": {
         name: "Crippled Chest",
         requirements: [{ axis: AxisEnum.STANDING, player: PlayerEnum.PLAYER }],
         effects: [{ axis: AxisEnum.DAMAGE, player: PlayerEnum.PLAYER, amount: 10 }],

@@ -24,16 +24,22 @@ export const mechReqsMet = (mech: Mechanic, opponent: number, player: number, st
 }
 
 export const meetsRequirements = (req: StatePiece, state: GameState, player: number, opponent: number): boolean => {
-    const checkGlobal = globalAxis[req.axis];
-    if (checkGlobal !== undefined) {
-        return checkGlobal(state);
+    try{
+        const checkGlobal = globalAxis[req.axis];
+        if (checkGlobal !== undefined) {
+            return checkGlobal(state);
+        }
+        const whoToCheck = playerEnumToPlayerArray(req.player, player, opponent); 
+        const checkPlayers = playerAxis[req.axis];
+        if (checkPlayers !== undefined) {
+            return checkPlayers(whoToCheck, state);
+        }
+        return false;
+    }catch(err){
+        console.error(err); 
+        console.log("Error at state", state.playerStates)
+        return false; 
     }
-    const whoToCheck = playerEnumToPlayerArray(req.player, player, opponent); 
-    const checkPlayers = playerAxis[req.axis];
-    if (checkPlayers !== undefined) {
-        return checkPlayers(whoToCheck, state);
-    }
-    return false;
 }
 
 const globalAxis: { [axis: string]: (state: GameState) => boolean } = {

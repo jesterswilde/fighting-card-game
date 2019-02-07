@@ -24,16 +24,23 @@ exports.mechReqsMet = (mech, opponent, player, state) => {
     });
 };
 exports.meetsRequirements = (req, state, player, opponent) => {
-    const checkGlobal = globalAxis[req.axis];
-    if (checkGlobal !== undefined) {
-        return checkGlobal(state);
+    try {
+        const checkGlobal = globalAxis[req.axis];
+        if (checkGlobal !== undefined) {
+            return checkGlobal(state);
+        }
+        const whoToCheck = util_1.playerEnumToPlayerArray(req.player, player, opponent);
+        const checkPlayers = playerAxis[req.axis];
+        if (checkPlayers !== undefined) {
+            return checkPlayers(whoToCheck, state);
+        }
+        return false;
     }
-    const whoToCheck = util_1.playerEnumToPlayerArray(req.player, player, opponent);
-    const checkPlayers = playerAxis[req.axis];
-    if (checkPlayers !== undefined) {
-        return checkPlayers(whoToCheck, state);
+    catch (err) {
+        console.error(err);
+        console.log("Error at state", state.playerStates);
+        return false;
     }
-    return false;
 };
 const globalAxis = {
     [cardInterface_1.AxisEnum.GRAPPLED]: (state) => state.distance === stateInterface_1.DistanceEnum.GRAPPLED,
