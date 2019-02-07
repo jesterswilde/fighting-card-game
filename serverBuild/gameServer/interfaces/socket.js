@@ -14,4 +14,5 @@ var SocketEnum;
     SocketEnum["MADE_PREDICTION"] = "madePrediction";
     SocketEnum["SHOULD_PICK_ONE"] = "shouldPickOne";
     SocketEnum["PICKED_ONE"] = "pickedOne";
+    SocketEnum["GOT_EVENTS"] = "gotEvents";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));

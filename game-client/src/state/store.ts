@@ -10,13 +10,16 @@ import { deckReducer } from '../deck/reducer';
 import { DecksState } from '../deck/interfaces';
 import { GameDisplayState } from '../gameDisplay/interface';
 import { gameDisplayReducer } from '../gameDisplay/reducer';
+import { EventState } from '../events/interface';
+import { eventReducer } from '../events/reducer';
 
 export interface StoreState{
     game: GameState
     hand: HandState
     display: DisplayState
     deck: DecksState
-    gameDisplay: GameDisplayState
+    gameDisplay: GameDisplayState,
+    events: EventState
 }    
 
 const rootReducer = combineReducers({
@@ -24,7 +27,8 @@ const rootReducer = combineReducers({
     hand: handReducer,
     display: displayReducer,
     deck: deckReducer, 
-    gameDisplay: gameDisplayReducer
+    gameDisplay: gameDisplayReducer,
+    events: eventReducer
 })
 
 

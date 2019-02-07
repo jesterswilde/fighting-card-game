@@ -1,12 +1,16 @@
 import { GameState, BalanceEnum, MotionEnum, StandingEnum } from "../interfaces/stateInterface";
 import { QUEUE_LENGTH } from "../gameSettings";
 import { makeModifiedAxis } from "../util";
+import { sendEvents } from "./events";
+import { sendState } from "./socket";
 
 export const endTurn = async (state: GameState) => {
     cullQueue(state);
     decrementCounters(state);
     clearTurnData(state);
     changePlayers(state);
+    sendState(state);
+    sendEvents(state); 
 }
 
 export const cullQueue = (state: GameState) => {

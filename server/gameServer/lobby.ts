@@ -69,7 +69,8 @@ const makeGameState = (sockets: Socket[], decks: Card[][])=>{
                 {motion: null, poise: null, stance: null},
                 {motion: null, poise: null, stance: null}
             ]
-        }
+        },
+        events:[]
     }
     return state; 
 }

@@ -8,9 +8,11 @@ import { Mechanic, MechanicEnum, Card } from "../interfaces/cardInterface";
 import { SocketEnum } from "../interfaces/socket";
 import { Socket } from "socket.io";
 import { markAxisChange } from "./modifiedAxis";
+import { addCardEvent } from "./events";
 
 export const playCard = async (state: GameState) => {
     try {
+        addCardEvent(state.pickedCard, state); 
         getMechanicsReady(state);
         await playerPicksOne(state);
         await makePredictions(state);
@@ -18,7 +20,6 @@ export const playCard = async (state: GameState) => {
         incrementQueue(state);
         addCardToQueue(state);
         applyEffects(state);
-        sendState(state);
     } catch (err) {
         console.log("err", err)
         if (err === ControlEnum.PLAY_CARD) {

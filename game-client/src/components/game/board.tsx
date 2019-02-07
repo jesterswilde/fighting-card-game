@@ -10,14 +10,8 @@ interface Props {
     currentPlayer: number
 }
 
-const NUM_PLAYERS = 2;
-const MAX_QUEUE_LENGTH = 3;
 
-export const Thing = () => {
-    return <h2> Thing </h2>
-}
-
-export const Board = (props: Props) => {
+export default (props: Props) => {
     const { queue = [], player, currentPlayer } = props;
     return <div class='board'>
         <h2>Board</h2>

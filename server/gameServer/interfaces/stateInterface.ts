@@ -1,5 +1,6 @@
 import { Card, Mechanic, AxisEnum } from "./cardInterface";
 import { Socket } from "socket.io";
+import { EventAction } from "./gameEvent";
 
 export interface GameState{
     sockets: Socket[]
@@ -23,6 +24,7 @@ export interface GameState{
     checkedFocus?: boolean
     incrementedQueue?: boolean
     lockedState: LockState
+    events: EventAction[]
 }
 
 export interface ReadiedEffect{

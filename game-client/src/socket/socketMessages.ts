@@ -8,6 +8,8 @@ import { dispatchGotDeckChoices } from '../deck/dispatch';
 import { GameState } from '../game/interface';
 import { dispatchShouldPredict } from '../gameDisplay/dispatch';
 import { DeckChoice } from '../deck/interfaces';
+import { EventAction } from '../events/interface';
+import { dispatchGotEvents } from '../events/dispatch';
 
 export const setupSockets = (socket: SocketIOClient.Socket)=>{
     console.log('running socket messsages'); 
@@ -46,6 +48,11 @@ export const setupSockets = (socket: SocketIOClient.Socket)=>{
      socket.on(SocketEnum.SHOULD_PICK_ONE, (choices: Mechanic[][])=>{
         console.log("pick one", choices); 
         dispatchShouldPickOne(choices)
+     })
+
+     socket.on(SocketEnum.GOT_EVENTS, (events: EventAction[])=>{
+        console.log('gotEvents', events); 
+        dispatchGotEvents(events); 
      })
 }
 

@@ -9,15 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const applyEffects_1 = require("./applyEffects");
-const socket_1 = require("./socket");
 const errors_1 = require("../errors");
 const util_1 = require("../util");
 const requirements_1 = require("./requirements");
 const cardInterface_1 = require("../interfaces/cardInterface");
-const socket_2 = require("../interfaces/socket");
+const socket_1 = require("../interfaces/socket");
 const modifiedAxis_1 = require("./modifiedAxis");
+const events_1 = require("./events");
 exports.playCard = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
+        events_1.addCardEvent(state.pickedCard, state);
         exports.getMechanicsReady(state);
         yield exports.playerPicksOne(state);
         yield exports.makePredictions(state);
@@ -25,7 +26,6 @@ exports.playCard = (state) => __awaiter(this, void 0, void 0, function* () {
         exports.incrementQueue(state);
         exports.addCardToQueue(state);
         applyEffects_1.applyEffects(state);
-        socket_1.sendState(state);
     }
     catch (err) {
         console.log("err", err);
@@ -74,8 +74,8 @@ exports.playerPicksOne = (state, { _waitForPlayerToChoose = waitForPlayerToChoos
 });
 const waitForPlayerToChoose = (choices, player) => {
     return new Promise((res, rej) => {
-        player.emit(socket_2.SocketEnum.SHOULD_PICK_ONE, choices);
-        player.once(socket_2.SocketEnum.PICKED_ONE, (choice) => {
+        player.emit(socket_1.SocketEnum.SHOULD_PICK_ONE, choices);
+        player.once(socket_1.SocketEnum.PICKED_ONE, (choice) => {
             res(choice);
         });
     });
@@ -100,8 +100,8 @@ const getPredictions = (state) => {
     return new Promise((res, rej) => {
         const { currentPlayer: player, sockets } = state;
         const socket = sockets[player];
-        socket.emit(socket_2.SocketEnum.SHOULD_PREDICT);
-        socket.once(socket_2.SocketEnum.MADE_PREDICTION, (prediction) => {
+        socket.emit(socket_1.SocketEnum.SHOULD_PREDICT);
+        socket.once(socket_1.SocketEnum.MADE_PREDICTION, (prediction) => {
             console.log('gotPrediction');
             res(prediction);
         });

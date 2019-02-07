@@ -2,10 +2,12 @@ import { GameState, DistanceEnum, StandingEnum, MotionEnum, BalanceEnum, Readied
 import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../interfaces/cardInterface";
 import { getCardByName } from "./getCards";
 import { playerEnumToPlayerArray } from "../util";
+import { addEffectEvent } from "./events";
 
 export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
     readiedMechanics.forEach(({mechanic: mech, card}) => {
         const reducer = mechanicRouter[mech.mechanic];
+        addEffectEvent(mech, card.player, state); 
         if (reducer !== undefined) {
             reducer(mech, card, card.player, card.opponent, state);
         } else {

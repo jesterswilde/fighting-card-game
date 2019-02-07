@@ -54,6 +54,7 @@ exports.makeGameState = () => {
         readiedEffects: [],
         modifiedAxis: exports.makeModifiedAxis(),
         sockets: [],
+        events: [],
         lockedState: {
             distance: null,
             players: [

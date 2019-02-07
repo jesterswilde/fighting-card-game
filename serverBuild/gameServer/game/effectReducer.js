@@ -12,9 +12,11 @@ const stateInterface_1 = require("../interfaces/stateInterface");
 const cardInterface_1 = require("../interfaces/cardInterface");
 const getCards_1 = require("./getCards");
 const util_1 = require("../util");
+const events_1 = require("./events");
 exports.reduceMechanics = (readiedMechanics, state) => {
     readiedMechanics.forEach(({ mechanic: mech, card }) => {
         const reducer = mechanicRouter[mech.mechanic];
+        events_1.addEffectEvent(mech, card.player, state);
         if (reducer !== undefined) {
             reducer(mech, card, card.player, card.opponent, state);
         }

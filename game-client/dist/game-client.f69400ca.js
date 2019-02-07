@@ -12129,6 +12129,7 @@ var SocketEnum;
   SocketEnum["MADE_PREDICTION"] = "madePrediction";
   SocketEnum["SHOULD_PICK_ONE"] = "shouldPickOne";
   SocketEnum["PICKED_ONE"] = "pickedOne";
+  SocketEnum["GOT_EVENTS"] = "gotEvents";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
 },{}],"src/hand/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12341,7 +12342,44 @@ exports.dispatchSetHandCardDisplay = function (value) {
   };
   store_1.store.dispatch(action);
 };
-},{"./actions":"src/gameDisplay/actions.ts","../state/store":"src/state/store.ts"}],"src/socket/socketMessages.ts":[function(require,module,exports) {
+},{"./actions":"src/gameDisplay/actions.ts","../state/store":"src/state/store.ts"}],"src/events/actions.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var EventActionEnum;
+
+(function (EventActionEnum) {
+  EventActionEnum["GOT_EVENTS"] = "gotEvents";
+  EventActionEnum["FINISHED_DISPLAYING_EVENTS"] = "finishedDisplayingEvents";
+})(EventActionEnum = exports.EventActionEnum || (exports.EventActionEnum = {}));
+},{}],"src/events/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var store_1 = require("../state/store");
+
+var actions_1 = require("./actions");
+
+exports.dispatchGotEvents = function (events) {
+  var action = {
+    type: actions_1.EventActionEnum.GOT_EVENTS,
+    events: events
+  };
+  store_1.store.dispatch(action);
+};
+
+exports.dispatchFinishedDisplayingEvents = function () {
+  var action = {
+    type: actions_1.EventActionEnum.FINISHED_DISPLAYING_EVENTS
+  };
+  store_1.store.dispatch(action);
+};
+},{"../state/store":"src/state/store.ts","./actions":"src/events/actions.ts"}],"src/socket/socketMessages.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12361,6 +12399,8 @@ var socketEnum_1 = require("./socketEnum");
 var dispatch_4 = require("../deck/dispatch");
 
 var dispatch_5 = require("../gameDisplay/dispatch");
+
+var dispatch_6 = require("../events/dispatch");
 
 exports.setupSockets = function (socket) {
   console.log('running socket messsages');
@@ -12393,8 +12433,12 @@ exports.setupSockets = function (socket) {
     console.log("pick one", choices);
     dispatch_3.dispatchShouldPickOne(choices);
   });
+  socket.on(socketEnum_1.SocketEnum.GOT_EVENTS, function (events) {
+    console.log('gotEvents', events);
+    dispatch_6.dispatchGotEvents(events);
+  });
 };
-},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","./socketEnum":"src/socket/socketEnum.ts","../deck/dispatch":"src/deck/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
+},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","./socketEnum":"src/socket/socketEnum.ts","../deck/dispatch":"src/deck/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts","../events/dispatch":"src/events/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -12603,7 +12647,40 @@ exports.gameDisplayReducer = function () {
       return state;
   }
 };
-},{"./interface":"src/gameDisplay/interface.ts","../game/actions":"src/game/actions.ts","./actions":"src/gameDisplay/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
+},{"./interface":"src/gameDisplay/interface.ts","../game/actions":"src/game/actions.ts","./actions":"src/gameDisplay/actions.ts"}],"src/events/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var actions_1 = require("./actions");
+
+exports.eventReducer = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    isDisplaying: false,
+    events: []
+  };
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  switch (action.type) {
+    case actions_1.EventActionEnum.GOT_EVENTS:
+      return Object.assign({}, state, {
+        isDisplaying: true,
+        events: action.events
+      });
+
+    case actions_1.EventActionEnum.FINISHED_DISPLAYING_EVENTS:
+      return Object.assign({}, state, {
+        isDisplaying: false,
+        events: []
+      });
+
+    default:
+      return state;
+  }
+};
+},{"./actions":"src/events/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12622,15 +12699,18 @@ var reducer_4 = require("../deck/reducer");
 
 var reducer_5 = require("../gameDisplay/reducer");
 
+var reducer_6 = require("../events/reducer");
+
 var rootReducer = redux_1.combineReducers({
   game: reducer_1.gameReducer,
   hand: reducer_2.handReducer,
   display: reducer_3.displayReducer,
   deck: reducer_4.deckReducer,
-  gameDisplay: reducer_5.gameDisplayReducer
+  gameDisplay: reducer_5.gameDisplayReducer,
+  events: reducer_6.eventReducer
 });
 exports.store = redux_1.createStore(rootReducer);
-},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../deck/reducer":"src/deck/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts"}],"src/interfaces/card.ts":[function(require,module,exports) {
+},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../deck/reducer":"src/deck/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts"}],"src/interfaces/card.ts":[function(require,module,exports) {
 "use strict";
 
 var _exports$MechanicDisp;
@@ -16235,14 +16315,7 @@ var preact_1 = require("preact");
 
 var queueCard_1 = __importDefault(require("./card/queueCard"));
 
-var NUM_PLAYERS = 2;
-var MAX_QUEUE_LENGTH = 3;
-
-exports.Thing = function () {
-  return preact_1.h("h2", null, " Thing ");
-};
-
-exports.Board = function (props) {
+exports.default = function (props) {
   var _props$queue = props.queue,
       queue = _props$queue === void 0 ? [] : _props$queue,
       player = props.player,
@@ -16314,9 +16387,10 @@ var requirement_1 = __importDefault(require("./requirement"));
 var effect_1 = __importDefault(require("./effect"));
 
 exports.default = function (props) {
+  var unusuable = !props.canPlay;
   return preact_1.h("div", {
-    className: "optional"
-  }, !props.hideReqs && preact_1.h("div", null, preact_1.h("div", null, props.requirements.map(function (req, i) {
+    className: "optional ".concat(unusuable ? 'unusable' : '')
+  }, preact_1.h("div", null, props.requirements.map(function (req, i) {
     return preact_1.h("span", {
       key: i
     }, preact_1.h(requirement_1.default, {
@@ -16324,7 +16398,7 @@ exports.default = function (props) {
     }));
   })), preact_1.h("div", {
     class: 'h-divider'
-  })), preact_1.h("div", null, props.effects.map(function (eff, i) {
+  }), preact_1.h("div", null, props.effects.map(function (eff, i) {
     return preact_1.h("span", {
       key: i
     }, preact_1.h(effect_1.default, {
@@ -16351,24 +16425,32 @@ var optional_1 = __importDefault(require("./optional"));
 
 var effect_1 = __importDefault(require("./effect"));
 
+var Requirement_1 = __importDefault(require("./Requirement"));
+
 var HandCard = function HandCard(card) {
   var name = card.name,
       optional = card.optional,
-      effects = card.effects;
+      effects = card.effects,
+      requirements = card.requirements;
   return preact_1.h("div", {
     class: 'game-card text-center'
   }, preact_1.h("div", {
     class: 'title'
   }, name), preact_1.h("div", {
+    class: 'card-section req'
+  }, requirements.map(function (req, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(Requirement_1.default, {
+      requirement: req
+    }));
+  })), preact_1.h("div", {
     class: 'card-section'
-  }, optional.filter(function (_ref) {
-    var canPlay = _ref.canPlay;
-    return canPlay;
-  }).map(function (opt, i) {
+  }, optional.map(function (opt, i) {
     return preact_1.h("span", {
       key: i
     }, " ", preact_1.h(optional_1.default, Object.assign({}, opt, {
-      hideReqs: true
+      greyUnusable: true
     })), " ");
   })), preact_1.h("div", {
     class: 'card-section effect'
@@ -16382,7 +16464,7 @@ var HandCard = function HandCard(card) {
 };
 
 exports.default = HandCard;
-},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
 "use strict";
 
 var _exports$playerRouter;
@@ -16863,7 +16945,178 @@ var PickOne = function PickOne(_ref) {
 };
 
 exports.default = preact_redux_1.connect(selector)(PickOne);
-},{"preact":"node_modules/preact/dist/preact.mjs","./card/handCard":"src/components/game/card/handCard.tsx","../../game/dispatch":"src/game/dispatch.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/handCard":"src/components/game/card/handCard.tsx","../../game/dispatch":"src/game/dispatch.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/events/interface.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var EventTypeEnum;
+
+(function (EventTypeEnum) {
+  EventTypeEnum[EventTypeEnum["CARD_NAME"] = 0] = "CARD_NAME";
+  EventTypeEnum[EventTypeEnum["EFFECT"] = 1] = "EFFECT";
+  EventTypeEnum[EventTypeEnum["MECHANIC"] = 2] = "MECHANIC";
+})(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));
+},{}],"src/components/game/events.tsx":[function(require,module,exports) {
+"use strict";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var interface_1 = require("../../events/interface");
+
+var preact_redux_1 = require("preact-redux");
+
+var images_1 = require("../../images");
+
+var dispatch_1 = require("../../events/dispatch");
+
+var selector = function selector(state) {
+  return Object.assign({}, state.events, {
+    player: state.game.player
+  });
+};
+
+var Events =
+/*#__PURE__*/
+function (_preact_1$Component) {
+  _inherits(Events, _preact_1$Component);
+
+  function Events(props) {
+    var _this;
+
+    _classCallCheck(this, Events);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Events).call(this, props));
+    _this.timer = 500;
+
+    _this.addEvent = function () {
+      var _this$state = _this.state,
+          counter = _this$state.counter,
+          events = _this$state.events;
+
+      if (counter < _this.props.events.length) {
+        _this.setState({
+          events: [].concat(_toConsumableArray(events), [_this.props.events[counter]]),
+          counter: counter + 1
+        });
+
+        setTimeout(function () {
+          _this.addEvent();
+        }, _this.timer);
+      }
+    };
+
+    _this.reducer = function (event) {
+      switch (event.type) {
+        case interface_1.EventTypeEnum.CARD_NAME:
+          return _this.renderCard(event);
+
+        case interface_1.EventTypeEnum.EFFECT:
+          return _this.renderEffect(event);
+
+        case interface_1.EventTypeEnum.MECHANIC:
+          return _this.renderMechanic(event);
+
+        default:
+          return null;
+      }
+    };
+
+    _this.renderCard = function (event) {
+      var opponent = event.playedBy !== _this.props.player;
+      return preact_1.h("div", {
+        class: "event-card ".concat(opponent ? 'opponent' : '')
+      }, " ", event.cardName, " ");
+    };
+
+    _this.renderEffect = function (event) {
+      var opponent = event.playedBy !== _this.props.player;
+      return preact_1.h("div", {
+        class: "event-effect ".concat(opponent ? 'opponent' : '')
+      }, preact_1.h(images_1.Arrow, {
+        player: event.effect.player,
+        shouldFlip: opponent
+      }), preact_1.h(images_1.Icon, {
+        name: event.effect.axis
+      }), " ", event.effect.amount);
+    };
+
+    _this.renderMechanic = function (event) {
+      var opponent = event.playedBy !== _this.props.player;
+      return preact_1.h("div", {
+        class: "event-mechanic ".concat(opponent ? 'opponent' : '')
+      }, event.cardName, ": ", event.mechanicName);
+    };
+
+    _this.state = {
+      events: [],
+      counter: 0
+    };
+
+    _this.addEvent();
+
+    return _this;
+  }
+
+  _createClass(Events, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var _this$state$events = this.state.events,
+          events = _this$state$events === void 0 ? [] : _this$state$events;
+      return preact_1.h("div", {
+        class: 'event-modal'
+      }, preact_1.h("div", {
+        class: 'event-background',
+        onClick: dispatch_1.dispatchFinishedDisplayingEvents
+      }), preact_1.h("div", {
+        class: 'event-container'
+      }, events.map(function (event) {
+        return preact_1.h("div", {
+          class: "event",
+          key: JSON.stringify(event)
+        }, _this2.reducer(event));
+      })));
+    }
+  }]);
+
+  return Events;
+}(preact_1.Component);
+
+exports.default = preact_redux_1.connect(selector)(Events);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../events/interface":"src/events/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../events/dispatch":"src/events/dispatch.ts"}],"src/components/game.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -16880,7 +17133,7 @@ var preact_1 = require("preact");
 
 var preact_redux_1 = require("preact-redux");
 
-var board_1 = require("./game/board");
+var board_1 = __importDefault(require("./game/board"));
 
 var hand_1 = __importDefault(require("./game/hand"));
 
@@ -16892,27 +17145,31 @@ var predictions_1 = __importDefault(require("./game/predictions"));
 
 var pickOne_1 = __importDefault(require("./game/pickOne"));
 
+var events_1 = __importDefault(require("./game/events"));
+
 var interface_1 = require("../gameDisplay/interface");
 
 var selector = function selector(state) {
   var game = state.game,
       hand = state.hand,
       gameDisplay = state.gameDisplay;
+  console.log('events', state.events);
   return {
     game: game,
     hand: hand,
-    screen: gameDisplay.screen
+    screen: gameDisplay.screen,
+    shouldDisplayEvents: state.events.isDisplaying
   };
 };
 
 var game = function game(_ref) {
   var game = _ref.game,
-      hand = _ref.hand,
-      screen = _ref.screen;
+      screen = _ref.screen,
+      shouldDisplayEvents = _ref.shouldDisplayEvents;
   var currentPlayer = game.currentPlayer,
       queue = game.queue,
       player = game.player;
-  return preact_1.h("div", null, preact_1.h("h2", null, "Game"), preact_1.h(stateMachine_1.default, null), preact_1.h(predictions_1.default, Object.assign({}, game)), preact_1.h(board_1.Board, {
+  return preact_1.h("div", null, shouldDisplayEvents && preact_1.h(events_1.default, null), preact_1.h("h2", null, "Game"), preact_1.h(stateMachine_1.default, null), preact_1.h(predictions_1.default, Object.assign({}, game)), preact_1.h(board_1.default, {
     player: player,
     currentPlayer: currentPlayer,
     queue: queue
@@ -16920,7 +17177,7 @@ var game = function game(_ref) {
 };
 
 exports.default = preact_redux_1.connect(selector)(game);
-},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/board":"src/components/game/board.tsx","./game/hand":"src/components/game/hand.tsx","./game/choices":"src/components/game/choices.tsx","./game/stateMachine":"src/components/game/stateMachine.tsx","./game/predictions":"src/components/game/predictions.tsx","./game/pickOne":"src/components/game/pickOne.tsx","../gameDisplay/interface":"src/gameDisplay/interface.ts"}],"src/components/PickDeck.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/board":"src/components/game/board.tsx","./game/hand":"src/components/game/hand.tsx","./game/choices":"src/components/game/choices.tsx","./game/stateMachine":"src/components/game/stateMachine.tsx","./game/predictions":"src/components/game/predictions.tsx","./game/pickOne":"src/components/game/pickOne.tsx","./game/events":"src/components/game/events.tsx","../gameDisplay/interface":"src/gameDisplay/interface.ts"}],"src/components/PickDeck.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

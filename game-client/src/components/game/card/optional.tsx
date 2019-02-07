@@ -4,16 +4,16 @@ import Effect from './effect';
 import { Optional } from '../../../interfaces/card';
 
 interface Props extends Optional {
-    hideReqs?: boolean
+    greyUnusable?: boolean
 }
 
 export default (props: Props) => {
-    return <div className="optional">
-        {!props.hideReqs && <div><div>
+    const unusuable = !props.canPlay;
+    return <div className={`optional ${unusuable ? 'unusable' : ''}`}>
+        <div>
             {props.requirements.map((req, i) => <span key={i}><Requirement requirement={req} /></span>)}
         </div>
-            <div class='h-divider' /></div>
-        }
+            <div class='h-divider' />
         <div>
             {props.effects.map((eff, i) => <span key={i}><Effect effect={eff} /></span>)}
         </div>

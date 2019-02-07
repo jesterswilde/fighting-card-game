@@ -12,4 +12,5 @@ export enum SocketEnum{
     MADE_PREDICTION = 'madePrediction',
     SHOULD_PICK_ONE = 'shouldPickOne',
     PICKED_ONE = 'pickedOne',
+    GOT_EVENTS = 'gotEvents'
 }

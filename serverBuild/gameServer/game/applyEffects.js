@@ -7,7 +7,9 @@ const predictions_1 = require("./predictions");
 const startTurn_1 = require("./startTurn");
 const util_1 = require("../util");
 const requirements_1 = require("./requirements");
+const cardInterface_1 = require("../interfaces/cardInterface");
 const playCard_1 = require("./playCard");
+const events_1 = require("./events");
 /*
     --- TODO ---
     if a telegraph adds a focus or some other effect that lives on the queue, that new effect should be
@@ -61,6 +63,7 @@ exports.checkPredictions = (state) => {
     if (predictions) {
         predictions.forEach((pred) => {
             if (predictions_1.didPredictionHappen(pred, state)) {
+                events_1.addMechanicEvent(cardInterface_1.MechanicEnum.PREDICT, pred.card, state);
                 stateChanged = true;
                 state.readiedEffects = state.readiedEffects || [];
                 const readiedeffects = playCard_1.mechanicsToReadiedEffects(pred.mechanics, pred.card);
@@ -98,6 +101,7 @@ exports.checkTelegraph = (state) => {
         }, state);
     });
     if (readied.length > 0) {
+        readied.forEach((eff) => events_1.addMechanicEvent(cardInterface_1.MechanicEnum.TELEGRAPH, eff.card, state));
         state.readiedEffects = readied;
         throw errors_1.ControlEnum.NEW_EFFECTS;
     }
@@ -111,6 +115,7 @@ exports.checkReflex = (state) => {
                 console.log("card name: ", card.name, " | ", card.player);
                 playerToReflex = card.player;
                 card.shouldReflex = undefined;
+                events_1.addMechanicEvent(cardInterface_1.MechanicEnum.REFLEX, card, state);
             }
         }, state);
     });
@@ -156,6 +161,7 @@ exports.checkFocus = (state) => {
                     return arr;
                 }, []);
                 if (focused.length > 0) {
+                    focused.forEach((focus) => events_1.addMechanicEvent(cardInterface_1.MechanicEnum.FOCUS, focus.card, state));
                     modifiedState = true;
                     state.readiedEffects = state.readiedEffects || [];
                     state.readiedEffects.push(...util_1.deepCopy(focused));

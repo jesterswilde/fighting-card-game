@@ -6,8 +6,9 @@ import { didPredictionHappen } from "./predictions";
 import { shuffleDeck } from "./startTurn";
 import { deepCopy } from "../util";
 import { mechReqsMet, canPlayCard } from "./requirements";
-import { Mechanic } from "../interfaces/cardInterface";
+import { Mechanic, MechanicEnum } from "../interfaces/cardInterface";
 import { mechanicsToReadiedEffects } from "./playCard";
+import { addMechanicEvent, addEffectEvent } from "./events";
 
 /*
     --- TODO ---
@@ -62,6 +63,7 @@ export const checkPredictions = (state: GameState) => {
     if (predictions) {
         predictions.forEach((pred) => {
             if (didPredictionHappen(pred, state)) {
+                addMechanicEvent(MechanicEnum.PREDICT, pred.card, state); 
                 stateChanged = true;
                 state.readiedEffects = state.readiedEffects || [];
                 const readiedeffects = mechanicsToReadiedEffects(pred.mechanics, pred.card); 
@@ -100,6 +102,7 @@ export const checkTelegraph = (state: GameState) => {
         }, state);
     })
     if (readied.length > 0) {
+        readied.forEach((eff)=> addMechanicEvent(MechanicEnum.TELEGRAPH, eff.card, state));
         state.readiedEffects = readied;
         throw ControlEnum.NEW_EFFECTS;
     }
@@ -114,6 +117,7 @@ export const checkReflex = (state: GameState) => {
                 console.log("card name: ", card.name, " | " , card.player); 
                 playerToReflex = card.player;
                 card.shouldReflex = undefined;
+                addMechanicEvent(MechanicEnum.REFLEX, card, state); 
             }
         }, state);
     })
@@ -160,6 +164,7 @@ export const checkFocus = (state: GameState) => {
                         return arr;
                     }, []);
                 if (focused.length > 0) {
+                    focused.forEach((focus)=> addMechanicEvent(MechanicEnum.FOCUS, focus.card, state)); 
                     modifiedState = true;
                     state.readiedEffects = state.readiedEffects || [];
                     state.readiedEffects.push(...deepCopy(focused));
