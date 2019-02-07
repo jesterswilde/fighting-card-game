@@ -357,53 +357,6 @@
       }
     ]
   },
-  "Grand Setup": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Further"
-      },
-      {
-        "player": 1,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Grappled",
-            "player": 2
-          },
-          {
-            "axis": "Prone",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ]
-      }
-    ],
-    "name": "Grand Setup",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
   "Feign Strength": {
     "effects": [
       {
@@ -805,52 +758,6 @@
       }
     ]
   },
-  "Circle Opponent": {
-    "effects": [
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Unbalanced",
-            "amount": 3
-          }
-        ]
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Prone",
-            "player": 2
-          },
-          {
-            "axis": "Grappled",
-            "player": 2
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 21
-          }
-        ]
-      }
-    ],
-    "name": "Circle Opponent",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
   "Death From Above": {
     "effects": [
       {
@@ -1125,62 +1032,6 @@
       },
       {
         "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Flying Slash": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 5
-      },
-      {
-        "player": 2,
-        "axis": "Closer"
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 6
-          }
-        ]
-      }
-    ],
-    "name": "Flying Slash",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 6
-          },
-          {
-            "player": 1,
-            "axis": "Prone",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Moving",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
         "player": 0
       }
     ]
@@ -2433,6 +2284,155 @@
       {
         "axis": "Standing",
         "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ]
+  },
+  "Grand Setup": {
+    "effects": [
+      {
+        "player": 2,
+        "axis": "Far"
+      },
+      {
+        "player": 1,
+        "axis": "Moving",
+        "amount": 3
+      },
+      {
+        "mechanic": "Telegraph",
+        "mechanicRequirements": [
+          {
+            "axis": "Grappled",
+            "player": 2
+          },
+          {
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ]
+      }
+    ],
+    "name": "Grand Setup",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ]
+  },
+  "Circle Opponent": {
+    "effects": [
+      {
+        "mechanic": "Predict",
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Unbalanced",
+            "amount": 3
+          }
+        ]
+      },
+      {
+        "mechanic": "Telegraph",
+        "mechanicRequirements": [
+          {
+            "axis": "Prone",
+            "player": 2
+          },
+          {
+            "axis": "Grappled",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 18
+          }
+        ]
+      }
+    ],
+    "name": "Circle Opponent",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ]
+  },
+  "Flying Slash": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 4
+      },
+      {
+        "player": 2,
+        "axis": "Closer"
+      },
+      {
+        "mechanic": "Predict",
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 8
+          }
+        ]
+      }
+    ],
+    "name": "Flying Slash",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 6
+          },
+          {
+            "player": 1,
+            "axis": "Prone",
+            "amount": 3
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 2
       },
       {
         "axis": "Balanced",

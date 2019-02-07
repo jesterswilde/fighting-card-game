@@ -66,10 +66,13 @@ class Events extends Component<Props, State>{
         return <div class={`event-card ${opponent ? 'opponent' : ''}`}> {event.cardName} </div>
     }
     renderEffect = (event: EventAction) => {
+        const { player, axis, mechanic, amount } = event.effect;
         const opponent = event.playedBy !== this.props.player;
         return <div class={`event-effect ${opponent ? 'opponent' : ''}`}>
-            <Arrow player={event.effect.player} shouldFlip={opponent} />
-            <Icon name={event.effect.axis} /> {event.effect.amount}
+            {mechanic}
+            {player && <Arrow player={player} shouldFlip={opponent} />}
+            {axis && <Icon name={axis} />} 
+            {amount}
         </div>
     }
     renderMechanic = (event: EventAction) => {

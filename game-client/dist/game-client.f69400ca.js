@@ -17061,15 +17061,20 @@ function (_preact_1$Component) {
     };
 
     _this.renderEffect = function (event) {
+      var _event$effect = event.effect,
+          player = _event$effect.player,
+          axis = _event$effect.axis,
+          mechanic = _event$effect.mechanic,
+          amount = _event$effect.amount;
       var opponent = event.playedBy !== _this.props.player;
       return preact_1.h("div", {
         class: "event-effect ".concat(opponent ? 'opponent' : '')
-      }, preact_1.h(images_1.Arrow, {
-        player: event.effect.player,
+      }, mechanic, player && preact_1.h(images_1.Arrow, {
+        player: player,
         shouldFlip: opponent
-      }), preact_1.h(images_1.Icon, {
-        name: event.effect.axis
-      }), " ", event.effect.amount);
+      }), axis && preact_1.h(images_1.Icon, {
+        name: axis
+      }), amount);
     };
 
     _this.renderMechanic = function (event) {
