@@ -566,67 +566,6 @@
       }
     ]
   },
-  "Body Slam": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Damage",
-        "amount": 7
-      },
-      {
-        "player": 2,
-        "axis": "Prone",
-        "amount": 3
-      }
-    ],
-    "name": "Body Slam",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 2,
-            "axis": "Damage",
-            "amount": 4
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 0
-          }
-        ]
-      },
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Unbalanced",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "axis": "Moving",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
   "Bolas": {
     "effects": [
       {
@@ -3032,6 +2971,67 @@
       },
       {
         "axis": "Anticipating",
+        "player": 0
+      }
+    ]
+  },
+  "Body Slam": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 8
+      },
+      {
+        "player": 2,
+        "axis": "Prone",
+        "amount": 3
+      }
+    ],
+    "name": "Body Slam",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 2,
+            "axis": "Damage",
+            "amount": 5
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 0
+          }
+        ]
+      },
+      {
+        "effects": [
+          {
+            "player": 1,
+            "axis": "Unbalanced",
+            "amount": 3
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Moving",
+            "player": 1
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
         "player": 0
       }
     ]
