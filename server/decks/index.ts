@@ -16,7 +16,7 @@ export const decks: DeckDescription[] = [
     { name: 'Grapple', deckList: grappleDeck, description: "Excels at fighting while Grappled and Prone. Wants to play the card Neck Break (requires Grappled, Both Prone, and Balanced." },
     { name: 'High Ground', deckList: highGroundDeck, description: "Wants to be standing while the opponent is prone. Tries very hard to avoid negative statuses" },
     { name: 'Gladiator', deckList: gladiatorDeck, description: "The deck wants to have anticipation, and the enemy be off balanced. It wants to be on it's feet, with the opponent moving or prone" },
-    { name: 'Stone', deckList: stoneDeck, description: "Focuses on block, choice, and momentum. Can do almost nothing if unbalanced."}
+    { name: 'Stone', deckList: stoneDeck, description: "Focuses on block, choice, and momentum. Can do almost nothing if unbalanced."},
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" }
 ]
 

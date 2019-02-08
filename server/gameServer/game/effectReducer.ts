@@ -224,10 +224,13 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
 
 const getMaxAmount = (currentAmount: number, nextAmount: number, changed: boolean) => {
     //The *2 is a hack for decrement counters
+    if(nextAmount === null){
+        return null; 
+    }
     if (changed) {
         return nextAmount * 2;
     }
-    if (currentAmount === null || nextAmount === null) {
+    if (currentAmount === null) {
         return null;
     }
     return Math.max(currentAmount, nextAmount * 2);
