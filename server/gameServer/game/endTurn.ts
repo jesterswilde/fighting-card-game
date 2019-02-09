@@ -63,7 +63,8 @@ const clearTurnData = (state: GameState) => {
     state.incrementedQueue = false;
     state.pendingPredictions = state.predictions;
     state.predictions = null; 
-    state.block[opponent] = 0; 
+    state.block[opponent] = 0;
+    state.checkedFocus = false; 
 }
 
 const changePlayers = (state: GameState) => {

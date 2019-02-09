@@ -70,45 +70,6 @@
       }
     ]
   },
-  "To The Ground": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 10
-      }
-    ],
-    "name": "To The Ground",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 1
-      },
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
   "Study Balance": {
     "effects": [
       {
@@ -3035,5 +2996,72 @@
         "player": 0
       }
     ]
+  },
+  "To The Ground": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 8
+      },
+      {
+        "player": 1,
+        "axis": "Prone",
+        "amount": 3
+      }
+    ],
+    "name": "To The Ground",
+    "optional": [
+      {
+        "effects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 1
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ]
+  },
+  "focus_test": {
+    "effects": [
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 5
+          }
+        ]
+      }
+    ],
+    "name": "focus_test",
+    "optional": [],
+    "requirements": []
   }
 }

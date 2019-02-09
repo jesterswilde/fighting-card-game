@@ -69,6 +69,7 @@ const clearTurnData = (state) => {
     state.pendingPredictions = state.predictions;
     state.predictions = null;
     state.block[opponent] = 0;
+    state.checkedFocus = false;
 };
 const changePlayers = (state) => {
     const player = state.currentPlayer === 0 ? 1 : 0;
