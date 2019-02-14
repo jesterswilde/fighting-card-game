@@ -7,7 +7,19 @@ export enum GameActionEnum{
     PICKED_CARD = 'pickedCard',
     MADE_PREDICTION = 'madePrediction',
     SHOULD_PICK_ONE = 'shouldPickOne',
-    DID_PICK_ONE = 'didPickOne'
+    DID_PICK_ONE = 'didPickOne',
+    SHOULD_PICK_FORCEFUL = 'shouldPickForceful',
+    DID_PICK_FORCEFUL = 'didPickForceful', 
+}
+
+export interface ShouldPickForecfulAction{
+    type: GameActionEnum.SHOULD_PICK_FORCEFUL,
+    option: {cardName: string, mechanic: Mechanic}
+}
+
+export interface DidPickForcefulAction{
+    type: GameActionEnum.DID_PICK_FORCEFUL,
+    choice: boolean
 }
 
 export interface MadePredictionAction{
@@ -37,4 +49,5 @@ export interface DidPickOneAction {
 
 
 
-export type GameActions = ReplaceGameAction | StartGameAction | MadePredictionAction | ShouldPickOneAction | DidPickOneAction; 
+export type GameActions = ReplaceGameAction | StartGameAction | MadePredictionAction | ShouldPickOneAction | DidPickOneAction |
+    ShouldPickForecfulAction | DidPickForcefulAction ; 

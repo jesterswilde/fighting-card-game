@@ -38,6 +38,8 @@ export default class Effect extends React.Component<Props>{
                 return this.renderReqEff();
             case DisplayEnum.EFF:
                 return this.renderEff();
+            case DisplayEnum.AMOUNT_EFF:
+                return this.renderAmountEff();
             case DisplayEnum.NONE:
                 return null;
             case DisplayEnum.NAME:
@@ -83,7 +85,7 @@ export default class Effect extends React.Component<Props>{
                         <button className="btn btn-primary btn-sm" onClick={(e) => this.addChoiceMech(e, choiceIndex)}> + </button>
                         {choice.map((mech, mechIndex) => <div className='ml-5' key={getUUID(mech)}>
                             <button className="btn btn-danger btn-sm" onClick={(e) => this.removeChoiceMech(e, choiceIndex, mechIndex)}> - </button>
-                            <Effect effect={mech} update={(state: Mechanic, mechindex: number)=>this.updateChoice(state, choiceIndex, mechindex)} index={mechIndex} />
+                            <Effect effect={mech} update={(state: Mechanic, mechindex: number) => this.updateChoice(state, choiceIndex, mechindex)} index={mechIndex} />
                         </div>)}
                     </div>)}
                 </div>
@@ -93,6 +95,24 @@ export default class Effect extends React.Component<Props>{
     private renderEff = () => {
         const { mechanicEffects: effs = [] } = this.props.effect;
         return <div className="ml-5">
+            <div>
+                Effects:
+            <button className="btn btn-sm btn-primary" onClick={this.addEffect}> + </button>
+                <div>
+                    {effs.map((eff, i) => <div key={getUUID(eff)}>
+                        <button className="btn btn-danger btn-sm" onClick={(e) => this.removeEffect(e, i)}> - </button>
+                        <Effect effect={eff} update={this.updateEffect} index={i} />
+                    </div>)}
+                </div>
+            </div>
+        </div>
+    }
+    private renderAmountEff = () => {
+        const { mechanicEffects: effs = [], amount} = this.props.effect;
+        return <div className="ml-5">
+            <div>
+                Amount: <input type="number" value={amount} onChange={this.changeAmount} />
+            </div>
             <div>
                 Effects:
             <button className="btn btn-sm btn-primary" onClick={this.addEffect}> + </button>
@@ -233,13 +253,13 @@ export default class Effect extends React.Component<Props>{
     }
     private updateChoice = (state: Mechanic, choiceIndex: number, mechIndex: number) => {
         const effect = { ...this.props.effect };
-        let choices = effect.choices || []; 
-        choices = [...choices]; 
-        let choice = choices[choiceIndex] || []; 
+        let choices = effect.choices || [];
+        choices = [...choices];
+        let choice = choices[choiceIndex] || [];
         choice = [...choice]
-        choice[mechIndex] = state; 
-        choices[choiceIndex] = choice; 
-        effect.choices = choices; 
+        choice[mechIndex] = state;
+        choices[choiceIndex] = choice;
+        effect.choices = choices;
         this.props.update(effect, this.props.index);
     }
     private updateEffect = (state: Mechanic, index: number) => {

@@ -39,19 +39,11 @@ const Prediction = ({ predictions, isMyPrediction }: Props) => {
 const renderPrediction = (predictions: PredictionState[], shouldFlip: boolean) => {
     return predictions.map(({prediction, mechanics}) => {
         return <div>
-            {prediction !== undefined && predictionRouter[prediction]}
+            {prediction !== undefined && prediction}
             {mechanics.map((eff) => <Effect effect={eff} shouldFlip={shouldFlip} />)}
         </div>
     });
 };
-
-const predictionRouter = {
-    [PredictionEnum.BALANCE]: 'Balance',
-    [PredictionEnum.DISTANCE]: 'Distance',
-    [PredictionEnum.MOTION]: 'Motion',
-    [PredictionEnum.STANDING]: 'Standing',
-    [PredictionEnum.NONE]: 'None'
-}
 
 export default (props: GameState) => {
     return Prediction(selector(props));

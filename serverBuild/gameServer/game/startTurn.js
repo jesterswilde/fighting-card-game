@@ -15,9 +15,18 @@ const errors_1 = require("../errors");
 const socket_2 = require("../interfaces/socket");
 exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     exports.shuffleDeck(state);
+    exports.addPoise(state);
     exports.drawHand(state);
+    socket_1.sendState(state);
     yield exports.playerPicksCard(state);
 });
+exports.addPoise = (state) => {
+    const { currentPlayer: player } = state;
+    if (state.turnNumber !== 0) {
+        state.playerStates[player].poise++;
+        console.log('increasing poise', state.playerStates[player].poise);
+    }
+};
 exports.drawHand = (state, { _sendHand = socket_1.sendHand } = {}) => {
     const { decks, currentPlayer, hands } = state;
     const deck = decks[currentPlayer];

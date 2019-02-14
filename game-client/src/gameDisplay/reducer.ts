@@ -15,6 +15,10 @@ export const gameDisplayReducer = (state: GameDisplayState = { showFullCard: fal
             return { ...state, screen: GameDisplayEnum.PICK_ONE }
         case GameActionEnum.DID_PICK_ONE:
             return { ...state, screen: GameDisplayEnum.NORMAL }
+        case GameActionEnum.SHOULD_PICK_FORCEFUL:
+            return { ...state, screen: GameDisplayEnum.FORCEFUL }
+        case GameActionEnum.DID_PICK_FORCEFUL:
+            return { ...state, screen: GameDisplayEnum.NORMAL }
         default:
             return state;
     }

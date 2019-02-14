@@ -43,11 +43,13 @@ export enum MechanicEnum{
     BUFF = "Buff",
     CRIPPLE = "Cripple",
     PICK_ONE = "Pick One",
+    FORCEFUL = "Forceful",
 }
 
 export enum DisplayEnum {
     REQ_EFF,
     EFF,
+    AMOUNT_EFF,
     NORMAL,
     NAME,
     AMOUNT,
@@ -64,7 +66,8 @@ export const MechanicDisplay = {
     [MechanicEnum.LOCK]: DisplayEnum.NORMAL,
     [MechanicEnum.REFLEX]: DisplayEnum.NONE,
     [MechanicEnum.CRIPPLE]: DisplayEnum.NAME,
-    [MechanicEnum.PICK_ONE]: DisplayEnum.PICK_ONE
+    [MechanicEnum.PICK_ONE]: DisplayEnum.PICK_ONE,
+    [MechanicEnum.FORCEFUL]: DisplayEnum.AMOUNT_EFF,
 }
 
 export enum AxisEnum{
@@ -87,7 +90,8 @@ export enum AxisEnum{
     BLOODIED = "Bloodied",
     MOTION = "Motion",
     DISTANCE = "Distance",
-    POISE = "POISE",
+    POISE = "Poise",
+    LOSE_POISE = "Lose Poise",
     STANCE = "Stance"
 }
 

@@ -1,8 +1,9 @@
-import { GameState, DistanceEnum, StandingEnum, MotionEnum, BalanceEnum, ReadiedEffect } from "../interfaces/stateInterface";
+import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ReadiedEffect } from "../interfaces/stateInterface";
 import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../interfaces/cardInterface";
 import { getCardByName } from "./getCards";
 import { playerEnumToPlayerArray } from "../util";
 import { addEffectEvent } from "./events";
+import { MAX_POISE, MIN_POISE } from "../gameSettings";
 
 export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
     readiedMechanics.forEach(({mechanic: mech, card}) => {
@@ -144,6 +145,20 @@ const globalAxis: { [axis: string]: (state: GameState) => void } = {
 
 
 const playerAxis: { [axis: string]: (players: number[], amount: number, state: GameState) => void } = {
+    [AxisEnum.POISE]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
+        const { playerStates, lockedState } = state;
+        if (!lockedState.players[i].poise) {
+            playerStates[i].poise += amount;
+            playerStates[i].poise = Math.min(playerStates[i].poise, MAX_POISE);  
+        }
+    }),
+    [AxisEnum.LOSE_POISE]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
+        const { playerStates, lockedState } = state;
+        if (!lockedState.players[i].poise) {
+            playerStates[i].poise -= amount;
+            playerStates[i].poise = Math.max(playerStates[i].poise, MIN_POISE);  
+        }
+    }),
     [AxisEnum.STANDING]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
         const { stateDurations, playerStates, lockedState } = state;
         if (!lockedState.players[i].stance) {
@@ -173,33 +188,6 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
             if (!lockedState.players[i].motion) {
                 stateDurations[i].motion = getMaxAmount(stateDurations[i].motion, amount, playerStates[i].motion !== MotionEnum.MOVING)
                 state.playerStates[i].motion = MotionEnum.MOVING;
-            }
-        })
-    },
-    [AxisEnum.BALANCED]: (players: number[], amount: number, state: GameState) => {
-        const { stateDurations, playerStates, lockedState } = state;
-        players.forEach((i) => {
-            if (!state.lockedState.players[i].poise || state.playerStates[i].balance !== BalanceEnum.ANTICIPATING) {
-                stateDurations[i].balance = getMaxAmount(stateDurations[i].balance, amount, playerStates[i].balance !== BalanceEnum.BALANCED)
-                state.playerStates[i].balance = BalanceEnum.BALANCED
-            }
-        })
-    },
-    [AxisEnum.ANTICIPATING]: (players: number[], amount: number, state: GameState) => {
-        const { stateDurations, playerStates, lockedState } = state;
-        players.forEach((i) => {
-            if (!lockedState.players[i].poise) {
-                stateDurations[i].balance = getMaxAmount(stateDurations[i].balance, amount, playerStates[i].balance !== BalanceEnum.ANTICIPATING)
-                state.playerStates[i].balance = BalanceEnum.ANTICIPATING
-            }
-        })
-    },
-    [AxisEnum.UNBALANCED]: (players: number[], amount: number, state: GameState) => {
-        const { stateDurations, playerStates, lockedState } = state;
-        players.forEach((i) => {
-            if (!lockedState.players[i].poise) {
-                stateDurations[i].balance = getMaxAmount(stateDurations[i].balance, amount, playerStates[i].balance !== BalanceEnum.UNBALANCED)
-                playerStates[i].balance = BalanceEnum.UNBALANCED
             }
         })
     },

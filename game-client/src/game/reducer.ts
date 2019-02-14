@@ -12,6 +12,10 @@ export const gameReducer = (state: GameState = makeDefaultGameState(), action: A
             return { ...state, choices: action.choices }
         case GameActionEnum.DID_PICK_ONE:
             return { ...state, choices: undefined }
+        case GameActionEnum.SHOULD_PICK_FORCEFUL:
+            return {...state, forceful: action.option}
+        case GameActionEnum.DID_PICK_FORCEFUL:
+            return {...state, forceful: undefined}
         default:
             return state;
     }
@@ -28,6 +32,7 @@ const makeDefaultGameState = (): GameState => {
         currentPlayer: 0,
         damaged: [],
         player: 0,
+        turnNumber: 0,
         lockedState: {
             distance: null,
             players: [

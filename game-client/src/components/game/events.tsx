@@ -52,32 +52,53 @@ class Events extends Component<Props, State>{
         </div>
     }
     reducer = (event: EventAction) => {
+        const opponent = event.playedBy !== this.props.player;
         switch (event.type) {
             case EventTypeEnum.CARD_NAME:
-                return this.renderCard(event);
+                return this.renderCard(event, opponent);
             case EventTypeEnum.EFFECT:
-                return this.renderEffect(event);
+                return this.renderEffect(event, opponent);
             case EventTypeEnum.MECHANIC:
-                return this.renderMechanic(event);
+                return this.renderMechanic(event, opponent);
+            case EventTypeEnum.ADDED_MECHANIC:
+                return this.renderAddedMechanic(event, opponent);
+            case EventTypeEnum.REVEAL_PREDICTION:
+                return this.renderRevealPrediction(event, opponent);
             default: return null;
         }
     }
-    renderCard = (event: EventAction) => {
-        const opponent = event.playedBy !== this.props.player;
-        return <div class={`event-card ${opponent ? 'opponent' : ''}`}> {event.cardName} </div>
-    }
-    renderEffect = (event: EventAction) => {
-        const { player, axis, mechanic, amount } = event.effect;
-        const opponent = event.playedBy !== this.props.player;
+    renderAddedMechanic = (event: EventAction, opponent: boolean) => {
         return <div class={`event-effect ${opponent ? 'opponent' : ''}`}>
-            {mechanic}
-            {player !== undefined && <Arrow player={player} shouldFlip={opponent} />}
-            {axis !== undefined && <Icon name={axis} />} 
-            {amount}
+            Added: {event.mechanicName}
         </div>
     }
-    renderMechanic = (event: EventAction) => {
-        const opponent = event.playedBy !== this.props.player;
+    renderRevealPrediction = (event: EventAction, opponent: boolean) => {
+        const { prediction, correct, correctGuesses = [] } = event;
+        return <div class={`event-predict ${opponent ? 'opponent' : ''}`}>
+            <div>
+                Prediction: {prediction} <div class='inline small'>{correct ? 'Correct' : 'Incorrect'}</div>
+            </div>
+            <div class="changed">
+                {'Correct Prediction(s): '}
+                {correctGuesses.map((guess, i) => <div key={i} class='inline'> {guess} </div>)}
+            </div>
+        </div>
+    }
+    renderCard = (event: EventAction, opponent: boolean) => {
+        return <div class={`event-card ${opponent ? 'opponent' : ''}`}> {event.cardName} </div>
+    }
+    renderEffect = (event: EventAction, opponent: boolean) => {
+        const { player, axis, mechanic, amount } = event.effect;
+        return <div class={`event-effect ${opponent ? 'opponent' : ''}`}>
+            {mechanic !== undefined && mechanic}
+            {mechanic !== undefined && ' '}
+            {player !== undefined && <Arrow player={player} shouldFlip={opponent} />}
+            {axis !== undefined && <Icon name={axis} />}
+            {axis !== undefined && ' '}
+            {amount !== undefined && amount}
+        </div>
+    }
+    renderMechanic = (event: EventAction, opponent: boolean) => {
         return <div class={`event-mechanic ${opponent ? 'opponent' : ''}`}>
             {event.cardName}: {event.mechanicName}
         </div>
@@ -86,4 +107,4 @@ class Events extends Component<Props, State>{
 
 
 
-export default connect(selector)(Events); 
+export default connect(selector)(Events) as unknown as () => JSX.Element; 

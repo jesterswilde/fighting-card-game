@@ -62,8 +62,9 @@ exports.checkPredictions = (state) => {
     let stateChanged = false;
     if (predictions) {
         predictions.forEach((pred) => {
-            if (predictions_1.didPredictionHappen(pred, state)) {
-                events_1.addMechanicEvent(cardInterface_1.MechanicEnum.PREDICT, pred.card, state);
+            const didHappen = predictions_1.didPredictionHappen(pred, state);
+            events_1.addRevealPredictionEvent(didHappen, pred.prediction, pred.card, state);
+            if (didHappen) {
                 stateChanged = true;
                 state.readiedEffects = state.readiedEffects || [];
                 const readiedeffects = playCard_1.mechanicsToReadiedEffects(pred.mechanics, pred.card);

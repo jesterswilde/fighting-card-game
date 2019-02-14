@@ -20,6 +20,7 @@ const renderSwitch = (effect: Mechanic) => {
     switch (MechanicDisplay[effect.mechanic]) {
         case DisplayEnum.EFF:
         case DisplayEnum.REQ_EFF:
+        case DisplayEnum.AMOUNT_EFF:
             return renderMechanic(effect);
         case DisplayEnum.PICK_ONE:
             return renderPickOne(effect);
@@ -31,6 +32,7 @@ const renderSwitch = (effect: Mechanic) => {
     }
     return null;
 }
+
 
 const renderPickOne = ({ mechanic, choices = [] }: Mechanic) => {
     return <div className="seperate">
@@ -47,7 +49,7 @@ const renderMechanic = (mechanic: Mechanic) => {
     const reqs = mechanic.mechanicRequirements || [];
     const effs = mechanic.mechanicEffects || [];
     return <div className="seperate">
-        <div><b>{mechanic.mechanic}</b></div>
+        <div><b>{mechanic.mechanic}  {mechanic.amount !== undefined && mechanic.amount}</b></div>
         <div className="ml-3">
             <div>{reqs.map((req, i) => <span key={i} className='mr-3'><Requirement requirement={req} /></span>)}</div>
             <div className="h-divider" />

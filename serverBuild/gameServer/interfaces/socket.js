@@ -15,4 +15,6 @@ var SocketEnum;
     SocketEnum["SHOULD_PICK_ONE"] = "shouldPickOne";
     SocketEnum["PICKED_ONE"] = "pickedOne";
     SocketEnum["GOT_EVENTS"] = "gotEvents";
+    SocketEnum["GOT_FORCEFUL_CHOICE"] = "gotForcefulChoice";
+    SocketEnum["PICKED_FORCEFUL"] = "pickedForceful";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));

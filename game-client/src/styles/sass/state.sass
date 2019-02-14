@@ -1,0 +1,169 @@
+.damage
+    background-color: #f71c1c
+.distance
+    background-color: #f2fbb5
+.standing
+    background-color: #6a7bf2
+.motion
+    background-color: #eed264
+.balance 
+    background-color: #d2d3dd
+.axis-icon
+    height: 25px
+    width: 25px
+    
+.state-machine
+    display: flex
+    flex-direction: column
+    width: 450px
+    .state-row
+        display: flex
+        flex-direction: row
+    .state-title
+        flex-grow: 2
+        text-align: center
+        font-weight: bold          
+        font-size: 1.5rem
+.state-piece-container-sml
+    flex-grow: 1
+    border: 2px solid
+    div
+        display: flex
+        justify-content: center
+        align-content: center
+        font-weight: bold
+.state-piece-container
+    display: flex
+    flex-direction: column
+    width: 100px
+    flex-grow: 2
+    .state-piece-title
+        display: flex
+        justify-content: center
+        align-content: center
+        font-weight: bold
+        border-top: 2px solid
+        border-right: 2px solid
+        border-left: 2ps solid
+    .state-pieces
+        flex-direction: row
+        display: flex
+        width: 100%
+    .state-piece
+        flex-grow: 1
+        display: flex
+        justify-content: center
+        align-content: center
+        border-bottom: 2px solid
+        border-right: 2px solid
+        border-left: 2ps solid
+    .state-piece.inactive
+        border-top: 2px solid
+        background-color: #909090
+        div
+            background-color: #828282
+
+.event-modal
+    .event-background
+        position: fixed
+        top: 0
+        left: 0
+        width: 100vw
+        height: 100vh
+        opacity: 0.5
+        background-color: #000
+    .event-container
+        left: 25vw
+        top: 10vh
+        position: fixed
+        margin: 20px
+        width: 50vw
+        height: 80vh
+        display: flex
+        flex-direction: column
+        background-color: #d4d4d4
+        overflow-y: auto
+        .event
+            display: flex
+            justify-content: center
+            margin: 3px
+            animation: enter linear 0.5s
+            animation-iteration-count: 1
+            transform-origin: 50% 50%
+            animation-fill-mode: forwards
+            >div
+                width: 100%
+                display: flex
+                justify-content: center
+            .event-card
+                font-size: 2rem
+                font-weight: bold
+                background-color: #6d78a0
+            .event-card.opponent
+                background-color: #a06d6d
+
+            .event-mechanic
+                font-size: 1.5rem
+                font-weight: bold
+                background-color: #6d7aa0
+            .event-mechanic.opponent
+                background-color: #a06d6d
+            .event-predict
+                font-size: 1.5rem
+                display: flex
+                flex-direction: column
+                background-color: #6d7aa0
+                text-align: center
+                align-content: center
+                font-weight: bold
+                .small
+                    font-size: 1.2rem
+                .changed
+                    font-size: 1.1rem
+                    font-weight: bold
+            .event-predict.opponent
+                background-color: #a06d6d
+            .event-effect.opponent
+                background-color: #a3877e
+            .event-effect
+                background-color: #7c82a5
+                font-size: 2rem
+                font-weight: bold
+                .inline
+                    width: 50px
+                    height: 50px
+            .player-icon, .axis-icon
+                height: 50px
+                width: 50px
+
+.poise-section
+    width: 100%
+    border: 2px solid 
+    .poise-title
+        text-align: center
+        font-weight: bold
+        font-size: 1.5rem
+    .balanced
+        background-color: #a59c9a
+        flex-grow: 11
+    .unbalanced
+        background-color: #726765
+    .anticipating
+        background-color: #c2bbba
+.poise-container
+    display: flex
+    flex-direction: row
+    div
+        text-align: center
+        font-size: 1.3rem
+        font-weight: bold
+    >div
+        flex-grow: 3
+        display: flex
+        flex-direction: column
+    .poise-icon
+        margin-left: 5px
+        display: flex
+        flex-direction: row
+        >div
+            flex-grow: 1

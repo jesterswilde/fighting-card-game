@@ -3,7 +3,7 @@ import { dispatchMadePrediction } from "../../game/dispatch";
 import { PredictionEnum } from "../../game/interface";
 import { GameDisplayEnum } from "../../gameDisplay/interface";
 import { StoreState } from "../../state/store";
-import {connect} from 'preact-redux'; 
+import { cleanConnect } from '../../util';
 
 interface Props {
     display: GameDisplayEnum
@@ -36,11 +36,6 @@ const Prediction = ()=>{
         </button>
         <button
             class="btn btn-primary"
-            onClick={()=>dispatchMadePrediction(PredictionEnum.BALANCE)} >
-                Balance
-        </button>
-        <button
-            class="btn btn-primary"
             onClick={()=>dispatchMadePrediction(PredictionEnum.MOTION)} >
                 Motion
         </button>
@@ -58,4 +53,4 @@ const Prediction = ()=>{
             
 }
 
-export default connect(selector)(Choices); 
+export default cleanConnect(selector, Choices); 

@@ -1,5 +1,6 @@
 import { Card, StatePiece, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "./interfaces/cardInterface";
-import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, BalanceEnum, ModifiedAxis } from "./interfaces/stateInterface";
+import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ModifiedAxis } from "./interfaces/stateInterface";
+import { STARTING_POISE } from "./gameSettings";
 
 export const deepCopy = <T>(obj: T): T => {
     if (null == obj || "object" != typeof obj) return obj;
@@ -56,6 +57,7 @@ export const makeGameState = (): GameState => {
         modifiedAxis: makeModifiedAxis(),
         sockets:[],
         events:[],
+        turnNumber: 0,
         lockedState: {
             distance: null,
             players: [
@@ -94,7 +96,7 @@ export const makePlayerState = (): PlayerState => {
     return {
         standing: StandingEnum.STANDING,
         motion: MotionEnum.STILL,
-        balance: BalanceEnum.BALANCED
+        poise: STARTING_POISE
     }
 }
 

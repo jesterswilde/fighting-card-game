@@ -6,5 +6,6 @@ export interface GameDisplayState{
 export enum GameDisplayEnum{
     NORMAL,
     PREDICT,
-    PICK_ONE
+    PICK_ONE, 
+    FORCEFUL
 }

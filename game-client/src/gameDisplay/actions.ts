@@ -1,7 +1,8 @@
 
 export enum GameDisplayActionEnum {
     SHOULD_PREDICT = 'shouldPredict',
-    SET_HAND_CARD_DISPLAY = 'setHandCardDisplay'
+    SET_HAND_CARD_DISPLAY = 'setHandCardDisplay',
+    PICK_FORCE = 'pickForce'
 }
 
 export interface SetHandCardDisplayAction{

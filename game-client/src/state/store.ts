@@ -18,7 +18,7 @@ export interface StoreState{
     hand: HandState
     display: DisplayState
     deck: DecksState
-    gameDisplay: GameDisplayState,
+    gameDisplay: GameDisplayState
     events: EventState
 }    
 

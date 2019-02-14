@@ -5,6 +5,7 @@ const stateInterface_1 = require("../interfaces/stateInterface");
 const gameSettings_1 = require("../gameSettings");
 const util_1 = require("../util");
 const errors_1 = require("../errors");
+const poise_1 = require("./poise");
 exports.canPlayCard = (card, state) => {
     if (card === undefined) {
         throw errors_1.ErrorEnum.NO_CARD;
@@ -55,9 +56,9 @@ const playerAxis = {
     [cardInterface_1.AxisEnum.PRONE]: (check, state) => check.every((i) => state.playerStates[i].standing === stateInterface_1.StandingEnum.PRONE),
     [cardInterface_1.AxisEnum.STILL]: (check, state) => check.every((i) => state.playerStates[i].motion === stateInterface_1.MotionEnum.STILL),
     [cardInterface_1.AxisEnum.MOVING]: (check, state) => check.every((i) => state.playerStates[i].motion === stateInterface_1.MotionEnum.MOVING),
-    [cardInterface_1.AxisEnum.BALANCED]: (check, state) => check.every((i) => state.playerStates[i].balance === stateInterface_1.BalanceEnum.BALANCED || state.playerStates[i].balance === stateInterface_1.BalanceEnum.ANTICIPATING),
-    [cardInterface_1.AxisEnum.ANTICIPATING]: (check, state) => check.every((i) => state.playerStates[i].balance === stateInterface_1.BalanceEnum.ANTICIPATING),
-    [cardInterface_1.AxisEnum.UNBALANCED]: (check, state) => check.every((i) => state.playerStates[i].balance === stateInterface_1.BalanceEnum.UNBALANCED),
+    [cardInterface_1.AxisEnum.BALANCED]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.BALANCED, i, state)),
+    [cardInterface_1.AxisEnum.ANTICIPATING]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.ANTICIPATING, i, state)),
+    [cardInterface_1.AxisEnum.UNBALANCED]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.UNBALANCED, i, state)),
     [cardInterface_1.AxisEnum.BLOODIED]: (check, state) => check.every((i) => state.health[i] <= gameSettings_1.BLOODIED_HP),
     [cardInterface_1.AxisEnum.DAMAGE]: (check, state) => check.every((i) => state.damaged[i]),
 };

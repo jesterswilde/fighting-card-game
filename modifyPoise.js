@@ -13,7 +13,7 @@ const run = () => {
             console.error(err);
         } else {
             cards = JSON.parse(data);
-            modifyDamage(cards);
+            modifyPoise(cards);
             fs.writeFile(path.join(__dirname, 'Cards.txt'), JSON.stringify(cards, null, 2), () => {
                 process.exit();
             });
@@ -21,15 +21,22 @@ const run = () => {
     });
 }
 
-const modifyDamage = (obj) => {
+const modifyPoise = (obj) => {
     if (typeof obj === 'object') {
-        if (obj.mechanic === 'Block' && typeof obj.amount === 'number') {
-            obj.amount *= 4;
+        if (obj.axis === 'Unbalanced') {
+            obj.amount = 3;
+            obj.axis = 'Lose Poise';
+        } else if (obj.axis === 'Balanced') {
+            obj.amount = 2;
+            obj.axis = 'Poise';
+        }else if (obj.axis === 'Anticipating') {
+            obj.amount = 4;
+            obj.axis = 'Poise';
         } else {
             for (let key in obj) {
                 const value = obj[key];
-                if (typeof value === 'object') {
-                    modifyDamage(value);
+                if (typeof value === 'object' && key !== "requirements" && key !== "mechanicRequirements") {
+                    modifyPoise(value);
                 }
             }
         }

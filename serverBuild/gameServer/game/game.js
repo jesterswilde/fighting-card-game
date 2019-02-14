@@ -55,9 +55,3 @@ const assignPlayerToDecks = (state) => {
         console.log(deck.map(({ player }) => player));
     }
 };
-const assignPlayerToMechanics = (state) => {
-    state.decks.forEach((deck, i) => {
-        deck.forEach((card) => {
-        });
-    });
-};

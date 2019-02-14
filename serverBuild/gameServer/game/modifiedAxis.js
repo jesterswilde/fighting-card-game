@@ -6,11 +6,6 @@ const util_1 = require("../util");
 exports.markAxisChange = (mechanic, card, state) => {
     const players = util_1.playerEnumToPlayerArray(mechanic.player, state.currentPlayer, card.opponent);
     switch (mechanic.axis) {
-        case cardInterface_1.AxisEnum.UNBALANCED:
-        case cardInterface_1.AxisEnum.BALANCED:
-        case cardInterface_1.AxisEnum.ANTICIPATING:
-            checkBalance(mechanic, players, state);
-            break;
         case cardInterface_1.AxisEnum.MOVING:
         case cardInterface_1.AxisEnum.STILL:
             checkMotion(mechanic, players, state);
@@ -24,25 +19,6 @@ exports.markAxisChange = (mechanic, card, state) => {
         case cardInterface_1.AxisEnum.FURTHER:
             checkDistance(mechanic, state);
     }
-};
-const checkBalance = (mechanic, players, state) => {
-    players.forEach((player) => {
-        if (state.playerStates[player].balance === stateInterface_1.BalanceEnum.ANTICIPATING) {
-            if (mechanic.axis === cardInterface_1.AxisEnum.UNBALANCED) {
-                state.modifiedAxis.balance = true;
-            }
-        }
-        else if (state.playerStates[player].balance === stateInterface_1.BalanceEnum.BALANCED) {
-            if (mechanic.axis !== cardInterface_1.AxisEnum.BALANCED) {
-                state.modifiedAxis.balance = true;
-            }
-        }
-        else if (state.playerStates[player].balance === stateInterface_1.BalanceEnum.UNBALANCED) {
-            if (mechanic.axis !== cardInterface_1.AxisEnum.UNBALANCED) {
-                state.modifiedAxis.balance = true;
-            }
-        }
-    });
 };
 const checkMotion = (mechanic, players, state) => {
     players.forEach((player) => {

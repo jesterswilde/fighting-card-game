@@ -1,6 +1,6 @@
 import {store} from '../state/store'; 
 import { GameState, PredictionEnum } from './interface';
-import { GameActionEnum, ReplaceGameAction, StartGameAction, MadePredictionAction, ShouldPickOneAction, DidPickOneAction } from './actions';
+import { GameActionEnum, ReplaceGameAction, StartGameAction, MadePredictionAction, ShouldPickOneAction, DidPickOneAction, ShouldPickForecfulAction, DidPickForcefulAction } from './actions';
 import { socket } from '../socket/socket';
 import { SocketEnum } from '../socket/socketEnum';
 import { Mechanic } from '../interfaces/card';
@@ -46,4 +46,21 @@ export const dispatchDidPickOne = (choice: number)=>{
     console.log("sending picked one"); 
     socket.emit(SocketEnum.PICKED_ONE, choice); 
     store.dispatch(action); 
+}
+
+export const dispatchShouldPickForecful = (option: {cardName: string, mechanic: Mechanic})=>{
+    const action: ShouldPickForecfulAction = {
+        type: GameActionEnum.SHOULD_PICK_FORCEFUL,
+        option
+    };
+    store.dispatch(action); 
+}
+
+export const dispatchDidPickForecful = (choice: boolean)=>{
+    const action: DidPickForcefulAction = {
+        type: GameActionEnum.DID_PICK_FORCEFUL,
+        choice
+    };
+    socket.emit(SocketEnum.PICKED_FORCEFUL, choice); 
+    store.dispatch(action);
 }

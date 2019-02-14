@@ -19,6 +19,7 @@ const renderSwitch = (effect: Mechanic, shouldFlip: boolean) => {
     switch (MechanicDisplay[effect.mechanic]) {
         case DisplayEnum.EFF:
         case DisplayEnum.REQ_EFF:
+        case DisplayEnum.AMOUNT_EFF:
             return renderMechanic(effect, shouldFlip);
         case DisplayEnum.PICK_ONE:
             return renderPickOne(effect, shouldFlip);
@@ -43,7 +44,7 @@ const renderMechanic = (mechanic: Mechanic, shouldFlip) => {
     const reqs = mechanic.mechanicRequirements || [];
     const effs = mechanic.mechanicEffects || [];
     return <div class='mechanic'>
-        <div><b>{mechanic.mechanic}</b></div>
+        <div><b>{mechanic.mechanic} {mechanic.amount !== undefined && mechanic.amount}</b></div>
         <div class='h-divider' />
         <div>
             <div>{reqs.map((req, i) => <span key={i}><Requirement requirement={req} shouldFlip={shouldFlip} /></span>)}</div>

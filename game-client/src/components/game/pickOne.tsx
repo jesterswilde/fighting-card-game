@@ -4,6 +4,7 @@ import {StoreState} from '../../state/store'
 import HandCard from './card/handCard'; 
 import { dispatchDidPickOne } from '../../game/dispatch';
 import { connect } from 'preact-redux';
+import { cleanConnect } from '../../util';
 
 interface Props {
     choices: Card[]
@@ -38,4 +39,4 @@ const PickOne = ({choices}: Props)=>{
     </div>
 }
 
-export default connect(selector)(PickOne); 
+export default cleanConnect(selector, PickOne); 

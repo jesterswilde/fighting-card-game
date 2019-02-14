@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 interface State {
     cards: Card[]
+    filter: string
 }
 
 interface Props {
@@ -15,7 +16,8 @@ export default class Viewer extends React.Component<Props, State>{
     constructor(props: Props) {
         super(props);
         this.state = {
-            cards: []
+            cards: [],
+            filter: ''
         }
         this.getCards = this.getCards.bind(this);
         this.getCards();
@@ -24,8 +26,13 @@ export default class Viewer extends React.Component<Props, State>{
         const { cards } = this.state;
         return <div>
             <h2>Cards</h2>
+            <div>
+                Filter:
+                <input type='text' value={this.state.filter} onChange={(e) => this.setState({ filter: e.target.value })} />
+            </div>
             <ul className='ml-3'>
-                {cards.map((card) => <li className="mb-1" key={card.name} onClick={() => this.props.pickCard(card)}>
+                {cards.filter(({name})=> name.toLowerCase().includes(this.state.filter.toLowerCase()))
+                    .map((card) => <li className="mb-1" key={card.name} onClick={() => this.props.pickCard(card)}>
                     <Link to="/viewer" >{card.name}</Link>
                     <Link to="/maker" className="ml-3 mr-1"><button className="btn btn-primary btn-sm">Edit</button></Link>
                     <button className="btn btn-danger btn-sm" onClick={() => this.deleteCard(card.name)}> Delete </button>
@@ -36,7 +43,7 @@ export default class Viewer extends React.Component<Props, State>{
     private async getCards() {
         const response = await fetch(hostURL + 'cards');
         const cardsObj: { [name: string]: Card } = await response.json();
-        const cards = Object.keys(cardsObj).sort().map((name)=> cardsObj[name]);
+        const cards = Object.keys(cardsObj).sort().map((name) => cardsObj[name]);
         this.setState({ cards });
     }
     private async deleteCard(name: string) {
@@ -48,12 +55,12 @@ export default class Viewer extends React.Component<Props, State>{
                 },
                 method: 'DELETE',
             })
-            const cards = {...this.state.cards}
-            delete cards[name]; 
-            this.setState({cards}); 
+            const cards = { ...this.state.cards }
+            delete cards[name];
+            this.setState({ cards });
         }
-        catch(err){
-            console.error(err); 
+        catch (err) {
+            console.error(err);
         }
     }
 }

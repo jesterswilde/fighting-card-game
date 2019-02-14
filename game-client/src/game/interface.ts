@@ -12,7 +12,9 @@ export interface GameState{
     damaged: boolean[]
     predictions?: PredictionState[]
     choices?: Mechanic[][]
+    forceful?: {cardName: string, mechanic: Mechanic}
     lockedState: LockState
+    turnNumber: number
 }
 export interface ModifiedAxis {
     standing: boolean
@@ -39,7 +41,7 @@ export interface PlayerStateDuration{
 export interface PlayerState {
     standing: StandingEnum,
     motion: MotionEnum,
-    balance: BalanceEnum
+    poise: number   
 }
 
 export interface PredictionState{
@@ -49,11 +51,10 @@ export interface PredictionState{
 }
 
 export enum PredictionEnum {
-    NONE,
-    DISTANCE,
-    STANDING,
-    MOTION,
-    BALANCE
+    NONE = "None",
+    DISTANCE = "Distance",
+    STANDING = "Standing",
+    MOTION = "Motion",
 }
 
 export enum BalanceEnum{

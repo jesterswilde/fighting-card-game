@@ -25,6 +25,7 @@ export interface GameState{
     incrementedQueue?: boolean
     lockedState: LockState
     events: EventAction[]
+    turnNumber: number
 }
 
 export interface ReadiedEffect{
@@ -53,12 +54,11 @@ export interface PlayerLockState{
 export interface PlayerStateDuration{
     standing: number | null, 
     motion: number | null,
-    balance: number | null,
 }
 export interface PlayerState {
     standing: StandingEnum,
     motion: MotionEnum,
-    balance: BalanceEnum
+    poise: number
 }
 
 export interface PredictionState{
@@ -68,14 +68,13 @@ export interface PredictionState{
 }
 
 export enum PredictionEnum {
-    NONE,
-    DISTANCE,
-    STANDING,
-    MOTION,
-    BALANCE
+    NONE = "None",
+    DISTANCE = "Distance",
+    STANDING = "Standing",
+    MOTION = "Motion",
 }
 
-export enum BalanceEnum{
+export enum PoiseEnum{
     BALANCED,
     UNBALANCED,
     ANTICIPATING

@@ -5,7 +5,6 @@ import { sendState } from "./socket";
 import { playCard } from "./playCard";
 import { startTurn } from "./startTurn";
 import { endTurn } from "./endTurn";
-import { Mechanic } from "../interfaces/cardInterface";
 
 export const playGame = async (state: GameState) => {
     try {
@@ -51,13 +50,5 @@ const assignPlayerToDecks = (state: GameState) => {
         }
         console.log(deck.map(({ player }) => player));
     }
-}
-
-const assignPlayerToMechanics = (state: GameState)=>{
-    state.decks.forEach((deck, i)=>{
-        deck.forEach((card)=>{
-            
-        })
-    })
 }
 

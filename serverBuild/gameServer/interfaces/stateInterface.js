@@ -2,18 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var PredictionEnum;
 (function (PredictionEnum) {
-    PredictionEnum[PredictionEnum["NONE"] = 0] = "NONE";
-    PredictionEnum[PredictionEnum["DISTANCE"] = 1] = "DISTANCE";
-    PredictionEnum[PredictionEnum["STANDING"] = 2] = "STANDING";
-    PredictionEnum[PredictionEnum["MOTION"] = 3] = "MOTION";
-    PredictionEnum[PredictionEnum["BALANCE"] = 4] = "BALANCE";
+    PredictionEnum["NONE"] = "None";
+    PredictionEnum["DISTANCE"] = "Distance";
+    PredictionEnum["STANDING"] = "Standing";
+    PredictionEnum["MOTION"] = "Motion";
 })(PredictionEnum = exports.PredictionEnum || (exports.PredictionEnum = {}));
-var BalanceEnum;
-(function (BalanceEnum) {
-    BalanceEnum[BalanceEnum["BALANCED"] = 0] = "BALANCED";
-    BalanceEnum[BalanceEnum["UNBALANCED"] = 1] = "UNBALANCED";
-    BalanceEnum[BalanceEnum["ANTICIPATING"] = 2] = "ANTICIPATING";
-})(BalanceEnum = exports.BalanceEnum || (exports.BalanceEnum = {}));
+var PoiseEnum;
+(function (PoiseEnum) {
+    PoiseEnum[PoiseEnum["BALANCED"] = 0] = "BALANCED";
+    PoiseEnum[PoiseEnum["UNBALANCED"] = 1] = "UNBALANCED";
+    PoiseEnum[PoiseEnum["ANTICIPATING"] = 2] = "ANTICIPATING";
+})(PoiseEnum = exports.PoiseEnum || (exports.PoiseEnum = {}));
 var StandingEnum;
 (function (StandingEnum) {
     StandingEnum[StandingEnum["PRONE"] = 0] = "PRONE";

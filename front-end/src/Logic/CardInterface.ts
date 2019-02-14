@@ -34,6 +34,7 @@ export enum MechanicEnum{
     BUFF = "Buff",
     CRIPPLE = "Cripple",
     PICK_ONE = "Pick One",
+    FORCEFUL = "Forceful"
 }
 
 export enum DisplayEnum {
@@ -43,6 +44,7 @@ export enum DisplayEnum {
     NAME,
     AMOUNT,
     PICK_ONE,
+    AMOUNT_EFF,
     NONE
 }
 
@@ -56,6 +58,7 @@ export const MechanicDisplay = {
     [MechanicEnum.REFLEX]: DisplayEnum.NONE,
     [MechanicEnum.CRIPPLE]: DisplayEnum.NAME,
     [MechanicEnum.PICK_ONE]: DisplayEnum.PICK_ONE,
+    [MechanicEnum.FORCEFUL]: DisplayEnum.AMOUNT_EFF,
 }
 
 export enum AxisEnum{
@@ -70,12 +73,14 @@ export enum AxisEnum{
     NOT_CLOSE = "Not Close",
     FAR = "Far",
     NOT_FAR = "Not Far",
+    POISE = "Poise",
+    LOSE_POISE = "Lose Poise",
     BALANCED = "Balanced",
     UNBALANCED = "Unbalanced",
     ANTICIPATING = "Anticipating",
     CLOSER = "Closer",
     FURTHER = "Further",
-    BLOODIED = "Bloodied"
+    BLOODIED = "Bloodied",
 }
 
 export enum PlayerEnum{

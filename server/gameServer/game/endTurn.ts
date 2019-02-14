@@ -1,4 +1,4 @@
-import { GameState, BalanceEnum, MotionEnum, StandingEnum } from "../interfaces/stateInterface";
+import { GameState, PoiseEnum, MotionEnum, StandingEnum } from "../interfaces/stateInterface";
 import { QUEUE_LENGTH } from "../gameSettings";
 import { makeModifiedAxis } from "../util";
 import { sendEvents } from "./events";
@@ -30,13 +30,6 @@ const decrementCounters = (state: GameState) => {
     const { stateDurations, playerStates } = state;
 
     stateDurations.forEach((duration, i) => {
-        if (duration.balance !== null && duration.balance !== undefined) {
-            duration.balance--;
-            if (duration.balance <= 0) {
-                duration.balance = null;
-                playerStates[i].balance = BalanceEnum.BALANCED;
-            }
-        }
         if (duration.motion !== null && duration.motion !== undefined) {
             duration.motion--;
             if (duration.motion <= 0) {
@@ -59,7 +52,6 @@ const clearTurnData = (state: GameState) => {
     state.damaged = [false, false];
     state.turnIsOver = false;
     state.modifiedAxis = makeModifiedAxis();
-    state.turnIsOver = false;
     state.incrementedQueue = false;
     state.pendingPredictions = state.predictions;
     state.predictions = null; 
@@ -69,5 +61,6 @@ const clearTurnData = (state: GameState) => {
 
 const changePlayers = (state: GameState) => {
     const player = state.currentPlayer === 0 ? 1 : 0;
+    state.turnNumber++; 
     state.currentPlayer = player;
 }

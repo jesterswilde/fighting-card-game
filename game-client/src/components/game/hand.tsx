@@ -5,6 +5,7 @@ import HandCard from './card/handCard'
 import Viewer from './card/viewer'; 
 import { StoreState } from '../../state/store';
 import { connect } from 'preact-redux';
+import { cleanConnect } from '../../util';
 
 interface Props {
     hand: Card[]
@@ -21,7 +22,7 @@ const selector = (state: StoreState): Props=>{
 const Hand = ({ hand, showFullCard }: Props) => {
     return <div>
         <h2>Hand</h2>
-        <div class='coard-container'>
+        <div class='card-container'>
             {hand.map((card, i) => {
                 const key = card === undefined ? 'blank' : card.name;
                 return <div
@@ -37,4 +38,4 @@ const Hand = ({ hand, showFullCard }: Props) => {
     </div>
 }
 
-export default connect(selector)(Hand); 
+export default cleanConnect(selector, Hand); 

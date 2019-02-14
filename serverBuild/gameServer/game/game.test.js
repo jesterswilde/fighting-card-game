@@ -101,7 +101,7 @@ describe('game', () => {
         });
         it('should draw only valid cards', () => {
             state.playerStates[0].standing = stateInterface_1.StandingEnum.PRONE;
-            state.playerStates[1].balance = stateInterface_1.BalanceEnum.UNBALANCED;
+            state.playerStates[1].poise = stateInterface_1.PoiseEnum.UNBALANCED;
             startTurn_1.drawHand(state, { _sendHand: jest.fn() });
             expect(state.hands[player][0].name).toBe('1');
             expect(state.hands[player][1].name).toBe('3');
@@ -322,8 +322,8 @@ describe('game', () => {
             expect(state.distance).toEqual(stateInterface_1.DistanceEnum.GRAPPLED);
             expect(state.health[opponent]).toEqual(gameSettings_1.STARTING_HEALTH - 3);
             expect(state.playerStates[player].motion).toEqual(stateInterface_1.MotionEnum.MOVING);
-            expect(state.playerStates[player].balance).toEqual(stateInterface_1.BalanceEnum.BALANCED);
-            expect(state.playerStates[opponent].balance).toEqual(stateInterface_1.BalanceEnum.BALANCED);
+            expect(state.playerStates[player].poise).toEqual(stateInterface_1.PoiseEnum.BALANCED);
+            expect(state.playerStates[opponent].poise).toEqual(stateInterface_1.PoiseEnum.BALANCED);
             expect(card.shouldReflex).toBeFalsy();
             expect(card.focuses).toBeFalsy();
             expect(card.telegraphs).toBeFalsy();
@@ -339,7 +339,7 @@ describe('game', () => {
             state.stateDurations[0].motion = 8;
             state.stateDurations[0].balance = 4;
             state.playerStates[0].motion = stateInterface_1.MotionEnum.MOVING;
-            state.playerStates[0].balance = stateInterface_1.BalanceEnum.ANTICIPATING;
+            state.playerStates[0].poise = stateInterface_1.PoiseEnum.ANTICIPATING;
             state.readiedEffects = util_1.deepCopy(card.effects);
             card.player = 0;
             card.opponent = 1;
@@ -560,8 +560,8 @@ describe('game', () => {
             ];
             effectReducer_1.reduceMechanics(card.effects, card, 0, 1, state);
             expect(state.distance).toEqual(stateInterface_1.DistanceEnum.CLOSE);
-            expect(state.playerStates[0].balance).toEqual(stateInterface_1.BalanceEnum.BALANCED);
-            expect(state.playerStates[1].balance).toEqual(stateInterface_1.BalanceEnum.UNBALANCED);
+            expect(state.playerStates[0].poise).toEqual(stateInterface_1.PoiseEnum.BALANCED);
+            expect(state.playerStates[1].poise).toEqual(stateInterface_1.PoiseEnum.UNBALANCED);
         });
     });
     describe('playerPicksOne', () => {

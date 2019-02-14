@@ -1,8 +1,9 @@
-import { h } from 'preact';
+import { h, PreactDOMAttributes } from 'preact';
 import { StoreState } from "../state/store";
 import { connect } from "preact-redux";
 import { dispatchPickedDeck } from "../deck/dispatch";
 import { DeckChoice } from '../deck/interfaces';
+import { cleanConnect } from '../util';
 
 interface Props {
     decks: DeckChoice[]
@@ -31,4 +32,4 @@ const PickDeck = ({ decks }: Props) => {
 }
 
 
-export default connect(selector)(PickDeck); 
+export default cleanConnect(selector, PickDeck); 

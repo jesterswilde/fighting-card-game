@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const cardInterface_1 = require("./interfaces/cardInterface");
 const stateInterface_1 = require("./interfaces/stateInterface");
+const gameSettings_1 = require("./gameSettings");
 exports.deepCopy = (obj) => {
     if (null == obj || "object" != typeof obj)
         return obj;
@@ -55,6 +56,7 @@ exports.makeGameState = () => {
         modifiedAxis: exports.makeModifiedAxis(),
         sockets: [],
         events: [],
+        turnNumber: 0,
         lockedState: {
             distance: null,
             players: [
@@ -90,7 +92,7 @@ exports.makePlayerState = () => {
     return {
         standing: stateInterface_1.StandingEnum.STANDING,
         motion: stateInterface_1.MotionEnum.STILL,
-        balance: stateInterface_1.BalanceEnum.BALANCED
+        poise: gameSettings_1.STARTING_POISE
     };
 };
 exports.playerEnumToPlayerArray = (playerEnum, player, opponent) => {

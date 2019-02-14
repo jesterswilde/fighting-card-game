@@ -21,7 +21,8 @@ export const sendState = (state: GameState) => {
         currentPlayer: state.currentPlayer,
         health: state.health,
         damaged: state.damaged,
-        predictions: state.pendingPredictions
+        predictions: state.pendingPredictions,
+        turnNumber: state.turnNumber
     }
     state.sockets.forEach((socket, i) => {
         const stateToSend = deepCopy(sendState) as GameState; 

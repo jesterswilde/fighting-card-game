@@ -3,8 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const stateInterface_1 = require("../interfaces/stateInterface");
 exports.didPredictionHappen = (prediction, state) => {
     switch (prediction.prediction) {
-        case (stateInterface_1.PredictionEnum.BALANCE):
-            return state.modifiedAxis.balance;
         case (stateInterface_1.PredictionEnum.DISTANCE):
             return state.modifiedAxis.distance;
         case (stateInterface_1.PredictionEnum.MOTION):

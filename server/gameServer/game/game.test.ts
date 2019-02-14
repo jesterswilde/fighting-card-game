@@ -1,6 +1,6 @@
 import { makeBlankCard, makeGameState, deepCopy } from "../util";
 import { Card, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "../interfaces/cardInterface";
-import { GameState, StandingEnum, BalanceEnum, DistanceEnum, MotionEnum, PredictionEnum, ModifiedAxis, PredictionState } from "../interfaces/stateInterface";
+import { GameState, StandingEnum, PoiseEnum, DistanceEnum, MotionEnum, PredictionEnum, ModifiedAxis, PredictionState } from "../interfaces/stateInterface";
 import { STARTING_HEALTH, HAND_SIZE } from "../gameSettings";
 import { ControlEnum } from "../errors";
 import { reduceMechanics } from "./effectReducer";
@@ -94,7 +94,7 @@ describe('game', () => {
         })
         it('should draw only valid cards', () => {
             state.playerStates[0].standing = StandingEnum.PRONE;
-            state.playerStates[1].balance = BalanceEnum.UNBALANCED;
+            state.playerStates[1].poise = PoiseEnum.UNBALANCED;
 
             drawHand(state, { _sendHand: jest.fn() });
 
@@ -347,8 +347,8 @@ describe('game', () => {
             expect(state.distance).toEqual(DistanceEnum.GRAPPLED);
             expect(state.health[opponent]).toEqual(STARTING_HEALTH - 3);
             expect(state.playerStates[player].motion).toEqual(MotionEnum.MOVING);
-            expect(state.playerStates[player].balance).toEqual(BalanceEnum.BALANCED);
-            expect(state.playerStates[opponent].balance).toEqual(BalanceEnum.BALANCED);
+            expect(state.playerStates[player].poise).toEqual(PoiseEnum.BALANCED);
+            expect(state.playerStates[opponent].poise).toEqual(PoiseEnum.BALANCED);
             expect(card.shouldReflex).toBeFalsy();
             expect(card.focuses).toBeFalsy();
             expect(card.telegraphs).toBeFalsy();
@@ -364,7 +364,7 @@ describe('game', () => {
             state.stateDurations[0].motion = 8;
             state.stateDurations[0].balance = 4;
             state.playerStates[0].motion = MotionEnum.MOVING;
-            state.playerStates[0].balance = BalanceEnum.ANTICIPATING;
+            state.playerStates[0].poise = PoiseEnum.ANTICIPATING;
             state.readiedEffects = deepCopy(card.effects);
             card.player = 0;
             card.opponent = 1;
@@ -615,8 +615,8 @@ describe('game', () => {
             reduceMechanics(card.effects, card, 0, 1, state);
 
             expect(state.distance).toEqual(DistanceEnum.CLOSE);
-            expect(state.playerStates[0].balance).toEqual(BalanceEnum.BALANCED);
-            expect(state.playerStates[1].balance).toEqual(BalanceEnum.UNBALANCED);
+            expect(state.playerStates[0].poise).toEqual(PoiseEnum.BALANCED);
+            expect(state.playerStates[1].poise).toEqual(PoiseEnum.UNBALANCED);
         });
     })
     describe('playerPicksOne', () => {

@@ -1,3 +1,4 @@
+/// <reference path='./index.d.tsx'/>
 import { h } from 'preact';
 import { AxisEnum, PlayerEnum } from "../interfaces/card";
 import grapple from './grapple.png';
@@ -16,6 +17,8 @@ import bothArrow from './bothArrow.png';
 import damage from './damage.png'
 import further from './further.png';
 import closer from './closer.png';
+import poise from './poise.png'; 
+import losePoise from './losePoise.png';
 import ReactTooltip from 'react-tooltip';
 import { getUUID } from '../util';
 
@@ -38,7 +41,9 @@ const iconRouter: { [name: string]: string } = {
     [AxisEnum.UNBALANCED]: unbalanced,
     [AxisEnum.DAMAGE]: damage,
     [AxisEnum.CLOSER]: closer,
-    [AxisEnum.FURTHER]: further
+    [AxisEnum.FURTHER]: further,
+    [AxisEnum.POISE]: poise,
+    [AxisEnum.LOSE_POISE]: losePoise
 }
 
 const classRouter: { [name: string]: string } = {
@@ -54,6 +59,8 @@ const classRouter: { [name: string]: string } = {
     [AxisEnum.BALANCED]: 'balance',
     [AxisEnum.ANTICIPATING]: 'balance',
     [AxisEnum.UNBALANCED]: 'balance',
+    [AxisEnum.POISE]: 'balance',
+    [AxisEnum.LOSE_POISE]: 'balance',
     [AxisEnum.DAMAGE]: 'damage',
 }
 

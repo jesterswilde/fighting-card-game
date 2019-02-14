@@ -1,8 +1,9 @@
 import { Card, StatePiece, AxisEnum, MechanicEnum, PlayerEnum, RequirementEffect, Mechanic } from "../interfaces/cardInterface";
-import { GameState, DistanceEnum, StandingEnum, MotionEnum, BalanceEnum } from "../interfaces/stateInterface";
+import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum } from "../interfaces/stateInterface";
 import { BLOODIED_HP } from "../gameSettings";
 import { playerEnumToPlayerArray } from "../util";
 import { ErrorEnum } from "../errors";
+import { hasPoise } from "./poise";
 
 export const canPlayCard = (card: Card, state: GameState): boolean => {
     if(card === undefined){
@@ -56,9 +57,9 @@ const playerAxis: { [axis: string]: (check: number[], state: GameState) => boole
     [AxisEnum.PRONE]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].standing === StandingEnum.PRONE),
     [AxisEnum.STILL]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].motion === MotionEnum.STILL),
     [AxisEnum.MOVING]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].motion === MotionEnum.MOVING),
-    [AxisEnum.BALANCED]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].balance === BalanceEnum.BALANCED || state.playerStates[i].balance === BalanceEnum.ANTICIPATING),
-    [AxisEnum.ANTICIPATING]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].balance === BalanceEnum.ANTICIPATING),
-    [AxisEnum.UNBALANCED]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].balance === BalanceEnum.UNBALANCED),
+    [AxisEnum.BALANCED]: (check: number[], state: GameState) => check.every((i) => hasPoise(PoiseEnum.BALANCED, i, state)),
+    [AxisEnum.ANTICIPATING]: (check: number[], state: GameState) => check.every((i) => hasPoise(PoiseEnum.ANTICIPATING, i, state)),
+    [AxisEnum.UNBALANCED]: (check: number[], state: GameState) => check.every((i) => hasPoise(PoiseEnum.UNBALANCED, i, state)),
     [AxisEnum.BLOODIED]: (check: number[], state: GameState) => check.every((i) => state.health[i] <= BLOODIED_HP),
     [AxisEnum.DAMAGE]: (check: number[], state: GameState) => check.every((i) => state.damaged[i]),
 }

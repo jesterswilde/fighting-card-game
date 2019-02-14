@@ -8,7 +8,7 @@ import { deepCopy } from "../util";
 import { mechReqsMet, canPlayCard } from "./requirements";
 import { Mechanic, MechanicEnum } from "../interfaces/cardInterface";
 import { mechanicsToReadiedEffects } from "./playCard";
-import { addMechanicEvent, addEffectEvent } from "./events";
+import { addMechanicEvent, addEffectEvent, addRevealPredictionEvent } from "./events";
 
 /*
     --- TODO ---
@@ -62,8 +62,9 @@ export const checkPredictions = (state: GameState) => {
     let stateChanged = false;
     if (predictions) {
         predictions.forEach((pred) => {
-            if (didPredictionHappen(pred, state)) {
-                addMechanicEvent(MechanicEnum.PREDICT, pred.card, state); 
+            const didHappen = didPredictionHappen(pred, state)
+            addRevealPredictionEvent(didHappen, pred.prediction, pred.card, state); 
+            if (didHappen) {
                 stateChanged = true;
                 state.readiedEffects = state.readiedEffects || [];
                 const readiedeffects = mechanicsToReadiedEffects(pred.mechanics, pred.card); 

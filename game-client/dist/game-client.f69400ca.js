@@ -2748,11 +2748,10 @@ Object.defineProperty(exports, "__esModule", {
 var PredictionEnum;
 
 (function (PredictionEnum) {
-  PredictionEnum[PredictionEnum["NONE"] = 0] = "NONE";
-  PredictionEnum[PredictionEnum["DISTANCE"] = 1] = "DISTANCE";
-  PredictionEnum[PredictionEnum["STANDING"] = 2] = "STANDING";
-  PredictionEnum[PredictionEnum["MOTION"] = 3] = "MOTION";
-  PredictionEnum[PredictionEnum["BALANCE"] = 4] = "BALANCE";
+  PredictionEnum["NONE"] = "None";
+  PredictionEnum["DISTANCE"] = "Distance";
+  PredictionEnum["STANDING"] = "Standing";
+  PredictionEnum["MOTION"] = "Motion";
 })(PredictionEnum = exports.PredictionEnum || (exports.PredictionEnum = {}));
 
 var BalanceEnum;
@@ -2799,6 +2798,8 @@ var GameActionEnum;
   GameActionEnum["MADE_PREDICTION"] = "madePrediction";
   GameActionEnum["SHOULD_PICK_ONE"] = "shouldPickOne";
   GameActionEnum["DID_PICK_ONE"] = "didPickOne";
+  GameActionEnum["SHOULD_PICK_FORCEFUL"] = "shouldPickForceful";
+  GameActionEnum["DID_PICK_FORCEFUL"] = "didPickForceful";
 })(GameActionEnum = exports.GameActionEnum || (exports.GameActionEnum = {}));
 },{}],"src/game/reducer.ts":[function(require,module,exports) {
 "use strict";
@@ -2834,6 +2835,16 @@ exports.gameReducer = function () {
         choices: undefined
       });
 
+    case actions_1.GameActionEnum.SHOULD_PICK_FORCEFUL:
+      return Object.assign({}, state, {
+        forceful: action.option
+      });
+
+    case actions_1.GameActionEnum.DID_PICK_FORCEFUL:
+      return Object.assign({}, state, {
+        forceful: undefined
+      });
+
     default:
       return state;
   }
@@ -2850,6 +2861,7 @@ var makeDefaultGameState = function makeDefaultGameState() {
     currentPlayer: 0,
     damaged: [],
     player: 0,
+    turnNumber: 0,
     lockedState: {
       distance: null,
       players: [{
@@ -12130,6 +12142,8 @@ var SocketEnum;
   SocketEnum["SHOULD_PICK_ONE"] = "shouldPickOne";
   SocketEnum["PICKED_ONE"] = "pickedOne";
   SocketEnum["GOT_EVENTS"] = "gotEvents";
+  SocketEnum["GOT_FORCEFUL_CHOICE"] = "gotForcefulChoice";
+  SocketEnum["PICKED_FORCEFUL"] = "pickedForceful";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
 },{}],"src/hand/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12262,6 +12276,23 @@ exports.dispatchDidPickOne = function (choice) {
   socket_1.socket.emit(socketEnum_1.SocketEnum.PICKED_ONE, choice);
   store_1.store.dispatch(action);
 };
+
+exports.dispatchShouldPickForecful = function (option) {
+  var action = {
+    type: actions_1.GameActionEnum.SHOULD_PICK_FORCEFUL,
+    option: option
+  };
+  store_1.store.dispatch(action);
+};
+
+exports.dispatchDidPickForecful = function (choice) {
+  var action = {
+    type: actions_1.GameActionEnum.DID_PICK_FORCEFUL,
+    choice: choice
+  };
+  socket_1.socket.emit(socketEnum_1.SocketEnum.PICKED_FORCEFUL, choice);
+  store_1.store.dispatch(action);
+};
 },{"../state/store":"src/state/store.ts","./actions":"src/game/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/deck/actions.ts":[function(require,module,exports) {
 "use strict";
 
@@ -12316,6 +12347,7 @@ var GameDisplayActionEnum;
 (function (GameDisplayActionEnum) {
   GameDisplayActionEnum["SHOULD_PREDICT"] = "shouldPredict";
   GameDisplayActionEnum["SET_HAND_CARD_DISPLAY"] = "setHandCardDisplay";
+  GameDisplayActionEnum["PICK_FORCE"] = "pickForce";
 })(GameDisplayActionEnum = exports.GameDisplayActionEnum || (exports.GameDisplayActionEnum = {}));
 },{}],"src/gameDisplay/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12436,6 +12468,9 @@ exports.setupSockets = function (socket) {
   socket.on(socketEnum_1.SocketEnum.GOT_EVENTS, function (events) {
     console.log('gotEvents', events);
     dispatch_6.dispatchGotEvents(events);
+  });
+  socket.on(socketEnum_1.SocketEnum.GOT_FORCEFUL_CHOICE, function (options) {
+    dispatch_3.dispatchShouldPickForecful(options);
   });
 };
 },{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","./socketEnum":"src/socket/socketEnum.ts","../deck/dispatch":"src/deck/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts","../events/dispatch":"src/events/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
@@ -12596,6 +12631,7 @@ var GameDisplayEnum;
   GameDisplayEnum[GameDisplayEnum["NORMAL"] = 0] = "NORMAL";
   GameDisplayEnum[GameDisplayEnum["PREDICT"] = 1] = "PREDICT";
   GameDisplayEnum[GameDisplayEnum["PICK_ONE"] = 2] = "PICK_ONE";
+  GameDisplayEnum[GameDisplayEnum["FORCEFUL"] = 3] = "FORCEFUL";
 })(GameDisplayEnum = exports.GameDisplayEnum || (exports.GameDisplayEnum = {}));
 },{}],"src/gameDisplay/reducer.ts":[function(require,module,exports) {
 "use strict";
@@ -12639,6 +12675,16 @@ exports.gameDisplayReducer = function () {
       });
 
     case actions_1.GameActionEnum.DID_PICK_ONE:
+      return Object.assign({}, state, {
+        screen: interface_1.GameDisplayEnum.NORMAL
+      });
+
+    case actions_1.GameActionEnum.SHOULD_PICK_FORCEFUL:
+      return Object.assign({}, state, {
+        screen: interface_1.GameDisplayEnum.FORCEFUL
+      });
+
+    case actions_1.GameActionEnum.DID_PICK_FORCEFUL:
       return Object.assign({}, state, {
         screen: interface_1.GameDisplayEnum.NORMAL
       });
@@ -12732,6 +12778,7 @@ var MechanicEnum;
   MechanicEnum["BUFF"] = "Buff";
   MechanicEnum["CRIPPLE"] = "Cripple";
   MechanicEnum["PICK_ONE"] = "Pick One";
+  MechanicEnum["FORCEFUL"] = "Forceful";
 })(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
 
 var DisplayEnum;
@@ -12739,14 +12786,15 @@ var DisplayEnum;
 (function (DisplayEnum) {
   DisplayEnum[DisplayEnum["REQ_EFF"] = 0] = "REQ_EFF";
   DisplayEnum[DisplayEnum["EFF"] = 1] = "EFF";
-  DisplayEnum[DisplayEnum["NORMAL"] = 2] = "NORMAL";
-  DisplayEnum[DisplayEnum["NAME"] = 3] = "NAME";
-  DisplayEnum[DisplayEnum["AMOUNT"] = 4] = "AMOUNT";
-  DisplayEnum[DisplayEnum["PICK_ONE"] = 5] = "PICK_ONE";
-  DisplayEnum[DisplayEnum["NONE"] = 6] = "NONE";
+  DisplayEnum[DisplayEnum["AMOUNT_EFF"] = 2] = "AMOUNT_EFF";
+  DisplayEnum[DisplayEnum["NORMAL"] = 3] = "NORMAL";
+  DisplayEnum[DisplayEnum["NAME"] = 4] = "NAME";
+  DisplayEnum[DisplayEnum["AMOUNT"] = 5] = "AMOUNT";
+  DisplayEnum[DisplayEnum["PICK_ONE"] = 6] = "PICK_ONE";
+  DisplayEnum[DisplayEnum["NONE"] = 7] = "NONE";
 })(DisplayEnum = exports.DisplayEnum || (exports.DisplayEnum = {}));
 
-exports.MechanicDisplay = (_exports$MechanicDisp = {}, _defineProperty(_exports$MechanicDisp, MechanicEnum.TELEGRAPH, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.FOCUS, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.PREDICT, DisplayEnum.EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.BUFF, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.BLOCK, DisplayEnum.AMOUNT), _defineProperty(_exports$MechanicDisp, MechanicEnum.LOCK, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.REFLEX, DisplayEnum.NONE), _defineProperty(_exports$MechanicDisp, MechanicEnum.CRIPPLE, DisplayEnum.NAME), _defineProperty(_exports$MechanicDisp, MechanicEnum.PICK_ONE, DisplayEnum.PICK_ONE), _exports$MechanicDisp);
+exports.MechanicDisplay = (_exports$MechanicDisp = {}, _defineProperty(_exports$MechanicDisp, MechanicEnum.TELEGRAPH, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.FOCUS, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.PREDICT, DisplayEnum.EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.BUFF, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.BLOCK, DisplayEnum.AMOUNT), _defineProperty(_exports$MechanicDisp, MechanicEnum.LOCK, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.REFLEX, DisplayEnum.NONE), _defineProperty(_exports$MechanicDisp, MechanicEnum.CRIPPLE, DisplayEnum.NAME), _defineProperty(_exports$MechanicDisp, MechanicEnum.PICK_ONE, DisplayEnum.PICK_ONE), _defineProperty(_exports$MechanicDisp, MechanicEnum.FORCEFUL, DisplayEnum.AMOUNT_EFF), _exports$MechanicDisp);
 var AxisEnum;
 
 (function (AxisEnum) {
@@ -12769,7 +12817,8 @@ var AxisEnum;
   AxisEnum["BLOODIED"] = "Bloodied";
   AxisEnum["MOTION"] = "Motion";
   AxisEnum["DISTANCE"] = "Distance";
-  AxisEnum["POISE"] = "POISE";
+  AxisEnum["POISE"] = "Poise";
+  AxisEnum["LOSE_POISE"] = "Lose Poise";
   AxisEnum["STANCE"] = "Stance";
 })(AxisEnum = exports.AxisEnum || (exports.AxisEnum = {}));
 
@@ -12812,6 +12861,10 @@ module.exports = "/damage.8dcb1185.png";
 module.exports = "/further.d4b8f7c0.png";
 },{}],"src/images/closer.png":[function(require,module,exports) {
 module.exports = "/closer.ec89e5b5.png";
+},{}],"src/images/poise.png":[function(require,module,exports) {
+module.exports = "/poise.37e12899.png";
+},{}],"src/images/losePoise.png":[function(require,module,exports) {
+module.exports = "/losePoise.6aa41db3.png";
 },{}],"node_modules/object-assign/index.js":[function(require,module,exports) {
 /*
 object-assign
@@ -16008,6 +16061,13 @@ module.exports = ReactTooltip;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var preact_redux_1 = require("preact-redux");
+
+exports.cleanConnect = function (selector, comp) {
+  return preact_redux_1.connect(selector)(comp);
+};
+
 var uuid = 0;
 
 exports.getUUID = function (obj) {
@@ -16018,7 +16078,7 @@ exports.getUUID = function (obj) {
 
   return obj.uuid;
 };
-},{}],"src/images/index.tsx":[function(require,module,exports) {
+},{"preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/images/index.tsx":[function(require,module,exports) {
 "use strict";
 
 var _playerRouter, _iconRouter, _classRouter;
@@ -16033,7 +16093,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
-});
+}); /// <reference path='./index.d.tsx'/>
 
 var preact_1 = require("preact");
 
@@ -16071,13 +16131,17 @@ var further_png_1 = __importDefault(require("./further.png"));
 
 var closer_png_1 = __importDefault(require("./closer.png"));
 
+var poise_png_1 = __importDefault(require("./poise.png"));
+
+var losePoise_png_1 = __importDefault(require("./losePoise.png"));
+
 var react_tooltip_1 = __importDefault(require("react-tooltip"));
 
 var util_1 = require("../util");
 
 var playerRouter = (_playerRouter = {}, _defineProperty(_playerRouter, card_1.PlayerEnum.PLAYER, downArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.OPPONENT, upArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.BOTH, bothArrow_png_1.default), _playerRouter);
-var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum.GRAPPLED, grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSE, close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FAR, far_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.MOVING, moving_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STILL, still_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STANDING, standing_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.PRONE, prone_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.BALANCED, balanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.ANTICIPATING, anticipating_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.UNBALANCED, unbalanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.DAMAGE, damage_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSER, closer_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FURTHER, further_png_1.default), _iconRouter);
-var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FURTHER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
+var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum.GRAPPLED, grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSE, close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FAR, far_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.MOVING, moving_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STILL, still_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STANDING, standing_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.PRONE, prone_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.BALANCED, balanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.ANTICIPATING, anticipating_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.UNBALANCED, unbalanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.DAMAGE, damage_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSER, closer_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FURTHER, further_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.POISE, poise_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.LOSE_POISE, losePoise_png_1.default), _iconRouter);
+var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FURTHER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.POISE, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.LOSE_POISE, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
 
 exports.Arrow = function (_ref) {
   var player = _ref.player,
@@ -16116,7 +16180,7 @@ exports.Icon = function (props) {
     src: iconRouter[name]
   })));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","react-tooltip":"node_modules/react-tooltip/dist/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-tooltip":"node_modules/react-tooltip/dist/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16172,6 +16236,7 @@ var renderSwitch = function renderSwitch(effect, shouldFlip) {
   switch (card_1.MechanicDisplay[effect.mechanic]) {
     case card_1.DisplayEnum.EFF:
     case card_1.DisplayEnum.REQ_EFF:
+    case card_1.DisplayEnum.AMOUNT_EFF:
       return renderMechanic(effect, shouldFlip);
 
     case card_1.DisplayEnum.PICK_ONE:
@@ -16200,7 +16265,7 @@ var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
   var effs = mechanic.mechanicEffects || [];
   return preact_1.h("div", {
     class: 'mechanic'
-  }, preact_1.h("div", null, preact_1.h("b", null, mechanic.mechanic)), preact_1.h("div", {
+  }, preact_1.h("div", null, preact_1.h("b", null, mechanic.mechanic, " ", mechanic.amount !== undefined && mechanic.amount)), preact_1.h("div", {
     class: 'h-divider'
   }), preact_1.h("div", null, preact_1.h("div", null, reqs.map(function (req, i) {
     return preact_1.h("span", {
@@ -16548,7 +16613,7 @@ var handCard_1 = __importDefault(require("./card/handCard"));
 
 var viewer_1 = __importDefault(require("./card/viewer"));
 
-var preact_redux_1 = require("preact-redux");
+var util_1 = require("../../util");
 
 var selector = function selector(state) {
   return {
@@ -16561,7 +16626,7 @@ var Hand = function Hand(_ref) {
   var hand = _ref.hand,
       showFullCard = _ref.showFullCard;
   return preact_1.h("div", null, preact_1.h("h2", null, "Hand"), preact_1.h("div", {
-    class: 'coard-container'
+    class: 'card-container'
   }, hand.map(function (card, i) {
     var key = card === undefined ? 'blank' : card.name;
     return preact_1.h("div", {
@@ -16574,8 +16639,8 @@ var Hand = function Hand(_ref) {
   })));
 };
 
-exports.default = preact_redux_1.connect(selector)(Hand);
-},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/handCard":"src/components/game/card/handCard.tsx","./card/viewer":"src/components/game/card/viewer.tsx","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game/choices.tsx":[function(require,module,exports) {
+exports.default = util_1.cleanConnect(selector, Hand);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/handCard":"src/components/game/card/handCard.tsx","./card/viewer":"src/components/game/card/viewer.tsx","../../util":"src/util.ts"}],"src/components/game/predictChoices.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16590,7 +16655,7 @@ var interface_1 = require("../../game/interface");
 
 var interface_2 = require("../../gameDisplay/interface");
 
-var preact_redux_1 = require("preact-redux");
+var util_1 = require("../../util");
 
 var selector = function selector(state) {
   return {
@@ -16621,11 +16686,6 @@ var Prediction = function Prediction() {
   }, "Distance"), preact_1.h("button", {
     class: "btn btn-primary",
     onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.BALANCE);
-    }
-  }, "Balance"), preact_1.h("button", {
-    class: "btn btn-primary",
-    onClick: function onClick() {
       return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.MOTION);
     }
   }, "Motion"), preact_1.h("button", {
@@ -16641,9 +16701,125 @@ var Prediction = function Prediction() {
   }, "None"));
 };
 
-exports.default = preact_redux_1.connect(selector)(Choices);
-},{"preact":"node_modules/preact/dist/preact.mjs","../../game/dispatch":"src/game/dispatch.ts","../../game/interface":"src/game/interface.ts","../../gameDisplay/interface":"src/gameDisplay/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/components/game/stateMachine.tsx":[function(require,module,exports) {
+exports.default = util_1.cleanConnect(selector, Choices);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../game/dispatch":"src/game/dispatch.ts","../../game/interface":"src/game/interface.ts","../../gameDisplay/interface":"src/gameDisplay/interface.ts","../../util":"src/util.ts"}],"src/components/game/stateMachine/poise.tsx":[function(require,module,exports) {
 "use strict";
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var images_1 = require("../../../images");
+
+var card_1 = require("../../../interfaces/card");
+
+var selector = function selector(state) {
+  return {
+    poise: state.playerStates[state.playerIndex].poise
+  };
+};
+
+var Poise = function Poise(_ref) {
+  var poise = _ref.poise;
+
+  var unbalancedArr = _toConsumableArray(Array(3).keys());
+
+  var balancedArr = _toConsumableArray(Array(4).keys()).map(function (key) {
+    return key + 3;
+  });
+
+  var anticipatingArr = _toConsumableArray(Array(3).keys()).map(function (key) {
+    return key + 7;
+  });
+
+  return preact_1.h("div", {
+    class: "poise-section"
+  }, preact_1.h("div", {
+    class: poiseTitleClass(poise)
+  }, "Poise: ", poiseLevel(poise)), preact_1.h("div", {
+    class: "poise-container"
+  }, preact_1.h("div", {
+    class: "unbalanced"
+  }, preact_1.h("div", null, "Unbalanced"), preact_1.h("div", {
+    class: 'poise-icon'
+  }, unbalancedArr.map(function (i) {
+    var hasPoise = i < poise;
+    return preact_1.h("div", {
+      class: 'axis-icon',
+      key: '' + i + hasPoise
+    }, preact_1.h(PoiseIcon, {
+      hasPoise: hasPoise
+    }));
+  }))), preact_1.h("div", {
+    class: "balanced"
+  }, preact_1.h("div", null, "Balanced"), preact_1.h("div", {
+    class: 'poise-icon'
+  }, balancedArr.map(function (i) {
+    var hasPoise = i < poise;
+    return preact_1.h("div", {
+      key: '' + i + hasPoise
+    }, preact_1.h(PoiseIcon, {
+      hasPoise: hasPoise
+    }));
+  }))), preact_1.h("div", {
+    class: "anticipating"
+  }, preact_1.h("div", null, "Anticipating"), preact_1.h("div", {
+    class: 'poise-icon'
+  }, anticipatingArr.map(function (i) {
+    var hasPoise = i < poise;
+    return preact_1.h("div", {
+      key: '' + i + hasPoise
+    }, preact_1.h(PoiseIcon, {
+      hasPoise: hasPoise
+    }));
+  })))));
+};
+
+var poiseTitleClass = function poiseTitleClass(poise) {
+  return "poise-title ".concat(poiseLevel(poise).toLowerCase());
+};
+
+var poiseLevel = function poiseLevel(poise) {
+  if (poise <= 3) return 'Unbalanced';
+  if (poise >= 7) return 'Anticipating';
+  return 'Balanced';
+};
+
+var PoiseIcon = function PoiseIcon(_ref2) {
+  var hasPoise = _ref2.hasPoise;
+
+  if (hasPoise) {
+    return preact_1.h(images_1.Icon, {
+      name: card_1.AxisEnum.POISE
+    });
+  }
+
+  return preact_1.h(images_1.Icon, {
+    name: card_1.AxisEnum.LOSE_POISE
+  });
+};
+
+exports.default = function (state) {
+  return Poise(selector(state));
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../images":"src/images/index.tsx","../../../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/stateMachine.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -16653,11 +16829,13 @@ var preact_1 = require("preact");
 
 var interface_1 = require("../../game/interface");
 
-var preact_redux_1 = require("preact-redux");
-
 var images_1 = require("../../images");
 
 var card_1 = require("../../interfaces/card");
+
+var util_1 = require("../../util");
+
+var poise_1 = __importDefault(require("./stateMachine/poise"));
 
 ;
 
@@ -16681,27 +16859,31 @@ var StateMachine = function StateMachine(props) {
     playerIndex: opponent
   })), preact_1.h(Motion, Object.assign({}, props, {
     playerIndex: opponent
-  })), preact_1.h(Balance, Object.assign({}, props, {
-    playerIndex: opponent
   })), preact_1.h(Health, Object.assign({}, props, {
     playerIndex: opponent
   })), preact_1.h(Block, Object.assign({}, props, {
     playerIndex: opponent
   }))), preact_1.h("div", {
     class: 'state-row'
+  }, preact_1.h(poise_1.default, Object.assign({}, props, {
+    playerIndex: opponent
+  }))), preact_1.h("div", {
+    class: 'state-row'
   }, preact_1.h("div", {
-    class: 'state-title'
+    class: 'state-title state-piece-container-sml'
   }, "State"), preact_1.h(Distance, Object.assign({}, props))), preact_1.h("div", {
     class: 'state-row'
   }, preact_1.h(Standing, Object.assign({}, props, {
     playerIndex: player
   })), preact_1.h(Motion, Object.assign({}, props, {
     playerIndex: player
-  })), preact_1.h(Balance, Object.assign({}, props, {
-    playerIndex: player
   })), preact_1.h(Health, Object.assign({}, props, {
     playerIndex: player
   })), preact_1.h(Block, Object.assign({}, props, {
+    playerIndex: player
+  }))), preact_1.h("div", {
+    class: 'state-row'
+  }, preact_1.h(poise_1.default, Object.assign({}, props, {
     playerIndex: player
   }))));
 };
@@ -16797,43 +16979,9 @@ var Standing = function Standing(_ref5) {
   }), " ", duration)));
 };
 
-var Balance = function Balance(_ref6) {
-  var _ref6$playerStates = _ref6.playerStates,
-      playerStates = _ref6$playerStates === void 0 ? [] : _ref6$playerStates,
-      _ref6$stateDurations = _ref6.stateDurations,
-      stateDurations = _ref6$stateDurations === void 0 ? [] : _ref6$stateDurations,
-      _ref6$playerIndex = _ref6.playerIndex,
-      playerIndex = _ref6$playerIndex === void 0 ? 0 : _ref6$playerIndex;
-  var balance = playerStates[playerIndex].balance;
-  var duration = stateDurations[playerIndex].balance;
-  return preact_1.h("div", {
-    class: 'state-piece-container'
-  }, preact_1.h("div", {
-    class: 'state-piece-title balance'
-  }, "Balance"), preact_1.h("div", {
-    class: 'state-pieces'
-  }, preact_1.h("div", {
-    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.UNBALANCED ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.UNBALANCED
-  })), preact_1.h("div", {
-    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.BALANCED ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.BALANCED
-  })), preact_1.h("div", {
-    class: "state-piece balance ".concat(balance === interface_1.BalanceEnum.ANTICIPATING ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.ANTICIPATING
-  }))));
-};
-
-exports.default = preact_redux_1.connect(selector)(StateMachine);
-},{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/predictions.tsx":[function(require,module,exports) {
+exports.default = util_1.cleanConnect(selector, StateMachine);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","../../images":"src/images/index.tsx","../../interfaces/card":"src/interfaces/card.ts","../../util":"src/util.ts","./stateMachine/poise":"src/components/game/stateMachine/poise.tsx"}],"src/components/game/predictions.tsx":[function(require,module,exports) {
 "use strict";
-
-var _predictionRouter;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -16846,8 +16994,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var preact_1 = require("preact");
-
-var interface_1 = require("../../game/interface");
 
 var effect_1 = __importDefault(require("./card/effect"));
 
@@ -16883,7 +17029,7 @@ var renderPrediction = function renderPrediction(predictions, shouldFlip) {
   return predictions.map(function (_ref2) {
     var prediction = _ref2.prediction,
         mechanics = _ref2.mechanics;
-    return preact_1.h("div", null, prediction !== undefined && predictionRouter[prediction], mechanics.map(function (eff) {
+    return preact_1.h("div", null, prediction !== undefined && prediction, mechanics.map(function (eff) {
       return preact_1.h(effect_1.default, {
         effect: eff,
         shouldFlip: shouldFlip
@@ -16892,12 +17038,10 @@ var renderPrediction = function renderPrediction(predictions, shouldFlip) {
   });
 };
 
-var predictionRouter = (_predictionRouter = {}, _defineProperty(_predictionRouter, interface_1.PredictionEnum.BALANCE, 'Balance'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.DISTANCE, 'Distance'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.MOTION, 'Motion'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.STANDING, 'Standing'), _defineProperty(_predictionRouter, interface_1.PredictionEnum.NONE, 'None'), _predictionRouter);
-
 exports.default = function (props) {
   return Prediction(selector(props));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","./card/effect":"src/components/game/card/effect.tsx"}],"src/components/game/pickOne.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/effect":"src/components/game/card/effect.tsx"}],"src/components/game/pickOne.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -16916,7 +17060,7 @@ var handCard_1 = __importDefault(require("./card/handCard"));
 
 var dispatch_1 = require("../../game/dispatch");
 
-var preact_redux_1 = require("preact-redux");
+var util_1 = require("../../util");
 
 var selector = function selector(state) {
   var choices = state.game.choices.map(function (choice, i) {
@@ -16945,8 +17089,86 @@ var PickOne = function PickOne(_ref) {
   })));
 };
 
-exports.default = preact_redux_1.connect(selector)(PickOne);
-},{"preact":"node_modules/preact/dist/preact.mjs","./card/handCard":"src/components/game/card/handCard.tsx","../../game/dispatch":"src/game/dispatch.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/events/interface.ts":[function(require,module,exports) {
+exports.default = util_1.cleanConnect(selector, PickOne);
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/handCard":"src/components/game/card/handCard.tsx","../../game/dispatch":"src/game/dispatch.ts","../../util":"src/util.ts"}],"src/components/game/forceful.tsx":[function(require,module,exports) {
+"use strict";
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var card_1 = require("../../interfaces/card");
+
+var handCard_1 = __importDefault(require("./card/handCard"));
+
+var util_1 = require("../../util");
+
+var dispatch_1 = require("../../game/dispatch");
+
+var selector = function selector(state) {
+  return state.game.forceful;
+};
+
+var forceful = function forceful(_ref) {
+  var cardName = _ref.cardName,
+      mechanic = _ref.mechanic;
+  var dontUse = makeDontUse();
+  var use = makeUse(mechanic);
+  return preact_1.h("div", null, preact_1.h("h3", null, " ", cardName, " use ", preact_1.h("b", null, "Forceful?")), preact_1.h("div", {
+    class: 'card-container'
+  }, preact_1.h("div", {
+    class: 'inline',
+    onClick: function onClick() {
+      return dispatch_1.dispatchDidPickForecful(false);
+    }
+  }, preact_1.h(handCard_1.default, Object.assign({}, dontUse))), preact_1.h("div", {
+    class: 'card-container',
+    onClick: function onClick() {
+      return dispatch_1.dispatchDidPickForecful(true);
+    }
+  }, preact_1.h(handCard_1.default, Object.assign({}, use)))));
+};
+
+var makeDontUse = function makeDontUse() {
+  return {
+    name: "Don't Use",
+    effects: [],
+    requirements: [],
+    optional: []
+  };
+};
+
+var makeUse = function makeUse(mechanic) {
+  return {
+    name: 'Use',
+    requirements: [],
+    effects: [{
+      axis: card_1.AxisEnum.LOSE_POISE,
+      player: card_1.PlayerEnum.PLAYER,
+      amount: mechanic.amount
+    }].concat(_toConsumableArray(mechanic.mechanicEffects)),
+    optional: []
+  };
+};
+
+exports.default = util_1.cleanConnect(selector, forceful);
+},{"preact":"node_modules/preact/dist/preact.mjs","../../interfaces/card":"src/interfaces/card.ts","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/events/interface.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16958,6 +17180,8 @@ var EventTypeEnum;
   EventTypeEnum[EventTypeEnum["CARD_NAME"] = 0] = "CARD_NAME";
   EventTypeEnum[EventTypeEnum["EFFECT"] = 1] = "EFFECT";
   EventTypeEnum[EventTypeEnum["MECHANIC"] = 2] = "MECHANIC";
+  EventTypeEnum[EventTypeEnum["ADDED_MECHANIC"] = 3] = "ADDED_MECHANIC";
+  EventTypeEnum[EventTypeEnum["REVEAL_PREDICTION"] = 4] = "REVEAL_PREDICTION";
 })(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));
 },{}],"src/components/game/events.tsx":[function(require,module,exports) {
 "use strict";
@@ -17039,47 +17263,77 @@ function (_preact_1$Component) {
     };
 
     _this.reducer = function (event) {
+      var opponent = event.playedBy !== _this.props.player;
+
       switch (event.type) {
         case interface_1.EventTypeEnum.CARD_NAME:
-          return _this.renderCard(event);
+          return _this.renderCard(event, opponent);
 
         case interface_1.EventTypeEnum.EFFECT:
-          return _this.renderEffect(event);
+          return _this.renderEffect(event, opponent);
 
         case interface_1.EventTypeEnum.MECHANIC:
-          return _this.renderMechanic(event);
+          return _this.renderMechanic(event, opponent);
+
+        case interface_1.EventTypeEnum.ADDED_MECHANIC:
+          return _this.renderAddedMechanic(event, opponent);
+
+        case interface_1.EventTypeEnum.REVEAL_PREDICTION:
+          return _this.renderRevealPrediction(event, opponent);
 
         default:
           return null;
       }
     };
 
-    _this.renderCard = function (event) {
-      var opponent = event.playedBy !== _this.props.player;
+    _this.renderAddedMechanic = function (event, opponent) {
+      return preact_1.h("div", {
+        class: "event-effect ".concat(opponent ? 'opponent' : '')
+      }, "Added: ", event.mechanicName);
+    };
+
+    _this.renderRevealPrediction = function (event, opponent) {
+      var prediction = event.prediction,
+          correct = event.correct,
+          _event$correctGuesses = event.correctGuesses,
+          correctGuesses = _event$correctGuesses === void 0 ? [] : _event$correctGuesses;
+      return preact_1.h("div", {
+        class: "event-predict ".concat(opponent ? 'opponent' : '')
+      }, preact_1.h("div", null, "Prediction: ", prediction, " ", preact_1.h("div", {
+        class: 'inline small'
+      }, correct ? 'Correct' : 'Incorrect')), preact_1.h("div", {
+        class: "changed"
+      }, 'Correct Prediction(s): ', correctGuesses.map(function (guess, i) {
+        return preact_1.h("div", {
+          key: i,
+          class: 'inline'
+        }, " ", guess, " ");
+      })));
+    };
+
+    _this.renderCard = function (event, opponent) {
       return preact_1.h("div", {
         class: "event-card ".concat(opponent ? 'opponent' : '')
       }, " ", event.cardName, " ");
     };
 
-    _this.renderEffect = function (event) {
+    _this.renderEffect = function (event, opponent) {
       var _event$effect = event.effect,
           player = _event$effect.player,
           axis = _event$effect.axis,
           mechanic = _event$effect.mechanic,
           amount = _event$effect.amount;
-      var opponent = event.playedBy !== _this.props.player;
       return preact_1.h("div", {
         class: "event-effect ".concat(opponent ? 'opponent' : '')
-      }, mechanic, player !== undefined && preact_1.h(images_1.Arrow, {
+      }, mechanic !== undefined && mechanic, mechanic !== undefined && ' ', player !== undefined && preact_1.h(images_1.Arrow, {
         player: player,
         shouldFlip: opponent
       }), axis !== undefined && preact_1.h(images_1.Icon, {
         name: axis
-      }), amount);
+      }), axis !== undefined && ' ', amount !== undefined && amount);
     };
 
-    _this.renderMechanic = function (event) {
-      var opponent = event.playedBy !== _this.props.player;
+    _this.renderMechanic = function (event, opponent) {
       return preact_1.h("div", {
         class: "event-mechanic ".concat(opponent ? 'opponent' : '')
       }, event.cardName, ": ", event.mechanicName);
@@ -17137,13 +17391,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var preact_1 = require("preact");
 
-var preact_redux_1 = require("preact-redux");
-
 var board_1 = __importDefault(require("./game/board"));
 
 var hand_1 = __importDefault(require("./game/hand"));
 
-var choices_1 = __importDefault(require("./game/choices"));
+var predictChoices_1 = __importDefault(require("./game/predictChoices"));
 
 var stateMachine_1 = __importDefault(require("./game/stateMachine"));
 
@@ -17151,15 +17403,18 @@ var predictions_1 = __importDefault(require("./game/predictions"));
 
 var pickOne_1 = __importDefault(require("./game/pickOne"));
 
+var forceful_1 = __importDefault(require("./game/forceful"));
+
 var events_1 = __importDefault(require("./game/events"));
 
 var interface_1 = require("../gameDisplay/interface");
+
+var util_1 = require("../util");
 
 var selector = function selector(state) {
   var game = state.game,
       hand = state.hand,
       gameDisplay = state.gameDisplay;
-  console.log('events', state.events);
   return {
     game: game,
     hand: hand,
@@ -17175,16 +17430,15 @@ var game = function game(_ref) {
   var currentPlayer = game.currentPlayer,
       queue = game.queue,
       player = game.player;
-  var foo = {};
   return preact_1.h("div", null, shouldDisplayEvents && preact_1.h(events_1.default, null), preact_1.h("h2", null, "Game"), preact_1.h(stateMachine_1.default, null), preact_1.h(predictions_1.default, Object.assign({}, game)), preact_1.h(board_1.default, {
     player: player,
     currentPlayer: currentPlayer,
     queue: queue
-  }), screen === interface_1.GameDisplayEnum.NORMAL && preact_1.h(hand_1.default, null), screen === interface_1.GameDisplayEnum.PREDICT && preact_1.h(choices_1.default, null), screen === interface_1.GameDisplayEnum.PICK_ONE && preact_1.h(pickOne_1.default, null));
+  }), screen === interface_1.GameDisplayEnum.NORMAL && preact_1.h(hand_1.default, null), screen === interface_1.GameDisplayEnum.PREDICT && preact_1.h(predictChoices_1.default, null), screen === interface_1.GameDisplayEnum.PICK_ONE && preact_1.h(pickOne_1.default, null), screen === interface_1.GameDisplayEnum.FORCEFUL && preact_1.h(forceful_1.default, null));
 };
 
-exports.default = preact_redux_1.connect(selector)(game);
-},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/board":"src/components/game/board.tsx","./game/hand":"src/components/game/hand.tsx","./game/choices":"src/components/game/choices.tsx","./game/stateMachine":"src/components/game/stateMachine.tsx","./game/predictions":"src/components/game/predictions.tsx","./game/pickOne":"src/components/game/pickOne.tsx","./game/events":"src/components/game/events.tsx","../gameDisplay/interface":"src/gameDisplay/interface.ts"}],"src/components/PickDeck.tsx":[function(require,module,exports) {
+exports.default = util_1.cleanConnect(selector, game);
+},{"preact":"node_modules/preact/dist/preact.mjs","./game/board":"src/components/game/board.tsx","./game/hand":"src/components/game/hand.tsx","./game/predictChoices":"src/components/game/predictChoices.tsx","./game/stateMachine":"src/components/game/stateMachine.tsx","./game/predictions":"src/components/game/predictions.tsx","./game/pickOne":"src/components/game/pickOne.tsx","./game/forceful":"src/components/game/forceful.tsx","./game/events":"src/components/game/events.tsx","../gameDisplay/interface":"src/gameDisplay/interface.ts","../util":"src/util.ts"}],"src/components/PickDeck.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17193,9 +17447,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var preact_1 = require("preact");
 
-var preact_redux_1 = require("preact-redux");
-
 var dispatch_1 = require("../deck/dispatch");
+
+var util_1 = require("../util");
 
 var selector = function selector(state) {
   return {
@@ -17226,8 +17480,8 @@ var PickDeck = function PickDeck(_ref) {
   return preact_1.h("div", null, preact_1.h("h2", null, "Waiting For Opponent To Pick Deck"));
 };
 
-exports.default = preact_redux_1.connect(selector)(PickDeck);
-},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../deck/dispatch":"src/deck/dispatch.ts"}],"src/listeners/index.ts":[function(require,module,exports) {
+exports.default = util_1.cleanConnect(selector, PickDeck);
+},{"preact":"node_modules/preact/dist/preact.mjs","../deck/dispatch":"src/deck/dispatch.ts","../util":"src/util.ts"}],"src/listeners/index.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17243,8 +17497,6 @@ var tabDown = function tabDown(ev) {
 };
 
 var tabUp = function tabUp(ev) {
-  console.log(ev.keyCode);
-
   if (ev.keyCode === 192) {
     dispatch_1.dispatchSetHandCardDisplay(false);
   }
@@ -17269,13 +17521,13 @@ var preact_1 = require("preact");
 
 var interface_1 = require("./display/interface");
 
-var preact_redux_1 = require("preact-redux");
-
 var game_1 = __importDefault(require("./components/game"));
 
 var PickDeck_1 = __importDefault(require("./components/PickDeck"));
 
 require("./listeners");
+
+var util_1 = require("./util");
 
 var selector = function selector(state) {
   return {
@@ -17301,8 +17553,8 @@ var App = function App(_ref) {
   }
 };
 
-exports.default = preact_redux_1.connect(selector)(App);
-},{"preact":"node_modules/preact/dist/preact.mjs","./display/interface":"src/display/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./components/game":"src/components/game.tsx","./components/PickDeck":"src/components/PickDeck.tsx","./listeners":"src/listeners/index.ts"}],"index.tsx":[function(require,module,exports) {
+exports.default = util_1.cleanConnect(selector, App);
+},{"preact":"node_modules/preact/dist/preact.mjs","./display/interface":"src/display/interface.ts","./components/game":"src/components/game.tsx","./components/PickDeck":"src/components/PickDeck.tsx","./listeners":"src/listeners/index.ts","./util":"src/util.ts"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -17323,15 +17575,17 @@ var store_1 = require("./src/state/store");
 
 var app_1 = __importDefault(require("./src/app"));
 
+var Prov = preact_redux_1.Provider;
+
 if (module.hot) {
   module.hot.accept();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
   var rootNode = document.getElementById('root');
-  preact_1.render(preact_1.h(preact_redux_1.Provider, {
+  preact_1.render(preact_1.h(Prov, {
     store: store_1.store
-  }, preact_1.h(app_1.default, null)), rootNode, rootNode.lastChild); // render(<Test />, rootNode, rootNode.lastChild as Element); 
+  }, preact_1.h(app_1.default, null)), rootNode, rootNode.lastChild);
 });
 },{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./src/state/store":"src/state/store.ts","./src/app":"src/app.tsx"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -17360,7 +17614,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49899" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51051" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

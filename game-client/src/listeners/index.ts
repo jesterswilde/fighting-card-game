@@ -8,7 +8,6 @@ const tabDown = (ev: KeyboardEvent)=>{
 }
 
 const tabUp = (ev: KeyboardEvent)=>{
-    console.log(ev.keyCode)
     if(ev.keyCode === 192){
         dispatchSetHandCardDisplay(false); 
     }

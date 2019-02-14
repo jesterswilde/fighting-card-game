@@ -11,26 +11,8 @@ var MechanicEnum;
     MechanicEnum["BUFF"] = "Buff";
     MechanicEnum["CRIPPLE"] = "Cripple";
     MechanicEnum["PICK_ONE"] = "Pick One";
+    MechanicEnum["FORCEFUL"] = "Forceful";
 })(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
-var DisplayEnum;
-(function (DisplayEnum) {
-    DisplayEnum[DisplayEnum["REQ_EFF"] = 0] = "REQ_EFF";
-    DisplayEnum[DisplayEnum["EFF"] = 1] = "EFF";
-    DisplayEnum[DisplayEnum["NORMAL"] = 2] = "NORMAL";
-    DisplayEnum[DisplayEnum["NAME"] = 3] = "NAME";
-    DisplayEnum[DisplayEnum["AMOUNT"] = 4] = "AMOUNT";
-    DisplayEnum[DisplayEnum["NONE"] = 5] = "NONE";
-})(DisplayEnum = exports.DisplayEnum || (exports.DisplayEnum = {}));
-exports.MechanicDisplay = {
-    [MechanicEnum.TELEGRAPH]: DisplayEnum.REQ_EFF,
-    [MechanicEnum.FOCUS]: DisplayEnum.REQ_EFF,
-    [MechanicEnum.PREDICT]: DisplayEnum.EFF,
-    [MechanicEnum.BUFF]: DisplayEnum.NORMAL,
-    [MechanicEnum.BLOCK]: DisplayEnum.AMOUNT,
-    [MechanicEnum.LOCK]: DisplayEnum.NORMAL,
-    [MechanicEnum.REFLEX]: DisplayEnum.NONE,
-    [MechanicEnum.CRIPPLE]: DisplayEnum.NAME
-};
 var AxisEnum;
 (function (AxisEnum) {
     AxisEnum["DAMAGE"] = "Damage";
@@ -52,7 +34,8 @@ var AxisEnum;
     AxisEnum["BLOODIED"] = "Bloodied";
     AxisEnum["MOTION"] = "Motion";
     AxisEnum["DISTANCE"] = "Distance";
-    AxisEnum["POISE"] = "POISE";
+    AxisEnum["POISE"] = "Poise";
+    AxisEnum["LOSE_POISE"] = "Lose Poise";
     AxisEnum["STANCE"] = "Stance";
 })(AxisEnum = exports.AxisEnum || (exports.AxisEnum = {}));
 var PlayerEnum;

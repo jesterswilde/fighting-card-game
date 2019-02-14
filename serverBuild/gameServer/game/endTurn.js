@@ -36,13 +36,6 @@ exports.cullQueue = (state) => {
 const decrementCounters = (state) => {
     const { stateDurations, playerStates } = state;
     stateDurations.forEach((duration, i) => {
-        if (duration.balance !== null && duration.balance !== undefined) {
-            duration.balance--;
-            if (duration.balance <= 0) {
-                duration.balance = null;
-                playerStates[i].balance = stateInterface_1.BalanceEnum.BALANCED;
-            }
-        }
         if (duration.motion !== null && duration.motion !== undefined) {
             duration.motion--;
             if (duration.motion <= 0) {
@@ -64,7 +57,6 @@ const clearTurnData = (state) => {
     state.damaged = [false, false];
     state.turnIsOver = false;
     state.modifiedAxis = util_1.makeModifiedAxis();
-    state.turnIsOver = false;
     state.incrementedQueue = false;
     state.pendingPredictions = state.predictions;
     state.predictions = null;
@@ -73,5 +65,6 @@ const clearTurnData = (state) => {
 };
 const changePlayers = (state) => {
     const player = state.currentPlayer === 0 ? 1 : 0;
+    state.turnNumber++;
     state.currentPlayer = player;
 };

@@ -1,5 +1,5 @@
 import { GameState } from "../interfaces/stateInterface";
-import { sendHand } from "./socket";
+import { sendHand, sendState } from "./socket";
 import { canPlayCard, canUseOptional } from "./requirements";
 import { HAND_SIZE } from "../gameSettings";
 import { ErrorEnum } from "../errors";
@@ -8,10 +8,19 @@ import { SocketEnum } from "../interfaces/socket";
 
 export const startTurn = async (state: GameState) => {
     shuffleDeck(state);
+    addPoise(state); 
     drawHand(state);
+    sendState(state); 
     await playerPicksCard(state);
 }
 
+export const addPoise = (state: GameState)=>{
+    const {currentPlayer: player} = state;
+    if(state.turnNumber !== 0){
+        state.playerStates[player].poise++; 
+        console.log('increasing poise', state.playerStates[player].poise)
+    } 
+}
 
 export const drawHand = (state: GameState, { _sendHand = sendHand } = {}) => {
     const { decks, currentPlayer, hands } = state;

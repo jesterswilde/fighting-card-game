@@ -62,6 +62,7 @@ const makeGameState = (sockets: Socket[], decks: Card[][])=>{
         queue: [],
         distance: DistanceEnum.FAR,
         hands: [[], []],
+        turnNumber: 0,
         damaged: [false,false],
         lockedState: {
             distance: null,

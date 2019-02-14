@@ -1,4 +1,5 @@
 import { Mechanic } from "../interfaces/card";
+import { PredictionEnum } from "../game/interface";
 
 export interface EventState{
     events: EventAction[]
@@ -8,7 +9,9 @@ export interface EventState{
 export enum EventTypeEnum{
     CARD_NAME,
     EFFECT,
-    MECHANIC
+    MECHANIC,
+    ADDED_MECHANIC,
+    REVEAL_PREDICTION,
 }
 
 export interface EventAction{
@@ -16,5 +19,8 @@ export interface EventAction{
     effect?: Mechanic,
     cardName?: string,
     mechanicName?: string,
-    playedBy: number
+    playedBy: number,
+    correct?: boolean,
+    prediction?: PredictionEnum,
+    correctGuesses?: PredictionEnum[],
 }

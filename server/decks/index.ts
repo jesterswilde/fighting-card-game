@@ -10,7 +10,7 @@ interface DeckDescription {
     description?: string
 }
 
-const testDeck = ["Inertia", "Blocker", "focus_test"]
+const testDeck = ["ForcefulTest", "PredictTest"]
 
 export const decks: DeckDescription[] = [
     { name: 'Grapple', deckList: grappleDeck, description: "Excels at fighting while Grappled and Prone. Wants to play the card Neck Break (requires Grappled, Both Prone, and Balanced." },

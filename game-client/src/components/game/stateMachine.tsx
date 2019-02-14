@@ -1,10 +1,10 @@
 import { h } from 'preact';
 import { GameState, DistanceEnum, PlayerState, MotionEnum, PlayerStateDuration, StandingEnum, BalanceEnum } from '../../game/interface';
 import { StoreState } from '../../state/store';
-import { connect } from 'preact-redux';
 import { Icon } from '../../images';
 import { AxisEnum } from '../../interfaces/card';
-import { JSXElementConstructor } from 'react';
+import { cleanConnect } from '../../util';
+import Poise from './stateMachine/poise'; 
 
 interface Props extends GameState { };
 
@@ -28,20 +28,24 @@ const StateMachine = (props: Props): JSX.Element => {
         <div class='state-row'>
             <Standing {...props} playerIndex={opponent} />
             <Motion {...props} playerIndex={opponent} />
-            <Balance {...props} playerIndex={opponent} />
             <Health {...props} playerIndex={opponent} />
-            <Block {...props} playerIndex = {opponent} />
+            <Block {...props} playerIndex={opponent} />
         </div>
         <div class='state-row'>
-            <div class='state-title'>State</div>
+            <Poise {...props} playerIndex={opponent} />
+        </div>
+        <div class='state-row'>
+            <div class='state-title state-piece-container-sml'>State</div>
             <Distance {...props} />
         </div>
         <div class='state-row'>
             <Standing {...props} playerIndex={player} />
             <Motion {...props} playerIndex={player} />
-            <Balance {...props} playerIndex={player} />
             <Health {...props} playerIndex={player} />
-            <Block {...props} playerIndex = {player} />
+            <Block {...props} playerIndex={player} />
+        </div>
+        <div class='state-row'>
+            <Poise {...props} playerIndex={player} />
         </div>
     </div>
 }
@@ -114,24 +118,5 @@ const Standing = ({ playerStates = [], stateDurations = [], playerIndex = 0 }: C
     </div>
 }
 
-const Balance = ({ playerStates = [], stateDurations = [], playerIndex = 0 }: CompProps) => {
-    const { balance } = playerStates[playerIndex];
-    const { balance: duration } = stateDurations[playerIndex];
-    return <div class='state-piece-container'>
-        <div class='state-piece-title balance'>Balance</div>
-        <div class='state-pieces'>
-            <div class={`state-piece balance ${balance === BalanceEnum.UNBALANCED ? '' : 'inactive'}`}>
-                <Icon name={AxisEnum.UNBALANCED} />
-            </div>
-            <div class={`state-piece balance ${balance === BalanceEnum.BALANCED ? '' : 'inactive'}`}>
-                <Icon name={AxisEnum.BALANCED} />
-            </div>
-            <div class={`state-piece balance ${balance === BalanceEnum.ANTICIPATING ? '' : 'inactive'}`}>
-                <Icon name={AxisEnum.ANTICIPATING} />
-            </div>
-        </div>
-    </div>
-}
 
-
-export default connect(selector)(StateMachine); 
+export default cleanConnect(selector, StateMachine); 
