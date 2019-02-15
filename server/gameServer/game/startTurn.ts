@@ -1,7 +1,7 @@
 import { GameState } from "../interfaces/stateInterface";
 import { sendHand, sendState } from "./socket";
 import { canPlayCard, canUseOptional } from "./requirements";
-import { HAND_SIZE } from "../gameSettings";
+import { HAND_SIZE, ANTICIPATING_POISE } from "../gameSettings";
 import { ErrorEnum } from "../errors";
 import { Card } from "../interfaces/cardInterface";
 import { SocketEnum } from "../interfaces/socket";
@@ -15,9 +15,9 @@ export const startTurn = async (state: GameState) => {
 }
 
 export const addPoise = (state: GameState)=>{
-    const {currentPlayer: player} = state;
-    if(state.turnNumber !== 0){
-        state.playerStates[player].poise++; 
+    const {currentPlayer: player, playerStates} = state;
+    if(state.turnNumber !== 0 && playerStates[player].poise < ANTICIPATING_POISE - 1){
+        playerStates[player].poise++; 
         console.log('increasing poise', state.playerStates[player].poise)
     } 
 }

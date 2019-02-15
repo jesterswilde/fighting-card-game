@@ -1,1 +1,15 @@
-Poise should be a more central and active mechanic. 
+Poise should be a more central and active mechanic
+
+Reflex on opponents turn doesn't show up as the proper color on the board
+
+If you choose not to use forceful, it still shows up in the events modal
+
+Inertia may need to be lowered to 4 and 4
+
+When you reflex, you should be told what card you reflexed into if there are any choices to be made
+
+You should not gain poise passively that will get you into anticipation
+
+Update documentation to reflect poise and forceful
+
+Give Jonathan access to Repo

@@ -7,3 +7,5 @@ exports.HAND_SIZE = 3;
 exports.STARTING_POISE = 4;
 exports.MAX_POISE = 10;
 exports.MIN_POISE = 0;
+exports.UNBALANCED_POISE = 3;
+exports.ANTICIPATING_POISE = 8;

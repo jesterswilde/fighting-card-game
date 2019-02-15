@@ -1,14 +1,15 @@
 import { PoiseEnum, GameState } from "../interfaces/stateInterface";
+import { UNBALANCED_POISE, ANTICIPATING_POISE } from "../gameSettings";
 
 export const hasPoise = (poiseEnum: PoiseEnum, player: number, state: GameState)=>{
     const {poise} = state.playerStates[player]
     switch(poiseEnum){
         case PoiseEnum.UNBALANCED:
-            return poise <= 3;
+            return poise <= UNBALANCED_POISE;
         case PoiseEnum.BALANCED:
-            return poise > 3; 
+            return poise > UNBALANCED_POISE; 
         case PoiseEnum.ANTICIPATING:
-            return poise >= 7; 
+            return poise >= ANTICIPATING_POISE; 
         default:
             return false; 
     }

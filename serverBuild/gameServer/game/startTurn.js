@@ -21,9 +21,9 @@ exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     yield exports.playerPicksCard(state);
 });
 exports.addPoise = (state) => {
-    const { currentPlayer: player } = state;
-    if (state.turnNumber !== 0) {
-        state.playerStates[player].poise++;
+    const { currentPlayer: player, playerStates } = state;
+    if (state.turnNumber !== 0 && playerStates[player].poise < gameSettings_1.ANTICIPATING_POISE - 1) {
+        playerStates[player].poise++;
         console.log('increasing poise', state.playerStates[player].poise);
     }
 };
