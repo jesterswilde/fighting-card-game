@@ -14,6 +14,7 @@ const socket_2 = require("./socket");
 const playCard_1 = require("./playCard");
 const startTurn_1 = require("./startTurn");
 const endTurn_1 = require("./endTurn");
+const events_1 = require("./events");
 exports.playGame = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
         startGame(state);
@@ -38,7 +39,9 @@ const startGame = (state) => {
     });
 };
 const endGame = (state) => {
+    events_1.addGameOverEvent(state.winner, state);
     socket_2.sendState(state);
+    events_1.sendEvents(state);
 };
 exports.playTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     socket_2.sendState(state);

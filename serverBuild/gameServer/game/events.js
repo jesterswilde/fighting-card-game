@@ -17,6 +17,9 @@ exports.addEffectEvent = (mechanic, playedBy, state) => {
 exports.addMechanicEvent = (mechEnum, card, state) => {
     state.events.push({ type: gameEvent_1.EventTypeEnum.MECHANIC, mechanicName: mechEnum, cardName: card.name, playedBy: card.player });
 };
+exports.addGameOverEvent = (winner, state) => {
+    state.events.unshift({ type: gameEvent_1.EventTypeEnum.GAME_OVER, winner });
+};
 exports.addedMechanicEvent = (mechEnum, playedBy, state) => {
     state.events.push({ type: gameEvent_1.EventTypeEnum.ADDED_MECHANIC, mechanicName: mechEnum, playedBy });
 };

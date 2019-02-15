@@ -19,7 +19,7 @@ interface Props {
 export default class Maker extends React.Component<Props, State>{
     public static getDerivedStateFromProps(props: Props, state: State){
         console.log(props.card)
-        if(props.card && props.card.name !== state.name){
+        if(props.card && state.index !== props.card.name){
             return {...props.card, index: props.card.name}
         }
         return null; 

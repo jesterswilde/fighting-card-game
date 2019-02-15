@@ -9,7 +9,13 @@ export enum GameActionEnum{
     SHOULD_PICK_ONE = 'shouldPickOne',
     DID_PICK_ONE = 'didPickOne',
     SHOULD_PICK_FORCEFUL = 'shouldPickForceful',
-    DID_PICK_FORCEFUL = 'didPickForceful', 
+    DID_PICK_FORCEFUL = 'didPickForceful',
+    SWAPPED_CARD_DISPLAY_MODE = 'swapCardDisplayMode'
+}
+
+export interface SwapCardDisplayModeAction{
+    type: GameActionEnum.SWAPPED_CARD_DISPLAY_MODE,
+    cardLoc: {column: number, row: number}
 }
 
 export interface ShouldPickForecfulAction{
@@ -50,4 +56,4 @@ export interface DidPickOneAction {
 
 
 export type GameActions = ReplaceGameAction | StartGameAction | MadePredictionAction | ShouldPickOneAction | DidPickOneAction |
-    ShouldPickForecfulAction | DidPickForcefulAction ; 
+    ShouldPickForecfulAction | DidPickForcefulAction | SwapCardDisplayModeAction; 

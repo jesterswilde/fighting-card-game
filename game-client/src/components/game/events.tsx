@@ -4,7 +4,7 @@ import { StoreState } from '../../state/store';
 import { connect } from 'preact-redux';
 import { Arrow, Icon } from '../../images'
 import { dispatchFinishedDisplayingEvents } from '../../events/dispatch';
-import { JsxElement } from 'typescript';
+import {getLosingMessage, getBothLoseMessage, getWinningMessage} from '../../extras/gameOverMessages'
 
 interface Props extends EventState {
     player: number
@@ -45,13 +45,13 @@ class Events extends Component<Props, State>{
             <div class='event-container'>
                 {events.map((event) => {
                     return <div class="event" key={JSON.stringify(event)}>
-                        {this.reducer(event)}
+                        {this.reducer(event, this.props.player)}
                     </div>
                 })}
             </div>
         </div>
     }
-    reducer = (event: EventAction) => {
+    reducer = (event: EventAction, player: number) => {
         const opponent = event.playedBy !== this.props.player;
         switch (event.type) {
             case EventTypeEnum.CARD_NAME:
@@ -64,8 +64,30 @@ class Events extends Component<Props, State>{
                 return this.renderAddedMechanic(event, opponent);
             case EventTypeEnum.REVEAL_PREDICTION:
                 return this.renderRevealPrediction(event, opponent);
+            case EventTypeEnum.GAME_OVER:
+                return this.renderGameOver(event, player)
             default: return null;
         }
+    }
+    renderGameOver = (event: EventAction, player: number) => {
+        const lost = event.winner !== player;
+        if (event.winner < 0) {
+            return <div class='event-game-over opponent'>
+                Everybody Loses!
+                <div class="note">{getBothLoseMessage()}</div>
+            </div>
+        }
+        if (lost) {
+            return <div class='event-game-over opponent'>
+                You Lose!
+                <div class="note">{getLosingMessage()}</div>
+            </div>
+        }
+        return <div class='event-game-over'>
+            You Win!
+            <div class="note">{getWinningMessage()}</div>
+         </div>
+
     }
     renderAddedMechanic = (event: EventAction, opponent: boolean) => {
         return <div class={`event-effect ${opponent ? 'opponent' : ''}`}>

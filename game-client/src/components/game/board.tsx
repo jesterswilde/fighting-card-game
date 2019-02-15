@@ -1,6 +1,8 @@
 import { h } from 'preact';
 import { Card } from '../../interfaces/card';
 import QueueCard from './card/queueCard'
+import { dispatchSwitchCardDisplayMode } from '../../game/dispatch';
+import FullQueueCard from './card/fullQueueCard';
 
 interface Props {
     queue: Card[][]
@@ -19,14 +21,28 @@ export default (props: Props) => {
     </div>
 
 }
-
+const cardNames = (cards: Card[]) => {
+    return cards.reduce((total, current) => total + "-" + current.name, '')
+}
 const renderBoard = (queue: Card[][] = [], identity: number) => {
     return queue.map((cards = [], i) => {
         const opponent = cards[0] && cards[0].player !== identity;
-        return <div key={i + JSON.stringify(cards)} class={!opponent? 'played-by-me' : ''}>
-            {cards.map((card, i) => {
-                return <div class={`text-center queue-card ${opponent? 'opponent' : ''}`} key={card.name}>
-                    <QueueCard {...card} identity={identity}/>
+        const key = cardNames(cards);
+        return <div key={key} class={!opponent ? 'played-by-me' : ''}>
+            {cards.map((card, j) => {
+                return <div key={card.name}>
+                    <div
+                        class={`text-center queue-card ${opponent ? 'opponent' : ''}`}
+                        onClick={() => dispatchSwitchCardDisplayMode(i, j)}
+                    >
+                        <div class={card.showFullCard? '' : 'collapsed'}>
+                            <FullQueueCard {...card} identity={identity} />
+                        </div>
+                        <div class={card.showFullCard? 'collapsed' : ''}>
+                            <QueueCard {...card} identity={identity} />
+                        </div>
+                    </div>
+
                 </div>
             })}
         </div>

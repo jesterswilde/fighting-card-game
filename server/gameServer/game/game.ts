@@ -5,6 +5,7 @@ import { sendState } from "./socket";
 import { playCard } from "./playCard";
 import { startTurn } from "./startTurn";
 import { endTurn } from "./endTurn";
+import { addGameOverEvent, sendEvents } from "./events";
 
 export const playGame = async (state: GameState) => {
     try {
@@ -30,7 +31,9 @@ const startGame = (state: GameState) => {
 }
 
 const endGame = (state: GameState) => {
+    addGameOverEvent(state.winner, state); 
     sendState(state); 
+    sendEvents(state); 
 }
 
 export const playTurn = async (state: GameState) => {

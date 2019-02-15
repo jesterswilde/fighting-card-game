@@ -7,4 +7,5 @@ var EventTypeEnum;
     EventTypeEnum[EventTypeEnum["MECHANIC"] = 2] = "MECHANIC";
     EventTypeEnum[EventTypeEnum["ADDED_MECHANIC"] = 3] = "ADDED_MECHANIC";
     EventTypeEnum[EventTypeEnum["REVEAL_PREDICTION"] = 4] = "REVEAL_PREDICTION";
+    EventTypeEnum[EventTypeEnum["GAME_OVER"] = 5] = "GAME_OVER";
 })(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));

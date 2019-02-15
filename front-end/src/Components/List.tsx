@@ -23,7 +23,7 @@ export default class Viewer extends React.Component<Props, State>{
         this.getCards();
     }
     public render() {
-        const { cards } = this.state;
+        const { cards = []} = this.state;
         return <div>
             <h2>Cards</h2>
             <div>
@@ -55,8 +55,7 @@ export default class Viewer extends React.Component<Props, State>{
                 },
                 method: 'DELETE',
             })
-            const cards = { ...this.state.cards }
-            delete cards[name];
+            const cards = this.state.cards.filter((card)=> card.name !== name); 
             this.setState({ cards });
         }
         catch (err) {

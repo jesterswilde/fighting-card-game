@@ -1,9 +1,17 @@
 import {store} from '../state/store'; 
 import { GameState, PredictionEnum } from './interface';
-import { GameActionEnum, ReplaceGameAction, StartGameAction, MadePredictionAction, ShouldPickOneAction, DidPickOneAction, ShouldPickForecfulAction, DidPickForcefulAction } from './actions';
+import { GameActionEnum, ReplaceGameAction, StartGameAction, MadePredictionAction, ShouldPickOneAction, DidPickOneAction, ShouldPickForecfulAction, DidPickForcefulAction, SwapCardDisplayModeAction } from './actions';
 import { socket } from '../socket/socket';
 import { SocketEnum } from '../socket/socketEnum';
 import { Mechanic } from '../interfaces/card';
+
+export const dispatchSwitchCardDisplayMode = (column: number, row: number)=>{
+    const action: SwapCardDisplayModeAction = {
+        type: GameActionEnum.SWAPPED_CARD_DISPLAY_MODE,
+        cardLoc: {column, row}
+    } 
+    store.dispatch(action); 
+}
 
 export const dispatchMadePrediction = (prediction: PredictionEnum)=>{
     const action: MadePredictionAction = {

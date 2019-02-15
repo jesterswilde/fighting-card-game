@@ -6,6 +6,7 @@ export interface Card extends RequirementEffect{
     shouldReflex?: boolean
     player?: number
     opponent?: number
+    showFullCard?: boolean
 }
 
 export interface Optional extends RequirementEffect{

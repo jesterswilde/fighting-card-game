@@ -17,6 +17,10 @@ export const addMechanicEvent = (mechEnum: MechanicEnum, card: Card, state: Game
     state.events.push({ type: EventTypeEnum.MECHANIC, mechanicName: mechEnum, cardName: card.name, playedBy: card.player })
 }
 
+export const addGameOverEvent = (winner: number, state: GameState)=>{
+    state.events.unshift({type: EventTypeEnum.GAME_OVER, winner})
+}
+
 export const addedMechanicEvent = (mechEnum: MechanicEnum, playedBy, state: GameState) => {
     state.events.push({ type: EventTypeEnum.ADDED_MECHANIC, mechanicName: mechEnum, playedBy })
 }

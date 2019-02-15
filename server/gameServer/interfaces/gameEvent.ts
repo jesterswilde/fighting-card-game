@@ -6,7 +6,8 @@ export enum EventTypeEnum{
     EFFECT,
     MECHANIC, 
     ADDED_MECHANIC,
-    REVEAL_PREDICTION
+    REVEAL_PREDICTION,
+    GAME_OVER
 }
 
 export interface EventAction{
@@ -14,8 +15,9 @@ export interface EventAction{
     effect?: Mechanic,
     cardName?: string,
     mechanicName?: string,
-    playedBy: number,
+    playedBy?: number,
     correct?: boolean,
     prediction?: PredictionEnum,
     correctGuesses?: PredictionEnum[],
+    winner?: number
 }

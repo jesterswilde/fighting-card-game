@@ -2800,9 +2800,18 @@ var GameActionEnum;
   GameActionEnum["DID_PICK_ONE"] = "didPickOne";
   GameActionEnum["SHOULD_PICK_FORCEFUL"] = "shouldPickForceful";
   GameActionEnum["DID_PICK_FORCEFUL"] = "didPickForceful";
+  GameActionEnum["SWAPPED_CARD_DISPLAY_MODE"] = "swapCardDisplayMode";
 })(GameActionEnum = exports.GameActionEnum || (exports.GameActionEnum = {}));
 },{}],"src/game/reducer.ts":[function(require,module,exports) {
 "use strict";
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2845,9 +2854,31 @@ exports.gameReducer = function () {
         forceful: undefined
       });
 
+    case actions_1.GameActionEnum.SWAPPED_CARD_DISPLAY_MODE:
+      return swapDisplayMode(state, action);
+
     default:
       return state;
   }
+};
+
+var swapDisplayMode = function swapDisplayMode(state, _ref) {
+  var _ref$cardLoc = _ref.cardLoc,
+      column = _ref$cardLoc.column,
+      row = _ref$cardLoc.row;
+
+  var queue = _toConsumableArray(state.queue);
+
+  var cardColumn = _toConsumableArray(queue[column]);
+
+  var card = Object.assign({}, cardColumn[row]);
+  card.showFullCard = !card.showFullCard;
+  cardColumn[row] = card;
+  queue[column] = cardColumn;
+  console.log("swapped show card: ", card.showFullCard);
+  return Object.assign({}, state, {
+    queue: queue
+  });
 };
 
 var makeDefaultGameState = function makeDefaultGameState() {
@@ -12234,6 +12265,17 @@ var socket_1 = require("../socket/socket");
 
 var socketEnum_1 = require("../socket/socketEnum");
 
+exports.dispatchSwitchCardDisplayMode = function (column, row) {
+  var action = {
+    type: actions_1.GameActionEnum.SWAPPED_CARD_DISPLAY_MODE,
+    cardLoc: {
+      column: column,
+      row: row
+    }
+  };
+  store_1.store.dispatch(action);
+};
+
 exports.dispatchMadePrediction = function (prediction) {
   var action = {
     type: actions_1.GameActionEnum.MADE_PREDICTION,
@@ -16201,7 +16243,25 @@ exports.default = function (props) {
     name: props.requirement.axis
   }));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/components/game/card/effect.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/extras/mechanicDescriptions.ts":[function(require,module,exports) {
+"use strict";
+
+var _descObj;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var card_1 = require("../interfaces/card");
+
+var descObj = (_descObj = {}, _defineProperty(_descObj, card_1.MechanicEnum.BLOCK, 'Reduces damage by X amount next turn'), _defineProperty(_descObj, card_1.MechanicEnum.BUFF, 'Permanently buffs card for future uses'), _defineProperty(_descObj, card_1.MechanicEnum.CRIPPLE, 'Permanently adds a terrible card to your opponent\'s deck'), _defineProperty(_descObj, card_1.MechanicEnum.FOCUS, 'While on the queue, at the end of your turn, if the condition is met, the effect happens'), _defineProperty(_descObj, card_1.MechanicEnum.FORCEFUL, 'Allows you to spend X Poise to get the effect'), _defineProperty(_descObj, card_1.MechanicEnum.LOCK, 'That state cannot change for X turns'), _defineProperty(_descObj, card_1.MechanicEnum.PICK_ONE, 'You choose which one of the listed effects will happen'), _defineProperty(_descObj, card_1.MechanicEnum.PREDICT, 'Guess what the opponent will change with their next card, if correct, you get the effect'), _defineProperty(_descObj, card_1.MechanicEnum.REFLEX, 'Plays a random, valid, card from your deck'), _defineProperty(_descObj, card_1.MechanicEnum.TELEGRAPH, 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens'), _descObj);
+
+exports.getMechanicDescription = function (mech) {
+  return descObj[mech] || null;
+};
+},{"../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/card/effect.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -16221,6 +16281,12 @@ var Requirement_1 = __importDefault(require("./Requirement"));
 var card_1 = require("../../../interfaces/card");
 
 var images_1 = require("../../../images");
+
+var util_1 = require("../../../util");
+
+var mechanicDescriptions_1 = require("../../../extras/mechanicDescriptions");
+
+var react_tooltip_1 = __importDefault(require("react-tooltip"));
 
 var Effect = function Effect(_ref) {
   var effect = _ref.effect,
@@ -16255,17 +16321,35 @@ var renderSwitch = function renderSwitch(effect, shouldFlip) {
 };
 
 var renderNone = function renderNone(mechanic) {
+  var id = String(util_1.getUUID(mechanic));
+  var description = mechanicDescriptions_1.getMechanicDescription(mechanic.mechanic);
   return preact_1.h("div", {
     class: 'mechanic'
-  }, preact_1.h("div", null, preact_1.h("b", null, mechanic.mechanic)));
+  }, preact_1.h(react_tooltip_1.default, {
+    delayShow: 250,
+    id: id,
+    effect: "solid"
+  }, description), preact_1.h("div", {
+    "data-tip": description,
+    "data-for": id
+  }, preact_1.h("b", null, mechanic.mechanic)));
 };
 
 var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
   var reqs = mechanic.mechanicRequirements || [];
   var effs = mechanic.mechanicEffects || [];
+  var id = String(util_1.getUUID(mechanic));
+  var description = mechanicDescriptions_1.getMechanicDescription(mechanic.mechanic);
   return preact_1.h("div", {
     class: 'mechanic'
-  }, preact_1.h("div", null, preact_1.h("b", null, mechanic.mechanic, " ", mechanic.amount !== undefined && mechanic.amount)), preact_1.h("div", {
+  }, preact_1.h(react_tooltip_1.default, {
+    delayShow: 250,
+    id: id,
+    effect: "solid"
+  }, description), preact_1.h("div", {
+    "data-tip": description,
+    "data-for": id
+  }, preact_1.h("b", null, mechanic.mechanic, " ", mechanic.amount !== undefined && mechanic.amount)), preact_1.h("div", {
     class: 'h-divider'
   }), preact_1.h("div", null, preact_1.h("div", null, reqs.map(function (req, i) {
     return preact_1.h("span", {
@@ -16287,9 +16371,18 @@ var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
 };
 
 var renderPickOne = function renderPickOne(mechanic, shouldFlip) {
+  var id = String(util_1.getUUID(mechanic));
+  var description = mechanicDescriptions_1.getMechanicDescription(mechanic.mechanic);
   return preact_1.h("div", {
     class: 'pick-one'
-  }, preact_1.h("div", null, preact_1.h("b", null, "Pick One")), preact_1.h("div", {
+  }, preact_1.h(react_tooltip_1.default, {
+    delayShow: 250,
+    id: id,
+    effect: "solid"
+  }, description), preact_1.h("div", {
+    "data-tip": description,
+    "data-for": id
+  }, preact_1.h("b", null, "Pick One")), preact_1.h("div", {
     class: 'choices'
   }, mechanic.choices.map(function (choice, i) {
     return preact_1.h("div", {
@@ -16308,9 +16401,18 @@ var renderPickOne = function renderPickOne(mechanic, shouldFlip) {
 };
 
 var renderEffect = function renderEffect(effect, shouldFlip) {
+  var id = String(util_1.getUUID(effect));
+  var description = mechanicDescriptions_1.getMechanicDescription(effect.mechanic);
   return preact_1.h("div", {
     class: 'inline'
-  }, effect.mechanic !== undefined && preact_1.h("b", null, " ", effect.mechanic, " "), effect.player !== undefined && preact_1.h(images_1.Arrow, {
+  }, effect.mechanic !== undefined && preact_1.h(react_tooltip_1.default, {
+    delayShow: 250,
+    id: id,
+    effect: "solid"
+  }, description), effect.mechanic !== undefined && preact_1.h("b", {
+    "data-tip": description,
+    "data-for": id
+  }, " ", effect.mechanic, " "), effect.player !== undefined && preact_1.h(images_1.Arrow, {
     player: effect.player,
     shouldFlip: shouldFlip
   }), effect.axis !== undefined && preact_1.h(images_1.Icon, {
@@ -16319,7 +16421,7 @@ var renderEffect = function renderEffect(effect, shouldFlip) {
 };
 
 exports.default = Effect;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx","../../../util":"src/util.ts","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-tooltip":"node_modules/react-tooltip/dist/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -16363,56 +16465,7 @@ var QueueCard = function QueueCard(_ref) {
 };
 
 exports.default = QueueCard;
-},{"preact":"node_modules/preact/dist/preact.mjs","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/board.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var preact_1 = require("preact");
-
-var queueCard_1 = __importDefault(require("./card/queueCard"));
-
-exports.default = function (props) {
-  var _props$queue = props.queue,
-      queue = _props$queue === void 0 ? [] : _props$queue,
-      player = props.player,
-      currentPlayer = props.currentPlayer;
-  return preact_1.h("div", {
-    class: 'board'
-  }, preact_1.h("h2", null, "Board"), preact_1.h("div", {
-    class: 'card-container'
-  }, renderBoard(queue, player)));
-};
-
-var renderBoard = function renderBoard() {
-  var queue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var identity = arguments.length > 1 ? arguments[1] : undefined;
-  return queue.map(function () {
-    var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var i = arguments.length > 1 ? arguments[1] : undefined;
-    var opponent = cards[0] && cards[0].player !== identity;
-    return preact_1.h("div", {
-      key: i + JSON.stringify(cards),
-      class: !opponent ? 'played-by-me' : ''
-    }, cards.map(function (card, i) {
-      return preact_1.h("div", {
-        class: "text-center queue-card ".concat(opponent ? 'opponent' : ''),
-        key: card.name
-      }, preact_1.h(queueCard_1.default, Object.assign({}, card, {
-        identity: identity
-      })));
-    }));
-  });
-};
-},{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx"}],"src/components/game/card/requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16472,7 +16525,137 @@ exports.default = function (props) {
     }));
   })));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/game/card/requirement.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/game/card/requirement.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/fullQueueCard.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var effect_1 = __importDefault(require("./effect"));
+
+var Requirement_1 = __importDefault(require("./Requirement"));
+
+var optional_1 = __importDefault(require("./optional"));
+
+var FullQueueCard = function FullQueueCard(_ref) {
+  var identity = _ref.identity,
+      name = _ref.name,
+      _ref$requirements = _ref.requirements,
+      requirements = _ref$requirements === void 0 ? [] : _ref$requirements,
+      _ref$effects = _ref.effects,
+      effects = _ref$effects === void 0 ? [] : _ref$effects,
+      _ref$optional = _ref.optional,
+      optional = _ref$optional === void 0 ? [] : _ref$optional,
+      player = _ref.player;
+  var shouldFlip = identity !== player;
+  return preact_1.h("div", null, preact_1.h("div", null, name), preact_1.h("div", {
+    class: 'card-section req'
+  }, requirements.map(function (req, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(Requirement_1.default, {
+      requirement: req
+    }));
+  })), preact_1.h("div", {
+    class: 'card-section'
+  }, optional.map(function (opt, i) {
+    return preact_1.h("span", {
+      key: i
+    }, " ", preact_1.h(optional_1.default, Object.assign({}, opt, {
+      greyUnusable: true
+    })), " ");
+  })), preact_1.h("div", {
+    class: 'card-section effect'
+  }, effects.map(function (effect, i) {
+    return preact_1.h("span", {
+      key: i
+    }, preact_1.h(effect_1.default, {
+      effect: effect
+    }));
+  })));
+};
+
+exports.default = FullQueueCard;
+},{"preact":"node_modules/preact/dist/preact.mjs","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/board.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var preact_1 = require("preact");
+
+var queueCard_1 = __importDefault(require("./card/queueCard"));
+
+var dispatch_1 = require("../../game/dispatch");
+
+var fullQueueCard_1 = __importDefault(require("./card/fullQueueCard"));
+
+exports.default = function (props) {
+  var _props$queue = props.queue,
+      queue = _props$queue === void 0 ? [] : _props$queue,
+      player = props.player,
+      currentPlayer = props.currentPlayer;
+  return preact_1.h("div", {
+    class: 'board'
+  }, preact_1.h("h2", null, "Board"), preact_1.h("div", {
+    class: 'card-container'
+  }, renderBoard(queue, player)));
+};
+
+var cardNames = function cardNames(cards) {
+  return cards.reduce(function (total, current) {
+    return total + "-" + current.name;
+  }, '');
+};
+
+var renderBoard = function renderBoard() {
+  var queue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var identity = arguments.length > 1 ? arguments[1] : undefined;
+  return queue.map(function () {
+    var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var i = arguments.length > 1 ? arguments[1] : undefined;
+    var opponent = cards[0] && cards[0].player !== identity;
+    var key = cardNames(cards);
+    return preact_1.h("div", {
+      key: key,
+      class: !opponent ? 'played-by-me' : ''
+    }, cards.map(function (card, j) {
+      return preact_1.h("div", {
+        key: card.name
+      }, preact_1.h("div", {
+        class: "text-center queue-card ".concat(opponent ? 'opponent' : ''),
+        onClick: function onClick() {
+          return dispatch_1.dispatchSwitchCardDisplayMode(i, j);
+        }
+      }, preact_1.h("div", {
+        class: card.showFullCard ? '' : 'collapsed'
+      }, preact_1.h(fullQueueCard_1.default, Object.assign({}, card, {
+        identity: identity
+      }))), preact_1.h("div", {
+        class: card.showFullCard ? 'collapsed' : ''
+      }, preact_1.h(queueCard_1.default, Object.assign({}, card, {
+        identity: identity
+      })))));
+    }));
+  });
+};
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx","../../game/dispatch":"src/game/dispatch.ts","./card/fullQueueCard":"src/components/game/card/fullQueueCard.tsx"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -17182,7 +17365,32 @@ var EventTypeEnum;
   EventTypeEnum[EventTypeEnum["MECHANIC"] = 2] = "MECHANIC";
   EventTypeEnum[EventTypeEnum["ADDED_MECHANIC"] = 3] = "ADDED_MECHANIC";
   EventTypeEnum[EventTypeEnum["REVEAL_PREDICTION"] = 4] = "REVEAL_PREDICTION";
+  EventTypeEnum[EventTypeEnum["GAME_OVER"] = 5] = "GAME_OVER";
 })(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));
+},{}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var winningMessages = ['Daaammnnn, he got wrecked', 'I think that was illegal', 'Congrats, I think that\'s murder', 'Too easy', 'It\'s like they were standing still'];
+var losingMessages = ['Got wrekt', 'I don\'t think it\' supposed to bend that way', 'You should call a lawyer...and a doctor', 'Get good', 'That looked...unpleasant', 'Pollock or Picasso, I can\'t tell'];
+var bothLoseMessages = ['Violence is not the answer', 'Everybody loses!', 'That was MAD', 'Have you considered words?'];
+
+exports.getWinningMessage = function () {
+  var index = Math.floor(Math.random() * winningMessages.length);
+  return winningMessages[index];
+};
+
+exports.getLosingMessage = function () {
+  var index = Math.floor(Math.random() * losingMessages.length);
+  return losingMessages[index];
+};
+
+exports.getBothLoseMessage = function () {
+  var index = Math.floor(Math.random() * bothLoseMessages.length);
+  return bothLoseMessages[index];
+};
 },{}],"src/components/game/events.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -17226,6 +17434,8 @@ var images_1 = require("../../images");
 
 var dispatch_1 = require("../../events/dispatch");
 
+var gameOverMessages_1 = require("../../extras/gameOverMessages");
+
 var selector = function selector(state) {
   return Object.assign({}, state.events, {
     player: state.game.player
@@ -17262,7 +17472,7 @@ function (_preact_1$Component) {
       }
     };
 
-    _this.reducer = function (event) {
+    _this.reducer = function (event, player) {
       var opponent = event.playedBy !== _this.props.player;
 
       switch (event.type) {
@@ -17281,9 +17491,38 @@ function (_preact_1$Component) {
         case interface_1.EventTypeEnum.REVEAL_PREDICTION:
           return _this.renderRevealPrediction(event, opponent);
 
+        case interface_1.EventTypeEnum.GAME_OVER:
+          return _this.renderGameOver(event, player);
+
         default:
           return null;
       }
+    };
+
+    _this.renderGameOver = function (event, player) {
+      var lost = event.winner !== player;
+
+      if (event.winner < 0) {
+        return preact_1.h("div", {
+          class: 'event-game-over opponent'
+        }, "Everybody Loses!", preact_1.h("div", {
+          class: "note"
+        }, gameOverMessages_1.getBothLoseMessage()));
+      }
+
+      if (lost) {
+        return preact_1.h("div", {
+          class: 'event-game-over opponent'
+        }, "You Lose!", preact_1.h("div", {
+          class: "note"
+        }, gameOverMessages_1.getLosingMessage()));
+      }
+
+      return preact_1.h("div", {
+        class: 'event-game-over'
+      }, "You Win!", preact_1.h("div", {
+        class: "note"
+      }, gameOverMessages_1.getWinningMessage()));
     };
 
     _this.renderAddedMechanic = function (event, opponent) {
@@ -17367,7 +17606,7 @@ function (_preact_1$Component) {
         return preact_1.h("div", {
           class: "event",
           key: JSON.stringify(event)
-        }, _this2.reducer(event));
+        }, _this2.reducer(event, _this2.props.player));
       })));
     }
   }]);
@@ -17376,7 +17615,7 @@ function (_preact_1$Component) {
 }(preact_1.Component);
 
 exports.default = preact_redux_1.connect(selector)(Events);
-},{"preact":"node_modules/preact/dist/preact.mjs","../../events/interface":"src/events/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../events/dispatch":"src/events/dispatch.ts"}],"src/components/game.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../events/interface":"src/events/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../events/dispatch":"src/events/dispatch.ts","../../extras/gameOverMessages":"src/extras/gameOverMessages.ts"}],"src/components/game.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {

@@ -1,6 +1,6 @@
 import { GameState, DistanceEnum } from "./interface";
 import { ActionType } from "../state/actionTypes";
-import { GameActionEnum } from "./actions";
+import { GameActionEnum, SwapCardDisplayModeAction } from "./actions";
 
 export const gameReducer = (state: GameState = makeDefaultGameState(), action: ActionType): GameState => {
     switch (action.type) {
@@ -16,8 +16,24 @@ export const gameReducer = (state: GameState = makeDefaultGameState(), action: A
             return {...state, forceful: action.option}
         case GameActionEnum.DID_PICK_FORCEFUL:
             return {...state, forceful: undefined}
+        case GameActionEnum.SWAPPED_CARD_DISPLAY_MODE:
+            return swapDisplayMode(state, action); 
         default:
             return state;
+    }
+}
+
+const swapDisplayMode =(state: GameState, {cardLoc:{column, row}}: SwapCardDisplayModeAction): GameState=>{
+    const queue = [...state.queue];
+    const cardColumn = [...queue[column]];
+    const card = {...cardColumn[row]}; 
+    card.showFullCard = !card.showFullCard; 
+    cardColumn[row] = card; 
+    queue[column] = cardColumn; 
+    console.log("swapped show card: ", card.showFullCard); 
+    return {
+        ...state,
+        queue
     }
 }
 
