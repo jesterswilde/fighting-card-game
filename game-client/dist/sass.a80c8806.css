@@ -9716,6 +9716,7 @@ h3 {
   overflow-y: auto;
 }
 .event-modal .event-container .event {
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   margin: 3px;
