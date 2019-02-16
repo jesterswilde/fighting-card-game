@@ -4,7 +4,7 @@ import { StoreState } from '../../state/store';
 import { connect } from 'preact-redux';
 import { Arrow, Icon } from '../../images'
 import { dispatchFinishedDisplayingEvents } from '../../events/dispatch';
-import {getLosingMessage, getBothLoseMessage, getWinningMessage} from '../../extras/gameOverMessages'
+import { getLosingMessage, getBothLoseMessage, getWinningMessage } from '../../extras/gameOverMessages'
 
 interface Props extends EventState {
     player: number
@@ -13,6 +13,8 @@ interface Props extends EventState {
 interface State {
     counter: number,
     events: EventAction[],
+    startingEvents: EventAction[],
+    cancelTimeout?: NodeJS.Timeout
 }
 
 const selector = (state: StoreState): Props => {
@@ -24,7 +26,8 @@ class Events extends Component<Props, State>{
         super(props);
         this.state = {
             events: [],
-            counter: 0
+            counter: 0,
+            startingEvents: props.events
         }
         this.addEvent();
     }
@@ -32,7 +35,22 @@ class Events extends Component<Props, State>{
     addEvent = () => {
         const { counter, events } = this.state;
         if (counter < this.props.events.length) {
-            this.setState({ events: [...events, this.props.events[counter]], counter: counter + 1 })
+            const cancelTimeout = setTimeout(() => {
+                this.addEvent();
+            }, this.timer);
+            this.setState({ cancelTimeout, events: [...events, this.props.events[counter]], counter: counter + 1 })
+        }
+    }
+    componentWillReceiveProps(nextProps: Props) {
+        if (nextProps.events !== this.state.startingEvents) {
+            if (this.state.cancelTimeout) {
+                clearTimeout(this.state.cancelTimeout);
+            }
+            this.setState({
+                startingEvents: nextProps.events,
+                events: [],
+                counter: 0
+            })
             setTimeout(() => {
                 this.addEvent();
             }, this.timer);
@@ -86,7 +104,7 @@ class Events extends Component<Props, State>{
         return <div class='event-game-over'>
             You Win!
             <div class="note">{getWinningMessage()}</div>
-         </div>
+        </div>
 
     }
     renderAddedMechanic = (event: EventAction, opponent: boolean) => {

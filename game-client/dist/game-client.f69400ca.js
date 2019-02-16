@@ -17474,14 +17474,15 @@ function (_preact_1$Component) {
           events = _this$state.events;
 
       if (counter < _this.props.events.length) {
+        var cancelTimeout = setTimeout(function () {
+          _this.addEvent();
+        }, _this.timer);
+
         _this.setState({
+          cancelTimeout: cancelTimeout,
           events: [].concat(_toConsumableArray(events), [_this.props.events[counter]]),
           counter: counter + 1
         });
-
-        setTimeout(function () {
-          _this.addEvent();
-        }, _this.timer);
       }
     };
 
@@ -17593,7 +17594,8 @@ function (_preact_1$Component) {
 
     _this.state = {
       events: [],
-      counter: 0
+      counter: 0,
+      startingEvents: props.events
     };
 
     _this.addEvent();
@@ -17602,9 +17604,29 @@ function (_preact_1$Component) {
   }
 
   _createClass(Events, [{
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      var _this2 = this;
+
+      if (nextProps.events !== this.state.startingEvents) {
+        if (this.state.cancelTimeout) {
+          clearTimeout(this.state.cancelTimeout);
+        }
+
+        this.setState({
+          startingEvents: nextProps.events,
+          events: [],
+          counter: 0
+        });
+        setTimeout(function () {
+          _this2.addEvent();
+        }, this.timer);
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$state$events = this.state.events,
           events = _this$state$events === void 0 ? [] : _this$state$events;
@@ -17619,7 +17641,7 @@ function (_preact_1$Component) {
         return preact_1.h("div", {
           class: "event",
           key: JSON.stringify(event)
-        }, _this2.reducer(event, _this2.props.player));
+        }, _this3.reducer(event, _this3.props.player));
       })));
     }
   }]);
