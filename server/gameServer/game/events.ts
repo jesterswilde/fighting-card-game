@@ -7,18 +7,17 @@ export const addEffectEvent = (mechanic: Mechanic, playedBy: number, state: Game
     if (mechanic.mechanic === undefined || addableMechanics[mechanic.mechanic]) {
         state.events.push({ effect: mechanic, type: EventTypeEnum.EFFECT, playedBy });
     } else {
-        if (mechanic.mechanic !== MechanicEnum.REFLEX) {
+        if (!ignoredMechanics[mechanic.mechanic]) {
             addedMechanicEvent(mechanic.mechanic, playedBy, state);
         }
     }
 }
-
 export const addMechanicEvent = (mechEnum: MechanicEnum, card: Card, state: GameState) => {
     state.events.push({ type: EventTypeEnum.MECHANIC, mechanicName: mechEnum, cardName: card.name, playedBy: card.player })
 }
 
-export const addGameOverEvent = (winner: number, state: GameState)=>{
-    state.events.unshift({type: EventTypeEnum.GAME_OVER, winner})
+export const addGameOverEvent = (winner: number, state: GameState) => {
+    state.events.unshift({ type: EventTypeEnum.GAME_OVER, winner })
 }
 
 export const addedMechanicEvent = (mechEnum: MechanicEnum, playedBy, state: GameState) => {
@@ -44,10 +43,15 @@ export const sendEvents = (state: GameState) => {
     })
     state.events = [];
 }
+//These are ignored because they are handled later.
+const ignoredMechanics: {[name:string]: boolean}={
+    [MechanicEnum.REFLEX]: true,
+}
 
+//They have their own printed versions
 const addableMechanics: { [name: string]: boolean } = {
     [MechanicEnum.BLOCK]: true,
     [MechanicEnum.CRIPPLE]: true,
     [MechanicEnum.LOCK]: true,
-    [MechanicEnum.FORCEFUL]: true
+    [MechanicEnum.FORCEFUL]: true,
 }

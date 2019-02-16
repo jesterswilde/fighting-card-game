@@ -9,7 +9,7 @@ exports.addEffectEvent = (mechanic, playedBy, state) => {
         state.events.push({ effect: mechanic, type: gameEvent_1.EventTypeEnum.EFFECT, playedBy });
     }
     else {
-        if (mechanic.mechanic !== cardInterface_1.MechanicEnum.REFLEX) {
+        if (!ignoredMechanics[mechanic.mechanic]) {
             exports.addedMechanicEvent(mechanic.mechanic, playedBy, state);
         }
     }
@@ -44,9 +44,14 @@ exports.sendEvents = (state) => {
     });
     state.events = [];
 };
+//These are ignored because they are handled later.
+const ignoredMechanics = {
+    [cardInterface_1.MechanicEnum.REFLEX]: true,
+};
+//They have their own printed versions
 const addableMechanics = {
     [cardInterface_1.MechanicEnum.BLOCK]: true,
     [cardInterface_1.MechanicEnum.CRIPPLE]: true,
     [cardInterface_1.MechanicEnum.LOCK]: true,
-    [cardInterface_1.MechanicEnum.FORCEFUL]: true
+    [cardInterface_1.MechanicEnum.FORCEFUL]: true,
 };

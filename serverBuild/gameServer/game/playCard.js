@@ -21,7 +21,7 @@ exports.playCard = (state) => __awaiter(this, void 0, void 0, function* () {
         exports.getMechanicsReady(state);
         yield playerInput_1.playerPicksOne(state);
         yield playerInput_1.makePredictions(state);
-        yield playerInput_1.CheckForForecful(state);
+        yield playerInput_1.checkForForecful(state);
         exports.markAxisChanges(state);
         exports.incrementQueue(state);
         exports.addCardToQueue(state);

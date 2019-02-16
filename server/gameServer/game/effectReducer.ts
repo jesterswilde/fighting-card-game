@@ -120,7 +120,8 @@ const mechanicRouter: { [name: string]: (mechanic: Mechanic, card: Card, player:
     [MechanicEnum.LOCK]: reduceLock,
     [MechanicEnum.PREDICT]: reducePredict,
     [MechanicEnum.REFLEX]: reduceReflex,
-    [MechanicEnum.TELEGRAPH]: reduceTelegraph
+    [MechanicEnum.TELEGRAPH]: reduceTelegraph,
+    [MechanicEnum.FORCEFUL]: ()=>{},
 }
 
 const globalAxis: { [axis: string]: (state: GameState) => void } = {

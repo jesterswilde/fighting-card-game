@@ -126,7 +126,8 @@ const mechanicRouter = {
     [cardInterface_1.MechanicEnum.LOCK]: reduceLock,
     [cardInterface_1.MechanicEnum.PREDICT]: reducePredict,
     [cardInterface_1.MechanicEnum.REFLEX]: reduceReflex,
-    [cardInterface_1.MechanicEnum.TELEGRAPH]: reduceTelegraph
+    [cardInterface_1.MechanicEnum.TELEGRAPH]: reduceTelegraph,
+    [cardInterface_1.MechanicEnum.FORCEFUL]: () => { },
 };
 const globalAxis = {
     [cardInterface_1.AxisEnum.GRAPPLED]: (state) => state.distance = stateInterface_1.DistanceEnum.GRAPPLED,

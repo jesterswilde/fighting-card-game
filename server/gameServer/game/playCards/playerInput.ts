@@ -62,27 +62,31 @@ const getPredictions = (state: GameState): Promise<PredictionEnum> => {
     })
 }
 
-export const CheckForForecful = async (state: GameState) => {
+export const checkForForecful = async (state: GameState) => {
     const { readiedEffects = [] } = state;
     const options = readiedEffects.filter(({ card: { player }, mechanic: mech }) => {
         const { poise } = state.playerStates[player];
         return mech.mechanic === MechanicEnum.FORCEFUL && poise >= mech.amount;
     })
     //filter out all readied forecful mechanics
-    state.readiedEffects = readiedEffects.filter(({ mechanic: mech }) => mech !== MechanicEnum.FORCEFUL);
+    state.readiedEffects = readiedEffects.filter(({ mechanic: mech }) => mech.mechanic !== MechanicEnum.FORCEFUL);
     for (let i = 0; i < options.length; i++) {
         const { card: { player, name: cardName }, mechanic } = options[i];
         const socket = state.sockets[player];
-        const choice = await GetForcefulChoice(socket, mechanic, cardName);
-        if (choice) {
+        const choiceToPlay = await getForcefulChoice(socket, mechanic, cardName);
+        if (choiceToPlay) {
             const readied = mechanicsToReadiedEffects(mechanic.mechanicEffects, options[i].card);
             state.playerStates[player].poise -= typeof mechanic.amount === 'number' ? mechanic.amount : 0;
+            state.readiedEffects.push({
+                card: options[i].card,
+                mechanic: {mechanic: MechanicEnum.FORCEFUL, amount: mechanic.amount}
+            })
             state.readiedEffects.push(...readied);
         }
     }
 }
 
-const GetForcefulChoice = (socket: Socket, mechanic: Mechanic, cardName: string): Promise<boolean> => {
+const getForcefulChoice = (socket: Socket, mechanic: Mechanic, cardName: string): Promise<boolean> => {
     return new Promise((res, rej) => {
         socket.emit(SocketEnum.GOT_FORCEFUL_CHOICE, { mechanic, cardName });
         socket.once(SocketEnum.PICKED_FORCEFUL, (useForecful: boolean) => {

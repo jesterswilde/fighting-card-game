@@ -59,7 +59,7 @@ const poiseTitleClass = (poise:number)=>{
 
 const poiseLevel = (poise: number) => {
     if (poise <= 3) return 'Unbalanced';
-    if (poise >= 7) return 'Anticipating';
+    if (poise >= 8) return 'Anticipating';
     return 'Balanced';
 }
 

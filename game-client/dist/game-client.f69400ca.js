@@ -12427,6 +12427,7 @@ var EventActionEnum;
 (function (EventActionEnum) {
   EventActionEnum["GOT_EVENTS"] = "gotEvents";
   EventActionEnum["FINISHED_DISPLAYING_EVENTS"] = "finishedDisplayingEvents";
+  EventActionEnum["DISPLAY_EVENT_HISTORY"] = "displayEventHistory";
 })(EventActionEnum = exports.EventActionEnum || (exports.EventActionEnum = {}));
 },{}],"src/events/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12450,6 +12451,14 @@ exports.dispatchGotEvents = function (events) {
 exports.dispatchFinishedDisplayingEvents = function () {
   var action = {
     type: actions_1.EventActionEnum.FINISHED_DISPLAYING_EVENTS
+  };
+  store_1.store.dispatch(action);
+};
+
+exports.dispatchDisplayEventHistory = function (index) {
+  var action = {
+    type: actions_1.EventActionEnum.DISPLAY_EVENT_HISTORY,
+    index: index
   };
   store_1.store.dispatch(action);
 };
@@ -12735,8 +12744,31 @@ exports.gameDisplayReducer = function () {
       return state;
   }
 };
-},{"./interface":"src/gameDisplay/interface.ts","../game/actions":"src/game/actions.ts","./actions":"src/gameDisplay/actions.ts"}],"src/events/reducer.ts":[function(require,module,exports) {
+},{"./interface":"src/gameDisplay/interface.ts","../game/actions":"src/game/actions.ts","./actions":"src/gameDisplay/actions.ts"}],"src/gameSettings.ts":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.STARTING_HEALTH = 50;
+exports.BLOODIED_HP = 25;
+exports.QUEUE_LENGTH = 6;
+exports.HAND_SIZE = 3;
+exports.STARTING_POISE = 4;
+exports.MAX_POISE = 10;
+exports.MIN_POISE = 0;
+exports.UNBALANCED_POISE = 3;
+exports.ANTICIPATING_POISE = 8;
+},{}],"src/events/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -12744,19 +12776,19 @@ Object.defineProperty(exports, "__esModule", {
 
 var actions_1 = require("./actions");
 
+var gameSettings_1 = require("../gameSettings");
+
 exports.eventReducer = function () {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
     isDisplaying: false,
-    events: []
+    events: [],
+    history: []
   };
   var action = arguments.length > 1 ? arguments[1] : undefined;
 
   switch (action.type) {
     case actions_1.EventActionEnum.GOT_EVENTS:
-      return Object.assign({}, state, {
-        isDisplaying: true,
-        events: action.events
-      });
+      return gotEventsReducer(state, action);
 
     case actions_1.EventActionEnum.FINISHED_DISPLAYING_EVENTS:
       return Object.assign({}, state, {
@@ -12764,11 +12796,40 @@ exports.eventReducer = function () {
         events: []
       });
 
+    case actions_1.EventActionEnum.DISPLAY_EVENT_HISTORY:
+      return displayEventHistoryReducer(state, action);
+
     default:
       return state;
   }
 };
-},{"./actions":"src/events/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
+
+var displayEventHistoryReducer = function displayEventHistoryReducer(state, _ref) {
+  var index = _ref.index;
+  var events = state.history[index];
+
+  if (events) {
+    events = _toConsumableArray(events);
+  } else {
+    events = [];
+  }
+
+  return Object.assign({}, state, {
+    isDisplaying: true,
+    events: events
+  });
+};
+
+var gotEventsReducer = function gotEventsReducer(state, action) {
+  var history = [action.events].concat(_toConsumableArray(state.history));
+  history = history.slice(0, gameSettings_1.QUEUE_LENGTH);
+  return Object.assign({}, state, {
+    isDisplaying: true,
+    events: action.events,
+    history: history
+  });
+};
+},{"./actions":"src/events/actions.ts","../gameSettings":"src/gameSettings.ts"}],"src/state/store.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16618,6 +16679,8 @@ var dispatch_1 = require("../../game/dispatch");
 
 var fullQueueCard_1 = __importDefault(require("./card/fullQueueCard"));
 
+var dispatch_2 = require("../../events/dispatch");
+
 exports.default = function (props) {
   var _props$queue = props.queue,
       queue = _props$queue === void 0 ? [] : _props$queue,
@@ -16647,7 +16710,13 @@ var renderBoard = function renderBoard() {
     return preact_1.h("div", {
       key: key,
       class: !myQueueSlot ? 'played-by-me' : ''
-    }, cards.map(function (card, j) {
+    }, preact_1.h("div", {
+      class: 'history-btn'
+    }, preact_1.h("button", {
+      onClick: function onClick() {
+        return dispatch_2.dispatchDisplayEventHistory(i);
+      }
+    }, "H")), cards.map(function (card, j) {
       var opponent = card.player !== identity;
       return preact_1.h("div", {
         key: card.name
@@ -16668,7 +16737,7 @@ var renderBoard = function renderBoard() {
     }));
   });
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx","../../game/dispatch":"src/game/dispatch.ts","./card/fullQueueCard":"src/components/game/card/fullQueueCard.tsx"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx","../../game/dispatch":"src/game/dispatch.ts","./card/fullQueueCard":"src/components/game/card/fullQueueCard.tsx","../../events/dispatch":"src/events/dispatch.ts"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -16987,7 +17056,7 @@ var poiseTitleClass = function poiseTitleClass(poise) {
 
 var poiseLevel = function poiseLevel(poise) {
   if (poise <= 3) return 'Unbalanced';
-  if (poise >= 7) return 'Anticipating';
+  if (poise >= 8) return 'Anticipating';
   return 'Balanced';
 };
 

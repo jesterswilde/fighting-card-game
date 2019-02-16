@@ -4,6 +4,7 @@ import { PredictionEnum } from "../game/interface";
 export interface EventState{
     events: EventAction[]
     isDisplaying: boolean
+    history: EventAction[][]
 }
 export enum EventTypeEnum{
     CARD_NAME,

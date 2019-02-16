@@ -49,7 +49,7 @@ const decrementCounters = (state: GameState) => {
 
 const clearTurnData = (state: GameState) => {
     const opponent = state.currentPlayer === 0 ? 1 : 0; 
-    state.damaged = [false, false];
+    state.damaged[state.currentPlayer] = false;
     state.turnIsOver = false;
     state.modifiedAxis = makeModifiedAxis();
     state.incrementedQueue = false;

@@ -5,3 +5,15 @@ If you choose not to use forceful, it still shows up in the events modal
 Inertia may need to be lowered to 4 and 4
 
 When you reflex, you should be told what card you reflexed into if there are any choices to be made
+
+On the board, when the card is in queue-card form, hover tooltips don't work.
+
+A button to view the events after a card was played would be good. 
+
+Work on consolidating the state chunk. 
+
+If reflxed into, telegraph doesn't get the opponent to react
+
+If there are many events, each event gets really squished
+
+Some indication that it's the opponent's turn would be good. 

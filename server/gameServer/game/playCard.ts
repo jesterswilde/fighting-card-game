@@ -6,7 +6,7 @@ import { canUseOptional } from "./requirements";
 import { Mechanic, MechanicEnum, Card } from "../interfaces/cardInterface";
 import { markAxisChange } from "./modifiedAxis";
 import { addCardEvent } from "./events";
-import { playerPicksOne, makePredictions, CheckForForecful as checkForForceful } from "./playCards/playerInput";
+import { playerPicksOne, makePredictions, checkForForecful as checkForForceful } from "./playCards/playerInput";
 
 export const playCard = async (state: GameState) => {
     try {

@@ -65,26 +65,30 @@ const getPredictions = (state) => {
         });
     });
 };
-exports.CheckForForecful = (state) => __awaiter(this, void 0, void 0, function* () {
+exports.checkForForecful = (state) => __awaiter(this, void 0, void 0, function* () {
     const { readiedEffects = [] } = state;
     const options = readiedEffects.filter(({ card: { player }, mechanic: mech }) => {
         const { poise } = state.playerStates[player];
         return mech.mechanic === cardInterface_1.MechanicEnum.FORCEFUL && poise >= mech.amount;
     });
     //filter out all readied forecful mechanics
-    state.readiedEffects = readiedEffects.filter(({ mechanic: mech }) => mech !== cardInterface_1.MechanicEnum.FORCEFUL);
+    state.readiedEffects = readiedEffects.filter(({ mechanic: mech }) => mech.mechanic !== cardInterface_1.MechanicEnum.FORCEFUL);
     for (let i = 0; i < options.length; i++) {
         const { card: { player, name: cardName }, mechanic } = options[i];
         const socket = state.sockets[player];
-        const choice = yield GetForcefulChoice(socket, mechanic, cardName);
-        if (choice) {
+        const choiceToPlay = yield getForcefulChoice(socket, mechanic, cardName);
+        if (choiceToPlay) {
             const readied = playCard_1.mechanicsToReadiedEffects(mechanic.mechanicEffects, options[i].card);
             state.playerStates[player].poise -= typeof mechanic.amount === 'number' ? mechanic.amount : 0;
+            state.readiedEffects.push({
+                card: options[i].card,
+                mechanic: { mechanic: cardInterface_1.MechanicEnum.FORCEFUL, amount: mechanic.amount }
+            });
             state.readiedEffects.push(...readied);
         }
     }
 });
-const GetForcefulChoice = (socket, mechanic, cardName) => {
+const getForcefulChoice = (socket, mechanic, cardName) => {
     return new Promise((res, rej) => {
         socket.emit(socket_1.SocketEnum.GOT_FORCEFUL_CHOICE, { mechanic, cardName });
         socket.once(socket_1.SocketEnum.PICKED_FORCEFUL, (useForecful) => {
