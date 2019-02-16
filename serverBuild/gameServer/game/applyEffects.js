@@ -79,11 +79,10 @@ exports.checkPredictions = (state) => {
 };
 exports.checkTelegraph = (state) => {
     const { queue } = state;
-    const recentCard = queue_1.getLastPlayedCard(state);
     let readied = [];
-    queue.forEach((cards = []) => {
+    queue.forEach((cards = [], i) => {
         cards.forEach((card) => {
-            if (card !== recentCard && card) {
+            if (i !== 0 && card) {
                 let telegraphs = card.telegraphs || [];
                 const metTelegraphs = telegraphs.map((mech) => requirements_1.mechReqsMet(mech, card.opponent, card.player, state));
                 if (metTelegraphs.length > 0) {

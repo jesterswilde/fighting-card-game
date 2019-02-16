@@ -3232,5 +3232,21 @@
         "player": 1
       }
     ]
+  },
+  "TelegraphTest": {
+    "effects": [
+      {
+        "mechanic": "Telegraph",
+        "mechanicRequirements": [],
+        "mechanicEffects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ]
+      }
+    ],
+    "name": "TelegraphTest",
+    "optional": [],
+    "requirements": []
   }
 }

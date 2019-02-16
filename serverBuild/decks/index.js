@@ -5,7 +5,7 @@ const deckGrapple_1 = require("./deckGrapple");
 const deckHighGround_1 = require("./deckHighGround");
 const deckGaldiator_1 = require("./deckGaldiator");
 const deckStone_1 = require("./deckStone");
-const testDeck = ["ForcefulTest", "PredictTest", "GameEnder"];
+const testDeck = ["ForcefulTest", "TelegraphTest"];
 exports.decks = [
     { name: 'Grapple', deckList: deckGrapple_1.grappleDeck, description: "Excels at fighting while Grappled and Prone. Wants to play the card Neck Break (requires Grappled, Both Prone, and Balanced." },
     { name: 'High Ground', deckList: deckHighGround_1.highGroundDeck, description: "Wants to be standing while the opponent is prone. Tries very hard to avoid negative statuses" },

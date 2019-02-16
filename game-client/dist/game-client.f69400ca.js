@@ -12879,6 +12879,12 @@ module.exports = "/close.9d2dba97.png";
 module.exports = "/far.2950107d.png";
 },{}],"src/images/moving.png":[function(require,module,exports) {
 module.exports = "/moving.a4871359.png";
+},{}],"src/images/not_close.png":[function(require,module,exports) {
+module.exports = "/not_close.b0803724.png";
+},{}],"src/images/not_grapple.png":[function(require,module,exports) {
+module.exports = "/not_grapple.fe33e5f8.png";
+},{}],"src/images/not_far.png":[function(require,module,exports) {
+module.exports = "/not_far.cb70b38a.png";
 },{}],"src/images/still.png":[function(require,module,exports) {
 module.exports = "/still.ae2418c3.png";
 },{}],"src/images/standing.png":[function(require,module,exports) {
@@ -16149,6 +16155,12 @@ var far_png_1 = __importDefault(require("./far.png"));
 
 var moving_png_1 = __importDefault(require("./moving.png"));
 
+var not_close_png_1 = __importDefault(require("./not_close.png"));
+
+var not_grapple_png_1 = __importDefault(require("./not_grapple.png"));
+
+var not_far_png_1 = __importDefault(require("./not_far.png"));
+
 var still_png_1 = __importDefault(require("./still.png"));
 
 var standing_png_1 = __importDefault(require("./standing.png"));
@@ -16182,8 +16194,8 @@ var react_tooltip_1 = __importDefault(require("react-tooltip"));
 var util_1 = require("../util");
 
 var playerRouter = (_playerRouter = {}, _defineProperty(_playerRouter, card_1.PlayerEnum.PLAYER, downArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.OPPONENT, upArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.BOTH, bothArrow_png_1.default), _playerRouter);
-var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum.GRAPPLED, grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSE, close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FAR, far_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.MOVING, moving_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STILL, still_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STANDING, standing_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.PRONE, prone_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.BALANCED, balanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.ANTICIPATING, anticipating_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.UNBALANCED, unbalanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.DAMAGE, damage_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSER, closer_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FURTHER, further_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.POISE, poise_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.LOSE_POISE, losePoise_png_1.default), _iconRouter);
-var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FURTHER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.POISE, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.LOSE_POISE, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
+var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum.GRAPPLED, grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSE, close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FAR, far_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.MOVING, moving_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STILL, still_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STANDING, standing_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.PRONE, prone_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.BALANCED, balanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.ANTICIPATING, anticipating_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.UNBALANCED, unbalanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.DAMAGE, damage_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSER, closer_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FURTHER, further_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.POISE, poise_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.LOSE_POISE, losePoise_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.NOT_GRAPPLED, not_grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.NOT_CLOSE, not_close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.NOT_FAR, not_far_png_1.default), _iconRouter);
+var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FURTHER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.NOT_GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.NOT_CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.NOT_FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.POISE, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.LOSE_POISE, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
 
 exports.Arrow = function (_ref) {
   var player = _ref.player,
@@ -16222,7 +16234,7 @@ exports.Icon = function (props) {
     src: iconRouter[name]
   })));
 };
-},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-tooltip":"node_modules/react-tooltip/dist/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-tooltip":"node_modules/react-tooltip/dist/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16630,12 +16642,13 @@ var renderBoard = function renderBoard() {
   return queue.map(function () {
     var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var i = arguments.length > 1 ? arguments[1] : undefined;
-    var opponent = cards[0] && cards[0].player !== identity;
+    var myQueueSlot = cards[0] && cards[0].player !== identity;
     var key = cardNames(cards);
     return preact_1.h("div", {
       key: key,
-      class: !opponent ? 'played-by-me' : ''
+      class: !myQueueSlot ? 'played-by-me' : ''
     }, cards.map(function (card, j) {
+      var opponent = card.player !== identity;
       return preact_1.h("div", {
         key: card.name
       }, preact_1.h("div", {
@@ -17853,7 +17866,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51051" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63229" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

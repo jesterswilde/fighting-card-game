@@ -80,11 +80,10 @@ export const checkPredictions = (state: GameState) => {
 
 export const checkTelegraph = (state: GameState) => {
     const { queue } = state;
-    const recentCard = getLastPlayedCard(state);
     let readied: ReadiedEffect[] = [];
-    queue.forEach((cards = []) => {
+    queue.forEach((cards = [], i) => {
         cards.forEach((card) => {
-            if (card !== recentCard && card) {
+            if (i !== 0 && card) {
                 let telegraphs = card.telegraphs || [];
                 const metTelegraphs = telegraphs.map((mech) => mechReqsMet(mech, card.opponent, card.player, state));
                 if (metTelegraphs.length > 0) {

@@ -26,10 +26,11 @@ const cardNames = (cards: Card[]) => {
 }
 const renderBoard = (queue: Card[][] = [], identity: number) => {
     return queue.map((cards = [], i) => {
-        const opponent = cards[0] && cards[0].player !== identity;
+        const myQueueSlot = cards[0] && cards[0].player !== identity;
         const key = cardNames(cards);
-        return <div key={key} class={!opponent ? 'played-by-me' : ''}>
+        return <div key={key} class={!myQueueSlot ? 'played-by-me' : ''}>
             {cards.map((card, j) => {
+                const opponent = card.player !== identity; 
                 return <div key={card.name}>
                     <div
                         class={`text-center queue-card ${opponent ? 'opponent' : ''}`}

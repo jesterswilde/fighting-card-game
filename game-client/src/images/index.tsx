@@ -5,6 +5,9 @@ import grapple from './grapple.png';
 import close from './close.png';
 import far from './far.png';
 import moving from './moving.png';
+import notClose from './not_close.png';
+import notGrappled from './not_grapple.png'; 
+import notFar from './not_far.png';  
 import still from './still.png';
 import standing from './standing.png';
 import prone from './prone.png';
@@ -43,7 +46,10 @@ const iconRouter: { [name: string]: string } = {
     [AxisEnum.CLOSER]: closer,
     [AxisEnum.FURTHER]: further,
     [AxisEnum.POISE]: poise,
-    [AxisEnum.LOSE_POISE]: losePoise
+    [AxisEnum.LOSE_POISE]: losePoise,
+    [AxisEnum.NOT_GRAPPLED]: notGrappled,
+    [AxisEnum.NOT_CLOSE]: notClose,
+    [AxisEnum.NOT_FAR]: notFar,
 }
 
 const classRouter: { [name: string]: string } = {
@@ -52,6 +58,9 @@ const classRouter: { [name: string]: string } = {
     [AxisEnum.FAR]: 'distance',
     [AxisEnum.CLOSER]: 'distance',
     [AxisEnum.FURTHER]: 'distance',
+    [AxisEnum.NOT_GRAPPLED]: 'distance',
+    [AxisEnum.NOT_CLOSE]: 'distance',
+    [AxisEnum.NOT_FAR]: 'distance',
     [AxisEnum.MOVING]: 'motion',
     [AxisEnum.STILL]: 'motion',
     [AxisEnum.STANDING]: 'standing',
