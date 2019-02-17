@@ -18,15 +18,22 @@ import { addMechanicEvent, addEffectEvent, addRevealPredictionEvent } from "./ev
 */
 export const applyEffects = (state: GameState) => {
     try {
+        console.log("Starting to apply effects"); 
         makeEffectsReduceable(state);
+        console.log("removing stored effects"); 
         removeStoredEffects(state);
         checkForVictor(state);
+        console.log("Checking predictions"); 
         checkPredictions(state);
+        console.log("checking telegraph"); 
         checkTelegraph(state);
+        console.log("checking reflex"); 
         checkReflex(state);
+        console.log("checking focus"); 
         checkFocus(state);
     } catch (err) {
         if (err === ControlEnum.NEW_EFFECTS) {
+            console.log("New effects were found"); 
             applyEffects(state);
         } else {
             throw (err)
@@ -35,7 +42,6 @@ export const applyEffects = (state: GameState) => {
 }
 
 export const makeEffectsReduceable = (state: GameState) => {
-    const card = getLastPlayedCard(state);
     reduceMechanics(state.readiedEffects, state);
 }
 
@@ -83,7 +89,10 @@ export const checkTelegraph = (state: GameState) => {
     let readied: ReadiedEffect[] = [];
     queue.forEach((cards = [], i) => {
         cards.forEach((card) => {
-            if (i !== 0 && card) {
+            //If the card was reflexed to on an opponents turn, it should wait until the opponent picks a new card. 
+            //this might be better as a boolean that gets set on end turn. 
+            const notReflexedLastTurn = (i !== 1 || card.player !== state.currentPlayer);
+            if (i !== 0 && notReflexedLastTurn && card) {
                 let telegraphs = card.telegraphs || [];
                 const metTelegraphs = telegraphs.map((mech) => mechReqsMet(mech, card.opponent, card.player, state));
                 if (metTelegraphs.length > 0) {
@@ -164,7 +173,6 @@ export const checkFocus = (state: GameState) => {
                     }, []);
                 if (focused.length > 0) {
                     focused.forEach((focus)=> addMechanicEvent(MechanicEnum.FOCUS, focus.card, state)); 
-                    modifiedState = true;
                     state.readiedEffects = state.readiedEffects || [];
                     state.readiedEffects.push(...deepCopy(focused));
                     modifiedState = true;

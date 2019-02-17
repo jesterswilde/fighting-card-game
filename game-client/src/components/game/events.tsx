@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { EventState, EventAction, EventTypeEnum } from '../../events/interface';
+import { EventState, EventAction, EventTypeEnum, EVENT_PLAY_SPEED } from '../../events/interface';
 import { StoreState } from '../../state/store';
 import { connect } from 'preact-redux';
 import { Arrow, Icon } from '../../images'
@@ -31,13 +31,12 @@ class Events extends Component<Props, State>{
         }
         this.addEvent();
     }
-    timer = 500;
     addEvent = () => {
         const { counter, events } = this.state;
         if (counter < this.props.events.length) {
             const cancelTimeout = setTimeout(() => {
                 this.addEvent();
-            }, this.timer);
+            }, this.props.playSpeed || EVENT_PLAY_SPEED);
             this.setState({ cancelTimeout, events: [...events, this.props.events[counter]], counter: counter + 1 })
         }
     }
@@ -53,7 +52,7 @@ class Events extends Component<Props, State>{
             })
             setTimeout(() => {
                 this.addEvent();
-            }, this.timer);
+            }, EVENT_PLAY_SPEED);
         }
     }
     render() {

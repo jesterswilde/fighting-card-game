@@ -12744,7 +12744,25 @@ exports.gameDisplayReducer = function () {
       return state;
   }
 };
-},{"./interface":"src/gameDisplay/interface.ts","../game/actions":"src/game/actions.ts","./actions":"src/gameDisplay/actions.ts"}],"src/gameSettings.ts":[function(require,module,exports) {
+},{"./interface":"src/gameDisplay/interface.ts","../game/actions":"src/game/actions.ts","./actions":"src/gameDisplay/actions.ts"}],"src/events/interface.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EVENT_PLAY_SPEED = 500;
+exports.EVENT_REPLAY_SPEED = 200;
+var EventTypeEnum;
+
+(function (EventTypeEnum) {
+  EventTypeEnum[EventTypeEnum["CARD_NAME"] = 0] = "CARD_NAME";
+  EventTypeEnum[EventTypeEnum["EFFECT"] = 1] = "EFFECT";
+  EventTypeEnum[EventTypeEnum["MECHANIC"] = 2] = "MECHANIC";
+  EventTypeEnum[EventTypeEnum["ADDED_MECHANIC"] = 3] = "ADDED_MECHANIC";
+  EventTypeEnum[EventTypeEnum["REVEAL_PREDICTION"] = 4] = "REVEAL_PREDICTION";
+  EventTypeEnum[EventTypeEnum["GAME_OVER"] = 5] = "GAME_OVER";
+})(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));
+},{}],"src/gameSettings.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12773,6 +12791,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var interface_1 = require("./interface");
 
 var actions_1 = require("./actions");
 
@@ -12816,7 +12836,8 @@ var displayEventHistoryReducer = function displayEventHistoryReducer(state, _ref
 
   return Object.assign({}, state, {
     isDisplaying: true,
-    events: events
+    events: events,
+    playSpeed: interface_1.EVENT_REPLAY_SPEED
   });
 };
 
@@ -12826,10 +12847,11 @@ var gotEventsReducer = function gotEventsReducer(state, action) {
   return Object.assign({}, state, {
     isDisplaying: true,
     events: action.events,
-    history: history
+    history: history,
+    playSpeed: interface_1.EVENT_PLAY_SPEED
   });
 };
-},{"./actions":"src/events/actions.ts","../gameSettings":"src/gameSettings.ts"}],"src/state/store.ts":[function(require,module,exports) {
+},{"./interface":"src/events/interface.ts","./actions":"src/events/actions.ts","../gameSettings":"src/gameSettings.ts"}],"src/state/store.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17286,7 +17308,7 @@ var Prediction = function Prediction(_ref) {
       return preact_1.h("div", null, preact_1.h("h3", null, " Opponents Prediction"), renderPrediction(predictions, !isMyPrediction));
     }
   } else {
-    return preact_1.h("div", null, "No Prediction");
+    return null;
   }
 };
 
@@ -17433,23 +17455,7 @@ var makeUse = function makeUse(mechanic) {
 };
 
 exports.default = util_1.cleanConnect(selector, forceful);
-},{"preact":"node_modules/preact/dist/preact.mjs","../../interfaces/card":"src/interfaces/card.ts","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/events/interface.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var EventTypeEnum;
-
-(function (EventTypeEnum) {
-  EventTypeEnum[EventTypeEnum["CARD_NAME"] = 0] = "CARD_NAME";
-  EventTypeEnum[EventTypeEnum["EFFECT"] = 1] = "EFFECT";
-  EventTypeEnum[EventTypeEnum["MECHANIC"] = 2] = "MECHANIC";
-  EventTypeEnum[EventTypeEnum["ADDED_MECHANIC"] = 3] = "ADDED_MECHANIC";
-  EventTypeEnum[EventTypeEnum["REVEAL_PREDICTION"] = 4] = "REVEAL_PREDICTION";
-  EventTypeEnum[EventTypeEnum["GAME_OVER"] = 5] = "GAME_OVER";
-})(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));
-},{}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../interfaces/card":"src/interfaces/card.ts","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17535,7 +17541,6 @@ function (_preact_1$Component) {
     _classCallCheck(this, Events);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Events).call(this, props));
-    _this.timer = 500;
 
     _this.addEvent = function () {
       var _this$state = _this.state,
@@ -17545,7 +17550,7 @@ function (_preact_1$Component) {
       if (counter < _this.props.events.length) {
         var cancelTimeout = setTimeout(function () {
           _this.addEvent();
-        }, _this.timer);
+        }, _this.props.playSpeed || interface_1.EVENT_PLAY_SPEED);
 
         _this.setState({
           cancelTimeout: cancelTimeout,
@@ -17689,7 +17694,7 @@ function (_preact_1$Component) {
         });
         setTimeout(function () {
           _this2.addEvent();
-        }, this.timer);
+        }, interface_1.EVENT_PLAY_SPEED);
       }
     }
   }, {
@@ -17957,7 +17962,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63229" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58641" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

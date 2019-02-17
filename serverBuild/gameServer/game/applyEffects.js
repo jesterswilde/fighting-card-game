@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const effectReducer_1 = require("./effectReducer");
-const queue_1 = require("./queue");
 const errors_1 = require("../errors");
 const predictions_1 = require("./predictions");
 const startTurn_1 = require("./startTurn");
@@ -18,16 +17,23 @@ const events_1 = require("./events");
 */
 exports.applyEffects = (state) => {
     try {
+        console.log("Starting to apply effects");
         exports.makeEffectsReduceable(state);
+        console.log("removing stored effects");
         exports.removeStoredEffects(state);
         exports.checkForVictor(state);
+        console.log("Checking predictions");
         exports.checkPredictions(state);
+        console.log("checking telegraph");
         exports.checkTelegraph(state);
+        console.log("checking reflex");
         exports.checkReflex(state);
+        console.log("checking focus");
         exports.checkFocus(state);
     }
     catch (err) {
         if (err === errors_1.ControlEnum.NEW_EFFECTS) {
+            console.log("New effects were found");
             exports.applyEffects(state);
         }
         else {
@@ -36,7 +42,6 @@ exports.applyEffects = (state) => {
     }
 };
 exports.makeEffectsReduceable = (state) => {
-    const card = queue_1.getLastPlayedCard(state);
     effectReducer_1.reduceMechanics(state.readiedEffects, state);
 };
 exports.removeStoredEffects = (state) => {
@@ -82,7 +87,10 @@ exports.checkTelegraph = (state) => {
     let readied = [];
     queue.forEach((cards = [], i) => {
         cards.forEach((card) => {
-            if (i !== 0 && card) {
+            //If the card was reflexed to on an opponents turn, it should wait until the opponent picks a new card. 
+            //this might be better as a boolean that gets set on end turn. 
+            const notReflexedLastTurn = (i !== 1 || card.player !== state.currentPlayer);
+            if (i !== 0 && notReflexedLastTurn && card) {
                 let telegraphs = card.telegraphs || [];
                 const metTelegraphs = telegraphs.map((mech) => requirements_1.mechReqsMet(mech, card.opponent, card.player, state));
                 if (metTelegraphs.length > 0) {
@@ -161,7 +169,6 @@ exports.checkFocus = (state) => {
                 }, []);
                 if (focused.length > 0) {
                     focused.forEach((focus) => events_1.addMechanicEvent(cardInterface_1.MechanicEnum.FOCUS, focus.card, state));
-                    modifiedState = true;
                     state.readiedEffects = state.readiedEffects || [];
                     state.readiedEffects.push(...util_1.deepCopy(focused));
                     modifiedState = true;

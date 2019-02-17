@@ -1,10 +1,14 @@
 import { Mechanic } from "../interfaces/card";
 import { PredictionEnum } from "../game/interface";
 
+export const EVENT_PLAY_SPEED = 500; 
+export const EVENT_REPLAY_SPEED = 200; 
+
 export interface EventState{
     events: EventAction[]
     isDisplaying: boolean
     history: EventAction[][]
+    playSpeed?: number
 }
 export enum EventTypeEnum{
     CARD_NAME,

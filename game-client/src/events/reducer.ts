@@ -1,4 +1,4 @@
-import { EventState } from "./interface";
+import { EventState, EVENT_REPLAY_SPEED, EVENT_PLAY_SPEED } from "./interface";
 import { ActionType } from "../state/actionTypes";
 import { EventActionEnum, GotEventsAction, DisplayEventHistoryAction } from "./actions";
 import { QUEUE_LENGTH } from "../gameSettings";
@@ -23,11 +23,11 @@ const displayEventHistoryReducer = (state: EventState, { index }: DisplayEventHi
     } else {
         events = [];
     }
-    return { ...state, isDisplaying: true, events };
+    return { ...state, isDisplaying: true, events, playSpeed: EVENT_REPLAY_SPEED };
 }
 
 const gotEventsReducer = (state: EventState, action: GotEventsAction): EventState => {
     let history = [action.events, ...state.history];
     history = history.slice(0, QUEUE_LENGTH);
-    return { ...state, isDisplaying: true, events: action.events, history }
+    return { ...state, isDisplaying: true, events: action.events, history, playSpeed: EVENT_PLAY_SPEED }
 }

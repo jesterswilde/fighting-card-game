@@ -13,6 +13,7 @@ export const addEffectEvent = (mechanic: Mechanic, playedBy: number, state: Game
     }
 }
 export const addMechanicEvent = (mechEnum: MechanicEnum, card: Card, state: GameState) => {
+    console.log("adding effect event",card.name, mechEnum)
     state.events.push({ type: EventTypeEnum.MECHANIC, mechanicName: mechEnum, cardName: card.name, playedBy: card.player })
 }
 
@@ -21,6 +22,7 @@ export const addGameOverEvent = (winner: number, state: GameState) => {
 }
 
 export const addedMechanicEvent = (mechEnum: MechanicEnum, playedBy, state: GameState) => {
+    console.log("added effect", mechEnum); 
     state.events.push({ type: EventTypeEnum.ADDED_MECHANIC, mechanicName: mechEnum, playedBy })
 }
 

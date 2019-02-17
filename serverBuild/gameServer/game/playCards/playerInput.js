@@ -13,13 +13,13 @@ const playCard_1 = require("../playCard");
 const socket_1 = require("../../interfaces/socket");
 const util_1 = require("../../util");
 exports.playerPicksOne = (state, { _waitForPlayerToChoose = waitForPlayerToChoose } = {}) => __awaiter(this, void 0, void 0, function* () {
-    const { sockets, currentPlayer, readiedEffects = [] } = state;
+    const { sockets, readiedEffects = [] } = state;
     const pickedEffects = [];
     const unusedEffs = [];
-    const player = sockets[currentPlayer];
     for (let i = 0; i < readiedEffects.length; i++) {
         const { mechanic: effect, card } = state.readiedEffects[i];
         if (effect.mechanic === cardInterface_1.MechanicEnum.PICK_ONE) {
+            const player = sockets[card.player];
             const choice = yield _waitForPlayerToChoose(effect.choices, player);
             const picked = effect.choices[choice];
             pickedEffects.push(...playCard_1.mechanicsToReadiedEffects(picked, card));
@@ -39,12 +39,13 @@ const waitForPlayerToChoose = (choices, player) => {
     });
 };
 exports.makePredictions = (state, { _getPredictions = getPredictions } = {}) => __awaiter(this, void 0, void 0, function* () {
-    const { readiedEffects = [] } = state;
+    const { readiedEffects = [], sockets } = state;
     for (let i = 0; i < readiedEffects.length; i++) {
         const { mechanic: eff, card } = readiedEffects[i];
         if (eff.mechanic === cardInterface_1.MechanicEnum.PREDICT) {
             const prediction = {};
-            prediction.prediction = yield _getPredictions(state);
+            const player = sockets[card.player];
+            prediction.prediction = yield _getPredictions(state, player);
             prediction.card = card;
             prediction.mechanics = util_1.deepCopy(eff.mechanicEffects);
             state.predictions = state.predictions || [];
@@ -53,11 +54,10 @@ exports.makePredictions = (state, { _getPredictions = getPredictions } = {}) => 
         }
     }
 });
-const getPredictions = (state) => {
+const getPredictions = (state, socket) => {
     console.log('getting predictin');
     return new Promise((res, rej) => {
         const { currentPlayer: player, sockets } = state;
-        const socket = sockets[player];
         socket.emit(socket_1.SocketEnum.SHOULD_PREDICT);
         socket.once(socket_1.SocketEnum.MADE_PREDICTION, (prediction) => {
             console.log('gotPrediction');

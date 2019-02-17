@@ -26,6 +26,7 @@ export default class Viewer extends React.Component<Props, State>{
         const { cards = []} = this.state;
         return <div>
             <h2>Cards</h2>
+            <div>Total Cards {cards.length}</div>
             <div>
                 Filter:
                 <input type='text' value={this.state.filter} onChange={(e) => this.setState({ filter: e.target.value })} />

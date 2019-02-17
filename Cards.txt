@@ -119,17 +119,6 @@
       }
     ]
   },
-  "Blocker": {
-    "effects": [
-      {
-        "mechanic": "Block",
-        "amount": 16
-      }
-    ],
-    "name": "Blocker",
-    "optional": [],
-    "requirements": []
-  },
   "'Ol 1, 2": {
     "effects": [
       {
@@ -1178,34 +1167,6 @@
     "requirements": [
       {
         "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Knife Throw": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 3,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 8
-          }
-        ]
-      }
-    ],
-    "name": "Knife Throw",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Standing",
         "player": 0
       }
     ]
@@ -3137,63 +3098,6 @@
       }
     ]
   },
-  "Neck Break": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 10
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 5,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 15
-          }
-        ]
-      }
-    ],
-    "name": "Neck Break",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 7
-          },
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 2
-      },
-      {
-        "axis": "Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
   "Opportunist": {
     "effects": [
       {
@@ -3248,5 +3152,646 @@
     "name": "TelegraphTest",
     "optional": [],
     "requirements": []
+  },
+  "WillTelegraph": {
+    "effects": [
+      {
+        "mechanic": "Telegraph",
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 6
+          }
+        ]
+      }
+    ],
+    "name": "WillTelegraph",
+    "optional": [],
+    "requirements": []
+  },
+  "Fancy Footwork": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Moving",
+        "amount": 3
+      },
+      {
+        "player": 0,
+        "axis": "Poise",
+        "amount": 2
+      },
+      {
+        "player": 1,
+        "axis": "Lose Poise",
+        "amount": 1
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Moving",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Block",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "name": "Fancy Footwork",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ]
+  },
+  "1000 Cuts": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 4
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 4
+          }
+        ]
+      }
+    ],
+    "name": "1000 Cuts",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ]
+  },
+  "Femoral Strike": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 4
+      },
+      {
+        "player": 1,
+        "axis": "Lose Poise",
+        "amount": 4
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Standing",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 2
+          },
+          {
+            "player": 1,
+            "axis": "Lose Poise",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "name": "Femoral Strike",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      }
+    ]
+  },
+  "Exploit Weakness": {
+    "effects": [
+      {
+        "mechanic": "Block",
+        "amount": 7
+      },
+      {
+        "mechanic": "Telegraph",
+        "mechanicRequirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          },
+          {
+            "axis": "Unbalanced",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 15
+          },
+          {
+            "player": 1,
+            "axis": "Lose Poise",
+            "amount": 2
+          },
+          {
+            "player": 1,
+            "axis": "Prone",
+            "amount": 3
+          }
+        ]
+      }
+    ],
+    "name": "Exploit Weakness",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ]
+  },
+  "Got Your Back": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Poise",
+        "amount": 1
+      },
+      {
+        "mechanic": "No Mechanic",
+        "amount": 3,
+        "player": 0,
+        "axis": "Moving"
+      },
+      {
+        "mechanic": "Block",
+        "amount": 4
+      },
+      {
+        "mechanic": "Predict",
+        "mechanicEffects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ]
+      }
+    ],
+    "name": "Got Your Back",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 0,
+            "axis": "Standing"
+          },
+          {
+            "player": 0,
+            "axis": "Poise",
+            "amount": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Prone",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ]
+  },
+  "Piercing Lunge": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Closer"
+      },
+      {
+        "player": 0,
+        "axis": "Still"
+      },
+      {
+        "player": 0,
+        "axis": "Lose Poise",
+        "amount": 3
+      },
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 10
+      },
+      {
+        "player": null,
+        "mechanic": "Predict",
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 8
+          }
+        ]
+      }
+    ],
+    "name": "Piercing Lunge",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ]
+  },
+  "Seething Red": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 4
+      },
+      {
+        "player": 0,
+        "axis": "Lose Poise",
+        "amount": 1
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Damage",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 5
+          },
+          {
+            "player": 0,
+            "axis": "Lose Poise",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "name": "Seething Red",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Bloodied",
+        "player": 0
+      },
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ]
+  },
+  "Red Fury": {
+    "effects": [
+      {
+        "player": 2,
+        "axis": "Lose Poise",
+        "amount": 2
+      },
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 6
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "name": "Red Fury",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 0,
+            "axis": "Lose Poise",
+            "amount": 2
+          },
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 4
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Bloodied",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 2
+      }
+    ]
+  },
+  "Clever Reposition": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Moving",
+        "amount": 2
+      },
+      {
+        "mechanic": "Block",
+        "amount": 7
+      },
+      {
+        "player": 0,
+        "axis": "Poise",
+        "amount": 2
+      },
+      {
+        "player": 1,
+        "axis": "Lose Poise",
+        "amount": 2
+      }
+    ],
+    "name": "Clever Reposition",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ]
+  },
+  "Bloody Finale": {
+    "effects": [
+      {
+        "player": 2,
+        "axis": "Close"
+      },
+      {
+        "player": 0,
+        "axis": "Still"
+      },
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 10
+      },
+      {
+        "mechanic": "Forceful",
+        "amount": 8,
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 10
+          }
+        ]
+      }
+    ],
+    "name": "Bloody Finale",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Bloodied",
+        "player": 1
+      },
+      {
+        "axis": "Unbalanced",
+        "player": 1
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ]
+  },
+  "Targeted Strike": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Poise",
+        "amount": 1
+      },
+      {
+        "mechanic": "Block",
+        "amount": 3
+      },
+      {
+        "mechanic": "Pick One",
+        "choices": [
+          [
+            {
+              "player": 1,
+              "axis": "Damage",
+              "amount": 6
+            }
+          ],
+          [
+            {
+              "player": 1,
+              "axis": "Lose Poise",
+              "amount": 3
+            }
+          ]
+        ]
+      }
+    ],
+    "name": "Targeted Strike",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ]
+  },
+  "Neck Break": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 13
+      },
+      {
+        "mechanic": "Forceful",
+        "amount": 6,
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 13
+          }
+        ]
+      }
+    ],
+    "name": "Neck Break",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 7
+          },
+          {
+            "player": 1,
+            "axis": "Lose Poise",
+            "amount": 3
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Prone",
+        "player": 2
+      },
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ]
+  },
+  "Knife Throw": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 5
+      },
+      {
+        "mechanic": "Forceful",
+        "amount": 3,
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 6
+          }
+        ]
+      }
+    ],
+    "name": "Knife Throw",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ]
   }
 }
