@@ -1,10 +1,11 @@
 import { h } from 'preact';
 import Requirement from './Requirement';
-import { Mechanic, MechanicDisplay, DisplayEnum } from '../../../interfaces/card';
+import { Mechanic, MechanicDisplay, DisplayEnum, MechanicEnum } from '../../../interfaces/card';
 import { Arrow, Icon } from '../../../images'
 import { getUUID } from '../../../util';
 import { getMechanicDescription } from '../../../extras/mechanicDescriptions'
-import ReactTooltip from 'react-tooltip';
+import { Tooltip, TooltipStyles } from 'react-lightweight-tooltip';
+
 
 interface Props {
     effect: Mechanic
@@ -36,13 +37,17 @@ const renderSwitch = (effect: Mechanic, shouldFlip: boolean) => {
     return null;
 }
 
+const mechWithTooltip = (mech: MechanicEnum)=>{
+    const description = getMechanicDescription(mech);
+    return <Tooltip content={description}>
+        <div><b>{mech}</b></div>
+    </Tooltip>
+}
 
 const renderNone = (mechanic: Mechanic) => {
     const id = String(getUUID(mechanic));
-    const description = getMechanicDescription(mechanic.mechanic);
     return <div class='mechanic'>
-        <ReactTooltip delayShow={250} id={id} effect="solid">{description}</ReactTooltip>
-        <div data-tip={description} data-for={id}><b>{mechanic.mechanic}</b></div>
+        {mechWithTooltip(mechanic.mechanic)}
     </div>
 }
 
@@ -51,10 +56,8 @@ const renderMechanic = (mechanic: Mechanic, shouldFlip) => {
     const reqs = mechanic.mechanicRequirements || [];
     const effs = mechanic.mechanicEffects || [];
     const id = String(getUUID(mechanic));
-    const description = getMechanicDescription(mechanic.mechanic);
     return <div class='mechanic'>
-        <ReactTooltip delayShow={250} id={id} effect="solid">{description}</ReactTooltip>
-        <div data-tip={description} data-for={id}><b>{mechanic.mechanic} {mechanic.amount !== undefined && mechanic.amount}</b></div>
+        {mechWithTooltip(mechanic.mechanic)}
         <div class='h-divider' />
         <div>
             <div>{reqs.map((req, i) => <span key={i}><Requirement requirement={req} shouldFlip={shouldFlip} /></span>)}</div>
@@ -66,10 +69,8 @@ const renderMechanic = (mechanic: Mechanic, shouldFlip) => {
 
 const renderPickOne = (mechanic: Mechanic, shouldFlip: boolean) => {
     const id = String(getUUID(mechanic));
-    const description = getMechanicDescription(mechanic.mechanic);
     return <div class='pick-one'>
-        <ReactTooltip delayShow={250} id={id} effect="solid">{description}</ReactTooltip>
-        <div  data-tip={description} data-for={id}><b>Pick One</b></div>
+        {mechWithTooltip(mechanic.mechanic)}
         <div class='choices'>
             {mechanic.choices.map((choice, i) => {
                 return <div key={i} class='choice'>
@@ -84,8 +85,7 @@ const renderEffect = (effect: Mechanic, shouldFlip) => {
     const id = String(getUUID(effect));
     const description = getMechanicDescription(effect.mechanic);
     return <div class='inline'>
-        {effect.mechanic !== undefined && <ReactTooltip delayShow={250} id={id} effect="solid">{description}</ReactTooltip>}
-        {effect.mechanic !== undefined && <b data-tip={description} data-for={id}> {effect.mechanic} </b>}
+        {effect.mechanic !== undefined && mechWithTooltip(effect.mechanic)}
         {effect.player !== undefined && <Arrow player={effect.player} shouldFlip={shouldFlip} />}
         {effect.axis !== undefined && <Icon name={effect.axis} />}
         <b>{effect.amount}</b>

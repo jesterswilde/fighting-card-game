@@ -22,7 +22,7 @@ import further from './further.png';
 import closer from './closer.png';
 import poise from './poise.png';
 import losePoise from './losePoise.png';
-import ReactTooltip from 'react-tooltip';
+import { Tooltip, TooltipStyles } from 'react-lightweight-tooltip';
 import { getUUID } from '../util';
 
 const playerRouter: { [name: number]: string } = {
@@ -88,14 +88,20 @@ export const Arrow = ({ player, shouldFlip }: { player: PlayerEnum, shouldFlip?:
 
 
 
-
+const iconStyle: TooltipStyles = {
+    wrapper:{
+        cursor: 'default',
+    },
+    tooltip:{minWidth: '80px', whiteSpace: "nowrap"}, arrow:{}, gap:{}, content:{zIndex: 100}
+}
 export const Icon = (props: { name: string }) => {
     const { name } = props;
     const id = String(getUUID(props));
     return <div class='inline'>
-        <ReactTooltip id={id} effect="solid">{name}</ReactTooltip>
-        <div class={`inline axis-bg ${classRouter[name]}`}>
-            <img data-tip={name} data-for={id} class='axis-icon' src={iconRouter[name]} />
-        </div>
+        <Tooltip content={name} styles={iconStyle}>
+            <div class={`inline axis-bg ${classRouter[name]}`}>
+                <img data-tip={name} data-for={id} class='axis-icon' src={iconRouter[name]} />
+            </div>
+        </Tooltip>
     </div>
 }

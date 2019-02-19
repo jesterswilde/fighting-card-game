@@ -12734,21 +12734,7 @@ var makeDefaultState = function makeDefaultState() {
     cards: []
   };
 };
-},{"./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/deck/actions.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DeckActionEnum = void 0;
-var DeckActionEnum;
-exports.DeckActionEnum = DeckActionEnum;
-
-(function (DeckActionEnum) {
-  DeckActionEnum["GOT_DECK_CHOICES"] = "gotDeckChoices";
-  DeckActionEnum["PICKED_DECK"] = "pickedDeck";
-})(DeckActionEnum || (exports.DeckActionEnum = DeckActionEnum = {}));
-},{}],"src/display/reducer.ts":[function(require,module,exports) {
+},{"./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/display/reducer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12762,7 +12748,7 @@ var _actions = require("./actions");
 
 var _actions2 = require("../game/actions");
 
-var _actions3 = require("../deck/actions");
+var _actions3 = require("../lobby/actions");
 
 var __assign = void 0 && (void 0).__assign || function () {
   __assign = Object.assign || function (t) {
@@ -12794,7 +12780,7 @@ var displayReducer = function displayReducer(state, action) {
         screen: action.screen
       });
 
-    case _actions3.DeckActionEnum.GOT_DECK_CHOICES:
+    case _actions3.LobbyActionEnum.GOT_DECK_CHOICES:
       return __assign({}, state, {
         screen: _interface.ScreenEnum.CHOOSE_DECK
       });
@@ -12810,7 +12796,7 @@ var displayReducer = function displayReducer(state, action) {
 };
 
 exports.displayReducer = displayReducer;
-},{"./interface":"src/display/interface.ts","./actions":"src/display/actions.ts","../game/actions":"src/game/actions.ts","../deck/actions":"src/deck/actions.ts"}],"src/lobby/reducer.ts":[function(require,module,exports) {
+},{"./interface":"src/display/interface.ts","./actions":"src/display/actions.ts","../game/actions":"src/game/actions.ts","../lobby/actions":"src/lobby/actions.ts"}],"src/lobby/reducer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15069,1608 +15055,193 @@ var index = {
 };
 var _default = index;
 exports.default = _default;
-},{"prop-types":"node_modules/prop-types/index.js","preact":"node_modules/preact/dist/preact.mjs"}],"node_modules/classnames/index.js":[function(require,module,exports) {
-var define;
-/*!
-  Copyright (c) 2017 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-/* global define */
-
-(function () {
-	'use strict';
-
-	var hasOwn = {}.hasOwnProperty;
-
-	function classNames () {
-		var classes = [];
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg) && arg.length) {
-				var inner = classNames.apply(null, arg);
-				if (inner) {
-					classes.push(inner);
-				}
-			} else if (argType === 'object') {
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if (typeof module !== 'undefined' && module.exports) {
-		classNames.default = classNames;
-		module.exports = classNames;
-	} else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
-		// register as 'classnames', consistent with npm package name
-		define('classnames', [], function () {
-			return classNames;
-		});
-	} else {
-		window.classNames = classNames;
-	}
-}());
-
-},{}],"node_modules/react-tooltip/dist/constant.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = {
-  GLOBAL: {
-    HIDE: '__react_tooltip_hide_event',
-    REBUILD: '__react_tooltip_rebuild_event',
-    SHOW: '__react_tooltip_show_event'
-  }
-};
-},{}],"node_modules/react-tooltip/dist/decorators/staticMethods.js":[function(require,module,exports) {
+},{"prop-types":"node_modules/prop-types/index.js","preact":"node_modules/preact/dist/preact.mjs"}],"node_modules/react-lightweight-tooltip/dist-modules/components/tooltip.js":[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-exports.default = function (target) {
-  /**
-   * Hide all tooltip
-   * @trigger ReactTooltip.hide()
-   */
-  target.hide = function (target) {
-    dispatchGlobalEvent(_constant2.default.GLOBAL.HIDE, {
-      target: target
-    });
-  };
-  /**
-   * Rebuild all tooltip
-   * @trigger ReactTooltip.rebuild()
-   */
-
-
-  target.rebuild = function () {
-    dispatchGlobalEvent(_constant2.default.GLOBAL.REBUILD);
-  };
-  /**
-   * Show specific tooltip
-   * @trigger ReactTooltip.show()
-   */
-
-
-  target.show = function (target) {
-    dispatchGlobalEvent(_constant2.default.GLOBAL.SHOW, {
-      target: target
-    });
-  };
-
-  target.prototype.globalRebuild = function () {
-    if (this.mount) {
-      this.unbindListener();
-      this.bindListener();
-    }
-  };
-
-  target.prototype.globalShow = function (event) {
-    if (this.mount) {
-      // Create a fake event, specific show will limit the type to `solid`
-      // only `float` type cares e.clientX e.clientY
-      var e = {
-        currentTarget: event.detail.target
-      };
-      this.showTooltip(e, true);
-    }
-  };
-
-  target.prototype.globalHide = function (event) {
-    if (this.mount) {
-      var hasTarget = event && event.detail && event.detail.target && true || false;
-      this.hideTooltip({
-        currentTarget: hasTarget && event.detail.target
-      }, hasTarget);
-    }
-  };
-};
-
-var _constant = require('../constant');
-
-var _constant2 = _interopRequireDefault(_constant);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
-
-var dispatchGlobalEvent = function dispatchGlobalEvent(eventName, opts) {
-  // Compatibale with IE
-  // @see http://stackoverflow.com/questions/26596123/internet-explorer-9-10-11-event-constructor-doesnt-work
-  var event = void 0;
-
-  if (typeof window.CustomEvent === 'function') {
-    event = new window.CustomEvent(eventName, {
-      detail: opts
-    });
-  } else {
-    event = document.createEvent('Event');
-    event.initEvent(eventName, false, true);
-    event.detail = opts;
-  }
-
-  window.dispatchEvent(event);
-};
-/**
- * Static methods for react-tooltip
- */
-},{"../constant":"node_modules/react-tooltip/dist/constant.js"}],"node_modules/react-tooltip/dist/decorators/windowListener.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (target) {
-  target.prototype.bindWindowEvents = function (resizeHide) {
-    // ReactTooltip.hide
-    window.removeEventListener(_constant2.default.GLOBAL.HIDE, this.globalHide);
-    window.addEventListener(_constant2.default.GLOBAL.HIDE, this.globalHide, false); // ReactTooltip.rebuild
-
-    window.removeEventListener(_constant2.default.GLOBAL.REBUILD, this.globalRebuild);
-    window.addEventListener(_constant2.default.GLOBAL.REBUILD, this.globalRebuild, false); // ReactTooltip.show
-
-    window.removeEventListener(_constant2.default.GLOBAL.SHOW, this.globalShow);
-    window.addEventListener(_constant2.default.GLOBAL.SHOW, this.globalShow, false); // Resize
-
-    if (resizeHide) {
-      window.removeEventListener('resize', this.onWindowResize);
-      window.addEventListener('resize', this.onWindowResize, false);
-    }
-  };
-
-  target.prototype.unbindWindowEvents = function () {
-    window.removeEventListener(_constant2.default.GLOBAL.HIDE, this.globalHide);
-    window.removeEventListener(_constant2.default.GLOBAL.REBUILD, this.globalRebuild);
-    window.removeEventListener(_constant2.default.GLOBAL.SHOW, this.globalShow);
-    window.removeEventListener('resize', this.onWindowResize);
-  };
-  /**
-   * invoked by resize event of window
-   */
-
-
-  target.prototype.onWindowResize = function () {
-    if (!this.mount) return;
-    this.hideTooltip();
-  };
-};
-
-var _constant = require('../constant');
-
-var _constant2 = _interopRequireDefault(_constant);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
-},{"../constant":"node_modules/react-tooltip/dist/constant.js"}],"node_modules/react-tooltip/dist/decorators/customEvent.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (target) {
-  target.prototype.isCustomEvent = function (ele) {
-    var event = this.state.event;
-    return event || !!ele.getAttribute('data-event');
-  };
-  /* Bind listener for custom event */
-
-
-  target.prototype.customBindListener = function (ele) {
-    var _this = this;
-
-    var _state = this.state,
-        event = _state.event,
-        eventOff = _state.eventOff;
-    var dataEvent = ele.getAttribute('data-event') || event;
-    var dataEventOff = ele.getAttribute('data-event-off') || eventOff;
-    dataEvent.split(' ').forEach(function (event) {
-      ele.removeEventListener(event, customListeners.get(ele, event));
-      var customListener = checkStatus.bind(_this, dataEventOff);
-      customListeners.set(ele, event, customListener);
-      ele.addEventListener(event, customListener, false);
-    });
-
-    if (dataEventOff) {
-      dataEventOff.split(' ').forEach(function (event) {
-        ele.removeEventListener(event, _this.hideTooltip);
-        ele.addEventListener(event, _this.hideTooltip, false);
-      });
-    }
-  };
-  /* Unbind listener for custom event */
-
-
-  target.prototype.customUnbindListener = function (ele) {
-    var _state2 = this.state,
-        event = _state2.event,
-        eventOff = _state2.eventOff;
-    var dataEvent = event || ele.getAttribute('data-event');
-    var dataEventOff = eventOff || ele.getAttribute('data-event-off');
-    ele.removeEventListener(dataEvent, customListeners.get(ele, event));
-    if (dataEventOff) ele.removeEventListener(dataEventOff, this.hideTooltip);
-  };
-};
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-/**
- * Custom events to control showing and hiding of tooltip
- *
- * @attributes
- * - `event` {String}
- * - `eventOff` {String}
- */
-
-
-var checkStatus = function checkStatus(dataEventOff, e) {
-  var show = this.state.show;
-  var id = this.props.id;
-  var dataIsCapture = e.currentTarget.getAttribute('data-iscapture');
-  var isCapture = dataIsCapture && dataIsCapture === 'true' || this.props.isCapture;
-  var currentItem = e.currentTarget.getAttribute('currentItem');
-  if (!isCapture) e.stopPropagation();
-
-  if (show && currentItem === 'true') {
-    if (!dataEventOff) this.hideTooltip(e);
-  } else {
-    e.currentTarget.setAttribute('currentItem', 'true');
-    setUntargetItems(e.currentTarget, this.getTargetArray(id));
-    this.showTooltip(e);
-  }
-};
-
-var setUntargetItems = function setUntargetItems(currentTarget, targetArray) {
-  for (var i = 0; i < targetArray.length; i++) {
-    if (currentTarget !== targetArray[i]) {
-      targetArray[i].setAttribute('currentItem', 'false');
-    } else {
-      targetArray[i].setAttribute('currentItem', 'true');
-    }
-  }
-};
-
-var customListeners = {
-  id: '9b69f92e-d3fe-498b-b1b4-c5e63a51b0cf',
-  set: function set(target, event, listener) {
-    if (this.id in target) {
-      var map = target[this.id];
-      map[event] = listener;
-    } else {
-      // this is workaround for WeakMap, which is not supported in older browsers, such as IE
-      Object.defineProperty(target, this.id, {
-        configurable: true,
-        value: _defineProperty({}, event, listener)
-      });
-    }
-  },
-  get: function get(target, event) {
-    var map = target[this.id];
-
-    if (map !== undefined) {
-      return map[event];
-    }
-  }
-};
-},{}],"node_modules/react-tooltip/dist/decorators/isCapture.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (target) {
-  target.prototype.isCapture = function (currentTarget) {
-    return currentTarget && currentTarget.getAttribute('data-iscapture') === 'true' || this.props.isCapture || false;
-  };
-};
-},{}],"node_modules/react-tooltip/dist/decorators/getEffect.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (target) {
-  target.prototype.getEffect = function (currentTarget) {
-    var dataEffect = currentTarget.getAttribute('data-effect');
-    return dataEffect || this.props.effect || 'float';
-  };
-};
-},{}],"node_modules/react-tooltip/dist/decorators/trackRemoval.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (target) {
-  target.prototype.bindRemovalTracker = function () {
-    var _this = this;
-
-    var MutationObserver = getMutationObserverClass();
-    if (MutationObserver == null) return;
-    var observer = new MutationObserver(function (mutations) {
-      for (var m1 = 0; m1 < mutations.length; m1++) {
-        var mutation = mutations[m1];
-
-        for (var m2 = 0; m2 < mutation.removedNodes.length; m2++) {
-          var element = mutation.removedNodes[m2];
-
-          if (element === _this.state.currentTarget) {
-            _this.hideTooltip();
-
-            return;
-          }
-        }
-      }
-    });
-    observer.observe(window.document, {
-      childList: true,
-      subtree: true
-    });
-    this.removalTracker = observer;
-  };
-
-  target.prototype.unbindRemovalTracker = function () {
-    if (this.removalTracker) {
-      this.removalTracker.disconnect();
-      this.removalTracker = null;
-    }
-  };
-};
-/**
- * Tracking target removing from DOM.
- * It's nessesary to hide tooltip when it's target disappears.
- * Otherwise, the tooltip would be shown forever until another target
- * is triggered.
- *
- * If MutationObserver is not available, this feature just doesn't work.
- */
-// https://hacks.mozilla.org/2012/05/dom-mutationobserver-reacting-to-dom-changes-without-killing-browser-performance/
-
-
-var getMutationObserverClass = function getMutationObserverClass() {
-  return window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
-};
-},{}],"node_modules/react-tooltip/dist/utils/getPosition.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (e, target, node, place, desiredPlace, effect, offset) {
-  var _getDimensions = getDimensions(node),
-      tipWidth = _getDimensions.width,
-      tipHeight = _getDimensions.height;
-
-  var _getDimensions2 = getDimensions(target),
-      targetWidth = _getDimensions2.width,
-      targetHeight = _getDimensions2.height;
-
-  var _getCurrentOffset = getCurrentOffset(e, target, effect),
-      mouseX = _getCurrentOffset.mouseX,
-      mouseY = _getCurrentOffset.mouseY;
-
-  var defaultOffset = getDefaultPosition(effect, targetWidth, targetHeight, tipWidth, tipHeight);
-
-  var _calculateOffset = calculateOffset(offset),
-      extraOffset_X = _calculateOffset.extraOffset_X,
-      extraOffset_Y = _calculateOffset.extraOffset_Y;
-
-  var windowWidth = window.innerWidth;
-  var windowHeight = window.innerHeight;
-
-  var _getParent = getParent(node),
-      parentTop = _getParent.parentTop,
-      parentLeft = _getParent.parentLeft; // Get the edge offset of the tooltip
-
-
-  var getTipOffsetLeft = function getTipOffsetLeft(place) {
-    var offset_X = defaultOffset[place].l;
-    return mouseX + offset_X + extraOffset_X;
-  };
-
-  var getTipOffsetRight = function getTipOffsetRight(place) {
-    var offset_X = defaultOffset[place].r;
-    return mouseX + offset_X + extraOffset_X;
-  };
-
-  var getTipOffsetTop = function getTipOffsetTop(place) {
-    var offset_Y = defaultOffset[place].t;
-    return mouseY + offset_Y + extraOffset_Y;
-  };
-
-  var getTipOffsetBottom = function getTipOffsetBottom(place) {
-    var offset_Y = defaultOffset[place].b;
-    return mouseY + offset_Y + extraOffset_Y;
-  }; //
-  // Functions to test whether the tooltip's sides are inside
-  // the client window for a given orientation p
-  //
-  //  _____________
-  // |             | <-- Right side
-  // | p = 'left'  |\
-  // |             |/  |\
-  // |_____________|   |_\  <-- Mouse
-  //      / \           |
-  //       |
-  //       |
-  //  Bottom side
-  //
-
-
-  var outsideLeft = function outsideLeft(p) {
-    return getTipOffsetLeft(p) < 0;
-  };
-
-  var outsideRight = function outsideRight(p) {
-    return getTipOffsetRight(p) > windowWidth;
-  };
-
-  var outsideTop = function outsideTop(p) {
-    return getTipOffsetTop(p) < 0;
-  };
-
-  var outsideBottom = function outsideBottom(p) {
-    return getTipOffsetBottom(p) > windowHeight;
-  }; // Check whether the tooltip with orientation p is completely inside the client window
-
-
-  var outside = function outside(p) {
-    return outsideLeft(p) || outsideRight(p) || outsideTop(p) || outsideBottom(p);
-  };
-
-  var inside = function inside(p) {
-    return !outside(p);
-  };
-
-  var placesList = ['top', 'bottom', 'left', 'right'];
-  var insideList = [];
-
-  for (var i = 0; i < 4; i++) {
-    var p = placesList[i];
-
-    if (inside(p)) {
-      insideList.push(p);
-    }
-  }
-
-  var isNewState = false;
-  var newPlace = void 0;
-
-  if (inside(desiredPlace) && desiredPlace !== place) {
-    isNewState = true;
-    newPlace = desiredPlace;
-  } else if (insideList.length > 0 && outside(desiredPlace) && outside(place)) {
-    isNewState = true;
-    newPlace = insideList[0];
-  }
-
-  if (isNewState) {
-    return {
-      isNewState: true,
-      newState: {
-        place: newPlace
-      }
-    };
-  }
-
-  return {
-    isNewState: false,
-    position: {
-      left: parseInt(getTipOffsetLeft(place) - parentLeft, 10),
-      top: parseInt(getTipOffsetTop(place) - parentTop, 10)
-    }
-  };
-};
-
-var getDimensions = function getDimensions(node) {
-  var _node$getBoundingClie = node.getBoundingClientRect(),
-      height = _node$getBoundingClie.height,
-      width = _node$getBoundingClie.width;
-
-  return {
-    height: parseInt(height, 10),
-    width: parseInt(width, 10)
-  };
-}; // Get current mouse offset
-
-/**
- * Calculate the position of tooltip
- *
- * @params
- * - `e` {Event} the event of current mouse
- * - `target` {Element} the currentTarget of the event
- * - `node` {DOM} the react-tooltip object
- * - `place` {String} top / right / bottom / left
- * - `effect` {String} float / solid
- * - `offset` {Object} the offset to default position
- *
- * @return {Object}
- * - `isNewState` {Bool} required
- * - `newState` {Object}
- * - `position` {Object} {left: {Number}, top: {Number}}
- */
-
-
-var getCurrentOffset = function getCurrentOffset(e, currentTarget, effect) {
-  var boundingClientRect = currentTarget.getBoundingClientRect();
-  var targetTop = boundingClientRect.top;
-  var targetLeft = boundingClientRect.left;
-
-  var _getDimensions3 = getDimensions(currentTarget),
-      targetWidth = _getDimensions3.width,
-      targetHeight = _getDimensions3.height;
-
-  if (effect === 'float') {
-    return {
-      mouseX: e.clientX,
-      mouseY: e.clientY
-    };
-  }
-
-  return {
-    mouseX: targetLeft + targetWidth / 2,
-    mouseY: targetTop + targetHeight / 2
-  };
-}; // List all possibility of tooltip final offset
-// This is useful in judging if it is necessary for tooltip to switch position when out of window
-
-
-var getDefaultPosition = function getDefaultPosition(effect, targetWidth, targetHeight, tipWidth, tipHeight) {
-  var top = void 0;
-  var right = void 0;
-  var bottom = void 0;
-  var left = void 0;
-  var disToMouse = 3;
-  var triangleHeight = 2;
-  var cursorHeight = 12; // Optimize for float bottom only, cause the cursor will hide the tooltip
-
-  if (effect === 'float') {
-    top = {
-      l: -(tipWidth / 2),
-      r: tipWidth / 2,
-      t: -(tipHeight + disToMouse + triangleHeight),
-      b: -disToMouse
-    };
-    bottom = {
-      l: -(tipWidth / 2),
-      r: tipWidth / 2,
-      t: disToMouse + cursorHeight,
-      b: tipHeight + disToMouse + triangleHeight + cursorHeight
-    };
-    left = {
-      l: -(tipWidth + disToMouse + triangleHeight),
-      r: -disToMouse,
-      t: -(tipHeight / 2),
-      b: tipHeight / 2
-    };
-    right = {
-      l: disToMouse,
-      r: tipWidth + disToMouse + triangleHeight,
-      t: -(tipHeight / 2),
-      b: tipHeight / 2
-    };
-  } else if (effect === 'solid') {
-    top = {
-      l: -(tipWidth / 2),
-      r: tipWidth / 2,
-      t: -(targetHeight / 2 + tipHeight + triangleHeight),
-      b: -(targetHeight / 2)
-    };
-    bottom = {
-      l: -(tipWidth / 2),
-      r: tipWidth / 2,
-      t: targetHeight / 2,
-      b: targetHeight / 2 + tipHeight + triangleHeight
-    };
-    left = {
-      l: -(tipWidth + targetWidth / 2 + triangleHeight),
-      r: -(targetWidth / 2),
-      t: -(tipHeight / 2),
-      b: tipHeight / 2
-    };
-    right = {
-      l: targetWidth / 2,
-      r: tipWidth + targetWidth / 2 + triangleHeight,
-      t: -(tipHeight / 2),
-      b: tipHeight / 2
-    };
-  }
-
-  return {
-    top: top,
-    bottom: bottom,
-    left: left,
-    right: right
-  };
-}; // Consider additional offset into position calculation
-
-
-var calculateOffset = function calculateOffset(offset) {
-  var extraOffset_X = 0;
-  var extraOffset_Y = 0;
-
-  if (Object.prototype.toString.apply(offset) === '[object String]') {
-    offset = JSON.parse(offset.toString().replace(/\'/g, '\"'));
-  }
-
-  for (var key in offset) {
-    if (key === 'top') {
-      extraOffset_Y -= parseInt(offset[key], 10);
-    } else if (key === 'bottom') {
-      extraOffset_Y += parseInt(offset[key], 10);
-    } else if (key === 'left') {
-      extraOffset_X -= parseInt(offset[key], 10);
-    } else if (key === 'right') {
-      extraOffset_X += parseInt(offset[key], 10);
-    }
-  }
-
-  return {
-    extraOffset_X: extraOffset_X,
-    extraOffset_Y: extraOffset_Y
-  };
-}; // Get the offset of the parent elements
-
-
-var getParent = function getParent(currentTarget) {
-  var currentParent = currentTarget;
-
-  while (currentParent) {
-    if (window.getComputedStyle(currentParent).getPropertyValue('transform') !== 'none') break;
-    currentParent = currentParent.parentElement;
-  }
-
-  var parentTop = currentParent && currentParent.getBoundingClientRect().top || 0;
-  var parentLeft = currentParent && currentParent.getBoundingClientRect().left || 0;
-  return {
-    parentTop: parentTop,
-    parentLeft: parentLeft
-  };
-};
-},{}],"node_modules/react-tooltip/dist/utils/getTipContent.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (tip, children, getContent, multiline) {
-  if (children) return children;
-  if (getContent !== undefined && getContent !== null) return getContent; // getContent can be 0, '', etc.
-
-  if (getContent === null) return null; // Tip not exist and childern is null or undefined
-
-  var regexp = /<br\s*\/?>/;
-
-  if (!multiline || multiline === 'false' || !regexp.test(tip)) {
-    // No trim(), so that user can keep their input
-    return tip;
-  } // Multiline tooltip content
-
-
-  return tip.split(regexp).map(function (d, i) {
-    return _react2.default.createElement('span', {
-      key: i,
-      className: 'multi-line'
-    }, d);
-  });
-};
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
-},{"react":"node_modules/preact-compat/dist/preact-compat.es.js"}],"node_modules/react-tooltip/dist/utils/aria.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.parseAria = parseAria;
-/**
- * Support aria- and role in ReactTooltip
- *
- * @params props {Object}
- * @return {Object}
- */
-
-function parseAria(props) {
-  var ariaObj = {};
-  Object.keys(props).filter(function (prop) {
-    // aria-xxx and role is acceptable
-    return /(^aria-\w+$|^role$)/.test(prop);
-  }).forEach(function (prop) {
-    ariaObj[prop] = props[prop];
-  });
-  return ariaObj;
-}
-},{}],"node_modules/react-tooltip/dist/utils/nodeListToArray.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-exports.default = function (nodeList) {
-  var length = nodeList.length;
-
-  if (nodeList.hasOwnProperty) {
-    return Array.prototype.slice.call(nodeList);
-  }
-
-  return new Array(length).fill().map(function (index) {
-    return nodeList[index];
-  });
-};
-},{}],"node_modules/react-tooltip/dist/style.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = '.__react_component_tooltip{border-radius:3px;display:inline-block;font-size:13px;left:-999em;opacity:0;padding:8px 21px;position:fixed;pointer-events:none;transition:opacity 0.3s ease-out;top:-999em;visibility:hidden;z-index:999}.__react_component_tooltip.allow_hover{pointer-events:auto}.__react_component_tooltip:before,.__react_component_tooltip:after{content:"";width:0;height:0;position:absolute}.__react_component_tooltip.show{opacity:0.9;margin-top:0px;margin-left:0px;visibility:visible}.__react_component_tooltip.type-dark{color:#fff;background-color:#222}.__react_component_tooltip.type-dark.place-top:after{border-top-color:#222;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-dark.place-bottom:after{border-bottom-color:#222;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-dark.place-left:after{border-left-color:#222;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-dark.place-right:after{border-right-color:#222;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-dark.border{border:1px solid #fff}.__react_component_tooltip.type-dark.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-dark.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-dark.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-dark.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-success{color:#fff;background-color:#8DC572}.__react_component_tooltip.type-success.place-top:after{border-top-color:#8DC572;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-success.place-bottom:after{border-bottom-color:#8DC572;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-success.place-left:after{border-left-color:#8DC572;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-success.place-right:after{border-right-color:#8DC572;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-success.border{border:1px solid #fff}.__react_component_tooltip.type-success.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-success.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-success.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-success.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-warning{color:#fff;background-color:#F0AD4E}.__react_component_tooltip.type-warning.place-top:after{border-top-color:#F0AD4E;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-warning.place-bottom:after{border-bottom-color:#F0AD4E;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-warning.place-left:after{border-left-color:#F0AD4E;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-warning.place-right:after{border-right-color:#F0AD4E;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-warning.border{border:1px solid #fff}.__react_component_tooltip.type-warning.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-warning.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-warning.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-warning.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-error{color:#fff;background-color:#BE6464}.__react_component_tooltip.type-error.place-top:after{border-top-color:#BE6464;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-error.place-bottom:after{border-bottom-color:#BE6464;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-error.place-left:after{border-left-color:#BE6464;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-error.place-right:after{border-right-color:#BE6464;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-error.border{border:1px solid #fff}.__react_component_tooltip.type-error.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-error.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-error.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-error.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-info{color:#fff;background-color:#337AB7}.__react_component_tooltip.type-info.place-top:after{border-top-color:#337AB7;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-info.place-bottom:after{border-bottom-color:#337AB7;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-info.place-left:after{border-left-color:#337AB7;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-info.place-right:after{border-right-color:#337AB7;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-info.border{border:1px solid #fff}.__react_component_tooltip.type-info.border.place-top:before{border-top:8px solid #fff}.__react_component_tooltip.type-info.border.place-bottom:before{border-bottom:8px solid #fff}.__react_component_tooltip.type-info.border.place-left:before{border-left:8px solid #fff}.__react_component_tooltip.type-info.border.place-right:before{border-right:8px solid #fff}.__react_component_tooltip.type-light{color:#222;background-color:#fff}.__react_component_tooltip.type-light.place-top:after{border-top-color:#fff;border-top-style:solid;border-top-width:6px}.__react_component_tooltip.type-light.place-bottom:after{border-bottom-color:#fff;border-bottom-style:solid;border-bottom-width:6px}.__react_component_tooltip.type-light.place-left:after{border-left-color:#fff;border-left-style:solid;border-left-width:6px}.__react_component_tooltip.type-light.place-right:after{border-right-color:#fff;border-right-style:solid;border-right-width:6px}.__react_component_tooltip.type-light.border{border:1px solid #222}.__react_component_tooltip.type-light.border.place-top:before{border-top:8px solid #222}.__react_component_tooltip.type-light.border.place-bottom:before{border-bottom:8px solid #222}.__react_component_tooltip.type-light.border.place-left:before{border-left:8px solid #222}.__react_component_tooltip.type-light.border.place-right:before{border-right:8px solid #222}.__react_component_tooltip.place-top{margin-top:-10px}.__react_component_tooltip.place-top:before{border-left:10px solid transparent;border-right:10px solid transparent;bottom:-8px;left:50%;margin-left:-10px}.__react_component_tooltip.place-top:after{border-left:8px solid transparent;border-right:8px solid transparent;bottom:-6px;left:50%;margin-left:-8px}.__react_component_tooltip.place-bottom{margin-top:10px}.__react_component_tooltip.place-bottom:before{border-left:10px solid transparent;border-right:10px solid transparent;top:-8px;left:50%;margin-left:-10px}.__react_component_tooltip.place-bottom:after{border-left:8px solid transparent;border-right:8px solid transparent;top:-6px;left:50%;margin-left:-8px}.__react_component_tooltip.place-left{margin-left:-10px}.__react_component_tooltip.place-left:before{border-top:6px solid transparent;border-bottom:6px solid transparent;right:-8px;top:50%;margin-top:-5px}.__react_component_tooltip.place-left:after{border-top:5px solid transparent;border-bottom:5px solid transparent;right:-6px;top:50%;margin-top:-4px}.__react_component_tooltip.place-right{margin-left:10px}.__react_component_tooltip.place-right:before{border-top:6px solid transparent;border-bottom:6px solid transparent;left:-8px;top:50%;margin-top:-5px}.__react_component_tooltip.place-right:after{border-top:5px solid transparent;border-bottom:5px solid transparent;left:-6px;top:50%;margin-top:-4px}.__react_component_tooltip .multi-line{display:block;padding:2px 0px;text-align:center}';
-},{}],"node_modules/react-tooltip/dist/index.js":[function(require,module,exports) {
-'use strict';
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function (obj) { return typeof obj; }; } else { _typeof = function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var _extends = Object.assign || function (target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = arguments[i];
-
-    for (var key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  return target;
-};
-
-var _createClass = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
-
-var _class, _class2, _temp;
-/* Decoraters */
-
-/* Utils */
-
-/* CSS */
-
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _classnames = require('classnames');
+var _propTypes = require('prop-types');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _staticMethods = require('./decorators/staticMethods');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _staticMethods2 = _interopRequireDefault(_staticMethods);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _windowListener = require('./decorators/windowListener');
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-var _windowListener2 = _interopRequireDefault(_windowListener);
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _customEvent = require('./decorators/customEvent');
+var Tooltip = function (_React$Component) {
+  _inherits(Tooltip, _React$Component);
 
-var _customEvent2 = _interopRequireDefault(_customEvent);
+  function Tooltip(props) {
+    _classCallCheck(this, Tooltip);
 
-var _isCapture = require('./decorators/isCapture');
+    var _this = _possibleConstructorReturn(this, (Tooltip.__proto__ || Object.getPrototypeOf(Tooltip)).call(this, props));
 
-var _isCapture2 = _interopRequireDefault(_isCapture);
-
-var _getEffect = require('./decorators/getEffect');
-
-var _getEffect2 = _interopRequireDefault(_getEffect);
-
-var _trackRemoval = require('./decorators/trackRemoval');
-
-var _trackRemoval2 = _interopRequireDefault(_trackRemoval);
-
-var _getPosition = require('./utils/getPosition');
-
-var _getPosition2 = _interopRequireDefault(_getPosition);
-
-var _getTipContent = require('./utils/getTipContent');
-
-var _getTipContent2 = _interopRequireDefault(_getTipContent);
-
-var _aria = require('./utils/aria');
-
-var _nodeListToArray = require('./utils/nodeListToArray');
-
-var _nodeListToArray2 = _interopRequireDefault(_nodeListToArray);
-
-var _style = require('./style');
-
-var _style2 = _interopRequireDefault(_style);
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    default: obj
-  };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (!self) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return call && (_typeof(call) === "object" || typeof call === "function") ? call : self;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function, not " + _typeof(superClass));
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
-}
-
-var ReactTooltip = (0, _staticMethods2.default)(_class = (0, _windowListener2.default)(_class = (0, _customEvent2.default)(_class = (0, _isCapture2.default)(_class = (0, _getEffect2.default)(_class = (0, _trackRemoval2.default)(_class = (_temp = _class2 = function (_React$Component) {
-  _inherits(ReactTooltip, _React$Component);
-
-  function ReactTooltip(props) {
-    _classCallCheck(this, ReactTooltip);
-
-    var _this = _possibleConstructorReturn(this, (ReactTooltip.__proto__ || Object.getPrototypeOf(ReactTooltip)).call(this, props));
-
-    _this.state = {
-      place: props.place || 'top',
-      // Direction of tooltip
-      desiredPlace: props.place || 'top',
-      type: 'dark',
-      // Color theme of tooltip
-      effect: 'float',
-      // float or fixed
-      show: false,
-      border: false,
-      offset: {},
-      extraClass: '',
-      html: false,
-      delayHide: 0,
-      delayShow: 0,
-      event: props.event || null,
-      eventOff: props.eventOff || null,
-      currentEvent: null,
-      // Current mouse event
-      currentTarget: null,
-      // Current target of mouse event
-      ariaProps: (0, _aria.parseAria)(props),
-      // aria- and role attributes
-      isEmptyTip: false,
-      disable: false,
-      originTooltip: null,
-      isMultiline: false
+    _this.styles = {
+      wrapper: {
+        position: 'relative',
+        display: 'inline-block',
+        zIndex: '98',
+        color: '#555',
+        cursor: 'help'
+      },
+      tooltip: {
+        position: 'absolute',
+        zIndex: '99',
+        minWidth: '200px',
+        maxWidth: '420px',
+        background: '#000',
+        bottom: '100%',
+        left: '50%',
+        marginBottom: '10px',
+        padding: '5px',
+        WebkitTransform: 'translateX(-50%)',
+        msTransform: 'translateX(-50%)',
+        OTransform: 'translateX(-50%)',
+        transform: 'translateX(-50%)'
+      },
+      content: {
+        background: '#000',
+        color: '#fff',
+        display: 'inline',
+        fontSize: '.8em',
+        padding: '.3em 1em'
+      },
+      arrow: {
+        position: 'absolute',
+        width: '0',
+        height: '0',
+        bottom: '-5px',
+        left: '50%',
+        marginLeft: '-5px',
+        borderLeft: 'solid transparent 5px',
+        borderRight: 'solid transparent 5px',
+        borderTop: 'solid #000 5px'
+      },
+      gap: {
+        position: 'absolute',
+        width: '100%',
+        height: '20px',
+        bottom: '-20px'
+      }
     };
 
-    _this.bind(['showTooltip', 'updateTooltip', 'hideTooltip', 'getTooltipContent', 'globalRebuild', 'globalShow', 'globalHide', 'onWindowResize', 'mouseOnToolTip']);
+    _this.mergeStyles = function (userStyles) {
+      Object.keys(_this.styles).forEach(function (name) {
+        Object.assign(_this.styles[name], userStyles[name]);
+      });
+    };
 
-    _this.mount = true;
-    _this.delayShowLoop = null;
-    _this.delayHideLoop = null;
-    _this.delayReshow = null;
-    _this.intervalUpdateContent = null;
+    _this.show = function () {
+      return _this.setVisibility(true);
+    };
+
+    _this.hide = function () {
+      return _this.setVisibility(false);
+    };
+
+    _this.setVisibility = function (visible) {
+      _this.setState(Object.assign({}, _this.state, {
+        visible: visible
+      }));
+    };
+
+    _this.handleTouch = function () {
+      _this.show();
+      _this.assignOutsideTouchHandler();
+    };
+
+    _this.assignOutsideTouchHandler = function () {
+      var handler = function handler(e) {
+        var currentNode = e.target;
+        var componentNode = _reactDom2.default.findDOMNode(_this.refs.instance);
+        while (currentNode.parentNode) {
+          if (currentNode === componentNode) return;
+          currentNode = currentNode.parentNode;
+        }
+        if (currentNode !== document) return;
+        _this.hide();
+        document.removeEventListener('touchstart', handler);
+      };
+      document.addEventListener('touchstart', handler);
+    };
+
+    _this.state = {
+      visible: false
+    };
+    if (props.styles) _this.mergeStyles(props.styles);
     return _this;
   }
-  /**
-   * For unify the bind and unbind listener
-   */
 
-
-  _createClass(ReactTooltip, [{
-    key: 'bind',
-    value: function bind(methodArray) {
-      var _this2 = this;
-
-      methodArray.forEach(function (method) {
-        _this2[method] = _this2[method].bind(_this2);
-      });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _props = this.props,
-          insecure = _props.insecure,
-          resizeHide = _props.resizeHide;
-
-      if (insecure) {
-        this.setStyleHeader(); // Set the style to the <link>
-      }
-
-      this.bindListener(); // Bind listener for tooltip
-
-      this.bindWindowEvents(resizeHide); // Bind global event for static method
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(props) {
-      var ariaProps = this.state.ariaProps;
-      var newAriaProps = (0, _aria.parseAria)(props);
-      var isChanged = Object.keys(newAriaProps).some(function (props) {
-        return newAriaProps[props] !== ariaProps[props];
-      });
-
-      if (isChanged) {
-        this.setState({
-          ariaProps: newAriaProps
-        });
-      }
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.mount = false;
-      this.clearTimer();
-      this.unbindListener();
-      this.removeScrollListener();
-      this.unbindWindowEvents();
-    }
-    /**
-     * Return if the mouse is on the tooltip.
-     * @returns {boolean} true - mouse is on the tooltip
-     */
-
-  }, {
-    key: 'mouseOnToolTip',
-    value: function mouseOnToolTip() {
-      var show = this.state.show;
-
-      if (show && this.tooltipRef) {
-        /* old IE or Firefox work around */
-        if (!this.tooltipRef.matches) {
-          /* old IE work around */
-          if (this.tooltipRef.msMatchesSelector) {
-            this.tooltipRef.matches = this.tooltipRef.msMatchesSelector;
-          } else {
-            /* old Firefox work around */
-            this.tooltipRef.matches = this.tooltipRef.mozMatchesSelector;
-          }
-        }
-
-        return this.tooltipRef.matches(':hover');
-      }
-
-      return false;
-    }
-    /**
-     * Pick out corresponded target elements
-     */
-
-  }, {
-    key: 'getTargetArray',
-    value: function getTargetArray(id) {
-      var targetArray = void 0;
-
-      if (!id) {
-        targetArray = document.querySelectorAll('[data-tip]:not([data-for])');
-      } else {
-        var escaped = id.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-        targetArray = document.querySelectorAll('[data-tip][data-for="' + escaped + '"]');
-      } // targetArray is a NodeList, convert it to a real array
-
-
-      return (0, _nodeListToArray2.default)(targetArray);
-    }
-    /**
-     * Bind listener to the target elements
-     * These listeners used to trigger showing or hiding the tooltip
-     */
-
-  }, {
-    key: 'bindListener',
-    value: function bindListener() {
-      var _this3 = this;
-
-      var _props2 = this.props,
-          id = _props2.id,
-          globalEventOff = _props2.globalEventOff,
-          isCapture = _props2.isCapture;
-      var targetArray = this.getTargetArray(id);
-      targetArray.forEach(function (target) {
-        var isCaptureMode = _this3.isCapture(target);
-
-        var effect = _this3.getEffect(target);
-
-        if (target.getAttribute('currentItem') === null) {
-          target.setAttribute('currentItem', 'false');
-        }
-
-        _this3.unbindBasicListener(target);
-
-        if (_this3.isCustomEvent(target)) {
-          _this3.customBindListener(target);
-
-          return;
-        }
-
-        target.addEventListener('mouseenter', _this3.showTooltip, isCaptureMode);
-
-        if (effect === 'float') {
-          target.addEventListener('mousemove', _this3.updateTooltip, isCaptureMode);
-        }
-
-        target.addEventListener('mouseleave', _this3.hideTooltip, isCaptureMode);
-      }); // Global event to hide tooltip
-
-      if (globalEventOff) {
-        window.removeEventListener(globalEventOff, this.hideTooltip);
-        window.addEventListener(globalEventOff, this.hideTooltip, isCapture);
-      } // Track removal of targetArray elements from DOM
-
-
-      this.bindRemovalTracker();
-    }
-    /**
-     * Unbind listeners on target elements
-     */
-
-  }, {
-    key: 'unbindListener',
-    value: function unbindListener() {
-      var _this4 = this;
-
-      var _props3 = this.props,
-          id = _props3.id,
-          globalEventOff = _props3.globalEventOff;
-      var targetArray = this.getTargetArray(id);
-      targetArray.forEach(function (target) {
-        _this4.unbindBasicListener(target);
-
-        if (_this4.isCustomEvent(target)) _this4.customUnbindListener(target);
-      });
-      if (globalEventOff) window.removeEventListener(globalEventOff, this.hideTooltip);
-      this.unbindRemovalTracker();
-    }
-    /**
-     * Invoke this before bind listener and ummount the compont
-     * it is necessary to invloke this even when binding custom event
-     * so that the tooltip can switch between custom and default listener
-     */
-
-  }, {
-    key: 'unbindBasicListener',
-    value: function unbindBasicListener(target) {
-      var isCaptureMode = this.isCapture(target);
-      target.removeEventListener('mouseenter', this.showTooltip, isCaptureMode);
-      target.removeEventListener('mousemove', this.updateTooltip, isCaptureMode);
-      target.removeEventListener('mouseleave', this.hideTooltip, isCaptureMode);
-    }
-  }, {
-    key: 'getTooltipContent',
-    value: function getTooltipContent() {
-      var _props4 = this.props,
-          getContent = _props4.getContent,
-          children = _props4.children; // Generate tooltip content
-
-      var content = void 0;
-
-      if (getContent) {
-        if (Array.isArray(getContent)) {
-          content = getContent[0] && getContent[0](this.state.originTooltip);
-        } else {
-          content = getContent(this.state.originTooltip);
-        }
-      }
-
-      return (0, _getTipContent2.default)(this.state.originTooltip, children, content, this.state.isMultiline);
-    }
-  }, {
-    key: 'isEmptyTip',
-    value: function isEmptyTip(placeholder) {
-      return typeof placeholder === 'string' && placeholder === '' || placeholder === null;
-    }
-    /**
-     * When mouse enter, show the tooltip
-     */
-
-  }, {
-    key: 'showTooltip',
-    value: function showTooltip(e, isGlobalCall) {
-      if (isGlobalCall) {
-        // Don't trigger other elements belongs to other ReactTooltip
-        var targetArray = this.getTargetArray(this.props.id);
-        var isMyElement = targetArray.some(function (ele) {
-          return ele === e.currentTarget;
-        });
-        if (!isMyElement) return;
-      } // Get the tooltip content
-      // calculate in this phrase so that tip width height can be detected
-
-
-      var _props5 = this.props,
-          multiline = _props5.multiline,
-          getContent = _props5.getContent;
-      var originTooltip = e.currentTarget.getAttribute('data-tip');
-      var isMultiline = e.currentTarget.getAttribute('data-multiline') || multiline || false; // If it is focus event or called by ReactTooltip.show, switch to `solid` effect
-
-      var switchToSolid = e instanceof window.FocusEvent || isGlobalCall; // if it needs to skip adding hide listener to scroll
-
-      var scrollHide = true;
-
-      if (e.currentTarget.getAttribute('data-scroll-hide')) {
-        scrollHide = e.currentTarget.getAttribute('data-scroll-hide') === 'true';
-      } else if (this.props.scrollHide != null) {
-        scrollHide = this.props.scrollHide;
-      } // Make sure the correct place is set
-
-
-      var desiredPlace = e.currentTarget.getAttribute('data-place') || this.props.place || 'top';
-      var effect = switchToSolid && 'solid' || this.getEffect(e.currentTarget);
-      var offset = e.currentTarget.getAttribute('data-offset') || this.props.offset || {};
-      var result = (0, _getPosition2.default)(e, e.currentTarget, _reactDom2.default.findDOMNode(this), desiredPlace, desiredPlace, effect, offset);
-      var place = result.isNewState ? result.newState.place : desiredPlace; // To prevent previously created timers from triggering
-
-      this.clearTimer();
-      var target = e.currentTarget;
-      var reshowDelay = this.state.show ? target.getAttribute('data-delay-update') || this.props.delayUpdate : 0;
-      var self = this;
-
-      var updateState = function updateState() {
-        self.setState({
-          originTooltip: originTooltip,
-          isMultiline: isMultiline,
-          desiredPlace: desiredPlace,
-          place: place,
-          type: target.getAttribute('data-type') || self.props.type || 'dark',
-          effect: effect,
-          offset: offset,
-          html: target.getAttribute('data-html') ? target.getAttribute('data-html') === 'true' : self.props.html || false,
-          delayShow: target.getAttribute('data-delay-show') || self.props.delayShow || 0,
-          delayHide: target.getAttribute('data-delay-hide') || self.props.delayHide || 0,
-          delayUpdate: target.getAttribute('data-delay-update') || self.props.delayUpdate || 0,
-          border: target.getAttribute('data-border') ? target.getAttribute('data-border') === 'true' : self.props.border || false,
-          extraClass: target.getAttribute('data-class') || self.props.class || self.props.className || '',
-          disable: target.getAttribute('data-tip-disable') ? target.getAttribute('data-tip-disable') === 'true' : self.props.disable || false,
-          currentTarget: target
-        }, function () {
-          if (scrollHide) self.addScrollListener(self.state.currentTarget);
-          self.updateTooltip(e);
-
-          if (getContent && Array.isArray(getContent)) {
-            self.intervalUpdateContent = setInterval(function () {
-              if (self.mount) {
-                var _getContent = self.props.getContent;
-                var placeholder = (0, _getTipContent2.default)(originTooltip, '', _getContent[0](), isMultiline);
-                var isEmptyTip = self.isEmptyTip(placeholder);
-                self.setState({
-                  isEmptyTip: isEmptyTip
-                });
-                self.updatePosition();
-              }
-            }, getContent[1]);
-          }
-        });
-      }; // If there is no delay call immediately, don't allow events to get in first.
-
-
-      if (reshowDelay) {
-        this.delayReshow = setTimeout(updateState, reshowDelay);
-      } else {
-        updateState();
-      }
-    }
-    /**
-     * When mouse hover, updatetooltip
-     */
-
-  }, {
-    key: 'updateTooltip',
-    value: function updateTooltip(e) {
-      var _this5 = this;
-
-      var _state = this.state,
-          delayShow = _state.delayShow,
-          disable = _state.disable;
-      var afterShow = this.props.afterShow;
-      var placeholder = this.getTooltipContent();
-      var delayTime = parseInt(delayShow, 10);
-      var eventTarget = e.currentTarget || e.target; // Check if the mouse is actually over the tooltip, if so don't hide the tooltip
-
-      if (this.mouseOnToolTip()) {
-        return;
-      }
-
-      if (this.isEmptyTip(placeholder) || disable) return; // if the tooltip is empty, disable the tooltip
-
-      var updateState = function updateState() {
-        if (Array.isArray(placeholder) && placeholder.length > 0 || placeholder) {
-          var isInvisible = !_this5.state.show;
-
-          _this5.setState({
-            currentEvent: e,
-            currentTarget: eventTarget,
-            show: true
-          }, function () {
-            _this5.updatePosition();
-
-            if (isInvisible && afterShow) afterShow(e);
-          });
-        }
-      };
-
-      clearTimeout(this.delayShowLoop);
-
-      if (delayShow) {
-        this.delayShowLoop = setTimeout(updateState, delayTime);
-      } else {
-        updateState();
-      }
-    }
-    /*
-    * If we're mousing over the tooltip remove it when we leave.
-     */
-
-  }, {
-    key: 'listenForTooltipExit',
-    value: function listenForTooltipExit() {
-      var show = this.state.show;
-
-      if (show && this.tooltipRef) {
-        this.tooltipRef.addEventListener('mouseleave', this.hideTooltip);
-      }
-    }
-  }, {
-    key: 'removeListenerForTooltipExit',
-    value: function removeListenerForTooltipExit() {
-      var show = this.state.show;
-
-      if (show && this.tooltipRef) {
-        this.tooltipRef.removeEventListener('mouseleave', this.hideTooltip);
-      }
-    }
-    /**
-     * When mouse leave, hide tooltip
-     */
-
-  }, {
-    key: 'hideTooltip',
-    value: function hideTooltip(e, hasTarget) {
-      var _this6 = this;
-
-      var _state2 = this.state,
-          delayHide = _state2.delayHide,
-          disable = _state2.disable;
-      var afterHide = this.props.afterHide;
-      var placeholder = this.getTooltipContent();
-      if (!this.mount) return;
-      if (this.isEmptyTip(placeholder) || disable) return; // if the tooltip is empty, disable the tooltip
-
-      if (hasTarget) {
-        // Don't trigger other elements belongs to other ReactTooltip
-        var targetArray = this.getTargetArray(this.props.id);
-        var isMyElement = targetArray.some(function (ele) {
-          return ele === e.currentTarget;
-        });
-        if (!isMyElement || !this.state.show) return;
-      }
-
-      var resetState = function resetState() {
-        var isVisible = _this6.state.show; // Check if the mouse is actually over the tooltip, if so don't hide the tooltip
-
-        if (_this6.mouseOnToolTip()) {
-          _this6.listenForTooltipExit();
-
-          return;
-        }
-
-        _this6.removeListenerForTooltipExit();
-
-        _this6.setState({
-          show: false
-        }, function () {
-          _this6.removeScrollListener();
-
-          if (isVisible && afterHide) afterHide(e);
-        });
-      };
-
-      this.clearTimer();
-
-      if (delayHide) {
-        this.delayHideLoop = setTimeout(resetState, parseInt(delayHide, 10));
-      } else {
-        resetState();
-      }
-    }
-    /**
-     * Add scroll eventlistener when tooltip show
-     * automatically hide the tooltip when scrolling
-     */
-
-  }, {
-    key: 'addScrollListener',
-    value: function addScrollListener(currentTarget) {
-      var isCaptureMode = this.isCapture(currentTarget);
-      window.addEventListener('scroll', this.hideTooltip, isCaptureMode);
-    }
-  }, {
-    key: 'removeScrollListener',
-    value: function removeScrollListener() {
-      window.removeEventListener('scroll', this.hideTooltip);
-    } // Calculation the position
-
-  }, {
-    key: 'updatePosition',
-    value: function updatePosition() {
-      var _this7 = this;
-
-      var _state3 = this.state,
-          currentEvent = _state3.currentEvent,
-          currentTarget = _state3.currentTarget,
-          place = _state3.place,
-          desiredPlace = _state3.desiredPlace,
-          effect = _state3.effect,
-          offset = _state3.offset;
-
-      var node = _reactDom2.default.findDOMNode(this);
-
-      var result = (0, _getPosition2.default)(currentEvent, currentTarget, node, place, desiredPlace, effect, offset);
-
-      if (result.isNewState) {
-        // Switch to reverse placement
-        return this.setState(result.newState, function () {
-          _this7.updatePosition();
-        });
-      } // Set tooltip position
-
-
-      node.style.left = result.position.left + 'px';
-      node.style.top = result.position.top + 'px';
-    }
-    /**
-     * Set style tag in header
-     * in this way we can insert default css
-     */
-
-  }, {
-    key: 'setStyleHeader',
-    value: function setStyleHeader() {
-      var head = document.getElementsByTagName('head')[0];
-
-      if (!head.querySelector('style[id="react-tooltip"]')) {
-        var tag = document.createElement('style');
-        tag.id = 'react-tooltip';
-        tag.innerHTML = _style2.default;
-        /* eslint-disable */
-
-        if (typeof __webpack_nonce__ !== 'undefined' && __webpack_nonce__) {
-          tag.setAttribute('nonce', __webpack_nonce__);
-        }
-        /* eslint-enable */
-
-
-        head.insertBefore(tag, head.firstChild);
-      }
-    }
-    /**
-     * CLear all kinds of timeout of interval
-     */
-
-  }, {
-    key: 'clearTimer',
-    value: function clearTimer() {
-      clearTimeout(this.delayShowLoop);
-      clearTimeout(this.delayHideLoop);
-      clearTimeout(this.delayReshow);
-      clearInterval(this.intervalUpdateContent);
-    }
-  }, {
+  _createClass(Tooltip, [{
     key: 'render',
     value: function render() {
-      var _this8 = this;
+      var props = this.props;
+      var state = this.state;
+      var styles = this.styles;
+      var show = this.show;
+      var hide = this.hide;
+      var handleTouch = this.handleTouch;
 
-      var _state4 = this.state,
-          extraClass = _state4.extraClass,
-          html = _state4.html,
-          ariaProps = _state4.ariaProps,
-          disable = _state4.disable;
-      var placeholder = this.getTooltipContent();
-      var isEmptyTip = this.isEmptyTip(placeholder);
-      var tooltipClass = (0, _classnames2.default)('__react_component_tooltip', {
-        'show': this.state.show && !disable && !isEmptyTip
-      }, {
-        'border': this.state.border
-      }, {
-        'place-top': this.state.place === 'top'
-      }, {
-        'place-bottom': this.state.place === 'bottom'
-      }, {
-        'place-left': this.state.place === 'left'
-      }, {
-        'place-right': this.state.place === 'right'
-      }, {
-        'type-dark': this.state.type === 'dark'
-      }, {
-        'type-success': this.state.type === 'success'
-      }, {
-        'type-warning': this.state.type === 'warning'
-      }, {
-        'type-error': this.state.type === 'error'
-      }, {
-        'type-info': this.state.type === 'info'
-      }, {
-        'type-light': this.state.type === 'light'
-      }, {
-        'allow_hover': this.props.delayUpdate
-      });
-      var Wrapper = this.props.wrapper;
-
-      if (ReactTooltip.supportedWrappers.indexOf(Wrapper) < 0) {
-        Wrapper = ReactTooltip.defaultProps.wrapper;
-      }
-
-      if (html) {
-        return _react2.default.createElement(Wrapper, _extends({
-          className: tooltipClass + ' ' + extraClass,
-          id: this.props.id,
-          ref: function ref(_ref) {
-            return _this8.tooltipRef = _ref;
-          }
-        }, ariaProps, {
-          'data-id': 'tooltip',
-          dangerouslySetInnerHTML: {
-            __html: placeholder
-          }
-        }));
-      } else {
-        return _react2.default.createElement(Wrapper, _extends({
-          className: tooltipClass + ' ' + extraClass,
-          id: this.props.id
-        }, ariaProps, {
-          ref: function ref(_ref2) {
-            return _this8.tooltipRef = _ref2;
-          },
-          'data-id': 'tooltip'
-        }), placeholder);
-      }
+      return _react2.default.createElement(
+        'div',
+        {
+          onMouseEnter: show,
+          onMouseLeave: hide,
+          onTouchStart: handleTouch,
+          ref: 'wrapper',
+          style: styles.wrapper },
+        props.children,
+        state.visible && _react2.default.createElement(
+          'div',
+          { ref: 'tooltip', style: styles.tooltip },
+          _react2.default.createElement(
+            'div',
+            { ref: 'content', style: styles.content },
+            props.content
+          ),
+          _react2.default.createElement('div', { ref: 'arrow', style: styles.arrow }),
+          _react2.default.createElement('div', { ref: 'gap', style: styles.gap })
+        )
+      );
     }
   }]);
 
-  return ReactTooltip;
-}(_react2.default.Component), _class2.propTypes = {
-  children: _propTypes2.default.any,
-  place: _propTypes2.default.string,
-  type: _propTypes2.default.string,
-  effect: _propTypes2.default.string,
-  offset: _propTypes2.default.object,
-  multiline: _propTypes2.default.bool,
-  border: _propTypes2.default.bool,
-  insecure: _propTypes2.default.bool,
-  class: _propTypes2.default.string,
-  className: _propTypes2.default.string,
-  id: _propTypes2.default.string,
-  html: _propTypes2.default.bool,
-  delayHide: _propTypes2.default.number,
-  delayUpdate: _propTypes2.default.number,
-  delayShow: _propTypes2.default.number,
-  event: _propTypes2.default.string,
-  eventOff: _propTypes2.default.string,
-  watchWindow: _propTypes2.default.bool,
-  isCapture: _propTypes2.default.bool,
-  globalEventOff: _propTypes2.default.string,
-  getContent: _propTypes2.default.any,
-  afterShow: _propTypes2.default.func,
-  afterHide: _propTypes2.default.func,
-  disable: _propTypes2.default.bool,
-  scrollHide: _propTypes2.default.bool,
-  resizeHide: _propTypes2.default.bool,
-  wrapper: _propTypes2.default.string
-}, _class2.defaultProps = {
-  insecure: true,
-  resizeHide: true,
-  wrapper: 'div'
-}, _class2.supportedWrappers = ['div', 'span'], _class2.displayName = 'ReactTooltip', _temp)) || _class) || _class) || _class) || _class) || _class) || _class;
-/* export default not fit for standalone, it will exports {default:...} */
+  return Tooltip;
+}(_react2.default.Component);
 
+Tooltip.propTypes = {
+  children: _propTypes2.default.any.isRequired,
+  content: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.array]),
+  styles: _propTypes2.default.object
+};
+exports.default = Tooltip;
+},{"react":"node_modules/preact-compat/dist/preact-compat.es.js","react-dom":"node_modules/preact-compat/dist/preact-compat.es.js","prop-types":"node_modules/prop-types/index.js"}],"node_modules/react-lightweight-tooltip/dist-modules/index.js":[function(require,module,exports) {
+'use strict';
 
-module.exports = ReactTooltip;
-},{"react":"node_modules/preact-compat/dist/preact-compat.es.js","prop-types":"node_modules/prop-types/index.js","react-dom":"node_modules/preact-compat/dist/preact-compat.es.js","classnames":"node_modules/classnames/index.js","./decorators/staticMethods":"node_modules/react-tooltip/dist/decorators/staticMethods.js","./decorators/windowListener":"node_modules/react-tooltip/dist/decorators/windowListener.js","./decorators/customEvent":"node_modules/react-tooltip/dist/decorators/customEvent.js","./decorators/isCapture":"node_modules/react-tooltip/dist/decorators/isCapture.js","./decorators/getEffect":"node_modules/react-tooltip/dist/decorators/getEffect.js","./decorators/trackRemoval":"node_modules/react-tooltip/dist/decorators/trackRemoval.js","./utils/getPosition":"node_modules/react-tooltip/dist/utils/getPosition.js","./utils/getTipContent":"node_modules/react-tooltip/dist/utils/getTipContent.js","./utils/aria":"node_modules/react-tooltip/dist/utils/aria.js","./utils/nodeListToArray":"node_modules/react-tooltip/dist/utils/nodeListToArray.js","./style":"node_modules/react-tooltip/dist/style.js"}],"src/util.ts":[function(require,module,exports) {
+var _tooltip = require('./components/tooltip');
+
+var _tooltip2 = _interopRequireDefault(_tooltip);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = { Tooltip: _tooltip2.default };
+},{"./components/tooltip":"node_modules/react-lightweight-tooltip/dist-modules/components/tooltip.js"}],"src/util.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16786,7 +15357,7 @@ var _poise = _interopRequireDefault(require("./poise.png"));
 
 var _losePoise = _interopRequireDefault(require("./losePoise.png"));
 
-var _reactTooltip = _interopRequireDefault(require("react-tooltip"));
+var _reactLightweightTooltip = require("react-lightweight-tooltip");
 
 var _util = require("../util");
 
@@ -16820,27 +15391,41 @@ var Arrow = function Arrow(_a) {
 };
 
 exports.Arrow = Arrow;
+var iconStyle = {
+  wrapper: {
+    cursor: 'default'
+  },
+  tooltip: {
+    minWidth: '80px',
+    whiteSpace: "nowrap"
+  },
+  arrow: {},
+  gap: {},
+  content: {
+    zIndex: 100
+  }
+};
 
 var Icon = function Icon(props) {
   var name = props.name;
   var id = String((0, _util.getUUID)(props));
   return (0, _preact.h)("div", {
     class: 'inline'
-  }, (0, _preact.h)(_reactTooltip.default, {
-    id: id,
-    effect: "solid"
-  }, name), (0, _preact.h)("div", {
+  }, (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
+    content: name,
+    styles: iconStyle
+  }, (0, _preact.h)("div", {
     class: "inline axis-bg " + classRouter[name]
   }, (0, _preact.h)("img", {
     "data-tip": name,
     "data-for": id,
     class: 'axis-icon',
     src: iconRouter[name]
-  })));
+  }))));
 };
 
 exports.Icon = Icon;
-},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-tooltip":"node_modules/react-tooltip/dist/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16903,7 +15488,7 @@ var _util = require("../../../util");
 
 var _mechanicDescriptions = require("../../../extras/mechanicDescriptions");
 
-var _reactTooltip = _interopRequireDefault(require("react-tooltip"));
+var _reactLightweightTooltip = require("react-lightweight-tooltip");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16939,36 +15524,27 @@ var renderSwitch = function renderSwitch(effect, shouldFlip) {
   return null;
 };
 
+var mechWithTooltip = function mechWithTooltip(mech) {
+  var description = (0, _mechanicDescriptions.getMechanicDescription)(mech);
+  return (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
+    content: description
+  }, (0, _preact.h)("div", null, (0, _preact.h)("b", null, mech)));
+};
+
 var renderNone = function renderNone(mechanic) {
   var id = String((0, _util.getUUID)(mechanic));
-  var description = (0, _mechanicDescriptions.getMechanicDescription)(mechanic.mechanic);
   return (0, _preact.h)("div", {
     class: 'mechanic'
-  }, (0, _preact.h)(_reactTooltip.default, {
-    delayShow: 250,
-    id: id,
-    effect: "solid"
-  }, description), (0, _preact.h)("div", {
-    "data-tip": description,
-    "data-for": id
-  }, (0, _preact.h)("b", null, mechanic.mechanic)));
+  }, mechWithTooltip(mechanic.mechanic));
 };
 
 var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
   var reqs = mechanic.mechanicRequirements || [];
   var effs = mechanic.mechanicEffects || [];
   var id = String((0, _util.getUUID)(mechanic));
-  var description = (0, _mechanicDescriptions.getMechanicDescription)(mechanic.mechanic);
   return (0, _preact.h)("div", {
     class: 'mechanic'
-  }, (0, _preact.h)(_reactTooltip.default, {
-    delayShow: 250,
-    id: id,
-    effect: "solid"
-  }, description), (0, _preact.h)("div", {
-    "data-tip": description,
-    "data-for": id
-  }, (0, _preact.h)("b", null, mechanic.mechanic, " ", mechanic.amount !== undefined && mechanic.amount)), (0, _preact.h)("div", {
+  }, mechWithTooltip(mechanic.mechanic), (0, _preact.h)("div", {
     class: 'h-divider'
   }), (0, _preact.h)("div", null, (0, _preact.h)("div", null, reqs.map(function (req, i) {
     return (0, _preact.h)("span", {
@@ -16991,17 +15567,9 @@ var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
 
 var renderPickOne = function renderPickOne(mechanic, shouldFlip) {
   var id = String((0, _util.getUUID)(mechanic));
-  var description = (0, _mechanicDescriptions.getMechanicDescription)(mechanic.mechanic);
   return (0, _preact.h)("div", {
     class: 'pick-one'
-  }, (0, _preact.h)(_reactTooltip.default, {
-    delayShow: 250,
-    id: id,
-    effect: "solid"
-  }, description), (0, _preact.h)("div", {
-    "data-tip": description,
-    "data-for": id
-  }, (0, _preact.h)("b", null, "Pick One")), (0, _preact.h)("div", {
+  }, mechWithTooltip(mechanic.mechanic), (0, _preact.h)("div", {
     class: 'choices'
   }, mechanic.choices.map(function (choice, i) {
     return (0, _preact.h)("div", {
@@ -17024,14 +15592,7 @@ var renderEffect = function renderEffect(effect, shouldFlip) {
   var description = (0, _mechanicDescriptions.getMechanicDescription)(effect.mechanic);
   return (0, _preact.h)("div", {
     class: 'inline'
-  }, effect.mechanic !== undefined && (0, _preact.h)(_reactTooltip.default, {
-    delayShow: 250,
-    id: id,
-    effect: "solid"
-  }, description), effect.mechanic !== undefined && (0, _preact.h)("b", {
-    "data-tip": description,
-    "data-for": id
-  }, " ", effect.mechanic, " "), effect.player !== undefined && (0, _preact.h)(_images.Arrow, {
+  }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), effect.player !== undefined && (0, _preact.h)(_images.Arrow, {
     player: effect.player,
     shouldFlip: shouldFlip
   }), effect.axis !== undefined && (0, _preact.h)(_images.Icon, {
@@ -17041,7 +15602,7 @@ var renderEffect = function renderEffect(effect, shouldFlip) {
 
 var _default = Effect;
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx","../../../util":"src/util.ts","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-tooltip":"node_modules/react-tooltip/dist/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx","../../../util":"src/util.ts","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19434,7 +17995,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55017" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50357" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
