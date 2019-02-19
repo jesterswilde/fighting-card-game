@@ -1,6 +1,6 @@
 import { PlayerEnum } from './CardInterface';
 
-export let hostURL = "http://localhost:8080/";
+export let hostURL = "http://localhost:8080/api/";
 
 export const playerRouter = {
     [PlayerEnum.PLAYER]: '↓',

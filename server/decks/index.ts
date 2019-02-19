@@ -18,9 +18,22 @@ export const decks: DeckDescription[] = [
     { name: 'High Ground', deckList: highGroundDeck, description: "Wants to be standing while the opponent is prone. Tries very hard to avoid negative statuses" },
     { name: 'Gladiator', deckList: gladiatorDeck, description: "The deck wants to have anticipation, and the enemy be off balanced. It wants to be on it's feet, with the opponent moving or prone" },
     { name: 'Stone Skin', deckList: stoneDeck, description: "Focuses on block, choice, and momentum. Performs poorly if allowed to be unbalanced." },
-    {name: 'Blood In The Water', deckList: bloodInWaterDeck, description: bloodInWaterDescription},
+    { name: 'Blood In The Water', deckList: bloodInWaterDeck, description: bloodInWaterDescription },
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
 ]
+
+export const getDeckForViewer = (name: string)=>{
+    const deckObj =  decks.find((deck) => deck.name === name);
+    if (!deckObj) {
+        return null;
+    }
+    const cards = getDeck(name); 
+    return {
+        name: deckObj.name,
+        description: deckObj.description || 'No Description',
+        cards
+    }
+}
 
 export const getDeckOptions = () => {
     return decks.map((deck) => ({ name: deck.name, description: deck.description }));
@@ -31,7 +44,7 @@ export const getDeck = (name: string) => {
     if (!deck) {
         return null;
     }
-    const fiteredDeck = deck.deckList.map((name) => {
+    const filteredDeck = deck.deckList.map((name) => {
         const card = cards[name]
         if (!card) {
             console.log("error, card not found", name);
@@ -39,6 +52,6 @@ export const getDeck = (name: string) => {
         }
         return card;
     }).filter((card) => card !== null);
-    return fiteredDeck;
+    return filteredDeck;
 }
 

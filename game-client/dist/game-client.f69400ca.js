@@ -2745,51 +2745,59 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.DistanceEnum = exports.MotionEnum = exports.StandingEnum = exports.BalanceEnum = exports.PredictionEnum = void 0;
 var PredictionEnum;
+exports.PredictionEnum = PredictionEnum;
 
 (function (PredictionEnum) {
   PredictionEnum["NONE"] = "None";
   PredictionEnum["DISTANCE"] = "Distance";
   PredictionEnum["STANDING"] = "Standing";
   PredictionEnum["MOTION"] = "Motion";
-})(PredictionEnum = exports.PredictionEnum || (exports.PredictionEnum = {}));
+})(PredictionEnum || (exports.PredictionEnum = PredictionEnum = {}));
 
 var BalanceEnum;
+exports.BalanceEnum = BalanceEnum;
 
 (function (BalanceEnum) {
   BalanceEnum[BalanceEnum["BALANCED"] = 0] = "BALANCED";
   BalanceEnum[BalanceEnum["UNBALANCED"] = 1] = "UNBALANCED";
   BalanceEnum[BalanceEnum["ANTICIPATING"] = 2] = "ANTICIPATING";
-})(BalanceEnum = exports.BalanceEnum || (exports.BalanceEnum = {}));
+})(BalanceEnum || (exports.BalanceEnum = BalanceEnum = {}));
 
 var StandingEnum;
+exports.StandingEnum = StandingEnum;
 
 (function (StandingEnum) {
   StandingEnum[StandingEnum["PRONE"] = 0] = "PRONE";
   StandingEnum[StandingEnum["STANDING"] = 1] = "STANDING";
-})(StandingEnum = exports.StandingEnum || (exports.StandingEnum = {}));
+})(StandingEnum || (exports.StandingEnum = StandingEnum = {}));
 
 var MotionEnum;
+exports.MotionEnum = MotionEnum;
 
 (function (MotionEnum) {
   MotionEnum[MotionEnum["STILL"] = 0] = "STILL";
   MotionEnum[MotionEnum["MOVING"] = 1] = "MOVING";
-})(MotionEnum = exports.MotionEnum || (exports.MotionEnum = {}));
+})(MotionEnum || (exports.MotionEnum = MotionEnum = {}));
 
 var DistanceEnum;
+exports.DistanceEnum = DistanceEnum;
 
 (function (DistanceEnum) {
   DistanceEnum[DistanceEnum["GRAPPLED"] = 0] = "GRAPPLED";
   DistanceEnum[DistanceEnum["CLOSE"] = 1] = "CLOSE";
   DistanceEnum[DistanceEnum["FAR"] = 2] = "FAR";
-})(DistanceEnum = exports.DistanceEnum || (exports.DistanceEnum = {}));
+})(DistanceEnum || (exports.DistanceEnum = DistanceEnum = {}));
 },{}],"src/game/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.GameActionEnum = void 0;
 var GameActionEnum;
+exports.GameActionEnum = GameActionEnum;
 
 (function (GameActionEnum) {
   GameActionEnum["REPLACE_STATE"] = "replaceGameState";
@@ -2801,60 +2809,72 @@ var GameActionEnum;
   GameActionEnum["SHOULD_PICK_FORCEFUL"] = "shouldPickForceful";
   GameActionEnum["DID_PICK_FORCEFUL"] = "didPickForceful";
   GameActionEnum["SWAPPED_CARD_DISPLAY_MODE"] = "swapCardDisplayMode";
-})(GameActionEnum = exports.GameActionEnum || (exports.GameActionEnum = {}));
+})(GameActionEnum || (exports.GameActionEnum = GameActionEnum = {}));
 },{}],"src/game/reducer.ts":[function(require,module,exports) {
 "use strict";
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.gameReducer = void 0;
 
-var interface_1 = require("./interface");
+var _interface = require("./interface");
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-exports.gameReducer = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : makeDefaultGameState();
-  var action = arguments.length > 1 ? arguments[1] : undefined;
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var gameReducer = function gameReducer(state, action) {
+  if (state === void 0) {
+    state = makeDefaultGameState();
+  }
 
   switch (action.type) {
-    case actions_1.GameActionEnum.REPLACE_STATE:
-      return Object.assign({}, state, action.gameState);
+    case _actions.GameActionEnum.REPLACE_STATE:
+      return __assign({}, state, action.gameState, {
+        hasGameState: true
+      });
 
-    case actions_1.GameActionEnum.START_GAME:
-      return Object.assign({}, state, {
+    case _actions.GameActionEnum.START_GAME:
+      return __assign({}, state, {
         player: action.player
       });
 
-    case actions_1.GameActionEnum.SHOULD_PICK_ONE:
-      return Object.assign({}, state, {
+    case _actions.GameActionEnum.SHOULD_PICK_ONE:
+      return __assign({}, state, {
         choices: action.choices
       });
 
-    case actions_1.GameActionEnum.DID_PICK_ONE:
-      return Object.assign({}, state, {
+    case _actions.GameActionEnum.DID_PICK_ONE:
+      return __assign({}, state, {
         choices: undefined
       });
 
-    case actions_1.GameActionEnum.SHOULD_PICK_FORCEFUL:
-      return Object.assign({}, state, {
+    case _actions.GameActionEnum.SHOULD_PICK_FORCEFUL:
+      return __assign({}, state, {
         forceful: action.option
       });
 
-    case actions_1.GameActionEnum.DID_PICK_FORCEFUL:
-      return Object.assign({}, state, {
+    case _actions.GameActionEnum.DID_PICK_FORCEFUL:
+      return __assign({}, state, {
         forceful: undefined
       });
 
-    case actions_1.GameActionEnum.SWAPPED_CARD_DISPLAY_MODE:
+    case _actions.GameActionEnum.SWAPPED_CARD_DISPLAY_MODE:
       return swapDisplayMode(state, action);
 
     default:
@@ -2862,21 +2882,22 @@ exports.gameReducer = function () {
   }
 };
 
-var swapDisplayMode = function swapDisplayMode(state, _ref) {
-  var _ref$cardLoc = _ref.cardLoc,
-      column = _ref$cardLoc.column,
-      row = _ref$cardLoc.row;
+exports.gameReducer = gameReducer;
 
-  var queue = _toConsumableArray(state.queue);
+var swapDisplayMode = function swapDisplayMode(state, _a) {
+  var _b = _a.cardLoc,
+      column = _b.column,
+      row = _b.row;
+  var queue = state.queue.slice();
+  var cardColumn = queue[column].slice();
 
-  var cardColumn = _toConsumableArray(queue[column]);
+  var card = __assign({}, cardColumn[row]);
 
-  var card = Object.assign({}, cardColumn[row]);
   card.showFullCard = !card.showFullCard;
   cardColumn[row] = card;
   queue[column] = cardColumn;
   console.log("swapped show card: ", card.showFullCard);
-  return Object.assign({}, state, {
+  return __assign({}, state, {
     queue: queue
   });
 };
@@ -2888,7 +2909,7 @@ var makeDefaultGameState = function makeDefaultGameState() {
     stateDurations: [],
     block: [],
     queue: [],
-    distance: interface_1.DistanceEnum.FAR,
+    distance: _interface.DistanceEnum.FAR,
     currentPlayer: 0,
     damaged: [],
     player: 0,
@@ -2913,12 +2934,14 @@ var makeDefaultGameState = function makeDefaultGameState() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.HandActionEnum = void 0;
 var HandActionEnum;
+exports.HandActionEnum = HandActionEnum;
 
 (function (HandActionEnum) {
   HandActionEnum["PICKED_CARD"] = "pickCard";
   HandActionEnum["GOT_CARDS"] = "gotCards";
-})(HandActionEnum = exports.HandActionEnum || (exports.HandActionEnum = {}));
+})(HandActionEnum || (exports.HandActionEnum = HandActionEnum = {}));
 },{}],"node_modules/parseuri/index.js":[function(require,module,exports) {
 /**
  * Parses an URI
@@ -12157,7 +12180,9 @@ exports.Socket = require('./socket');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.SocketEnum = void 0;
 var SocketEnum;
+exports.SocketEnum = SocketEnum;
 
 (function (SocketEnum) {
   SocketEnum["PICKED_CARD"] = "pickedCard";
@@ -12175,375 +12200,446 @@ var SocketEnum;
   SocketEnum["GOT_EVENTS"] = "gotEvents";
   SocketEnum["GOT_FORCEFUL_CHOICE"] = "gotForcefulChoice";
   SocketEnum["PICKED_FORCEFUL"] = "pickedForceful";
-})(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
+})(SocketEnum || (exports.SocketEnum = SocketEnum = {}));
 },{}],"src/hand/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.dispatchGotCards = exports.dispatchPickedCard = void 0;
 
-var store_1 = require("../state/store");
+var _store = require("../state/store");
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-var socket_1 = require("../socket/socket");
+var _socket = require("../socket/socket");
 
-var socketEnum_1 = require("../socket/socketEnum");
+var _socketEnum = require("../socket/socketEnum");
 
-exports.dispatchPickedCard = function (cardNumber) {
-  socket_1.socket.emit(socketEnum_1.SocketEnum.PICKED_CARD, cardNumber);
+var dispatchPickedCard = function dispatchPickedCard(cardNumber) {
+  _socket.socket.emit(_socketEnum.SocketEnum.PICKED_CARD, cardNumber);
+
   var action = {
-    type: actions_1.HandActionEnum.PICKED_CARD,
+    type: _actions.HandActionEnum.PICKED_CARD,
     index: cardNumber
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchGotCards = function (cards) {
+exports.dispatchPickedCard = dispatchPickedCard;
+
+var dispatchGotCards = function dispatchGotCards(cards) {
   var action = {
-    type: actions_1.HandActionEnum.GOT_CARDS,
+    type: _actions.HandActionEnum.GOT_CARDS,
     cards: cards
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
+
+exports.dispatchGotCards = dispatchGotCards;
 },{"../state/store":"src/state/store.ts","./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/display/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.DisplayActionEnum = void 0;
 var DisplayActionEnum;
+exports.DisplayActionEnum = DisplayActionEnum;
 
 (function (DisplayActionEnum) {
   DisplayActionEnum["SWITCH_SCREEN"] = "switchScreen";
-})(DisplayActionEnum = exports.DisplayActionEnum || (exports.DisplayActionEnum = {}));
+})(DisplayActionEnum || (exports.DisplayActionEnum = DisplayActionEnum = {}));
 },{}],"src/display/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.dispatchSwitchScreen = void 0;
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-var store_1 = require("../state/store");
+var _store = require("../state/store");
 
-exports.dispatchSwitchScreen = function (screen) {
+var dispatchSwitchScreen = function dispatchSwitchScreen(screen) {
   var action = {
-    type: actions_1.DisplayActionEnum.SWITCH_SCREEN,
+    type: _actions.DisplayActionEnum.SWITCH_SCREEN,
     screen: screen
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
+
+exports.dispatchSwitchScreen = dispatchSwitchScreen;
 },{"./actions":"src/display/actions.ts","../state/store":"src/state/store.ts"}],"src/display/interface.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.ScreenEnum = void 0;
 var ScreenEnum;
+exports.ScreenEnum = ScreenEnum;
 
 (function (ScreenEnum) {
   ScreenEnum[ScreenEnum["CHOOSE_DECK"] = 0] = "CHOOSE_DECK";
   ScreenEnum[ScreenEnum["LOOKING_FOR_GAME"] = 1] = "LOOKING_FOR_GAME";
   ScreenEnum[ScreenEnum["CONNECTING"] = 2] = "CONNECTING";
   ScreenEnum[ScreenEnum["GAME_STARTED"] = 3] = "GAME_STARTED";
-})(ScreenEnum = exports.ScreenEnum || (exports.ScreenEnum = {}));
+})(ScreenEnum || (exports.ScreenEnum = ScreenEnum = {}));
 },{}],"src/game/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.dispatchDidPickForecful = exports.dispatchShouldPickForecful = exports.dispatchDidPickOne = exports.dispatchShouldPickOne = exports.dispatchStartGame = exports.dispatchGameState = exports.dispatchMadePrediction = exports.dispatchSwitchCardDisplayMode = void 0;
 
-var store_1 = require("../state/store");
+var _store = require("../state/store");
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-var socket_1 = require("../socket/socket");
+var _socket = require("../socket/socket");
 
-var socketEnum_1 = require("../socket/socketEnum");
+var _socketEnum = require("../socket/socketEnum");
 
-exports.dispatchSwitchCardDisplayMode = function (column, row) {
+var dispatchSwitchCardDisplayMode = function dispatchSwitchCardDisplayMode(column, row) {
   var action = {
-    type: actions_1.GameActionEnum.SWAPPED_CARD_DISPLAY_MODE,
+    type: _actions.GameActionEnum.SWAPPED_CARD_DISPLAY_MODE,
     cardLoc: {
       column: column,
       row: row
     }
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchMadePrediction = function (prediction) {
+exports.dispatchSwitchCardDisplayMode = dispatchSwitchCardDisplayMode;
+
+var dispatchMadePrediction = function dispatchMadePrediction(prediction) {
   var action = {
-    type: actions_1.GameActionEnum.MADE_PREDICTION,
+    type: _actions.GameActionEnum.MADE_PREDICTION,
     prediction: prediction
   };
-  socket_1.socket.emit(socketEnum_1.SocketEnum.MADE_PREDICTION, prediction);
-  store_1.store.dispatch(action);
+
+  _socket.socket.emit(_socketEnum.SocketEnum.MADE_PREDICTION, prediction);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchGameState = function (gameState) {
+exports.dispatchMadePrediction = dispatchMadePrediction;
+
+var dispatchGameState = function dispatchGameState(gameState) {
   var action = {
-    type: actions_1.GameActionEnum.REPLACE_STATE,
+    type: _actions.GameActionEnum.REPLACE_STATE,
     gameState: gameState
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchStartGame = function (player) {
+exports.dispatchGameState = dispatchGameState;
+
+var dispatchStartGame = function dispatchStartGame(player) {
   var action = {
-    type: actions_1.GameActionEnum.START_GAME,
+    type: _actions.GameActionEnum.START_GAME,
     player: player
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchShouldPickOne = function (choices) {
+exports.dispatchStartGame = dispatchStartGame;
+
+var dispatchShouldPickOne = function dispatchShouldPickOne(choices) {
   var action = {
-    type: actions_1.GameActionEnum.SHOULD_PICK_ONE,
+    type: _actions.GameActionEnum.SHOULD_PICK_ONE,
     choices: choices
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchDidPickOne = function (choice) {
+exports.dispatchShouldPickOne = dispatchShouldPickOne;
+
+var dispatchDidPickOne = function dispatchDidPickOne(choice) {
   var action = {
-    type: actions_1.GameActionEnum.DID_PICK_ONE,
+    type: _actions.GameActionEnum.DID_PICK_ONE,
     choice: choice
   };
   console.log("sending picked one");
-  socket_1.socket.emit(socketEnum_1.SocketEnum.PICKED_ONE, choice);
-  store_1.store.dispatch(action);
+
+  _socket.socket.emit(_socketEnum.SocketEnum.PICKED_ONE, choice);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchShouldPickForecful = function (option) {
+exports.dispatchDidPickOne = dispatchDidPickOne;
+
+var dispatchShouldPickForecful = function dispatchShouldPickForecful(option) {
   var action = {
-    type: actions_1.GameActionEnum.SHOULD_PICK_FORCEFUL,
+    type: _actions.GameActionEnum.SHOULD_PICK_FORCEFUL,
     option: option
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchDidPickForecful = function (choice) {
+exports.dispatchShouldPickForecful = dispatchShouldPickForecful;
+
+var dispatchDidPickForecful = function dispatchDidPickForecful(choice) {
   var action = {
-    type: actions_1.GameActionEnum.DID_PICK_FORCEFUL,
+    type: _actions.GameActionEnum.DID_PICK_FORCEFUL,
     choice: choice
   };
-  socket_1.socket.emit(socketEnum_1.SocketEnum.PICKED_FORCEFUL, choice);
-  store_1.store.dispatch(action);
+
+  _socket.socket.emit(_socketEnum.SocketEnum.PICKED_FORCEFUL, choice);
+
+  _store.store.dispatch(action);
 };
-},{"../state/store":"src/state/store.ts","./actions":"src/game/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/deck/actions.ts":[function(require,module,exports) {
+
+exports.dispatchDidPickForecful = dispatchDidPickForecful;
+},{"../state/store":"src/state/store.ts","./actions":"src/game/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/lobby/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var DeckActionEnum;
+exports.LobbyActionEnum = void 0;
+var LobbyActionEnum;
+exports.LobbyActionEnum = LobbyActionEnum;
 
-(function (DeckActionEnum) {
-  DeckActionEnum["GOT_DECK_CHOICES"] = "gotDeckChoices";
-  DeckActionEnum["PICKED_DECK"] = "pickedDeck";
-})(DeckActionEnum = exports.DeckActionEnum || (exports.DeckActionEnum = {}));
-},{}],"src/deck/dispatch.ts":[function(require,module,exports) {
+(function (LobbyActionEnum) {
+  LobbyActionEnum["GOT_DECK_CHOICES"] = "gotDeckChoices";
+  LobbyActionEnum["PICKED_DECK"] = "pickedDeck";
+})(LobbyActionEnum || (exports.LobbyActionEnum = LobbyActionEnum = {}));
+},{}],"src/lobby/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.dispatchPickedDeck = exports.dispatchGotDeckChoices = void 0;
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-var store_1 = require("../state/store");
+var _store = require("../state/store");
 
-var socket_1 = require("../socket/socket");
+var _socket = require("../socket/socket");
 
-var socketEnum_1 = require("../socket/socketEnum");
+var _socketEnum = require("../socket/socketEnum");
 
-exports.dispatchGotDeckChoices = function (choices) {
+var dispatchGotDeckChoices = function dispatchGotDeckChoices(choices) {
   var action = {
-    type: actions_1.DeckActionEnum.GOT_DECK_CHOICES,
+    type: _actions.LobbyActionEnum.GOT_DECK_CHOICES,
     choices: choices
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchPickedDeck = function (choice) {
+exports.dispatchGotDeckChoices = dispatchGotDeckChoices;
+
+var dispatchPickedDeck = function dispatchPickedDeck(choice) {
   var action = {
-    type: actions_1.DeckActionEnum.PICKED_DECK,
+    type: _actions.LobbyActionEnum.PICKED_DECK,
     choice: choice
   };
-  socket_1.socket.emit(socketEnum_1.SocketEnum.PICKED_DECK, choice);
-  store_1.store.dispatch(action);
+
+  _socket.socket.emit(_socketEnum.SocketEnum.PICKED_DECK, choice);
+
+  _store.store.dispatch(action);
 };
-},{"./actions":"src/deck/actions.ts","../state/store":"src/state/store.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/gameDisplay/actions.ts":[function(require,module,exports) {
+
+exports.dispatchPickedDeck = dispatchPickedDeck;
+},{"./actions":"src/lobby/actions.ts","../state/store":"src/state/store.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/gameDisplay/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.GameDisplayActionEnum = void 0;
 var GameDisplayActionEnum;
+exports.GameDisplayActionEnum = GameDisplayActionEnum;
 
 (function (GameDisplayActionEnum) {
   GameDisplayActionEnum["SHOULD_PREDICT"] = "shouldPredict";
   GameDisplayActionEnum["SET_HAND_CARD_DISPLAY"] = "setHandCardDisplay";
   GameDisplayActionEnum["PICK_FORCE"] = "pickForce";
-})(GameDisplayActionEnum = exports.GameDisplayActionEnum || (exports.GameDisplayActionEnum = {}));
+})(GameDisplayActionEnum || (exports.GameDisplayActionEnum = GameDisplayActionEnum = {}));
 },{}],"src/gameDisplay/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.dispatchSetHandCardDisplay = exports.dispatchShouldPredict = void 0;
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-var store_1 = require("../state/store");
+var _store = require("../state/store");
 
-exports.dispatchShouldPredict = function () {
+var dispatchShouldPredict = function dispatchShouldPredict() {
   var action = {
-    type: actions_1.GameDisplayActionEnum.SHOULD_PREDICT
+    type: _actions.GameDisplayActionEnum.SHOULD_PREDICT
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchSetHandCardDisplay = function (value) {
+exports.dispatchShouldPredict = dispatchShouldPredict;
+
+var dispatchSetHandCardDisplay = function dispatchSetHandCardDisplay(value) {
   var action = {
-    type: actions_1.GameDisplayActionEnum.SET_HAND_CARD_DISPLAY,
+    type: _actions.GameDisplayActionEnum.SET_HAND_CARD_DISPLAY,
     value: value
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
+
+exports.dispatchSetHandCardDisplay = dispatchSetHandCardDisplay;
 },{"./actions":"src/gameDisplay/actions.ts","../state/store":"src/state/store.ts"}],"src/events/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.EventActionEnum = void 0;
 var EventActionEnum;
+exports.EventActionEnum = EventActionEnum;
 
 (function (EventActionEnum) {
   EventActionEnum["GOT_EVENTS"] = "gotEvents";
   EventActionEnum["FINISHED_DISPLAYING_EVENTS"] = "finishedDisplayingEvents";
   EventActionEnum["DISPLAY_EVENT_HISTORY"] = "displayEventHistory";
-})(EventActionEnum = exports.EventActionEnum || (exports.EventActionEnum = {}));
+})(EventActionEnum || (exports.EventActionEnum = EventActionEnum = {}));
 },{}],"src/events/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.dispatchDisplayEventHistory = exports.dispatchFinishedDisplayingEvents = exports.dispatchGotEvents = void 0;
 
-var store_1 = require("../state/store");
+var _store = require("../state/store");
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-exports.dispatchGotEvents = function (events) {
+var dispatchGotEvents = function dispatchGotEvents(events) {
   var action = {
-    type: actions_1.EventActionEnum.GOT_EVENTS,
+    type: _actions.EventActionEnum.GOT_EVENTS,
     events: events
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchFinishedDisplayingEvents = function () {
+exports.dispatchGotEvents = dispatchGotEvents;
+
+var dispatchFinishedDisplayingEvents = function dispatchFinishedDisplayingEvents() {
   var action = {
-    type: actions_1.EventActionEnum.FINISHED_DISPLAYING_EVENTS
+    type: _actions.EventActionEnum.FINISHED_DISPLAYING_EVENTS
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
 
-exports.dispatchDisplayEventHistory = function (index) {
+exports.dispatchFinishedDisplayingEvents = dispatchFinishedDisplayingEvents;
+
+var dispatchDisplayEventHistory = function dispatchDisplayEventHistory(index) {
   var action = {
-    type: actions_1.EventActionEnum.DISPLAY_EVENT_HISTORY,
+    type: _actions.EventActionEnum.DISPLAY_EVENT_HISTORY,
     index: index
   };
-  store_1.store.dispatch(action);
+
+  _store.store.dispatch(action);
 };
+
+exports.dispatchDisplayEventHistory = dispatchDisplayEventHistory;
 },{"../state/store":"src/state/store.ts","./actions":"src/events/actions.ts"}],"src/socket/socketMessages.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.setupSockets = void 0;
 
-var dispatch_1 = require("../hand/dispatch");
+var _dispatch = require("../hand/dispatch");
 
-var dispatch_2 = require("../display/dispatch");
+var _dispatch2 = require("../display/dispatch");
 
-var interface_1 = require("../display/interface");
+var _interface = require("../display/interface");
 
-var dispatch_3 = require("../game/dispatch");
+var _dispatch3 = require("../game/dispatch");
 
-var socketEnum_1 = require("./socketEnum");
+var _socketEnum = require("./socketEnum");
 
-var dispatch_4 = require("../deck/dispatch");
+var _dispatch4 = require("../lobby/dispatch");
 
-var dispatch_5 = require("../gameDisplay/dispatch");
+var _dispatch5 = require("../gameDisplay/dispatch");
 
-var dispatch_6 = require("../events/dispatch");
+var _dispatch6 = require("../events/dispatch");
 
-exports.setupSockets = function (socket) {
+var setupSockets = function setupSockets(socket) {
   console.log('running socket messsages');
-  socket.on(socketEnum_1.SocketEnum.JOINED_LOBBY, function () {
+  socket.on(_socketEnum.SocketEnum.JOINED_LOBBY, function () {
     console.log('joined lobby');
-    dispatch_2.dispatchSwitchScreen(interface_1.ScreenEnum.LOOKING_FOR_GAME);
+    (0, _dispatch2.dispatchSwitchScreen)(_interface.ScreenEnum.LOOKING_FOR_GAME);
   });
-  socket.on(socketEnum_1.SocketEnum.GOT_CARDS, function (cards) {
+  socket.on(_socketEnum.SocketEnum.GOT_CARDS, function (cards) {
     console.log('got cards', cards);
-    dispatch_1.dispatchGotCards(cards);
+    (0, _dispatch.dispatchGotCards)(cards);
   });
-  socket.on(socketEnum_1.SocketEnum.START_GAME, function (_ref) {
-    var player = _ref.player;
+  socket.on(_socketEnum.SocketEnum.START_GAME, function (_a) {
+    var player = _a.player;
     console.log("game started");
-    dispatch_3.dispatchStartGame(player);
+    (0, _dispatch3.dispatchStartGame)(player);
   });
-  socket.on(socketEnum_1.SocketEnum.GOT_DECK_OPTIONS, function (choices) {
+  socket.on(_socketEnum.SocketEnum.GOT_DECK_OPTIONS, function (choices) {
     console.log('got deck options: ', choices);
-    dispatch_4.dispatchGotDeckChoices(choices);
+    (0, _dispatch4.dispatchGotDeckChoices)(choices);
   });
-  socket.on(socketEnum_1.SocketEnum.GOT_STATE, function (state) {
+  socket.on(_socketEnum.SocketEnum.GOT_STATE, function (state) {
     console.log('gotState', state);
-    dispatch_3.dispatchGameState(state);
+    (0, _dispatch3.dispatchGameState)(state);
   });
-  socket.on(socketEnum_1.SocketEnum.SHOULD_PREDICT, function () {
+  socket.on(_socketEnum.SocketEnum.SHOULD_PREDICT, function () {
     console.log('should predict');
-    dispatch_5.dispatchShouldPredict();
+    (0, _dispatch5.dispatchShouldPredict)();
   });
-  socket.on(socketEnum_1.SocketEnum.SHOULD_PICK_ONE, function (choices) {
+  socket.on(_socketEnum.SocketEnum.SHOULD_PICK_ONE, function (choices) {
     console.log("pick one", choices);
-    dispatch_3.dispatchShouldPickOne(choices);
+    (0, _dispatch3.dispatchShouldPickOne)(choices);
   });
-  socket.on(socketEnum_1.SocketEnum.GOT_EVENTS, function (events) {
+  socket.on(_socketEnum.SocketEnum.GOT_EVENTS, function (events) {
     console.log('gotEvents', events);
-    dispatch_6.dispatchGotEvents(events);
+    (0, _dispatch6.dispatchGotEvents)(events);
   });
-  socket.on(socketEnum_1.SocketEnum.GOT_FORCEFUL_CHOICE, function (options) {
-    dispatch_3.dispatchShouldPickForecful(options);
+  socket.on(_socketEnum.SocketEnum.GOT_FORCEFUL_CHOICE, function (options) {
+    (0, _dispatch3.dispatchShouldPickForecful)(options);
   });
 };
-},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","./socketEnum":"src/socket/socketEnum.ts","../deck/dispatch":"src/deck/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts","../events/dispatch":"src/events/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
-"use strict";
 
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
+exports.setupSockets = setupSockets;
+},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","./socketEnum":"src/socket/socketEnum.ts","../lobby/dispatch":"src/lobby/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts","../events/dispatch":"src/events/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.disconnectSocket = exports.connectSocket = exports.socket = void 0;
 
-var socketClient = __importStar(require("socket.io-client"));
+var socketClient = _interopRequireWildcard(require("socket.io-client"));
 
-var socketMessages_1 = require("./socketMessages");
+var _socketMessages = require("./socketMessages");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var url;
 
@@ -12551,32 +12647,69 @@ if (location.host.split(':')[0] === 'localhost') {
   url = 'localhost:8080';
 }
 
-exports.socket = socketClient.connect(url);
-socketMessages_1.setupSockets(exports.socket);
+var socket;
+exports.socket = socket;
+
+var connectSocket = function connectSocket() {
+  exports.socket = socket = socketClient.connect(url);
+  (0, _socketMessages.setupSockets)(socket);
+  return socket;
+};
+
+exports.connectSocket = connectSocket;
+
+var disconnectSocket = function disconnectSocket() {
+  if (socket) {
+    socket.disconnect();
+  }
+
+  exports.socket = socket = null;
+  return null;
+};
+
+exports.disconnectSocket = disconnectSocket;
 },{"socket.io-client":"node_modules/socket.io-client/lib/index.js","./socketMessages":"src/socket/socketMessages.ts"}],"src/hand/reducer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.handReducer = void 0;
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-var socket_1 = require("../socket/socket");
+var _socket = require("../socket/socket");
 
-var socketEnum_1 = require("../socket/socketEnum");
+var _socketEnum = require("../socket/socketEnum");
 
-exports.handReducer = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : makeDefaultState();
-  var action = arguments.length > 1 ? arguments[1] : undefined;
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var handReducer = function handReducer(state, action) {
+  if (state === void 0) {
+    state = makeDefaultState();
+  }
 
   switch (action.type) {
-    case actions_1.HandActionEnum.GOT_CARDS:
-      return Object.assign({}, state, {
+    case _actions.HandActionEnum.GOT_CARDS:
+      return __assign({}, state, {
         cards: action.cards
       });
 
-    case actions_1.HandActionEnum.PICKED_CARD:
+    case _actions.HandActionEnum.PICKED_CARD:
       return pickedCardReducer(state, action);
 
     default:
@@ -12584,10 +12717,14 @@ exports.handReducer = function () {
   }
 };
 
-var pickedCardReducer = function pickedCardReducer(state, _ref) {
-  var index = _ref.index;
-  socket_1.socket.send(socketEnum_1.SocketEnum.PICKED_CARD, index);
-  return Object.assign({}, state, {
+exports.handReducer = handReducer;
+
+var pickedCardReducer = function pickedCardReducer(state, _a) {
+  var index = _a.index;
+
+  _socket.socket.send(_socketEnum.SocketEnum.PICKED_CARD, index);
+
+  return __assign({}, state, {
     cards: []
   });
 };
@@ -12597,71 +12734,123 @@ var makeDefaultState = function makeDefaultState() {
     cards: []
   };
 };
-},{"./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/display/reducer.ts":[function(require,module,exports) {
+},{"./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/deck/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.DeckActionEnum = void 0;
+var DeckActionEnum;
+exports.DeckActionEnum = DeckActionEnum;
 
-var interface_1 = require("./interface");
+(function (DeckActionEnum) {
+  DeckActionEnum["GOT_DECK_CHOICES"] = "gotDeckChoices";
+  DeckActionEnum["PICKED_DECK"] = "pickedDeck";
+})(DeckActionEnum || (exports.DeckActionEnum = DeckActionEnum = {}));
+},{}],"src/display/reducer.ts":[function(require,module,exports) {
+"use strict";
 
-var actions_1 = require("./actions");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.displayReducer = void 0;
 
-var actions_2 = require("../game/actions");
+var _interface = require("./interface");
 
-var actions_3 = require("../deck/actions");
+var _actions = require("./actions");
 
-exports.displayReducer = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    url: location.pathname,
-    screen: interface_1.ScreenEnum.CONNECTING
+var _actions2 = require("../game/actions");
+
+var _actions3 = require("../deck/actions");
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
   };
-  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  return __assign.apply(this, arguments);
+};
+
+var displayReducer = function displayReducer(state, action) {
+  if (state === void 0) {
+    state = {
+      url: location.pathname,
+      screen: _interface.ScreenEnum.CONNECTING
+    };
+  }
 
   switch (action.type) {
-    case actions_1.DisplayActionEnum.SWITCH_SCREEN:
-      return Object.assign({}, state, {
+    case _actions.DisplayActionEnum.SWITCH_SCREEN:
+      return __assign({}, state, {
         screen: action.screen
       });
 
-    case actions_3.DeckActionEnum.GOT_DECK_CHOICES:
-      return Object.assign({}, state, {
-        screen: interface_1.ScreenEnum.CHOOSE_DECK
+    case _actions3.DeckActionEnum.GOT_DECK_CHOICES:
+      return __assign({}, state, {
+        screen: _interface.ScreenEnum.CHOOSE_DECK
       });
 
-    case actions_2.GameActionEnum.START_GAME:
-      return Object.assign({}, state, {
-        screen: interface_1.ScreenEnum.GAME_STARTED
+    case _actions2.GameActionEnum.START_GAME:
+      return __assign({}, state, {
+        screen: _interface.ScreenEnum.GAME_STARTED
       });
 
     default:
       return state;
   }
 };
-},{"./interface":"src/display/interface.ts","./actions":"src/display/actions.ts","../game/actions":"src/game/actions.ts","../deck/actions":"src/deck/actions.ts"}],"src/deck/reducer.ts":[function(require,module,exports) {
+
+exports.displayReducer = displayReducer;
+},{"./interface":"src/display/interface.ts","./actions":"src/display/actions.ts","../game/actions":"src/game/actions.ts","../deck/actions":"src/deck/actions.ts"}],"src/lobby/reducer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.lobbyReducer = void 0;
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-exports.deckReducer = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var action = arguments.length > 1 ? arguments[1] : undefined;
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var lobbyReducer = function lobbyReducer(state, action) {
+  if (state === void 0) {
+    state = {};
+  }
 
   switch (action.type) {
-    case actions_1.DeckActionEnum.GOT_DECK_CHOICES:
-      return Object.assign({}, state, {
+    case _actions.LobbyActionEnum.GOT_DECK_CHOICES:
+      return __assign({}, state, {
         deckChoices: action.choices
       });
 
-    case actions_1.DeckActionEnum.PICKED_DECK:
+    case _actions.LobbyActionEnum.PICKED_DECK:
       var deckChoices = state.deckChoices;
       var choice = action.choice;
-      return Object.assign({}, state, {
+      return __assign({}, state, {
         deckName: deckChoices[choice].name,
         deckChoices: undefined
       });
@@ -12670,89 +12859,117 @@ exports.deckReducer = function () {
       return state;
   }
 };
-},{"./actions":"src/deck/actions.ts"}],"src/gameDisplay/interface.ts":[function(require,module,exports) {
+
+exports.lobbyReducer = lobbyReducer;
+},{"./actions":"src/lobby/actions.ts"}],"src/gameDisplay/interface.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.GameDisplayEnum = void 0;
 var GameDisplayEnum;
+exports.GameDisplayEnum = GameDisplayEnum;
 
 (function (GameDisplayEnum) {
   GameDisplayEnum[GameDisplayEnum["NORMAL"] = 0] = "NORMAL";
   GameDisplayEnum[GameDisplayEnum["PREDICT"] = 1] = "PREDICT";
   GameDisplayEnum[GameDisplayEnum["PICK_ONE"] = 2] = "PICK_ONE";
   GameDisplayEnum[GameDisplayEnum["FORCEFUL"] = 3] = "FORCEFUL";
-})(GameDisplayEnum = exports.GameDisplayEnum || (exports.GameDisplayEnum = {}));
+})(GameDisplayEnum || (exports.GameDisplayEnum = GameDisplayEnum = {}));
 },{}],"src/gameDisplay/reducer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.gameDisplayReducer = void 0;
 
-var interface_1 = require("./interface");
+var _interface = require("./interface");
 
-var actions_1 = require("../game/actions");
+var _actions = require("../game/actions");
 
-var actions_2 = require("./actions");
+var _actions2 = require("./actions");
 
-exports.gameDisplayReducer = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    showFullCard: false,
-    screen: interface_1.GameDisplayEnum.NORMAL
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
   };
-  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  return __assign.apply(this, arguments);
+};
+
+var gameDisplayReducer = function gameDisplayReducer(state, action) {
+  if (state === void 0) {
+    state = {
+      showFullCard: false,
+      screen: _interface.GameDisplayEnum.NORMAL
+    };
+  }
 
   switch (action.type) {
-    case actions_1.GameActionEnum.MADE_PREDICTION:
-      return Object.assign({}, state, {
-        screen: interface_1.GameDisplayEnum.NORMAL
+    case _actions.GameActionEnum.MADE_PREDICTION:
+      return __assign({}, state, {
+        screen: _interface.GameDisplayEnum.NORMAL
       });
 
-    case actions_2.GameDisplayActionEnum.SHOULD_PREDICT:
-      return Object.assign({}, state, {
-        screen: interface_1.GameDisplayEnum.PREDICT
+    case _actions2.GameDisplayActionEnum.SHOULD_PREDICT:
+      return __assign({}, state, {
+        screen: _interface.GameDisplayEnum.PREDICT
       });
 
-    case actions_2.GameDisplayActionEnum.SET_HAND_CARD_DISPLAY:
-      return Object.assign({}, state, {
+    case _actions2.GameDisplayActionEnum.SET_HAND_CARD_DISPLAY:
+      return __assign({}, state, {
         showFullCard: action.value
       });
 
-    case actions_1.GameActionEnum.SHOULD_PICK_ONE:
-      return Object.assign({}, state, {
-        screen: interface_1.GameDisplayEnum.PICK_ONE
+    case _actions.GameActionEnum.SHOULD_PICK_ONE:
+      return __assign({}, state, {
+        screen: _interface.GameDisplayEnum.PICK_ONE
       });
 
-    case actions_1.GameActionEnum.DID_PICK_ONE:
-      return Object.assign({}, state, {
-        screen: interface_1.GameDisplayEnum.NORMAL
+    case _actions.GameActionEnum.DID_PICK_ONE:
+      return __assign({}, state, {
+        screen: _interface.GameDisplayEnum.NORMAL
       });
 
-    case actions_1.GameActionEnum.SHOULD_PICK_FORCEFUL:
-      return Object.assign({}, state, {
-        screen: interface_1.GameDisplayEnum.FORCEFUL
+    case _actions.GameActionEnum.SHOULD_PICK_FORCEFUL:
+      return __assign({}, state, {
+        screen: _interface.GameDisplayEnum.FORCEFUL
       });
 
-    case actions_1.GameActionEnum.DID_PICK_FORCEFUL:
-      return Object.assign({}, state, {
-        screen: interface_1.GameDisplayEnum.NORMAL
+    case _actions.GameActionEnum.DID_PICK_FORCEFUL:
+      return __assign({}, state, {
+        screen: _interface.GameDisplayEnum.NORMAL
       });
 
     default:
       return state;
   }
 };
+
+exports.gameDisplayReducer = gameDisplayReducer;
 },{"./interface":"src/gameDisplay/interface.ts","../game/actions":"src/game/actions.ts","./actions":"src/gameDisplay/actions.ts"}],"src/events/interface.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.EVENT_PLAY_SPEED = 500;
-exports.EVENT_REPLAY_SPEED = 200;
+exports.EventTypeEnum = exports.EVENT_REPLAY_SPEED = exports.EVENT_PLAY_SPEED = void 0;
+var EVENT_PLAY_SPEED = 500;
+exports.EVENT_PLAY_SPEED = EVENT_PLAY_SPEED;
+var EVENT_REPLAY_SPEED = 200;
+exports.EVENT_REPLAY_SPEED = EVENT_REPLAY_SPEED;
 var EventTypeEnum;
+exports.EventTypeEnum = EventTypeEnum;
 
 (function (EventTypeEnum) {
   EventTypeEnum[EventTypeEnum["CARD_NAME"] = 0] = "CARD_NAME";
@@ -12761,62 +12978,82 @@ var EventTypeEnum;
   EventTypeEnum[EventTypeEnum["ADDED_MECHANIC"] = 3] = "ADDED_MECHANIC";
   EventTypeEnum[EventTypeEnum["REVEAL_PREDICTION"] = 4] = "REVEAL_PREDICTION";
   EventTypeEnum[EventTypeEnum["GAME_OVER"] = 5] = "GAME_OVER";
-})(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));
+})(EventTypeEnum || (exports.EventTypeEnum = EventTypeEnum = {}));
 },{}],"src/gameSettings.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.STARTING_HEALTH = 50;
-exports.BLOODIED_HP = 25;
-exports.QUEUE_LENGTH = 6;
-exports.HAND_SIZE = 3;
-exports.STARTING_POISE = 4;
-exports.MAX_POISE = 10;
-exports.MIN_POISE = 0;
-exports.UNBALANCED_POISE = 3;
-exports.ANTICIPATING_POISE = 8;
+exports.ANTICIPATING_POISE = exports.UNBALANCED_POISE = exports.MIN_POISE = exports.MAX_POISE = exports.STARTING_POISE = exports.HAND_SIZE = exports.QUEUE_LENGTH = exports.BLOODIED_HP = exports.STARTING_HEALTH = void 0;
+var STARTING_HEALTH = 50;
+exports.STARTING_HEALTH = STARTING_HEALTH;
+var BLOODIED_HP = 25;
+exports.BLOODIED_HP = BLOODIED_HP;
+var QUEUE_LENGTH = 6;
+exports.QUEUE_LENGTH = QUEUE_LENGTH;
+var HAND_SIZE = 3;
+exports.HAND_SIZE = HAND_SIZE;
+var STARTING_POISE = 4;
+exports.STARTING_POISE = STARTING_POISE;
+var MAX_POISE = 10;
+exports.MAX_POISE = MAX_POISE;
+var MIN_POISE = 0;
+exports.MIN_POISE = MIN_POISE;
+var UNBALANCED_POISE = 3;
+exports.UNBALANCED_POISE = UNBALANCED_POISE;
+var ANTICIPATING_POISE = 8;
+exports.ANTICIPATING_POISE = ANTICIPATING_POISE;
 },{}],"src/events/reducer.ts":[function(require,module,exports) {
 "use strict";
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.eventReducer = void 0;
 
-var interface_1 = require("./interface");
+var _interface = require("./interface");
 
-var actions_1 = require("./actions");
+var _actions = require("./actions");
 
-var gameSettings_1 = require("../gameSettings");
+var _gameSettings = require("../gameSettings");
 
-exports.eventReducer = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    isDisplaying: false,
-    events: [],
-    history: []
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
   };
-  var action = arguments.length > 1 ? arguments[1] : undefined;
+
+  return __assign.apply(this, arguments);
+};
+
+var eventReducer = function eventReducer(state, action) {
+  if (state === void 0) {
+    state = {
+      isDisplaying: false,
+      events: [],
+      history: []
+    };
+  }
 
   switch (action.type) {
-    case actions_1.EventActionEnum.GOT_EVENTS:
+    case _actions.EventActionEnum.GOT_EVENTS:
       return gotEventsReducer(state, action);
 
-    case actions_1.EventActionEnum.FINISHED_DISPLAYING_EVENTS:
-      return Object.assign({}, state, {
+    case _actions.EventActionEnum.FINISHED_DISPLAYING_EVENTS:
+      return __assign({}, state, {
         isDisplaying: false,
         events: []
       });
 
-    case actions_1.EventActionEnum.DISPLAY_EVENT_HISTORY:
+    case _actions.EventActionEnum.DISPLAY_EVENT_HISTORY:
       return displayEventHistoryReducer(state, action);
 
     default:
@@ -12824,74 +13061,317 @@ exports.eventReducer = function () {
   }
 };
 
-var displayEventHistoryReducer = function displayEventHistoryReducer(state, _ref) {
-  var index = _ref.index;
+exports.eventReducer = eventReducer;
+
+var displayEventHistoryReducer = function displayEventHistoryReducer(state, _a) {
+  var index = _a.index;
   var events = state.history[index];
 
   if (events) {
-    events = _toConsumableArray(events);
+    events = events.slice();
   } else {
     events = [];
   }
 
-  return Object.assign({}, state, {
+  return __assign({}, state, {
     isDisplaying: true,
     events: events,
-    playSpeed: interface_1.EVENT_REPLAY_SPEED
+    playSpeed: _interface.EVENT_REPLAY_SPEED
   });
 };
 
 var gotEventsReducer = function gotEventsReducer(state, action) {
-  var history = [action.events].concat(_toConsumableArray(state.history));
-  history = history.slice(0, gameSettings_1.QUEUE_LENGTH);
-  return Object.assign({}, state, {
+  var history = [action.events].concat(state.history);
+  history = history.slice(0, _gameSettings.QUEUE_LENGTH);
+  return __assign({}, state, {
     isDisplaying: true,
     events: action.events,
     history: history,
-    playSpeed: interface_1.EVENT_PLAY_SPEED
+    playSpeed: _interface.EVENT_PLAY_SPEED
   });
 };
-},{"./interface":"src/events/interface.ts","./actions":"src/events/actions.ts","../gameSettings":"src/gameSettings.ts"}],"src/state/store.ts":[function(require,module,exports) {
+},{"./interface":"src/events/interface.ts","./actions":"src/events/actions.ts","../gameSettings":"src/gameSettings.ts"}],"src/path/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.PathActionEnum = void 0;
+var PathActionEnum;
+exports.PathActionEnum = PathActionEnum;
 
-var redux_1 = require("redux");
-
-var reducer_1 = require("../game/reducer");
-
-var reducer_2 = require("../hand/reducer");
-
-var reducer_3 = require("../display/reducer");
-
-var reducer_4 = require("../deck/reducer");
-
-var reducer_5 = require("../gameDisplay/reducer");
-
-var reducer_6 = require("../events/reducer");
-
-var rootReducer = redux_1.combineReducers({
-  game: reducer_1.gameReducer,
-  hand: reducer_2.handReducer,
-  display: reducer_3.displayReducer,
-  deck: reducer_4.deckReducer,
-  gameDisplay: reducer_5.gameDisplayReducer,
-  events: reducer_6.eventReducer
-});
-exports.store = redux_1.createStore(rootReducer);
-},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../deck/reducer":"src/deck/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts"}],"src/interfaces/card.ts":[function(require,module,exports) {
+(function (PathActionEnum) {
+  PathActionEnum["TO_PATH_STRING"] = "toPathString";
+  PathActionEnum["TO_PATH_ARRAY"] = "toPathArray";
+})(PathActionEnum || (exports.PathActionEnum = PathActionEnum = {}));
+},{}],"src/path/reducer.ts":[function(require,module,exports) {
 "use strict";
-
-var _exports$MechanicDisp;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.pathReducer = void 0;
+
+var _actions = require("./actions");
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var pathReducer = function pathReducer(state, action) {
+  if (state === void 0) {
+    state = makeDefaultState();
+  }
+
+  switch (action.type) {
+    case _actions.PathActionEnum.TO_PATH_ARRAY:
+      history.pushState(null, null, action.path.join('/'));
+      return __assign({}, state, {
+        pathArr: action.path
+      });
+
+    case _actions.PathActionEnum.TO_PATH_STRING:
+      history.pushState(null, null, action.path);
+      return __assign({}, state, {
+        pathArr: action.path.split('/')
+      });
+
+    default:
+      return state;
+  }
+};
+
+exports.pathReducer = pathReducer;
+
+var makeDefaultState = function makeDefaultState() {
+  return {
+    pathArr: location.pathname.split('/')
+  };
+};
+},{"./actions":"src/path/actions.ts"}],"src/socket/actions.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SocketActionEnum = void 0;
+var SocketActionEnum;
+exports.SocketActionEnum = SocketActionEnum;
+
+(function (SocketActionEnum) {
+  SocketActionEnum["CONNECT"] = "connectSocket";
+  SocketActionEnum["DISCONNECT"] = "disconnectSocket";
+})(SocketActionEnum || (exports.SocketActionEnum = SocketActionEnum = {}));
+},{}],"src/socket/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.socketReducer = void 0;
+
+var _actions = require("./actions");
+
+var _socket = require("./socket");
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var socketReducer = function socketReducer(state, action) {
+  if (state === void 0) {
+    state = {
+      socket: null
+    };
+  }
+
+  switch (action.type) {
+    case _actions.SocketActionEnum.CONNECT:
+      return reduceConnect(state);
+
+    case _actions.SocketActionEnum.DISCONNECT:
+      return reduceDisconnect(state);
+
+    default:
+      return state;
+  }
+};
+
+exports.socketReducer = socketReducer;
+
+var reduceConnect = function reduceConnect(state) {
+  var socket = (0, _socket.connectSocket)();
+  return __assign({}, state, {
+    socket: socket
+  });
+};
+
+var reduceDisconnect = function reduceDisconnect(state) {
+  (0, _socket.disconnectSocket)();
+  return __assign({}, state, {
+    socket: null
+  });
+};
+},{"./actions":"src/socket/actions.ts","./socket":"src/socket/socket.ts"}],"src/deckViewer/actions.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DeckViewerEnum = void 0;
+var DeckViewerEnum;
+exports.DeckViewerEnum = DeckViewerEnum;
+
+(function (DeckViewerEnum) {
+  DeckViewerEnum["GOT_DECK"] = "gotDeck";
+  DeckViewerEnum["GOT_DECK_LIST"] = "gotDeckList";
+  DeckViewerEnum["FAILED_TO_GET_DECK"] = "failedToGetDeck";
+  DeckViewerEnum["FAILED_TO_GET_DECKLIST"] = "faileToGetDecklist";
+  DeckViewerEnum["LOADING_DECK"] = "loadingDeck";
+  DeckViewerEnum["LOADING_DECK_LIST"] = "loadingDeckList";
+})(DeckViewerEnum || (exports.DeckViewerEnum = DeckViewerEnum = {}));
+},{}],"src/deckViewer/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deckViewerReducer = void 0;
+
+var _actions = require("./actions");
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var deckViewerReducer = function deckViewerReducer(state, action) {
+  if (state === void 0) {
+    state = {
+      deck: null,
+      deckList: [],
+      isLoadingDeckList: false,
+      isLoadingDeck: false
+    };
+  }
+
+  switch (action.type) {
+    case _actions.DeckViewerEnum.LOADING_DECK:
+      return __assign({}, state, {
+        isLoadingDeck: true
+      });
+
+    case _actions.DeckViewerEnum.GOT_DECK:
+      return __assign({}, state, {
+        deck: action.deck,
+        isLoadingDeck: false
+      });
+
+    case _actions.DeckViewerEnum.LOADING_DECK_LIST:
+      return __assign({}, state, {
+        isLoadingDeckList: true
+      });
+
+    case _actions.DeckViewerEnum.GOT_DECK_LIST:
+      return __assign({}, state, {
+        deckList: action.deckList,
+        isLoadingDeckList: false
+      });
+
+    default:
+      return state;
+  }
+};
+
+exports.deckViewerReducer = deckViewerReducer;
+},{"./actions":"src/deckViewer/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.store = void 0;
+
+var _redux = require("redux");
+
+var _reducer = require("../game/reducer");
+
+var _reducer2 = require("../hand/reducer");
+
+var _reducer3 = require("../display/reducer");
+
+var _reducer4 = require("../lobby/reducer");
+
+var _reducer5 = require("../gameDisplay/reducer");
+
+var _reducer6 = require("../events/reducer");
+
+var _reducer7 = require("../path/reducer");
+
+var _reducer8 = require("../socket/reducer");
+
+var _reducer9 = require("../deckViewer/reducer");
+
+var rootReducer = (0, _redux.combineReducers)({
+  game: _reducer.gameReducer,
+  hand: _reducer2.handReducer,
+  display: _reducer3.displayReducer,
+  lobby: _reducer4.lobbyReducer,
+  gameDisplay: _reducer5.gameDisplayReducer,
+  events: _reducer6.eventReducer,
+  deckViewer: _reducer9.deckViewerReducer,
+  path: _reducer7.pathReducer,
+  socket: _reducer8.socketReducer
+});
+var store = (0, _redux.createStore)(rootReducer);
+exports.store = store;
+},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts"}],"src/interfaces/card.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PlayerEnum = exports.AxisEnum = exports.MechanicDisplay = exports.DisplayEnum = exports.MechanicEnum = void 0;
+
+var _a;
+
 var MechanicEnum;
+exports.MechanicEnum = MechanicEnum;
 
 (function (MechanicEnum) {
   MechanicEnum["TELEGRAPH"] = "Telegraph";
@@ -12904,9 +13384,10 @@ var MechanicEnum;
   MechanicEnum["CRIPPLE"] = "Cripple";
   MechanicEnum["PICK_ONE"] = "Pick One";
   MechanicEnum["FORCEFUL"] = "Forceful";
-})(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
+})(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
 
 var DisplayEnum;
+exports.DisplayEnum = DisplayEnum;
 
 (function (DisplayEnum) {
   DisplayEnum[DisplayEnum["REQ_EFF"] = 0] = "REQ_EFF";
@@ -12917,10 +13398,12 @@ var DisplayEnum;
   DisplayEnum[DisplayEnum["AMOUNT"] = 5] = "AMOUNT";
   DisplayEnum[DisplayEnum["PICK_ONE"] = 6] = "PICK_ONE";
   DisplayEnum[DisplayEnum["NONE"] = 7] = "NONE";
-})(DisplayEnum = exports.DisplayEnum || (exports.DisplayEnum = {}));
+})(DisplayEnum || (exports.DisplayEnum = DisplayEnum = {}));
 
-exports.MechanicDisplay = (_exports$MechanicDisp = {}, _defineProperty(_exports$MechanicDisp, MechanicEnum.TELEGRAPH, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.FOCUS, DisplayEnum.REQ_EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.PREDICT, DisplayEnum.EFF), _defineProperty(_exports$MechanicDisp, MechanicEnum.BUFF, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.BLOCK, DisplayEnum.AMOUNT), _defineProperty(_exports$MechanicDisp, MechanicEnum.LOCK, DisplayEnum.NORMAL), _defineProperty(_exports$MechanicDisp, MechanicEnum.REFLEX, DisplayEnum.NONE), _defineProperty(_exports$MechanicDisp, MechanicEnum.CRIPPLE, DisplayEnum.NAME), _defineProperty(_exports$MechanicDisp, MechanicEnum.PICK_ONE, DisplayEnum.PICK_ONE), _defineProperty(_exports$MechanicDisp, MechanicEnum.FORCEFUL, DisplayEnum.AMOUNT_EFF), _exports$MechanicDisp);
+var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = DisplayEnum.REQ_EFF, _a[MechanicEnum.FOCUS] = DisplayEnum.REQ_EFF, _a[MechanicEnum.PREDICT] = DisplayEnum.EFF, _a[MechanicEnum.BUFF] = DisplayEnum.NORMAL, _a[MechanicEnum.BLOCK] = DisplayEnum.AMOUNT, _a[MechanicEnum.LOCK] = DisplayEnum.NORMAL, _a[MechanicEnum.REFLEX] = DisplayEnum.NONE, _a[MechanicEnum.CRIPPLE] = DisplayEnum.NAME, _a[MechanicEnum.PICK_ONE] = DisplayEnum.PICK_ONE, _a[MechanicEnum.FORCEFUL] = DisplayEnum.AMOUNT_EFF, _a);
+exports.MechanicDisplay = MechanicDisplay;
 var AxisEnum;
+exports.AxisEnum = AxisEnum;
 
 (function (AxisEnum) {
   AxisEnum["DAMAGE"] = "Damage";
@@ -12945,15 +13428,16 @@ var AxisEnum;
   AxisEnum["POISE"] = "Poise";
   AxisEnum["LOSE_POISE"] = "Lose Poise";
   AxisEnum["STANCE"] = "Stance";
-})(AxisEnum = exports.AxisEnum || (exports.AxisEnum = {}));
+})(AxisEnum || (exports.AxisEnum = AxisEnum = {}));
 
 var PlayerEnum;
+exports.PlayerEnum = PlayerEnum;
 
 (function (PlayerEnum) {
   PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
   PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
   PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
-})(PlayerEnum = exports.PlayerEnum || (exports.PlayerEnum = {}));
+})(PlayerEnum || (exports.PlayerEnum = PlayerEnum = {}));
 },{}],"src/images/grapple.png":[function(require,module,exports) {
 module.exports = "/grapple.b390bafe.png";
 },{}],"src/images/close.png":[function(require,module,exports) {
@@ -16192,16 +16676,25 @@ module.exports = ReactTooltip;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getUUID = exports.cleanConnect = exports.HOST_URL = void 0;
 
-var preact_redux_1 = require("preact-redux");
+var _preactRedux = require("preact-redux");
 
-exports.cleanConnect = function (selector, comp) {
-  return preact_redux_1.connect(selector)(comp);
+var HOST_URL = '/api';
+exports.HOST_URL = HOST_URL;
+
+if (location.host.split(':')[0] === 'localhost') {
+  exports.HOST_URL = HOST_URL = 'http://localhost:8080/api';
+}
+
+var cleanConnect = function cleanConnect(selector, comp) {
+  return (0, _preactRedux.connect)(selector)(comp);
 };
 
+exports.cleanConnect = cleanConnect;
 var uuid = 0;
 
-exports.getUUID = function (obj) {
+var getUUID = function getUUID(obj) {
   if (obj.uuid === undefined) {
     obj.uuid = uuid;
     uuid++;
@@ -16209,183 +16702,186 @@ exports.getUUID = function (obj) {
 
   return obj.uuid;
 };
+
+exports.getUUID = getUUID;
 },{"preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/images/index.tsx":[function(require,module,exports) {
 "use strict";
 
-var _playerRouter, _iconRouter, _classRouter;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
-}); /// <reference path='./index.d.tsx'/>
+});
+exports.Icon = exports.Arrow = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var card_1 = require("../interfaces/card");
+var _card = require("../interfaces/card");
 
-var grapple_png_1 = __importDefault(require("./grapple.png"));
+var _grapple = _interopRequireDefault(require("./grapple.png"));
 
-var close_png_1 = __importDefault(require("./close.png"));
+var _close = _interopRequireDefault(require("./close.png"));
 
-var far_png_1 = __importDefault(require("./far.png"));
+var _far = _interopRequireDefault(require("./far.png"));
 
-var moving_png_1 = __importDefault(require("./moving.png"));
+var _moving = _interopRequireDefault(require("./moving.png"));
 
-var not_close_png_1 = __importDefault(require("./not_close.png"));
+var _not_close = _interopRequireDefault(require("./not_close.png"));
 
-var not_grapple_png_1 = __importDefault(require("./not_grapple.png"));
+var _not_grapple = _interopRequireDefault(require("./not_grapple.png"));
 
-var not_far_png_1 = __importDefault(require("./not_far.png"));
+var _not_far = _interopRequireDefault(require("./not_far.png"));
 
-var still_png_1 = __importDefault(require("./still.png"));
+var _still = _interopRequireDefault(require("./still.png"));
 
-var standing_png_1 = __importDefault(require("./standing.png"));
+var _standing = _interopRequireDefault(require("./standing.png"));
 
-var prone_png_1 = __importDefault(require("./prone.png"));
+var _prone = _interopRequireDefault(require("./prone.png"));
 
-var balanced_png_1 = __importDefault(require("./balanced.png"));
+var _balanced = _interopRequireDefault(require("./balanced.png"));
 
-var anticipating_png_1 = __importDefault(require("./anticipating.png"));
+var _anticipating = _interopRequireDefault(require("./anticipating.png"));
 
-var unbalanced_png_1 = __importDefault(require("./unbalanced.png"));
+var _unbalanced = _interopRequireDefault(require("./unbalanced.png"));
 
-var upArrow_png_1 = __importDefault(require("./upArrow.png"));
+var _upArrow = _interopRequireDefault(require("./upArrow.png"));
 
-var downArrow_png_1 = __importDefault(require("./downArrow.png"));
+var _downArrow = _interopRequireDefault(require("./downArrow.png"));
 
-var bothArrow_png_1 = __importDefault(require("./bothArrow.png"));
+var _bothArrow = _interopRequireDefault(require("./bothArrow.png"));
 
-var damage_png_1 = __importDefault(require("./damage.png"));
+var _damage = _interopRequireDefault(require("./damage.png"));
 
-var further_png_1 = __importDefault(require("./further.png"));
+var _further = _interopRequireDefault(require("./further.png"));
 
-var closer_png_1 = __importDefault(require("./closer.png"));
+var _closer = _interopRequireDefault(require("./closer.png"));
 
-var poise_png_1 = __importDefault(require("./poise.png"));
+var _poise = _interopRequireDefault(require("./poise.png"));
 
-var losePoise_png_1 = __importDefault(require("./losePoise.png"));
+var _losePoise = _interopRequireDefault(require("./losePoise.png"));
 
-var react_tooltip_1 = __importDefault(require("react-tooltip"));
+var _reactTooltip = _interopRequireDefault(require("react-tooltip"));
 
-var util_1 = require("../util");
+var _util = require("../util");
 
-var playerRouter = (_playerRouter = {}, _defineProperty(_playerRouter, card_1.PlayerEnum.PLAYER, downArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.OPPONENT, upArrow_png_1.default), _defineProperty(_playerRouter, card_1.PlayerEnum.BOTH, bothArrow_png_1.default), _playerRouter);
-var iconRouter = (_iconRouter = {}, _defineProperty(_iconRouter, card_1.AxisEnum.GRAPPLED, grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSE, close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FAR, far_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.MOVING, moving_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STILL, still_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.STANDING, standing_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.PRONE, prone_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.BALANCED, balanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.ANTICIPATING, anticipating_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.UNBALANCED, unbalanced_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.DAMAGE, damage_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.CLOSER, closer_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.FURTHER, further_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.POISE, poise_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.LOSE_POISE, losePoise_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.NOT_GRAPPLED, not_grapple_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.NOT_CLOSE, not_close_png_1.default), _defineProperty(_iconRouter, card_1.AxisEnum.NOT_FAR, not_far_png_1.default), _iconRouter);
-var classRouter = (_classRouter = {}, _defineProperty(_classRouter, card_1.AxisEnum.GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.CLOSER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.FURTHER, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.NOT_GRAPPLED, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.NOT_CLOSE, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.NOT_FAR, 'distance'), _defineProperty(_classRouter, card_1.AxisEnum.MOVING, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STILL, 'motion'), _defineProperty(_classRouter, card_1.AxisEnum.STANDING, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.PRONE, 'standing'), _defineProperty(_classRouter, card_1.AxisEnum.BALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.ANTICIPATING, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.UNBALANCED, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.POISE, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.LOSE_POISE, 'balance'), _defineProperty(_classRouter, card_1.AxisEnum.DAMAGE, 'damage'), _classRouter);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.Arrow = function (_ref) {
-  var player = _ref.player,
-      shouldFlip = _ref.shouldFlip;
+var _a, _b, _c; /// <reference path='./index.d.tsx'/>
+
+
+var playerRouter = (_a = {}, _a[_card.PlayerEnum.PLAYER] = _downArrow.default, _a[_card.PlayerEnum.OPPONENT] = _upArrow.default, _a[_card.PlayerEnum.BOTH] = _bothArrow.default, _a);
+var iconRouter = (_b = {}, _b[_card.AxisEnum.GRAPPLED] = _grapple.default, _b[_card.AxisEnum.CLOSE] = _close.default, _b[_card.AxisEnum.FAR] = _far.default, _b[_card.AxisEnum.MOVING] = _moving.default, _b[_card.AxisEnum.STILL] = _still.default, _b[_card.AxisEnum.STANDING] = _standing.default, _b[_card.AxisEnum.PRONE] = _prone.default, _b[_card.AxisEnum.BALANCED] = _balanced.default, _b[_card.AxisEnum.ANTICIPATING] = _anticipating.default, _b[_card.AxisEnum.UNBALANCED] = _unbalanced.default, _b[_card.AxisEnum.DAMAGE] = _damage.default, _b[_card.AxisEnum.CLOSER] = _closer.default, _b[_card.AxisEnum.FURTHER] = _further.default, _b[_card.AxisEnum.POISE] = _poise.default, _b[_card.AxisEnum.LOSE_POISE] = _losePoise.default, _b[_card.AxisEnum.NOT_GRAPPLED] = _not_grapple.default, _b[_card.AxisEnum.NOT_CLOSE] = _not_close.default, _b[_card.AxisEnum.NOT_FAR] = _not_far.default, _b);
+var classRouter = (_c = {}, _c[_card.AxisEnum.GRAPPLED] = 'distance', _c[_card.AxisEnum.CLOSE] = 'distance', _c[_card.AxisEnum.FAR] = 'distance', _c[_card.AxisEnum.CLOSER] = 'distance', _c[_card.AxisEnum.FURTHER] = 'distance', _c[_card.AxisEnum.NOT_GRAPPLED] = 'distance', _c[_card.AxisEnum.NOT_CLOSE] = 'distance', _c[_card.AxisEnum.NOT_FAR] = 'distance', _c[_card.AxisEnum.MOVING] = 'motion', _c[_card.AxisEnum.STILL] = 'motion', _c[_card.AxisEnum.STANDING] = 'standing', _c[_card.AxisEnum.PRONE] = 'standing', _c[_card.AxisEnum.BALANCED] = 'balance', _c[_card.AxisEnum.ANTICIPATING] = 'balance', _c[_card.AxisEnum.UNBALANCED] = 'balance', _c[_card.AxisEnum.POISE] = 'balance', _c[_card.AxisEnum.LOSE_POISE] = 'balance', _c[_card.AxisEnum.DAMAGE] = 'damage', _c);
+
+var Arrow = function Arrow(_a) {
+  var player = _a.player,
+      shouldFlip = _a.shouldFlip;
 
   if (shouldFlip) {
-    if (player === card_1.PlayerEnum.OPPONENT) {
-      player = card_1.PlayerEnum.PLAYER;
-    } else if (player === card_1.PlayerEnum.PLAYER) {
-      player = card_1.PlayerEnum.OPPONENT;
+    if (player === _card.PlayerEnum.OPPONENT) {
+      player = _card.PlayerEnum.PLAYER;
+    } else if (player === _card.PlayerEnum.PLAYER) {
+      player = _card.PlayerEnum.OPPONENT;
     }
   }
 
-  return preact_1.h("div", {
+  return (0, _preact.h)("div", {
     class: 'inline'
-  }, preact_1.h("img", {
+  }, (0, _preact.h)("img", {
     class: 'player-icon',
     src: playerRouter[player]
   }));
 };
 
-exports.Icon = function (props) {
+exports.Arrow = Arrow;
+
+var Icon = function Icon(props) {
   var name = props.name;
-  var id = String(util_1.getUUID(props));
-  return preact_1.h("div", {
+  var id = String((0, _util.getUUID)(props));
+  return (0, _preact.h)("div", {
     class: 'inline'
-  }, preact_1.h(react_tooltip_1.default, {
+  }, (0, _preact.h)(_reactTooltip.default, {
     id: id,
     effect: "solid"
-  }, name), preact_1.h("div", {
-    class: "inline axis-bg ".concat(classRouter[name])
-  }, preact_1.h("img", {
+  }, name), (0, _preact.h)("div", {
+    class: "inline axis-bg " + classRouter[name]
+  }, (0, _preact.h)("img", {
     "data-tip": name,
     "data-for": id,
     class: 'axis-icon',
     src: iconRouter[name]
   })));
 };
+
+exports.Icon = Icon;
 },{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-tooltip":"node_modules/react-tooltip/dist/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var index_1 = require("../../../images/index");
+var _index = require("../../../images/index");
 
-exports.default = function (props) {
-  return preact_1.h("div", {
+var _default = function _default(props) {
+  return (0, _preact.h)("div", {
     class: 'inline'
-  }, preact_1.h(index_1.Arrow, {
+  }, (0, _preact.h)(_index.Arrow, {
     player: props.requirement.player,
     shouldFlip: props.shouldFlip
-  }), " ", preact_1.h(index_1.Icon, {
+  }), " ", (0, _preact.h)(_index.Icon, {
     name: props.requirement.axis
   }));
 };
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/extras/mechanicDescriptions.ts":[function(require,module,exports) {
 "use strict";
 
-var _descObj;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getMechanicDescription = void 0;
 
-var card_1 = require("../interfaces/card");
+var _card = require("../interfaces/card");
 
-var descObj = (_descObj = {}, _defineProperty(_descObj, card_1.MechanicEnum.BLOCK, 'Reduces damage by X amount next turn'), _defineProperty(_descObj, card_1.MechanicEnum.BUFF, 'Permanently buffs card for future uses'), _defineProperty(_descObj, card_1.MechanicEnum.CRIPPLE, 'Permanently adds a terrible card to your opponent\'s deck'), _defineProperty(_descObj, card_1.MechanicEnum.FOCUS, 'While on the queue, at the end of your turn, if the condition is met, the effect happens'), _defineProperty(_descObj, card_1.MechanicEnum.FORCEFUL, 'Allows you to spend X Poise to get the effect'), _defineProperty(_descObj, card_1.MechanicEnum.LOCK, 'That state cannot change for X turns'), _defineProperty(_descObj, card_1.MechanicEnum.PICK_ONE, 'You choose which one of the listed effects will happen'), _defineProperty(_descObj, card_1.MechanicEnum.PREDICT, 'Guess what the opponent will change with their next card, if correct, you get the effect'), _defineProperty(_descObj, card_1.MechanicEnum.REFLEX, 'Plays a random, valid, card from your deck'), _defineProperty(_descObj, card_1.MechanicEnum.TELEGRAPH, 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens'), _descObj);
+var _a;
 
-exports.getMechanicDescription = function (mech) {
+var descObj = (_a = {}, _a[_card.MechanicEnum.BLOCK] = 'Reduces damage by X amount next turn', _a[_card.MechanicEnum.BUFF] = 'Permanently buffs card for future uses', _a[_card.MechanicEnum.CRIPPLE] = 'Permanently adds a terrible card to your opponent\'s deck', _a[_card.MechanicEnum.FOCUS] = 'While on the queue, at the end of your turn, if the condition is met, the effect happens', _a[_card.MechanicEnum.FORCEFUL] = 'Allows you to spend X Poise to get the effect', _a[_card.MechanicEnum.LOCK] = 'That state cannot change for X turns', _a[_card.MechanicEnum.PICK_ONE] = 'You choose which one of the listed effects will happen', _a[_card.MechanicEnum.PREDICT] = 'Guess what the opponent will change with their next card, if correct, you get the effect', _a[_card.MechanicEnum.REFLEX] = 'Plays a random, valid, card from your deck', _a[_card.MechanicEnum.TELEGRAPH] = 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens', _a);
+
+var getMechanicDescription = function getMechanicDescription(mech) {
   return descObj[mech] || null;
 };
+
+exports.getMechanicDescription = getMechanicDescription;
 },{"../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/card/effect.tsx":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var Requirement_1 = __importDefault(require("./Requirement"));
+var _Requirement = _interopRequireDefault(require("./Requirement"));
 
-var card_1 = require("../../../interfaces/card");
+var _card = require("../../../interfaces/card");
 
-var images_1 = require("../../../images");
+var _images = require("../../../images");
 
-var util_1 = require("../../../util");
+var _util = require("../../../util");
 
-var mechanicDescriptions_1 = require("../../../extras/mechanicDescriptions");
+var _mechanicDescriptions = require("../../../extras/mechanicDescriptions");
 
-var react_tooltip_1 = __importDefault(require("react-tooltip"));
+var _reactTooltip = _interopRequireDefault(require("react-tooltip"));
 
-var Effect = function Effect(_ref) {
-  var effect = _ref.effect,
-      shouldFlip = _ref.shouldFlip;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Effect = function Effect(_a) {
+  var effect = _a.effect,
+      shouldFlip = _a.shouldFlip;
   return renderSwitch(effect, shouldFlip);
 };
 
@@ -16394,21 +16890,21 @@ var renderSwitch = function renderSwitch(effect, shouldFlip) {
     return renderEffect(effect, shouldFlip);
   }
 
-  switch (card_1.MechanicDisplay[effect.mechanic]) {
-    case card_1.DisplayEnum.EFF:
-    case card_1.DisplayEnum.REQ_EFF:
-    case card_1.DisplayEnum.AMOUNT_EFF:
+  switch (_card.MechanicDisplay[effect.mechanic]) {
+    case _card.DisplayEnum.EFF:
+    case _card.DisplayEnum.REQ_EFF:
+    case _card.DisplayEnum.AMOUNT_EFF:
       return renderMechanic(effect, shouldFlip);
 
-    case card_1.DisplayEnum.PICK_ONE:
+    case _card.DisplayEnum.PICK_ONE:
       return renderPickOne(effect, shouldFlip);
 
-    case card_1.DisplayEnum.NONE:
+    case _card.DisplayEnum.NONE:
       return renderNone(effect);
 
-    case card_1.DisplayEnum.AMOUNT:
-    case card_1.DisplayEnum.NAME:
-    case card_1.DisplayEnum.NORMAL:
+    case _card.DisplayEnum.AMOUNT:
+    case _card.DisplayEnum.NAME:
+    case _card.DisplayEnum.NORMAL:
       return renderEffect(effect, shouldFlip);
   }
 
@@ -16416,49 +16912,49 @@ var renderSwitch = function renderSwitch(effect, shouldFlip) {
 };
 
 var renderNone = function renderNone(mechanic) {
-  var id = String(util_1.getUUID(mechanic));
-  var description = mechanicDescriptions_1.getMechanicDescription(mechanic.mechanic);
-  return preact_1.h("div", {
+  var id = String((0, _util.getUUID)(mechanic));
+  var description = (0, _mechanicDescriptions.getMechanicDescription)(mechanic.mechanic);
+  return (0, _preact.h)("div", {
     class: 'mechanic'
-  }, preact_1.h(react_tooltip_1.default, {
+  }, (0, _preact.h)(_reactTooltip.default, {
     delayShow: 250,
     id: id,
     effect: "solid"
-  }, description), preact_1.h("div", {
+  }, description), (0, _preact.h)("div", {
     "data-tip": description,
     "data-for": id
-  }, preact_1.h("b", null, mechanic.mechanic)));
+  }, (0, _preact.h)("b", null, mechanic.mechanic)));
 };
 
 var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
   var reqs = mechanic.mechanicRequirements || [];
   var effs = mechanic.mechanicEffects || [];
-  var id = String(util_1.getUUID(mechanic));
-  var description = mechanicDescriptions_1.getMechanicDescription(mechanic.mechanic);
-  return preact_1.h("div", {
+  var id = String((0, _util.getUUID)(mechanic));
+  var description = (0, _mechanicDescriptions.getMechanicDescription)(mechanic.mechanic);
+  return (0, _preact.h)("div", {
     class: 'mechanic'
-  }, preact_1.h(react_tooltip_1.default, {
+  }, (0, _preact.h)(_reactTooltip.default, {
     delayShow: 250,
     id: id,
     effect: "solid"
-  }, description), preact_1.h("div", {
+  }, description), (0, _preact.h)("div", {
     "data-tip": description,
     "data-for": id
-  }, preact_1.h("b", null, mechanic.mechanic, " ", mechanic.amount !== undefined && mechanic.amount)), preact_1.h("div", {
+  }, (0, _preact.h)("b", null, mechanic.mechanic, " ", mechanic.amount !== undefined && mechanic.amount)), (0, _preact.h)("div", {
     class: 'h-divider'
-  }), preact_1.h("div", null, preact_1.h("div", null, reqs.map(function (req, i) {
-    return preact_1.h("span", {
+  }), (0, _preact.h)("div", null, (0, _preact.h)("div", null, reqs.map(function (req, i) {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(Requirement_1.default, {
+    }, (0, _preact.h)(_Requirement.default, {
       requirement: req,
       shouldFlip: shouldFlip
     }));
-  })), preact_1.h("div", {
+  })), (0, _preact.h)("div", {
     class: 'h-divider thin'
-  }), preact_1.h("div", null, effs.map(function (eff, i) {
-    return preact_1.h("span", {
+  }), (0, _preact.h)("div", null, effs.map(function (eff, i) {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(Effect, {
+    }, (0, _preact.h)(Effect, {
       effect: eff,
       shouldFlip: shouldFlip
     }));
@@ -16466,28 +16962,28 @@ var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
 };
 
 var renderPickOne = function renderPickOne(mechanic, shouldFlip) {
-  var id = String(util_1.getUUID(mechanic));
-  var description = mechanicDescriptions_1.getMechanicDescription(mechanic.mechanic);
-  return preact_1.h("div", {
+  var id = String((0, _util.getUUID)(mechanic));
+  var description = (0, _mechanicDescriptions.getMechanicDescription)(mechanic.mechanic);
+  return (0, _preact.h)("div", {
     class: 'pick-one'
-  }, preact_1.h(react_tooltip_1.default, {
+  }, (0, _preact.h)(_reactTooltip.default, {
     delayShow: 250,
     id: id,
     effect: "solid"
-  }, description), preact_1.h("div", {
+  }, description), (0, _preact.h)("div", {
     "data-tip": description,
     "data-for": id
-  }, preact_1.h("b", null, "Pick One")), preact_1.h("div", {
+  }, (0, _preact.h)("b", null, "Pick One")), (0, _preact.h)("div", {
     class: 'choices'
   }, mechanic.choices.map(function (choice, i) {
-    return preact_1.h("div", {
+    return (0, _preact.h)("div", {
       key: i,
       class: 'choice'
     }, choice.map(function (effect, i) {
-      return preact_1.h("div", {
+      return (0, _preact.h)("div", {
         key: i,
         class: 'inline'
-      }, " ", preact_1.h(Effect, {
+      }, " ", (0, _preact.h)(Effect, {
         shouldFlip: shouldFlip,
         effect: effect
       }));
@@ -16496,224 +16992,254 @@ var renderPickOne = function renderPickOne(mechanic, shouldFlip) {
 };
 
 var renderEffect = function renderEffect(effect, shouldFlip) {
-  var id = String(util_1.getUUID(effect));
-  var description = mechanicDescriptions_1.getMechanicDescription(effect.mechanic);
-  return preact_1.h("div", {
+  var id = String((0, _util.getUUID)(effect));
+  var description = (0, _mechanicDescriptions.getMechanicDescription)(effect.mechanic);
+  return (0, _preact.h)("div", {
     class: 'inline'
-  }, effect.mechanic !== undefined && preact_1.h(react_tooltip_1.default, {
+  }, effect.mechanic !== undefined && (0, _preact.h)(_reactTooltip.default, {
     delayShow: 250,
     id: id,
     effect: "solid"
-  }, description), effect.mechanic !== undefined && preact_1.h("b", {
+  }, description), effect.mechanic !== undefined && (0, _preact.h)("b", {
     "data-tip": description,
     "data-for": id
-  }, " ", effect.mechanic, " "), effect.player !== undefined && preact_1.h(images_1.Arrow, {
+  }, " ", effect.mechanic, " "), effect.player !== undefined && (0, _preact.h)(_images.Arrow, {
     player: effect.player,
     shouldFlip: shouldFlip
-  }), effect.axis !== undefined && preact_1.h(images_1.Icon, {
+  }), effect.axis !== undefined && (0, _preact.h)(_images.Icon, {
     name: effect.axis
-  }), preact_1.h("b", null, effect.amount));
+  }), (0, _preact.h)("b", null, effect.amount));
 };
 
-exports.default = Effect;
+var _default = Effect;
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx","../../../util":"src/util.ts","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-tooltip":"node_modules/react-tooltip/dist/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var effect_1 = __importDefault(require("./effect"));
+var _effect = _interopRequireDefault(require("./effect"));
 
-var QueueCard = function QueueCard(_ref) {
-  var identity = _ref.identity,
-      name = _ref.name,
-      _ref$telegraphs = _ref.telegraphs,
-      telegraphs = _ref$telegraphs === void 0 ? [] : _ref$telegraphs,
-      _ref$focuses = _ref.focuses,
-      focuses = _ref$focuses === void 0 ? [] : _ref$focuses,
-      player = _ref.player;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var QueueCard = function QueueCard(_a) {
+  var identity = _a.identity,
+      name = _a.name,
+      _b = _a.telegraphs,
+      telegraphs = _b === void 0 ? [] : _b,
+      _c = _a.focuses,
+      focuses = _c === void 0 ? [] : _c,
+      player = _a.player;
   var shouldFlip = identity !== player;
-  return preact_1.h("div", null, preact_1.h("div", null, name), telegraphs.map(function (eff, i) {
-    return preact_1.h("div", {
+  return (0, _preact.h)("div", null, (0, _preact.h)("div", null, name), telegraphs.map(function (eff, i) {
+    return (0, _preact.h)("div", {
       key: i
-    }, preact_1.h(effect_1.default, {
+    }, (0, _preact.h)(_effect.default, {
       shouldFlip: shouldFlip,
       effect: eff
     }));
   }), focuses.map(function (eff, i) {
-    return preact_1.h("div", {
+    return (0, _preact.h)("div", {
       key: i
-    }, preact_1.h(effect_1.default, {
+    }, (0, _preact.h)(_effect.default, {
       shouldFlip: shouldFlip,
       effect: eff
     }));
   }));
 };
 
-exports.default = QueueCard;
+var _default = QueueCard;
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var index_1 = require("../../../images/index");
+var _index = require("../../../images/index");
 
-exports.default = function (props) {
-  return preact_1.h("div", {
+var _default = function _default(props) {
+  return (0, _preact.h)("div", {
     class: 'inline'
-  }, preact_1.h(index_1.Arrow, {
+  }, (0, _preact.h)(_index.Arrow, {
     player: props.requirement.player,
     shouldFlip: props.shouldFlip
-  }), " ", preact_1.h(index_1.Icon, {
+  }), " ", (0, _preact.h)(_index.Icon, {
     name: props.requirement.axis
   }));
 };
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","../../../images/index":"src/images/index.tsx"}],"src/components/game/card/optional.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var requirement_1 = __importDefault(require("./requirement"));
+var _requirement = _interopRequireDefault(require("./requirement"));
 
-var effect_1 = __importDefault(require("./effect"));
+var _effect = _interopRequireDefault(require("./effect"));
 
-exports.default = function (props) {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = function _default(props) {
   var unusuable = !props.canPlay;
-  return preact_1.h("div", {
-    className: "optional ".concat(unusuable ? 'unusable' : '')
-  }, preact_1.h("div", null, props.requirements.map(function (req, i) {
-    return preact_1.h("span", {
+  return (0, _preact.h)("div", {
+    className: "optional " + (unusuable ? 'unusable' : '')
+  }, (0, _preact.h)("div", null, props.requirements.map(function (req, i) {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(requirement_1.default, {
+    }, (0, _preact.h)(_requirement.default, {
       requirement: req
     }));
-  })), preact_1.h("div", {
+  })), (0, _preact.h)("div", {
     class: 'h-divider'
-  }), preact_1.h("div", null, props.effects.map(function (eff, i) {
-    return preact_1.h("span", {
+  }), (0, _preact.h)("div", null, props.effects.map(function (eff, i) {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(effect_1.default, {
+    }, (0, _preact.h)(_effect.default, {
       effect: eff
     }));
   })));
 };
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/game/card/requirement.tsx","./effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/fullQueueCard.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var effect_1 = __importDefault(require("./effect"));
+var _effect = _interopRequireDefault(require("./effect"));
 
-var Requirement_1 = __importDefault(require("./Requirement"));
+var _Requirement = _interopRequireDefault(require("./Requirement"));
 
-var optional_1 = __importDefault(require("./optional"));
+var _optional = _interopRequireDefault(require("./optional"));
 
-var FullQueueCard = function FullQueueCard(_ref) {
-  var identity = _ref.identity,
-      name = _ref.name,
-      _ref$requirements = _ref.requirements,
-      requirements = _ref$requirements === void 0 ? [] : _ref$requirements,
-      _ref$effects = _ref.effects,
-      effects = _ref$effects === void 0 ? [] : _ref$effects,
-      _ref$optional = _ref.optional,
-      optional = _ref$optional === void 0 ? [] : _ref$optional,
-      player = _ref.player;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var FullQueueCard = function FullQueueCard(_a) {
+  var identity = _a.identity,
+      name = _a.name,
+      _b = _a.requirements,
+      requirements = _b === void 0 ? [] : _b,
+      _c = _a.effects,
+      effects = _c === void 0 ? [] : _c,
+      _d = _a.optional,
+      optional = _d === void 0 ? [] : _d,
+      player = _a.player;
   var shouldFlip = identity !== player;
-  return preact_1.h("div", null, preact_1.h("div", null, name), preact_1.h("div", {
+  return (0, _preact.h)("div", null, (0, _preact.h)("div", null, name), (0, _preact.h)("div", {
     class: 'card-section req'
   }, requirements.map(function (req, i) {
-    return preact_1.h("span", {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(Requirement_1.default, {
+    }, (0, _preact.h)(_Requirement.default, {
       requirement: req
     }));
-  })), preact_1.h("div", {
+  })), (0, _preact.h)("div", {
     class: 'card-section'
   }, optional.map(function (opt, i) {
-    return preact_1.h("span", {
+    return (0, _preact.h)("span", {
       key: i
-    }, " ", preact_1.h(optional_1.default, Object.assign({}, opt, {
+    }, " ", (0, _preact.h)(_optional.default, __assign({}, opt, {
       greyUnusable: true
     })), " ");
-  })), preact_1.h("div", {
+  })), (0, _preact.h)("div", {
     class: 'card-section effect'
   }, effects.map(function (effect, i) {
-    return preact_1.h("span", {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(effect_1.default, {
+    }, (0, _preact.h)(_effect.default, {
       effect: effect
     }));
   })));
 };
 
-exports.default = FullQueueCard;
+var _default = FullQueueCard;
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/board.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var queueCard_1 = __importDefault(require("./card/queueCard"));
+var _queueCard = _interopRequireDefault(require("./card/queueCard"));
 
-var dispatch_1 = require("../../game/dispatch");
+var _dispatch = require("../../game/dispatch");
 
-var fullQueueCard_1 = __importDefault(require("./card/fullQueueCard"));
+var _fullQueueCard = _interopRequireDefault(require("./card/fullQueueCard"));
 
-var dispatch_2 = require("../../events/dispatch");
+var _dispatch2 = require("../../events/dispatch");
 
-exports.default = function (props) {
-  var _props$queue = props.queue,
-      queue = _props$queue === void 0 ? [] : _props$queue,
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var _default = function _default(props) {
+  var _a = props.queue,
+      queue = _a === void 0 ? [] : _a,
       player = props.player,
       currentPlayer = props.currentPlayer;
-  return preact_1.h("div", {
+  return (0, _preact.h)("div", {
     class: 'board'
-  }, preact_1.h("h2", null, "Board"), preact_1.h("div", {
+  }, (0, _preact.h)("h2", null, "Board"), (0, _preact.h)("div", {
     class: 'card-container'
   }, renderBoard(queue, player)));
 };
+
+exports.default = _default;
 
 var cardNames = function cardNames(cards) {
   return cards.reduce(function (total, current) {
@@ -16721,39 +17247,43 @@ var cardNames = function cardNames(cards) {
   }, '');
 };
 
-var renderBoard = function renderBoard() {
-  var queue = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var identity = arguments.length > 1 ? arguments[1] : undefined;
-  return queue.map(function () {
-    var cards = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var i = arguments.length > 1 ? arguments[1] : undefined;
+var renderBoard = function renderBoard(queue, identity) {
+  if (queue === void 0) {
+    queue = [];
+  }
+
+  return queue.map(function (cards, i) {
+    if (cards === void 0) {
+      cards = [];
+    }
+
     var myQueueSlot = cards[0] && cards[0].player !== identity;
     var key = cardNames(cards);
-    return preact_1.h("div", {
+    return (0, _preact.h)("div", {
       key: key,
       class: !myQueueSlot ? 'played-by-me' : ''
-    }, preact_1.h("div", {
+    }, (0, _preact.h)("div", {
       class: 'history-btn'
-    }, preact_1.h("button", {
+    }, (0, _preact.h)("button", {
       onClick: function onClick() {
-        return dispatch_2.dispatchDisplayEventHistory(i);
+        return (0, _dispatch2.dispatchDisplayEventHistory)(i);
       }
     }, "H")), cards.map(function (card, j) {
       var opponent = card.player !== identity;
-      return preact_1.h("div", {
+      return (0, _preact.h)("div", {
         key: card.name
-      }, preact_1.h("div", {
-        class: "text-center queue-card ".concat(opponent ? 'opponent' : ''),
+      }, (0, _preact.h)("div", {
+        class: "text-center queue-card " + (opponent ? 'opponent' : ''),
         onClick: function onClick() {
-          return dispatch_1.dispatchSwitchCardDisplayMode(i, j);
+          return (0, _dispatch.dispatchSwitchCardDisplayMode)(i, j);
         }
-      }, preact_1.h("div", {
+      }, (0, _preact.h)("div", {
         class: card.showFullCard ? '' : 'collapsed'
-      }, preact_1.h(fullQueueCard_1.default, Object.assign({}, card, {
+      }, (0, _preact.h)(_fullQueueCard.default, __assign({}, card, {
         identity: identity
-      }))), preact_1.h("div", {
+      }))), (0, _preact.h)("div", {
         class: card.showFullCard ? 'collapsed' : ''
-      }, preact_1.h(queueCard_1.default, Object.assign({}, card, {
+      }, (0, _preact.h)(_queueCard.default, __assign({}, card, {
         identity: identity
       })))));
     }));
@@ -16762,145 +17292,186 @@ var renderBoard = function renderBoard() {
 },{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx","../../game/dispatch":"src/game/dispatch.ts","./card/fullQueueCard":"src/components/game/card/fullQueueCard.tsx","../../events/dispatch":"src/events/dispatch.ts"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var optional_1 = __importDefault(require("./optional"));
+var _optional = _interopRequireDefault(require("./optional"));
 
-var effect_1 = __importDefault(require("./effect"));
+var _effect = _interopRequireDefault(require("./effect"));
 
-var Requirement_1 = __importDefault(require("./Requirement"));
+var _Requirement = _interopRequireDefault(require("./Requirement"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var HandCard = function HandCard(card) {
   var name = card.name,
       optional = card.optional,
       effects = card.effects,
       requirements = card.requirements;
-  return preact_1.h("div", {
+  return (0, _preact.h)("div", {
     class: 'game-card text-center'
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: 'title'
-  }, name), preact_1.h("div", {
+  }, name), (0, _preact.h)("div", {
     class: 'card-section req'
   }, requirements.map(function (req, i) {
-    return preact_1.h("span", {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(Requirement_1.default, {
+    }, (0, _preact.h)(_Requirement.default, {
       requirement: req
     }));
-  })), preact_1.h("div", {
+  })), (0, _preact.h)("div", {
     class: 'card-section'
   }, optional.map(function (opt, i) {
-    return preact_1.h("span", {
+    return (0, _preact.h)("span", {
       key: i
-    }, " ", preact_1.h(optional_1.default, Object.assign({}, opt, {
+    }, " ", (0, _preact.h)(_optional.default, __assign({}, opt, {
       greyUnusable: true
     })), " ");
-  })), preact_1.h("div", {
+  })), (0, _preact.h)("div", {
     class: 'card-section effect'
   }, effects.map(function (effect, i) {
-    return preact_1.h("span", {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(effect_1.default, {
+    }, (0, _preact.h)(_effect.default, {
       effect: effect
     }));
   })));
 };
 
-exports.default = HandCard;
+var _default = HandCard;
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
 "use strict";
 
-var _exports$playerRouter;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = exports.playerRouter = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var card_1 = require("../../../interfaces/card");
+var _card = require("../../../interfaces/card");
 
-var effect_1 = __importDefault(require("./effect"));
+var _effect = _interopRequireDefault(require("./effect"));
 
-var requirement_1 = __importDefault(require("./requirement"));
+var _requirement = _interopRequireDefault(require("./requirement"));
 
-var optional_1 = __importDefault(require("./optional"));
+var _optional = _interopRequireDefault(require("./optional"));
 
-exports.playerRouter = (_exports$playerRouter = {}, _defineProperty(_exports$playerRouter, card_1.PlayerEnum.PLAYER, '↓'), _defineProperty(_exports$playerRouter, card_1.PlayerEnum.OPPONENT, '↑'), _defineProperty(_exports$playerRouter, card_1.PlayerEnum.BOTH, '↕'), _exports$playerRouter);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (_ref) {
-  var name = _ref.name,
-      optional = _ref.optional,
-      requirements = _ref.requirements,
-      effects = _ref.effects;
-  return preact_1.h("div", {
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var _a;
+
+var playerRouter = (_a = {}, _a[_card.PlayerEnum.PLAYER] = '↓', _a[_card.PlayerEnum.OPPONENT] = '↑', _a[_card.PlayerEnum.BOTH] = '↕', _a);
+exports.playerRouter = playerRouter;
+
+var _default = function _default(_a) {
+  var name = _a.name,
+      optional = _a.optional,
+      requirements = _a.requirements,
+      effects = _a.effects;
+  return (0, _preact.h)("div", {
     class: 'game-card text-center'
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: 'title'
-  }, name), preact_1.h("div", {
+  }, name), (0, _preact.h)("div", {
     class: 'card-section req'
   }, requirements.map(function (req, i) {
-    return preact_1.h("span", {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(requirement_1.default, {
+    }, (0, _preact.h)(_requirement.default, {
       requirement: req
     }));
-  })), preact_1.h("div", {
+  })), (0, _preact.h)("div", {
     class: 'card-section'
   }, optional.map(function (opt, i) {
-    return preact_1.h("span", {
+    return (0, _preact.h)("span", {
       key: i
-    }, " ", preact_1.h(optional_1.default, Object.assign({}, opt)), " ");
-  })), preact_1.h("div", {
+    }, " ", (0, _preact.h)(_optional.default, __assign({}, opt)), " ");
+  })), (0, _preact.h)("div", {
     class: 'card-section effect'
   }, effects.map(function (effect, i) {
-    return preact_1.h("span", {
+    return (0, _preact.h)("span", {
       key: i
-    }, preact_1.h(effect_1.default, {
+    }, (0, _preact.h)(_effect.default, {
       effect: effect
     }));
   })));
 };
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","../../../interfaces/card":"src/interfaces/card.ts","./effect":"src/components/game/card/effect.tsx","./requirement":"src/components/game/card/requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/hand.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var dispatch_1 = require("../../hand/dispatch");
+var _dispatch = require("../../hand/dispatch");
 
-var handCard_1 = __importDefault(require("./card/handCard"));
+var _handCard = _interopRequireDefault(require("./card/handCard"));
 
-var viewer_1 = __importDefault(require("./card/viewer"));
+var _viewer = _interopRequireDefault(require("./card/viewer"));
 
-var util_1 = require("../../util");
+var _util = require("../../util");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var selector = function selector(state) {
   return {
@@ -16909,40 +17480,43 @@ var selector = function selector(state) {
   };
 };
 
-var Hand = function Hand(_ref) {
-  var hand = _ref.hand,
-      showFullCard = _ref.showFullCard;
-  return preact_1.h("div", null, preact_1.h("h2", null, "Hand"), preact_1.h("div", {
+var Hand = function Hand(_a) {
+  var hand = _a.hand,
+      showFullCard = _a.showFullCard;
+  return (0, _preact.h)("div", null, (0, _preact.h)("h2", null, "Hand"), (0, _preact.h)("div", {
     class: 'card-container'
   }, hand.map(function (card, i) {
     var key = card === undefined ? 'blank' : card.name;
-    return preact_1.h("div", {
+    return (0, _preact.h)("div", {
       class: 'inline',
       key: key,
       onClick: function onClick() {
-        return dispatch_1.dispatchPickedCard(i);
+        return (0, _dispatch.dispatchPickedCard)(i);
       }
-    }, showFullCard && preact_1.h(viewer_1.default, Object.assign({}, card)), showFullCard || preact_1.h(handCard_1.default, Object.assign({}, card)));
+    }, showFullCard && (0, _preact.h)(_viewer.default, __assign({}, card)), showFullCard || (0, _preact.h)(_handCard.default, __assign({}, card)));
   })));
 };
 
-exports.default = util_1.cleanConnect(selector, Hand);
+var _default = (0, _util.cleanConnect)(selector, Hand);
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/handCard":"src/components/game/card/handCard.tsx","./card/viewer":"src/components/game/card/viewer.tsx","../../util":"src/util.ts"}],"src/components/game/predictChoices.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var dispatch_1 = require("../../game/dispatch");
+var _dispatch = require("../../game/dispatch");
 
-var interface_1 = require("../../game/interface");
+var _interface = require("../../game/interface");
 
-var interface_2 = require("../../gameDisplay/interface");
+var _interface2 = require("../../gameDisplay/interface");
 
-var util_1 = require("../../util");
+var _util = require("../../util");
 
 var selector = function selector(state) {
   return {
@@ -16950,65 +17524,60 @@ var selector = function selector(state) {
   };
 };
 
-var Choices = function Choices(_ref) {
-  var display = _ref.display;
+var Choices = function Choices(_a) {
+  var display = _a.display;
   console.log('got displays', display);
 
   switch (display) {
-    case interface_2.GameDisplayEnum.PREDICT:
-      return preact_1.h("div", null, preact_1.h(Prediction, null));
+    case _interface2.GameDisplayEnum.PREDICT:
+      return (0, _preact.h)("div", null, (0, _preact.h)(Prediction, null));
 
     default:
-      return preact_1.h("span", null);
+      return (0, _preact.h)("span", null);
   }
 };
 
 var Prediction = function Prediction() {
   console.log('prediction');
-  return preact_1.h("div", null, preact_1.h("h2", null, "Make Prediction"), preact_1.h("button", {
+  return (0, _preact.h)("div", null, (0, _preact.h)("h2", null, "Make Prediction"), (0, _preact.h)("button", {
     class: "btn btn-primary",
     onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.DISTANCE);
+      return (0, _dispatch.dispatchMadePrediction)(_interface.PredictionEnum.DISTANCE);
     }
-  }, "Distance"), preact_1.h("button", {
+  }, "Distance"), (0, _preact.h)("button", {
     class: "btn btn-primary",
     onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.MOTION);
+      return (0, _dispatch.dispatchMadePrediction)(_interface.PredictionEnum.MOTION);
     }
-  }, "Motion"), preact_1.h("button", {
+  }, "Motion"), (0, _preact.h)("button", {
     class: "btn btn-primary",
     onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.STANDING);
+      return (0, _dispatch.dispatchMadePrediction)(_interface.PredictionEnum.STANDING);
     }
-  }, "Standing"), preact_1.h("button", {
+  }, "Standing"), (0, _preact.h)("button", {
     class: "btn btn-primary",
     onClick: function onClick() {
-      return dispatch_1.dispatchMadePrediction(interface_1.PredictionEnum.NONE);
+      return (0, _dispatch.dispatchMadePrediction)(_interface.PredictionEnum.NONE);
     }
   }, "None"));
 };
 
-exports.default = util_1.cleanConnect(selector, Choices);
+var _default = (0, _util.cleanConnect)(selector, Choices);
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","../../game/dispatch":"src/game/dispatch.ts","../../game/interface":"src/game/interface.ts","../../gameDisplay/interface":"src/gameDisplay/interface.ts","../../util":"src/util.ts"}],"src/components/game/stateMachine/poise.tsx":[function(require,module,exports) {
 "use strict";
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var images_1 = require("../../../images");
+var _images = require("../../../images");
 
-var card_1 = require("../../../interfaces/card");
+var _card = require("../../../interfaces/card");
 
 var selector = function selector(state) {
   return {
@@ -17016,64 +17585,56 @@ var selector = function selector(state) {
   };
 };
 
-var Poise = function Poise(_ref) {
-  var poise = _ref.poise;
-
-  var unbalancedArr = _toConsumableArray(Array(3).keys());
-
-  var balancedArr = _toConsumableArray(Array(4).keys()).map(function (key) {
-    return key + 3;
-  });
-
-  var anticipatingArr = _toConsumableArray(Array(3).keys()).map(function (key) {
-    return key + 7;
-  });
-
-  return preact_1.h("div", {
+var Poise = function Poise(_a) {
+  var poise = _a.poise;
+  var unbalancedArr = [0, 1, 2];
+  var balancedArr = [3, 4, 5, 6];
+  var anticipatingArr = [7, 8, 9];
+  return (0, _preact.h)("div", {
     class: "poise-section"
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: poiseTitleClass(poise)
-  }, "Poise: ", poiseLevel(poise)), preact_1.h("div", {
+  }, "Poise: ", poiseLevel(poise)), (0, _preact.h)("div", {
     class: "poise-container"
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: "unbalanced"
-  }, preact_1.h("div", null, "Unbalanced"), preact_1.h("div", {
+  }, (0, _preact.h)("div", null, "Unbalanced"), (0, _preact.h)("div", {
     class: 'poise-icon'
   }, unbalancedArr.map(function (i) {
     var hasPoise = i < poise;
-    return preact_1.h("div", {
+    return (0, _preact.h)("div", {
       class: 'axis-icon',
       key: '' + i + hasPoise
-    }, preact_1.h(PoiseIcon, {
+    }, (0, _preact.h)(PoiseIcon, {
       hasPoise: hasPoise
     }));
-  }))), preact_1.h("div", {
+  }))), (0, _preact.h)("div", {
     class: "balanced"
-  }, preact_1.h("div", null, "Balanced"), preact_1.h("div", {
+  }, (0, _preact.h)("div", null, "Balanced"), (0, _preact.h)("div", {
     class: 'poise-icon'
   }, balancedArr.map(function (i) {
     var hasPoise = i < poise;
-    return preact_1.h("div", {
+    return (0, _preact.h)("div", {
       key: '' + i + hasPoise
-    }, preact_1.h(PoiseIcon, {
+    }, (0, _preact.h)(PoiseIcon, {
       hasPoise: hasPoise
     }));
-  }))), preact_1.h("div", {
+  }))), (0, _preact.h)("div", {
     class: "anticipating"
-  }, preact_1.h("div", null, "Anticipating"), preact_1.h("div", {
+  }, (0, _preact.h)("div", null, "Anticipating"), (0, _preact.h)("div", {
     class: 'poise-icon'
   }, anticipatingArr.map(function (i) {
     var hasPoise = i < poise;
-    return preact_1.h("div", {
+    return (0, _preact.h)("div", {
       key: '' + i + hasPoise
-    }, preact_1.h(PoiseIcon, {
+    }, (0, _preact.h)(PoiseIcon, {
       hasPoise: hasPoise
     }));
   })))));
 };
 
 var poiseTitleClass = function poiseTitleClass(poise) {
-  return "poise-title ".concat(poiseLevel(poise).toLowerCase());
+  return "poise-title " + poiseLevel(poise).toLowerCase();
 };
 
 var poiseLevel = function poiseLevel(poise) {
@@ -17082,47 +17643,62 @@ var poiseLevel = function poiseLevel(poise) {
   return 'Balanced';
 };
 
-var PoiseIcon = function PoiseIcon(_ref2) {
-  var hasPoise = _ref2.hasPoise;
+var PoiseIcon = function PoiseIcon(_a) {
+  var hasPoise = _a.hasPoise;
 
   if (hasPoise) {
-    return preact_1.h(images_1.Icon, {
-      name: card_1.AxisEnum.POISE
+    return (0, _preact.h)(_images.Icon, {
+      name: _card.AxisEnum.POISE
     });
   }
 
-  return preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.LOSE_POISE
+  return (0, _preact.h)(_images.Icon, {
+    name: _card.AxisEnum.LOSE_POISE
   });
 };
 
-exports.default = function (state) {
+var _default = function _default(state) {
   return Poise(selector(state));
 };
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","../../../images":"src/images/index.tsx","../../../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/stateMachine.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var interface_1 = require("../../game/interface");
+var _interface = require("../../game/interface");
 
-var images_1 = require("../../images");
+var _images = require("../../images");
 
-var card_1 = require("../../interfaces/card");
+var _card = require("../../interfaces/card");
 
-var util_1 = require("../../util");
+var _util = require("../../util");
 
-var poise_1 = __importDefault(require("./stateMachine/poise"));
+var _poise = _interopRequireDefault(require("./stateMachine/poise"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 ;
 
@@ -17135,154 +17711,153 @@ var StateMachine = function StateMachine(props) {
   var opponent = player === 0 ? 1 : 0;
 
   if (props.playerStates === undefined) {
-    return preact_1.h("div", null);
+    return null;
   }
 
-  return preact_1.h("div", {
+  return (0, _preact.h)("div", {
     class: 'state-machine'
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: 'state-row'
-  }, preact_1.h(Standing, Object.assign({}, props, {
+  }, (0, _preact.h)(Standing, __assign({}, props, {
     playerIndex: opponent
-  })), preact_1.h(Motion, Object.assign({}, props, {
+  })), (0, _preact.h)(Motion, __assign({}, props, {
     playerIndex: opponent
-  })), preact_1.h(Health, Object.assign({}, props, {
+  })), (0, _preact.h)(Health, __assign({}, props, {
     playerIndex: opponent
-  })), preact_1.h(Block, Object.assign({}, props, {
+  })), (0, _preact.h)(Block, __assign({}, props, {
     playerIndex: opponent
-  }))), preact_1.h("div", {
+  }))), (0, _preact.h)("div", {
     class: 'state-row'
-  }, preact_1.h(poise_1.default, Object.assign({}, props, {
+  }, (0, _preact.h)(_poise.default, __assign({}, props, {
     playerIndex: opponent
-  }))), preact_1.h("div", {
+  }))), (0, _preact.h)("div", {
     class: 'state-row'
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: 'state-title state-piece-container-sml'
-  }, "State"), preact_1.h(Distance, Object.assign({}, props))), preact_1.h("div", {
+  }, "State"), (0, _preact.h)(Distance, __assign({}, props))), (0, _preact.h)("div", {
     class: 'state-row'
-  }, preact_1.h(Standing, Object.assign({}, props, {
+  }, (0, _preact.h)(Standing, __assign({}, props, {
     playerIndex: player
-  })), preact_1.h(Motion, Object.assign({}, props, {
+  })), (0, _preact.h)(Motion, __assign({}, props, {
     playerIndex: player
-  })), preact_1.h(Health, Object.assign({}, props, {
+  })), (0, _preact.h)(Health, __assign({}, props, {
     playerIndex: player
-  })), preact_1.h(Block, Object.assign({}, props, {
+  })), (0, _preact.h)(Block, __assign({}, props, {
     playerIndex: player
-  }))), preact_1.h("div", {
+  }))), (0, _preact.h)("div", {
     class: 'state-row'
-  }, preact_1.h(poise_1.default, Object.assign({}, props, {
+  }, (0, _preact.h)(_poise.default, __assign({}, props, {
     playerIndex: player
   }))));
 };
 
-var Block = function Block(_ref) {
-  var block = _ref.block,
-      playerIndex = _ref.playerIndex;
-  return preact_1.h("div", {
+var Block = function Block(_a) {
+  var block = _a.block,
+      playerIndex = _a.playerIndex;
+  return (0, _preact.h)("div", {
     class: "state-piece-container-sml distance "
-  }, preact_1.h("div", null, "Block"), preact_1.h("div", null, block[playerIndex]));
+  }, (0, _preact.h)("div", null, "Block"), (0, _preact.h)("div", null, block[playerIndex]));
 };
 
-var Health = function Health(_ref2) {
-  var health = _ref2.health,
-      playerIndex = _ref2.playerIndex;
-  return preact_1.h("div", {
+var Health = function Health(_a) {
+  var health = _a.health,
+      playerIndex = _a.playerIndex;
+  return (0, _preact.h)("div", {
     class: 'state-piece-container-sml distance sml'
-  }, preact_1.h("div", null, "Health"), preact_1.h("div", null, health[playerIndex]));
+  }, (0, _preact.h)("div", null, "Health"), (0, _preact.h)("div", null, health[playerIndex]));
 };
 
-var Distance = function Distance(_ref3) {
-  var distance = _ref3.distance;
-  return preact_1.h("div", {
+var Distance = function Distance(_a) {
+  var distance = _a.distance;
+  return (0, _preact.h)("div", {
     class: 'state-piece-container'
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: 'state-piece-title distance'
-  }, "Distance"), preact_1.h("div", {
+  }, "Distance"), (0, _preact.h)("div", {
     class: 'state-pieces'
-  }, preact_1.h("div", {
-    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.GRAPPLED ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.GRAPPLED
-  })), preact_1.h("div", {
-    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.CLOSE ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.CLOSE
-  })), preact_1.h("div", {
-    class: "state-piece distance ".concat(distance === interface_1.DistanceEnum.FAR ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.FAR
+  }, (0, _preact.h)("div", {
+    class: "state-piece distance " + (distance === _interface.DistanceEnum.GRAPPLED ? '' : 'inactive')
+  }, (0, _preact.h)(_images.Icon, {
+    name: _card.AxisEnum.GRAPPLED
+  })), (0, _preact.h)("div", {
+    class: "state-piece distance " + (distance === _interface.DistanceEnum.CLOSE ? '' : 'inactive')
+  }, (0, _preact.h)(_images.Icon, {
+    name: _card.AxisEnum.CLOSE
+  })), (0, _preact.h)("div", {
+    class: "state-piece distance " + (distance === _interface.DistanceEnum.FAR ? '' : 'inactive')
+  }, (0, _preact.h)(_images.Icon, {
+    name: _card.AxisEnum.FAR
   }))));
 };
 
-var Motion = function Motion(_ref4) {
-  var _ref4$playerIndex = _ref4.playerIndex,
-      playerIndex = _ref4$playerIndex === void 0 ? 0 : _ref4$playerIndex,
-      _ref4$stateDurations = _ref4.stateDurations,
-      stateDurations = _ref4$stateDurations === void 0 ? [] : _ref4$stateDurations,
-      _ref4$playerStates = _ref4.playerStates,
-      playerStates = _ref4$playerStates === void 0 ? [] : _ref4$playerStates;
+var Motion = function Motion(_a) {
+  var _b = _a.playerIndex,
+      playerIndex = _b === void 0 ? 0 : _b,
+      _c = _a.stateDurations,
+      stateDurations = _c === void 0 ? [] : _c,
+      _d = _a.playerStates,
+      playerStates = _d === void 0 ? [] : _d;
   var motion = playerStates[playerIndex].motion;
   var duration = stateDurations[playerIndex].motion;
-  return preact_1.h("div", {
+  return (0, _preact.h)("div", {
     class: 'state-piece-container'
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: 'state-piece-title motion'
-  }, "Motion"), preact_1.h("div", {
+  }, "Motion"), (0, _preact.h)("div", {
     class: 'state-pieces'
-  }, preact_1.h("div", {
-    class: "state-piece motion ".concat(motion === interface_1.MotionEnum.STILL ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.STILL
-  })), preact_1.h("div", {
-    class: "state-piece motion ".concat(motion === interface_1.MotionEnum.MOVING ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.MOVING
+  }, (0, _preact.h)("div", {
+    class: "state-piece motion " + (motion === _interface.MotionEnum.STILL ? '' : 'inactive')
+  }, (0, _preact.h)(_images.Icon, {
+    name: _card.AxisEnum.STILL
+  })), (0, _preact.h)("div", {
+    class: "state-piece motion " + (motion === _interface.MotionEnum.MOVING ? '' : 'inactive')
+  }, (0, _preact.h)(_images.Icon, {
+    name: _card.AxisEnum.MOVING
   }), " ", duration)));
 };
 
-var Standing = function Standing(_ref5) {
-  var _ref5$playerStates = _ref5.playerStates,
-      playerStates = _ref5$playerStates === void 0 ? [] : _ref5$playerStates,
-      _ref5$stateDurations = _ref5.stateDurations,
-      stateDurations = _ref5$stateDurations === void 0 ? [] : _ref5$stateDurations,
-      _ref5$playerIndex = _ref5.playerIndex,
-      playerIndex = _ref5$playerIndex === void 0 ? 0 : _ref5$playerIndex;
+var Standing = function Standing(_a) {
+  var _b = _a.playerStates,
+      playerStates = _b === void 0 ? [] : _b,
+      _c = _a.stateDurations,
+      stateDurations = _c === void 0 ? [] : _c,
+      _d = _a.playerIndex,
+      playerIndex = _d === void 0 ? 0 : _d;
   var standing = playerStates[playerIndex].standing;
   var duration = stateDurations[playerIndex].standing;
-  return preact_1.h("div", {
+  return (0, _preact.h)("div", {
     class: 'state-piece-container'
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: 'state-piece-title standing'
-  }, "Standing"), preact_1.h("div", {
+  }, "Standing"), (0, _preact.h)("div", {
     class: 'state-pieces'
-  }, preact_1.h("div", {
-    class: "state-piece standing ".concat(standing === interface_1.StandingEnum.STANDING ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.STANDING
-  })), preact_1.h("div", {
-    class: "state-piece standing ".concat(standing === interface_1.StandingEnum.PRONE ? '' : 'inactive')
-  }, preact_1.h(images_1.Icon, {
-    name: card_1.AxisEnum.PRONE
+  }, (0, _preact.h)("div", {
+    class: "state-piece standing " + (standing === _interface.StandingEnum.STANDING ? '' : 'inactive')
+  }, (0, _preact.h)(_images.Icon, {
+    name: _card.AxisEnum.STANDING
+  })), (0, _preact.h)("div", {
+    class: "state-piece standing " + (standing === _interface.StandingEnum.PRONE ? '' : 'inactive')
+  }, (0, _preact.h)(_images.Icon, {
+    name: _card.AxisEnum.PRONE
   }), " ", duration)));
 };
 
-exports.default = util_1.cleanConnect(selector, StateMachine);
+var _default = (0, _util.cleanConnect)(selector, StateMachine);
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","../../game/interface":"src/game/interface.ts","../../images":"src/images/index.tsx","../../interfaces/card":"src/interfaces/card.ts","../../util":"src/util.ts","./stateMachine/poise":"src/components/game/stateMachine/poise.tsx"}],"src/components/game/predictions.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var effect_1 = __importDefault(require("./card/effect"));
+var _effect = _interopRequireDefault(require("./card/effect"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var selector = function selector(state) {
   var isMyPrediction = false;
@@ -17297,15 +17872,15 @@ var selector = function selector(state) {
   };
 };
 
-var Prediction = function Prediction(_ref) {
-  var predictions = _ref.predictions,
-      isMyPrediction = _ref.isMyPrediction;
+var Prediction = function Prediction(_a) {
+  var predictions = _a.predictions,
+      isMyPrediction = _a.isMyPrediction;
 
   if (predictions) {
     if (isMyPrediction) {
-      return preact_1.h("div", null, preact_1.h("h3", null, "My Prediction"), renderPrediction(predictions, !isMyPrediction));
+      return (0, _preact.h)("div", null, (0, _preact.h)("h3", null, "My Prediction"), renderPrediction(predictions, !isMyPrediction));
     } else {
-      return preact_1.h("div", null, preact_1.h("h3", null, " Opponents Prediction"), renderPrediction(predictions, !isMyPrediction));
+      return (0, _preact.h)("div", null, (0, _preact.h)("h3", null, " Opponents Prediction"), renderPrediction(predictions, !isMyPrediction));
     }
   } else {
     return null;
@@ -17313,11 +17888,11 @@ var Prediction = function Prediction(_ref) {
 };
 
 var renderPrediction = function renderPrediction(predictions, shouldFlip) {
-  return predictions.map(function (_ref2) {
-    var prediction = _ref2.prediction,
-        mechanics = _ref2.mechanics;
-    return preact_1.h("div", null, prediction !== undefined && prediction, mechanics.map(function (eff) {
-      return preact_1.h(effect_1.default, {
+  return predictions.map(function (_a) {
+    var prediction = _a.prediction,
+        mechanics = _a.mechanics;
+    return (0, _preact.h)("div", null, prediction !== undefined && prediction, mechanics.map(function (eff) {
+      return (0, _preact.h)(_effect.default, {
         effect: eff,
         shouldFlip: shouldFlip
       });
@@ -17325,34 +17900,49 @@ var renderPrediction = function renderPrediction(predictions, shouldFlip) {
   });
 };
 
-exports.default = function (props) {
+var _default = function _default(props) {
   return Prediction(selector(props));
 };
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","./card/effect":"src/components/game/card/effect.tsx"}],"src/components/game/pickOne.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var handCard_1 = __importDefault(require("./card/handCard"));
+var _handCard = _interopRequireDefault(require("./card/handCard"));
 
-var dispatch_1 = require("../../game/dispatch");
+var _dispatch = require("../../game/dispatch");
 
-var util_1 = require("../../util");
+var _util = require("../../util");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var selector = function selector(state) {
   var choices = state.game.choices.map(function (choice, i) {
     var card = {
-      name: "Choice ".concat(i),
+      name: "Choice " + i,
       requirements: [],
       optional: [],
       effects: choice
@@ -17364,72 +17954,79 @@ var selector = function selector(state) {
   };
 };
 
-var PickOne = function PickOne(_ref) {
-  var choices = _ref.choices;
-  return preact_1.h("div", null, "Pick One", preact_1.h("div", null, choices.map(function (choice, i) {
-    return preact_1.h("div", {
+var PickOne = function PickOne(_a) {
+  var choices = _a.choices;
+  return (0, _preact.h)("div", null, "Pick One", (0, _preact.h)("div", null, choices.map(function (choice, i) {
+    return (0, _preact.h)("div", {
       class: "inline",
       onClick: function onClick() {
-        return dispatch_1.dispatchDidPickOne(i);
+        return (0, _dispatch.dispatchDidPickOne)(i);
       }
-    }, preact_1.h(handCard_1.default, Object.assign({}, choice)));
+    }, (0, _preact.h)(_handCard.default, __assign({}, choice)));
   })));
 };
 
-exports.default = util_1.cleanConnect(selector, PickOne);
+var _default = (0, _util.cleanConnect)(selector, PickOne);
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","./card/handCard":"src/components/game/card/handCard.tsx","../../game/dispatch":"src/game/dispatch.ts","../../util":"src/util.ts"}],"src/components/game/forceful.tsx":[function(require,module,exports) {
 "use strict";
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var card_1 = require("../../interfaces/card");
+var _card = require("../../interfaces/card");
 
-var handCard_1 = __importDefault(require("./card/handCard"));
+var _handCard = _interopRequireDefault(require("./card/handCard"));
 
-var util_1 = require("../../util");
+var _util = require("../../util");
 
-var dispatch_1 = require("../../game/dispatch");
+var _dispatch = require("../../game/dispatch");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var selector = function selector(state) {
   return state.game.forceful;
 };
 
-var forceful = function forceful(_ref) {
-  var cardName = _ref.cardName,
-      mechanic = _ref.mechanic;
+var forceful = function forceful(_a) {
+  var cardName = _a.cardName,
+      mechanic = _a.mechanic;
   var dontUse = makeDontUse();
   var use = makeUse(mechanic);
-  return preact_1.h("div", null, preact_1.h("h3", null, " ", cardName, " use ", preact_1.h("b", null, "Forceful?")), preact_1.h("div", {
+  return (0, _preact.h)("div", null, (0, _preact.h)("h3", null, " ", cardName, " use ", (0, _preact.h)("b", null, "Forceful?")), (0, _preact.h)("div", {
     class: 'card-container'
-  }, preact_1.h("div", {
+  }, (0, _preact.h)("div", {
     class: 'inline',
     onClick: function onClick() {
-      return dispatch_1.dispatchDidPickForecful(false);
+      return (0, _dispatch.dispatchDidPickForecful)(false);
     }
-  }, preact_1.h(handCard_1.default, Object.assign({}, dontUse))), preact_1.h("div", {
+  }, (0, _preact.h)(_handCard.default, __assign({}, dontUse))), (0, _preact.h)("div", {
     class: 'card-container',
     onClick: function onClick() {
-      return dispatch_1.dispatchDidPickForecful(true);
+      return (0, _dispatch.dispatchDidPickForecful)(true);
     }
-  }, preact_1.h(handCard_1.default, Object.assign({}, use)))));
+  }, (0, _preact.h)(_handCard.default, __assign({}, use)))));
 };
 
 var makeDontUse = function makeDontUse() {
@@ -17446,115 +18043,137 @@ var makeUse = function makeUse(mechanic) {
     name: 'Use',
     requirements: [],
     effects: [{
-      axis: card_1.AxisEnum.LOSE_POISE,
-      player: card_1.PlayerEnum.PLAYER,
+      axis: _card.AxisEnum.LOSE_POISE,
+      player: _card.PlayerEnum.PLAYER,
       amount: mechanic.amount
-    }].concat(_toConsumableArray(mechanic.mechanicEffects)),
+    }].concat(mechanic.mechanicEffects),
     optional: []
   };
 };
 
-exports.default = util_1.cleanConnect(selector, forceful);
+var _default = (0, _util.cleanConnect)(selector, forceful);
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","../../interfaces/card":"src/interfaces/card.ts","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.getBothLoseMessage = exports.getLosingMessage = exports.getWinningMessage = void 0;
 var winningMessages = ['Daaammnnn, he got wrecked', 'I think that was illegal', 'Congrats, I think that\'s murder', 'Too easy', 'It\'s like they were standing still'];
 var losingMessages = ['Got wrekt', 'I don\'t think it\' supposed to bend that way', 'You should call a lawyer...and a doctor', 'Get good', 'That looked...unpleasant', 'Pollock or Picasso, I can\'t tell'];
 var bothLoseMessages = ['Violence is not the answer', 'Everybody loses!', 'That was MAD', 'Have you considered words?'];
 
-exports.getWinningMessage = function () {
+var getWinningMessage = function getWinningMessage() {
   var index = Math.floor(Math.random() * winningMessages.length);
   return winningMessages[index];
 };
 
-exports.getLosingMessage = function () {
+exports.getWinningMessage = getWinningMessage;
+
+var getLosingMessage = function getLosingMessage() {
   var index = Math.floor(Math.random() * losingMessages.length);
   return losingMessages[index];
 };
 
-exports.getBothLoseMessage = function () {
+exports.getLosingMessage = getLosingMessage;
+
+var getBothLoseMessage = function getBothLoseMessage() {
   var index = Math.floor(Math.random() * bothLoseMessages.length);
   return bothLoseMessages[index];
 };
+
+exports.getBothLoseMessage = getBothLoseMessage;
 },{}],"src/components/game/events.tsx":[function(require,module,exports) {
 "use strict";
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var interface_1 = require("../../events/interface");
+var _interface = require("../../events/interface");
 
-var preact_redux_1 = require("preact-redux");
+var _preactRedux = require("preact-redux");
 
-var images_1 = require("../../images");
+var _images = require("../../images");
 
-var dispatch_1 = require("../../events/dispatch");
+var _dispatch = require("../../events/dispatch");
 
-var gameOverMessages_1 = require("../../extras/gameOverMessages");
+var _gameOverMessages = require("../../extras/gameOverMessages");
+
+var __extends = void 0 && (void 0).__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var selector = function selector(state) {
-  return Object.assign({}, state.events, {
+  return __assign({}, state.events, {
     player: state.game.player
   });
 };
 
 var Events =
-/*#__PURE__*/
-function (_preact_1$Component) {
-  _inherits(Events, _preact_1$Component);
+/** @class */
+function (_super) {
+  __extends(Events, _super);
 
   function Events(props) {
-    var _this;
-
-    _classCallCheck(this, Events);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Events).call(this, props));
+    var _this = _super.call(this, props) || this;
 
     _this.addEvent = function () {
-      var _this$state = _this.state,
-          counter = _this$state.counter,
-          events = _this$state.events;
+      var _a = _this.state,
+          counter = _a.counter,
+          events = _a.events;
 
       if (counter < _this.props.events.length) {
         var cancelTimeout = setTimeout(function () {
           _this.addEvent();
-        }, _this.props.playSpeed || interface_1.EVENT_PLAY_SPEED);
+        }, _this.props.playSpeed || _interface.EVENT_PLAY_SPEED);
 
         _this.setState({
           cancelTimeout: cancelTimeout,
-          events: [].concat(_toConsumableArray(events), [_this.props.events[counter]]),
+          events: events.concat([_this.props.events[counter]]),
           counter: counter + 1
         });
       }
@@ -17564,22 +18183,22 @@ function (_preact_1$Component) {
       var opponent = event.playedBy !== _this.props.player;
 
       switch (event.type) {
-        case interface_1.EventTypeEnum.CARD_NAME:
+        case _interface.EventTypeEnum.CARD_NAME:
           return _this.renderCard(event, opponent);
 
-        case interface_1.EventTypeEnum.EFFECT:
+        case _interface.EventTypeEnum.EFFECT:
           return _this.renderEffect(event, opponent);
 
-        case interface_1.EventTypeEnum.MECHANIC:
+        case _interface.EventTypeEnum.MECHANIC:
           return _this.renderMechanic(event, opponent);
 
-        case interface_1.EventTypeEnum.ADDED_MECHANIC:
+        case _interface.EventTypeEnum.ADDED_MECHANIC:
           return _this.renderAddedMechanic(event, opponent);
 
-        case interface_1.EventTypeEnum.REVEAL_PREDICTION:
+        case _interface.EventTypeEnum.REVEAL_PREDICTION:
           return _this.renderRevealPrediction(event, opponent);
 
-        case interface_1.EventTypeEnum.GAME_OVER:
+        case _interface.EventTypeEnum.GAME_OVER:
           return _this.renderGameOver(event, player);
 
         default:
@@ -17591,47 +18210,47 @@ function (_preact_1$Component) {
       var lost = event.winner !== player;
 
       if (event.winner < 0) {
-        return preact_1.h("div", {
+        return (0, _preact.h)("div", {
           class: 'event-game-over opponent'
-        }, "Everybody Loses!", preact_1.h("div", {
+        }, "Everybody Loses!", (0, _preact.h)("div", {
           class: "note"
-        }, gameOverMessages_1.getBothLoseMessage()));
+        }, (0, _gameOverMessages.getBothLoseMessage)()));
       }
 
       if (lost) {
-        return preact_1.h("div", {
+        return (0, _preact.h)("div", {
           class: 'event-game-over opponent'
-        }, "You Lose!", preact_1.h("div", {
+        }, "You Lose!", (0, _preact.h)("div", {
           class: "note"
-        }, gameOverMessages_1.getLosingMessage()));
+        }, (0, _gameOverMessages.getLosingMessage)()));
       }
 
-      return preact_1.h("div", {
+      return (0, _preact.h)("div", {
         class: 'event-game-over'
-      }, "You Win!", preact_1.h("div", {
+      }, "You Win!", (0, _preact.h)("div", {
         class: "note"
-      }, gameOverMessages_1.getWinningMessage()));
+      }, (0, _gameOverMessages.getWinningMessage)()));
     };
 
     _this.renderAddedMechanic = function (event, opponent) {
-      return preact_1.h("div", {
-        class: "event-effect ".concat(opponent ? 'opponent' : '')
+      return (0, _preact.h)("div", {
+        class: "event-effect " + (opponent ? 'opponent' : '')
       }, "Added: ", event.mechanicName);
     };
 
     _this.renderRevealPrediction = function (event, opponent) {
       var prediction = event.prediction,
           correct = event.correct,
-          _event$correctGuesses = event.correctGuesses,
-          correctGuesses = _event$correctGuesses === void 0 ? [] : _event$correctGuesses;
-      return preact_1.h("div", {
-        class: "event-predict ".concat(opponent ? 'opponent' : '')
-      }, preact_1.h("div", null, "Prediction: ", prediction, " ", preact_1.h("div", {
+          _a = event.correctGuesses,
+          correctGuesses = _a === void 0 ? [] : _a;
+      return (0, _preact.h)("div", {
+        class: "event-predict " + (opponent ? 'opponent' : '')
+      }, (0, _preact.h)("div", null, "Prediction: ", prediction, " ", (0, _preact.h)("div", {
         class: 'inline small'
-      }, correct ? 'Correct' : 'Incorrect')), preact_1.h("div", {
+      }, correct ? 'Correct' : 'Incorrect')), (0, _preact.h)("div", {
         class: "changed"
       }, 'Correct Prediction(s): ', correctGuesses.map(function (guess, i) {
-        return preact_1.h("div", {
+        return (0, _preact.h)("div", {
           key: i,
           class: 'inline'
         }, " ", guess, " ");
@@ -17639,30 +18258,30 @@ function (_preact_1$Component) {
     };
 
     _this.renderCard = function (event, opponent) {
-      return preact_1.h("div", {
-        class: "event-card ".concat(opponent ? 'opponent' : '')
+      return (0, _preact.h)("div", {
+        class: "event-card " + (opponent ? 'opponent' : '')
       }, " ", event.cardName, " ");
     };
 
     _this.renderEffect = function (event, opponent) {
-      var _event$effect = event.effect,
-          player = _event$effect.player,
-          axis = _event$effect.axis,
-          mechanic = _event$effect.mechanic,
-          amount = _event$effect.amount;
-      return preact_1.h("div", {
-        class: "event-effect ".concat(opponent ? 'opponent' : '')
-      }, mechanic !== undefined && mechanic, mechanic !== undefined && ' ', player !== undefined && preact_1.h(images_1.Arrow, {
+      var _a = event.effect,
+          player = _a.player,
+          axis = _a.axis,
+          mechanic = _a.mechanic,
+          amount = _a.amount;
+      return (0, _preact.h)("div", {
+        class: "event-effect " + (opponent ? 'opponent' : '')
+      }, mechanic !== undefined && mechanic, mechanic !== undefined && ' ', player !== undefined && (0, _preact.h)(_images.Arrow, {
         player: player,
         shouldFlip: opponent
-      }), axis !== undefined && preact_1.h(images_1.Icon, {
+      }), axis !== undefined && (0, _preact.h)(_images.Icon, {
         name: axis
       }), axis !== undefined && ' ', amount !== undefined && amount);
     };
 
     _this.renderMechanic = function (event, opponent) {
-      return preact_1.h("div", {
-        class: "event-mechanic ".concat(opponent ? 'opponent' : '')
+      return (0, _preact.h)("div", {
+        class: "event-mechanic " + (opponent ? 'opponent' : '')
       }, event.cardName, ": ", event.mechanicName);
     };
 
@@ -17677,87 +18296,98 @@ function (_preact_1$Component) {
     return _this;
   }
 
-  _createClass(Events, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
-      var _this2 = this;
+  Events.prototype.componentWillReceiveProps = function (nextProps) {
+    var _this = this;
 
-      if (nextProps.events !== this.state.startingEvents) {
-        if (this.state.cancelTimeout) {
-          clearTimeout(this.state.cancelTimeout);
-        }
-
-        this.setState({
-          startingEvents: nextProps.events,
-          events: [],
-          counter: 0
-        });
-        setTimeout(function () {
-          _this2.addEvent();
-        }, interface_1.EVENT_PLAY_SPEED);
+    if (nextProps.events !== this.state.startingEvents) {
+      if (this.state.cancelTimeout) {
+        clearTimeout(this.state.cancelTimeout);
       }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
 
-      var _this$state$events = this.state.events,
-          events = _this$state$events === void 0 ? [] : _this$state$events;
-      return preact_1.h("div", {
-        class: 'event-modal'
-      }, preact_1.h("div", {
-        class: 'event-background',
-        onClick: dispatch_1.dispatchFinishedDisplayingEvents
-      }), preact_1.h("div", {
-        class: 'event-container'
-      }, events.map(function (event) {
-        return preact_1.h("div", {
-          class: "event",
-          key: JSON.stringify(event)
-        }, _this3.reducer(event, _this3.props.player));
-      })));
+      this.setState({
+        startingEvents: nextProps.events,
+        events: [],
+        counter: 0
+      });
+      setTimeout(function () {
+        _this.addEvent();
+      }, _interface.EVENT_PLAY_SPEED);
     }
-  }]);
+  };
+
+  Events.prototype.render = function () {
+    var _this = this;
+
+    var _a = this.state.events,
+        events = _a === void 0 ? [] : _a;
+    return (0, _preact.h)("div", {
+      class: 'event-modal'
+    }, (0, _preact.h)("div", {
+      class: 'event-background',
+      onClick: _dispatch.dispatchFinishedDisplayingEvents
+    }), (0, _preact.h)("div", {
+      class: 'event-container'
+    }, events.map(function (event, i) {
+      return (0, _preact.h)("div", {
+        class: "event",
+        key: JSON.stringify(event) + i
+      }, _this.reducer(event, _this.props.player));
+    })));
+  };
 
   return Events;
-}(preact_1.Component);
+}(_preact.Component);
 
-exports.default = preact_redux_1.connect(selector)(Events);
-},{"preact":"node_modules/preact/dist/preact.mjs","../../events/interface":"src/events/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../events/dispatch":"src/events/dispatch.ts","../../extras/gameOverMessages":"src/extras/gameOverMessages.ts"}],"src/components/game.tsx":[function(require,module,exports) {
+var _default = (0, _preactRedux.connect)(selector)(Events);
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../events/interface":"src/events/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../events/dispatch":"src/events/dispatch.ts","../../extras/gameOverMessages":"src/extras/gameOverMessages.ts"}],"src/components/game/gameScreen.tsx":[function(require,module,exports) {
 "use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var board_1 = __importDefault(require("./game/board"));
+var _board = _interopRequireDefault(require("./board"));
 
-var hand_1 = __importDefault(require("./game/hand"));
+var _hand = _interopRequireDefault(require("./hand"));
 
-var predictChoices_1 = __importDefault(require("./game/predictChoices"));
+var _predictChoices = _interopRequireDefault(require("./predictChoices"));
 
-var stateMachine_1 = __importDefault(require("./game/stateMachine"));
+var _stateMachine = _interopRequireDefault(require("./stateMachine"));
 
-var predictions_1 = __importDefault(require("./game/predictions"));
+var _predictions = _interopRequireDefault(require("./predictions"));
 
-var pickOne_1 = __importDefault(require("./game/pickOne"));
+var _pickOne = _interopRequireDefault(require("./pickOne"));
 
-var forceful_1 = __importDefault(require("./game/forceful"));
+var _forceful = _interopRequireDefault(require("./forceful"));
 
-var events_1 = __importDefault(require("./game/events"));
+var _events = _interopRequireDefault(require("./events"));
 
-var interface_1 = require("../gameDisplay/interface");
+var _interface = require("../../gameDisplay/interface");
 
-var util_1 = require("../util");
+var _util = require("../../util");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
 
 var selector = function selector(state) {
   var game = state.game,
@@ -17771,111 +18401,189 @@ var selector = function selector(state) {
   };
 };
 
-var game = function game(_ref) {
-  var game = _ref.game,
-      screen = _ref.screen,
-      shouldDisplayEvents = _ref.shouldDisplayEvents;
+var game = function game(_a) {
+  var game = _a.game,
+      screen = _a.screen,
+      shouldDisplayEvents = _a.shouldDisplayEvents;
   var currentPlayer = game.currentPlayer,
       queue = game.queue,
-      player = game.player;
-  return preact_1.h("div", null, shouldDisplayEvents && preact_1.h(events_1.default, null), preact_1.h("h2", null, "Game"), preact_1.h(stateMachine_1.default, null), preact_1.h(predictions_1.default, Object.assign({}, game)), preact_1.h(board_1.default, {
+      player = game.player,
+      hasGameState = game.hasGameState;
+  console.log(game);
+
+  if (!hasGameState) {
+    return null;
+  }
+
+  return (0, _preact.h)("div", null, shouldDisplayEvents && (0, _preact.h)(_events.default, null), (0, _preact.h)("h2", null, "Game"), (0, _preact.h)(_stateMachine.default, null), (0, _preact.h)(_predictions.default, __assign({}, game)), (0, _preact.h)(_board.default, {
     player: player,
     currentPlayer: currentPlayer,
     queue: queue
-  }), screen === interface_1.GameDisplayEnum.NORMAL && preact_1.h(hand_1.default, null), screen === interface_1.GameDisplayEnum.PREDICT && preact_1.h(predictChoices_1.default, null), screen === interface_1.GameDisplayEnum.PICK_ONE && preact_1.h(pickOne_1.default, null), screen === interface_1.GameDisplayEnum.FORCEFUL && preact_1.h(forceful_1.default, null));
+  }), screen === _interface.GameDisplayEnum.NORMAL && (0, _preact.h)(_hand.default, null), screen === _interface.GameDisplayEnum.PREDICT && (0, _preact.h)(_predictChoices.default, null), screen === _interface.GameDisplayEnum.PICK_ONE && (0, _preact.h)(_pickOne.default, null), screen === _interface.GameDisplayEnum.FORCEFUL && (0, _preact.h)(_forceful.default, null));
 };
 
-exports.default = util_1.cleanConnect(selector, game);
-},{"preact":"node_modules/preact/dist/preact.mjs","./game/board":"src/components/game/board.tsx","./game/hand":"src/components/game/hand.tsx","./game/predictChoices":"src/components/game/predictChoices.tsx","./game/stateMachine":"src/components/game/stateMachine.tsx","./game/predictions":"src/components/game/predictions.tsx","./game/pickOne":"src/components/game/pickOne.tsx","./game/forceful":"src/components/game/forceful.tsx","./game/events":"src/components/game/events.tsx","../gameDisplay/interface":"src/gameDisplay/interface.ts","../util":"src/util.ts"}],"src/components/PickDeck.tsx":[function(require,module,exports) {
+var _default = (0, _util.cleanConnect)(selector, game);
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","./board":"src/components/game/board.tsx","./hand":"src/components/game/hand.tsx","./predictChoices":"src/components/game/predictChoices.tsx","./stateMachine":"src/components/game/stateMachine.tsx","./predictions":"src/components/game/predictions.tsx","./pickOne":"src/components/game/pickOne.tsx","./forceful":"src/components/game/forceful.tsx","./events":"src/components/game/events.tsx","../../gameDisplay/interface":"src/gameDisplay/interface.ts","../../util":"src/util.ts"}],"src/components/lobby/pickDeck.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var dispatch_1 = require("../deck/dispatch");
+var _dispatch = require("../../lobby/dispatch");
 
-var util_1 = require("../util");
+var _util = require("../../util");
 
 var selector = function selector(state) {
+  console.log(state);
   return {
-    decks: state.deck.deckChoices
+    decks: state.lobby.deckChoices
   };
 };
 
-var PickDeck = function PickDeck(_ref) {
-  var decks = _ref.decks;
+var PickDeck = function PickDeck(_a) {
+  var decks = _a.decks;
 
   if (decks) {
-    return preact_1.h("div", {
+    return (0, _preact.h)("div", {
       class: 'container mt-3'
-    }, preact_1.h("h1", {
+    }, (0, _preact.h)("h1", {
       class: 'mb-3 mt-3'
     }, "Choose Deck"), decks.map(function (deck, i) {
-      return preact_1.h("div", {
+      return (0, _preact.h)("div", {
         class: "mb-3 ml-2 deck-choice",
         onClick: function onClick() {
-          return dispatch_1.dispatchPickedDeck(i);
+          return (0, _dispatch.dispatchPickedDeck)(i);
         }
-      }, preact_1.h("h3", null, deck.name), preact_1.h("div", {
+      }, (0, _preact.h)("h3", null, deck.name), (0, _preact.h)("div", {
         class: 'ml-2'
       }, deck.description));
     }));
   }
 
-  return preact_1.h("div", null, preact_1.h("h2", null, "Waiting For Opponent To Pick Deck"));
+  return (0, _preact.h)("div", null, (0, _preact.h)("h2", null, "Waiting For Opponent To Pick Deck"));
 };
 
-exports.default = util_1.cleanConnect(selector, PickDeck);
-},{"preact":"node_modules/preact/dist/preact.mjs","../deck/dispatch":"src/deck/dispatch.ts","../util":"src/util.ts"}],"src/listeners/index.ts":[function(require,module,exports) {
+var _default = (0, _util.cleanConnect)(selector, PickDeck);
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../lobby/dispatch":"src/lobby/dispatch.ts","../../util":"src/util.ts"}],"src/components/lobby/loading.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var dispatch_1 = require("../gameDisplay/dispatch");
+var _preact = require("preact");
 
-var tabDown = function tabDown(ev) {
-  if (ev.keyCode === 192) {
-    dispatch_1.dispatchSetHandCardDisplay(true);
-  }
+var _default = function _default() {
+  return (0, _preact.h)("h1", null, "Connnecting");
 };
 
-var tabUp = function tabUp(ev) {
-  if (ev.keyCode === 192) {
-    dispatch_1.dispatchSetHandCardDisplay(false);
-  }
-};
-
-document.addEventListener("keydown", tabDown);
-document.addEventListener("keyup", tabUp);
-},{"../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts"}],"src/app.tsx":[function(require,module,exports) {
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs"}],"src/components/lobby/searching.tsx":[function(require,module,exports) {
 "use strict";
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _default = function _default() {
+  return (0, _preact.h)("h1", null, "Looking for Opponent...");
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs"}],"src/socket/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchDisconnectSocket = exports.dispatchConnectSocket = void 0;
+
+var _actions = require("./actions");
+
+var _store = require("../state/store");
+
+var dispatchConnectSocket = function dispatchConnectSocket() {
+  var action = {
+    type: _actions.SocketActionEnum.CONNECT
   };
+
+  _store.store.dispatch(action);
 };
+
+exports.dispatchConnectSocket = dispatchConnectSocket;
+
+var dispatchDisconnectSocket = function dispatchDisconnectSocket() {
+  var action = {
+    type: _actions.SocketActionEnum.DISCONNECT
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchDisconnectSocket = dispatchDisconnectSocket;
+},{"./actions":"src/socket/actions.ts","../state/store":"src/state/store.ts"}],"src/components/game.tsx":[function(require,module,exports) {
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = void 0;
 
-var preact_1 = require("preact");
+var _preact = require("preact");
 
-var interface_1 = require("./display/interface");
+var _gameScreen = _interopRequireDefault(require("./game/gameScreen"));
 
-var game_1 = __importDefault(require("./components/game"));
+var _pickDeck = _interopRequireDefault(require("./lobby/pickDeck"));
 
-var PickDeck_1 = __importDefault(require("./components/PickDeck"));
+var _loading = _interopRequireDefault(require("./lobby/loading"));
 
-require("./listeners");
+var _searching = _interopRequireDefault(require("./lobby/searching"));
 
-var util_1 = require("./util");
+var _interface = require("../display/interface");
+
+var _dispatch = require("../socket/dispatch");
+
+var _preactRedux = require("preact-redux");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __extends = void 0 && (void 0).__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
 
 var selector = function selector(state) {
   return {
@@ -17883,47 +18591,783 @@ var selector = function selector(state) {
   };
 };
 
-var App = function App(_ref) {
-  var screen = _ref.screen;
+var GameViewer =
+/** @class */
+function (_super) {
+  __extends(GameViewer, _super);
 
-  switch (screen) {
-    case interface_1.ScreenEnum.CONNECTING:
-      return preact_1.h("div", null, " Connecting ");
-
-    case interface_1.ScreenEnum.LOOKING_FOR_GAME:
-      return preact_1.h("div", null, " Waiting For Opponent ");
-
-    case interface_1.ScreenEnum.CHOOSE_DECK:
-      return preact_1.h(PickDeck_1.default, null);
-
-    default:
-      return preact_1.h(game_1.default, null);
+  function GameViewer(props) {
+    return _super.call(this, props) || this;
   }
-};
 
-exports.default = util_1.cleanConnect(selector, App);
-},{"preact":"node_modules/preact/dist/preact.mjs","./display/interface":"src/display/interface.ts","./components/game":"src/components/game.tsx","./components/PickDeck":"src/components/PickDeck.tsx","./listeners":"src/listeners/index.ts","./util":"src/util.ts"}],"index.tsx":[function(require,module,exports) {
-"use strict";
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
+  GameViewer.prototype.componentDidMount = function () {
+    (0, _dispatch.dispatchConnectSocket)();
   };
-};
+
+  GameViewer.prototype.componentWillUnmount = function () {
+    (0, _dispatch.dispatchDisconnectSocket)();
+  };
+
+  GameViewer.prototype.render = function () {
+    var screen = this.props.screen;
+
+    switch (screen) {
+      case _interface.ScreenEnum.CONNECTING:
+        return (0, _preact.h)(_loading.default, null);
+
+      case _interface.ScreenEnum.LOOKING_FOR_GAME:
+        return (0, _preact.h)(_searching.default, null);
+
+      case _interface.ScreenEnum.CHOOSE_DECK:
+        return (0, _preact.h)(_pickDeck.default, null);
+
+      default:
+        return (0, _preact.h)(_gameScreen.default, null);
+    }
+  };
+
+  return GameViewer;
+}(_preact.Component);
+
+var _default = (0, _preactRedux.connect)(selector)(GameViewer);
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","./game/gameScreen":"src/components/game/gameScreen.tsx","./lobby/pickDeck":"src/components/lobby/pickDeck.tsx","./lobby/loading":"src/components/lobby/loading.tsx","./lobby/searching":"src/components/lobby/searching.tsx","../display/interface":"src/display/interface.ts","../socket/dispatch":"src/socket/dispatch.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/deckViewer/dispatch.ts":[function(require,module,exports) {
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.dispatchGetDeckList = exports.dispatchGetDeckWithName = void 0;
 
-var preact_1 = require("preact");
+var _actions = require("./actions");
 
-var preact_redux_1 = require("preact-redux");
+var _store = require("../state/store");
 
-var store_1 = require("./src/state/store");
+var _util = require("../util");
 
-var app_1 = __importDefault(require("./src/app"));
+var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
 
-var Prov = preact_redux_1.Provider;
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var _this = void 0;
+
+var dispatchGetDeckWithName = function dispatchGetDeckWithName(deckName) {
+  return __awaiter(_this, void 0, void 0, function () {
+    var deck, action, action;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          return [4
+          /*yield*/
+          , getDeckWithName(deckName)];
+
+        case 1:
+          deck = _a.sent();
+
+          if (deck) {
+            action = {
+              type: _actions.DeckViewerEnum.GOT_DECK,
+              deck: deck
+            };
+
+            _store.store.dispatch(action);
+          } else {
+            action = {
+              type: _actions.DeckViewerEnum.FAILED_TO_GET_DECK
+            };
+
+            _store.store.dispatch(action);
+          }
+
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+exports.dispatchGetDeckWithName = dispatchGetDeckWithName;
+
+var getDeckWithName = function getDeckWithName(deckName) {
+  return __awaiter(_this, void 0, void 0, function () {
+    var fetched, deck, err_1;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 4,, 5]);
+
+          _store.store.dispatch({
+            type: _actions.DeckViewerEnum.LOADING_DECK
+          });
+
+          return [4
+          /*yield*/
+          , fetch(_util.HOST_URL + '/deck/' + deckName)];
+
+        case 1:
+          fetched = _a.sent();
+          if (!fetched.ok) return [3
+          /*break*/
+          , 3];
+          return [4
+          /*yield*/
+          , fetched.json()];
+
+        case 2:
+          deck = _a.sent();
+          return [2
+          /*return*/
+          , deck];
+
+        case 3:
+          return [2
+          /*return*/
+          , null];
+
+        case 4:
+          err_1 = _a.sent();
+          return [2
+          /*return*/
+          , null];
+
+        case 5:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+var dispatchGetDeckList = function dispatchGetDeckList() {
+  return __awaiter(_this, void 0, void 0, function () {
+    var deckList, action;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          return [4
+          /*yield*/
+          , getDeckList()];
+
+        case 1:
+          deckList = _a.sent();
+
+          if (deckList) {
+            action = {
+              type: _actions.DeckViewerEnum.GOT_DECK_LIST,
+              deckList: deckList
+            };
+
+            _store.store.dispatch(action);
+          }
+
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+exports.dispatchGetDeckList = dispatchGetDeckList;
+
+var getDeckList = function getDeckList() {
+  return __awaiter(_this, void 0, void 0, function () {
+    var fetched, deckList, err_2;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 4,, 5]);
+
+          _store.store.dispatch({
+            type: _actions.DeckViewerEnum.LOADING_DECK_LIST
+          });
+
+          return [4
+          /*yield*/
+          , fetch(_util.HOST_URL + '/deckList')];
+
+        case 1:
+          fetched = _a.sent();
+          if (!fetched.ok) return [3
+          /*break*/
+          , 3];
+          return [4
+          /*yield*/
+          , fetched.json()];
+
+        case 2:
+          deckList = _a.sent();
+          return [2
+          /*return*/
+          , deckList];
+
+        case 3:
+          return [2
+          /*return*/
+          , null];
+
+        case 4:
+          err_2 = _a.sent();
+          return [2
+          /*return*/
+          , null];
+
+        case 5:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+},{"./actions":"src/deckViewer/actions.ts","../state/store":"src/state/store.ts","../util":"src/util.ts"}],"src/components/deckViewer/cards.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _handCard = _interopRequireDefault(require("../game/card/handCard"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var _default = function _default(_a) {
+  var isLoading = _a.isLoading,
+      _b = _a.cards,
+      cards = _b === void 0 ? [] : _b,
+      description = _a.description,
+      name = _a.name,
+      back = _a.back;
+
+  if (isLoading) {
+    return (0, _preact.h)("h3", null, "Loading...");
+  }
+
+  return (0, _preact.h)("div", {
+    class: "card-list"
+  }, (0, _preact.h)("h3", null, name), (0, _preact.h)("div", {
+    class: 'description'
+  }, description), (0, _preact.h)("div", {
+    class: 'cards'
+  }, cards.map(function (card, i) {
+    return (0, _preact.h)("div", {
+      key: card.name + i
+    }, (0, _preact.h)(_handCard.default, __assign({}, card)));
+  })), (0, _preact.h)("button", {
+    onClick: back,
+    class: 'btn btn-primary mt-3 mb-3'
+  }, "Back To Decks"));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../game/card/handCard":"src/components/game/card/handCard.tsx"}],"src/path/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchToPathArray = exports.dispatchToPathString = void 0;
+
+var _actions = require("./actions");
+
+var _store = require("../state/store");
+
+var dispatchToPathString = function dispatchToPathString(path) {
+  var action = {
+    type: _actions.PathActionEnum.TO_PATH_STRING,
+    path: path
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchToPathString = dispatchToPathString;
+
+var dispatchToPathArray = function dispatchToPathArray(path) {
+  var action = {
+    type: _actions.PathActionEnum.TO_PATH_ARRAY,
+    path: path
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchToPathArray = dispatchToPathArray;
+
+window.onpopstate = function (ev) {
+  console.log("popping state");
+  dispatchToPathString(location.pathname);
+};
+},{"./actions":"src/path/actions.ts","../state/store":"src/state/store.ts"}],"src/components/deckViewer/deckList.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _default = function _default(_a) {
+  var _b = _a.decks,
+      decks = _b === void 0 ? [] : _b,
+      isLoading = _a.isLoading,
+      chooseDeck = _a.chooseDeck;
+
+  if (isLoading) {
+    return (0, _preact.h)("div", null, "Loading Deck list...");
+  }
+
+  return (0, _preact.h)("div", {
+    class: 'container mt-3'
+  }, (0, _preact.h)("h1", {
+    class: 'mb-3 mt-3'
+  }, "Choose Deck"), decks.map(function (deck, i) {
+    return (0, _preact.h)("div", {
+      key: deck.name,
+      class: "mb-3 ml-2 deck-choice",
+      onClick: function onClick() {
+        return chooseDeck(deck.name);
+      }
+    }, (0, _preact.h)("h3", null, deck.name), (0, _preact.h)("div", {
+      class: 'ml-2'
+    }, deck.description));
+  }));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs"}],"src/components/deckViewer.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _dispatch = require("../deckViewer/dispatch");
+
+var _cards = _interopRequireDefault(require("./deckViewer/cards"));
+
+var _dispatch2 = require("../path/dispatch");
+
+var _preactRedux = require("preact-redux");
+
+var _deckList = _interopRequireDefault(require("./deckViewer/deckList"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __extends = void 0 && (void 0).__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var selector = function selector(state) {
+  return {
+    isLoadingDeck: state.deckViewer.isLoadingDeck,
+    isLoadingDeckList: state.deckViewer.isLoadingDeckList,
+    deckList: state.deckViewer.deckList,
+    deck: state.deckViewer.deck
+  };
+};
+
+var DeckViewer =
+/** @class */
+function (_super) {
+  __extends(DeckViewer, _super);
+
+  function DeckViewer() {
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+
+    _this.componentDidMount = function () {
+      (0, _dispatch.dispatchGetDeckList)();
+
+      if (_this.props.path.length > 0) {
+        var deckName = _this.props.path[1];
+
+        if (deckName) {
+          (0, _dispatch.dispatchGetDeckWithName)(deckName);
+        }
+      }
+    };
+
+    _this.render = function () {
+      var _a = _this.props,
+          path = _a.path,
+          pathPrepend = _a.pathPrepend,
+          deck = _a.deck,
+          deckList = _a.deckList,
+          isLoadingDeck = _a.isLoadingDeck,
+          isLoadingDeckList = _a.isLoadingDeckList;
+      var viewingDeck = path.length > 0;
+
+      if (viewingDeck) {
+        return (0, _preact.h)(_cards.default, __assign({
+          isLoading: isLoadingDeck
+        }, deck, {
+          back: function back() {
+            return (0, _dispatch2.dispatchToPathArray)(pathPrepend);
+          }
+        }));
+      } else {
+        return (0, _preact.h)(_deckList.default, {
+          decks: deckList,
+          isLoading: isLoadingDeckList,
+          chooseDeck: _this.chooseDeck
+        });
+      }
+    };
+
+    _this.chooseDeck = function (name) {
+      (0, _dispatch2.dispatchToPathArray)(_this.props.pathPrepend.concat(['deck', name]));
+      (0, _dispatch.dispatchGetDeckWithName)(name);
+    };
+
+    return _this;
+  }
+
+  return DeckViewer;
+}(_preact.Component);
+
+var _default = (0, _preactRedux.connect)(selector)(DeckViewer);
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../deckViewer/dispatch":"src/deckViewer/dispatch.ts","./deckViewer/cards":"src/components/deckViewer/cards.tsx","../path/dispatch":"src/path/dispatch.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./deckViewer/deckList":"src/components/deckViewer/deckList.tsx"}],"src/listeners/index.ts":[function(require,module,exports) {
+"use strict";
+
+var _dispatch = require("../gameDisplay/dispatch");
+
+var tabDown = function tabDown(ev) {
+  if (ev.keyCode === 192) {
+    (0, _dispatch.dispatchSetHandCardDisplay)(true);
+  }
+};
+
+var tabUp = function tabUp(ev) {
+  if (ev.keyCode === 192) {
+    (0, _dispatch.dispatchSetHandCardDisplay)(false);
+  }
+};
+
+document.addEventListener("keydown", tabDown);
+document.addEventListener("keyup", tabUp);
+},{"../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts"}],"src/components/landing.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _dispatch = require("../path/dispatch");
+
+var _default = function _default() {
+  return (0, _preact.h)("div", {
+    class: 'landing'
+  }, (0, _preact.h)("h2", null, "Fighting Card Game ", (0, _preact.h)("small", null, "Without a name")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+    class: 'link',
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchToPathString)('/game');
+    }
+  }, "Play Game")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+    class: 'link',
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchToPathString)('/decks');
+    }
+  }, "View Decks")));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../path/dispatch":"src/path/dispatch.ts"}],"src/components/nav.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _dispatch = require("../path/dispatch");
+
+var _default = function _default() {
+  return (0, _preact.h)("nav", {
+    class: 'navbar'
+  }, (0, _preact.h)("a", {
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchToPathArray)(['']);
+    }
+  }, "Home"));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../path/dispatch":"src/path/dispatch.ts"}],"src/components/app.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _game = _interopRequireDefault(require("./game"));
+
+var _deckViewer = _interopRequireDefault(require("./deckViewer"));
+
+require("../listeners");
+
+var _util = require("../util");
+
+var _landing = _interopRequireDefault(require("./landing"));
+
+var _nav = _interopRequireDefault(require("./nav"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var selector = function selector(state) {
+  var path = state.path.pathArr || [];
+  var blank = path[0],
+      root = path[1],
+      remainingPath = path.slice(2);
+  return {
+    showGame: path[1] === 'game',
+    showDeckViewer: path[1] === 'decks',
+    prepend: [blank, root],
+    remainingPath: remainingPath
+  };
+};
+
+var App = function App(_a) {
+  var showDeckViewer = _a.showDeckViewer,
+      showGame = _a.showGame,
+      prepend = _a.prepend,
+      remainingPath = _a.remainingPath;
+
+  if (showGame) {
+    return (0, _preact.h)(_game.default, null);
+  }
+
+  return (0, _preact.h)("div", null, (0, _preact.h)(_nav.default, null), showDeckViewer && (0, _preact.h)(_deckViewer.default, {
+    pathPrepend: prepend,
+    path: remainingPath
+  }), !showDeckViewer && (0, _preact.h)(_landing.default, null));
+};
+
+var _default = (0, _util.cleanConnect)(selector, App);
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","./game":"src/components/game.tsx","./deckViewer":"src/components/deckViewer.tsx","../listeners":"src/listeners/index.ts","../util":"src/util.ts","./landing":"src/components/landing.tsx","./nav":"src/components/nav.tsx"}],"index.tsx":[function(require,module,exports) {
+"use strict";
+
+var _preact = require("preact");
+
+var _preactRedux = require("preact-redux");
+
+var _store = require("./src/state/store");
+
+var _app = _interopRequireDefault(require("./src/components/app"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Prov = _preactRedux.Provider;
 
 if (module.hot) {
   module.hot.accept();
@@ -17931,11 +19375,11 @@ if (module.hot) {
 
 document.addEventListener('DOMContentLoaded', function () {
   var rootNode = document.getElementById('root');
-  preact_1.render(preact_1.h(Prov, {
-    store: store_1.store
-  }, preact_1.h(app_1.default, null)), rootNode, rootNode.lastChild);
+  (0, _preact.render)((0, _preact.h)(Prov, {
+    store: _store.store
+  }, (0, _preact.h)(_app.default, null)), rootNode, rootNode.lastChild);
 });
-},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./src/state/store":"src/state/store.ts","./src/app":"src/app.tsx"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./src/state/store":"src/state/store.ts","./src/components/app":"src/components/app.tsx"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -17962,7 +19406,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58641" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55017" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

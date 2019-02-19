@@ -6,4 +6,22 @@ On the board, when the card is in queue-card form, hover tooltips don't work.
 
 Work on consolidating the state chunk. 
 
-Some indication that it's the opponent's turn would be good. 
+Some indication that it's the opponent's turn would be good.
+
+break up ui to top / bottom
+
+Switch motion / standing names to just show the name of the current state
+
+Damage got confused with block. Consider icon for block or better spacing? 
+
+How can you make the second player feel better? 
+
+Deck viewer
+
+Predict should be stronger, mess with heavy prediction cards. 
+
+Blood in the water needs another prone card (maybe block and gain focus)
+
+Sort card effect order. Probably a thing done on update. Maybe a script
+
+Make 2 decks by next week, add 2 or 3 cards to Stone Skin and Blood in the Water

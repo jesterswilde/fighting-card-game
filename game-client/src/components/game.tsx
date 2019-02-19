@@ -1,43 +1,47 @@
-import { h } from 'preact';
-import { GameState } from '../game/interface';
+import { h, Component } from 'preact';
+import Game from './game/gameScreen';
+import PickDeck from './lobby/pickDeck';
+import Connecting from './lobby/loading';
+import Searching from './lobby/searching';
+import { ScreenEnum } from '../display/interface';
 import { StoreState } from '../state/store';
-import { HandState } from '../hand/interface';
-import Board from './game/board';
-import Hand from './game/hand';
-import Predict from './game/predictChoices';
-import StateMachine from './game/stateMachine'; 
-import Prediction from './game/predictions'
-import PickOne from './game/pickOne'; 
-import Forceful from './game/forceful'; 
-import Events from './game/events'; 
-import { GameDisplayEnum } from '../gameDisplay/interface';
-import { cleanConnect } from '../util';
+import { dispatchConnectSocket, dispatchDisconnectSocket } from '../socket/dispatch'
+import { connect } from 'preact-redux';
 
 interface Props {
-    game: GameState,
-    hand: HandState
-    screen: GameDisplayEnum
-    shouldDisplayEvents: boolean
+    screen: ScreenEnum
 }
 
 const selector = (state: StoreState): Props => {
-    const { game, hand, gameDisplay } = state;
-    return { game, hand, screen: gameDisplay.screen, shouldDisplayEvents: state.events.isDisplaying};
+    return {
+        screen: state.display.screen
+    }
 }
 
-const game = ({ game, screen, shouldDisplayEvents }: Props) => {
-    const { currentPlayer, queue, player} = game;
-    return <div>
-        {shouldDisplayEvents && <Events />}
-        <h2>Game</h2>
-        <StateMachine />
-        <Prediction {...game}/>
-        <Board  player={player} currentPlayer={currentPlayer} queue={queue}/>
-        {screen === GameDisplayEnum.NORMAL && <Hand />}
-        {screen === GameDisplayEnum.PREDICT && <Predict />}
-        {screen === GameDisplayEnum.PICK_ONE && <PickOne />}
-        {screen === GameDisplayEnum.FORCEFUL && <Forceful />}
-    </div>
+class GameViewer extends Component<Props, {}>{
+    constructor(props: Props) {
+        super(props);
+    }
+    componentDidMount() {
+        dispatchConnectSocket();
+    }
+    componentWillUnmount() {
+        dispatchDisconnectSocket();
+    }
+    render() {
+        const { screen } = this.props;
+        switch (screen) {
+            case ScreenEnum.CONNECTING:
+                return <Connecting />
+            case ScreenEnum.LOOKING_FOR_GAME:
+                return <Searching />
+            case ScreenEnum.CHOOSE_DECK:
+                return <PickDeck />
+            default:
+                return <Game />
+        }
+    }
 }
 
-export default cleanConnect(selector, game); 
+
+export default connect(selector)(GameViewer) as unknown as () => JSX.Element; 

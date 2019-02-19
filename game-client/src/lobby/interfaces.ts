@@ -3,7 +3,7 @@ export interface DeckChoice{
     description: string
 }
 
-export interface DecksState {
+export interface LobbyState {
     deckName?: string,
     deckChoices?: DeckChoice[]
 }

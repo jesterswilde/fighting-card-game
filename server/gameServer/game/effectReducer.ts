@@ -6,9 +6,10 @@ import { addEffectEvent } from "./events";
 import { MAX_POISE, MIN_POISE } from "../gameSettings";
 
 export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
-    readiedMechanics.forEach(({mechanic: mech, card}) => {
+    readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly, isHappening }) => {
         const reducer = mechanicRouter[mech.mechanic];
-        addEffectEvent(mech, card.player, state); 
+        addEffectEvent(mech, card.player, card.name, isEventOnly, isHappening, state);
+        if (isEventOnly) return;
         if (reducer !== undefined) {
             reducer(mech, card, card.player, card.opponent, state);
         } else {
@@ -121,7 +122,7 @@ const mechanicRouter: { [name: string]: (mechanic: Mechanic, card: Card, player:
     [MechanicEnum.PREDICT]: reducePredict,
     [MechanicEnum.REFLEX]: reduceReflex,
     [MechanicEnum.TELEGRAPH]: reduceTelegraph,
-    [MechanicEnum.FORCEFUL]: ()=>{},
+    [MechanicEnum.FORCEFUL]: () => { },
 }
 
 const globalAxis: { [axis: string]: (state: GameState) => void } = {
@@ -135,11 +136,11 @@ const globalAxis: { [axis: string]: (state: GameState) => void } = {
             state.distance = DistanceEnum.GRAPPLED;
         }
     },
-    [AxisEnum.FURTHER]: (state: GameState)=>{
-        if(state.distance === DistanceEnum.GRAPPLED){
-            state.distance = DistanceEnum.CLOSE; 
-        }else{
-            state.distance = DistanceEnum.FAR; 
+    [AxisEnum.FURTHER]: (state: GameState) => {
+        if (state.distance === DistanceEnum.GRAPPLED) {
+            state.distance = DistanceEnum.CLOSE;
+        } else {
+            state.distance = DistanceEnum.FAR;
         }
     }
 }
@@ -150,14 +151,14 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
         const { playerStates, lockedState } = state;
         if (!lockedState.players[i].poise) {
             playerStates[i].poise += amount;
-            playerStates[i].poise = Math.min(playerStates[i].poise, MAX_POISE);  
+            playerStates[i].poise = Math.min(playerStates[i].poise, MAX_POISE);
         }
     }),
     [AxisEnum.LOSE_POISE]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
         const { playerStates, lockedState } = state;
         if (!lockedState.players[i].poise) {
             playerStates[i].poise -= amount;
-            playerStates[i].poise = Math.max(playerStates[i].poise, MIN_POISE);  
+            playerStates[i].poise = Math.max(playerStates[i].poise, MIN_POISE);
         }
     }),
     [AxisEnum.STANDING]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
@@ -213,8 +214,8 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
 
 const getMaxAmount = (currentAmount: number, nextAmount: number, changed: boolean) => {
     //The *2 is a hack for decrement counters
-    if(nextAmount === null){
-        return null; 
+    if (nextAmount === null) {
+        return null;
     }
     if (changed) {
         return nextAmount * 2;

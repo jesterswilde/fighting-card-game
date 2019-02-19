@@ -1,7 +1,7 @@
 import {h, Component, render} from 'preact';
 import {Provider} from 'preact-redux'; 
 import {store, StoreState} from './src/state/store';
-import App from './src/app';
+import App from './src/components/app';
 import { Store } from 'redux';
 
 declare const module: any

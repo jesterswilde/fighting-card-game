@@ -9842,6 +9842,45 @@ h3 {
   flex-grow: 1;
 }
 
+.landing {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.landing .link {
+  cursor: pointer;
+}
+
+.card-list {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  margin-top: 20px;
+  align-items: center;
+}
+.card-list .description {
+  width: 50%;
+}
+.card-list .cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.card-list .cards > div {
+  margin-bottom: 15px;
+}
+
+.navbar {
+  background-color: #2e2e2e;
+  color: #d4d4d4;
+  display: flex;
+  margin: 5px;
+}
+.navbar > a {
+  cursor: pointer;
+}
+
 ul {
   list-style: none;
 }

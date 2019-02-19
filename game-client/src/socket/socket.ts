@@ -6,7 +6,23 @@ let url;
 if(location.host.split(':')[0] === 'localhost'){
     url = 'localhost:8080'
 }
-export const socket = socketClient.connect(url); 
 
-setupSockets(socket); 
+export let socket: SocketIOClient.Socket; 
+
+export const connectSocket = ()=>{
+    socket = socketClient.connect(url);
+    setupSockets(socket); 
+    return socket; 
+}
+
+export const disconnectSocket = ()=>{
+    if(socket){
+        socket.disconnect(); 
+    }
+    socket = null; 
+    return null; 
+}
+
+
+
  

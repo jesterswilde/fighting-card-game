@@ -1,15 +1,16 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
-      "outDir": "serverBuild",
-      "jsx": "react",
-      "jsxFactory": "h"
-    },
-    "include": [
-      "src/**/*.ts"
-    ],
-    "exclude": [
-      "node_modules"
-    ]
-  }
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es5",
+    "lib": ["es6", "dom"],
+    "outDir": "serverBuild",
+    "jsx": "react",
+    "jsxFactory": "h"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

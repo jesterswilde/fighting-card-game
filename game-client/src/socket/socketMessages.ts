@@ -4,13 +4,12 @@ import { dispatchSwitchScreen } from '../display/dispatch';
 import { ScreenEnum } from '../display/interface';
 import { dispatchStartGame, dispatchGameState, dispatchShouldPickOne, dispatchShouldPickForecful } from '../game/dispatch';
 import { SocketEnum } from './socketEnum';
-import { dispatchGotDeckChoices } from '../deck/dispatch';
+import { dispatchGotDeckChoices } from '../lobby/dispatch';
 import { GameState } from '../game/interface';
 import { dispatchShouldPredict } from '../gameDisplay/dispatch';
-import { DeckChoice } from '../deck/interfaces';
+import { DeckChoice } from '../lobby/interfaces';
 import { EventAction } from '../events/interface';
 import { dispatchGotEvents } from '../events/dispatch';
-import { options } from 'preact';
 
 export const setupSockets = (socket: SocketIOClient.Socket)=>{
     console.log('running socket messsages'); 

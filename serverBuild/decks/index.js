@@ -15,6 +15,18 @@ exports.decks = [
     { name: 'Blood In The Water', deckList: deckBloodInWater_1.bloodInWaterDeck, description: deckBloodInWater_1.bloodInWaterDescription },
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
 ];
+exports.getDeckForViewer = (name) => {
+    const deckObj = exports.decks.find((deck) => deck.name === name);
+    if (!deckObj) {
+        return null;
+    }
+    const cards = exports.getDeck(name);
+    return {
+        name: deckObj.name,
+        description: deckObj.description || 'No Description',
+        cards
+    };
+};
 exports.getDeckOptions = () => {
     return exports.decks.map((deck) => ({ name: deck.name, description: deck.description }));
 };
@@ -23,7 +35,7 @@ exports.getDeck = (name) => {
     if (!deck) {
         return null;
     }
-    const fiteredDeck = deck.deckList.map((name) => {
+    const filteredDeck = deck.deckList.map((name) => {
         const card = Cards_1.cards[name];
         if (!card) {
             console.log("error, card not found", name);
@@ -31,5 +43,5 @@ exports.getDeck = (name) => {
         }
         return card;
     }).filter((card) => card !== null);
-    return fiteredDeck;
+    return filteredDeck;
 };

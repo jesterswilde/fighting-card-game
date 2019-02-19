@@ -10,15 +10,17 @@ export const playerPicksOne = async (state: GameState, { _waitForPlayerToChoose 
     const pickedEffects: ReadiedEffect[] = [];
     const unusedEffs: boolean[] = [];
     for (let i = 0; i < readiedEffects.length; i++) {
-        const { mechanic: effect, card } = state.readiedEffects[i]
-        if (effect.mechanic === MechanicEnum.PICK_ONE) {
-            const player = sockets[card.player]; 
+        const { mechanic: effect, card, isEventOnly } = state.readiedEffects[i]
+        if (effect.mechanic === MechanicEnum.PICK_ONE && !isEventOnly) {
+            const player = sockets[card.player];
             const choice = await _waitForPlayerToChoose(effect.choices, player);
             const picked = effect.choices[choice];
+            pickedEffects.push({ mechanic: effect, card, isEventOnly: true })
             pickedEffects.push(...mechanicsToReadiedEffects(picked, card));
             unusedEffs.push(false);
+        } else {
+            unusedEffs.push(true);
         }
-        unusedEffs.push(true);
     }
     state.readiedEffects = state.readiedEffects.filter((_, i) => unusedEffs[i]);
     state.readiedEffects.push(...pickedEffects);
@@ -36,8 +38,9 @@ const waitForPlayerToChoose = (choices: Mechanic[][], player: Socket): Promise<n
 export const makePredictions = async (state: GameState, { _getPredictions = getPredictions } = {}) => {
     const { readiedEffects = [], sockets } = state;
     for (let i = 0; i < readiedEffects.length; i++) {
-        const { mechanic: eff, card } = readiedEffects[i];
-        if (eff.mechanic === MechanicEnum.PREDICT) {
+        const { mechanic: eff, card, isEventOnly } = readiedEffects[i];
+        if (eff.mechanic === MechanicEnum.PREDICT && !isEventOnly) {
+            readiedEffects.push({ mechanic: eff, card, isEventOnly: true });
             const prediction: PredictionState = {} as PredictionState;
             const player = sockets[card.player];
             prediction.prediction = await _getPredictions(state, player);
@@ -50,7 +53,7 @@ export const makePredictions = async (state: GameState, { _getPredictions = getP
     }
 }
 
-const getPredictions = (state: GameState,  socket: Socket): Promise<PredictionEnum> => {
+const getPredictions = (state: GameState, socket: Socket): Promise<PredictionEnum> => {
     console.log('getting predictin');
     return new Promise((res, rej) => {
         const { currentPlayer: player, sockets } = state;
@@ -63,24 +66,22 @@ const getPredictions = (state: GameState,  socket: Socket): Promise<PredictionEn
 }
 
 export const checkForForecful = async (state: GameState) => {
+    console.log('checking forceful');
     const { readiedEffects = [] } = state;
-    const options = readiedEffects.filter(({ card: { player }, mechanic: mech }) => {
+    const options = readiedEffects.filter(({ card: { player }, mechanic: mech, isEventOnly }) => {
         const { poise } = state.playerStates[player];
-        return mech.mechanic === MechanicEnum.FORCEFUL && poise >= mech.amount;
+        return mech.mechanic === MechanicEnum.FORCEFUL && poise >= mech.amount && !isEventOnly;
     })
     //filter out all readied forecful mechanics
     state.readiedEffects = readiedEffects.filter(({ mechanic: mech }) => mech.mechanic !== MechanicEnum.FORCEFUL);
     for (let i = 0; i < options.length; i++) {
-        const { card: { player, name: cardName }, mechanic } = options[i];
+        const { card: { player, name: cardName }, mechanic, card } = options[i];
         const socket = state.sockets[player];
         const choiceToPlay = await getForcefulChoice(socket, mechanic, cardName);
         if (choiceToPlay) {
-            const readied = mechanicsToReadiedEffects(mechanic.mechanicEffects, options[i].card);
+            state.readiedEffects.push({ mechanic, card, isEventOnly: true })
+            const readied = mechanicsToReadiedEffects(mechanic.mechanicEffects, card);
             state.playerStates[player].poise -= typeof mechanic.amount === 'number' ? mechanic.amount : 0;
-            state.readiedEffects.push({
-                card: options[i].card,
-                mechanic: {mechanic: MechanicEnum.FORCEFUL, amount: mechanic.amount}
-            })
             state.readiedEffects.push(...readied);
         }
     }

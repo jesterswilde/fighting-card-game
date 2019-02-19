@@ -60,8 +60,8 @@ class Events extends Component<Props, State>{
         return <div class='event-modal'>
             <div class='event-background' onClick={dispatchFinishedDisplayingEvents} />
             <div class='event-container'>
-                {events.map((event) => {
-                    return <div class="event" key={JSON.stringify(event)}>
+                {events.map((event, i) => {
+                    return <div class="event" key={JSON.stringify(event) + i}>
                         {this.reducer(event, this.props.player)}
                     </div>
                 })}

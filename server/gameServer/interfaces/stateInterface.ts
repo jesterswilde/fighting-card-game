@@ -30,7 +30,9 @@ export interface GameState{
 
 export interface ReadiedEffect{
     card: Card,
-    mechanic: Mechanic
+    mechanic: Mechanic,
+    isEventOnly?: boolean,
+    isHappening?: boolean,
 }
 
 export interface ModifiedAxis {

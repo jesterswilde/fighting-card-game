@@ -15,6 +15,7 @@ export interface GameState{
     forceful?: {cardName: string, mechanic: Mechanic}
     lockedState: LockState
     turnNumber: number
+    hasGameState?: boolean
 }
 export interface ModifiedAxis {
     standing: boolean

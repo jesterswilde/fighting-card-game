@@ -16,9 +16,9 @@ const selector = (state: State): Props => {
 }
 
 const Poise = ({ poise }: Props) => {
-    const unbalancedArr = [...Array(3).keys()];
-    const balancedArr = [...Array(4).keys()].map((key) => key + 3)
-    const anticipatingArr = [...Array(3).keys()].map((key) => key + 7);
+    const unbalancedArr = [0,1,2];
+    const balancedArr = [3,4,5,6];
+    const anticipatingArr = [7,8,9]; 
     return <div class="poise-section">
         <div class={poiseTitleClass(poise)}>Poise: {poiseLevel(poise)}</div>
         <div class="poise-container">

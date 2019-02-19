@@ -21,7 +21,7 @@ const StateMachine = (props: Props): JSX.Element => {
     const { player } = props;
     const opponent = player === 0 ? 1 : 0;
     if (props.playerStates === undefined) {
-        return <div></div>
+        return null;
     }
 
     return <div class='state-machine'>

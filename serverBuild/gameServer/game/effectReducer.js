@@ -15,9 +15,11 @@ const util_1 = require("../util");
 const events_1 = require("./events");
 const gameSettings_1 = require("../gameSettings");
 exports.reduceMechanics = (readiedMechanics, state) => {
-    readiedMechanics.forEach(({ mechanic: mech, card }) => {
+    readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly, isHappening }) => {
         const reducer = mechanicRouter[mech.mechanic];
-        events_1.addEffectEvent(mech, card.player, state);
+        events_1.addEffectEvent(mech, card.player, card.name, isEventOnly, isHappening, state);
+        if (isEventOnly)
+            return;
         if (reducer !== undefined) {
             reducer(mech, card, card.player, card.opponent, state);
         }

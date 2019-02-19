@@ -1,16 +1,16 @@
 import { h, PreactDOMAttributes } from 'preact';
-import { StoreState } from "../state/store";
-import { connect } from "preact-redux";
-import { dispatchPickedDeck } from "../deck/dispatch";
-import { DeckChoice } from '../deck/interfaces';
-import { cleanConnect } from '../util';
+import { StoreState } from "../../state/store";
+import { dispatchPickedDeck } from "../../lobby/dispatch";
+import { DeckChoice } from '../../lobby/interfaces';
+import { cleanConnect } from '../../util';
 
 interface Props {
     decks: DeckChoice[]
 }
 
 const selector = (state: StoreState): Props => {
-    return { decks: state.deck.deckChoices };
+    console.log(state);
+    return { decks: state.lobby.deckChoices };
 }
 
 const PickDeck = ({ decks }: Props) => {
@@ -21,7 +21,7 @@ const PickDeck = ({ decks }: Props) => {
                 <div class="mb-3 ml-2 deck-choice" onClick={() => dispatchPickedDeck(i)}>
                     <h3>{deck.name}</h3>
                     <div class='ml-2'>{deck.description}</div>
-    
+
                 </div>
             ))}
         </div>

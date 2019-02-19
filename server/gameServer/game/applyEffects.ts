@@ -8,7 +8,7 @@ import { deepCopy } from "../util";
 import { mechReqsMet, canPlayCard } from "./requirements";
 import { Mechanic, MechanicEnum } from "../interfaces/cardInterface";
 import { mechanicsToReadiedEffects } from "./playCard";
-import { addMechanicEvent, addEffectEvent, addRevealPredictionEvent } from "./events";
+import { addRevealPredictionEvent } from "./events";
 
 /*
     --- TODO ---
@@ -99,6 +99,7 @@ export const checkTelegraph = (state: GameState) => {
                     telegraphs.filter((_, i) => metTelegraphs[i])
                         .forEach((mech) => {
                             const mechEffs = mechanicsToReadiedEffects(mech.mechanicEffects, card); 
+                            readied.push({mechanic: mech, card, isEventOnly: true, isHappening: true})
                             readied.push(...mechEffs)
                         });
                     card.telegraphs = telegraphs.filter((_, i) => !metTelegraphs[i]);
@@ -110,25 +111,25 @@ export const checkTelegraph = (state: GameState) => {
         }, state);
     })
     if (readied.length > 0) {
-        readied.forEach((eff)=> addMechanicEvent(MechanicEnum.TELEGRAPH, eff.card, state));
         state.readiedEffects = readied;
         throw ControlEnum.NEW_EFFECTS;
     }
 }
 
 export const checkReflex = (state: GameState) => {
-    const { queue } = state;
+    const { queue, readiedEffects = [] } = state;
     let playerToReflex: null | number = null;
-    queue.forEach((cards) => {
+    queue.forEach((cards = []) => {
         cards.forEach((card) => {
             if (card.shouldReflex && playerToReflex === null) {
+                readiedEffects.push({card, mechanic:{mechanic: MechanicEnum.REFLEX}, isEventOnly: true, isHappening: true})
                 console.log("card name: ", card.name, " | " , card.player); 
                 playerToReflex = card.player;
                 card.shouldReflex = undefined;
-                addMechanicEvent(MechanicEnum.REFLEX, card, state); 
             }
         }, state);
     })
+    state.readiedEffects = [...readiedEffects]; 
     if (playerToReflex !== null) {
         console.log("player to reflex", playerToReflex, "Current player", state.currentPlayer); 
         reflexCard(playerToReflex, state);
@@ -167,12 +168,12 @@ export const checkFocus = (state: GameState) => {
                 const focused = card.focuses
                     .filter((mech) => mechReqsMet(mech, card.opponent, card.player, state))
                     .reduce((arr: ReadiedEffect[], mech) => {
+                        arr.push({card, mechanic: mech, isEventOnly: true, isHappening: true})
                         const readiedEff = mechanicsToReadiedEffects(mech.mechanicEffects, card); 
                         arr.push(...readiedEff); 
                         return arr;
                     }, []);
                 if (focused.length > 0) {
-                    focused.forEach((focus)=> addMechanicEvent(MechanicEnum.FOCUS, focus.card, state)); 
                     state.readiedEffects = state.readiedEffects || [];
                     state.readiedEffects.push(...deepCopy(focused));
                     modifiedState = true;

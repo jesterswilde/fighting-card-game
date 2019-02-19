@@ -4,26 +4,29 @@ const cardInterface_1 = require("../interfaces/cardInterface");
 const stateInterface_1 = require("../interfaces/stateInterface");
 const gameEvent_1 = require("../interfaces/gameEvent");
 const socket_1 = require("../interfaces/socket");
-exports.addEffectEvent = (mechanic, playedBy, state) => {
-    if (mechanic.mechanic === undefined || addableMechanics[mechanic.mechanic]) {
+exports.addEffectEvent = (mechanic, playedBy, name, isEventOnly, isHappening, state) => {
+    console.log(mechanic.mechanic, name, isEventOnly, isHappening);
+    //These are for thigns like damage, block, and things that get printed in that format
+    if (mechanic.mechanic === undefined || (addableMechanics[mechanic.mechanic] && !isHappening)) {
         state.events.push({ effect: mechanic, type: gameEvent_1.EventTypeEnum.EFFECT, playedBy });
-    }
-    else {
-        if (!ignoredMechanics[mechanic.mechanic]) {
-            exports.addedMechanicEvent(mechanic.mechanic, playedBy, state);
-        }
+    } //This is for when a telegraph, reflex, or focus is actually triggered 
+    else if (isHappening && isEventOnly) {
+        exports.mechanicIsHappeningEvent(mechanic.mechanic, name, playedBy, state);
+    } //This is for when delayed mechanics are added, but have no current effect. 
+    else if (!ignoredMechanics[mechanic.mechanic] || isEventOnly) {
+        exports.addedMechanicEvent(mechanic.mechanic, playedBy, state);
     }
 };
-exports.addMechanicEvent = (mechEnum, card, state) => {
-    console.log("adding effect event", card.name, mechEnum);
-    state.events.push({ type: gameEvent_1.EventTypeEnum.MECHANIC, mechanicName: mechEnum, cardName: card.name, playedBy: card.player });
-};
-exports.addGameOverEvent = (winner, state) => {
-    state.events.unshift({ type: gameEvent_1.EventTypeEnum.GAME_OVER, winner });
+exports.mechanicIsHappeningEvent = (mechEnum, cardName, playedBy, state) => {
+    console.log("adding effect event", cardName, mechEnum);
+    state.events.push({ type: gameEvent_1.EventTypeEnum.MECHANIC, mechanicName: mechEnum, cardName, playedBy });
 };
 exports.addedMechanicEvent = (mechEnum, playedBy, state) => {
     console.log("added effect", mechEnum);
     state.events.push({ type: gameEvent_1.EventTypeEnum.ADDED_MECHANIC, mechanicName: mechEnum, playedBy });
+};
+exports.addGameOverEvent = (winner, state) => {
+    state.events.push({ type: gameEvent_1.EventTypeEnum.GAME_OVER, winner });
 };
 exports.addRevealPredictionEvent = (correct, prediction, card, state) => {
     const correctGuesses = [];
@@ -49,6 +52,7 @@ exports.sendEvents = (state) => {
 //These are ignored because they are handled later.
 const ignoredMechanics = {
     [cardInterface_1.MechanicEnum.REFLEX]: true,
+    [cardInterface_1.MechanicEnum.PREDICT]: true
 };
 //They have their own printed versions
 const addableMechanics = {
