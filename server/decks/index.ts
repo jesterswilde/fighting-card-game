@@ -4,6 +4,8 @@ import { highGroundDeck } from './deckHighGround';
 import { gladiatorDeck } from './deckGaldiator';
 import { stoneDeck } from './deckStone';
 import { bloodInWaterDeck, bloodInWaterDescription } from './deckBloodInWater';
+import { ASDFname, ASDFdeck, ASDFdescription } from './deckASDF';
+
 
 interface DeckDescription {
     name: string,
@@ -19,6 +21,7 @@ export const decks: DeckDescription[] = [
     { name: 'Gladiator', deckList: gladiatorDeck, description: "The deck wants to have anticipation, and the enemy be off balanced. It wants to be on it's feet, with the opponent moving or prone" },
     { name: 'Stone Skin', deckList: stoneDeck, description: "Focuses on block, choice, and momentum. Performs poorly if allowed to be unbalanced." },
     { name: 'Blood In The Water', deckList: bloodInWaterDeck, description: bloodInWaterDescription },
+    { name: ASDFname, deckList: ASDFdeck, description: ASDFdescription },
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
 ]
 
