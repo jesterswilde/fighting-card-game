@@ -16676,9 +16676,13 @@ module.exports = ReactTooltip;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUUID = exports.cleanConnect = exports.HOST_URL = void 0;
+exports.printMotion = exports.printStanding = exports.printDistance = exports.getUUID = exports.cleanConnect = exports.HOST_URL = void 0;
 
 var _preactRedux = require("preact-redux");
+
+var _interface = require("./game/interface");
+
+var _a, _b, _c;
 
 var HOST_URL = '/api';
 exports.HOST_URL = HOST_URL;
@@ -16704,7 +16708,31 @@ var getUUID = function getUUID(obj) {
 };
 
 exports.getUUID = getUUID;
-},{"preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js"}],"src/images/index.tsx":[function(require,module,exports) {
+
+var printDistance = function printDistance(distance) {
+  var result = distanceRouter[distance];
+  return result || null;
+};
+
+exports.printDistance = printDistance;
+var distanceRouter = (_a = {}, _a[_interface.DistanceEnum.CLOSE] = "Close", _a[_interface.DistanceEnum.FAR] = "Far", _a[_interface.DistanceEnum.GRAPPLED] = "Grappled", _a);
+
+var printStanding = function printStanding(standing) {
+  var result = standingRouter[standing];
+  return result || null;
+};
+
+exports.printStanding = printStanding;
+var standingRouter = (_b = {}, _b[_interface.StandingEnum.PRONE] = "Prone", _b[_interface.StandingEnum.STANDING] = "Standing", _b);
+
+var printMotion = function printMotion(motion) {
+  var result = motionRouter[motion];
+  return result || null;
+};
+
+exports.printMotion = printMotion;
+var motionRouter = (_c = {}, _c[_interface.MotionEnum.MOVING] = "Moving", _c[_interface.MotionEnum.STILL] = "Still", _c);
+},{"preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/interface":"src/game/interface.ts"}],"src/images/index.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17773,7 +17801,7 @@ var Distance = function Distance(_a) {
     class: 'state-piece-container'
   }, (0, _preact.h)("div", {
     class: 'state-piece-title distance'
-  }, "Distance"), (0, _preact.h)("div", {
+  }, "Distance: ", (0, _util.printDistance)(distance)), (0, _preact.h)("div", {
     class: 'state-pieces'
   }, (0, _preact.h)("div", {
     class: "state-piece distance " + (distance === _interface.DistanceEnum.GRAPPLED ? '' : 'inactive')
@@ -17803,7 +17831,7 @@ var Motion = function Motion(_a) {
     class: 'state-piece-container'
   }, (0, _preact.h)("div", {
     class: 'state-piece-title motion'
-  }, "Motion"), (0, _preact.h)("div", {
+  }, (0, _util.printMotion)(motion)), (0, _preact.h)("div", {
     class: 'state-pieces'
   }, (0, _preact.h)("div", {
     class: "state-piece motion " + (motion === _interface.MotionEnum.STILL ? '' : 'inactive')
@@ -17829,7 +17857,7 @@ var Standing = function Standing(_a) {
     class: 'state-piece-container'
   }, (0, _preact.h)("div", {
     class: 'state-piece-title standing'
-  }, "Standing"), (0, _preact.h)("div", {
+  }, (0, _util.printStanding)(standing)), (0, _preact.h)("div", {
     class: 'state-pieces'
   }, (0, _preact.h)("div", {
     class: "state-piece standing " + (standing === _interface.StandingEnum.STANDING ? '' : 'inactive')

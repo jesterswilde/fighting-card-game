@@ -3,7 +3,7 @@ import { GameState, DistanceEnum, PlayerState, MotionEnum, PlayerStateDuration, 
 import { StoreState } from '../../state/store';
 import { Icon } from '../../images';
 import { AxisEnum } from '../../interfaces/card';
-import { cleanConnect } from '../../util';
+import { cleanConnect, printDistance, printMotion, printStanding } from '../../util';
 import Poise from './stateMachine/poise'; 
 
 interface Props extends GameState { };
@@ -69,7 +69,7 @@ const Health = ({ health, playerIndex }: CompProps) => {
 
 const Distance = ({ distance }: Props) => {
     return <div class='state-piece-container'>
-        <div class='state-piece-title distance'>Distance</div>
+        <div class='state-piece-title distance'>Distance: {printDistance(distance)}</div>
         <div class='state-pieces'>
             <div class={`state-piece distance ${distance === DistanceEnum.GRAPPLED ? '' : 'inactive'}`}>
                 <Icon name={AxisEnum.GRAPPLED} />
@@ -89,7 +89,7 @@ const Motion = ({ playerIndex = 0, stateDurations = [], playerStates = [] }: Com
     const { motion } = playerStates[playerIndex];
     const { motion: duration } = stateDurations[playerIndex];
     return <div class='state-piece-container'>
-        <div class='state-piece-title motion'>Motion</div>
+        <div class='state-piece-title motion'>{printMotion(motion)}</div>
         <div class='state-pieces'>
             <div class={`state-piece motion ${motion === MotionEnum.STILL ? '' : 'inactive'}`}>
                 <Icon name={AxisEnum.STILL} />
@@ -106,7 +106,7 @@ const Standing = ({ playerStates = [], stateDurations = [], playerIndex = 0 }: C
     const { standing } = playerStates[playerIndex];
     const { standing: duration } = stateDurations[playerIndex];
     return <div class='state-piece-container'>
-        <div class='state-piece-title standing'>Standing</div>
+        <div class='state-piece-title standing'>{printStanding(standing)}</div>
         <div class='state-pieces'>
             <div class={`state-piece standing ${standing === StandingEnum.STANDING ? '' : 'inactive'}`}>
                 <Icon name={AxisEnum.STANDING} />

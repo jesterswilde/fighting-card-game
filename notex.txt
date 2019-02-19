@@ -16,8 +16,6 @@ Damage got confused with block. Consider icon for block or better spacing?
 
 How can you make the second player feel better? 
 
-Deck viewer
-
 Predict should be stronger, mess with heavy prediction cards. 
 
 Blood in the water needs another prone card (maybe block and gain focus)

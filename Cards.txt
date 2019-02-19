@@ -71,7 +71,7 @@
       {
         "player": 1,
         "axis": "Damage",
-        "amount": 5
+        "amount": 8
       },
       {
         "player": 0,
@@ -88,18 +88,24 @@
         "axis": "Close"
       },
       {
-        "mechanic": "Predict",
+        "mechanic": "Forceful",
         "mechanicEffects": [
           {
             "player": 1,
             "axis": "Damage",
-            "amount": 15
+            "amount": 8
+          },
+          {
+            "player": 2,
+            "axis": "Lose Poise",
+            "amount": 2
           },
           {
             "player": 2,
             "axis": "Grappled"
           }
-        ]
+        ],
+        "amount": 5
       }
     ],
     "name": "Flying Kick Pin",
@@ -375,61 +381,6 @@
     "requirements": [
       {
         "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Inertia": {
-    "effects": [
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Moving",
-            "player": 0
-          },
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ]
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Still",
-            "player": 0
-          },
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "mechanic": "Block",
-            "amount": 5
-          }
-        ]
-      }
-    ],
-    "name": "Inertia",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
         "player": 0
       }
     ]
@@ -1203,40 +1154,6 @@
       },
       {
         "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Low Stance": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Standing"
-      },
-      {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "player": 0,
-              "axis": "Poise",
-              "amount": 2
-            }
-          ],
-          [
-            {
-              "mechanic": "Block",
-              "amount": 5
-            }
-          ]
-        ]
-      }
-    ],
-    "name": "Low Stance",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Prone",
         "player": 0
       }
     ]
@@ -3578,41 +3495,6 @@
       }
     ]
   },
-  "Clever Reposition": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 2
-      },
-      {
-        "mechanic": "Block",
-        "amount": 7
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 2
-      }
-    ],
-    "name": "Clever Reposition",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
   "Bloody Finale": {
     "effects": [
       {
@@ -3791,65 +3673,6 @@
       {
         "axis": "Still",
         "player": 1
-      }
-    ]
-  },
-  "Flying Kick Pin": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 8
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "axis": "Lose Poise",
-        "player": 1,
-        "amount": 3
-      },
-      {
-        "player": 2,
-        "axis": "Close"
-      },
-      {
-        "mechanic": "Forceful",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 8
-          },
-          {
-            "player": 2,
-            "axis": "Lose Poise",
-            "amount": 2
-          },
-          {
-            "player": 2,
-            "axis": "Grappled"
-          }
-        ],
-        "amount": 5
-      }
-    ],
-    "name": "Flying Kick Pin",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Anticipating",
-        "player": 0
       }
     ]
   },
@@ -4168,6 +3991,134 @@
       },
       {
         "axis": "Standing",
+        "player": 0
+      }
+    ]
+  },
+  "Inertia": {
+    "effects": [
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Moving",
+            "player": 0
+          },
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 4
+          }
+        ]
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Still",
+            "player": 0
+          },
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Block",
+            "amount": 4
+          }
+        ]
+      }
+    ],
+    "name": "Inertia",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ]
+  },
+  "Low Stance": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Standing"
+      },
+      {
+        "mechanic": "Pick One",
+        "choices": [
+          [
+            {
+              "player": 0,
+              "axis": "Poise",
+              "amount": 2
+            },
+            {
+              "mechanic": "Block",
+              "amount": 3
+            }
+          ],
+          [
+            {
+              "mechanic": "Block",
+              "amount": 8
+            }
+          ]
+        ]
+      }
+    ],
+    "name": "Low Stance",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ]
+  },
+  "Clever Reposition": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Moving",
+        "amount": 2
+      },
+      {
+        "mechanic": "Block",
+        "amount": 4
+      },
+      {
+        "player": 0,
+        "axis": "Poise",
+        "amount": 2
+      },
+      {
+        "player": 1,
+        "axis": "Lose Poise",
+        "amount": 2
+      }
+    ],
+    "name": "Clever Reposition",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
         "player": 0
       }
     ]

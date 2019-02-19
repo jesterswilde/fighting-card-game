@@ -1,5 +1,6 @@
 import { StoreState } from "./state/store";
 import {connect} from 'preact-redux'; 
+import { DistanceEnum, StandingEnum, MotionEnum } from "./game/interface";
 
 export let HOST_URL = '/api'; 
 if(location.host.split(':')[0] === 'localhost'){
@@ -17,4 +18,33 @@ export const getUUID = (obj: {[index: string]: any})=>{
         uuid++; 
     }
     return obj.uuid; 
+}
+
+export const printDistance = (distance: DistanceEnum)=>{
+    const result = distanceRouter[distance]; 
+    return result || null; 
+}
+const distanceRouter = {
+    [DistanceEnum.CLOSE]: "Close",
+    [DistanceEnum.FAR]: "Far",
+    [DistanceEnum.GRAPPLED]: "Grappled"
+}
+
+export const printStanding = (standing: StandingEnum)=>{
+    const result = standingRouter[standing]; 
+    return result || null;
+}
+
+const standingRouter = {
+    [StandingEnum.PRONE]: "Prone",
+    [StandingEnum.STANDING]: "Standing"
+}
+
+export const printMotion = (motion: MotionEnum)=>{
+    const result = motionRouter[motion]; 
+    return result || null; 
+}
+const motionRouter = {
+    [MotionEnum.MOVING]: "Moving",
+    [MotionEnum.STILL]: "Still"
 }
