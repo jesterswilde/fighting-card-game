@@ -66,59 +66,6 @@
       }
     ]
   },
-  "Flying Kick Pin": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 5
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "axis": "Lose Poise",
-        "player": 1,
-        "amount": 3
-      },
-      {
-        "player": 2,
-        "axis": "Close"
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 15
-          },
-          {
-            "player": 2,
-            "axis": "Grappled"
-          }
-        ]
-      }
-    ],
-    "name": "Flying Kick Pin",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Anticipating",
-        "player": 0
-      }
-    ]
-  },
   "Blocker": {
     "effects": [
       {
@@ -3230,6 +3177,384 @@
       {
         "axis": "Unbalanced",
         "player": 1
+      }
+    ]
+  },
+  "Flying Kick Pin": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 8
+      },
+      {
+        "player": 0,
+        "axis": "Moving",
+        "amount": 3
+      },
+      {
+        "axis": "Lose Poise",
+        "player": 1,
+        "amount": 3
+      },
+      {
+        "player": 2,
+        "axis": "Close"
+      },
+      {
+        "mechanic": "Forceful",
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 8
+          },
+          {
+            "player": 2,
+            "axis": "Lose Poise",
+            "amount": 2
+          },
+          {
+            "player": 2,
+            "axis": "Grappled"
+          }
+        ],
+        "amount": 5
+      }
+    ],
+    "name": "Flying Kick Pin",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      }
+    ]
+  },
+  "Reposition": {
+    "effects": [
+      {
+        "mechanic": "Pick One",
+        "choices": [
+          [
+            {
+              "axis": "Further",
+              "player": 2
+            }
+          ],
+          [
+            {
+              "axis": "Still",
+              "player": 0
+            }
+          ]
+        ]
+      },
+      {
+        "mechanic": "Predict",
+        "mechanicEffects": [
+          {
+            "axis": "Poise",
+            "amount": 3,
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "name": "Reposition",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ]
+  },
+  "Coil Up": {
+    "effects": [
+      {
+        "mechanic": "Block",
+        "amount": 3
+      },
+      {
+        "mechanic": "Telegraph",
+        "mechanicRequirements": [
+          {
+            "axis": "Close",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "axis": "Damage",
+            "amount": 5,
+            "player": 1
+          },
+          {
+            "mechanic": "Reflex"
+          }
+        ]
+      }
+    ],
+    "name": "Coil Up",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Close",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      }
+    ]
+  },
+  "Choke": {
+    "effects": [
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Grappled",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "axis": "Damage",
+            "player": 1,
+            "amount": 7
+          }
+        ]
+      }
+    ],
+    "name": "Choke",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Unbalanced",
+        "player": 1
+      }
+    ]
+  },
+  "Zen State": {
+    "effects": [
+      {
+        "axis": "Poise",
+        "player": 0,
+        "amount": 3
+      },
+      {
+        "player": 0,
+        "axis": "Prone"
+      },
+      {
+        "player": 0,
+        "mechanic": "Block",
+        "amount": 8
+      }
+    ],
+    "name": "Zen State",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ]
+  },
+  "Nailed!": {
+    "effects": [
+      {
+        "axis": "Damage",
+        "amount": 10,
+        "player": 1
+      },
+      {
+        "axis": "Lose Poise",
+        "amount": 3,
+        "player": 1
+      },
+      {
+        "player": 1,
+        "mechanic": "Lock",
+        "axis": "Still",
+        "amount": 1
+      }
+    ],
+    "name": "Nailed!",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ]
+  },
+  "Bite": {
+    "effects": [
+      {
+        "axis": "Damage",
+        "amount": 5,
+        "player": 1
+      }
+    ],
+    "name": "Bite",
+    "optional": [
+      {
+        "effects": [
+          {
+            "axis": "Damage",
+            "amount": 5,
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Standing",
+            "player": 2
+          }
+        ]
+      },
+      {
+        "effects": [
+          {
+            "axis": "Lose Poise",
+            "amount": 3,
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Standing",
+            "player": 1
+          },
+          {
+            "axis": "Prone",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      }
+    ]
+  },
+  "Smash the Bridge": {
+    "effects": [
+      {
+        "axis": "Damage",
+        "amount": 6,
+        "player": 1
+      },
+      {
+        "player": 1,
+        "axis": "Lose Poise",
+        "amount": 2
+      },
+      {
+        "player": 2,
+        "axis": "Close"
+      }
+    ],
+    "name": "Smash the Bridge",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 1,
+            "axis": "Lose Poise",
+            "amount": 2
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 2
+      }
+    ]
+  },
+  "Luring Trap": {
+    "effects": [
+      {
+        "axis": "Further",
+        "player": 2
+      },
+      {
+        "mechanic": "Telegraph",
+        "mechanicRequirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "axis": "Prone",
+            "amount": 3,
+            "player": 1
+          },
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 7
+          }
+        ]
+      }
+    ],
+    "name": "Luring Trap",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
       }
     ]
   }
