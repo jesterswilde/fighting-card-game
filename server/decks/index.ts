@@ -3,6 +3,7 @@ import { grappleDeck } from './deckGrapple';
 import { highGroundDeck } from './deckHighGround';
 import { gladiatorDeck } from './deckGaldiator';
 import { stoneDeck } from './deckStone';
+import { ASDFname, ASDFdeck, ASDFdescription } from './deckASDF';
 
 interface DeckDescription {
     name: string,
@@ -17,7 +18,8 @@ export const decks: DeckDescription[] = [
     { name: 'High Ground', deckList: highGroundDeck, description: "Wants to be standing while the opponent is prone. Tries very hard to avoid negative statuses" },
     { name: 'Gladiator', deckList: gladiatorDeck, description: "The deck wants to have anticipation, and the enemy be off balanced. It wants to be on it's feet, with the opponent moving or prone" },
     { name: 'Stone', deckList: stoneDeck, description: "Focuses on block, choice, and momentum. Can do almost nothing if unbalanced."},
-    { name: 'test', deckList: testDeck, description: "Test deck, don't click this" }
+    { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
+    { name: ASDFname, deckList: ASDFdeck, description: ASDFdescription },
 ]
 
 export const getDeckOptions = () => {
