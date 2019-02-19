@@ -15,8 +15,6 @@
     "preact": "^8.4.2",
     "preact-compat": "^3.18.4",
     "preact-redux": "^2.0.3",
-    "react": ">=0.14",
-    "react-dom": ">=0.14",
     "react-tooltip": "^3.9.2",
     "redux": "^4.0.1",
     "socket.io-client": "^2.2.0"
