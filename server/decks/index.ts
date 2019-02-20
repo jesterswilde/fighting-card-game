@@ -5,6 +5,7 @@ import { gladiatorDeck } from './deckGaldiator';
 import { stoneDeck } from './deckStone';
 import { bloodInWaterDeck, bloodInWaterDescription } from './deckBloodInWater';
 import { ASDFname, ASDFdeck, ASDFdescription } from './deckASDF';
+import { inspectorGadgetName, inspectorGadgetDeck, inspectorGadgetDescription } from './deckInspectorGadget';
 
 
 interface DeckDescription {
@@ -22,6 +23,7 @@ export const decks: DeckDescription[] = [
     { name: 'Stone Skin', deckList: stoneDeck, description: "Focuses on block, choice, and momentum. Performs poorly if allowed to be unbalanced." },
     { name: 'Blood In The Water', deckList: bloodInWaterDeck, description: bloodInWaterDescription },
     { name: ASDFname, deckList: ASDFdeck, description: ASDFdescription },
+    { name: inspectorGadgetName, deckList: inspectorGadgetDeck, description: inspectorGadgetDescription },
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
 ]
 

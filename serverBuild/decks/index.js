@@ -7,6 +7,7 @@ const deckGaldiator_1 = require("./deckGaldiator");
 const deckStone_1 = require("./deckStone");
 const deckBloodInWater_1 = require("./deckBloodInWater");
 const deckASDF_1 = require("./deckASDF");
+const deckInspectorGadget_1 = require("./deckInspectorGadget");
 const testDeck = ["WillTelegraph", "WillTelegraph", "TelegraphTest"];
 exports.decks = [
     { name: 'Grapple', deckList: deckGrapple_1.grappleDeck, description: "Excels at fighting while Grappled and Prone. Wants to play the card Neck Break (requires Grappled, Both Prone, and Balanced." },
@@ -15,6 +16,7 @@ exports.decks = [
     { name: 'Stone Skin', deckList: deckStone_1.stoneDeck, description: "Focuses on block, choice, and momentum. Performs poorly if allowed to be unbalanced." },
     { name: 'Blood In The Water', deckList: deckBloodInWater_1.bloodInWaterDeck, description: deckBloodInWater_1.bloodInWaterDescription },
     { name: deckASDF_1.ASDFname, deckList: deckASDF_1.ASDFdeck, description: deckASDF_1.ASDFdescription },
+    { name: deckInspectorGadget_1.inspectorGadgetName, deckList: deckInspectorGadget_1.inspectorGadgetDeck, description: deckInspectorGadget_1.inspectorGadgetDescription },
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
 ];
 exports.getDeckForViewer = (name) => {
