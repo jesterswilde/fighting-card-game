@@ -4122,5 +4122,333 @@
         "player": 0
       }
     ]
+  },
+  "Drop Chandelier": {
+    "effects": [
+      {
+        "axis": "Damage",
+        "amount": 12,
+        "player": 1
+      },
+      {
+        "axis": "Lose Poise",
+        "amount": 3,
+        "player": 1
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "axis": "Damage",
+            "amount": 3,
+            "player": 1
+          }
+        ]
+      }
+    ],
+    "name": "Drop Chandelier",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ]
+  },
+  "Insidious Plan": {
+    "effects": [
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "axis": "Damage",
+            "amount": 5,
+            "player": 1
+          }
+        ]
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Moving",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Lose Poise",
+            "amount": 2
+          }
+        ]
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Grappled",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "axis": "Damage",
+            "amount": 5,
+            "player": 1
+          },
+          {
+            "axis": "Lose Poise",
+            "player": 0,
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "name": "Insidious Plan",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ]
+  },
+  "Bullet Time": {
+    "effects": [
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Forceful",
+            "amount": 2,
+            "mechanicEffects": [
+              {
+                "mechanic": "Reflex"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Moving",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "axis": "Poise",
+            "amount": 2,
+            "player": 0
+          }
+        ]
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Grappled",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "axis": "Damage",
+            "player": 1,
+            "amount": 5
+          },
+          {
+            "player": 0,
+            "axis": "Lose Poise",
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "name": "Bullet Time",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ]
+  },
+  "Drone Strike": {
+    "effects": [
+      {
+        "axis": "Damage",
+        "amount": 10,
+        "player": 1
+      }
+    ],
+    "name": "Drone Strike",
+    "optional": [
+      {
+        "effects": [
+          {
+            "axis": "Damage",
+            "amount": 10,
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Bloodied",
+            "player": 1
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Far",
+        "player": 2
+      }
+    ]
+  },
+  "Holographic Copies": {
+    "effects": [
+      {
+        "mechanic": "Block",
+        "amount": 10
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Balanced",
+            "player": 0
+          },
+          {
+            "axis": "Not Grappled",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Block",
+            "amount": 3
+          }
+        ]
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "axis": "Lose Poise",
+            "player": 1,
+            "amount": 2
+          }
+        ]
+      }
+    ],
+    "name": "Holographic Copies",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ]
+  },
+  "Smoke Bomb": {
+    "effects": [
+      {
+        "mechanic": "Block",
+        "amount": 10
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Prone",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Block",
+            "amount": 3
+          }
+        ]
+      },
+      {
+        "axis": "Lose Poise",
+        "amount": 2,
+        "player": 1
+      }
+    ],
+    "name": "Smoke Bomb",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ]
   }
 }
