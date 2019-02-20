@@ -9702,6 +9702,7 @@ h3 {
   height: 100vh;
   opacity: 0.5;
   background-color: #000;
+  z-index: 100;
 }
 .event-modal .event-container {
   left: 25vw;
@@ -9714,6 +9715,7 @@ h3 {
   flex-direction: column;
   background-color: #d4d4d4;
   overflow-y: auto;
+  z-index: 101;
 }
 .event-modal .event-container .event {
   flex-shrink: 0;
@@ -9798,6 +9800,9 @@ h3 {
   height: 50px;
   width: 50px;
 }
+.event-modal .event-container .wrapper {
+  z-index: 101;
+}
 
 .poise-section {
   width: 100%;
@@ -9871,6 +9876,13 @@ h3 {
   margin-bottom: 15px;
 }
 
+.tooltip-wrapper {
+  position: absolute;
+}
+.tooltip-wrapper > div {
+  position: fixed;
+}
+
 .navbar {
   background-color: #2e2e2e;
   color: #d4d4d4;
@@ -9913,7 +9925,6 @@ ul {
 }
 
 .queue-card {
-  overflow: hidden;
   cursor: pointer;
   width: 200px;
   font-weight: bold;

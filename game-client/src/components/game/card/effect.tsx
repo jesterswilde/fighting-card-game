@@ -37,11 +37,11 @@ const renderSwitch = (effect: Mechanic, shouldFlip: boolean) => {
     return null;
 }
 
-const mechWithTooltip = (mech: MechanicEnum)=>{
+const mechWithTooltip = (mech: MechanicEnum) => {
     const description = getMechanicDescription(mech);
     return <Tooltip content={description}>
-        <div><b>{mech}</b></div>
-    </Tooltip>
+            <div><b>{mech}</b></div>
+        </Tooltip>
 }
 
 const renderNone = (mechanic: Mechanic) => {
