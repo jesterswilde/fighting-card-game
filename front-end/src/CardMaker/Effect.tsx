@@ -44,6 +44,8 @@ export default class Effect extends React.Component<Props>{
                 return null;
             case DisplayEnum.NAME:
                 return this.renderName();
+            case DisplayEnum.NAME_EFF:
+                return this.renderNameEff(); 
             case DisplayEnum.NORMAL:
             default:
                 return this.renderNormal();
@@ -52,6 +54,24 @@ export default class Effect extends React.Component<Props>{
     private renderName = () => {
         const { amount } = this.props.effect;
         return <input type="text" value={amount} onChange={this.changeAmount} />
+    }
+    private renderNameEff = () => {
+        const { amount, mechanicEffects: effs = [] } = this.props.effect;
+        return <React.Fragment>
+            <input type="text" value={amount} onChange={this.changeAmount} />
+            <div className="ml-5">
+                <div>
+                    Effects:
+                    <button className="btn btn-sm btn-primary" onClick={this.addEffect}> + </button>
+                    <div>
+                        {effs.map((eff, i) => <div key={getUUID(eff)}>
+                            <button className="btn btn-danger btn-sm" onClick={(e) => this.removeEffect(e, i)}> - </button>
+                            <Effect effect={eff} update={this.updateEffect} index={i} />
+                        </div>)}
+                    </div>
+                </div>
+            </div>
+        </React.Fragment>
     }
     private renderNormal = () => {
         const { player, amount, axis } = this.props.effect;
@@ -108,7 +128,7 @@ export default class Effect extends React.Component<Props>{
         </div>
     }
     private renderAmountEff = () => {
-        const { mechanicEffects: effs = [], amount} = this.props.effect;
+        const { mechanicEffects: effs = [], amount } = this.props.effect;
         return <div className="ml-5">
             <div>
                 Amount: <input type="number" value={amount} onChange={this.changeAmount} />

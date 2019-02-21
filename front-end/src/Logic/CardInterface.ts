@@ -36,7 +36,8 @@ export enum MechanicEnum{
     BUFF = "Buff",
     CRIPPLE = "Cripple",
     PICK_ONE = "Pick One",
-    FORCEFUL = "Forceful"
+    FORCEFUL = "Forceful",
+    ALTER = "Alter"
 }
 
 export enum DisplayEnum {
@@ -44,6 +45,7 @@ export enum DisplayEnum {
     EFF,
     NORMAL,
     NAME,
+    NAME_EFF,
     AMOUNT,
     PICK_ONE,
     AMOUNT_EFF,
@@ -55,6 +57,7 @@ export const MechanicDisplay = {
     [MechanicEnum.FOCUS]: DisplayEnum.REQ_EFF, 
     [MechanicEnum.PREDICT]: DisplayEnum.EFF,
     [MechanicEnum.BUFF]: DisplayEnum.NORMAL,
+    [MechanicEnum.ALTER]: DisplayEnum.NAME_EFF,
     [MechanicEnum.BLOCK]: DisplayEnum.AMOUNT, 
     [MechanicEnum.LOCK]: DisplayEnum.NORMAL,
     [MechanicEnum.REFLEX]: DisplayEnum.NONE,

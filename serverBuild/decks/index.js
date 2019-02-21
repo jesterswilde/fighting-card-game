@@ -5,18 +5,20 @@ const deckGrapple_1 = require("./deckGrapple");
 const deckHighGround_1 = require("./deckHighGround");
 const deckGaldiator_1 = require("./deckGaldiator");
 const deckStone_1 = require("./deckStone");
-const deckBloodInWater_1 = require("./deckBloodInWater");
-const deckASDF_1 = require("./deckASDF");
 const deckInspectorGadget_1 = require("./deckInspectorGadget");
+const deckASDF_1 = require("./deckASDF");
+const deckBloodInWater_1 = require("./deckBloodInWater");
+const deckBoxer_1 = require("./deckBoxer");
 const testDeck = ["WillTelegraph", "WillTelegraph", "TelegraphTest"];
 exports.decks = [
-    { name: 'Grapple', deckList: deckGrapple_1.grappleDeck, description: "Excels at fighting while Grappled and Prone. Wants to play the card Neck Break (requires Grappled, Both Prone, and Balanced." },
-    { name: 'High Ground', deckList: deckHighGround_1.highGroundDeck, description: "Wants to be standing while the opponent is prone. Tries very hard to avoid negative statuses" },
-    { name: 'Gladiator', deckList: deckGaldiator_1.gladiatorDeck, description: "The deck wants to have anticipation, and the enemy be off balanced. It wants to be on it's feet, with the opponent moving or prone" },
-    { name: 'Stone Skin', deckList: deckStone_1.stoneDeck, description: "Focuses on block, choice, and momentum. Performs poorly if allowed to be unbalanced." },
-    { name: 'Blood In The Water', deckList: deckBloodInWater_1.bloodInWaterDeck, description: deckBloodInWater_1.bloodInWaterDescription },
-    { name: deckASDF_1.ASDFname, deckList: deckASDF_1.ASDFdeck, description: deckASDF_1.ASDFdescription },
-    { name: deckInspectorGadget_1.inspectorGadgetName, deckList: deckInspectorGadget_1.inspectorGadgetDeck, description: deckInspectorGadget_1.inspectorGadgetDescription },
+    deckGrapple_1.grappleDeck,
+    deckHighGround_1.highGroundDeck,
+    deckGaldiator_1.gladiatorDeck,
+    deckStone_1.stoneDeck,
+    deckBloodInWater_1.bloodInWaterDeck,
+    deckInspectorGadget_1.inspectorGadgetDeck,
+    deckASDF_1.ASDFdeck,
+    deckBoxer_1.boxerDeck,
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
 ];
 exports.getDeckForViewer = (name) => {

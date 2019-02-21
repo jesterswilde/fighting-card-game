@@ -7,6 +7,7 @@ import { inspectorGadgetDeck } from './deckInspectorGadget';
 import { DeckDescription } from './interface';
 import { ASDFdeck } from './deckASDF';
 import { bloodInWaterDeck } from './deckBloodInWater';
+import { boxerDeck } from './deckBoxer';
 
 
 
@@ -21,6 +22,7 @@ export const decks: DeckDescription[] = [
     bloodInWaterDeck,
     inspectorGadgetDeck,
     ASDFdeck,
+    boxerDeck,
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
 ]
 

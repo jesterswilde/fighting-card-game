@@ -1932,18 +1932,6 @@
       }
     ]
   },
-  "GameEnder": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 800
-      }
-    ],
-    "name": "GameEnder",
-    "optional": [],
-    "requirements": []
-  },
   "Ankle Smash": {
     "effects": [
       {
@@ -4708,6 +4696,98 @@
       {
         "axis": "Not Grappled",
         "player": 0
+      }
+    ],
+    "tags": []
+  },
+  "Haymaker": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 14
+      },
+      {
+        "player": 0,
+        "axis": "Lose Poise",
+        "amount": 4
+      }
+    ],
+    "name": "Haymaker",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 3
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      }
+    ],
+    "tags": []
+  },
+  "Ride The Ropes": {
+    "effects": [
+      {
+        "player": 0,
+        "axis": "Still"
+      },
+      {
+        "player": 0,
+        "axis": "Poise",
+        "amount": 3
+      },
+      {
+        "mechanic": "Block",
+        "amount": 4
+      }
+    ],
+    "name": "Ride The Ropes",
+    "optional": [
+      {
+        "effects": [
+          {
+            "mechanic": "Block",
+            "amount": 3
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
       }
     ],
     "tags": []
