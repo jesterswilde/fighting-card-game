@@ -17,7 +17,8 @@ export default class Viewer extends React.Component<Props>{
         if (this.props.card === undefined) {
             return <Redirect to='/' />
         }
-        const { name, optional, requirements, effects } = this.props.card;
+        console.log(this.props.card);
+        const { name, optional, requirements, effects, tags } = this.props.card;
         return <div>
             <h3>{name}</h3>
             <ul>
@@ -31,11 +32,18 @@ export default class Viewer extends React.Component<Props>{
             <ul>
                 {effects.map((effect, i) => <Effect key={i} effect={effect} />)}
             </ul>
+            <div>
+                <div className="inline mr-1">Tags: </div>
+                {tags.map((tag, i) => {
+                    const hasComma = i < tags.length - 1;
+                    return <div key={i} className="inline">{tag}{hasComma ? ',\u00a0' : ''}</div>
+                })}
+            </div>
             <Link to="/maker"><button className="btn btn-primary">Edit</button></Link>
             <div className="mt-2">
                 <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(-1)}> {'<-'} </button>
                 <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(1)}> {'->'} </button>
             </div>
-        </div>
+        </div >
     }
 }

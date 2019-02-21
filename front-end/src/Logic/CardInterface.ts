@@ -1,7 +1,9 @@
 export interface Card extends RequirementEffect{
     name: string,
     optional: RequirementEffect[]
+    tags: string[]
 }
+
 
 export interface RequirementEffect{
     requirements: StatePiece[],

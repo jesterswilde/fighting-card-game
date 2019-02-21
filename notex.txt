@@ -8,8 +8,6 @@ Some indication that it's the opponent's turn would be good.
 
 break up ui to top / bottom
 
-Switch motion / standing names to just show the name of the current state
-
 Damage got confused with block. Consider icon for block or better spacing? 
 
 How can you make the second player feel better? 

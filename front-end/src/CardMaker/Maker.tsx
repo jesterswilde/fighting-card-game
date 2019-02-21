@@ -3,11 +3,19 @@ import { Card, Mechanic, StatePiece, PlayerEnum, AxisEnum, RequirementEffect } f
 import Effect from './Effect';
 import Requirement from './Requirement';
 import Optional from './Optional';
+import Tags from './Tags';
 import { hostURL, getUUID } from 'src/Logic/Util';
 import { Link } from 'react-router-dom';
+import { __values } from 'tslib';
+
+interface TagObj {
+    uuid?: number,
+    value: string
+}
 
 interface State extends Card {
-    index: string | null
+    index: string | null,
+    tagObjs: TagObj[]
 }
 
 interface Props {
@@ -17,17 +25,25 @@ interface Props {
 }
 
 export default class Maker extends React.Component<Props, State>{
-    public static getDerivedStateFromProps(props: Props, state: State){
+    public static getDerivedStateFromProps(props: Props, state: State) {
         console.log(props.card)
-        if(props.card && state.index !== props.card.name){
-            return {...props.card, index: props.card.name}
+        if (props.card && state.index !== props.card.name) {
+            return {
+                ...props.card,
+                index: props.card.name,
+                tagObj: props.card.tags.map((tag) => ({ value: tag }))
+            }
         }
-        return null; 
+        return null;
     }
     constructor(props: Props) {
         super(props);
         if (props.card !== undefined) {
-            this.state = { ...props.card, index: props.card.name || null };
+            this.state = {
+                ...props.card,
+                index: props.card.name || null,
+                tagObjs: props.card.tags.map((tag) => ({ value: tag }))
+            };
         } else {
             this.state = {
                 effects: [],
@@ -35,6 +51,8 @@ export default class Maker extends React.Component<Props, State>{
                 name: '',
                 optional: [],
                 requirements: [],
+                tagObjs: [],
+                tags: [],
             }
         }
         this.updateName = this.updateName.bind(this);
@@ -48,6 +66,9 @@ export default class Maker extends React.Component<Props, State>{
         this.removeOptional = this.removeOptional.bind(this);
         this.updateOptional = this.updateOptional.bind(this);
         this.updateCard = this.updateCard.bind(this);
+        this.addTag = this.addTag.bind(this);
+        this.removeTag = this.removeTag.bind(this);
+        this.updateTag = this.updateTag.bind(this);
         this.stripUID = this.stripUID.bind(this);
     }
     public render() {
@@ -89,6 +110,7 @@ export default class Maker extends React.Component<Props, State>{
                             <span className="col-11"><Optional optional={opt} index={i} update={this.updateOptional} /></span>
                         </div></li>)}
                     </ul>
+                    <Tags addTag={this.addTag} removeTag={this.removeTag} updateTag={this.updateTag} tags={this.state.tagObjs} />
                 </div>
                 <div>
                     <button className="btn btn-primary btn-large" onClick={this.updateCard}>Update</button>
@@ -98,8 +120,8 @@ export default class Maker extends React.Component<Props, State>{
                     <button className="btn btn-primary btn-large ml-2" onClick={this.newCard}>New Card</button>
                 </div>
                 <div className="mt-2">
-                    <button className="btn btn-primary btn-large ml-2" onClick={()=>this.props.changeCard(-1)}> {'<-'} </button>
-                    <button className="btn btn-primary btn-large ml-2" onClick={()=>this.props.changeCard(1)}> {'->'} </button>
+                    <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(-1)}> {'<-'} </button>
+                    <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(1)}> {'->'} </button>
                 </div>
             </div>
         )
@@ -110,11 +132,18 @@ export default class Maker extends React.Component<Props, State>{
             index: null,
             name: '',
             optional: [],
-            requirements: []
+            requirements: [],
+            tagObjs: [],
+            tags: [],
         })
     }
     private updateCard() {
-        const card = this.stripUID(this.state);
+        const tags = this.state.tagObjs.map(({ value }) => value);
+        const card = {
+            ...this.stripUID(this.state),
+            tagObjs: undefined,
+            tags,
+        };
         fetch(hostURL + 'card', {
             body: JSON.stringify(card),
             headers: {
@@ -122,6 +151,23 @@ export default class Maker extends React.Component<Props, State>{
             },
             method: 'POST',
         })
+    }
+    private addTag() {
+        const tagObjs = [...this.state.tagObjs, { value: '' }];
+        const tags = [...this.state.tags, '']
+        this.setState({ tagObjs, tags })
+    }
+    private removeTag(index: number) {
+        const tagObjs = this.state.tagObjs.filter((_, i) => i !== index);
+        const tags = this.state.tags.filter((_,i)=> i !== index); 
+        this.setState({ tagObjs, tags });
+    }
+    private updateTag(value: TagObj, index: number) {
+        const tagObjs = [...this.state.tagObjs];
+        tagObjs[index] = value;
+        const tags = [...this.state.tags]; 
+        tags[index] = value.value; 
+        this.setState({ tagObjs, tags })
     }
     private addRequirement() {
         const requirements = [...this.state.requirements,

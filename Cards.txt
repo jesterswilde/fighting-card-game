@@ -4450,5 +4450,266 @@
         "player": 2
       }
     ]
+  },
+  "Rope-a-dope": {
+    "effects": [
+      {
+        "mechanic": "Block",
+        "amount": 3
+      },
+      {
+        "mechanic": "Focus",
+        "mechanicRequirements": [
+          {
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Lose Poise",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "name": "Rope-a-dope",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 0,
+            "axis": "Poise",
+            "amount": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Still",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "tags": []
+  },
+  "Punch, Counterpunch": {
+    "effects": [
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 4
+      },
+      {
+        "player": 1,
+        "axis": "Lose Poise",
+        "amount": 1
+      }
+    ],
+    "name": "Punch, Counterpunch",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": null,
+            "mechanic": "Block",
+            "amount": 3
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ]
+      },
+      {
+        "effects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 4
+          },
+          {
+            "axis": "Lose Poise",
+            "amount": 1,
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Damage",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      }
+    ],
+    "tags": []
+  },
+  "To The Pocket": {
+    "effects": [
+      {
+        "player": 2,
+        "axis": "Close"
+      },
+      {
+        "player": 0,
+        "axis": "Poise",
+        "amount": 1
+      },
+      {
+        "player": 0,
+        "axis": "Moving"
+      }
+    ],
+    "name": "To The Pocket",
+    "optional": [
+      {
+        "effects": [
+          {
+            "mechanic": "Block",
+            "amount": 3
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Not Close",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 1
+      }
+    ],
+    "tags": []
+  },
+  "Swarm of Punches": {
+    "effects": [
+      {
+        "player": 2,
+        "axis": "Moving",
+        "amount": 2
+      },
+      {
+        "player": 2,
+        "axis": "Lose Poise",
+        "amount": 1
+      },
+      {
+        "player": 1,
+        "axis": "Damage",
+        "amount": 5
+      },
+      {
+        "mechanic": "Forceful",
+        "amount": 3,
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 5
+          },
+          {
+            "player": 1,
+            "axis": "Lose Poise",
+            "amount": 1
+          }
+        ]
+      }
+    ],
+    "name": "Swarm of Punches",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "tags": []
+  },
+  "Accurate Strike": {
+    "effects": [
+      {
+        "player": 1,
+        "mechanic": "No Mechanic",
+        "amount": 2,
+        "axis": "Damage"
+      },
+      {
+        "mechanic": "Block",
+        "amount": 6
+      },
+      {
+        "mechanic": "Predict",
+        "mechanicEffects": [
+          {
+            "player": 1,
+            "axis": "Damage",
+            "amount": 10
+          }
+        ]
+      }
+    ],
+    "name": "Accurate Strike",
+    "optional": [
+      {
+        "effects": [
+          {
+            "player": 2,
+            "axis": "Close"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Far",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Not Grappled",
+        "player": 0
+      }
+    ],
+    "tags": []
   }
 }

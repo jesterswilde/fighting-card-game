@@ -1,5 +1,5 @@
 import {h, Component} from 'preact'; 
-import { DeckDescription, Deck } from '../deckViewer/interface';
+import { DeckDescription, Deck, DeckViewerFilter } from '../deckViewer/interface';
 import { StoreState } from '../state/store';
 import {dispatchGetDeckList, dispatchGetDeckWithName} from '../deckViewer/dispatch'
 import Cards from './deckViewer/cards'
@@ -12,6 +12,7 @@ interface SelectorProps{
     deck: Deck,
     isLoadingDeckList: boolean,
     isLoadingDeck: boolean
+    filters: DeckViewerFilter[]
 }
 
 interface ExternalProps{
@@ -27,7 +28,8 @@ const selector = (state: StoreState): SelectorProps=>{
         isLoadingDeck: state.deckViewer.isLoadingDeck,
         isLoadingDeckList: state.deckViewer.isLoadingDeckList,
         deckList: state.deckViewer.deckList,
-        deck: state.deckViewer.deck
+        deck: state.deckViewer.deck,
+        filters: state.deckViewer.filters
     }
 }
 
@@ -43,10 +45,10 @@ class DeckViewer extends Component<Props>{
 
     }
     render = ()=>{ 
-        const {path, pathPrepend, deck, deckList, isLoadingDeck, isLoadingDeckList} = this.props
+        const {path, pathPrepend, deck, deckList, isLoadingDeck, isLoadingDeckList, filters} = this.props
         const viewingDeck = path.length > 0; 
         if(viewingDeck){
-            return <Cards isLoading={isLoadingDeck} {...deck} back={()=>dispatchToPathArray(pathPrepend)} />
+            return <Cards filters={filters} isLoading={isLoadingDeck} {...deck} back={()=>dispatchToPathArray(pathPrepend)} />
         }else{
             return <DeckList decks={deckList} isLoading={isLoadingDeckList} chooseDeck={this.chooseDeck}  />
         }

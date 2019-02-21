@@ -58,7 +58,7 @@ export enum PredictionEnum {
     MOTION = "Motion",
 }
 
-export enum BalanceEnum{
+export enum PoiseEnum{
     BALANCED,
     UNBALANCED,
     ANTICIPATING

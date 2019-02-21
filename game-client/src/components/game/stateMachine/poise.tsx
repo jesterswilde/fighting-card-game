@@ -2,6 +2,7 @@ import { h } from 'preact';
 import { Icon } from '../../../images';
 import { AxisEnum } from '../../../interfaces/card';
 import { GameState } from '../../../game/interface';
+import poiseBar from '../../../images/poiseBar.png'
 
 interface Props {
     poise: number
@@ -16,9 +17,9 @@ const selector = (state: State): Props => {
 }
 
 const Poise = ({ poise }: Props) => {
-    const unbalancedArr = [0,1,2];
-    const balancedArr = [3,4,5,6];
-    const anticipatingArr = [7,8,9]; 
+    const unbalancedArr = [0, 1, 2];
+    const balancedArr = [3, 4, 5, 6];
+    const anticipatingArr = [7, 8, 9];
     return <div class="poise-section">
         <div class={poiseTitleClass(poise)}>Poise: {poiseLevel(poise)}</div>
         <div class="poise-container">
@@ -31,7 +32,7 @@ const Poise = ({ poise }: Props) => {
                     })}
                 </div>
             </div>
-            <div class="balanced"> 
+            <div class="balanced">
                 <div>Balanced</div>
                 <div class='poise-icon'>
                     {balancedArr.map((i) => {
@@ -53,7 +54,7 @@ const Poise = ({ poise }: Props) => {
     </div>
 }
 
-const poiseTitleClass = (poise:number)=>{
+const poiseTitleClass = (poise: number) => {
     return `poise-title ${poiseLevel(poise).toLowerCase()}`
 }
 

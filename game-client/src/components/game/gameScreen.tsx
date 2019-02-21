@@ -5,7 +5,7 @@ import { HandState } from '../../hand/interface';
 import Board from './board';
 import Hand from './hand';
 import Predict from './predictChoices';
-import StateMachine from './stateMachine'; 
+import PlayerState from './stateMachine/playerStates'; 
 import Prediction from './predictions'
 import PickOne from './pickOne'; 
 import Forceful from './forceful'; 
@@ -34,13 +34,13 @@ const game = ({ game, screen, shouldDisplayEvents }: Props) => {
     return <div>
         {shouldDisplayEvents && <Events />}
         <h2>Game</h2>
-        <StateMachine />
         <Prediction {...game}/>
         <Board  player={player} currentPlayer={currentPlayer} queue={queue}/>
         {screen === GameDisplayEnum.NORMAL && <Hand />}
         {screen === GameDisplayEnum.PREDICT && <Predict />}
         {screen === GameDisplayEnum.PICK_ONE && <PickOne />}
         {screen === GameDisplayEnum.FORCEFUL && <Forceful />}
+        <PlayerState {...game} identity={player}/>
     </div>
 }
 

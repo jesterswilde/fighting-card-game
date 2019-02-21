@@ -100,7 +100,7 @@ export const Icon = (props: { name: string }) => {
     return <div class='inline'>
         <Tooltip content={name} styles={iconStyle}>
             <div class={`inline axis-bg ${classRouter[name]}`}>
-                <img data-tip={name} data-for={id} class='axis-icon' src={iconRouter[name]} />
+                <img class='axis-icon' src={iconRouter[name]} />
             </div>
         </Tooltip>
     </div>
