@@ -16,7 +16,6 @@ const Filter = ({ filters }: Props) => {
     return <div class="card-filter">
         <h3>Filters: <button class='btn btn-primary' onClick={addFilter}>+</button></h3>
         {filters.map((filter, i) => {
-            console.log(filter); 
             return <div class="filter">
                 <button class='btn btn-danger' onClick={() => removeFilter(i)}>-</button>
                 <select onChange={(e)=> handlePlayerChange(e, filter, i)} value={filter.player}>
@@ -42,7 +41,6 @@ const handleAxisChange = (e: Event , filter: DeckViewerFilter, index: number)=>{
 const handlePlayerChange = (e: Event, filter: DeckViewerFilter, index: number)=>{
     const target = e.currentTarget as HTMLSelectElement; 
     const player = Number(target.value);
-    console.log(player); 
     updateFilter({...filter, player}, index)
 }
 

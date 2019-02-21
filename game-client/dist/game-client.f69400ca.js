@@ -17656,7 +17656,6 @@ var Filter = function Filter(_a) {
     class: 'btn btn-primary',
     onClick: _dispatch.dispatchAddDVFilter
   }, "+")), filters.map(function (filter, i) {
-    console.log(filter);
     return (0, _preact.h)("div", {
       class: "filter"
     }, (0, _preact.h)("button", {
@@ -17703,7 +17702,6 @@ var handleAxisChange = function handleAxisChange(e, filter, index) {
 var handlePlayerChange = function handlePlayerChange(e, filter, index) {
   var target = e.currentTarget;
   var player = Number(target.value);
-  console.log(player);
   (0, _dispatch.dispatchUpdateDVFilter)(__assign({}, filter, {
     player: player
   }), index);

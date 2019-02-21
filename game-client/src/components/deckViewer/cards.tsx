@@ -18,7 +18,6 @@ export default ({ isLoading, cards = [], description, name, back, filters }: Pro
         </h3>
     }
     return <div class="card-list">
-
         <h3>{name}</h3>
         <div class='description'>{description}</div>
         <Filter />
