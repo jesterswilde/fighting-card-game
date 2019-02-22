@@ -1,4 +1,4 @@
-import { AxisEnum, PlayerEnum } from 'src/interfaces/enums';
+import { AxisEnum, PlayerEnum } from '../interfaces/enums';
 
 export interface StatePiece {
     id: number,

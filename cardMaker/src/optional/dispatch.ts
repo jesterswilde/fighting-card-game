@@ -1,6 +1,6 @@
 import { Optional } from './interface';
 import { UpdatedOptionalAction, OptionalEnum, DeletedOptionalAction } from './action';
-import { store } from 'src/state/store';
+import { store } from '../state/store';
 
 export const dispatchUpdateOptional = (id: number, optional: Optional)=>{
     const action: UpdatedOptionalAction = {

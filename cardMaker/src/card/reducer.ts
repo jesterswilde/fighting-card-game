@@ -13,6 +13,8 @@ export const cardReducer = (state: CardState = makeCardState(), action: ActionTy
             return { ...state, editingCard: action.card }
         case CardEnum.DELETED_BY_NAME:
             return deletedCard(state, action);
+        case CardEnum.GOT_CARD_LIST:
+            return { ...state, cardNames: action.cardList }
         case MechanicActionEnum.DELETED:
             return deletedMechanic(state, action);
         case StatePieceEnum.DELETED:

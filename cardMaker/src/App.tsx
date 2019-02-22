@@ -3,24 +3,35 @@ import './styles/css/index.css';
 import { StoreState } from './state/store';
 import { connect } from 'react-redux';
 import CardList from './components/list/list'
+import Viewer from './components/viewer/viewer'
 
 interface Props {
-  pathArr: string[]
+  nextPath: string,
+  remainingPath: string[]
 }
 
 const selector = (state: StoreState): Props => {
-  return { pathArr: state.path.pathArr };
+  const [_, nextPath, ...remainingPath] = state.path.pathArr;
+  return { nextPath, remainingPath };
 }
 
-
-const App = ({ pathArr }: Props) => {
+const App = ({ nextPath, remainingPath }: Props) => {
   return (
     <div className="App">
       <div className="container">
-        <CardList />
+        {body(nextPath, remainingPath)}
       </div>
     </div>
   );
+}
+
+const body = (nextPath: string, remainingPath: string[]) => {
+  switch (nextPath) {
+    case 'viewer':
+      return <Viewer path={remainingPath} />
+    default:
+      return <CardList />
+  }
 }
 
 

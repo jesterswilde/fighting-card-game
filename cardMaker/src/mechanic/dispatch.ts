@@ -1,6 +1,6 @@
 import { Mechanic } from './interface';
 import { MechanicActionEnum, UpdatedMechanicAction, DeletedMechanicActon } from './actions';
-import { store } from 'src/state/store';
+import { store } from '../state/store';
 
 export const dispatchUpdatedMechanic = (id: number, mechanic: Mechanic)=>{
     const action: UpdatedMechanicAction = {

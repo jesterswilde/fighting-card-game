@@ -1,4 +1,4 @@
-import * as React from 'react'; 
+// import * as React from 'react'; 
 
 // export default (props: RequirementEffect)=>{
 //     return <div className="ml-3 card seperate">

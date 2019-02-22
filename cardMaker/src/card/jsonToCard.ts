@@ -1,15 +1,15 @@
-import { CardJSON, StatePieceJSON, RequirementEffectJSON, MechanicJSON } from 'src/interfaces/cardJSON';
+import { CardJSON, StatePieceJSON, RequirementEffectJSON, MechanicJSON } from '../interfaces/cardJSON';
 import { dispatchUpdateEditedCard } from './dispatch';
 import { Card } from './interface';
-import { getID } from 'src/utils';
-import { dispatchUpdatedStatePiece } from 'src/statePiece/dispatch';
-import { StatePiece } from 'src/statePiece/interface';
-import { Optional } from 'src/optional/interface';
-import { dispatchUpdateOptional } from 'src/optional/dispatch';
-import { Mechanic } from 'src/mechanic/interface';
-import { dispatchUpdatedMechanic } from 'src/mechanic/dispatch';
+import { getID } from '../utils';
+import { dispatchUpdatedStatePiece } from '../statePiece/dispatch';
+import { StatePiece } from '../statePiece/interface';
+import { Optional } from '../optional/interface';
+import { dispatchUpdateOptional } from '../optional/dispatch';
+import { Mechanic } from '../mechanic/interface';
+import { dispatchUpdatedMechanic } from '../mechanic/dispatch';
 
-export const editJSONCard = (cardJSON: CardJSON) => {
+export const parseJSONCard = (cardJSON: CardJSON) => {
     const card = {} as Card;
     card.requirements = cardJSON.requirements.map(handleStatePiece)
     card.optional = cardJSON.optional.map(handleOptional); 

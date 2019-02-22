@@ -1,4 +1,4 @@
-import { MechanicEnum, AxisEnum, PlayerEnum } from 'src/interfaces/enums';
+import { MechanicEnum, AxisEnum, PlayerEnum } from '../interfaces/enums';
 
 export interface Mechanic {
     id: number,

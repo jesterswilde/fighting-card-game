@@ -1,6 +1,6 @@
 import { StatePiece } from "./interface";
 import { UpdateStatePieceAction, StatePieceEnum, DeleteStatePieceAction } from './actions';
-import { store } from 'src/state/store';
+import { store } from '../state/store';
 
 export const dispatchUpdatedStatePiece = (id: number, piece: StatePiece)=>{
     const action: UpdateStatePieceAction = {

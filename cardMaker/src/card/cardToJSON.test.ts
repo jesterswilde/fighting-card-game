@@ -1,7 +1,7 @@
 import { StoreState } from "../state/store";
 import { AxisEnum, PlayerEnum, MechanicEnum } from '../interfaces/enums';
 import { cardToJSON } from './cardToJSON';
-import { CardJSON } from 'src/interfaces/cardJSON';
+import { CardJSON } from '../interfaces/cardJSON';
 
 describe("card utils", () => {
     describe("cardToJSON", () => {

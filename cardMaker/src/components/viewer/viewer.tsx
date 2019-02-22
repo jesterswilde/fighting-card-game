@@ -1,10 +1,37 @@
 import * as React from 'react';
+import { CardJSON } from '../../interfaces/cardJSON';
+import { StoreState } from '../../state/store';
+import { cardToJSON } from '../../card/cardToJSON';
+import { connect } from 'react-redux';
 
 
-// interface Props {
-//     card: Card
-//     changeCard: (index: number) => void
-// }
+interface Props extends InternalProps {
+    path: string[]
+}
+
+interface InternalProps {
+    card: CardJSON | null
+}
+
+const selector = (state: StoreState): InternalProps => {
+    const card = cardToJSON(state);
+    return { card };
+}
+
+class Viewer extends React.Component<Props>{
+
+    public render() {
+        const { card } = this.props;
+        if (card === null) {
+            return <div> No Card</div>
+        }
+        return <div>
+            <h3>{name}</h3>
+        </div>
+    }
+}
+
+export default connect(selector)(Viewer);
 
 // export default class Viewer extends React.Component<Props>{
 //     public render() {

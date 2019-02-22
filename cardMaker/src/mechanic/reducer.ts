@@ -1,11 +1,11 @@
 import { MechanicState } from "./interface";
-import { ActionType } from 'src/state/actions';
+import { ActionType } from '../state/actions';
 import { MechanicActionEnum, DeletedMechanicActon } from './actions';
-import {reduce} from 'lodash'
+import { reduce } from 'lodash'
 import { filterIfHas } from '../utils';
 import { StatePieceEnum, DeleteStatePieceAction } from '../statePiece/actions';
 
-export const mechanicReducer = (state: MechanicState, action: ActionType): MechanicState => {
+export const mechanicReducer = (state: MechanicState = { mechanicsById: {} }, action: ActionType): MechanicState => {
     switch (action.type) {
         case MechanicActionEnum.DELETED:
             return deleted(state, action);
@@ -21,9 +21,9 @@ export const mechanicReducer = (state: MechanicState, action: ActionType): Mecha
 export const statePieceDeleted = (state: MechanicState, action: DeleteStatePieceAction): MechanicState => {
     let changed = false;
     const mechanicsById = reduce(state.mechanicsById, (total, current, key) => {
-        if (current.mechReq === undefined){
-            total[key] = current; 
-            return total; 
+        if (current.mechReq === undefined) {
+            total[key] = current;
+            return total;
         }
         const filtered = filterIfHas(current.mechReq, action.id);
         if (filtered !== current.mechReq) {
@@ -52,7 +52,7 @@ export const deleted = (state: MechanicState, action: DeletedMechanicActon): Mec
             return total;
         }
         if (current.choices === undefined) {
-            total[key] = current; 
+            total[key] = current;
             return total;
         }
         for (let i = 0; i < current.choices.length; i++) {

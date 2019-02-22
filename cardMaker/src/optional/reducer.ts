@@ -1,10 +1,10 @@
 import { OptionalState } from './interface';
-import { ActionType } from 'src/state/actions';
+import { ActionType } from '../state/actions';
 import { OptionalEnum } from './action';
 import {omit, reduce} from 'lodash';
-import { MechanicActionEnum, DeletedMechanicActon } from 'src/mechanic/actions';
-import { filterIfHas } from 'src/utils';
-import { DeleteStatePieceAction, StatePieceEnum } from 'src/statePiece/actions';
+import { MechanicActionEnum, DeletedMechanicActon } from '../mechanic/actions';
+import { filterIfHas } from '../utils';
+import { DeleteStatePieceAction, StatePieceEnum } from '../statePiece/actions';
 
 
 export const optionalReducer = (state: OptionalState = { optionalById: {} }, action: ActionType): OptionalState => {

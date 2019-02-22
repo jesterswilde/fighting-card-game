@@ -1,14 +1,14 @@
 import { createStore, combineReducers, Store } from 'redux';
-import { pathReducer } from 'src/path/reducer';
+import { pathReducer } from '../path/reducer';
 import { ActionType } from './actions';
-import { CardState } from 'src/card/interface';
-import { StatePieceState } from 'src/statePiece/interface';
-import { MechanicState } from 'src/mechanic/interface';
-import { OptionalState } from 'src/optional/interface';
-import { cardReducer } from 'src/card/reducer';
-import { statePieceReducer } from 'src/statePiece/reducer';
-import { mechanicReducer } from 'src/mechanic/reducer';
-import { optionalReducer } from 'src/optional/reducer';
+import { CardState } from '../card/interface';
+import { StatePieceState } from '../statePiece/interface';
+import { MechanicState } from '../mechanic/interface';
+import { OptionalState } from '../optional/interface';
+import { cardReducer } from '../card/reducer';
+import { statePieceReducer } from '../statePiece/reducer';
+import { mechanicReducer } from '../mechanic/reducer';
+import { optionalReducer } from '../optional/reducer';
 
 export interface StoreState{
     path: PathState

@@ -1,7 +1,7 @@
 import { Card } from "./interface";
 import { CardEnum, DeletedCardAction, UpdatedEditedCardAction, GotCardListAction } from './actions';
-import { store } from 'src/state/store';
-import { hostURL } from 'src/utils';
+import { store } from '../state/store';
+import { hostURL } from '../utils';
 
 export const dispatchUpdateEditedCard = (card: Card) => {
     const action: UpdatedEditedCardAction = {
@@ -46,9 +46,13 @@ export const dispatchGetCardList = async() => {
 }
 
 const getCardList = async()=>{
-    const response = await fetch(hostURL + 'cards');
-    const cardsObj: { [name: string]: string } = await response.json();
-    const cardList = Object.keys(cardsObj).sort().map((name) => cardsObj[name]);
-    return cardList; 
+    try{
+        const response = await fetch(hostURL + 'cards');
+        const cardsObj: { [name: string]: string } = await response.json();
+        const cardList = Object.keys(cardsObj).sort().map((name) => cardsObj[name]);
+        return cardList; 
+    }catch(err){
+        return []; 
+    }
 }
 

@@ -1,5 +1,5 @@
 import { StatePieceState } from "./interface";
-import { ActionType } from 'src/state/actions';
+import { ActionType } from '../state/actions';
 import { StatePieceEnum } from './actions';
 import { omit } from 'lodash'
 

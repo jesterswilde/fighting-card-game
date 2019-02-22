@@ -5,13 +5,11 @@ import { addCard, cards, removeCard } from './cards/Cards';
 const router = Router();
 
 router.get('/deckList', (req, res) => {
-    console.log('getting deck list'); 
     res.status(200).send(getDeckList());
 })
 
 router.get('/deck/:deckName', (req, res) => {
     const { deckName = '' }: { deckName: string } = req.params;
-    console.log("Deck Name", deckName); 
     if(deckName){
         const deck = getDeckForViewer(deckName);
         if(deck){
@@ -29,7 +27,8 @@ router.post('/card', (req, res) => {
     res.status(201).send();
 })
 router.get('/cards', (req, res) => {
-    res.status(200).send(cards); 
+    const cardList = Object.keys(cards);
+    res.status(200).send(cardList); 
 })
 router.delete('/card', async(req,res)=>{
     try{

@@ -1,5 +1,5 @@
 import { MechanicEnum, AxisEnum, PlayerEnum } from './enums';
-import { TagObj } from 'src/card/interface';
+import { TagObj } from '../card/interface';
 
 export interface CardJSON extends RequirementEffectJSON{
     name: string,
