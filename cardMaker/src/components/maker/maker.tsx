@@ -1,21 +1,64 @@
-// import * as React from 'react';
+import * as React from 'react';
+import { CardJSON } from "../../interfaces/cardJSON";
+import { dispatchUpdatedCardName } from '../../card/dispatch';
+import { StoreState } from '../../state/store';
+import { cardToJSON, updateCard } from '../../card/cardToJSON';
+import { connect } from 'react-redux';
+import { dispatchDeleteStatePiece } from '../../statePiece/dispatch';
+import { cardAddReq, cardAddEff } from '../../card/json';
+import { dispatchDeletedMech } from '../../mechanic/dispatch';
+import Requirement from './requirement';
+import Effect from './effect';
+import { dispatchToPathString } from '../../path/dispatch';
+
+interface Props {
+    card: CardJSON
+    shouldMakeNewCard?: boolean
+}
+
+const selector = (state: StoreState): Props => {
+    console.log(state)
+    const card = cardToJSON(state);
+    return { card };
+}
 
 
-// interface TagObj {
-//     uuid?: number,
-//     value: string
-// }
+const maker = ({ card: { name, requirements, effects } }: Props) => {
+    return <div>
+        <input placeholder="Card Name" className="form-control-lg" type="text" value={name} onChange={(e) => dispatchUpdatedCardName(e.target.value)} />
+        <div>
+            <h2> Requirements
+                <button className='ml-3 btn btn-sm btn-primary' onClick={cardAddReq}>+</button>
+            </h2>
+            <ul className="ml-1">
+                {requirements.map((req) => <li key={req.id}><div className="row">
+                    <span className="col-1"><button className="btn btn-danger btn-sm" onClick={() => dispatchDeleteStatePiece(req.id)}> - </button></span>
+                    <span className="col-11"><Requirement requirement={req} /></span>
+                </div></li>)}
+            </ul>
+        </div>
+        <div>
+            <h2> Effect
+                <button className='ml-3 btn btn-sm btn-primary' onClick={cardAddEff}>+</button>
+            </h2>
+            <ul className="ml-1">
+                {effects.map((effect, i) => <li key={effect.id}><div className="row">
+                    <span className="col-1"><button className="btn btn-sm btn-danger" onClick={() => dispatchDeletedMech(effect.id)}>-</button></span>
+                    <span className="col-11"><Effect effect={effect} /></span>
+                </div>
+                </li>)}
+            </ul>
+        </div>
+        <div>
+            <button className="btn btn-primary btn-large" onClick={updateCard}>Update</button>
+            <button onClick={()=> dispatchToPathString('/view')} className="btn btn-primary btn-large"> View </button>
+        </div>
 
-// interface State extends Card {
-//     index: string | null,
-//     tagObjs: TagObj[]
-// }
+    </div>
+}
 
-// interface Props {
-//     card?: Card
-//     pickCard: (card: Card) => void
-//     changeCard: (index: number) => void
-// }
+
+export default connect(selector)(maker);
 
 // export default class Maker extends React.Component<Props, State>{
 //     public static getDerivedStateFromProps(props: Props, state: State) {

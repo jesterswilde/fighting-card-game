@@ -1,21 +1,39 @@
 import { MechanicState } from "./interface";
 import { ActionType } from '../state/actions';
-import { MechanicActionEnum, DeletedMechanicActon } from './actions';
+import { MechActionEnum, DeletedMechActon, MechAddedEffAction, MechAddedReqAction } from './actions';
 import { reduce } from 'lodash'
 import { filterIfHas } from '../utils';
 import { StatePieceEnum, DeleteStatePieceAction } from '../statePiece/actions';
 
 export const mechanicReducer = (state: MechanicState = { mechanicsById: {} }, action: ActionType): MechanicState => {
     switch (action.type) {
-        case MechanicActionEnum.DELETED:
+        case MechActionEnum.DELETED:
             return deleted(state, action);
-        case MechanicActionEnum.UPDATED:
+        case MechActionEnum.UPDATED:
             return { ...state, mechanicsById: { ...state.mechanicsById, [action.id]: action.mechanic } };
         case StatePieceEnum.DELETED:
             return statePieceDeleted(state, action);
+        case MechActionEnum.ADDED_EFF:
+            return addEff(state, action); 
+        case MechActionEnum.ADDED_REQ:
+            return addReq(state, action); 
         default:
             return state;
     }
+}
+
+const addReq = (state: MechanicState, {mechId, reqId}: MechAddedReqAction): MechanicState=>{
+    let mechReq = state.mechanicsById[mechId].mechReq || [];
+    mechReq = [...mechReq, reqId]
+    const mech = { ...state.mechanicsById[mechId], mechReq };
+    return { ...state, mechanicsById: { ...state.mechanicsById, [mechId]: mech } };
+}
+
+const addEff = (state: MechanicState, { mechId, effId }: MechAddedEffAction): MechanicState => {
+    let mechEff = state.mechanicsById[mechId].mechEff || [];
+    mechEff = [...mechEff, effId]
+    const mech = { ...state.mechanicsById[mechId], mechEff };
+    return { ...state, mechanicsById: { ...state.mechanicsById, [mechId]: mech } };
 }
 
 export const statePieceDeleted = (state: MechanicState, action: DeleteStatePieceAction): MechanicState => {
@@ -41,7 +59,7 @@ export const statePieceDeleted = (state: MechanicState, action: DeleteStatePiece
     return state;
 }
 
-export const deleted = (state: MechanicState, action: DeletedMechanicActon): MechanicState => {
+export const deleted = (state: MechanicState, action: DeletedMechActon): MechanicState => {
     const mechanicsById = reduce(state.mechanicsById, (total, current, key) => {
         if (Number(key) === action.id) {
             return total;

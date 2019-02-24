@@ -1,9 +1,10 @@
 import * as React from 'react';
-import './styles/css/index.css';
 import { StoreState } from './state/store';
 import { connect } from 'react-redux';
 import CardList from './components/list/list'
 import Viewer from './components/viewer/viewer'
+import Maker from './components/maker/maker'; 
+import Navbar from './Nav';
 
 interface Props {
   nextPath: string,
@@ -18,6 +19,7 @@ const selector = (state: StoreState): Props => {
 const App = ({ nextPath, remainingPath }: Props) => {
   return (
     <div className="App">
+      <Navbar />
       <div className="container">
         {body(nextPath, remainingPath)}
       </div>
@@ -27,8 +29,10 @@ const App = ({ nextPath, remainingPath }: Props) => {
 
 const body = (nextPath: string, remainingPath: string[]) => {
   switch (nextPath) {
-    case 'viewer':
+    case 'view':
       return <Viewer path={remainingPath} />
+    case 'maker':
+      return <Maker />
     default:
       return <CardList />
   }

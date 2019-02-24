@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getDeck, getDeckOptions, getDeckForViewer } from './decks';
+import { getDeckOptions, getDeckForViewer } from './decks';
 import { addCard, cards, removeCard } from './cards/Cards';
 
 const router = Router();
@@ -10,14 +10,14 @@ router.get('/deckList', (req, res) => {
 
 router.get('/deck/:deckName', (req, res) => {
     const { deckName = '' }: { deckName: string } = req.params;
-    if(deckName){
+    if (deckName) {
         const deck = getDeckForViewer(deckName);
-        if(deck){
+        if (deck) {
             res.status(200).send(deck);
-            return; 
+            return;
         }
     }
-    res.status(404).send(); 
+    res.status(404).send();
 })
 
 
@@ -28,15 +28,19 @@ router.post('/card', (req, res) => {
 })
 router.get('/cards', (req, res) => {
     const cardList = Object.keys(cards);
-    res.status(200).send(cardList); 
+    res.status(200).send(cardList);
 })
-router.delete('/card', async(req,res)=>{
-    try{
+router.get('/card/:name', (req, res) => {
+    const card = cards[req.params.name];
+    res.status(200).send(card || null); 
+})
+router.delete('/card', async (req, res) => {
+    try {
         await removeCard(req.body.name);
-        res.status(200).send(); 
-    }catch(err){
+        res.status(200).send();
+    } catch (err) {
         console.error(err);
-        res.status(400).send(); 
+        res.status(400).send();
     }
 })
 

@@ -4791,5 +4791,34 @@
       }
     ],
     "tags": []
+  },
+  "Blank": {
+    "name": "Blank",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      }
+    ],
+    "effects": [
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Close",
+            "player": 2
+          },
+          {
+            "axis": "Close",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {}
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "tagObjs": []
   }
 }

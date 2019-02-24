@@ -3,7 +3,10 @@ import { CardJSON } from '../../interfaces/cardJSON';
 import { StoreState } from '../../state/store';
 import { cardToJSON } from '../../card/cardToJSON';
 import { connect } from 'react-redux';
-
+import { dispatchGetCard } from '../../card/dispatch';
+import Requirement from './requirement';
+import Optional from './optional';
+import Effect from './effect';
 
 interface Props extends InternalProps {
     path: string[]
@@ -19,14 +22,29 @@ const selector = (state: StoreState): InternalProps => {
 }
 
 class Viewer extends React.Component<Props>{
-
+    componentDidMount() {
+        const { path } = this.props;
+        dispatchGetCard(path[0]);
+    }
     public render() {
         const { card } = this.props;
         if (card === null) {
             return <div> No Card</div>
         }
+        const { requirements, optional, effects, name } = card;
         return <div>
-            <h3>{name}</h3>
+            <h3>{card.name}</h3>
+            <ul>
+                {requirements.map((req) => <Requirement key={req.id} requirement={req} />)}
+            </ul>
+            <div className="h-divider" />
+            <ul>
+                {optional.map((opt, i) => <Optional {...opt} key={i} />)}
+            </ul>
+            <div className="h-divider" />
+            <ul>
+                {effects.map((effect, i) => <Effect key={i} effect={effect} />)}
+            </ul>
         </div>
     }
 }

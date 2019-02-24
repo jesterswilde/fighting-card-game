@@ -1,21 +1,18 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { dispatchToPathString as to } from './path/dispatch';
+import { dispatchMakeBlankCard } from './card/dispatch';
 
-interface Props{
-    newCard: ()=> void
-}
-
-export default (props: Props) => {
+export default () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
             <a className="navbar-brand" href="#">Cards</a>
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/" onClick={props.newCard}>List</Link>
+                        <a className="nav-link"  onClick={()=>to('/')}>List</a>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/maker" onClick={props.newCard}>New Card</Link>
+                        <a className="nav-link" onClick={dispatchMakeBlankCard}>New Card</a>
                     </li>
                 </ul>
             </div>

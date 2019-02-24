@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StoreState } from '../../state/store';
 import { connect } from 'react-redux';
-import { dispatchGetCardList, dispatchDeletedCard } from '../../card/dispatch';
+import { dispatchGetCardList, dispatchDeleteCard } from '../../card/dispatch';
 import { dispatchToPathString as to } from '../../path/dispatch';
 
 interface Props {
@@ -26,11 +26,13 @@ class List extends React.Component<Props>{
                 {/* <input type='text' value={this.state.filter} onChange={(e) => this.setState({ filter: e.target.value })} /> */}
             </div>
             <table className='ml-3'>
-                {cardList.map((card) => <tr key={card}>
-                    <td onClick={() => to('/view/' + card)}>{card}</td>
-                    <td><button className="btn btn-primary btn-sm m-1" onClick={() => to('/edit/' + card)}>Edit</button></td>
-                    <td><button className="btn btn-danger btn-sm m-1" onClick={() => dispatchDeletedCard(card)}> Delete </button></td>
-                </tr>)}
+                <tbody>
+                    {cardList.map((card) => <tr key={card}>
+                        <td onClick={() => to('/view/' + card)}>{card}</td>
+                        <td><button className="btn btn-primary btn-sm m-1" onClick={() => to('/edit/' + card)}>Edit</button></td>
+                        <td><button className="btn btn-danger btn-sm m-1" onClick={() => dispatchDeleteCard(card)}> Delete </button></td>
+                    </tr>)}
+                </tbody>
             </table>
         </div>
     }

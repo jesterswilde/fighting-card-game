@@ -44,6 +44,10 @@ router.get('/cards', (req, res) => {
     const cardList = Object.keys(Cards_1.cards);
     res.status(200).send(cardList);
 });
+router.get('/card/:name', (req, res) => {
+    const card = Cards_1.cards[req.params.name];
+    res.status(200).send(card || null);
+});
 router.delete('/card', (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
         yield Cards_1.removeCard(req.body.name);

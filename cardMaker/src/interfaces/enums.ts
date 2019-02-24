@@ -13,30 +13,39 @@ export enum MechanicEnum{
     ALTER = "Alter"
 }
 
-export enum DisplayEnum {
-    REQ_EFF,
-    EFF,
-    NORMAL,
-    NAME,
-    NAME_EFF,
-    AMOUNT,
-    PICK_ONE,
-    AMOUNT_EFF,
-    NONE
+export interface DisplayComponents{
+    state?: boolean,
+    value?: boolean,
+    valueString?: boolean,
+    req?: boolean,
+    eff?: boolean,
+    pick?: boolean,
 }
 
-export const MechanicDisplay = {
-    [MechanicEnum.TELEGRAPH]: DisplayEnum.REQ_EFF,
-    [MechanicEnum.FOCUS]: DisplayEnum.REQ_EFF, 
-    [MechanicEnum.PREDICT]: DisplayEnum.EFF,
-    [MechanicEnum.BUFF]: DisplayEnum.NORMAL,
-    [MechanicEnum.ALTER]: DisplayEnum.NAME_EFF,
-    [MechanicEnum.BLOCK]: DisplayEnum.AMOUNT, 
-    [MechanicEnum.LOCK]: DisplayEnum.NORMAL,
-    [MechanicEnum.REFLEX]: DisplayEnum.NONE,
-    [MechanicEnum.CRIPPLE]: DisplayEnum.NAME,
-    [MechanicEnum.PICK_ONE]: DisplayEnum.PICK_ONE,
-    [MechanicEnum.FORCEFUL]: DisplayEnum.AMOUNT_EFF,
+export const getMechDisplay = (mech?: MechanicEnum): DisplayComponents=>{
+    const defaultValue: DisplayComponents = {state: true, value: true};
+    if(mech === undefined){
+        return defaultValue; 
+    } 
+    const comp = MechanicDisplay[mech]; 
+    if(comp){
+        return comp; 
+    }
+    return defaultValue; 
+}
+
+const MechanicDisplay: {[mech: string]: DisplayComponents} = {
+    [MechanicEnum.TELEGRAPH]: {req: true, eff: true},
+    [MechanicEnum.FOCUS]: {req:true, eff: true}, 
+    [MechanicEnum.PREDICT]: {eff: true},
+    [MechanicEnum.BUFF]: {valueString: true, eff: true},
+    [MechanicEnum.ALTER]: {valueString: true, eff: true},
+    [MechanicEnum.BLOCK]: {value: true},
+    [MechanicEnum.LOCK]: {state: true, value: true},
+    [MechanicEnum.REFLEX]: {},
+    [MechanicEnum.CRIPPLE]: {valueString: true},
+    [MechanicEnum.PICK_ONE]: {pick: true},
+    [MechanicEnum.FORCEFUL]: {value: true, eff: true},
 }
 
 export enum AxisEnum{

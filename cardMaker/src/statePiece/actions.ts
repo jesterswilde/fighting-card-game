@@ -2,8 +2,9 @@ import { StatePiece } from './interface';
 
 export enum StatePieceEnum {
     UPDATED = 'updatedStatePiece',
-    DELETED = 'deletedStatePiece'
+    DELETED = 'deletedStatePiece',
 }
+
 
 export interface UpdateStatePieceAction{
     type: StatePieceEnum.UPDATED,

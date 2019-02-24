@@ -24007,79 +24007,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
-var bundleURL = null;
-
-function getBundleURLCached() {
-  if (!bundleURL) {
-    bundleURL = getBundleURL();
-  }
-
-  return bundleURL;
-}
-
-function getBundleURL() {
-  // Attempt to find the URL of the current script and use that as the base URL
-  try {
-    throw new Error();
-  } catch (err) {
-    var matches = ('' + err.stack).match(/(https?|file|ftp):\/\/[^)\n]+/g);
-
-    if (matches) {
-      return getBaseURL(matches[0]);
-    }
-  }
-
-  return '/';
-}
-
-function getBaseURL(url) {
-  return ('' + url).replace(/^((?:https?|file|ftp):\/\/.+)\/[^/]+$/, '$1') + '/';
-}
-
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
-var bundle = require('./bundle-url');
-
-function updateLink(link) {
-  var newLink = link.cloneNode();
-
-  newLink.onload = function () {
-    link.remove();
-  };
-
-  newLink.href = link.href.split('?')[0] + '?' + Date.now();
-  link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-
-var cssTimeout = null;
-
-function reloadCSS() {
-  if (cssTimeout) {
-    return;
-  }
-
-  cssTimeout = setTimeout(function () {
-    var links = document.querySelectorAll('link[rel="stylesheet"]');
-
-    for (var i = 0; i < links.length; i++) {
-      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
-        updateLink(links[i]);
-      }
-    }
-
-    cssTimeout = null;
-  }, 50);
-}
-
-module.exports = reloadCSS;
-},{"./bundle-url":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"src/styles/css/index.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"node_modules/@babel/runtime/helpers/esm/inheritsLoose.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27385,6 +27313,39 @@ function __importDefault(mod) {
     default: mod
   };
 }
+},{}],"src/card/interface.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.makeDefaultCardJSON = exports.makeDefaultCard = void 0;
+
+var makeDefaultCard = function makeDefaultCard() {
+  var card = {
+    name: '',
+    optional: [],
+    requirements: [],
+    effects: [],
+    tagObjs: []
+  };
+  return card;
+};
+
+exports.makeDefaultCard = makeDefaultCard;
+
+var makeDefaultCardJSON = function makeDefaultCardJSON() {
+  var card = {
+    name: '',
+    optional: [],
+    requirements: [],
+    effects: [],
+    tagObjs: []
+  };
+  return card;
+};
+
+exports.makeDefaultCardJSON = makeDefaultCardJSON;
 },{}],"src/card/actions.ts":[function(require,module,exports) {
 "use strict";
 
@@ -27399,6 +27360,11 @@ exports.CardEnum = CardEnum;
   CardEnum["UPDATED_EDITED_CARD"] = "updatedEditedCard";
   CardEnum["DELETED_BY_NAME"] = "deletedCard";
   CardEnum["GOT_CARD_LIST"] = "gotCardList";
+  CardEnum["GOT_CARD"] = "gotCardJSON";
+  CardEnum["UPDATED_CARD_NAME"] = "updatedCardName";
+  CardEnum["ADDED_OPTIONAL"] = "cardAddedOptional";
+  CardEnum["ADDED_EFF"] = "cardAddedEffect";
+  CardEnum["ADDED_REQ"] = "cardAddedRequirement";
 })(CardEnum || (exports.CardEnum = CardEnum = {}));
 },{}],"src/path/actions.ts":[function(require,module,exports) {
 "use strict";
@@ -46615,21 +46581,24 @@ var define;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MechanicActionEnum = void 0;
-var MechanicActionEnum;
-exports.MechanicActionEnum = MechanicActionEnum;
+exports.MechActionEnum = void 0;
+var MechActionEnum;
+exports.MechActionEnum = MechActionEnum;
 
-(function (MechanicActionEnum) {
-  MechanicActionEnum["UPDATED"] = "updatedMechanic";
-  MechanicActionEnum["DELETED"] = "deletedMechanic";
-})(MechanicActionEnum || (exports.MechanicActionEnum = MechanicActionEnum = {}));
+(function (MechActionEnum) {
+  MechActionEnum["UPDATED"] = "updatedMechanic";
+  MechActionEnum["DELETED"] = "deletedMechanic";
+  MechActionEnum["ADDED_REQ"] = "mechanicAddedReq";
+  MechActionEnum["ADDED_EFF"] = "mechanicAddedEff";
+  MechActionEnum["ADDED_CHOICE"] = "mechanicAddedChoice";
+})(MechActionEnum || (exports.MechActionEnum = MechActionEnum = {}));
 },{}],"src/interfaces/enums.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PlayerEnum = exports.AxisEnum = exports.MechanicDisplay = exports.DisplayEnum = exports.MechanicEnum = void 0;
+exports.PlayerEnum = exports.AxisEnum = exports.getMechDisplay = exports.MechanicEnum = void 0;
 
 var _a;
 
@@ -46650,23 +46619,53 @@ exports.MechanicEnum = MechanicEnum;
   MechanicEnum["ALTER"] = "Alter";
 })(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
 
-var DisplayEnum;
-exports.DisplayEnum = DisplayEnum;
+var getMechDisplay = function getMechDisplay(mech) {
+  var defaultValue = {
+    state: true,
+    value: true
+  };
 
-(function (DisplayEnum) {
-  DisplayEnum[DisplayEnum["REQ_EFF"] = 0] = "REQ_EFF";
-  DisplayEnum[DisplayEnum["EFF"] = 1] = "EFF";
-  DisplayEnum[DisplayEnum["NORMAL"] = 2] = "NORMAL";
-  DisplayEnum[DisplayEnum["NAME"] = 3] = "NAME";
-  DisplayEnum[DisplayEnum["NAME_EFF"] = 4] = "NAME_EFF";
-  DisplayEnum[DisplayEnum["AMOUNT"] = 5] = "AMOUNT";
-  DisplayEnum[DisplayEnum["PICK_ONE"] = 6] = "PICK_ONE";
-  DisplayEnum[DisplayEnum["AMOUNT_EFF"] = 7] = "AMOUNT_EFF";
-  DisplayEnum[DisplayEnum["NONE"] = 8] = "NONE";
-})(DisplayEnum || (exports.DisplayEnum = DisplayEnum = {}));
+  if (mech === undefined) {
+    return defaultValue;
+  }
 
-var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = DisplayEnum.REQ_EFF, _a[MechanicEnum.FOCUS] = DisplayEnum.REQ_EFF, _a[MechanicEnum.PREDICT] = DisplayEnum.EFF, _a[MechanicEnum.BUFF] = DisplayEnum.NORMAL, _a[MechanicEnum.ALTER] = DisplayEnum.NAME_EFF, _a[MechanicEnum.BLOCK] = DisplayEnum.AMOUNT, _a[MechanicEnum.LOCK] = DisplayEnum.NORMAL, _a[MechanicEnum.REFLEX] = DisplayEnum.NONE, _a[MechanicEnum.CRIPPLE] = DisplayEnum.NAME, _a[MechanicEnum.PICK_ONE] = DisplayEnum.PICK_ONE, _a[MechanicEnum.FORCEFUL] = DisplayEnum.AMOUNT_EFF, _a);
-exports.MechanicDisplay = MechanicDisplay;
+  var comp = MechanicDisplay[mech];
+
+  if (comp) {
+    return comp;
+  }
+
+  return defaultValue;
+};
+
+exports.getMechDisplay = getMechDisplay;
+var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.FOCUS] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.PREDICT] = {
+  eff: true
+}, _a[MechanicEnum.BUFF] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.ALTER] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.BLOCK] = {
+  value: true
+}, _a[MechanicEnum.LOCK] = {
+  state: true,
+  value: true
+}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
+  valueString: true
+}, _a[MechanicEnum.PICK_ONE] = {
+  pick: true
+}, _a[MechanicEnum.FORCEFUL] = {
+  value: true,
+  eff: true
+}, _a);
 var AxisEnum;
 exports.AxisEnum = AxisEnum;
 
@@ -46779,6 +46778,8 @@ exports.deletedMechanic = exports.deletedStatePiece = exports.deletedOptional = 
 
 var tslib_1 = _interopRequireWildcard(require("tslib"));
 
+var _interface = require("./interface");
+
 var _actions = require("./actions");
 
 var _lodash = require("lodash");
@@ -46804,6 +46805,9 @@ var cardReducer = function cardReducer(state, action) {
         editingCard: action.card
       });
 
+    case _actions.CardEnum.UPDATED_CARD_NAME:
+      return updateCardName(state, action);
+
     case _actions.CardEnum.DELETED_BY_NAME:
       return deletedCard(state, action);
 
@@ -46812,7 +46816,7 @@ var cardReducer = function cardReducer(state, action) {
         cardNames: action.cardList
       });
 
-    case _actions2.MechanicActionEnum.DELETED:
+    case _actions2.MechActionEnum.DELETED:
       return deletedMechanic(state, action);
 
     case _actions3.StatePieceEnum.DELETED:
@@ -46821,12 +46825,47 @@ var cardReducer = function cardReducer(state, action) {
     case _action.OptionalEnum.DELETED:
       return deletedOptional(state, action);
 
+    case _actions.CardEnum.ADDED_REQ:
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          requirements: state.editingCard.requirements.concat([action.id])
+        })
+      });
+
+    case _actions.CardEnum.ADDED_EFF:
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          effects: state.editingCard.effects.concat([action.id])
+        })
+      });
+
+    case _actions.CardEnum.ADDED_OPTIONAL:
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          optional: state.editingCard.optional.concat([action.id])
+        })
+      });
+
     default:
       return state;
   }
 };
 
 exports.cardReducer = cardReducer;
+
+var updateCardName = function updateCardName(state, action) {
+  var editingCard = state.editingCard;
+
+  if (editingCard === null) {
+    editingCard = (0, _interface.makeDefaultCard)();
+  }
+
+  return tslib_1.__assign({}, state, {
+    editingCard: tslib_1.__assign({}, editingCard, {
+      name: action.name
+    })
+  });
+};
 
 var deletedOptional = function deletedOptional(state, action) {
   if (state.editingCard !== null) {
@@ -46888,17 +46927,6 @@ var deletedMechanic = function deletedMechanic(state, action) {
         editingCard: card
       });
     }
-
-    filtered = (0, _utils.filterIfHas)(card.effects, action.id);
-
-    if (card.optional !== undefined && filtered !== card.optional) {
-      card = tslib_1.__assign({}, card, {
-        optional: filtered
-      });
-      return tslib_1.__assign({}, state, {
-        editingCard: card
-      });
-    }
   }
 
   return state;
@@ -46915,11 +46943,11 @@ var deletedCard = function deletedCard(state, action) {
 
 var makeCardState = function makeCardState() {
   return {
-    editingCard: null,
+    editingCard: (0, _interface.makeDefaultCard)(),
     cardNames: []
   };
 };
-},{"tslib":"node_modules/tslib/tslib.es6.js","./actions":"src/card/actions.ts","lodash":"node_modules/lodash/lodash.js","../mechanic/actions":"src/mechanic/actions.ts","../utils":"src/utils.ts","../statePiece/actions":"src/statePiece/actions.ts","../optional/action":"src/optional/action.ts"}],"src/statePiece/reducer.ts":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","./interface":"src/card/interface.ts","./actions":"src/card/actions.ts","lodash":"node_modules/lodash/lodash.js","../mechanic/actions":"src/mechanic/actions.ts","../utils":"src/utils.ts","../statePiece/actions":"src/statePiece/actions.ts","../optional/action":"src/optional/action.ts"}],"src/statePiece/reducer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -46995,10 +47023,10 @@ var mechanicReducer = function mechanicReducer(state, action) {
   var _a;
 
   switch (action.type) {
-    case _actions.MechanicActionEnum.DELETED:
+    case _actions.MechActionEnum.DELETED:
       return deleted(state, action);
 
-    case _actions.MechanicActionEnum.UPDATED:
+    case _actions.MechActionEnum.UPDATED:
       return tslib_1.__assign({}, state, {
         mechanicsById: tslib_1.__assign({}, state.mechanicsById, (_a = {}, _a[action.id] = action.mechanic, _a))
       });
@@ -47006,12 +47034,54 @@ var mechanicReducer = function mechanicReducer(state, action) {
     case _actions2.StatePieceEnum.DELETED:
       return statePieceDeleted(state, action);
 
+    case _actions.MechActionEnum.ADDED_EFF:
+      return addEff(state, action);
+
+    case _actions.MechActionEnum.ADDED_REQ:
+      return addReq(state, action);
+
     default:
       return state;
   }
 };
 
 exports.mechanicReducer = mechanicReducer;
+
+var addReq = function addReq(state, _a) {
+  var mechId = _a.mechId,
+      reqId = _a.reqId;
+
+  var _b;
+
+  var mechReq = state.mechanicsById[mechId].mechReq || [];
+  mechReq = mechReq.concat([reqId]);
+
+  var mech = tslib_1.__assign({}, state.mechanicsById[mechId], {
+    mechReq: mechReq
+  });
+
+  return tslib_1.__assign({}, state, {
+    mechanicsById: tslib_1.__assign({}, state.mechanicsById, (_b = {}, _b[mechId] = mech, _b))
+  });
+};
+
+var addEff = function addEff(state, _a) {
+  var mechId = _a.mechId,
+      effId = _a.effId;
+
+  var _b;
+
+  var mechEff = state.mechanicsById[mechId].mechEff || [];
+  mechEff = mechEff.concat([effId]);
+
+  var mech = tslib_1.__assign({}, state.mechanicsById[mechId], {
+    mechEff: mechEff
+  });
+
+  return tslib_1.__assign({}, state, {
+    mechanicsById: tslib_1.__assign({}, state.mechanicsById, (_b = {}, _b[mechId] = mech, _b))
+  });
+};
 
 var statePieceDeleted = function statePieceDeleted(state, action) {
   var changed = false;
@@ -47134,7 +47204,7 @@ var optionalReducer = function optionalReducer(state, action) {
         optionalById: (0, _lodash.omit)(state.optionalById, action.id)
       });
 
-    case _actions.MechanicActionEnum.DELETED:
+    case _actions.MechActionEnum.DELETED:
       return deletedMechanic(state, action);
 
     case _actions2.StatePieceEnum.DELETED:
@@ -47150,18 +47220,18 @@ exports.optionalReducer = optionalReducer;
 var deletedStatePiece = function deletedStatePiece(state, action) {
   var didChange = false;
   var modified = (0, _lodash.reduce)(state.optionalById, function (total, current, key) {
-    if (current.effects === undefined) {
+    if (current.requirements === undefined) {
       total[key] = current;
       return total;
     }
 
     var filtered = (0, _utils.filterIfHas)(current.requirements, action.id);
 
-    if (filtered !== current.effects) {
+    if (filtered !== current.requirements) {
       didChange = true;
 
       var obj = tslib_1.__assign({}, current, {
-        effect: filtered
+        requirements: filtered
       });
 
       total[key] = obj;
@@ -47184,18 +47254,18 @@ var deletedStatePiece = function deletedStatePiece(state, action) {
 var deletedMechanic = function deletedMechanic(state, action) {
   var didChange = false;
   var modified = (0, _lodash.reduce)(state.optionalById, function (total, current, key) {
-    if (current.requirements === undefined) {
+    if (current.effects === undefined) {
       total[key] = current;
       return total;
     }
 
-    var filtered = (0, _utils.filterIfHas)(current.requirements, action.id);
+    var filtered = (0, _utils.filterIfHas)(current.effects, action.id);
 
-    if (filtered !== current.requirements) {
+    if (filtered !== current.effects) {
       didChange = true;
 
       var obj = tslib_1.__assign({}, current, {
-        requirement: filtered
+        effects: filtered
       });
 
       total[key] = obj;
@@ -47241,17 +47311,463 @@ var rootReducer = (0, _redux.combineReducers)({
   mechanic: _reducer4.mechanicReducer,
   optional: _reducer5.optionalReducer
 });
-var store = (0, _redux.createStore)(rootReducer);
+var store = (0, _redux.createStore)(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 exports.store = store;
-},{"redux":"node_modules/redux/es/redux.js","../path/reducer":"src/path/reducer.ts","../card/reducer":"src/card/reducer.ts","../statePiece/reducer":"src/statePiece/reducer.ts","../mechanic/reducer":"src/mechanic/reducer.ts","../optional/reducer":"src/optional/reducer.ts"}],"src/card/dispatch.ts":[function(require,module,exports) {
+},{"redux":"node_modules/redux/es/redux.js","../path/reducer":"src/path/reducer.ts","../card/reducer":"src/card/reducer.ts","../statePiece/reducer":"src/statePiece/reducer.ts","../mechanic/reducer":"src/mechanic/reducer.ts","../optional/reducer":"src/optional/reducer.ts"}],"src/mechanic/interface.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchGetCardList = exports.dispatchDeletedCard = exports.dispatchUpdateEditedCard = void 0;
+exports.makeDefaultMechanic = void 0;
+
+var _utils = require("../utils");
+
+var makeDefaultMechanic = function makeDefaultMechanic() {
+  return {
+    id: (0, _utils.getID)()
+  };
+};
+
+exports.makeDefaultMechanic = makeDefaultMechanic;
+},{"../utils":"src/utils.ts"}],"src/mechanic/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchDeletedMech = exports.dispatchUpdatedMech = exports.dispatchMechAddChoice = exports.dispatchMechAddEff = exports.dispatchMechAddReq = void 0;
+
+var _actions = require("./actions");
+
+var _store = require("../state/store");
+
+var dispatchMechAddReq = function dispatchMechAddReq(mechId, reqId) {
+  var action = {
+    type: _actions.MechActionEnum.ADDED_REQ,
+    mechId: mechId,
+    reqId: reqId
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchMechAddReq = dispatchMechAddReq;
+
+var dispatchMechAddEff = function dispatchMechAddEff(mechId, effId) {
+  var action = {
+    type: _actions.MechActionEnum.ADDED_EFF,
+    mechId: mechId,
+    effId: effId
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchMechAddEff = dispatchMechAddEff;
+
+var dispatchMechAddChoice = function dispatchMechAddChoice(mechId, choiceIndex, choiceId) {
+  var action = {
+    type: _actions.MechActionEnum.ADDED_CHOICE,
+    mechId: mechId,
+    choiceId: choiceId,
+    choiceIndex: choiceIndex
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchMechAddChoice = dispatchMechAddChoice;
+
+var dispatchUpdatedMech = function dispatchUpdatedMech(mechanic) {
+  var action = {
+    type: _actions.MechActionEnum.UPDATED,
+    id: mechanic.id,
+    mechanic: mechanic
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUpdatedMech = dispatchUpdatedMech;
+
+var dispatchDeletedMech = function dispatchDeletedMech(id) {
+  if (id === undefined) {
+    console.error('tried to delete mech with blank ID');
+    return;
+  }
+
+  var action = {
+    type: _actions.MechActionEnum.DELETED,
+    id: id
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchDeletedMech = dispatchDeletedMech;
+},{"./actions":"src/mechanic/actions.ts","../state/store":"src/state/store.ts"}],"src/statePiece/interface.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.makeDefaultStatePiece = void 0;
+
+var _enums = require("../interfaces/enums");
+
+var _utils = require("../utils");
+
+var makeDefaultStatePiece = function makeDefaultStatePiece() {
+  return {
+    id: (0, _utils.getID)(),
+    axis: _enums.AxisEnum.CLOSE,
+    player: _enums.PlayerEnum.BOTH
+  };
+};
+
+exports.makeDefaultStatePiece = makeDefaultStatePiece;
+},{"../interfaces/enums":"src/interfaces/enums.ts","../utils":"src/utils.ts"}],"src/statePiece/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchDeleteStatePiece = exports.diaptchUpdateStatePieceJSON = exports.dispatchUpdatedStatePiece = void 0;
+
+var _actions = require("./actions");
+
+var _store = require("../state/store");
+
+var dispatchUpdatedStatePiece = function dispatchUpdatedStatePiece(piece) {
+  var action = {
+    type: _actions.StatePieceEnum.UPDATED,
+    id: piece.id,
+    piece: piece
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUpdatedStatePiece = dispatchUpdatedStatePiece;
+
+var diaptchUpdateStatePieceJSON = function diaptchUpdateStatePieceJSON(pieceJSON) {
+  if (pieceJSON.id !== undefined) {
+    var piece = pieceJSON;
+    var action = {
+      type: _actions.StatePieceEnum.UPDATED,
+      id: pieceJSON.id,
+      piece: piece
+    };
+
+    _store.store.dispatch(action);
+  }
+};
+
+exports.diaptchUpdateStatePieceJSON = diaptchUpdateStatePieceJSON;
+
+var dispatchDeleteStatePiece = function dispatchDeleteStatePiece(id) {
+  if (id === undefined) {
+    console.error("Blank ID when deliting state piece");
+    return;
+  }
+
+  var action = {
+    type: _actions.StatePieceEnum.DELETED,
+    id: id
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchDeleteStatePiece = dispatchDeleteStatePiece;
+},{"./actions":"src/statePiece/actions.ts","../state/store":"src/state/store.ts"}],"src/statePiece/json.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.statePieceFromJSON = void 0;
 
 var tslib_1 = _interopRequireWildcard(require("tslib"));
+
+var _interface = require("./interface");
+
+var _utils = require("../utils");
+
+var _dispatch = require("./dispatch");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var statePieceFromJSON = function statePieceFromJSON(pieceJSON) {
+  var piece;
+
+  if (pieceJSON === undefined) {
+    piece = (0, _interface.makeDefaultStatePiece)();
+  } else {
+    piece = tslib_1.__assign({}, pieceJSON);
+
+    if (piece.id === undefined) {
+      piece.id = (0, _utils.getID)();
+    }
+  }
+
+  (0, _dispatch.dispatchUpdatedStatePiece)(piece);
+  return piece.id;
+};
+
+exports.statePieceFromJSON = statePieceFromJSON;
+},{"tslib":"node_modules/tslib/tslib.es6.js","./interface":"src/statePiece/interface.ts","../utils":"src/utils.ts","./dispatch":"src/statePiece/dispatch.ts"}],"src/mechanic/json.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.mechFromJSON = exports.mechAddEff = exports.mechAddReq = exports.mechAddChoice = void 0;
+
+var _interface = require("./interface");
+
+var _utils = require("../utils");
+
+var _dispatch = require("./dispatch");
+
+var _json = require("../statePiece/json");
+
+var mechAddChoice = function mechAddChoice(id, choiceIndex) {
+  if (id === undefined || choiceIndex === undefined) return;
+  var choiceId = mechFromJSON();
+  (0, _dispatch.dispatchMechAddChoice)(id, choiceIndex, choiceId);
+};
+
+exports.mechAddChoice = mechAddChoice;
+
+var mechAddReq = function mechAddReq(id) {
+  if (id === undefined) return;
+  var reqId = (0, _json.statePieceFromJSON)();
+  (0, _dispatch.dispatchMechAddReq)(id, reqId);
+};
+
+exports.mechAddReq = mechAddReq;
+
+var mechAddEff = function mechAddEff(id) {
+  if (id === undefined) return;
+  var effId = mechFromJSON();
+  (0, _dispatch.dispatchMechAddEff)(id, effId);
+};
+
+exports.mechAddEff = mechAddEff;
+
+var mechFromJSON = function mechFromJSON(mechJSON) {
+  var mech;
+  console.log('mechJSON', mechJSON);
+
+  if (mechJSON === undefined) {
+    mech = (0, _interface.makeDefaultMechanic)();
+  } else {
+    mech = {};
+
+    if (mechJSON.id !== undefined) {
+      mech.id = mechJSON.id;
+    } else {
+      mech.id = (0, _utils.getID)();
+    }
+
+    if (mechJSON.amount !== undefined) {
+      mech.amount = mechJSON.amount;
+    }
+
+    if (mechJSON.axis !== undefined) {
+      mech.axis = mechJSON.axis;
+    }
+
+    if (mechJSON.mechanic !== undefined) {
+      mech.mechEnum = mechJSON.mechanic;
+    }
+
+    if (mechJSON.player !== undefined) {
+      mech.player = mechJSON.player;
+    }
+
+    if (mechJSON.mechanicRequirements !== undefined) {
+      mech.mechReq = mechJSON.mechanicRequirements.map(_json.statePieceFromJSON);
+    }
+
+    if (mechJSON.mechanicEffects !== undefined) {
+      mech.mechEff = mechJSON.mechanicEffects.map(mechFromJSON);
+    }
+
+    if (mechJSON.choices !== undefined) {
+      mech.choices = mechJSON.choices.map(function (choiceArr) {
+        return choiceArr.map(mechFromJSON);
+      });
+    }
+  }
+
+  (0, _dispatch.dispatchUpdatedMech)(mech);
+  return mech.id;
+};
+
+exports.mechFromJSON = mechFromJSON;
+},{"./interface":"src/mechanic/interface.ts","../utils":"src/utils.ts","./dispatch":"src/mechanic/dispatch.ts","../statePiece/json":"src/statePiece/json.ts"}],"src/optional/interface.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.makeDefaultOptional = void 0;
+
+var _utils = require("../utils");
+
+var makeDefaultOptional = function makeDefaultOptional() {
+  return {
+    id: (0, _utils.getID)(),
+    requirements: [],
+    effects: []
+  };
+};
+
+exports.makeDefaultOptional = makeDefaultOptional;
+},{"../utils":"src/utils.ts"}],"src/optional/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchDeletedOptional = exports.dispatchUpdateOptional = void 0;
+
+var _action = require("./action");
+
+var _store = require("../state/store");
+
+var dispatchUpdateOptional = function dispatchUpdateOptional(id, optional) {
+  var action = {
+    type: _action.OptionalEnum.UPDATED,
+    id: id,
+    optional: optional
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUpdateOptional = dispatchUpdateOptional;
+
+var dispatchDeletedOptional = function dispatchDeletedOptional(id) {
+  var action = {
+    type: _action.OptionalEnum.DELETED,
+    id: id
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchDeletedOptional = dispatchDeletedOptional;
+},{"./action":"src/optional/action.ts","../state/store":"src/state/store.ts"}],"src/optional/json.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.optionalFromJSON = void 0;
+
+var _interface = require("./interface");
+
+var _utils = require("../utils");
+
+var _json = require("../statePiece/json");
+
+var _json2 = require("../mechanic/json");
+
+var _dispatch = require("./dispatch");
+
+var optionalFromJSON = function optionalFromJSON(optJSON) {
+  var optional;
+
+  if (optJSON === undefined) {
+    optional = (0, _interface.makeDefaultOptional)();
+  } else {
+    optional = {};
+
+    if (optJSON.id !== undefined) {
+      optional.id = optJSON.id;
+    } else {
+      optional.id = (0, _utils.getID)();
+    }
+
+    optional.requirements = optJSON.requirements.map(_json.statePieceFromJSON);
+    optional.effects = optJSON.effects.map(_json2.mechFromJSON);
+  }
+
+  (0, _dispatch.dispatchUpdateOptional)(optional.id, optional);
+  return optional.id;
+};
+
+exports.optionalFromJSON = optionalFromJSON;
+},{"./interface":"src/optional/interface.ts","../utils":"src/utils.ts","../statePiece/json":"src/statePiece/json.ts","../mechanic/json":"src/mechanic/json.ts","./dispatch":"src/optional/dispatch.ts"}],"src/card/json.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.cardFromJSON = exports.cardAddOpt = exports.cardAddEff = exports.cardAddReq = void 0;
+
+var _dispatch = require("./dispatch");
+
+var _interface = require("./interface");
+
+var _json = require("../mechanic/json");
+
+var _json2 = require("../statePiece/json");
+
+var _json3 = require("../optional/json");
+
+var cardAddReq = function cardAddReq() {
+  var id = (0, _json2.statePieceFromJSON)();
+  (0, _dispatch.dispatchCardAddReq)(id);
+};
+
+exports.cardAddReq = cardAddReq;
+
+var cardAddEff = function cardAddEff() {
+  var id = (0, _json.mechFromJSON)();
+  (0, _dispatch.dispatchCardAddEff)(id);
+};
+
+exports.cardAddEff = cardAddEff;
+
+var cardAddOpt = function cardAddOpt() {
+  var id = (0, _json3.optionalFromJSON)();
+  (0, _dispatch.dispatchCardAddOpt)(id);
+};
+
+exports.cardAddOpt = cardAddOpt;
+
+var cardFromJSON = function cardFromJSON(cardJSON) {
+  if (cardJSON === null) {
+    (0, _dispatch.dispatchUpdateEditedCard)((0, _interface.makeDefaultCard)());
+    return;
+  }
+
+  var card = {};
+  card.requirements = cardJSON.requirements.map(_json2.statePieceFromJSON);
+  card.optional = cardJSON.optional.map(_json3.optionalFromJSON);
+  card.effects = cardJSON.effects.map(_json.mechFromJSON);
+  card.name = cardJSON.name;
+  card.tagObjs = cardJSON.tagObjs;
+  (0, _dispatch.dispatchUpdateEditedCard)(card);
+};
+
+exports.cardFromJSON = cardFromJSON;
+},{"./dispatch":"src/card/dispatch.ts","./interface":"src/card/interface.ts","../mechanic/json":"src/mechanic/json.ts","../statePiece/json":"src/statePiece/json.ts","../optional/json":"src/optional/json.ts"}],"src/card/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchGetCardList = exports.dispatchDeleteCard = exports.dispatchUpdateEditedCard = exports.dispatchGetCard = exports.dispatchUpdatedCardName = exports.dispatchMakeBlankCard = exports.dispatchCardAddOpt = exports.dispatchCardAddEff = exports.dispatchCardAddReq = void 0;
+
+var tslib_1 = _interopRequireWildcard(require("tslib"));
+
+var _interface = require("./interface");
 
 var _actions = require("./actions");
 
@@ -47259,11 +47775,137 @@ var _store = require("../state/store");
 
 var _utils = require("../utils");
 
+var _json = require("./json");
+
+var _actions2 = require("../path/actions");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var _this = void 0;
 
+var dispatchCardAddReq = function dispatchCardAddReq(id) {
+  var action = {
+    type: _actions.CardEnum.ADDED_REQ,
+    id: id
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchCardAddReq = dispatchCardAddReq;
+
+var dispatchCardAddEff = function dispatchCardAddEff(id) {
+  var action = {
+    type: _actions.CardEnum.ADDED_EFF,
+    id: id
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchCardAddEff = dispatchCardAddEff;
+
+var dispatchCardAddOpt = function dispatchCardAddOpt(id) {
+  var action = {
+    type: _actions.CardEnum.ADDED_OPTIONAL,
+    id: id
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchCardAddOpt = dispatchCardAddOpt;
+
+var dispatchMakeBlankCard = function dispatchMakeBlankCard() {
+  var pathAction = {
+    type: _actions2.PathActionEnum.TO_PATH_STRING,
+    path: '/maker'
+  };
+  dispatchUpdateEditedCard();
+
+  _store.store.dispatch(pathAction);
+};
+
+exports.dispatchMakeBlankCard = dispatchMakeBlankCard;
+
+var dispatchUpdatedCardName = function dispatchUpdatedCardName(name) {
+  var action = {
+    type: _actions.CardEnum.UPDATED_CARD_NAME,
+    name: name
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUpdatedCardName = dispatchUpdatedCardName;
+
+var dispatchGetCard = function dispatchGetCard(cardName) {
+  return tslib_1.__awaiter(_this, void 0, void 0, function () {
+    var cardJSON;
+    return tslib_1.__generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          return [4
+          /*yield*/
+          , getCard(cardName)];
+
+        case 1:
+          cardJSON = _a.sent();
+          (0, _json.cardFromJSON)(cardJSON);
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+exports.dispatchGetCard = dispatchGetCard;
+
+var getCard = function getCard(cardName) {
+  return tslib_1.__awaiter(_this, void 0, void 0, function () {
+    var response, card, err_1;
+    return tslib_1.__generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _a.trys.push([0, 3,, 4]);
+
+          return [4
+          /*yield*/
+          , fetch(_utils.hostURL + 'card/' + cardName)];
+
+        case 1:
+          response = _a.sent();
+          return [4
+          /*yield*/
+          , response.json()];
+
+        case 2:
+          card = _a.sent();
+          return [2
+          /*return*/
+          , card];
+
+        case 3:
+          err_1 = _a.sent();
+          return [2
+          /*return*/
+          , null];
+
+        case 4:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
 var dispatchUpdateEditedCard = function dispatchUpdateEditedCard(card) {
+  if (card === void 0) {
+    card = (0, _interface.makeDefaultCard)();
+  }
+
   var action = {
     type: _actions.CardEnum.UPDATED_EDITED_CARD,
     card: card
@@ -47274,7 +47916,7 @@ var dispatchUpdateEditedCard = function dispatchUpdateEditedCard(card) {
 
 exports.dispatchUpdateEditedCard = dispatchUpdateEditedCard;
 
-var dispatchDeletedCard = function dispatchDeletedCard(cardName) {
+var dispatchDeleteCard = function dispatchDeleteCard(cardName) {
   return tslib_1.__awaiter(_this, void 0, void 0, function () {
     var action;
     return tslib_1.__generator(this, function (_a) {
@@ -47302,11 +47944,11 @@ var dispatchDeletedCard = function dispatchDeletedCard(cardName) {
   });
 };
 
-exports.dispatchDeletedCard = dispatchDeletedCard;
+exports.dispatchDeleteCard = dispatchDeleteCard;
 
 var deleteCard = function deleteCard(cardName) {
   return tslib_1.__awaiter(_this, void 0, void 0, function () {
-    var err_1;
+    var err_2;
     return tslib_1.__generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -47332,8 +47974,8 @@ var deleteCard = function deleteCard(cardName) {
           , 3];
 
         case 2:
-          err_1 = _a.sent();
-          console.error(err_1);
+          err_2 = _a.sent();
+          console.error(err_2);
           return [3
           /*break*/
           , 3];
@@ -47378,7 +48020,7 @@ exports.dispatchGetCardList = dispatchGetCardList;
 
 var getCardList = function getCardList() {
   return tslib_1.__awaiter(_this, void 0, void 0, function () {
-    var response, cardsObj_1, cardList, err_2;
+    var response, cardsObj_1, cardList, err_3;
     return tslib_1.__generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -47404,7 +48046,7 @@ var getCardList = function getCardList() {
           , cardList];
 
         case 3:
-          err_2 = _a.sent();
+          err_3 = _a.sent();
           return [2
           /*return*/
           , []];
@@ -47417,7 +48059,7 @@ var getCardList = function getCardList() {
     });
   });
 };
-},{"tslib":"node_modules/tslib/tslib.es6.js","./actions":"src/card/actions.ts","../state/store":"src/state/store.ts","../utils":"src/utils.ts"}],"src/path/dispatch.ts":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","./interface":"src/card/interface.ts","./actions":"src/card/actions.ts","../state/store":"src/state/store.ts","../utils":"src/utils.ts","./json":"src/card/json.ts","../path/actions":"src/path/actions.ts"}],"src/path/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47499,7 +48141,7 @@ function (_super) {
         cardList = _a === void 0 ? [] : _a;
     return React.createElement("div", null, React.createElement("h2", null, "Cards"), React.createElement("div", null, "Total Cards ", cardList.length), React.createElement("div", null, "Filter:"), React.createElement("table", {
       className: 'ml-3'
-    }, cardList.map(function (card) {
+    }, React.createElement("tbody", null, cardList.map(function (card) {
       return React.createElement("tr", {
         key: card
       }, React.createElement("td", {
@@ -47514,10 +48156,10 @@ function (_super) {
       }, "Edit")), React.createElement("td", null, React.createElement("button", {
         className: "btn btn-danger btn-sm m-1",
         onClick: function onClick() {
-          return (0, _dispatch.dispatchDeletedCard)(card);
+          return (0, _dispatch.dispatchDeleteCard)(card);
         }
       }, " Delete ")));
-    })));
+    }))));
   };
 
   return List;
@@ -47532,13 +48174,74 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.buildOptional = exports.buildMechanic = exports.buildStatePiece = exports.cardToJSON = void 0;
+exports.buildOptional = exports.buildMechanic = exports.buildStatePiece = exports.cardToJSON = exports.updateCard = exports.cardToServerJSON = void 0;
 
 var tslib_1 = _interopRequireWildcard(require("tslib"));
 
+var _store = require("../state/store");
+
 var _lodash = require("lodash");
 
+var _interface = require("./interface");
+
+var _utils = require("../utils");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var cardToServerJSON = function cardToServerJSON(state) {
+  var card = cardToJSON(state);
+  card.requirements = card.requirements.map(function (req) {
+    return (0, _lodash.omit)(req, 'id');
+  });
+  card.optional = card.optional.map(function (opt) {
+    opt.effects = opt.effects.map(omitIdFromEff);
+    return (0, _lodash.omit)(opt, 'id');
+  });
+  card.effects = card.effects.map(omitIdFromEff);
+  card.tagObjs = card.tagObjs.map(function (tag) {
+    return (0, _lodash.omit)(tag, 'id');
+  });
+  return card;
+};
+
+exports.cardToServerJSON = cardToServerJSON;
+
+var updateCard = function updateCard() {
+  var card = cardToServerJSON(_store.store.getState());
+  fetch(_utils.hostURL + 'card', {
+    body: JSON.stringify(card),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: 'POST'
+  });
+};
+
+exports.updateCard = updateCard;
+
+var omitIdFromEff = function omitIdFromEff(mech) {
+  if (mech.mechanicRequirements !== undefined) {
+    mech.mechanicRequirements = mech.mechanicRequirements.map(function (req) {
+      return (0, _lodash.omit)(req, 'id');
+    });
+  }
+
+  if (mech.mechanicEffects !== undefined) {
+    mech.mechanicEffects = mech.mechanicEffects.map(function (eff) {
+      return (0, _lodash.omit)(eff, 'id');
+    });
+  }
+
+  if (mech.choices !== undefined) {
+    mech.choices = mech.choices.map(function (choice) {
+      return choice.map(function (eff) {
+        return (0, _lodash.omit)(eff, 'id');
+      });
+    });
+  }
+
+  return (0, _lodash.omit)(mech, 'id');
+};
 
 var cardToJSON = function cardToJSON(state) {
   if (state.card.editingCard !== null) {
@@ -47574,7 +48277,7 @@ var cardToJSON = function cardToJSON(state) {
     });
   }
 
-  return null;
+  return (0, _interface.makeDefaultCardJSON)();
 };
 
 exports.cardToJSON = cardToJSON;
@@ -47669,7 +48372,148 @@ var buildOptional = function buildOptional(state, id) {
 };
 
 exports.buildOptional = buildOptional;
-},{"tslib":"node_modules/tslib/tslib.es6.js","lodash":"node_modules/lodash/lodash.js"}],"src/components/viewer/viewer.tsx":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","../state/store":"src/state/store.ts","lodash":"node_modules/lodash/lodash.js","./interface":"src/card/interface.ts","../utils":"src/utils.ts"}],"src/components/viewer/requirement.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var React = _interopRequireWildcard(require("react"));
+
+var _utils = require("../../utils");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var _default = function _default(props) {
+  console.log(props);
+  return React.createElement("span", {
+    className: "mr-3"
+  }, _utils.playerRouter[props.requirement.player], " ", props.requirement.axis);
+};
+
+exports.default = _default;
+},{"react":"node_modules/react/index.js","../../utils":"src/utils.ts"}],"src/components/viewer/effect.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var React = _interopRequireWildcard(require("react"));
+
+var _enums = require("../../interfaces/enums");
+
+var _requirement = _interopRequireDefault(require("./requirement"));
+
+var _utils = require("../../utils");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var Effect = function Effect(_a) {
+  var effect = _a.effect;
+  var _b = effect.choices,
+      choices = _b === void 0 ? [] : _b,
+      mechanic = effect.mechanic,
+      _c = effect.mechanicRequirements,
+      reqs = _c === void 0 ? [] : _c,
+      _d = effect.mechanicEffects,
+      effs = _d === void 0 ? [] : _d,
+      amount = effect.amount;
+
+  var _e = (0, _enums.getMechDisplay)(effect.mechanic),
+      displayEff = _e.eff,
+      displayPick = _e.pick,
+      displayState = _e.state;
+
+  var player = effect.player !== undefined ? _utils.playerRouter[effect.player] : null;
+  return React.createElement("div", null, displayState && React.createElement(React.Fragment, null, effect.mechanic !== undefined && React.createElement("b", null, " ", effect.mechanic, " "), player, " ", effect.axis, " ", effect.amount), displayEff && React.createElement("div", {
+    className: "seperate"
+  }, React.createElement("div", null, React.createElement("b", null, mechanic, "  ", amount !== undefined && amount)), React.createElement("div", {
+    className: "ml-3"
+  }, React.createElement("div", null, reqs.map(function (req, i) {
+    return React.createElement("span", {
+      key: i,
+      className: 'mr-3'
+    }, React.createElement(_requirement.default, {
+      requirement: req
+    }));
+  })), React.createElement("div", {
+    className: "h-divider"
+  }), React.createElement("div", {
+    className: "ml-3"
+  }, effs.map(function (eff, i) {
+    return React.createElement("span", {
+      key: i,
+      className: 'mr-3'
+    }, React.createElement(Effect, {
+      effect: eff
+    }));
+  })))), displayPick && React.createElement("div", {
+    className: "seperate"
+  }, React.createElement("div", null, React.createElement("b", null, mechanic)), React.createElement("div", {
+    className: "ml-3"
+  }, choices.map(function (choice, k) {
+    return React.createElement("div", {
+      key: k,
+      className: 'seperate'
+    }, choice.map(function (eff) {
+      return React.createElement("span", {
+        key: eff.id,
+        className: 'mr-3'
+      }, React.createElement(Effect, {
+        effect: eff
+      }));
+    }));
+  }))));
+};
+
+var _default = Effect;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","../../interfaces/enums":"src/interfaces/enums.ts","./requirement":"src/components/viewer/requirement.tsx","../../utils":"src/utils.ts"}],"src/components/viewer/optional.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var React = _interopRequireWildcard(require("react"));
+
+var _requirement = _interopRequireDefault(require("./requirement"));
+
+var _effect = _interopRequireDefault(require("./effect"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var _default = function _default(props) {
+  return React.createElement("div", {
+    className: "ml-3 card seperate"
+  }, React.createElement("div", null, props.requirements.map(function (req) {
+    return React.createElement(_requirement.default, {
+      key: req.id,
+      requirement: req
+    });
+  })), React.createElement("div", {
+    className: "h-divier"
+  }), React.createElement("div", {
+    className: "ml-3"
+  }, props.effects.map(function (eff) {
+    return React.createElement(_effect.default, {
+      key: eff.id,
+      effect: eff
+    });
+  })));
+};
+
+exports.default = _default;
+},{"react":"node_modules/react/index.js","./requirement":"src/components/viewer/requirement.tsx","./effect":"src/components/viewer/effect.tsx"}],"src/components/viewer/viewer.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47684,6 +48528,16 @@ var React = _interopRequireWildcard(require("react"));
 var _cardToJSON = require("../../card/cardToJSON");
 
 var _reactRedux = require("react-redux");
+
+var _dispatch = require("../../card/dispatch");
+
+var _requirement = _interopRequireDefault(require("./requirement"));
+
+var _optional = _interopRequireDefault(require("./optional"));
+
+var _effect = _interopRequireDefault(require("./effect"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -47703,6 +48557,11 @@ function (_super) {
     return _super !== null && _super.apply(this, arguments) || this;
   }
 
+  Viewer.prototype.componentDidMount = function () {
+    var path = this.props.path;
+    (0, _dispatch.dispatchGetCard)(path[0]);
+  };
+
   Viewer.prototype.render = function () {
     var card = this.props.card;
 
@@ -47710,7 +48569,29 @@ function (_super) {
       return React.createElement("div", null, " No Card");
     }
 
-    return React.createElement("div", null, React.createElement("h3", null, name));
+    var requirements = card.requirements,
+        optional = card.optional,
+        effects = card.effects,
+        name = card.name;
+    return React.createElement("div", null, React.createElement("h3", null, card.name), React.createElement("ul", null, requirements.map(function (req) {
+      return React.createElement(_requirement.default, {
+        key: req.id,
+        requirement: req
+      });
+    })), React.createElement("div", {
+      className: "h-divider"
+    }), React.createElement("ul", null, optional.map(function (opt, i) {
+      return React.createElement(_optional.default, tslib_1.__assign({}, opt, {
+        key: i
+      }));
+    })), React.createElement("div", {
+      className: "h-divider"
+    }), React.createElement("ul", null, effects.map(function (effect, i) {
+      return React.createElement(_effect.default, {
+        key: i,
+        effect: effect
+      });
+    })));
   };
 
   return Viewer;
@@ -47753,7 +48634,255 @@ var _default = (0, _reactRedux.connect)(selector)(Viewer); // export default cla
 
 
 exports.default = _default;
-},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../card/cardToJSON":"src/card/cardToJSON.ts","react-redux":"node_modules/react-redux/es/index.js"}],"src/App.tsx":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../card/cardToJSON":"src/card/cardToJSON.ts","react-redux":"node_modules/react-redux/es/index.js","../../card/dispatch":"src/card/dispatch.ts","./requirement":"src/components/viewer/requirement.tsx","./optional":"src/components/viewer/optional.tsx","./effect":"src/components/viewer/effect.tsx"}],"src/components/maker/requirement.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var tslib_1 = _interopRequireWildcard(require("tslib"));
+
+var React = _interopRequireWildcard(require("react"));
+
+var _enums = require("../../interfaces/enums");
+
+var _dispatch = require("../../statePiece/dispatch");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var _default = function _default(_a) {
+  var requirement = _a.requirement;
+  return React.createElement("form", {
+    className: "form-inline inline"
+  }, React.createElement("select", {
+    className: "form-control",
+    id: "affects",
+    onChange: function onChange(e) {
+      return (0, _dispatch.diaptchUpdateStatePieceJSON)(tslib_1.__assign({}, requirement, {
+        player: Number(e.target.value)
+      }));
+    },
+    value: requirement.player
+  }, React.createElement("option", {
+    value: _enums.PlayerEnum.OPPONENT
+  }, " \u2191 "), React.createElement("option", {
+    value: _enums.PlayerEnum.PLAYER
+  }, " \u2193 "), React.createElement("option", {
+    value: _enums.PlayerEnum.BOTH
+  }, " \u2195 ")), React.createElement("select", {
+    className: "form-control",
+    id: "axis",
+    onChange: function onChange(e) {
+      return (0, _dispatch.diaptchUpdateStatePieceJSON)(tslib_1.__assign({}, requirement, {
+        axis: e.target.value
+      }));
+    },
+    value: requirement.axis
+  }, Object.keys(_enums.AxisEnum).map(function (key) {
+    return React.createElement("option", {
+      value: _enums.AxisEnum[key],
+      key: key
+    }, " ", _enums.AxisEnum[key]);
+  })));
+}; // export default class Requirement extends React.Component<Props>{
+//     constructor(props: Props) {
+//         super(props);
+//         this.changeAffects = this.changeAffects.bind(this); 
+//         this.changeAxis = this.changeAxis.bind(this); 
+//     }
+//     public render() {
+//         return (
+//             <form className="form-inline inline">
+//                 <select className="form-control" id="affects" onChange={this.changeAffects} value = {this.props.requirement.player}>
+//                     <option value={PlayerEnum.OPPONENT}> ↑ </option>
+//                     <option value={PlayerEnum.PLAYER}> ↓ </option>
+//                     <option value={PlayerEnum.BOTH}> ↕ </option>
+//                 </select>
+//                 <select className="form-control" id="axis" onChange={this.changeAxis} value={this.props.requirement.axis}>
+//                     {Object.keys(AxisEnum).map((key)=> <option value = {AxisEnum[key]} key = {key}> {AxisEnum[key]}</option>)}
+//                 </select>
+//             </form>
+//         )
+//     }
+//     private changeAffects(e: React.ChangeEvent<HTMLSelectElement>){
+//         const requirement = {...this.props.requirement};
+//         requirement.player = Number(e.target.value);
+//         this.props.update(requirement, this.props.index);  
+//     }
+//     private changeAxis(e: React.ChangeEvent<HTMLSelectElement>){
+//         const requirement = {...this.props.requirement};
+//         requirement.axis = e.target.value as AxisEnum;
+//         this.props.update(requirement, this.props.index); 
+//     }
+// }
+
+
+exports.default = _default;
+},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../interfaces/enums":"src/interfaces/enums.ts","../../statePiece/dispatch":"src/statePiece/dispatch.ts"}],"src/components/maker/effect.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var tslib_1 = _interopRequireWildcard(require("tslib"));
+
+var React = _interopRequireWildcard(require("react"));
+
+var _enums = require("../../interfaces/enums");
+
+var _json = require("../../mechanic/json");
+
+var _dispatch = require("../../mechanic/dispatch");
+
+var _requirement = _interopRequireDefault(require("./requirement"));
+
+var _dispatch2 = require("../../statePiece/dispatch");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var Effect = function Effect(_a) {
+  var mech = _a.effect;
+  var mechanic = mech.mechanic,
+      amount = mech.amount,
+      id = mech.id,
+      _b = mech.mechanicRequirements,
+      reqs = _b === void 0 ? [] : _b,
+      _c = mech.mechanicEffects,
+      effs = _c === void 0 ? [] : _c,
+      _d = mech.choices,
+      choices = _d === void 0 ? [] : _d,
+      player = mech.player,
+      axis = mech.axis;
+
+  var _e = (0, _enums.getMechDisplay)(mechanic),
+      displayValue = _e.value,
+      displayValueString = _e.valueString,
+      displayReq = _e.req,
+      displayEff = _e.eff,
+      displayPick = _e.pick,
+      displayState = _e.state;
+
+  console.log('mechanic', mechanic);
+  return React.createElement("div", {
+    className: "inline form-inline"
+  }, React.createElement("select", {
+    className: "form-control",
+    id: "mechanics",
+    onChange: function onChange(_a) {
+      var target = _a.target;
+      return (0, _json.mechFromJSON)(tslib_1.__assign({}, mech, {
+        mechanic: target.value
+      }));
+    },
+    value: mechanic
+  }, React.createElement("option", {
+    value: undefined
+  }, " No Mechanic "), Object.keys(_enums.MechanicEnum).map(function (key) {
+    return React.createElement("option", {
+      value: _enums.MechanicEnum[key],
+      key: key
+    }, " ", _enums.MechanicEnum[key], " ");
+  })), displayState && React.createElement(React.Fragment, null, React.createElement("select", {
+    className: "form-control",
+    id: "affects",
+    onChange: function onChange(_a) {
+      var target = _a.target;
+      return (0, _json.mechFromJSON)(tslib_1.__assign({}, mech, {
+        player: Number(target.value)
+      }));
+    },
+    value: player
+  }, React.createElement("option", {
+    value: undefined
+  }, " No Player "), React.createElement("option", {
+    value: _enums.PlayerEnum.OPPONENT
+  }, " \u2191 "), React.createElement("option", {
+    value: _enums.PlayerEnum.PLAYER
+  }, " \u2193 "), React.createElement("option", {
+    value: _enums.PlayerEnum.BOTH
+  }, " \u2195 ")), React.createElement("select", {
+    className: "form-control",
+    id: "axis",
+    onChange: function onChange(_a) {
+      var target = _a.target;
+      return (0, _json.mechFromJSON)(tslib_1.__assign({}, mech, {
+        axis: target.value
+      }));
+    },
+    value: axis
+  }, React.createElement("option", {
+    value: undefined
+  }, " No Axis "), Object.keys(_enums.AxisEnum).map(function (key) {
+    return React.createElement("option", {
+      value: _enums.AxisEnum[key],
+      key: key
+    }, " ", _enums.AxisEnum[key]);
+  }))), displayValue && React.createElement(React.Fragment, null, React.createElement("input", {
+    type: "number",
+    value: amount,
+    onChange: function onChange() {
+      return (0, _json.mechFromJSON)(tslib_1.__assign({}, mech, {
+        amount: amount
+      }));
+    }
+  })), displayValueString && React.createElement(React.Fragment, null, React.createElement("input", {
+    type: "text",
+    value: amount,
+    onChange: function onChange() {
+      return (0, _json.mechFromJSON)(tslib_1.__assign({}, mech, {
+        amount: amount
+      }));
+    }
+  })), displayReq && React.createElement(React.Fragment, null, React.createElement("div", null, React.createElement("div", null, React.createElement("div", {
+    className: "inline"
+  }, React.createElement("h4", null, "Requirements:", React.createElement("button", {
+    className: "btn btn-sm btn-primary ml-2",
+    onClick: function onClick() {
+      return (0, _json.mechAddReq)(id);
+    }
+  }, " + "))), React.createElement("div", null, reqs.map(function (req) {
+    return React.createElement("div", {
+      key: req.id
+    }, React.createElement("div", {
+      className: "inline"
+    }, React.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      onClick: function onClick() {
+        return (0, _dispatch2.dispatchDeleteStatePiece)(req.id);
+      }
+    }, " - ")), React.createElement(_requirement.default, {
+      requirement: req
+    }));
+  }))))), displayEff && React.createElement(React.Fragment, null, React.createElement("div", null, React.createElement("div", null, React.createElement("div", {
+    className: "inline"
+  }, React.createElement("h4", null, "Effects:", React.createElement("button", {
+    className: "btn btn-sm btn-primary",
+    onClick: function onClick() {
+      return (0, _json.mechAddEff)(id);
+    }
+  }, " + "))), React.createElement("div", null, effs.map(function (eff) {
+    return React.createElement("div", {
+      key: eff.id
+    }, React.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      onClick: function onClick() {
+        return (0, _dispatch.dispatchDeletedMech)(eff.id);
+      }
+    }, " - "), React.createElement(Effect, {
+      effect: eff
+    }));
+  }))))));
+};
+
+var _default = Effect;
+exports.default = _default;
+},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../interfaces/enums":"src/interfaces/enums.ts","../../mechanic/json":"src/mechanic/json.ts","../../mechanic/dispatch":"src/mechanic/dispatch.ts","./requirement":"src/components/maker/requirement.tsx","../../statePiece/dispatch":"src/statePiece/dispatch.ts"}],"src/components/maker/maker.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47763,13 +48892,382 @@ exports.default = void 0;
 
 var React = _interopRequireWildcard(require("react"));
 
-require("./styles/css/index.css");
+var _dispatch = require("../../card/dispatch");
+
+var _cardToJSON = require("../../card/cardToJSON");
+
+var _reactRedux = require("react-redux");
+
+var _dispatch2 = require("../../statePiece/dispatch");
+
+var _json = require("../../card/json");
+
+var _dispatch3 = require("../../mechanic/dispatch");
+
+var _requirement = _interopRequireDefault(require("./requirement"));
+
+var _effect = _interopRequireDefault(require("./effect"));
+
+var _dispatch4 = require("../../path/dispatch");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var selector = function selector(state) {
+  console.log(state);
+  var card = (0, _cardToJSON.cardToJSON)(state);
+  return {
+    card: card
+  };
+};
+
+var maker = function maker(_a) {
+  var _b = _a.card,
+      name = _b.name,
+      requirements = _b.requirements,
+      effects = _b.effects;
+  return React.createElement("div", null, React.createElement("input", {
+    placeholder: "Card Name",
+    className: "form-control-lg",
+    type: "text",
+    value: name,
+    onChange: function onChange(e) {
+      return (0, _dispatch.dispatchUpdatedCardName)(e.target.value);
+    }
+  }), React.createElement("div", null, React.createElement("h2", null, " Requirements", React.createElement("button", {
+    className: 'ml-3 btn btn-sm btn-primary',
+    onClick: _json.cardAddReq
+  }, "+")), React.createElement("ul", {
+    className: "ml-1"
+  }, requirements.map(function (req) {
+    return React.createElement("li", {
+      key: req.id
+    }, React.createElement("div", {
+      className: "row"
+    }, React.createElement("span", {
+      className: "col-1"
+    }, React.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      onClick: function onClick() {
+        return (0, _dispatch2.dispatchDeleteStatePiece)(req.id);
+      }
+    }, " - ")), React.createElement("span", {
+      className: "col-11"
+    }, React.createElement(_requirement.default, {
+      requirement: req
+    }))));
+  }))), React.createElement("div", null, React.createElement("h2", null, " Effect", React.createElement("button", {
+    className: 'ml-3 btn btn-sm btn-primary',
+    onClick: _json.cardAddEff
+  }, "+")), React.createElement("ul", {
+    className: "ml-1"
+  }, effects.map(function (effect, i) {
+    return React.createElement("li", {
+      key: effect.id
+    }, React.createElement("div", {
+      className: "row"
+    }, React.createElement("span", {
+      className: "col-1"
+    }, React.createElement("button", {
+      className: "btn btn-sm btn-danger",
+      onClick: function onClick() {
+        return (0, _dispatch3.dispatchDeletedMech)(effect.id);
+      }
+    }, "-")), React.createElement("span", {
+      className: "col-11"
+    }, React.createElement(_effect.default, {
+      effect: effect
+    }))));
+  }))), React.createElement("div", null, React.createElement("button", {
+    className: "btn btn-primary btn-large",
+    onClick: _cardToJSON.updateCard
+  }, "Update"), React.createElement("button", {
+    onClick: function onClick() {
+      return (0, _dispatch4.dispatchToPathString)('/view');
+    },
+    className: "btn btn-primary btn-large"
+  }, " View ")));
+};
+
+var _default = (0, _reactRedux.connect)(selector)(maker); // export default class Maker extends React.Component<Props, State>{
+//     public static getDerivedStateFromProps(props: Props, state: State) {
+//         console.log(props.card)
+//         if (props.card && state.index !== props.card.name) {
+//             return {
+//                 ...props.card,
+//                 index: props.card.name,
+//                 tagObj: props.card.tags.map((tag) => ({ value: tag }))
+//             }
+//         }
+//         return null;
+//     }
+//     constructor(props: Props) {
+//         super(props);
+//         if (props.card !== undefined) {
+//             this.state = {
+//                 ...props.card,
+//                 index: props.card.name || null,
+//                 tagObjs: props.card.tags.map((tag) => ({ value: tag }))
+//             };
+//         } else {
+//             this.state = {
+//                 effects: [],
+//                 index: null,
+//                 name: '',
+//                 optional: [],
+//                 requirements: [],
+//                 tagObjs: [],
+//                 tags: [],
+//             }
+//         }
+//         this.updateName = this.updateName.bind(this);
+//         this.updateRequirement = this.updateRequirement.bind(this);
+//         this.updateEffect = this.updateEffect.bind(this);
+//         this.addRequirement = this.addRequirement.bind(this);
+//         this.addEffect = this.addEffect.bind(this);
+//         this.removeEffect = this.removeEffect.bind(this);
+//         this.removeRequirement = this.removeRequirement.bind(this);
+//         this.addOptional = this.addOptional.bind(this);
+//         this.removeOptional = this.removeOptional.bind(this);
+//         this.updateOptional = this.updateOptional.bind(this);
+//         this.updateCard = this.updateCard.bind(this);
+//         this.addTag = this.addTag.bind(this);
+//         this.removeTag = this.removeTag.bind(this);
+//         this.updateTag = this.updateTag.bind(this);
+//         this.stripUID = this.stripUID.bind(this);
+//     }
+//     public render() {
+//         const { name = '', effects = [], requirements = [], optional = [] } = this.state;
+//         return (
+//             <div>
+//                 <input placeholder="Card Name" className="form-control-lg" type="text" value={name} onChange={(e) => this.updateName(e.target.value)} />
+//                 <div>
+//                     <h2> Requirements
+//                         <button className='ml-3 btn btn-sm btn-primary' onClick={this.addRequirement}>+</button>
+//                     </h2>
+//                     <ul className="ml-1">
+//                         {requirements.map((requirement, i) => <li key={getUUID(requirement)}><div className="row">
+//                             <span className="col-1"><button className="btn btn-danger btn-sm" onClick={() => this.removeRequirement(i)}> - </button></span>
+//                             <span className="col-11"><Requirement update={this.updateRequirement} index={i} requirement={requirement} /></span>
+//                         </div></li>)}
+//                     </ul>
+//                 </div>
+//                 <div>
+//                     <h2> Effect
+//                         <button className='ml-3 btn btn-sm btn-primary' onClick={this.addEffect}>+</button>
+//                     </h2>
+//                     <ul className="ml-1">
+//                         {effects.map((effect, i) => <li key={getUUID(effect)}><div className="row">
+//                             <span className="col-1"><button className="btn btn-sm btn-danger" onClick={() => this.removeEffect(i)}>-</button></span>
+//                             <span className="col-11"><Effect update={this.updateEffect} index={i} effect={effect} /></span>
+//                         </div>
+//                         </li>)}
+//                     </ul>
+//                 </div>
+//                 <div>
+//                     <h2> Optional
+//                         <button className=' ml-3 btn btn-sm btn-primary' onClick={this.addOptional}>+</button>
+//                     </h2>
+//                     <ul className="ml-1">
+//                         {optional.map((opt, i) => <li key={getUUID(opt)}><div className="row">
+//                             <span className="col-1"><button className="btn btn-danger btn-sm" onClick={() => this.removeOptional(i)}> - </button></span>
+//                             <span className="col-11"><Optional optional={opt} index={i} update={this.updateOptional} /></span>
+//                         </div></li>)}
+//                     </ul>
+//                     <Tags addTag={this.addTag} removeTag={this.removeTag} updateTag={this.updateTag} tags={this.state.tagObjs} />
+//                 </div>
+//                 <div>
+//                     <button className="btn btn-primary btn-large" onClick={this.updateCard}>Update</button>
+//                     <Link to="/viewer" className="ml-2">
+//                         <button onClick={() => this.props.pickCard(this.state)} className="btn btn-primary btn-large"> View </button>
+//                     </Link>
+//                     <button className="btn btn-primary btn-large ml-2" onClick={this.newCard}>New Card</button>
+//                 </div>
+//                 <div className="mt-2">
+//                     <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(-1)}> {'<-'} </button>
+//                     <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(1)}> {'->'} </button>
+//                 </div>
+//             </div>
+//         )
+//     }
+//     private newCard = () => {
+//         this.setState({
+//             effects: [],
+//             index: null,
+//             name: '',
+//             optional: [],
+//             requirements: [],
+//             tagObjs: [],
+//             tags: [],
+//         })
+//     }
+//     private updateCard() {
+//         const tags = this.state.tagObjs.map(({ value }) => value);
+//         const card = {
+//             ...this.stripUID(this.state),
+//             tagObjs: undefined,
+//             tags,
+//         };
+//         fetch(hostURL + 'card', {
+//             body: JSON.stringify(card),
+//             headers: {
+//                 "Content-Type": "application/json",
+//             },
+//             method: 'POST',
+//         })
+//     }
+//     private addTag() {
+//         const tagObjs = [...this.state.tagObjs, { value: '' }];
+//         const tags = [...this.state.tags, '']
+//         this.setState({ tagObjs, tags })
+//     }
+//     private removeTag(index: number) {
+//         const tagObjs = this.state.tagObjs.filter((_, i) => i !== index);
+//         const tags = this.state.tags.filter((_,i)=> i !== index); 
+//         this.setState({ tagObjs, tags });
+//     }
+//     private updateTag(value: TagObj, index: number) {
+//         const tagObjs = [...this.state.tagObjs];
+//         tagObjs[index] = value;
+//         const tags = [...this.state.tags]; 
+//         tags[index] = value.value; 
+//         this.setState({ tagObjs, tags })
+//     }
+//     private addRequirement() {
+//         const requirements = [...this.state.requirements,
+//         {
+//             axis: AxisEnum.CLOSE,
+//             player: PlayerEnum.OPPONENT,
+//         }]
+//         this.setState({ requirements })
+//     }
+//     private removeRequirement(index: number) {
+//         const requirements = this.state.requirements.filter((_, i) => i !== index);
+//         this.setState({ requirements });
+//     }
+//     private updateRequirement(requirement: StatePiece, index: number) {
+//         const requirements = [...this.state.requirements]
+//         requirements[index] = requirement;
+//         this.setState({ requirements })
+//     }
+//     private addEffect() {
+//         const effects = [...this.state.effects, {}]
+//         this.setState({ effects })
+//     }
+//     private removeEffect(index: number) {
+//         const effects = this.state.effects.filter((_, i) => i !== index);
+//         this.setState({ effects });
+//     }
+//     private updateEffect(effect: Mechanic, index: number) {
+//         const effects = [...this.state.effects]
+//         effects[index] = effect;
+//         this.setState({ effects });
+//     }
+//     private addOptional() {
+//         const optional = [...this.state.optional,
+//         {
+//             effects: [],
+//             requirements: [],
+//         }]
+//         this.setState({ optional })
+//     }
+//     private removeOptional(index: number) {
+//         const optional = this.state.optional.filter((_, i) => i !== index)
+//         this.setState({ optional })
+//     }
+//     private updateOptional(state: RequirementEffect, index: number) {
+//         const optional = [...this.state.optional];
+//         optional[index] = state;
+//         this.setState({ optional })
+//     }
+//     private updateName(name: string) {
+//         this.setState({ name });
+//     }
+//     private stripUID(obj: object) {
+//         let newObj: object;
+//         if (Array.isArray(obj)) {
+//             newObj = [...obj];
+//         }
+//         else {
+//             newObj = { ...obj }
+//         }
+//         for (const key in newObj) {
+//             if (key === 'uuid') {
+//                 delete newObj[key]
+//             }
+//             else if (typeof obj[key] === 'object') {
+//                 newObj[key] = this.stripUID(obj[key]);
+//             }
+//         }
+//         return newObj;
+//     }
+// }
+
+
+exports.default = _default;
+},{"react":"node_modules/react/index.js","../../card/dispatch":"src/card/dispatch.ts","../../card/cardToJSON":"src/card/cardToJSON.ts","react-redux":"node_modules/react-redux/es/index.js","../../statePiece/dispatch":"src/statePiece/dispatch.ts","../../card/json":"src/card/json.ts","../../mechanic/dispatch":"src/mechanic/dispatch.ts","./requirement":"src/components/maker/requirement.tsx","./effect":"src/components/maker/effect.tsx","../../path/dispatch":"src/path/dispatch.ts"}],"src/Nav.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var React = _interopRequireWildcard(require("react"));
+
+var _dispatch = require("./path/dispatch");
+
+var _dispatch2 = require("./card/dispatch");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var _default = function _default() {
+  return React.createElement("nav", {
+    className: "navbar navbar-expand-lg navbar-dark bg-dark mb-4"
+  }, React.createElement("a", {
+    className: "navbar-brand",
+    href: "#"
+  }, "Cards"), React.createElement("div", {
+    className: "collapse navbar-collapse",
+    id: "navbarNav"
+  }, React.createElement("ul", {
+    className: "navbar-nav"
+  }, React.createElement("li", {
+    className: "nav-item"
+  }, React.createElement("a", {
+    className: "nav-link",
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchToPathString)('/');
+    }
+  }, "List")), React.createElement("li", {
+    className: "nav-item"
+  }, React.createElement("a", {
+    className: "nav-link",
+    onClick: _dispatch2.dispatchMakeBlankCard
+  }, "New Card")))));
+};
+
+exports.default = _default;
+},{"react":"node_modules/react/index.js","./path/dispatch":"src/path/dispatch.ts","./card/dispatch":"src/card/dispatch.ts"}],"src/App.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var React = _interopRequireWildcard(require("react"));
 
 var _reactRedux = require("react-redux");
 
 var _list = _interopRequireDefault(require("./components/list/list"));
 
 var _viewer = _interopRequireDefault(require("./components/viewer/viewer"));
+
+var _maker = _interopRequireDefault(require("./components/maker/maker"));
+
+var _Nav = _interopRequireDefault(require("./Nav"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47792,17 +49290,20 @@ var App = function App(_a) {
       remainingPath = _a.remainingPath;
   return React.createElement("div", {
     className: "App"
-  }, React.createElement("div", {
+  }, React.createElement(_Nav.default, null), React.createElement("div", {
     className: "container"
   }, body(nextPath, remainingPath)));
 };
 
 var body = function body(nextPath, remainingPath) {
   switch (nextPath) {
-    case 'viewer':
+    case 'view':
       return React.createElement(_viewer.default, {
         path: remainingPath
       });
+
+    case 'maker':
+      return React.createElement(_maker.default, null);
 
     default:
       return React.createElement(_list.default, null);
@@ -47812,7 +49313,7 @@ var body = function body(nextPath, remainingPath) {
 var _default = (0, _reactRedux.connect)(selector)(App);
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./styles/css/index.css":"src/styles/css/index.css","react-redux":"node_modules/react-redux/es/index.js","./components/list/list":"src/components/list/list.tsx","./components/viewer/viewer":"src/components/viewer/viewer.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-redux":"node_modules/react-redux/es/index.js","./components/list/list":"src/components/list/list.tsx","./components/viewer/viewer":"src/components/viewer/viewer.tsx","./components/maker/maker":"src/components/maker/maker.tsx","./Nav":"src/Nav.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var React = _interopRequireWildcard(require("react"));
@@ -47859,7 +49360,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56254" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52722" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

@@ -1,0 +1,36 @@
+import { CardJSON } from '../interfaces/cardJSON';
+import { dispatchUpdateEditedCard, dispatchCardAddReq, dispatchCardAddEff, dispatchCardAddOpt } from './dispatch';
+import { Card, makeDefaultCard } from './interface';
+import { mechFromJSON } from '../mechanic/json';
+import { statePieceFromJSON } from '../statePiece/json';
+import { optionalFromJSON } from '../optional/json';
+
+export const cardAddReq = ()=>{
+    const id = statePieceFromJSON();
+    dispatchCardAddReq(id); 
+}
+
+export const cardAddEff = ()=>{
+    const id = mechFromJSON(); 
+    dispatchCardAddEff(id); 
+}
+
+export const cardAddOpt = ()=>{
+    const id = optionalFromJSON(); 
+    dispatchCardAddOpt(id); 
+}
+
+export const cardFromJSON = (cardJSON: CardJSON | null) => {
+    if (cardJSON === null) {
+        dispatchUpdateEditedCard(makeDefaultCard());
+        return;
+    }
+    const card = {} as Card;
+    card.requirements = cardJSON.requirements.map(statePieceFromJSON)
+    card.optional = cardJSON.optional.map(optionalFromJSON);
+    card.effects = cardJSON.effects.map(mechFromJSON);
+    card.name = cardJSON.name;
+    card.tagObjs = cardJSON.tagObjs;
+    dispatchUpdateEditedCard(card);
+}
+

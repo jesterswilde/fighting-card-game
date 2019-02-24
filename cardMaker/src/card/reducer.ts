@@ -1,8 +1,8 @@
-import { CardState } from "./interface";
+import { CardState, makeDefaultCard } from "./interface";
 import { ActionType } from '../state/actions';
-import { CardEnum, DeletedCardAction } from './actions';
+import { CardEnum, DeletedCardAction, UpdatedCardNameAction } from './actions';
 import { omit } from 'lodash';
-import { DeletedMechanicActon, MechanicActionEnum } from '../mechanic/actions';
+import { DeletedMechActon, MechActionEnum } from '../mechanic/actions';
 import { filterIfHas } from '../utils';
 import { DeleteStatePieceAction, StatePieceEnum } from '../statePiece/actions';
 import { DeletedOptionalAction, OptionalEnum } from '../optional/action';
@@ -11,19 +11,35 @@ export const cardReducer = (state: CardState = makeCardState(), action: ActionTy
     switch (action.type) {
         case CardEnum.UPDATED_EDITED_CARD:
             return { ...state, editingCard: action.card }
+        case CardEnum.UPDATED_CARD_NAME:
+            return updateCardName(state, action);
         case CardEnum.DELETED_BY_NAME:
             return deletedCard(state, action);
         case CardEnum.GOT_CARD_LIST:
             return { ...state, cardNames: action.cardList }
-        case MechanicActionEnum.DELETED:
+        case MechActionEnum.DELETED:
             return deletedMechanic(state, action);
         case StatePieceEnum.DELETED:
             return deletedStatePiece(state, action);
         case OptionalEnum.DELETED:
             return deletedOptional(state, action);
+        case CardEnum.ADDED_REQ:
+            return { ...state, editingCard: { ...state.editingCard, requirements: [...state.editingCard.requirements, action.id] } }
+        case CardEnum.ADDED_EFF:
+            return { ...state, editingCard: { ...state.editingCard, effects: [...state.editingCard.effects, action.id] } }
+        case CardEnum.ADDED_OPTIONAL:
+            return { ...state, editingCard: { ...state.editingCard, optional: [...state.editingCard.optional, action.id] } }
         default:
             return state;
     }
+}
+
+const updateCardName = (state: CardState, action: UpdatedCardNameAction): CardState => {
+    let editingCard = state.editingCard;
+    if (editingCard === null) {
+        editingCard = makeDefaultCard();
+    }
+    return { ...state, editingCard: { ...editingCard, name: action.name } }
 }
 
 export const deletedOptional = (state: CardState, action: DeletedOptionalAction): CardState => {
@@ -56,18 +72,13 @@ export const deletedStatePiece = (state: CardState, action: DeleteStatePieceActi
     return state
 }
 
-export const deletedMechanic = (state: CardState, action: DeletedMechanicActon): CardState => {
+export const deletedMechanic = (state: CardState, action: DeletedMechActon): CardState => {
     let card = state.editingCard;
     if (card !== null) {
         let filtered = filterIfHas(card.effects, action.id);
         if (card.effects !== undefined && filtered !== card.effects) {
             card = { ...card, effects: filtered };
             return { ...state, editingCard: card }
-        }
-        filtered = filterIfHas(card.effects, action.id);
-        if (card.optional !== undefined && filtered !== card.optional) {
-            card = { ...card, optional: filtered };
-            return { ...state, editingCard: card };
         }
     }
     return state;
@@ -80,7 +91,8 @@ const deletedCard = (state: CardState, action: DeletedCardAction): CardState => 
 
 const makeCardState = (): CardState => {
     return {
-        editingCard: null,
+        editingCard: makeDefaultCard(),
         cardNames: []
     }
 }
+

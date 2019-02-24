@@ -1,5 +1,7 @@
+import { CardJSON } from '../interfaces/cardJSON';
+
 export interface CardState {
-    editingCard: Card | null,
+    editingCard: Card,
     cardNames: string[]
 }
 
@@ -14,4 +16,26 @@ export interface Card {
 export interface TagObj {
     id?: number,
     value: string
+}
+
+export const makeDefaultCard = (): Card =>{
+    const card: Card = {
+        name: '',
+        optional: [], 
+        requirements: [], 
+        effects: [],
+        tagObjs: []
+    }
+    return card; 
+}
+
+export const makeDefaultCardJSON = (): CardJSON=>{
+    const card: CardJSON = {
+        name: '',
+        optional: [], 
+        requirements: [], 
+        effects: [],
+        tagObjs: []
+    }
+    return card; 
 }

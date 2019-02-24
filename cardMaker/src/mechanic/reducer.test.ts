@@ -1,6 +1,6 @@
 import { MechanicState } from "./interface";
 import { deleted, statePieceDeleted } from './reducer';
-import { MechanicActionEnum } from './actions';
+import { MechActionEnum } from './actions';
 import { StatePieceEnum } from '../statePiece/actions';
 
 describe('mechanicReducer', () => {
@@ -30,13 +30,13 @@ describe('mechanicReducer', () => {
             }
         })
         it('should delete the desired mechanic', () => {
-            const newState = deleted(state, { type: MechanicActionEnum.DELETED, id: 0 });
+            const newState = deleted(state, { type: MechActionEnum.DELETED, id: 0 });
 
             expect(newState).not.toBe(state);
             expect(newState.mechanicsById[0]).toBeUndefined();
         })
         it('should delete mechanic from mechEffs array', () => {
-            const newState = deleted(state, { type: MechanicActionEnum.DELETED, id: 4 })
+            const newState = deleted(state, { type: MechActionEnum.DELETED, id: 4 })
 
             expect(newState).not.toBe(state);
             expect(newState.mechanicsById[4]).toBeUndefined();
@@ -48,7 +48,7 @@ describe('mechanicReducer', () => {
             }
         })
         it('should delete from choices', () => {
-            const newState = deleted(state, { type: MechanicActionEnum.DELETED, id: 3 })
+            const newState = deleted(state, { type: MechActionEnum.DELETED, id: 3 })
 
             if (newState.mechanicsById[1].choices !== undefined && state.mechanicsById[1].choices !== undefined) {
                 expect(newState.mechanicsById[1].choices[0]).toBe(state.mechanicsById[1].choices[0]);

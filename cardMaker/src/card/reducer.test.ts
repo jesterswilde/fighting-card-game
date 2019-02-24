@@ -1,7 +1,7 @@
 import { CardState } from "./interface";
 import { deletedStatePiece, deletedMechanic, deletedOptional } from './reducer';
 import { StatePieceEnum } from '../statePiece/actions';
-import { MechanicActionEnum } from '../mechanic/actions';
+import { MechActionEnum } from '../mechanic/actions';
 import { OptionalEnum } from '../optional/action';
 
 describe("cardReducer", () => {
@@ -33,7 +33,7 @@ describe("cardReducer", () => {
         })
     })
     describe("deletedMechanic", () => {
-        const newState = deletedMechanic(state, { type: MechanicActionEnum.DELETED, id: 4 })
+        const newState = deletedMechanic(state, { type: MechActionEnum.DELETED, id: 4 })
 
         expect(newState).not.toBe(state);
         expect(newState.editingCard).not.toBe(state);
