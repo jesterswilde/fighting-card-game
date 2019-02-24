@@ -24,7 +24,6 @@ export const mechCreateEff = (id?: number) => {
 
 export const mechFromJSON = (mechJSON?: MechanicJSON): number => {
     let mech: Mechanic;
-    console.log('mechJSON',mechJSON); 
     if (mechJSON === undefined) {
         mech = makeDefaultMechanic();
     } else {

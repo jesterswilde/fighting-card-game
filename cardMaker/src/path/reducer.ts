@@ -1,5 +1,6 @@
 import { ActionType } from "../state/actions"
 import { PathActionEnum } from "./actions";
+import { CardEnum } from '../card/actions';
 
 export const pathReducer = (state: PathState = makeDefaultState(), action: ActionType) => {
     switch (action.type) {
@@ -13,6 +14,7 @@ export const pathReducer = (state: PathState = makeDefaultState(), action: Actio
             return state;
     }
 }
+
 
 const makeDefaultState = (): PathState => {
     return { pathArr: location.pathname.split('/') };

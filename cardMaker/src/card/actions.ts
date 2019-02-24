@@ -8,7 +8,14 @@ export enum CardEnum{
     UPDATED_CARD_NAME = 'updatedCardName',
     ADDED_OPTIONAL = 'cardAddedOptional',
     ADDED_EFF = 'cardAddedEffect',
-    ADDED_REQ = 'cardAddedRequirement'
+    ADDED_REQ = 'cardAddedRequirement',
+    CHANGE_CURRENT_CARD = 'changeCurrentCard',
+    UPDATE_FILTER = 'cardUpdateFilter'
+}
+
+export interface UpdateFilterAction{
+    type: CardEnum.UPDATE_FILTER,
+    filter: string, 
 }
 
 export interface CardAddedOptAction{
@@ -47,4 +54,4 @@ export interface DeletedCardAction{
 }  
 
 export type CardActions = UpdatedEditedCardAction | DeletedCardAction | GotCardListAction | 
-UpdatedCardNameAction | CardAddedEffAction | CardAddedOptAction | CardAddedReqAction; 
+UpdatedCardNameAction | CardAddedEffAction | CardAddedOptAction | CardAddedReqAction | UpdateFilterAction; 

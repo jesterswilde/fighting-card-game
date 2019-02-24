@@ -3,6 +3,7 @@ import { CardJSON } from '../interfaces/cardJSON';
 export interface CardState {
     editingCard: Card,
     cardNames: string[]
+    filter: string
 }
 
 export interface Card {

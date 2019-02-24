@@ -3,7 +3,7 @@ import { StoreState } from './state/store';
 import { connect } from 'react-redux';
 import CardList from './components/list/list'
 import Viewer from './components/viewer/viewer'
-import Maker from './components/maker/maker'; 
+import Maker from './components/maker/maker';
 import Navbar from './Nav';
 
 interface Props {
@@ -32,9 +32,9 @@ const body = (nextPath: string, remainingPath: string[]) => {
     case 'view':
       return <Viewer path={remainingPath} />
     case 'edit':
-      return <Maker />
+      return <Maker path={remainingPath} />
     default:
-      return <CardList />
+        return <CardList />
   }
 }
 

@@ -1,12 +1,53 @@
 import { makeDefaultCard } from "./interface";
-import { CardEnum, DeletedCardAction, UpdatedEditedCardAction, GotCardListAction, UpdatedCardNameAction, CardAddedReqAction, CardAddedEffAction, CardAddedOptAction } from './actions';
+import { CardEnum, DeletedCardAction, UpdatedEditedCardAction, GotCardListAction, UpdatedCardNameAction, CardAddedReqAction, CardAddedEffAction, CardAddedOptAction, UpdateFilterAction } from './actions';
 import { store } from '../state/store';
 import { hostURL } from '../utils';
 import { CardJSON } from '../interfaces/cardJSON';
 import { cardFromJSON } from './json';
 import { PathActionEnum, ToPathStringAction } from '../path/actions';
+import { dispatchToPathArray } from '../path/dispatch';
 
-export const dispatchCardAddReq = (id: number)=>{
+export const dispatchUpdateCardFilter = (filter: string)=>{
+    const action: UpdateFilterAction = {
+        type: CardEnum.UPDATE_FILTER,
+        filter
+    }
+    store.dispatch(action); 
+}
+
+export const dispatchChangeCurrentCard = async (direction: number) => {
+    const cardName = getName(direction);
+    if (cardName) {
+        const cardJSON = await getCard(cardName);
+        cardFromJSON(cardJSON);
+        goToCard(cardName); 
+    }
+}
+
+const goToCard = (cardName: string)=>{
+    const { path:{pathArr} } = store.getState();
+    const newPath = [...pathArr]; 
+    newPath[2] = cardName; 
+    dispatchToPathArray(newPath); 
+}
+
+const getName = (direction: number) => {
+    const { card: cardState } = store.getState();
+    const index = cardState.cardNames.indexOf(cardState.editingCard.name);
+    if (index >= 0) {
+        let nextindex = index + direction;
+        if (nextindex < 0) {
+            nextindex = cardState.cardNames.length - 1;
+        }
+        if (nextindex >= cardState.cardNames.length) {
+            nextindex = 0;
+        }
+        return cardState.cardNames[nextindex];
+    }
+    return null;
+}
+
+export const dispatchCardAddReq = (id: number) => {
     const action: CardAddedReqAction = {
         type: CardEnum.ADDED_REQ,
         id
@@ -14,7 +55,7 @@ export const dispatchCardAddReq = (id: number)=>{
     store.dispatch(action)
 }
 
-export const dispatchCardAddEff = (id: number)=>{
+export const dispatchCardAddEff = (id: number) => {
     const action: CardAddedEffAction = {
         type: CardEnum.ADDED_EFF,
         id
@@ -22,7 +63,7 @@ export const dispatchCardAddEff = (id: number)=>{
     store.dispatch(action)
 }
 
-export const dispatchCardAddOpt = (id: number)=>{
+export const dispatchCardAddOpt = (id: number) => {
     const action: CardAddedOptAction = {
         type: CardEnum.ADDED_OPTIONAL,
         id
@@ -30,33 +71,33 @@ export const dispatchCardAddOpt = (id: number)=>{
     store.dispatch(action)
 }
 
-export const dispatchMakeBlankCard = ()=>{
+export const dispatchMakeBlankCard = () => {
     const pathAction: ToPathStringAction = {
         type: PathActionEnum.TO_PATH_STRING,
         path: '/edit'
     }
-    dispatchUpdateEditedCard(); 
+    dispatchUpdateEditedCard();
     store.dispatch(pathAction);
 }
 
-export const dispatchUpdatedCardName = (name: string)=>{
+export const dispatchUpdatedCardName = (name: string) => {
     const action: UpdatedCardNameAction = {
         type: CardEnum.UPDATED_CARD_NAME,
         name
     }
-    store.dispatch(action); 
+    store.dispatch(action);
 }
 
 export const dispatchGetCard = async (cardName: string) => {
-    const cardJSON = await getCard(cardName); 
-    cardFromJSON(cardJSON); 
+    const cardJSON = await getCard(cardName);
+    cardFromJSON(cardJSON);
 }
 
 const getCard = async (cardName: string) => {
     try {
         const response = await fetch(hostURL + 'card/' + cardName);
         const card: CardJSON = await response.json();
-        return card; 
+        return card;
     } catch (err) {
         return null;
     }
@@ -80,7 +121,7 @@ export const dispatchDeleteCard = async (cardName: string) => {
 
 }
 
-const deleteCard = async (cardName: string) => {
+const deleteCard = async (name: string) => {
     try {
         await fetch(hostURL + 'card', {
             body: JSON.stringify({ name }),
@@ -96,7 +137,8 @@ const deleteCard = async (cardName: string) => {
 }
 
 export const dispatchGetCardList = async () => {
-    const cardList = await getCardList();
+    let cardList = await getCardList();
+    cardList = cardList.sort();  
     const action: GotCardListAction = {
         type: CardEnum.GOT_CARD_LIST,
         cardList

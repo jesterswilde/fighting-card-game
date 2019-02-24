@@ -13,7 +13,7 @@ const Effect = ({ effect }: Props) => {
     const { choices = [],  mechanic, mechanicRequirements: reqs = [], mechanicEffects: effs = [], amount } = effect;
     const { eff: displayEff, pick: displayPick, state: displayState } = getMechDisplay(effect.mechanic);
     const player = effect.player !== undefined ? pr[effect.player] : null;
-    return <div>
+    return <div className='inline m-2'>
         {displayState && <>
             {effect.mechanic !== undefined && <b> {effect.mechanic} </b>}
             {player} {effect.axis} {effect.amount}

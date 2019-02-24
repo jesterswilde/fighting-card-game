@@ -9540,3 +9540,11 @@ ul {
   width: 100%;
   border-top: 1px solid gray;
 }
+
+.list-table td {
+  cursor: pointer;
+}
+
+a {
+  cursor: pointer;
+}

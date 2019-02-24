@@ -1,7 +1,6 @@
 import { CardState, makeDefaultCard } from "./interface";
 import { ActionType } from '../state/actions';
 import { CardEnum, DeletedCardAction, UpdatedCardNameAction } from './actions';
-import { omit } from 'lodash';
 import { DeletedMechActon, MechActionEnum } from '../mechanic/actions';
 import { filterIfHas } from '../utils';
 import { DeleteStatePieceAction, StatePieceEnum } from '../statePiece/actions';
@@ -17,6 +16,8 @@ export const cardReducer = (state: CardState = makeCardState(), action: ActionTy
             return deletedCard(state, action);
         case CardEnum.GOT_CARD_LIST:
             return { ...state, cardNames: action.cardList }
+        case CardEnum.UPDATE_FILTER: 
+            return {...state, filter: action.filter}
         case MechActionEnum.DELETED:
             return deletedMechanic(state, action);
         case StatePieceEnum.DELETED:
@@ -85,14 +86,15 @@ export const deletedMechanic = (state: CardState, action: DeletedMechActon): Car
 }
 
 const deletedCard = (state: CardState, action: DeletedCardAction): CardState => {
-    const cardNames = omit(state.cardNames, action.cardName);
+    const cardNames = state.cardNames.filter((cardName)=> cardName !== action.cardName);
     return { ...state, cardNames }
 }
 
 const makeCardState = (): CardState => {
     return {
         editingCard: makeDefaultCard(),
-        cardNames: []
+        cardNames: [],
+        filter:''
     }
 }
 

@@ -3,10 +3,11 @@ import { CardJSON } from '../../interfaces/cardJSON';
 import { StoreState } from '../../state/store';
 import { cardToJSON } from '../../card/cardToJSON';
 import { connect } from 'react-redux';
-import { dispatchGetCard } from '../../card/dispatch';
+import { dispatchGetCard, dispatchChangeCurrentCard } from '../../card/dispatch';
 import Requirement from './requirement';
 import Optional from './optional';
 import Effect from './effect';
+import { dispatchToPathString } from '../../path/dispatch';
 
 interface Props extends InternalProps {
     path: string[]
@@ -23,8 +24,10 @@ const selector = (state: StoreState): InternalProps => {
 
 class Viewer extends React.Component<Props>{
     componentDidMount() {
-        const { path } = this.props;
-        dispatchGetCard(path[0]);
+        const { path, card } = this.props;
+        if(card !== null && card.name !== path[0]){
+            dispatchGetCard(path[0]);
+        }
     }
     public render() {
         const { card } = this.props;
@@ -45,6 +48,11 @@ class Viewer extends React.Component<Props>{
             <ul>
                 {effects.map((effect, i) => <Effect key={i} effect={effect} />)}
             </ul>
+            <div>
+                <button className='btn btn-primary m-2' onClick={()=> dispatchChangeCurrentCard(-1)}>{'<='}</button>
+                <button className='btn btn-primary m-2' onClick={()=> dispatchToPathString('/edit/'+name)}>Edit</button>
+                <button className='btn btn-primary m-2' onClick={()=> dispatchChangeCurrentCard(1)}>{'=>'}</button>
+            </div>
         </div>
     }
 }

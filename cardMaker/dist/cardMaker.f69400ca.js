@@ -27365,6 +27365,8 @@ exports.CardEnum = CardEnum;
   CardEnum["ADDED_OPTIONAL"] = "cardAddedOptional";
   CardEnum["ADDED_EFF"] = "cardAddedEffect";
   CardEnum["ADDED_REQ"] = "cardAddedRequirement";
+  CardEnum["CHANGE_CURRENT_CARD"] = "changeCurrentCard";
+  CardEnum["UPDATE_FILTER"] = "cardUpdateFilter";
 })(CardEnum || (exports.CardEnum = CardEnum = {}));
 },{}],"src/path/actions.ts":[function(require,module,exports) {
 "use strict";
@@ -27424,7 +27426,387 @@ var makeDefaultState = function makeDefaultState() {
     pathArr: location.pathname.split('/')
   };
 };
-},{"tslib":"node_modules/tslib/tslib.es6.js","./actions":"src/path/actions.ts"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/base64-js/index.js":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","./actions":"src/path/actions.ts"}],"src/mechanic/actions.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MechActionEnum = void 0;
+var MechActionEnum;
+exports.MechActionEnum = MechActionEnum;
+
+(function (MechActionEnum) {
+  MechActionEnum["UPDATED"] = "updatedMechanic";
+  MechActionEnum["DELETED"] = "deletedMechanic";
+  MechActionEnum["ADDED_REQ"] = "mechanicAddedReq";
+  MechActionEnum["ADDED_EFF"] = "mechanicAddedEff";
+  MechActionEnum["ADDED_CHOICE"] = "mechanicAddedChoice";
+})(MechActionEnum || (exports.MechActionEnum = MechActionEnum = {}));
+},{}],"src/interfaces/enums.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PlayerEnum = exports.AxisEnum = exports.getMechDisplay = exports.MechanicEnum = void 0;
+
+var _a;
+
+var MechanicEnum;
+exports.MechanicEnum = MechanicEnum;
+
+(function (MechanicEnum) {
+  MechanicEnum["TELEGRAPH"] = "Telegraph";
+  MechanicEnum["FOCUS"] = "Focus";
+  MechanicEnum["PREDICT"] = "Predict";
+  MechanicEnum["BLOCK"] = "Block";
+  MechanicEnum["LOCK"] = "Lock";
+  MechanicEnum["REFLEX"] = "Reflex";
+  MechanicEnum["BUFF"] = "Buff";
+  MechanicEnum["CRIPPLE"] = "Cripple";
+  MechanicEnum["PICK_ONE"] = "Pick One";
+  MechanicEnum["FORCEFUL"] = "Forceful";
+  MechanicEnum["ALTER"] = "Alter";
+})(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
+
+var getMechDisplay = function getMechDisplay(mech) {
+  var defaultValue = {
+    state: true,
+    value: true
+  };
+
+  if (mech === undefined) {
+    return defaultValue;
+  }
+
+  var comp = MechanicDisplay[mech];
+
+  if (comp) {
+    return comp;
+  }
+
+  return defaultValue;
+};
+
+exports.getMechDisplay = getMechDisplay;
+var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.FOCUS] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.PREDICT] = {
+  eff: true
+}, _a[MechanicEnum.BUFF] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.ALTER] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.BLOCK] = {
+  value: true
+}, _a[MechanicEnum.LOCK] = {
+  state: true,
+  value: true
+}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
+  valueString: true
+}, _a[MechanicEnum.PICK_ONE] = {
+  pick: true
+}, _a[MechanicEnum.FORCEFUL] = {
+  value: true,
+  eff: true
+}, _a);
+var AxisEnum;
+exports.AxisEnum = AxisEnum;
+
+(function (AxisEnum) {
+  AxisEnum["DAMAGE"] = "Damage";
+  AxisEnum["PRONE"] = "Prone";
+  AxisEnum["STANDING"] = "Standing";
+  AxisEnum["MOVING"] = "Moving";
+  AxisEnum["STILL"] = "Still";
+  AxisEnum["GRAPPLED"] = "Grappled";
+  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
+  AxisEnum["CLOSE"] = "Close";
+  AxisEnum["NOT_CLOSE"] = "Not Close";
+  AxisEnum["FAR"] = "Far";
+  AxisEnum["NOT_FAR"] = "Not Far";
+  AxisEnum["POISE"] = "Poise";
+  AxisEnum["LOSE_POISE"] = "Lose Poise";
+  AxisEnum["BALANCED"] = "Balanced";
+  AxisEnum["UNBALANCED"] = "Unbalanced";
+  AxisEnum["ANTICIPATING"] = "Anticipating";
+  AxisEnum["CLOSER"] = "Closer";
+  AxisEnum["FURTHER"] = "Further";
+  AxisEnum["BLOODIED"] = "Bloodied";
+})(AxisEnum || (exports.AxisEnum = AxisEnum = {}));
+
+var PlayerEnum;
+exports.PlayerEnum = PlayerEnum;
+
+(function (PlayerEnum) {
+  PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
+  PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
+  PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
+})(PlayerEnum || (exports.PlayerEnum = PlayerEnum = {}));
+},{}],"src/utils.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getID = exports.filterIfHas = exports.playerRouter = exports.hostURL = void 0;
+
+var _enums = require("./interfaces/enums");
+
+var _a;
+
+var hostURL = "http://localhost:8080/api/";
+exports.hostURL = hostURL;
+var playerRouter = (_a = {}, _a[_enums.PlayerEnum.PLAYER] = '↓', _a[_enums.PlayerEnum.OPPONENT] = '↑', _a[_enums.PlayerEnum.BOTH] = '↕', _a);
+exports.playerRouter = playerRouter;
+
+var filterIfHas = function filterIfHas(arr, value) {
+  if (arr === undefined) {
+    return [];
+  }
+
+  var indexOf = arr.indexOf(value);
+
+  if (indexOf >= 0) {
+    return arr.filter(function (_, i) {
+      return i !== indexOf;
+    });
+  } else {
+    return arr;
+  }
+};
+
+exports.filterIfHas = filterIfHas;
+var id = 0;
+
+var getID = function getID() {
+  return id++;
+};
+
+exports.getID = getID;
+},{"./interfaces/enums":"src/interfaces/enums.ts"}],"src/statePiece/actions.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.StatePieceEnum = void 0;
+var StatePieceEnum;
+exports.StatePieceEnum = StatePieceEnum;
+
+(function (StatePieceEnum) {
+  StatePieceEnum["UPDATED"] = "updatedStatePiece";
+  StatePieceEnum["DELETED"] = "deletedStatePiece";
+})(StatePieceEnum || (exports.StatePieceEnum = StatePieceEnum = {}));
+},{}],"src/optional/action.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.OptionalEnum = void 0;
+var OptionalEnum;
+exports.OptionalEnum = OptionalEnum;
+
+(function (OptionalEnum) {
+  OptionalEnum["UPDATED"] = "updateOptional";
+  OptionalEnum["DELETED"] = "deletedOptioanl";
+  OptionalEnum["ADDED_REQ"] = "optAddedReq";
+  OptionalEnum["ADDED_EFF"] = "optAddedEff";
+})(OptionalEnum || (exports.OptionalEnum = OptionalEnum = {}));
+},{}],"src/card/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deletedMechanic = exports.deletedStatePiece = exports.deletedOptional = exports.cardReducer = void 0;
+
+var tslib_1 = _interopRequireWildcard(require("tslib"));
+
+var _interface = require("./interface");
+
+var _actions = require("./actions");
+
+var _actions2 = require("../mechanic/actions");
+
+var _utils = require("../utils");
+
+var _actions3 = require("../statePiece/actions");
+
+var _action = require("../optional/action");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var cardReducer = function cardReducer(state, action) {
+  if (state === void 0) {
+    state = makeCardState();
+  }
+
+  switch (action.type) {
+    case _actions.CardEnum.UPDATED_EDITED_CARD:
+      return tslib_1.__assign({}, state, {
+        editingCard: action.card
+      });
+
+    case _actions.CardEnum.UPDATED_CARD_NAME:
+      return updateCardName(state, action);
+
+    case _actions.CardEnum.DELETED_BY_NAME:
+      return deletedCard(state, action);
+
+    case _actions.CardEnum.GOT_CARD_LIST:
+      return tslib_1.__assign({}, state, {
+        cardNames: action.cardList
+      });
+
+    case _actions.CardEnum.UPDATE_FILTER:
+      return tslib_1.__assign({}, state, {
+        filter: action.filter
+      });
+
+    case _actions2.MechActionEnum.DELETED:
+      return deletedMechanic(state, action);
+
+    case _actions3.StatePieceEnum.DELETED:
+      return deletedStatePiece(state, action);
+
+    case _action.OptionalEnum.DELETED:
+      return deletedOptional(state, action);
+
+    case _actions.CardEnum.ADDED_REQ:
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          requirements: state.editingCard.requirements.concat([action.id])
+        })
+      });
+
+    case _actions.CardEnum.ADDED_EFF:
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          effects: state.editingCard.effects.concat([action.id])
+        })
+      });
+
+    case _actions.CardEnum.ADDED_OPTIONAL:
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          optional: state.editingCard.optional.concat([action.id])
+        })
+      });
+
+    default:
+      return state;
+  }
+};
+
+exports.cardReducer = cardReducer;
+
+var updateCardName = function updateCardName(state, action) {
+  var editingCard = state.editingCard;
+
+  if (editingCard === null) {
+    editingCard = (0, _interface.makeDefaultCard)();
+  }
+
+  return tslib_1.__assign({}, state, {
+    editingCard: tslib_1.__assign({}, editingCard, {
+      name: action.name
+    })
+  });
+};
+
+var deletedOptional = function deletedOptional(state, action) {
+  if (state.editingCard !== null) {
+    if (state.editingCard.optional === undefined) {
+      return state;
+    }
+
+    var filtered = (0, _utils.filterIfHas)(state.editingCard.optional, action.id);
+
+    if (filtered !== state.editingCard.optional) {
+      var editingCard = tslib_1.__assign({}, state.editingCard);
+
+      editingCard.optional = filtered;
+      return tslib_1.__assign({}, state, {
+        editingCard: editingCard
+      });
+    }
+  }
+
+  return state;
+};
+
+exports.deletedOptional = deletedOptional;
+
+var deletedStatePiece = function deletedStatePiece(state, action) {
+  if (state.editingCard !== null) {
+    if (state.editingCard.requirements === undefined) {
+      return state;
+    }
+
+    var filtered = (0, _utils.filterIfHas)(state.editingCard.requirements, action.id);
+
+    if (filtered !== state.editingCard.requirements) {
+      var editingCard = tslib_1.__assign({}, state.editingCard);
+
+      editingCard.requirements = filtered;
+      return tslib_1.__assign({}, state, {
+        editingCard: editingCard
+      });
+    }
+  }
+
+  return state;
+};
+
+exports.deletedStatePiece = deletedStatePiece;
+
+var deletedMechanic = function deletedMechanic(state, action) {
+  var card = state.editingCard;
+
+  if (card !== null) {
+    var filtered = (0, _utils.filterIfHas)(card.effects, action.id);
+
+    if (card.effects !== undefined && filtered !== card.effects) {
+      card = tslib_1.__assign({}, card, {
+        effects: filtered
+      });
+      return tslib_1.__assign({}, state, {
+        editingCard: card
+      });
+    }
+  }
+
+  return state;
+};
+
+exports.deletedMechanic = deletedMechanic;
+
+var deletedCard = function deletedCard(state, action) {
+  var cardNames = state.cardNames.filter(function (cardName) {
+    return cardName !== action.cardName;
+  });
+  return tslib_1.__assign({}, state, {
+    cardNames: cardNames
+  });
+};
+
+var makeCardState = function makeCardState() {
+  return {
+    editingCard: (0, _interface.makeDefaultCard)(),
+    cardNames: [],
+    filter: ''
+  };
+};
+},{"tslib":"node_modules/tslib/tslib.es6.js","./interface":"src/card/interface.ts","./actions":"src/card/actions.ts","../mechanic/actions":"src/mechanic/actions.ts","../utils":"src/utils.ts","../statePiece/actions":"src/statePiece/actions.ts","../optional/action":"src/optional/action.ts"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/base64-js/index.js":[function(require,module,exports) {
 'use strict'
 
 exports.byteLength = byteLength
@@ -46575,381 +46957,7 @@ var define;
   }
 }.call(this));
 
-},{"buffer":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js"}],"src/mechanic/actions.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MechActionEnum = void 0;
-var MechActionEnum;
-exports.MechActionEnum = MechActionEnum;
-
-(function (MechActionEnum) {
-  MechActionEnum["UPDATED"] = "updatedMechanic";
-  MechActionEnum["DELETED"] = "deletedMechanic";
-  MechActionEnum["ADDED_REQ"] = "mechanicAddedReq";
-  MechActionEnum["ADDED_EFF"] = "mechanicAddedEff";
-  MechActionEnum["ADDED_CHOICE"] = "mechanicAddedChoice";
-})(MechActionEnum || (exports.MechActionEnum = MechActionEnum = {}));
-},{}],"src/interfaces/enums.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PlayerEnum = exports.AxisEnum = exports.getMechDisplay = exports.MechanicEnum = void 0;
-
-var _a;
-
-var MechanicEnum;
-exports.MechanicEnum = MechanicEnum;
-
-(function (MechanicEnum) {
-  MechanicEnum["TELEGRAPH"] = "Telegraph";
-  MechanicEnum["FOCUS"] = "Focus";
-  MechanicEnum["PREDICT"] = "Predict";
-  MechanicEnum["BLOCK"] = "Block";
-  MechanicEnum["LOCK"] = "Lock";
-  MechanicEnum["REFLEX"] = "Reflex";
-  MechanicEnum["BUFF"] = "Buff";
-  MechanicEnum["CRIPPLE"] = "Cripple";
-  MechanicEnum["PICK_ONE"] = "Pick One";
-  MechanicEnum["FORCEFUL"] = "Forceful";
-  MechanicEnum["ALTER"] = "Alter";
-})(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
-
-var getMechDisplay = function getMechDisplay(mech) {
-  var defaultValue = {
-    state: true,
-    value: true
-  };
-
-  if (mech === undefined) {
-    return defaultValue;
-  }
-
-  var comp = MechanicDisplay[mech];
-
-  if (comp) {
-    return comp;
-  }
-
-  return defaultValue;
-};
-
-exports.getMechDisplay = getMechDisplay;
-var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
-  req: true,
-  eff: true
-}, _a[MechanicEnum.FOCUS] = {
-  req: true,
-  eff: true
-}, _a[MechanicEnum.PREDICT] = {
-  eff: true
-}, _a[MechanicEnum.BUFF] = {
-  valueString: true,
-  eff: true
-}, _a[MechanicEnum.ALTER] = {
-  valueString: true,
-  eff: true
-}, _a[MechanicEnum.BLOCK] = {
-  value: true
-}, _a[MechanicEnum.LOCK] = {
-  state: true,
-  value: true
-}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
-  valueString: true
-}, _a[MechanicEnum.PICK_ONE] = {
-  pick: true
-}, _a[MechanicEnum.FORCEFUL] = {
-  value: true,
-  eff: true
-}, _a);
-var AxisEnum;
-exports.AxisEnum = AxisEnum;
-
-(function (AxisEnum) {
-  AxisEnum["DAMAGE"] = "Damage";
-  AxisEnum["PRONE"] = "Prone";
-  AxisEnum["STANDING"] = "Standing";
-  AxisEnum["MOVING"] = "Moving";
-  AxisEnum["STILL"] = "Still";
-  AxisEnum["GRAPPLED"] = "Grappled";
-  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
-  AxisEnum["CLOSE"] = "Close";
-  AxisEnum["NOT_CLOSE"] = "Not Close";
-  AxisEnum["FAR"] = "Far";
-  AxisEnum["NOT_FAR"] = "Not Far";
-  AxisEnum["POISE"] = "Poise";
-  AxisEnum["LOSE_POISE"] = "Lose Poise";
-  AxisEnum["BALANCED"] = "Balanced";
-  AxisEnum["UNBALANCED"] = "Unbalanced";
-  AxisEnum["ANTICIPATING"] = "Anticipating";
-  AxisEnum["CLOSER"] = "Closer";
-  AxisEnum["FURTHER"] = "Further";
-  AxisEnum["BLOODIED"] = "Bloodied";
-})(AxisEnum || (exports.AxisEnum = AxisEnum = {}));
-
-var PlayerEnum;
-exports.PlayerEnum = PlayerEnum;
-
-(function (PlayerEnum) {
-  PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
-  PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
-  PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
-})(PlayerEnum || (exports.PlayerEnum = PlayerEnum = {}));
-},{}],"src/utils.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.getID = exports.filterIfHas = exports.playerRouter = exports.hostURL = void 0;
-
-var _enums = require("./interfaces/enums");
-
-var _a;
-
-var hostURL = "http://localhost:8080/api/";
-exports.hostURL = hostURL;
-var playerRouter = (_a = {}, _a[_enums.PlayerEnum.PLAYER] = '↓', _a[_enums.PlayerEnum.OPPONENT] = '↑', _a[_enums.PlayerEnum.BOTH] = '↕', _a);
-exports.playerRouter = playerRouter;
-
-var filterIfHas = function filterIfHas(arr, value) {
-  if (arr === undefined) {
-    return [];
-  }
-
-  var indexOf = arr.indexOf(value);
-
-  if (indexOf >= 0) {
-    return arr.filter(function (_, i) {
-      return i !== indexOf;
-    });
-  } else {
-    return arr;
-  }
-};
-
-exports.filterIfHas = filterIfHas;
-var id = 0;
-
-var getID = function getID() {
-  return id++;
-};
-
-exports.getID = getID;
-},{"./interfaces/enums":"src/interfaces/enums.ts"}],"src/statePiece/actions.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.StatePieceEnum = void 0;
-var StatePieceEnum;
-exports.StatePieceEnum = StatePieceEnum;
-
-(function (StatePieceEnum) {
-  StatePieceEnum["UPDATED"] = "updatedStatePiece";
-  StatePieceEnum["DELETED"] = "deletedStatePiece";
-})(StatePieceEnum || (exports.StatePieceEnum = StatePieceEnum = {}));
-},{}],"src/optional/action.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.OptionalEnum = void 0;
-var OptionalEnum;
-exports.OptionalEnum = OptionalEnum;
-
-(function (OptionalEnum) {
-  OptionalEnum["UPDATED"] = "updateOptional";
-  OptionalEnum["DELETED"] = "deletedOptioanl";
-  OptionalEnum["ADDED_REQ"] = "optAddedReq";
-  OptionalEnum["ADDED_EFF"] = "optAddedEff";
-})(OptionalEnum || (exports.OptionalEnum = OptionalEnum = {}));
-},{}],"src/card/reducer.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.deletedMechanic = exports.deletedStatePiece = exports.deletedOptional = exports.cardReducer = void 0;
-
-var tslib_1 = _interopRequireWildcard(require("tslib"));
-
-var _interface = require("./interface");
-
-var _actions = require("./actions");
-
-var _lodash = require("lodash");
-
-var _actions2 = require("../mechanic/actions");
-
-var _utils = require("../utils");
-
-var _actions3 = require("../statePiece/actions");
-
-var _action = require("../optional/action");
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-var cardReducer = function cardReducer(state, action) {
-  if (state === void 0) {
-    state = makeCardState();
-  }
-
-  switch (action.type) {
-    case _actions.CardEnum.UPDATED_EDITED_CARD:
-      return tslib_1.__assign({}, state, {
-        editingCard: action.card
-      });
-
-    case _actions.CardEnum.UPDATED_CARD_NAME:
-      return updateCardName(state, action);
-
-    case _actions.CardEnum.DELETED_BY_NAME:
-      return deletedCard(state, action);
-
-    case _actions.CardEnum.GOT_CARD_LIST:
-      return tslib_1.__assign({}, state, {
-        cardNames: action.cardList
-      });
-
-    case _actions2.MechActionEnum.DELETED:
-      return deletedMechanic(state, action);
-
-    case _actions3.StatePieceEnum.DELETED:
-      return deletedStatePiece(state, action);
-
-    case _action.OptionalEnum.DELETED:
-      return deletedOptional(state, action);
-
-    case _actions.CardEnum.ADDED_REQ:
-      return tslib_1.__assign({}, state, {
-        editingCard: tslib_1.__assign({}, state.editingCard, {
-          requirements: state.editingCard.requirements.concat([action.id])
-        })
-      });
-
-    case _actions.CardEnum.ADDED_EFF:
-      return tslib_1.__assign({}, state, {
-        editingCard: tslib_1.__assign({}, state.editingCard, {
-          effects: state.editingCard.effects.concat([action.id])
-        })
-      });
-
-    case _actions.CardEnum.ADDED_OPTIONAL:
-      return tslib_1.__assign({}, state, {
-        editingCard: tslib_1.__assign({}, state.editingCard, {
-          optional: state.editingCard.optional.concat([action.id])
-        })
-      });
-
-    default:
-      return state;
-  }
-};
-
-exports.cardReducer = cardReducer;
-
-var updateCardName = function updateCardName(state, action) {
-  var editingCard = state.editingCard;
-
-  if (editingCard === null) {
-    editingCard = (0, _interface.makeDefaultCard)();
-  }
-
-  return tslib_1.__assign({}, state, {
-    editingCard: tslib_1.__assign({}, editingCard, {
-      name: action.name
-    })
-  });
-};
-
-var deletedOptional = function deletedOptional(state, action) {
-  if (state.editingCard !== null) {
-    if (state.editingCard.optional === undefined) {
-      return state;
-    }
-
-    var filtered = (0, _utils.filterIfHas)(state.editingCard.optional, action.id);
-
-    if (filtered !== state.editingCard.optional) {
-      var editingCard = tslib_1.__assign({}, state.editingCard);
-
-      editingCard.optional = filtered;
-      return tslib_1.__assign({}, state, {
-        editingCard: editingCard
-      });
-    }
-  }
-
-  return state;
-};
-
-exports.deletedOptional = deletedOptional;
-
-var deletedStatePiece = function deletedStatePiece(state, action) {
-  if (state.editingCard !== null) {
-    if (state.editingCard.requirements === undefined) {
-      return state;
-    }
-
-    var filtered = (0, _utils.filterIfHas)(state.editingCard.requirements, action.id);
-
-    if (filtered !== state.editingCard.requirements) {
-      var editingCard = tslib_1.__assign({}, state.editingCard);
-
-      editingCard.requirements = filtered;
-      return tslib_1.__assign({}, state, {
-        editingCard: editingCard
-      });
-    }
-  }
-
-  return state;
-};
-
-exports.deletedStatePiece = deletedStatePiece;
-
-var deletedMechanic = function deletedMechanic(state, action) {
-  var card = state.editingCard;
-
-  if (card !== null) {
-    var filtered = (0, _utils.filterIfHas)(card.effects, action.id);
-
-    if (card.effects !== undefined && filtered !== card.effects) {
-      card = tslib_1.__assign({}, card, {
-        effects: filtered
-      });
-      return tslib_1.__assign({}, state, {
-        editingCard: card
-      });
-    }
-  }
-
-  return state;
-};
-
-exports.deletedMechanic = deletedMechanic;
-
-var deletedCard = function deletedCard(state, action) {
-  var cardNames = (0, _lodash.omit)(state.cardNames, action.cardName);
-  return tslib_1.__assign({}, state, {
-    cardNames: cardNames
-  });
-};
-
-var makeCardState = function makeCardState() {
-  return {
-    editingCard: (0, _interface.makeDefaultCard)(),
-    cardNames: []
-  };
-};
-},{"tslib":"node_modules/tslib/tslib.es6.js","./interface":"src/card/interface.ts","./actions":"src/card/actions.ts","lodash":"node_modules/lodash/lodash.js","../mechanic/actions":"src/mechanic/actions.ts","../utils":"src/utils.ts","../statePiece/actions":"src/statePiece/actions.ts","../optional/action":"src/optional/action.ts"}],"src/statePiece/reducer.ts":[function(require,module,exports) {
+},{"buffer":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js"}],"src/statePiece/reducer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47591,7 +47599,6 @@ exports.mechCreateEff = mechCreateEff;
 
 var mechFromJSON = function mechFromJSON(mechJSON) {
   var mech;
-  console.log('mechJSON', mechJSON);
 
   if (mechJSON === undefined) {
     mech = (0, _interface.makeDefaultMechanic)();
@@ -47835,13 +47842,51 @@ var cardFromJSON = function cardFromJSON(cardJSON) {
 };
 
 exports.cardFromJSON = cardFromJSON;
-},{"./dispatch":"src/card/dispatch.ts","./interface":"src/card/interface.ts","../mechanic/json":"src/mechanic/json.ts","../statePiece/json":"src/statePiece/json.ts","../optional/json":"src/optional/json.ts"}],"src/card/dispatch.ts":[function(require,module,exports) {
+},{"./dispatch":"src/card/dispatch.ts","./interface":"src/card/interface.ts","../mechanic/json":"src/mechanic/json.ts","../statePiece/json":"src/statePiece/json.ts","../optional/json":"src/optional/json.ts"}],"src/path/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchGetCardList = exports.dispatchDeleteCard = exports.dispatchUpdateEditedCard = exports.dispatchGetCard = exports.dispatchUpdatedCardName = exports.dispatchMakeBlankCard = exports.dispatchCardAddOpt = exports.dispatchCardAddEff = exports.dispatchCardAddReq = void 0;
+exports.dispatchToPathArray = exports.dispatchToPathString = void 0;
+
+var _actions = require("./actions");
+
+var _store = require("../state/store");
+
+var dispatchToPathString = function dispatchToPathString(path) {
+  var action = {
+    type: _actions.PathActionEnum.TO_PATH_STRING,
+    path: path
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchToPathString = dispatchToPathString;
+
+var dispatchToPathArray = function dispatchToPathArray(path) {
+  var action = {
+    type: _actions.PathActionEnum.TO_PATH_ARRAY,
+    path: path
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchToPathArray = dispatchToPathArray;
+
+window.onpopstate = function (ev) {
+  console.log("popping state");
+  dispatchToPathString(location.pathname);
+};
+},{"./actions":"src/path/actions.ts","../state/store":"src/state/store.ts"}],"src/card/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchGetCardList = exports.dispatchDeleteCard = exports.dispatchUpdateEditedCard = exports.dispatchGetCard = exports.dispatchUpdatedCardName = exports.dispatchMakeBlankCard = exports.dispatchCardAddOpt = exports.dispatchCardAddEff = exports.dispatchCardAddReq = exports.dispatchChangeCurrentCard = exports.dispatchUpdateCardFilter = void 0;
 
 var tslib_1 = _interopRequireWildcard(require("tslib"));
 
@@ -47857,9 +47902,83 @@ var _json = require("./json");
 
 var _actions2 = require("../path/actions");
 
+var _dispatch = require("../path/dispatch");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var _this = void 0;
+
+var dispatchUpdateCardFilter = function dispatchUpdateCardFilter(filter) {
+  var action = {
+    type: _actions.CardEnum.UPDATE_FILTER,
+    filter: filter
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUpdateCardFilter = dispatchUpdateCardFilter;
+
+var dispatchChangeCurrentCard = function dispatchChangeCurrentCard(direction) {
+  return tslib_1.__awaiter(_this, void 0, void 0, function () {
+    var cardName, cardJSON;
+    return tslib_1.__generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          cardName = getName(direction);
+          if (!cardName) return [3
+          /*break*/
+          , 2];
+          return [4
+          /*yield*/
+          , getCard(cardName)];
+
+        case 1:
+          cardJSON = _a.sent();
+          (0, _json.cardFromJSON)(cardJSON);
+          goToCard(cardName);
+          _a.label = 2;
+
+        case 2:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+exports.dispatchChangeCurrentCard = dispatchChangeCurrentCard;
+
+var goToCard = function goToCard(cardName) {
+  var pathArr = _store.store.getState().path.pathArr;
+
+  var newPath = pathArr.slice();
+  newPath[2] = cardName;
+  (0, _dispatch.dispatchToPathArray)(newPath);
+};
+
+var getName = function getName(direction) {
+  var cardState = _store.store.getState().card;
+
+  var index = cardState.cardNames.indexOf(cardState.editingCard.name);
+
+  if (index >= 0) {
+    var nextindex = index + direction;
+
+    if (nextindex < 0) {
+      nextindex = cardState.cardNames.length - 1;
+    }
+
+    if (nextindex >= cardState.cardNames.length) {
+      nextindex = 0;
+    }
+
+    return cardState.cardNames[nextindex];
+  }
+
+  return null;
+};
 
 var dispatchCardAddReq = function dispatchCardAddReq(id) {
   var action = {
@@ -48024,7 +48143,7 @@ var dispatchDeleteCard = function dispatchDeleteCard(cardName) {
 
 exports.dispatchDeleteCard = dispatchDeleteCard;
 
-var deleteCard = function deleteCard(cardName) {
+var deleteCard = function deleteCard(name) {
   return tslib_1.__awaiter(_this, void 0, void 0, function () {
     var err_2;
     return tslib_1.__generator(this, function (_a) {
@@ -48079,6 +48198,7 @@ var dispatchGetCardList = function dispatchGetCardList() {
 
         case 1:
           cardList = _a.sent();
+          cardList = cardList.sort();
           action = {
             type: _actions.CardEnum.GOT_CARD_LIST,
             cardList: cardList
@@ -48137,45 +48257,7 @@ var getCardList = function getCardList() {
     });
   });
 };
-},{"tslib":"node_modules/tslib/tslib.es6.js","./interface":"src/card/interface.ts","./actions":"src/card/actions.ts","../state/store":"src/state/store.ts","../utils":"src/utils.ts","./json":"src/card/json.ts","../path/actions":"src/path/actions.ts"}],"src/path/dispatch.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.dispatchToPathArray = exports.dispatchToPathString = void 0;
-
-var _actions = require("./actions");
-
-var _store = require("../state/store");
-
-var dispatchToPathString = function dispatchToPathString(path) {
-  var action = {
-    type: _actions.PathActionEnum.TO_PATH_STRING,
-    path: path
-  };
-
-  _store.store.dispatch(action);
-};
-
-exports.dispatchToPathString = dispatchToPathString;
-
-var dispatchToPathArray = function dispatchToPathArray(path) {
-  var action = {
-    type: _actions.PathActionEnum.TO_PATH_ARRAY,
-    path: path
-  };
-
-  _store.store.dispatch(action);
-};
-
-exports.dispatchToPathArray = dispatchToPathArray;
-
-window.onpopstate = function (ev) {
-  console.log("popping state");
-  dispatchToPathString(location.pathname);
-};
-},{"./actions":"src/path/actions.ts","../state/store":"src/state/store.ts"}],"src/components/list/list.tsx":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","./interface":"src/card/interface.ts","./actions":"src/card/actions.ts","../state/store":"src/state/store.ts","../utils":"src/utils.ts","./json":"src/card/json.ts","../path/actions":"src/path/actions.ts","../path/dispatch":"src/path/dispatch.ts"}],"src/components/list/list.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48197,7 +48279,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var selector = function selector(state) {
   return {
-    cardList: state.card.cardNames
+    filter: state.card.filter,
+    cardList: state.card.cardNames.filter(function (name) {
+      return name.toLowerCase().includes(state.card.filter.toLowerCase());
+    })
   };
 };
 
@@ -48215,10 +48300,19 @@ function (_super) {
   };
 
   List.prototype.render = function () {
-    var _a = this.props.cardList,
-        cardList = _a === void 0 ? [] : _a;
-    return React.createElement("div", null, React.createElement("h2", null, "Cards"), React.createElement("div", null, "Total Cards ", cardList.length), React.createElement("div", null, "Filter:"), React.createElement("table", {
-      className: 'ml-3'
+    var _a = this.props,
+        _b = _a.cardList,
+        cardList = _b === void 0 ? [] : _b,
+        filter = _a.filter;
+    return React.createElement("div", null, React.createElement("h2", null, "Cards"), React.createElement("div", null, "Total Cards ", cardList.length), React.createElement("div", null, "Filter:", React.createElement("input", {
+      type: 'text',
+      value: filter,
+      onChange: function onChange(_a) {
+        var target = _a.target;
+        return (0, _dispatch.dispatchUpdateCardFilter)(target.value);
+      }
+    })), React.createElement("table", {
+      className: 'ml-3 list-table'
     }, React.createElement("tbody", null, cardList.map(function (card) {
       return React.createElement("tr", {
         key: card
@@ -48465,7 +48559,6 @@ var _utils = require("../../utils");
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var _default = function _default(props) {
-  console.log(props);
   return React.createElement("span", {
     className: "mr-3"
   }, _utils.playerRouter[props.requirement.player], " ", props.requirement.axis);
@@ -48509,7 +48602,9 @@ var Effect = function Effect(_a) {
       displayState = _e.state;
 
   var player = effect.player !== undefined ? _utils.playerRouter[effect.player] : null;
-  return React.createElement("div", null, displayState && React.createElement(React.Fragment, null, effect.mechanic !== undefined && React.createElement("b", null, " ", effect.mechanic, " "), player, " ", effect.axis, " ", effect.amount), displayEff && React.createElement("div", {
+  return React.createElement("div", {
+    className: 'inline m-2'
+  }, displayState && React.createElement(React.Fragment, null, effect.mechanic !== undefined && React.createElement("b", null, " ", effect.mechanic, " "), player, " ", effect.axis, " ", effect.amount), displayEff && React.createElement("div", {
     className: "seperate"
   }, React.createElement("div", null, React.createElement("b", null, mechanic, "  ", amount !== undefined && amount)), React.createElement("div", {
     className: "ml-3"
@@ -48615,6 +48710,8 @@ var _optional = _interopRequireDefault(require("./optional"));
 
 var _effect = _interopRequireDefault(require("./effect"));
 
+var _dispatch2 = require("../../path/dispatch");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
@@ -48636,8 +48733,13 @@ function (_super) {
   }
 
   Viewer.prototype.componentDidMount = function () {
-    var path = this.props.path;
-    (0, _dispatch.dispatchGetCard)(path[0]);
+    var _a = this.props,
+        path = _a.path,
+        card = _a.card;
+
+    if (card !== null && card.name !== path[0]) {
+      (0, _dispatch.dispatchGetCard)(path[0]);
+    }
   };
 
   Viewer.prototype.render = function () {
@@ -48669,7 +48771,22 @@ function (_super) {
         key: i,
         effect: effect
       });
-    })));
+    })), React.createElement("div", null, React.createElement("button", {
+      className: 'btn btn-primary m-2',
+      onClick: function onClick() {
+        return (0, _dispatch.dispatchChangeCurrentCard)(-1);
+      }
+    }, '<='), React.createElement("button", {
+      className: 'btn btn-primary m-2',
+      onClick: function onClick() {
+        return (0, _dispatch2.dispatchToPathString)('/edit/' + name);
+      }
+    }, "Edit"), React.createElement("button", {
+      className: 'btn btn-primary m-2',
+      onClick: function onClick() {
+        return (0, _dispatch.dispatchChangeCurrentCard)(1);
+      }
+    }, '=>')));
   };
 
   return Viewer;
@@ -48712,7 +48829,7 @@ var _default = (0, _reactRedux.connect)(selector)(Viewer); // export default cla
 
 
 exports.default = _default;
-},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../card/cardToJSON":"src/card/cardToJSON.ts","react-redux":"node_modules/react-redux/es/index.js","../../card/dispatch":"src/card/dispatch.ts","./requirement":"src/components/viewer/requirement.tsx","./optional":"src/components/viewer/optional.tsx","./effect":"src/components/viewer/effect.tsx"}],"src/components/maker/requirement.tsx":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../card/cardToJSON":"src/card/cardToJSON.ts","react-redux":"node_modules/react-redux/es/index.js","../../card/dispatch":"src/card/dispatch.ts","./requirement":"src/components/viewer/requirement.tsx","./optional":"src/components/viewer/optional.tsx","./effect":"src/components/viewer/effect.tsx","../../path/dispatch":"src/path/dispatch.ts"}],"src/components/maker/requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48764,38 +48881,7 @@ var _default = function _default(_a) {
       key: key
     }, " ", _enums.AxisEnum[key]);
   })));
-}; // export default class Requirement extends React.Component<Props>{
-//     constructor(props: Props) {
-//         super(props);
-//         this.changeAffects = this.changeAffects.bind(this); 
-//         this.changeAxis = this.changeAxis.bind(this); 
-//     }
-//     public render() {
-//         return (
-//             <form className="form-inline inline">
-//                 <select className="form-control" id="affects" onChange={this.changeAffects} value = {this.props.requirement.player}>
-//                     <option value={PlayerEnum.OPPONENT}> ↑ </option>
-//                     <option value={PlayerEnum.PLAYER}> ↓ </option>
-//                     <option value={PlayerEnum.BOTH}> ↕ </option>
-//                 </select>
-//                 <select className="form-control" id="axis" onChange={this.changeAxis} value={this.props.requirement.axis}>
-//                     {Object.keys(AxisEnum).map((key)=> <option value = {AxisEnum[key]} key = {key}> {AxisEnum[key]}</option>)}
-//                 </select>
-//             </form>
-//         )
-//     }
-//     private changeAffects(e: React.ChangeEvent<HTMLSelectElement>){
-//         const requirement = {...this.props.requirement};
-//         requirement.player = Number(e.target.value);
-//         this.props.update(requirement, this.props.index);  
-//     }
-//     private changeAxis(e: React.ChangeEvent<HTMLSelectElement>){
-//         const requirement = {...this.props.requirement};
-//         requirement.axis = e.target.value as AxisEnum;
-//         this.props.update(requirement, this.props.index); 
-//     }
-// }
-
+};
 
 exports.default = _default;
 },{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../interfaces/enums":"src/interfaces/enums.ts","../../statePiece/dispatch":"src/statePiece/dispatch.ts"}],"src/components/maker/effect.tsx":[function(require,module,exports) {
@@ -48967,6 +49053,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
+var tslib_1 = _interopRequireWildcard(require("tslib"));
+
 var React = _interopRequireWildcard(require("react"));
 
 var _dispatch = require("../../card/dispatch");
@@ -48992,298 +49080,116 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var selector = function selector(state) {
-  console.log(state);
   var card = (0, _cardToJSON.cardToJSON)(state);
   return {
     card: card
   };
 };
 
-var maker = function maker(_a) {
-  var _b = _a.card,
-      name = _b.name,
-      requirements = _b.requirements,
-      effects = _b.effects;
-  return React.createElement("div", null, React.createElement("input", {
-    placeholder: "Card Name",
-    className: "form-control-lg",
-    type: "text",
-    value: name,
-    onChange: function onChange(e) {
-      return (0, _dispatch.dispatchUpdatedCardName)(e.target.value);
+var Maker =
+/** @class */
+function (_super) {
+  tslib_1.__extends(Maker, _super);
+
+  function Maker() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  Maker.prototype.componentDidMount = function () {
+    var _a = this.props,
+        path = _a.path,
+        card = _a.card;
+
+    if (card !== null && card.name !== path[0]) {
+      (0, _dispatch.dispatchGetCard)(path[0]);
     }
-  }), React.createElement("div", null, React.createElement("h2", null, " Requirements", React.createElement("button", {
-    className: 'ml-3 btn btn-sm btn-primary',
-    onClick: _json.cardCreateReq
-  }, "+")), React.createElement("ul", {
-    className: "ml-1"
-  }, requirements.map(function (req) {
-    return React.createElement("li", {
-      key: req.id
-    }, React.createElement("div", {
-      className: "row"
-    }, React.createElement("span", {
-      className: "col-1"
-    }, React.createElement("button", {
-      className: "btn btn-danger btn-sm",
-      onClick: function onClick() {
-        return (0, _dispatch2.dispatchDeleteStatePiece)(req.id);
-      }
-    }, " - ")), React.createElement("span", {
-      className: "col-11"
-    }, React.createElement(_requirement.default, {
-      requirement: req
-    }))));
-  }))), React.createElement("div", null, React.createElement("h2", null, " Effect", React.createElement("button", {
-    className: 'ml-3 btn btn-sm btn-primary',
-    onClick: _json.cardCreateEff
-  }, "+")), React.createElement("ul", {
-    className: "ml-1"
-  }, effects.map(function (effect, i) {
-    return React.createElement("li", {
-      key: effect.id
-    }, React.createElement("div", {
-      className: "row"
-    }, React.createElement("span", {
-      className: "col-1"
-    }, React.createElement("button", {
-      className: "btn btn-sm btn-danger",
-      onClick: function onClick() {
-        return (0, _dispatch3.dispatchDeletedMech)(effect.id);
-      }
-    }, "-")), React.createElement("span", {
-      className: "col-11"
-    }, React.createElement(_effect.default, {
-      effect: effect
-    }))));
-  }))), React.createElement("div", null, React.createElement("button", {
-    className: "btn btn-primary btn-large",
-    onClick: _cardToJSON.updateCard
-  }, "Update"), React.createElement("button", {
-    onClick: function onClick() {
-      return (0, _dispatch4.dispatchToPathString)('/view');
-    },
-    className: "btn btn-primary btn-large"
-  }, " View ")));
-};
+  };
 
-var _default = (0, _reactRedux.connect)(selector)(maker); // export default class Maker extends React.Component<Props, State>{
-//     public static getDerivedStateFromProps(props: Props, state: State) {
-//         console.log(props.card)
-//         if (props.card && state.index !== props.card.name) {
-//             return {
-//                 ...props.card,
-//                 index: props.card.name,
-//                 tagObj: props.card.tags.map((tag) => ({ value: tag }))
-//             }
-//         }
-//         return null;
-//     }
-//     constructor(props: Props) {
-//         super(props);
-//         if (props.card !== undefined) {
-//             this.state = {
-//                 ...props.card,
-//                 index: props.card.name || null,
-//                 tagObjs: props.card.tags.map((tag) => ({ value: tag }))
-//             };
-//         } else {
-//             this.state = {
-//                 effects: [],
-//                 index: null,
-//                 name: '',
-//                 optional: [],
-//                 requirements: [],
-//                 tagObjs: [],
-//                 tags: [],
-//             }
-//         }
-//         this.updateName = this.updateName.bind(this);
-//         this.updateRequirement = this.updateRequirement.bind(this);
-//         this.updateEffect = this.updateEffect.bind(this);
-//         this.addRequirement = this.addRequirement.bind(this);
-//         this.addEffect = this.addEffect.bind(this);
-//         this.removeEffect = this.removeEffect.bind(this);
-//         this.removeRequirement = this.removeRequirement.bind(this);
-//         this.addOptional = this.addOptional.bind(this);
-//         this.removeOptional = this.removeOptional.bind(this);
-//         this.updateOptional = this.updateOptional.bind(this);
-//         this.updateCard = this.updateCard.bind(this);
-//         this.addTag = this.addTag.bind(this);
-//         this.removeTag = this.removeTag.bind(this);
-//         this.updateTag = this.updateTag.bind(this);
-//         this.stripUID = this.stripUID.bind(this);
-//     }
-//     public render() {
-//         const { name = '', effects = [], requirements = [], optional = [] } = this.state;
-//         return (
-//             <div>
-//                 <input placeholder="Card Name" className="form-control-lg" type="text" value={name} onChange={(e) => this.updateName(e.target.value)} />
-//                 <div>
-//                     <h2> Requirements
-//                         <button className='ml-3 btn btn-sm btn-primary' onClick={this.addRequirement}>+</button>
-//                     </h2>
-//                     <ul className="ml-1">
-//                         {requirements.map((requirement, i) => <li key={getUUID(requirement)}><div className="row">
-//                             <span className="col-1"><button className="btn btn-danger btn-sm" onClick={() => this.removeRequirement(i)}> - </button></span>
-//                             <span className="col-11"><Requirement update={this.updateRequirement} index={i} requirement={requirement} /></span>
-//                         </div></li>)}
-//                     </ul>
-//                 </div>
-//                 <div>
-//                     <h2> Effect
-//                         <button className='ml-3 btn btn-sm btn-primary' onClick={this.addEffect}>+</button>
-//                     </h2>
-//                     <ul className="ml-1">
-//                         {effects.map((effect, i) => <li key={getUUID(effect)}><div className="row">
-//                             <span className="col-1"><button className="btn btn-sm btn-danger" onClick={() => this.removeEffect(i)}>-</button></span>
-//                             <span className="col-11"><Effect update={this.updateEffect} index={i} effect={effect} /></span>
-//                         </div>
-//                         </li>)}
-//                     </ul>
-//                 </div>
-//                 <div>
-//                     <h2> Optional
-//                         <button className=' ml-3 btn btn-sm btn-primary' onClick={this.addOptional}>+</button>
-//                     </h2>
-//                     <ul className="ml-1">
-//                         {optional.map((opt, i) => <li key={getUUID(opt)}><div className="row">
-//                             <span className="col-1"><button className="btn btn-danger btn-sm" onClick={() => this.removeOptional(i)}> - </button></span>
-//                             <span className="col-11"><Optional optional={opt} index={i} update={this.updateOptional} /></span>
-//                         </div></li>)}
-//                     </ul>
-//                     <Tags addTag={this.addTag} removeTag={this.removeTag} updateTag={this.updateTag} tags={this.state.tagObjs} />
-//                 </div>
-//                 <div>
-//                     <button className="btn btn-primary btn-large" onClick={this.updateCard}>Update</button>
-//                     <Link to="/viewer" className="ml-2">
-//                         <button onClick={() => this.props.pickCard(this.state)} className="btn btn-primary btn-large"> View </button>
-//                     </Link>
-//                     <button className="btn btn-primary btn-large ml-2" onClick={this.newCard}>New Card</button>
-//                 </div>
-//                 <div className="mt-2">
-//                     <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(-1)}> {'<-'} </button>
-//                     <button className="btn btn-primary btn-large ml-2" onClick={() => this.props.changeCard(1)}> {'->'} </button>
-//                 </div>
-//             </div>
-//         )
-//     }
-//     private newCard = () => {
-//         this.setState({
-//             effects: [],
-//             index: null,
-//             name: '',
-//             optional: [],
-//             requirements: [],
-//             tagObjs: [],
-//             tags: [],
-//         })
-//     }
-//     private updateCard() {
-//         const tags = this.state.tagObjs.map(({ value }) => value);
-//         const card = {
-//             ...this.stripUID(this.state),
-//             tagObjs: undefined,
-//             tags,
-//         };
-//         fetch(hostURL + 'card', {
-//             body: JSON.stringify(card),
-//             headers: {
-//                 "Content-Type": "application/json",
-//             },
-//             method: 'POST',
-//         })
-//     }
-//     private addTag() {
-//         const tagObjs = [...this.state.tagObjs, { value: '' }];
-//         const tags = [...this.state.tags, '']
-//         this.setState({ tagObjs, tags })
-//     }
-//     private removeTag(index: number) {
-//         const tagObjs = this.state.tagObjs.filter((_, i) => i !== index);
-//         const tags = this.state.tags.filter((_,i)=> i !== index); 
-//         this.setState({ tagObjs, tags });
-//     }
-//     private updateTag(value: TagObj, index: number) {
-//         const tagObjs = [...this.state.tagObjs];
-//         tagObjs[index] = value;
-//         const tags = [...this.state.tags]; 
-//         tags[index] = value.value; 
-//         this.setState({ tagObjs, tags })
-//     }
-//     private addRequirement() {
-//         const requirements = [...this.state.requirements,
-//         {
-//             axis: AxisEnum.CLOSE,
-//             player: PlayerEnum.OPPONENT,
-//         }]
-//         this.setState({ requirements })
-//     }
-//     private removeRequirement(index: number) {
-//         const requirements = this.state.requirements.filter((_, i) => i !== index);
-//         this.setState({ requirements });
-//     }
-//     private updateRequirement(requirement: StatePiece, index: number) {
-//         const requirements = [...this.state.requirements]
-//         requirements[index] = requirement;
-//         this.setState({ requirements })
-//     }
-//     private addEffect() {
-//         const effects = [...this.state.effects, {}]
-//         this.setState({ effects })
-//     }
-//     private removeEffect(index: number) {
-//         const effects = this.state.effects.filter((_, i) => i !== index);
-//         this.setState({ effects });
-//     }
-//     private updateEffect(effect: Mechanic, index: number) {
-//         const effects = [...this.state.effects]
-//         effects[index] = effect;
-//         this.setState({ effects });
-//     }
-//     private addOptional() {
-//         const optional = [...this.state.optional,
-//         {
-//             effects: [],
-//             requirements: [],
-//         }]
-//         this.setState({ optional })
-//     }
-//     private removeOptional(index: number) {
-//         const optional = this.state.optional.filter((_, i) => i !== index)
-//         this.setState({ optional })
-//     }
-//     private updateOptional(state: RequirementEffect, index: number) {
-//         const optional = [...this.state.optional];
-//         optional[index] = state;
-//         this.setState({ optional })
-//     }
-//     private updateName(name: string) {
-//         this.setState({ name });
-//     }
-//     private stripUID(obj: object) {
-//         let newObj: object;
-//         if (Array.isArray(obj)) {
-//             newObj = [...obj];
-//         }
-//         else {
-//             newObj = { ...obj }
-//         }
-//         for (const key in newObj) {
-//             if (key === 'uuid') {
-//                 delete newObj[key]
-//             }
-//             else if (typeof obj[key] === 'object') {
-//                 newObj[key] = this.stripUID(obj[key]);
-//             }
-//         }
-//         return newObj;
-//     }
-// }
+  Maker.prototype.render = function () {
+    var _a = this.props.card,
+        name = _a.name,
+        requirements = _a.requirements,
+        effects = _a.effects;
+    return React.createElement("div", null, React.createElement("input", {
+      placeholder: "Card Name",
+      className: "form-control-lg",
+      type: "text",
+      value: name,
+      onChange: function onChange(e) {
+        return (0, _dispatch.dispatchUpdatedCardName)(e.target.value);
+      }
+    }), React.createElement("div", null, React.createElement("h2", null, " Requirements", React.createElement("button", {
+      className: 'ml-3 btn btn-sm btn-primary',
+      onClick: _json.cardCreateReq
+    }, "+")), React.createElement("ul", {
+      className: "ml-1"
+    }, requirements.map(function (req) {
+      return React.createElement("li", {
+        key: req.id
+      }, React.createElement("div", {
+        className: "row"
+      }, React.createElement("span", {
+        className: "col-1"
+      }, React.createElement("button", {
+        className: "btn btn-danger btn-sm",
+        onClick: function onClick() {
+          return (0, _dispatch2.dispatchDeleteStatePiece)(req.id);
+        }
+      }, " - ")), React.createElement("span", {
+        className: "col-11"
+      }, React.createElement(_requirement.default, {
+        requirement: req
+      }))));
+    }))), React.createElement("div", null, React.createElement("h2", null, " Effect", React.createElement("button", {
+      className: 'ml-3 btn btn-sm btn-primary',
+      onClick: _json.cardCreateEff
+    }, "+")), React.createElement("ul", {
+      className: "ml-1"
+    }, effects.map(function (effect, i) {
+      return React.createElement("li", {
+        key: effect.id
+      }, React.createElement("div", {
+        className: "row"
+      }, React.createElement("span", {
+        className: "col-1"
+      }, React.createElement("button", {
+        className: "btn btn-sm btn-danger",
+        onClick: function onClick() {
+          return (0, _dispatch3.dispatchDeletedMech)(effect.id);
+        }
+      }, "-")), React.createElement("span", {
+        className: "col-11"
+      }, React.createElement(_effect.default, {
+        effect: effect
+      }))));
+    }))), React.createElement("div", null, React.createElement("button", {
+      className: 'btn btn-primary m-2',
+      onClick: function onClick() {
+        return (0, _dispatch.dispatchChangeCurrentCard)(-1);
+      }
+    }, '<='), React.createElement("button", {
+      className: "btn btn-primary btn-large m-2",
+      onClick: _cardToJSON.updateCard
+    }, "Update"), React.createElement("button", {
+      className: "btn btn-primary btn-large m-2",
+      onClick: function onClick() {
+        return (0, _dispatch4.dispatchToPathString)('/view/' + name);
+      }
+    }, " View "), React.createElement("button", {
+      className: 'btn btn-primary m-2',
+      onClick: function onClick() {
+        return (0, _dispatch.dispatchChangeCurrentCard)(1);
+      }
+    }, '=>')));
+  };
 
+  return Maker;
+}(React.Component);
+
+var _default = (0, _reactRedux.connect)(selector)(Maker);
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../../card/dispatch":"src/card/dispatch.ts","../../card/cardToJSON":"src/card/cardToJSON.ts","react-redux":"node_modules/react-redux/es/index.js","../../statePiece/dispatch":"src/statePiece/dispatch.ts","../../card/json":"src/card/json.ts","../../mechanic/dispatch":"src/mechanic/dispatch.ts","./requirement":"src/components/maker/requirement.tsx","./effect":"src/components/maker/effect.tsx","../../path/dispatch":"src/path/dispatch.ts"}],"src/Nav.tsx":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../card/dispatch":"src/card/dispatch.ts","../../card/cardToJSON":"src/card/cardToJSON.ts","react-redux":"node_modules/react-redux/es/index.js","../../statePiece/dispatch":"src/statePiece/dispatch.ts","../../card/json":"src/card/json.ts","../../mechanic/dispatch":"src/mechanic/dispatch.ts","./requirement":"src/components/maker/requirement.tsx","./effect":"src/components/maker/effect.tsx","../../path/dispatch":"src/path/dispatch.ts"}],"src/Nav.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49380,7 +49286,9 @@ var body = function body(nextPath, remainingPath) {
       });
 
     case 'edit':
-      return React.createElement(_maker.default, null);
+      return React.createElement(_maker.default, {
+        path: remainingPath
+      });
 
     default:
       return React.createElement(_list.default, null);
@@ -49437,7 +49345,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59292" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57910" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
