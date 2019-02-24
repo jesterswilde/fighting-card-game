@@ -22,12 +22,10 @@ const decks_1 = require("./decks");
 const Cards_1 = require("./cards/Cards");
 const router = express_1.Router();
 router.get('/deckList', (req, res) => {
-    console.log('getting deck list');
     res.status(200).send(getDeckList());
 });
 router.get('/deck/:deckName', (req, res) => {
     const { deckName = '' } = req.params;
-    console.log("Deck Name", deckName);
     if (deckName) {
         const deck = decks_1.getDeckForViewer(deckName);
         if (deck) {
@@ -43,7 +41,12 @@ router.post('/card', (req, res) => {
     res.status(201).send();
 });
 router.get('/cards', (req, res) => {
-    res.status(200).send(Cards_1.cards);
+    const cardList = Object.keys(Cards_1.cards);
+    res.status(200).send(cardList);
+});
+router.get('/card/:name', (req, res) => {
+    const card = Cards_1.cards[req.params.name];
+    res.status(200).send(card || null);
 });
 router.delete('/card', (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {

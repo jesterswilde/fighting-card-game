@@ -29,7 +29,6 @@ export interface StoreState {
     socket: SocketState,
 }
 
-
 const rootReducer = combineReducers({
     game: gameReducer,
     hand: handReducer,

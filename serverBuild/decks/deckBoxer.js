@@ -5,7 +5,9 @@ exports.boxerDeck = {
         "Accurate Strike",
         "Punch, Counterpunch",
         "Rope-a-dope",
-        "To The Pocket"
+        "To The Pocket",
+        "Haymaker",
+        "Ride The Ropes",
     ],
     name: "Boxer",
     description: "Rope-a-dope"
