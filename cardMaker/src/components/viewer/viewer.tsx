@@ -25,7 +25,7 @@ const selector = (state: StoreState): InternalProps => {
 class Viewer extends React.Component<Props>{
     componentDidMount() {
         const { path, card } = this.props;
-        if(card !== null && card.name !== path[0]){
+        if (card !== null && card.name !== path[0]) {
             dispatchGetCard(path[0]);
         }
     }
@@ -34,7 +34,7 @@ class Viewer extends React.Component<Props>{
         if (card === null) {
             return <div> No Card</div>
         }
-        const { requirements, optional, effects, name } = card;
+        const { requirements, optional, effects, name, tagObjs } = card;
         return <div>
             <h3>{card.name}</h3>
             <ul>
@@ -48,10 +48,14 @@ class Viewer extends React.Component<Props>{
             <ul>
                 {effects.map((effect, i) => <Effect key={i} effect={effect} />)}
             </ul>
+            <div className="h-divider" />
             <div>
-                <button className='btn btn-primary m-2' onClick={()=> dispatchChangeCurrentCard(-1)}>{'<='}</button>
-                <button className='btn btn-primary m-2' onClick={()=> dispatchToPathString('/edit/'+name)}>Edit</button>
-                <button className='btn btn-primary m-2' onClick={()=> dispatchChangeCurrentCard(1)}>{'=>'}</button>
+                {tagObjs.map((tag, i) => <div className="inline" key={tag.id}> {tag.value}</div>)}
+            </div>
+            <div>
+                <button className='btn btn-primary m-2' onClick={() => dispatchChangeCurrentCard(-1)}>{'<='}</button>
+                <button className='btn btn-primary m-2' onClick={() => dispatchToPathString('/edit/' + name)}>Edit</button>
+                <button className='btn btn-primary m-2' onClick={() => dispatchChangeCurrentCard(1)}>{'=>'}</button>
             </div>
         </div>
     }

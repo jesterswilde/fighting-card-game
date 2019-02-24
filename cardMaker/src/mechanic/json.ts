@@ -1,13 +1,13 @@
 import { MechanicJSON } from '../interfaces/cardJSON';
 import { Mechanic, makeDefaultMechanic } from './interface';
 import { getID } from '../utils';
-import { dispatchUpdatedMech, dispatchMechAddChoice, dispatchMechAddReq, dispatchMechAddEff } from './dispatch';
+import { dispatchUpdatedMech, dispatchMechAddReq, dispatchMechAddEff, dispatchMechAddedToChoice } from './dispatch';
 import { statePieceFromJSON } from '../statePiece/json';
 
-export const mechAddChoice = (id?: number, choiceIndex?: number) => {
+export const mechAddToChoice = (id?: number, choiceIndex?: number) => {
     if(id === undefined || choiceIndex === undefined) return; 
     const choiceId = mechFromJSON();
-    dispatchMechAddChoice(id, choiceIndex, choiceId);
+    dispatchMechAddedToChoice(id, choiceIndex, choiceId);
 }
 
 export const mechCreateReq = (id?: number) => {

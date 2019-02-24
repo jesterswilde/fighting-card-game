@@ -5,17 +5,34 @@ import { makeDefaultCardJSON } from './interface';
 import { omit } from 'lodash';
 import { hostURL } from '../utils';
 
-export const cardToServerJSON = (state: StoreState): CardJSON => {
-    const card = cardToJSON(state);
-    card.requirements = card.requirements.map((req) => omit(req, 'id'));
-    card.optional = card.optional.map((opt) => {
-        opt.effects = opt.effects.map(omitIdFromEff);
-        return omit(opt, 'id');
-    });
-    card.effects = card.effects.map(omitIdFromEff);
-    card.tagObjs = card.tagObjs.map((tag)=> omit(tag, 'id')); 
-    return card;
+
+export const cardToJSON = (state: StoreState): CardJSON => {
+    if (state.card.editingCard !== null) {
+        const card = clone(state.card.editingCard);
+        let requirements: StatePieceJSON[] = [];
+        if (card.requirements !== undefined) {
+            requirements = card.requirements.map((reqId) => buildStatePiece(state, reqId));
+        }
+        let effects: MechanicJSON[] = [];
+        if (card.effects !== undefined) {
+            effects = card.effects.map((effId) => buildMechanic(state, effId));
+        }
+        let optional: RequirementEffectJSON[] = [];
+        if (card.optional !== undefined) {
+            optional = card.optional.map((optId) => buildOptional(state, optId));
+        }
+        const tagObjs = card.tagObjs;
+        return {
+            ...card,
+            requirements,
+            effects,
+            optional,
+            tagObjs,
+        }
+    }
+    return makeDefaultCardJSON();
 }
+
 
 export const updateCard = () => {
     const card = cardToServerJSON(store.getState()); 
@@ -39,31 +56,6 @@ const omitIdFromEff = (mech: MechanicJSON): MechanicJSON => {
         mech.choices = mech.choices.map((choice) => choice.map((eff) => omit(eff, 'id')));
     }
     return omit(mech, 'id');
-}
-
-export const cardToJSON = (state: StoreState): CardJSON => {
-    if (state.card.editingCard !== null) {
-        const card = clone(state.card.editingCard);
-        let requirements: StatePieceJSON[] = [];
-        if (card.requirements !== undefined) {
-            requirements = card.requirements.map((reqId) => buildStatePiece(state, reqId));
-        }
-        let effects: MechanicJSON[] = [];
-        if (card.effects !== undefined) {
-            effects = card.effects.map((effId) => buildMechanic(state, effId));
-        }
-        let optional: RequirementEffectJSON[] = [];
-        if (card.optional !== undefined) {
-            optional = card.optional.map((optId) => buildOptional(state, optId));
-        }
-        return {
-            ...card,
-            requirements,
-            effects,
-            optional
-        }
-    }
-    return makeDefaultCardJSON();
 }
 
 export const buildStatePiece = (state: StoreState, id: number): StatePieceJSON => {
@@ -119,4 +111,17 @@ export const buildOptional = (state: StoreState, id: number): RequirementEffectJ
     }
     optJSON.id = optional.id;
     return optJSON;
+}
+
+
+export const cardToServerJSON = (state: StoreState): CardJSON => {
+    const card = cardToJSON(state);
+    card.requirements = card.requirements.map((req) => omit(req, 'id'));
+    card.optional = card.optional.map((opt) => {
+        opt.effects = opt.effects.map(omitIdFromEff);
+        return omit(opt, 'id');
+    });
+    card.effects = card.effects.map(omitIdFromEff);
+    card.tagObjs = card.tagObjs.map((tag)=> omit(tag, 'id')); 
+    return card;
 }

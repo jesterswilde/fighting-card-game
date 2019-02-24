@@ -1,9 +1,10 @@
 import { MechanicState } from "./interface";
 import { ActionType } from '../state/actions';
-import { MechActionEnum, DeletedMechActon, MechAddedEffAction, MechAddedReqAction } from './actions';
+import { MechActionEnum, DeletedMechActon, MechAddedEffAction, MechAddedReqAction, MechAddedToChoiceAction } from './actions';
 import { reduce } from 'lodash'
 import { filterIfHas } from '../utils';
 import { StatePieceEnum, DeleteStatePieceAction } from '../statePiece/actions';
+import { stat } from 'fs';
 
 export const mechanicReducer = (state: MechanicState = { mechanicsById: {} }, action: ActionType): MechanicState => {
     switch (action.type) {
@@ -14,15 +15,33 @@ export const mechanicReducer = (state: MechanicState = { mechanicsById: {} }, ac
         case StatePieceEnum.DELETED:
             return statePieceDeleted(state, action);
         case MechActionEnum.ADDED_EFF:
-            return addEff(state, action); 
+            return addEff(state, action);
         case MechActionEnum.ADDED_REQ:
-            return addReq(state, action); 
+            return addReq(state, action);
+        case MechActionEnum.CREATED_CHOICE_CATEGORY:
+            var choices = [...state.mechanicsById[action.mechId].choices || [], []]
+            var mech = { ...state.mechanicsById[action.mechId], choices }
+            return { ...state, mechanicsById: { ...state.mechanicsById, [action.mechId]: mech } }
+        case MechActionEnum.DELETE_CHOICE_CATEGORY:
+            var choices = (state.mechanicsById[action.mechId].choices || []).filter((_, i) => i !== action.categoryIndex);
+            var mech = { ...state.mechanicsById[action.mechId], choices };
+            return { ...state, mechanicsById: { ...state.mechanicsById, [action.mechId]: mech } }
+        case MechActionEnum.ADDED_CHOICE_TO_CATEGORY:
+            return addToChoice(state, action);
         default:
             return state;
     }
 }
 
-const addReq = (state: MechanicState, {mechId, reqId}: MechAddedReqAction): MechanicState=>{
+const addToChoice = (state: MechanicState, action: MechAddedToChoiceAction): MechanicState => {
+    const choices = [...state.mechanicsById[action.parentId].choices || []]
+    const category = [...choices[action.categoryIndex], action.addedId];
+    choices[action.categoryIndex] = category;
+    const mech = { ...state.mechanicsById[action.parentId], choices }
+    return { ...state, mechanicsById: { ...state.mechanicsById, [action.parentId]: mech } }
+}
+
+const addReq = (state: MechanicState, { mechId, reqId }: MechAddedReqAction): MechanicState => {
     let mechReq = state.mechanicsById[mechId].mechReq || [];
     mechReq = [...mechReq, reqId]
     const mech = { ...state.mechanicsById[mechId], mechReq };

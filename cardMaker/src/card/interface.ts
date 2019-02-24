@@ -8,7 +8,7 @@ export interface CardState {
 
 export interface Card {
     name: string,
-    tagObjs: TagObj[]
+    tagObjs: TagObj[],
     optional: number[], // Optional
     requirements: number[], // StatePiece
     effects: number[] // Mechanic

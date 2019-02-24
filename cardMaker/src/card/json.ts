@@ -4,6 +4,7 @@ import { Card, makeDefaultCard } from './interface';
 import { mechFromJSON } from '../mechanic/json';
 import { statePieceFromJSON } from '../statePiece/json';
 import { optionalFromJSON } from '../optional/json';
+import { getID } from '../utils';
 
 export const cardCreateReq = ()=>{
     const id = statePieceFromJSON();
@@ -30,7 +31,16 @@ export const cardFromJSON = (cardJSON: CardJSON | null) => {
     card.optional = cardJSON.optional.map(optionalFromJSON);
     card.effects = cardJSON.effects.map(mechFromJSON);
     card.name = cardJSON.name;
-    card.tagObjs = cardJSON.tagObjs;
+    if(cardJSON.tagObjs === undefined){
+        card.tagObjs = []
+    }else{
+        card.tagObjs = cardJSON.tagObjs.map((tagObj)=> {
+            if(tagObj.id === undefined){
+                return {...tagObj, id: getID()}
+            }
+            return tagObj; 
+        });
+    }
     dispatchUpdateEditedCard(card);
 }
 

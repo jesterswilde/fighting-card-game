@@ -1,11 +1,37 @@
 import { makeDefaultCard } from "./interface";
-import { CardEnum, DeletedCardAction, UpdatedEditedCardAction, GotCardListAction, UpdatedCardNameAction, CardAddedReqAction, CardAddedEffAction, CardAddedOptAction, UpdateFilterAction } from './actions';
+import { CardEnum, DeletedCardAction, UpdatedEditedCardAction, GotCardListAction, UpdatedCardNameAction, CardAddedReqAction, CardAddedEffAction, CardAddedOptAction, UpdateFilterAction, CreateTagAction, DeleteTagAction, UpdateTagAction } from './actions';
 import { store } from '../state/store';
 import { hostURL } from '../utils';
 import { CardJSON } from '../interfaces/cardJSON';
 import { cardFromJSON } from './json';
 import { PathActionEnum, ToPathStringAction } from '../path/actions';
 import { dispatchToPathArray } from '../path/dispatch';
+
+export const dispatchCreateTag = ()=>{
+    const action: CreateTagAction = {
+        type: CardEnum.CREATE_TAG
+    }
+    store.dispatch(action); 
+}
+
+export const dispatchDeleteTag = (id?: number)=>{
+    if(id === undefined) return; 
+    const action: DeleteTagAction = {
+        type: CardEnum.DELETE_TAG,
+        id
+    }
+    store.dispatch(action); 
+}
+
+export const dispatchUpdateTag = (id?: number, tag = '')=>{
+    if(id === undefined) return; 
+    const action: UpdateTagAction = {
+        type: CardEnum.UPDATE_TAG,
+        id,
+        tag
+    }
+    store.dispatch(action); 
+}
 
 export const dispatchUpdateCardFilter = (filter: string)=>{
     const action: UpdateFilterAction = {

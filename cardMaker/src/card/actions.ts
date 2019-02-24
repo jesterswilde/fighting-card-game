@@ -10,7 +10,26 @@ export enum CardEnum{
     ADDED_EFF = 'cardAddedEffect',
     ADDED_REQ = 'cardAddedRequirement',
     CHANGE_CURRENT_CARD = 'changeCurrentCard',
-    UPDATE_FILTER = 'cardUpdateFilter'
+    UPDATE_FILTER = 'cardUpdateFilter',
+    CREATE_TAG = 'cardCreateTag',
+    DELETE_TAG = 'cardDeleteTag',
+    UPDATE_TAG = 'updateTag',
+}
+
+
+export interface CreateTagAction {
+    type: CardEnum.CREATE_TAG,
+}
+
+export interface DeleteTagAction {
+    type: CardEnum.DELETE_TAG,
+    id: number
+}
+
+export interface UpdateTagAction{
+    type: CardEnum.UPDATE_TAG,
+    id: number,
+    tag: string
 }
 
 export interface UpdateFilterAction{
@@ -54,4 +73,5 @@ export interface DeletedCardAction{
 }  
 
 export type CardActions = UpdatedEditedCardAction | DeletedCardAction | GotCardListAction | 
-UpdatedCardNameAction | CardAddedEffAction | CardAddedOptAction | CardAddedReqAction | UpdateFilterAction; 
+UpdatedCardNameAction | CardAddedEffAction | CardAddedOptAction | CardAddedReqAction | UpdateFilterAction |
+CreateTagAction | UpdateTagAction | DeleteTagAction; 

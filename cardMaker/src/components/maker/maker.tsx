@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CardJSON } from "../../interfaces/cardJSON";
-import { dispatchUpdatedCardName, dispatchGetCard, dispatchChangeCurrentCard } from '../../card/dispatch';
+import { dispatchUpdatedCardName, dispatchGetCard, dispatchChangeCurrentCard, dispatchCreateTag, dispatchUpdateTag, dispatchDeleteTag } from '../../card/dispatch';
 import { StoreState } from '../../state/store';
 import { cardToJSON, updateCard } from '../../card/cardToJSON';
 import { connect } from 'react-redux';
@@ -32,7 +32,7 @@ class Maker extends React.Component<Props> {
         }
     }
     render() {
-        const { card: { name, requirements, effects } } = this.props;
+        const { card: { name = '', requirements = [], effects = [], tagObjs = [] } } = this.props;
         return <div>
             <input placeholder="Card Name" className="form-control-lg" type="text" value={name} onChange={(e) => dispatchUpdatedCardName(e.target.value)} />
             <div>
@@ -57,6 +57,15 @@ class Maker extends React.Component<Props> {
                     </div>
                     </li>)}
                 </ul>
+            </div>
+            <div>
+                <h2>Tags
+                <button className='ml-3 btn btn-sm btn-primary' onClick={dispatchCreateTag}>+</button>
+                </h2>
+                {tagObjs.map((tag)=> <div key={tag.id}>
+                <button className="btn btn-sm btn-danger" onClick={() => dispatchDeleteTag(tag.id)}>-</button>
+                    <input type="text" value={tag.value} onChange={({target})=> dispatchUpdateTag(tag.id, target.value)}/>
+                </div>)}
             </div>
             <div>
                 <button className='btn btn-primary m-2' onClick={() => dispatchChangeCurrentCard(-1)}>{'<='}</button>

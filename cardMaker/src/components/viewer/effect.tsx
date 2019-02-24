@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MechanicJSON } from '../../interfaces/cardJSON';
-import { MechanicDisplay, DisplayEnum, getMechDisplay } from '../../interfaces/enums';
+import { getMechDisplay } from '../../interfaces/enums';
 import Requirement from './requirement';
 import { playerRouter as pr } from '../../utils';
 
@@ -11,10 +11,10 @@ interface Props {
 
 const Effect = ({ effect }: Props) => {
     const { choices = [],  mechanic, mechanicRequirements: reqs = [], mechanicEffects: effs = [], amount } = effect;
-    const { eff: displayEff, pick: displayPick, state: displayState } = getMechDisplay(effect.mechanic);
+    const { eff: displayEff, pick: displayPick, state: displayState, value } = getMechDisplay(effect.mechanic);
     const player = effect.player !== undefined ? pr[effect.player] : null;
     return <div className='inline m-2'>
-        {displayState && <>
+        {(displayState ||  value)  && <>
             {effect.mechanic !== undefined && <b> {effect.mechanic} </b>}
             {player} {effect.axis} {effect.amount}
         </>}

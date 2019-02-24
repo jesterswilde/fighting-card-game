@@ -27367,6 +27367,9 @@ exports.CardEnum = CardEnum;
   CardEnum["ADDED_REQ"] = "cardAddedRequirement";
   CardEnum["CHANGE_CURRENT_CARD"] = "changeCurrentCard";
   CardEnum["UPDATE_FILTER"] = "cardUpdateFilter";
+  CardEnum["CREATE_TAG"] = "cardCreateTag";
+  CardEnum["DELETE_TAG"] = "cardDeleteTag";
+  CardEnum["UPDATE_TAG"] = "updateTag";
 })(CardEnum || (exports.CardEnum = CardEnum = {}));
 },{}],"src/path/actions.ts":[function(require,module,exports) {
 "use strict";
@@ -27441,7 +27444,9 @@ exports.MechActionEnum = MechActionEnum;
   MechActionEnum["DELETED"] = "deletedMechanic";
   MechActionEnum["ADDED_REQ"] = "mechanicAddedReq";
   MechActionEnum["ADDED_EFF"] = "mechanicAddedEff";
-  MechActionEnum["ADDED_CHOICE"] = "mechanicAddedChoice";
+  MechActionEnum["CREATED_CHOICE_CATEGORY"] = "mechanicAddedChoiceCategory";
+  MechActionEnum["DELETE_CHOICE_CATEGORY"] = "mechanicDeleteChoiceCategory";
+  MechActionEnum["ADDED_CHOICE_TO_CATEGORY"] = "mechanicAddedChoiceToCateogry";
 })(MechActionEnum || (exports.MechActionEnum = MechActionEnum = {}));
 },{}],"src/interfaces/enums.ts":[function(require,module,exports) {
 "use strict";
@@ -27692,6 +27697,40 @@ var cardReducer = function cardReducer(state, action) {
       return tslib_1.__assign({}, state, {
         editingCard: tslib_1.__assign({}, state.editingCard, {
           effects: state.editingCard.effects.concat([action.id])
+        })
+      });
+
+    case _actions.CardEnum.CREATE_TAG:
+      var tagObjs = state.editingCard.tagObjs.concat([{
+        value: '',
+        id: (0, _utils.getID)()
+      }]);
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          tagObjs: tagObjs
+        })
+      });
+
+    case _actions.CardEnum.DELETE_TAG:
+      var tagObjs = state.editingCard.tagObjs.filter(function (_a) {
+        var id = _a.id;
+        return id !== action.id;
+      });
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          tagObjs: tagObjs
+        })
+      });
+
+    case _actions.CardEnum.UPDATE_TAG:
+      var tagObjs = state.editingCard.tagObjs.map(function (tag) {
+        return tag.id === action.id ? tslib_1.__assign({}, tag, {
+          value: action.tag
+        }) : tag;
+      });
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          tagObjs: tagObjs
         })
       });
 
@@ -47030,7 +47069,7 @@ var mechanicReducer = function mechanicReducer(state, action) {
     };
   }
 
-  var _a;
+  var _a, _b, _c;
 
   switch (action.type) {
     case _actions.MechActionEnum.DELETED:
@@ -47050,12 +47089,55 @@ var mechanicReducer = function mechanicReducer(state, action) {
     case _actions.MechActionEnum.ADDED_REQ:
       return addReq(state, action);
 
+    case _actions.MechActionEnum.CREATED_CHOICE_CATEGORY:
+      var choices = (state.mechanicsById[action.mechId].choices || []).concat([[]]);
+
+      var mech = tslib_1.__assign({}, state.mechanicsById[action.mechId], {
+        choices: choices
+      });
+
+      return tslib_1.__assign({}, state, {
+        mechanicsById: tslib_1.__assign({}, state.mechanicsById, (_b = {}, _b[action.mechId] = mech, _b))
+      });
+
+    case _actions.MechActionEnum.DELETE_CHOICE_CATEGORY:
+      var choices = (state.mechanicsById[action.mechId].choices || []).filter(function (_, i) {
+        return i !== action.categoryIndex;
+      });
+
+      var mech = tslib_1.__assign({}, state.mechanicsById[action.mechId], {
+        choices: choices
+      });
+
+      return tslib_1.__assign({}, state, {
+        mechanicsById: tslib_1.__assign({}, state.mechanicsById, (_c = {}, _c[action.mechId] = mech, _c))
+      });
+
+    case _actions.MechActionEnum.ADDED_CHOICE_TO_CATEGORY:
+      return addToChoice(state, action);
+
     default:
       return state;
   }
 };
 
 exports.mechanicReducer = mechanicReducer;
+
+var addToChoice = function addToChoice(state, action) {
+  var _a;
+
+  var choices = (state.mechanicsById[action.parentId].choices || []).slice();
+  var category = choices[action.categoryIndex].concat([action.addedId]);
+  choices[action.categoryIndex] = category;
+
+  var mech = tslib_1.__assign({}, state.mechanicsById[action.parentId], {
+    choices: choices
+  });
+
+  return tslib_1.__assign({}, state, {
+    mechanicsById: tslib_1.__assign({}, state.mechanicsById, (_a = {}, _a[action.parentId] = mech, _a))
+  });
+};
 
 var addReq = function addReq(state, _a) {
   var mechId = _a.mechId,
@@ -47376,11 +47458,49 @@ exports.makeDefaultMechanic = makeDefaultMechanic;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchDeletedMech = exports.dispatchUpdatedMech = exports.dispatchMechAddChoice = exports.dispatchMechAddEff = exports.dispatchMechAddReq = void 0;
+exports.dispatchDeletedMech = exports.dispatchUpdatedMech = exports.dispatchMechAddEff = exports.dispatchMechAddReq = exports.dispatchMechAddedToChoice = exports.dispatchMechDeletedChoice = exports.dispatchMechCreatedChoiceCategory = void 0;
 
 var _actions = require("./actions");
 
 var _store = require("../state/store");
+
+var dispatchMechCreatedChoiceCategory = function dispatchMechCreatedChoiceCategory(mechId) {
+  if (mechId === undefined) return;
+  var action = {
+    type: _actions.MechActionEnum.CREATED_CHOICE_CATEGORY,
+    mechId: mechId
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchMechCreatedChoiceCategory = dispatchMechCreatedChoiceCategory;
+
+var dispatchMechDeletedChoice = function dispatchMechDeletedChoice(mechId, categoryIndex) {
+  if (mechId === undefined || categoryIndex === undefined) return;
+  var action = {
+    type: _actions.MechActionEnum.DELETE_CHOICE_CATEGORY,
+    mechId: mechId,
+    categoryIndex: categoryIndex
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchMechDeletedChoice = dispatchMechDeletedChoice;
+
+var dispatchMechAddedToChoice = function dispatchMechAddedToChoice(parentId, categoryIndex, addedId) {
+  var action = {
+    type: _actions.MechActionEnum.ADDED_CHOICE_TO_CATEGORY,
+    parentId: parentId,
+    categoryIndex: categoryIndex,
+    addedId: addedId
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchMechAddedToChoice = dispatchMechAddedToChoice;
 
 var dispatchMechAddReq = function dispatchMechAddReq(mechId, reqId) {
   var action = {
@@ -47405,19 +47525,6 @@ var dispatchMechAddEff = function dispatchMechAddEff(mechId, effId) {
 };
 
 exports.dispatchMechAddEff = dispatchMechAddEff;
-
-var dispatchMechAddChoice = function dispatchMechAddChoice(mechId, choiceIndex, choiceId) {
-  var action = {
-    type: _actions.MechActionEnum.ADDED_CHOICE,
-    mechId: mechId,
-    choiceId: choiceId,
-    choiceIndex: choiceIndex
-  };
-
-  _store.store.dispatch(action);
-};
-
-exports.dispatchMechAddChoice = dispatchMechAddChoice;
 
 var dispatchUpdatedMech = function dispatchUpdatedMech(mechanic) {
   var action = {
@@ -47563,7 +47670,7 @@ exports.statePieceFromJSON = statePieceFromJSON;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.mechFromJSON = exports.mechCreateEff = exports.mechCreateReq = exports.mechAddChoice = void 0;
+exports.mechFromJSON = exports.mechCreateEff = exports.mechCreateReq = exports.mechAddToChoice = void 0;
 
 var _interface = require("./interface");
 
@@ -47573,13 +47680,13 @@ var _dispatch = require("./dispatch");
 
 var _json = require("../statePiece/json");
 
-var mechAddChoice = function mechAddChoice(id, choiceIndex) {
+var mechAddToChoice = function mechAddToChoice(id, choiceIndex) {
   if (id === undefined || choiceIndex === undefined) return;
   var choiceId = mechFromJSON();
-  (0, _dispatch.dispatchMechAddChoice)(id, choiceIndex, choiceId);
+  (0, _dispatch.dispatchMechAddedToChoice)(id, choiceIndex, choiceId);
 };
 
-exports.mechAddChoice = mechAddChoice;
+exports.mechAddToChoice = mechAddToChoice;
 
 var mechCreateReq = function mechCreateReq(id) {
   if (id === undefined) return;
@@ -47795,6 +47902,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.cardFromJSON = exports.cardCreateOpt = exports.cardCreateEff = exports.cardCreateReq = void 0;
 
+var tslib_1 = _interopRequireWildcard(require("tslib"));
+
 var _dispatch = require("./dispatch");
 
 var _interface = require("./interface");
@@ -47804,6 +47913,10 @@ var _json = require("../mechanic/json");
 var _json2 = require("../statePiece/json");
 
 var _json3 = require("../optional/json");
+
+var _utils = require("../utils");
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var cardCreateReq = function cardCreateReq() {
   var id = (0, _json2.statePieceFromJSON)();
@@ -47837,12 +47950,26 @@ var cardFromJSON = function cardFromJSON(cardJSON) {
   card.optional = cardJSON.optional.map(_json3.optionalFromJSON);
   card.effects = cardJSON.effects.map(_json.mechFromJSON);
   card.name = cardJSON.name;
-  card.tagObjs = cardJSON.tagObjs;
+
+  if (cardJSON.tagObjs === undefined) {
+    card.tagObjs = [];
+  } else {
+    card.tagObjs = cardJSON.tagObjs.map(function (tagObj) {
+      if (tagObj.id === undefined) {
+        return tslib_1.__assign({}, tagObj, {
+          id: (0, _utils.getID)()
+        });
+      }
+
+      return tagObj;
+    });
+  }
+
   (0, _dispatch.dispatchUpdateEditedCard)(card);
 };
 
 exports.cardFromJSON = cardFromJSON;
-},{"./dispatch":"src/card/dispatch.ts","./interface":"src/card/interface.ts","../mechanic/json":"src/mechanic/json.ts","../statePiece/json":"src/statePiece/json.ts","../optional/json":"src/optional/json.ts"}],"src/path/dispatch.ts":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","./dispatch":"src/card/dispatch.ts","./interface":"src/card/interface.ts","../mechanic/json":"src/mechanic/json.ts","../statePiece/json":"src/statePiece/json.ts","../optional/json":"src/optional/json.ts","../utils":"src/utils.ts"}],"src/path/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47886,7 +48013,7 @@ window.onpopstate = function (ev) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchGetCardList = exports.dispatchDeleteCard = exports.dispatchUpdateEditedCard = exports.dispatchGetCard = exports.dispatchUpdatedCardName = exports.dispatchMakeBlankCard = exports.dispatchCardAddOpt = exports.dispatchCardAddEff = exports.dispatchCardAddReq = exports.dispatchChangeCurrentCard = exports.dispatchUpdateCardFilter = void 0;
+exports.dispatchGetCardList = exports.dispatchDeleteCard = exports.dispatchUpdateEditedCard = exports.dispatchGetCard = exports.dispatchUpdatedCardName = exports.dispatchMakeBlankCard = exports.dispatchCardAddOpt = exports.dispatchCardAddEff = exports.dispatchCardAddReq = exports.dispatchChangeCurrentCard = exports.dispatchUpdateCardFilter = exports.dispatchUpdateTag = exports.dispatchDeleteTag = exports.dispatchCreateTag = void 0;
 
 var tslib_1 = _interopRequireWildcard(require("tslib"));
 
@@ -47907,6 +48034,45 @@ var _dispatch = require("../path/dispatch");
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var _this = void 0;
+
+var dispatchCreateTag = function dispatchCreateTag() {
+  var action = {
+    type: _actions.CardEnum.CREATE_TAG
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchCreateTag = dispatchCreateTag;
+
+var dispatchDeleteTag = function dispatchDeleteTag(id) {
+  if (id === undefined) return;
+  var action = {
+    type: _actions.CardEnum.DELETE_TAG,
+    id: id
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchDeleteTag = dispatchDeleteTag;
+
+var dispatchUpdateTag = function dispatchUpdateTag(id, tag) {
+  if (tag === void 0) {
+    tag = '';
+  }
+
+  if (id === undefined) return;
+  var action = {
+    type: _actions.CardEnum.UPDATE_TAG,
+    id: id,
+    tag: tag
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUpdateTag = dispatchUpdateTag;
 
 var dispatchUpdateCardFilter = function dispatchUpdateCardFilter(filter) {
   var action = {
@@ -48346,7 +48512,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.buildOptional = exports.buildMechanic = exports.buildStatePiece = exports.cardToJSON = exports.updateCard = exports.cardToServerJSON = void 0;
+exports.cardToServerJSON = exports.buildOptional = exports.buildMechanic = exports.buildStatePiece = exports.updateCard = exports.cardToJSON = void 0;
 
 var tslib_1 = _interopRequireWildcard(require("tslib"));
 
@@ -48360,23 +48526,46 @@ var _utils = require("../utils");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-var cardToServerJSON = function cardToServerJSON(state) {
-  var card = cardToJSON(state);
-  card.requirements = card.requirements.map(function (req) {
-    return (0, _lodash.omit)(req, 'id');
-  });
-  card.optional = card.optional.map(function (opt) {
-    opt.effects = opt.effects.map(omitIdFromEff);
-    return (0, _lodash.omit)(opt, 'id');
-  });
-  card.effects = card.effects.map(omitIdFromEff);
-  card.tagObjs = card.tagObjs.map(function (tag) {
-    return (0, _lodash.omit)(tag, 'id');
-  });
-  return card;
+var cardToJSON = function cardToJSON(state) {
+  if (state.card.editingCard !== null) {
+    var card = (0, _lodash.cloneDeep)(state.card.editingCard);
+    var requirements = [];
+
+    if (card.requirements !== undefined) {
+      requirements = card.requirements.map(function (reqId) {
+        return buildStatePiece(state, reqId);
+      });
+    }
+
+    var effects = [];
+
+    if (card.effects !== undefined) {
+      effects = card.effects.map(function (effId) {
+        return buildMechanic(state, effId);
+      });
+    }
+
+    var optional = [];
+
+    if (card.optional !== undefined) {
+      optional = card.optional.map(function (optId) {
+        return buildOptional(state, optId);
+      });
+    }
+
+    var tagObjs = card.tagObjs;
+    return tslib_1.__assign({}, card, {
+      requirements: requirements,
+      effects: effects,
+      optional: optional,
+      tagObjs: tagObjs
+    });
+  }
+
+  return (0, _interface.makeDefaultCardJSON)();
 };
 
-exports.cardToServerJSON = cardToServerJSON;
+exports.cardToJSON = cardToJSON;
 
 var updateCard = function updateCard() {
   var card = cardToServerJSON(_store.store.getState());
@@ -48414,45 +48603,6 @@ var omitIdFromEff = function omitIdFromEff(mech) {
 
   return (0, _lodash.omit)(mech, 'id');
 };
-
-var cardToJSON = function cardToJSON(state) {
-  if (state.card.editingCard !== null) {
-    var card = (0, _lodash.cloneDeep)(state.card.editingCard);
-    var requirements = [];
-
-    if (card.requirements !== undefined) {
-      requirements = card.requirements.map(function (reqId) {
-        return buildStatePiece(state, reqId);
-      });
-    }
-
-    var effects = [];
-
-    if (card.effects !== undefined) {
-      effects = card.effects.map(function (effId) {
-        return buildMechanic(state, effId);
-      });
-    }
-
-    var optional = [];
-
-    if (card.optional !== undefined) {
-      optional = card.optional.map(function (optId) {
-        return buildOptional(state, optId);
-      });
-    }
-
-    return tslib_1.__assign({}, card, {
-      requirements: requirements,
-      effects: effects,
-      optional: optional
-    });
-  }
-
-  return (0, _interface.makeDefaultCardJSON)();
-};
-
-exports.cardToJSON = cardToJSON;
 
 var buildStatePiece = function buildStatePiece(state, id) {
   var spObj = state.statePiece.piecesById[id];
@@ -48544,6 +48694,24 @@ var buildOptional = function buildOptional(state, id) {
 };
 
 exports.buildOptional = buildOptional;
+
+var cardToServerJSON = function cardToServerJSON(state) {
+  var card = cardToJSON(state);
+  card.requirements = card.requirements.map(function (req) {
+    return (0, _lodash.omit)(req, 'id');
+  });
+  card.optional = card.optional.map(function (opt) {
+    opt.effects = opt.effects.map(omitIdFromEff);
+    return (0, _lodash.omit)(opt, 'id');
+  });
+  card.effects = card.effects.map(omitIdFromEff);
+  card.tagObjs = card.tagObjs.map(function (tag) {
+    return (0, _lodash.omit)(tag, 'id');
+  });
+  return card;
+};
+
+exports.cardToServerJSON = cardToServerJSON;
 },{"tslib":"node_modules/tslib/tslib.es6.js","../state/store":"src/state/store.ts","lodash":"node_modules/lodash/lodash.js","./interface":"src/card/interface.ts","../utils":"src/utils.ts"}],"src/components/viewer/requirement.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -48599,12 +48767,13 @@ var Effect = function Effect(_a) {
   var _e = (0, _enums.getMechDisplay)(effect.mechanic),
       displayEff = _e.eff,
       displayPick = _e.pick,
-      displayState = _e.state;
+      displayState = _e.state,
+      value = _e.value;
 
   var player = effect.player !== undefined ? _utils.playerRouter[effect.player] : null;
   return React.createElement("div", {
     className: 'inline m-2'
-  }, displayState && React.createElement(React.Fragment, null, effect.mechanic !== undefined && React.createElement("b", null, " ", effect.mechanic, " "), player, " ", effect.axis, " ", effect.amount), displayEff && React.createElement("div", {
+  }, (displayState || value) && React.createElement(React.Fragment, null, effect.mechanic !== undefined && React.createElement("b", null, " ", effect.mechanic, " "), player, " ", effect.axis, " ", effect.amount), displayEff && React.createElement("div", {
     className: "seperate"
   }, React.createElement("div", null, React.createElement("b", null, mechanic, "  ", amount !== undefined && amount)), React.createElement("div", {
     className: "ml-3"
@@ -48752,7 +48921,8 @@ function (_super) {
     var requirements = card.requirements,
         optional = card.optional,
         effects = card.effects,
-        name = card.name;
+        name = card.name,
+        tagObjs = card.tagObjs;
     return React.createElement("div", null, React.createElement("h3", null, card.name), React.createElement("ul", null, requirements.map(function (req) {
       return React.createElement(_requirement.default, {
         key: req.id,
@@ -48771,6 +48941,13 @@ function (_super) {
         key: i,
         effect: effect
       });
+    })), React.createElement("div", {
+      className: "h-divider"
+    }), React.createElement("div", null, tagObjs.map(function (tag, i) {
+      return React.createElement("div", {
+        className: "inline",
+        key: tag.id
+      }, " ", tag.value);
     })), React.createElement("div", null, React.createElement("button", {
       className: 'btn btn-primary m-2',
       onClick: function onClick() {
@@ -48989,17 +49166,19 @@ var Effect = function Effect(_a) {
   }))), displayValue && React.createElement(React.Fragment, null, React.createElement("input", {
     type: "number",
     value: amount,
-    onChange: function onChange() {
+    onChange: function onChange(_a) {
+      var target = _a.target;
       return (0, _json.mechFromJSON)(tslib_1.__assign({}, mech, {
-        amount: amount
+        amount: target.value
       }));
     }
   })), displayValueString && React.createElement(React.Fragment, null, React.createElement("input", {
     type: "text",
     value: amount,
-    onChange: function onChange() {
+    onChange: function onChange(_a) {
+      var target = _a.target;
       return (0, _json.mechFromJSON)(tslib_1.__assign({}, mech, {
-        amount: amount
+        amount: target.value
       }));
     }
   })), displayReq && React.createElement(React.Fragment, null, React.createElement("div", null, React.createElement("div", null, React.createElement("div", {
@@ -49039,6 +49218,42 @@ var Effect = function Effect(_a) {
       }
     }, " - "), React.createElement(Effect, {
       effect: eff
+    }));
+  }))))), displayPick && React.createElement(React.Fragment, null, React.createElement("div", {
+    className: "ml-5"
+  }, React.createElement("div", null, "Choices:", React.createElement("button", {
+    className: "btn btn-sm btn-primary",
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchMechCreatedChoiceCategory)(id);
+    }
+  }, " + "), React.createElement("div", null, choices.map(function (choice, index) {
+    return React.createElement("div", {
+      key: choice.reduce(function (total, _a) {
+        var id = _a.id;
+        return id + total;
+      }, '') || index
+    }, React.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      onClick: function onClick(e) {
+        return (0, _dispatch.dispatchMechDeletedChoice)(id, index);
+      }
+    }, " - "), React.createElement("button", {
+      className: "btn btn-primary btn-sm",
+      onClick: function onClick(e) {
+        return (0, _json.mechAddToChoice)(id, index);
+      }
+    }, " + "), choice.map(function (mech) {
+      return React.createElement("div", {
+        className: 'ml-5',
+        key: mech.id
+      }, React.createElement("button", {
+        className: "btn btn-danger btn-sm",
+        onClick: function onClick(e) {
+          return (0, _dispatch.dispatchDeletedMech)(mech.id);
+        }
+      }, " - "), React.createElement(Effect, {
+        effect: mech
+      }));
     }));
   }))))));
 };
@@ -49107,9 +49322,14 @@ function (_super) {
 
   Maker.prototype.render = function () {
     var _a = this.props.card,
-        name = _a.name,
-        requirements = _a.requirements,
-        effects = _a.effects;
+        _b = _a.name,
+        name = _b === void 0 ? '' : _b,
+        _c = _a.requirements,
+        requirements = _c === void 0 ? [] : _c,
+        _d = _a.effects,
+        effects = _d === void 0 ? [] : _d,
+        _e = _a.tagObjs,
+        tagObjs = _e === void 0 ? [] : _e;
     return React.createElement("div", null, React.createElement("input", {
       placeholder: "Card Name",
       className: "form-control-lg",
@@ -49162,7 +49382,26 @@ function (_super) {
       }, React.createElement(_effect.default, {
         effect: effect
       }))));
-    }))), React.createElement("div", null, React.createElement("button", {
+    }))), React.createElement("div", null, React.createElement("h2", null, "Tags", React.createElement("button", {
+      className: 'ml-3 btn btn-sm btn-primary',
+      onClick: _dispatch.dispatchCreateTag
+    }, "+")), tagObjs.map(function (tag) {
+      return React.createElement("div", {
+        key: tag.id
+      }, React.createElement("button", {
+        className: "btn btn-sm btn-danger",
+        onClick: function onClick() {
+          return (0, _dispatch.dispatchDeleteTag)(tag.id);
+        }
+      }, "-"), React.createElement("input", {
+        type: "text",
+        value: tag.value,
+        onChange: function onChange(_a) {
+          var target = _a.target;
+          return (0, _dispatch.dispatchUpdateTag)(tag.id, target.value);
+        }
+      }));
+    })), React.createElement("div", null, React.createElement("button", {
       className: 'btn btn-primary m-2',
       onClick: function onClick() {
         return (0, _dispatch.dispatchChangeCurrentCard)(-1);

@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { MechanicJSON } from '../../interfaces/cardJSON';
 import { MechanicEnum, PlayerEnum, AxisEnum, getMechDisplay } from '../../interfaces/enums';
-import { mechFromJSON, mechCreateEff, mechCreateReq } from '../../mechanic/json';
-import { dispatchDeletedMech } from '../../mechanic/dispatch';
-import { Mechanic } from '../../mechanic/interface';
+import { mechFromJSON, mechCreateEff, mechCreateReq, mechAddToChoice } from '../../mechanic/json';
+import { dispatchDeletedMech, dispatchMechCreatedChoiceCategory, dispatchMechDeletedChoice } from '../../mechanic/dispatch';
 import Requirement from './requirement';
 import { dispatchDeleteStatePiece } from '../../statePiece/dispatch';
 
@@ -14,6 +13,7 @@ interface Props {
 const Effect = ({ effect: mech }: Props) => {
     const { mechanic, amount, id, mechanicRequirements: reqs = [], mechanicEffects: effs = [], choices = [], player, axis } = mech;
     const { value: displayValue, valueString: displayValueString, req: displayReq, eff: displayEff, pick: displayPick, state: displayState } = getMechDisplay(mechanic);
+    
     return <div className="inline form-inline">
         <select className="form-control" id="mechanics" onChange={({ target }) => mechFromJSON({ ...mech, mechanic: target.value as MechanicEnum })} value={mechanic}>
             <option value={undefined}> No Mechanic </option>
@@ -32,10 +32,10 @@ const Effect = ({ effect: mech }: Props) => {
             </select>
         </>}
         {displayValue && <>
-            <input type="number" value={amount} onChange={() => mechFromJSON({ ...mech, amount })} />
+            <input type="number" value={amount} onChange={({target}) => mechFromJSON({ ...mech, amount: target.value })} />
         </>}
         {displayValueString && <>
-            <input type="text" value={amount} onChange={() => mechFromJSON({ ...mech, amount })} />
+            <input type="text" value={amount} onChange={({target}) => mechFromJSON({ ...mech, amount: target.value })} />
         </>}
         {displayReq && <>
             <div>
@@ -73,24 +73,24 @@ const Effect = ({ effect: mech }: Props) => {
                 </div>
             </div>
         </>}
-        {/* {displayPick && <>
+        {displayPick && <>
             <div className="ml-5">
                 <div>
                     Choices:
-                <button className="btn btn-sm btn-primary" onClick={() => mechAddChoice(id)}> + </button>
+                <button className="btn btn-sm btn-primary" onClick={() => dispatchMechCreatedChoiceCategory(id)}> + </button>
                     <div>
-                        {choices.map((choice) => <div key={choice.reduce((total, { id }) => id + total, '')}>
-                            <button className="btn btn-danger btn-sm" onClick={(e) => this.removeChoice(e, choiceIndex)}> - </button>
-                            <button className="btn btn-primary btn-sm" onClick={(e) => this.addChoiceMech(e, choiceIndex)}> + </button>
-                            {choice.map((mech, mechIndex) => <div className='ml-5' key={getUUID(mech)}>
-                                <button className="btn btn-danger btn-sm" onClick={(e) => this.removeChoiceMech(e, choiceIndex, mechIndex)}> - </button>
-                                <Effect effect={mech} update={(state: Mechanic, mechindex: number) => this.updateChoice(state, choiceIndex, mechindex)} index={mechIndex} />
+                        {choices.map((choice, index) => <div key={choice.reduce((total, { id }) => id + total, '') || index}>
+                            <button className="btn btn-danger btn-sm" onClick={(e) => dispatchMechDeletedChoice(id, index)}> - </button>
+                            <button className="btn btn-primary btn-sm" onClick={(e) => mechAddToChoice(id, index)}> + </button>
+                            {choice.map((mech) => <div className='ml-5' key={mech.id}>
+                                <button className="btn btn-danger btn-sm" onClick={(e) => dispatchDeletedMech(mech.id)}> - </button>
+                                <Effect effect={mech} />
                             </div>)}
                         </div>)}
                     </div>
                 </div>
             </div>
-        </>} */}
+        </>}
     </div>
 }
 

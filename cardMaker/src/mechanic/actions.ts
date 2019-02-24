@@ -5,7 +5,27 @@ export enum MechActionEnum {
     DELETED = 'deletedMechanic',
     ADDED_REQ = 'mechanicAddedReq',
     ADDED_EFF = 'mechanicAddedEff',
-    ADDED_CHOICE = 'mechanicAddedChoice'
+    CREATED_CHOICE_CATEGORY = 'mechanicAddedChoiceCategory',
+    DELETE_CHOICE_CATEGORY = 'mechanicDeleteChoiceCategory',
+    ADDED_CHOICE_TO_CATEGORY = 'mechanicAddedChoiceToCateogry',
+}
+
+export interface MechCreatedChoiceAction {
+    type: MechActionEnum.CREATED_CHOICE_CATEGORY
+    mechId: number
+}
+
+export interface MechDeletedChoiceAction {
+    type: MechActionEnum.DELETE_CHOICE_CATEGORY,
+    mechId: number
+    categoryIndex: number
+}
+
+export interface MechAddedToChoiceAction{
+    type: MechActionEnum.ADDED_CHOICE_TO_CATEGORY,
+    parentId: number,
+    categoryIndex: number,
+    addedId: number
 }
 
 export interface MechAddedEffAction {
@@ -19,14 +39,6 @@ export interface MechAddedReqAction {
     mechId: number,
     reqId: number,
 }
-
-export interface MechAddedChoice {
-    type: MechActionEnum.ADDED_CHOICE,
-    mechId: number,
-    choiceIndex: number,
-    choiceId: number
-}
-
 export interface UpdatedMechAction {
     type: MechActionEnum.UPDATED,
     id: number,
@@ -38,4 +50,5 @@ export interface DeletedMechActon {
     id: number
 }
 
-export type MechActions = UpdatedMechAction | DeletedMechActon | MechAddedChoice | MechAddedEffAction | MechAddedReqAction; 
+export type MechActions = UpdatedMechAction | DeletedMechActon | MechAddedEffAction | MechAddedReqAction | 
+MechAddedToChoiceAction | MechDeletedChoiceAction | MechCreatedChoiceAction; 
