@@ -46767,6 +46767,8 @@ exports.OptionalEnum = OptionalEnum;
 (function (OptionalEnum) {
   OptionalEnum["UPDATED"] = "updateOptional";
   OptionalEnum["DELETED"] = "deletedOptioanl";
+  OptionalEnum["ADDED_REQ"] = "optAddedReq";
+  OptionalEnum["ADDED_EFF"] = "optAddedEff";
 })(OptionalEnum || (exports.OptionalEnum = OptionalEnum = {}));
 },{}],"src/card/reducer.ts":[function(require,module,exports) {
 "use strict";
@@ -47210,12 +47212,42 @@ var optionalReducer = function optionalReducer(state, action) {
     case _actions2.StatePieceEnum.DELETED:
       return deletedStatePiece(state, action);
 
+    case _action.OptionalEnum.ADDED_EFF:
+      return addedEff(state, action);
+
+    case _action.OptionalEnum.ADDED_REQ:
+      return addedReq(state, action);
+
     default:
       return state;
   }
 };
 
 exports.optionalReducer = optionalReducer;
+
+var addedReq = function addedReq(state, action) {
+  var _a;
+
+  var opt = tslib_1.__assign({}, state.optionalById[action.optId]);
+
+  var requirements = opt.requirements.concat([action.reqId]);
+  opt.requirements = requirements;
+  return tslib_1.__assign({}, state, {
+    optionalById: tslib_1.__assign({}, state.optionalById, (_a = {}, _a[action.optId] = opt, _a))
+  });
+};
+
+var addedEff = function addedEff(state, action) {
+  var _a;
+
+  var opt = tslib_1.__assign({}, state.optionalById[action.optId]);
+
+  var effects = opt.effects.concat([action.effId]);
+  opt.effects = effects;
+  return tslib_1.__assign({}, state, {
+    optionalById: tslib_1.__assign({}, state.optionalById, (_a = {}, _a[action.optId] = opt, _a))
+  });
+};
 
 var deletedStatePiece = function deletedStatePiece(state, action) {
   var didChange = false;
@@ -47523,7 +47555,7 @@ exports.statePieceFromJSON = statePieceFromJSON;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.mechFromJSON = exports.mechAddEff = exports.mechAddReq = exports.mechAddChoice = void 0;
+exports.mechFromJSON = exports.mechCreateEff = exports.mechCreateReq = exports.mechAddChoice = void 0;
 
 var _interface = require("./interface");
 
@@ -47541,21 +47573,21 @@ var mechAddChoice = function mechAddChoice(id, choiceIndex) {
 
 exports.mechAddChoice = mechAddChoice;
 
-var mechAddReq = function mechAddReq(id) {
+var mechCreateReq = function mechCreateReq(id) {
   if (id === undefined) return;
   var reqId = (0, _json.statePieceFromJSON)();
   (0, _dispatch.dispatchMechAddReq)(id, reqId);
 };
 
-exports.mechAddReq = mechAddReq;
+exports.mechCreateReq = mechCreateReq;
 
-var mechAddEff = function mechAddEff(id) {
+var mechCreateEff = function mechCreateEff(id) {
   if (id === undefined) return;
   var effId = mechFromJSON();
   (0, _dispatch.dispatchMechAddEff)(id, effId);
 };
 
-exports.mechAddEff = mechAddEff;
+exports.mechCreateEff = mechCreateEff;
 
 var mechFromJSON = function mechFromJSON(mechJSON) {
   var mech;
@@ -47633,11 +47665,35 @@ exports.makeDefaultOptional = makeDefaultOptional;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchDeletedOptional = exports.dispatchUpdateOptional = void 0;
+exports.dispatchDeletedOptional = exports.dispatchUpdateOptional = exports.dispatchOptionalAddEff = exports.dispatchOptionalAddReq = void 0;
 
 var _action = require("./action");
 
 var _store = require("../state/store");
+
+var dispatchOptionalAddReq = function dispatchOptionalAddReq(optId, reqId) {
+  var action = {
+    type: _action.OptionalEnum.ADDED_REQ,
+    optId: optId,
+    reqId: reqId
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchOptionalAddReq = dispatchOptionalAddReq;
+
+var dispatchOptionalAddEff = function dispatchOptionalAddEff(optId, effId) {
+  var action = {
+    type: _action.OptionalEnum.ADDED_EFF,
+    optId: optId,
+    effId: effId
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchOptionalAddEff = dispatchOptionalAddEff;
 
 var dispatchUpdateOptional = function dispatchUpdateOptional(id, optional) {
   var action = {
@@ -47667,7 +47723,7 @@ exports.dispatchDeletedOptional = dispatchDeletedOptional;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.optionalFromJSON = void 0;
+exports.optionalFromJSON = exports.optCreateEff = exports.optCreateReq = void 0;
 
 var _interface = require("./interface");
 
@@ -47678,6 +47734,28 @@ var _json = require("../statePiece/json");
 var _json2 = require("../mechanic/json");
 
 var _dispatch = require("./dispatch");
+
+var optCreateReq = function optCreateReq(optId) {
+  if (optId === undefined) {
+    return;
+  }
+
+  var reqId = (0, _json.statePieceFromJSON)();
+  (0, _dispatch.dispatchOptionalAddReq)(optId, reqId);
+};
+
+exports.optCreateReq = optCreateReq;
+
+var optCreateEff = function optCreateEff(optId) {
+  if (optId === undefined) {
+    return;
+  }
+
+  var effId = (0, _json2.mechFromJSON)();
+  (0, _dispatch.dispatchOptionalAddEff)(optId, effId);
+};
+
+exports.optCreateEff = optCreateEff;
 
 var optionalFromJSON = function optionalFromJSON(optJSON) {
   var optional;
@@ -47708,7 +47786,7 @@ exports.optionalFromJSON = optionalFromJSON;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.cardFromJSON = exports.cardAddOpt = exports.cardAddEff = exports.cardAddReq = void 0;
+exports.cardFromJSON = exports.cardCreateOpt = exports.cardCreateEff = exports.cardCreateReq = void 0;
 
 var _dispatch = require("./dispatch");
 
@@ -47720,26 +47798,26 @@ var _json2 = require("../statePiece/json");
 
 var _json3 = require("../optional/json");
 
-var cardAddReq = function cardAddReq() {
+var cardCreateReq = function cardCreateReq() {
   var id = (0, _json2.statePieceFromJSON)();
   (0, _dispatch.dispatchCardAddReq)(id);
 };
 
-exports.cardAddReq = cardAddReq;
+exports.cardCreateReq = cardCreateReq;
 
-var cardAddEff = function cardAddEff() {
+var cardCreateEff = function cardCreateEff() {
   var id = (0, _json.mechFromJSON)();
   (0, _dispatch.dispatchCardAddEff)(id);
 };
 
-exports.cardAddEff = cardAddEff;
+exports.cardCreateEff = cardCreateEff;
 
-var cardAddOpt = function cardAddOpt() {
+var cardCreateOpt = function cardCreateOpt() {
   var id = (0, _json3.optionalFromJSON)();
   (0, _dispatch.dispatchCardAddOpt)(id);
 };
 
-exports.cardAddOpt = cardAddOpt;
+exports.cardCreateOpt = cardCreateOpt;
 
 var cardFromJSON = function cardFromJSON(cardJSON) {
   if (cardJSON === null) {
@@ -47819,7 +47897,7 @@ exports.dispatchCardAddOpt = dispatchCardAddOpt;
 var dispatchMakeBlankCard = function dispatchMakeBlankCard() {
   var pathAction = {
     type: _actions2.PathActionEnum.TO_PATH_STRING,
-    path: '/maker'
+    path: '/edit'
   };
   dispatchUpdateEditedCard();
 
@@ -48768,7 +48846,6 @@ var Effect = function Effect(_a) {
       displayPick = _e.pick,
       displayState = _e.state;
 
-  console.log('mechanic', mechanic);
   return React.createElement("div", {
     className: "inline form-inline"
   }, React.createElement("select", {
@@ -48844,7 +48921,7 @@ var Effect = function Effect(_a) {
   }, React.createElement("h4", null, "Requirements:", React.createElement("button", {
     className: "btn btn-sm btn-primary ml-2",
     onClick: function onClick() {
-      return (0, _json.mechAddReq)(id);
+      return (0, _json.mechCreateReq)(id);
     }
   }, " + "))), React.createElement("div", null, reqs.map(function (req) {
     return React.createElement("div", {
@@ -48864,7 +48941,7 @@ var Effect = function Effect(_a) {
   }, React.createElement("h4", null, "Effects:", React.createElement("button", {
     className: "btn btn-sm btn-primary",
     onClick: function onClick() {
-      return (0, _json.mechAddEff)(id);
+      return (0, _json.mechCreateEff)(id);
     }
   }, " + "))), React.createElement("div", null, effs.map(function (eff) {
     return React.createElement("div", {
@@ -48937,7 +49014,7 @@ var maker = function maker(_a) {
     }
   }), React.createElement("div", null, React.createElement("h2", null, " Requirements", React.createElement("button", {
     className: 'ml-3 btn btn-sm btn-primary',
-    onClick: _json.cardAddReq
+    onClick: _json.cardCreateReq
   }, "+")), React.createElement("ul", {
     className: "ml-1"
   }, requirements.map(function (req) {
@@ -48959,7 +49036,7 @@ var maker = function maker(_a) {
     }))));
   }))), React.createElement("div", null, React.createElement("h2", null, " Effect", React.createElement("button", {
     className: 'ml-3 btn btn-sm btn-primary',
-    onClick: _json.cardAddEff
+    onClick: _json.cardCreateEff
   }, "+")), React.createElement("ul", {
     className: "ml-1"
   }, effects.map(function (effect, i) {
@@ -49302,7 +49379,7 @@ var body = function body(nextPath, remainingPath) {
         path: remainingPath
       });
 
-    case 'maker':
+    case 'edit':
       return React.createElement(_maker.default, null);
 
     default:
@@ -49360,7 +49437,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52722" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59292" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

@@ -5,17 +5,17 @@ import { mechFromJSON } from '../mechanic/json';
 import { statePieceFromJSON } from '../statePiece/json';
 import { optionalFromJSON } from '../optional/json';
 
-export const cardAddReq = ()=>{
+export const cardCreateReq = ()=>{
     const id = statePieceFromJSON();
     dispatchCardAddReq(id); 
 }
 
-export const cardAddEff = ()=>{
+export const cardCreateEff = ()=>{
     const id = mechFromJSON(); 
     dispatchCardAddEff(id); 
 }
 
-export const cardAddOpt = ()=>{
+export const cardCreateOpt = ()=>{
     const id = optionalFromJSON(); 
     dispatchCardAddOpt(id); 
 }

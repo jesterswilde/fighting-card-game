@@ -1,11 +1,10 @@
 import { OptionalState } from './interface';
 import { ActionType } from '../state/actions';
-import { OptionalEnum } from './action';
+import { OptionalEnum, OptionalAddedEffAction, OptionalAddedReqAction } from './action';
 import {omit, reduce} from 'lodash';
 import { MechActionEnum, DeletedMechActon } from '../mechanic/actions';
 import { filterIfHas } from '../utils';
 import { DeleteStatePieceAction, StatePieceEnum } from '../statePiece/actions';
-
 
 export const optionalReducer = (state: OptionalState = { optionalById: {} }, action: ActionType): OptionalState => {
     switch (action.type) {
@@ -16,10 +15,29 @@ export const optionalReducer = (state: OptionalState = { optionalById: {} }, act
         case MechActionEnum.DELETED:
             return deletedMechanic(state, action);
         case StatePieceEnum.DELETED:
-            return deletedStatePiece(state, action); 
+            return deletedStatePiece(state, action);
+        case OptionalEnum.ADDED_EFF:
+            return addedEff(state, action); 
+        case OptionalEnum.ADDED_REQ:
+            return addedReq(state, action); 
         default:
             return state;
     }
+}
+
+
+const addedReq = (state: OptionalState, action: OptionalAddedReqAction): OptionalState=>{
+    const opt = {...state.optionalById[action.optId]};
+    const requirements = [...opt.requirements, action.reqId]; 
+    opt.requirements = requirements; 
+    return {...state, optionalById: {...state.optionalById, [action.optId]: opt}}
+}
+
+const addedEff = (state: OptionalState, action: OptionalAddedEffAction): OptionalState=>{
+    const opt = {...state.optionalById[action.optId]};
+    const effects = [...opt.effects, action.effId]; 
+    opt.effects = effects; 
+    return {...state, optionalById: {...state.optionalById, [action.optId]: opt}}
 }
 
 const deletedStatePiece = (state: OptionalState, action: DeleteStatePieceAction): OptionalState => {

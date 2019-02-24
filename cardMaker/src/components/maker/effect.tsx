@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MechanicJSON } from '../../interfaces/cardJSON';
 import { MechanicEnum, PlayerEnum, AxisEnum, getMechDisplay } from '../../interfaces/enums';
-import { mechFromJSON, mechAddEff, mechAddReq } from '../../mechanic/json';
+import { mechFromJSON, mechCreateEff, mechCreateReq } from '../../mechanic/json';
 import { dispatchDeletedMech } from '../../mechanic/dispatch';
 import { Mechanic } from '../../mechanic/interface';
 import Requirement from './requirement';
@@ -14,7 +14,6 @@ interface Props {
 const Effect = ({ effect: mech }: Props) => {
     const { mechanic, amount, id, mechanicRequirements: reqs = [], mechanicEffects: effs = [], choices = [], player, axis } = mech;
     const { value: displayValue, valueString: displayValueString, req: displayReq, eff: displayEff, pick: displayPick, state: displayState } = getMechDisplay(mechanic);
-    console.log('mechanic', mechanic)
     return <div className="inline form-inline">
         <select className="form-control" id="mechanics" onChange={({ target }) => mechFromJSON({ ...mech, mechanic: target.value as MechanicEnum })} value={mechanic}>
             <option value={undefined}> No Mechanic </option>
@@ -44,7 +43,7 @@ const Effect = ({ effect: mech }: Props) => {
                     <div className="inline">
                         <h4>
                             Requirements:
-                        <button className="btn btn-sm btn-primary ml-2" onClick={() => mechAddReq(id)}> + </button>
+                        <button className="btn btn-sm btn-primary ml-2" onClick={() => mechCreateReq(id)}> + </button>
                         </h4>
                     </div>
                     <div>
@@ -62,7 +61,7 @@ const Effect = ({ effect: mech }: Props) => {
                     <div className="inline">
                         <h4>
                             Effects:
-                            <button className="btn btn-sm btn-primary" onClick={() => mechAddEff(id)}> + </button>
+                            <button className="btn btn-sm btn-primary" onClick={() => mechCreateEff(id)}> + </button>
                         </h4>
                     </div>
                     <div>

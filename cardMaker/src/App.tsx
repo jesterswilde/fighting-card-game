@@ -31,7 +31,7 @@ const body = (nextPath: string, remainingPath: string[]) => {
   switch (nextPath) {
     case 'view':
       return <Viewer path={remainingPath} />
-    case 'maker':
+    case 'edit':
       return <Maker />
     default:
       return <CardList />

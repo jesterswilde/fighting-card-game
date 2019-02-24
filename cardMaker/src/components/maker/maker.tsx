@@ -5,7 +5,7 @@ import { StoreState } from '../../state/store';
 import { cardToJSON, updateCard } from '../../card/cardToJSON';
 import { connect } from 'react-redux';
 import { dispatchDeleteStatePiece } from '../../statePiece/dispatch';
-import { cardAddReq, cardAddEff } from '../../card/json';
+import { cardCreateReq, cardCreateEff } from '../../card/json';
 import { dispatchDeletedMech } from '../../mechanic/dispatch';
 import Requirement from './requirement';
 import Effect from './effect';
@@ -28,7 +28,7 @@ const maker = ({ card: { name, requirements, effects } }: Props) => {
         <input placeholder="Card Name" className="form-control-lg" type="text" value={name} onChange={(e) => dispatchUpdatedCardName(e.target.value)} />
         <div>
             <h2> Requirements
-                <button className='ml-3 btn btn-sm btn-primary' onClick={cardAddReq}>+</button>
+                <button className='ml-3 btn btn-sm btn-primary' onClick={cardCreateReq}>+</button>
             </h2>
             <ul className="ml-1">
                 {requirements.map((req) => <li key={req.id}><div className="row">
@@ -39,7 +39,7 @@ const maker = ({ card: { name, requirements, effects } }: Props) => {
         </div>
         <div>
             <h2> Effect
-                <button className='ml-3 btn btn-sm btn-primary' onClick={cardAddEff}>+</button>
+                <button className='ml-3 btn btn-sm btn-primary' onClick={cardCreateEff}>+</button>
             </h2>
             <ul className="ml-1">
                 {effects.map((effect, i) => <li key={effect.id}><div className="row">

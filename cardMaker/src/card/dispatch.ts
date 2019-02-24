@@ -33,7 +33,7 @@ export const dispatchCardAddOpt = (id: number)=>{
 export const dispatchMakeBlankCard = ()=>{
     const pathAction: ToPathStringAction = {
         type: PathActionEnum.TO_PATH_STRING,
-        path: '/maker'
+        path: '/edit'
     }
     dispatchUpdateEditedCard(); 
     store.dispatch(pathAction);

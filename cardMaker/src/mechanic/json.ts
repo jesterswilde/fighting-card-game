@@ -10,13 +10,13 @@ export const mechAddChoice = (id?: number, choiceIndex?: number) => {
     dispatchMechAddChoice(id, choiceIndex, choiceId);
 }
 
-export const mechAddReq = (id?: number) => {
+export const mechCreateReq = (id?: number) => {
     if(id === undefined) return;
     const reqId = statePieceFromJSON();
     dispatchMechAddReq(id, reqId);
 }
 
-export const mechAddEff = (id?: number) => {
+export const mechCreateEff = (id?: number) => {
     if(id === undefined) return; 
     const effId = mechFromJSON();
     dispatchMechAddEff(id, effId);
