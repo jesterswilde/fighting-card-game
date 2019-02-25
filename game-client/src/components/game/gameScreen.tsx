@@ -33,7 +33,6 @@ const game = ({ game, screen, shouldDisplayEvents }: Props) => {
     }
     return <div>
         {shouldDisplayEvents && <Events />}
-        <h2>Game</h2>
         <Prediction {...game}/>
         <Board  player={player} currentPlayer={currentPlayer} queue={queue}/>
         {screen === GameDisplayEnum.NORMAL && <Hand />}

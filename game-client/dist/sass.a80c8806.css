@@ -9632,12 +9632,13 @@ h3 {
 
 .state-machine {
   display: flex;
-  flex-direction: column;
-  width: 450px;
-}
-.state-machine .state-row {
-  display: flex;
   flex-direction: row;
+  width: 100%;
+}
+.state-machine > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .state-machine .state-title {
   flex-grow: 2;
@@ -9646,21 +9647,9 @@ h3 {
   font-size: 1.5rem;
 }
 
-.state-piece-container-sml {
-  flex-grow: 1;
-  border: 2px solid;
-}
-.state-piece-container-sml div {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  font-weight: bold;
-}
-
 .state-piece-container {
   display: flex;
   flex-direction: column;
-  width: 100px;
   flex-grow: 2;
 }
 .state-piece-container .state-piece-title {
@@ -9814,14 +9803,21 @@ h3 {
   font-size: 1.5rem;
 }
 .poise-section .balanced {
-  flex-grow: 11;
+  background-color: #6f6f6f;
+}
+.poise-section .unbalanced {
+  background-color: #868686;
+}
+.poise-section .anticipating {
+  background-color: #a8a8a8;
 }
 
 .poise-container {
   display: flex;
   flex-direction: row;
-  background-image: url(poiseBar.b7e523a1.png);
-  background-size: contain;
+}
+.poise-container .balanced {
+  flex-grow: 11;
 }
 .poise-container div {
   text-align: center;

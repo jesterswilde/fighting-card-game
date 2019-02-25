@@ -13243,150 +13243,7 @@ exports.DeckViewerEnum = DeckViewerEnum;
   DeckViewerEnum["ADDED_FILTER"] = "addDeckViewerFilter";
   DeckViewerEnum["REMOVED_FILTER"] = "removeDeckViewerFilter";
 })(DeckViewerEnum || (exports.DeckViewerEnum = DeckViewerEnum = {}));
-},{}],"src/deckViewer/reducer.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.deckViewerReducer = void 0;
-
-var _actions = require("./actions");
-
-var __assign = void 0 && (void 0).__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-var deckViewerReducer = function deckViewerReducer(state, action) {
-  if (state === void 0) {
-    state = {
-      deck: null,
-      deckList: [],
-      isLoadingDeckList: false,
-      isLoadingDeck: false,
-      filters: []
-    };
-  }
-
-  switch (action.type) {
-    case _actions.DeckViewerEnum.LOADING_DECK:
-      return __assign({}, state, {
-        isLoadingDeck: true
-      });
-
-    case _actions.DeckViewerEnum.GOT_DECK:
-      return __assign({}, state, {
-        deck: action.deck,
-        isLoadingDeck: false
-      });
-
-    case _actions.DeckViewerEnum.LOADING_DECK_LIST:
-      return __assign({}, state, {
-        isLoadingDeckList: true
-      });
-
-    case _actions.DeckViewerEnum.GOT_DECK_LIST:
-      return __assign({}, state, {
-        deckList: action.deckList,
-        isLoadingDeckList: false
-      });
-
-    case _actions.DeckViewerEnum.UPDATED_FILTER:
-      return updateFilter(state, action);
-
-    case _actions.DeckViewerEnum.ADDED_FILTER:
-      return addFilter(state, action);
-
-    case _actions.DeckViewerEnum.REMOVED_FILTER:
-      return removeFilter(state, action);
-
-    default:
-      return state;
-  }
-};
-
-exports.deckViewerReducer = deckViewerReducer;
-
-var updateFilter = function updateFilter(state, action) {
-  var filters = state.filters.slice();
-  filters[action.index] = action.filter;
-  return __assign({}, state, {
-    filters: filters
-  });
-};
-
-var addFilter = function addFilter(state, action) {
-  var filters = state.filters.concat([{
-    axis: -1,
-    player: -1
-  }]);
-  return __assign({}, state, {
-    filters: filters
-  });
-};
-
-var removeFilter = function removeFilter(state, action) {
-  var filters = state.filters.filter(function (_, i) {
-    return i !== action.index;
-  });
-  return __assign({}, state, {
-    filters: filters
-  });
-};
-},{"./actions":"src/deckViewer/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.store = void 0;
-
-var _redux = require("redux");
-
-var _reducer = require("../game/reducer");
-
-var _reducer2 = require("../hand/reducer");
-
-var _reducer3 = require("../display/reducer");
-
-var _reducer4 = require("../lobby/reducer");
-
-var _reducer5 = require("../gameDisplay/reducer");
-
-var _reducer6 = require("../events/reducer");
-
-var _reducer7 = require("../path/reducer");
-
-var _reducer8 = require("../socket/reducer");
-
-var _reducer9 = require("../deckViewer/reducer");
-
-var rootReducer = (0, _redux.combineReducers)({
-  game: _reducer.gameReducer,
-  hand: _reducer2.handReducer,
-  display: _reducer3.displayReducer,
-  lobby: _reducer4.lobbyReducer,
-  gameDisplay: _reducer5.gameDisplayReducer,
-  events: _reducer6.eventReducer,
-  deckViewer: _reducer9.deckViewerReducer,
-  path: _reducer7.pathReducer,
-  socket: _reducer8.socketReducer
-});
-var store = (0, _redux.createStore)(rootReducer);
-exports.store = store;
-},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts"}],"src/interfaces/card.ts":[function(require,module,exports) {
+},{}],"src/interfaces/card.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13464,7 +13321,152 @@ exports.PlayerEnum = PlayerEnum;
   PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
   PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
 })(PlayerEnum || (exports.PlayerEnum = PlayerEnum = {}));
-},{}],"src/images/grapple.png":[function(require,module,exports) {
+},{}],"src/deckViewer/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.deckViewerReducer = void 0;
+
+var _actions = require("./actions");
+
+var _card = require("../interfaces/card");
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var deckViewerReducer = function deckViewerReducer(state, action) {
+  if (state === void 0) {
+    state = {
+      deck: null,
+      deckList: [],
+      isLoadingDeckList: false,
+      isLoadingDeck: false,
+      filters: []
+    };
+  }
+
+  switch (action.type) {
+    case _actions.DeckViewerEnum.LOADING_DECK:
+      return __assign({}, state, {
+        isLoadingDeck: true
+      });
+
+    case _actions.DeckViewerEnum.GOT_DECK:
+      return __assign({}, state, {
+        deck: action.deck,
+        isLoadingDeck: false
+      });
+
+    case _actions.DeckViewerEnum.LOADING_DECK_LIST:
+      return __assign({}, state, {
+        isLoadingDeckList: true
+      });
+
+    case _actions.DeckViewerEnum.GOT_DECK_LIST:
+      return __assign({}, state, {
+        deckList: action.deckList,
+        isLoadingDeckList: false
+      });
+
+    case _actions.DeckViewerEnum.UPDATED_FILTER:
+      return updateFilter(state, action);
+
+    case _actions.DeckViewerEnum.ADDED_FILTER:
+      return addFilter(state, action);
+
+    case _actions.DeckViewerEnum.REMOVED_FILTER:
+      return removeFilter(state, action);
+
+    default:
+      return state;
+  }
+};
+
+exports.deckViewerReducer = deckViewerReducer;
+
+var updateFilter = function updateFilter(state, action) {
+  var filters = state.filters.slice();
+  filters[action.index] = action.filter;
+  return __assign({}, state, {
+    filters: filters
+  });
+};
+
+var addFilter = function addFilter(state, action) {
+  var filters = state.filters.concat([{
+    axis: _card.AxisEnum.CLOSE,
+    player: _card.PlayerEnum.BOTH
+  }]);
+  return __assign({}, state, {
+    filters: filters
+  });
+};
+
+var removeFilter = function removeFilter(state, action) {
+  var filters = state.filters.filter(function (_, i) {
+    return i !== action.index;
+  });
+  return __assign({}, state, {
+    filters: filters
+  });
+};
+},{"./actions":"src/deckViewer/actions.ts","../interfaces/card":"src/interfaces/card.ts"}],"src/state/store.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.store = void 0;
+
+var _redux = require("redux");
+
+var _reducer = require("../game/reducer");
+
+var _reducer2 = require("../hand/reducer");
+
+var _reducer3 = require("../display/reducer");
+
+var _reducer4 = require("../lobby/reducer");
+
+var _reducer5 = require("../gameDisplay/reducer");
+
+var _reducer6 = require("../events/reducer");
+
+var _reducer7 = require("../path/reducer");
+
+var _reducer8 = require("../socket/reducer");
+
+var _reducer9 = require("../deckViewer/reducer");
+
+var rootReducer = (0, _redux.combineReducers)({
+  game: _reducer.gameReducer,
+  hand: _reducer2.handReducer,
+  display: _reducer3.displayReducer,
+  lobby: _reducer4.lobbyReducer,
+  gameDisplay: _reducer5.gameDisplayReducer,
+  events: _reducer6.eventReducer,
+  deckViewer: _reducer9.deckViewerReducer,
+  path: _reducer7.pathReducer,
+  socket: _reducer8.socketReducer
+});
+var store = (0, _redux.createStore)(rootReducer);
+exports.store = store;
+},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts"}],"src/images/grapple.png":[function(require,module,exports) {
 module.exports = "/grapple.b390bafe.png";
 },{}],"src/images/close.png":[function(require,module,exports) {
 module.exports = "/close.9d2dba97.png";
@@ -15861,7 +15863,7 @@ var _default = function _default(props) {
       currentPlayer = props.currentPlayer;
   return (0, _preact.h)("div", {
     class: 'board'
-  }, (0, _preact.h)("h2", null, "Board"), (0, _preact.h)("div", {
+  }, (0, _preact.h)("div", {
     class: 'card-container'
   }, renderBoard(queue, player)));
 };
@@ -16110,7 +16112,7 @@ var selector = function selector(state) {
 var Hand = function Hand(_a) {
   var hand = _a.hand,
       showFullCard = _a.showFullCard;
-  return (0, _preact.h)("div", null, (0, _preact.h)("h2", null, "Hand"), (0, _preact.h)("div", {
+  return (0, _preact.h)("div", null, (0, _preact.h)("div", {
     class: 'card-container'
   }, hand.map(function (card, i) {
     var key = card === undefined ? 'blank' : card.name;
@@ -16445,18 +16447,20 @@ var _default = function _default(props) {
   return (0, _preact.h)("div", {
     class: 'state-machine'
   }, (0, _preact.h)("div", {
-    class: 'state-row'
+    class: "poise"
+  }, (0, _preact.h)(_poise.default, __assign({}, props, {
+    playerIndex: props.identity
+  }))), (0, _preact.h)("div", {
+    class: "axis"
   }, (0, _preact.h)(_statesPieces.Standing, __assign({}, props, {
     playerIndex: props.identity
   })), (0, _preact.h)(_statesPieces.Motion, __assign({}, props, {
     playerIndex: props.identity
-  })), (0, _preact.h)(_statesPieces.Health, __assign({}, props, {
+  }))), (0, _preact.h)("div", {
+    class: "health"
+  }, (0, _preact.h)(_statesPieces.Health, __assign({}, props, {
     playerIndex: props.identity
   })), (0, _preact.h)(_statesPieces.Block, __assign({}, props, {
-    playerIndex: props.identity
-  }))), (0, _preact.h)("div", {
-    class: 'state-row'
-  }, (0, _preact.h)(_poise.default, __assign({}, props, {
     playerIndex: props.identity
   }))));
 };
@@ -17032,7 +17036,7 @@ var game = function game(_a) {
     return null;
   }
 
-  return (0, _preact.h)("div", null, shouldDisplayEvents && (0, _preact.h)(_events.default, null), (0, _preact.h)("h2", null, "Game"), (0, _preact.h)(_predictions.default, __assign({}, game)), (0, _preact.h)(_board.default, {
+  return (0, _preact.h)("div", null, shouldDisplayEvents && (0, _preact.h)(_events.default, null), (0, _preact.h)(_predictions.default, __assign({}, game)), (0, _preact.h)(_board.default, {
     player: player,
     currentPlayer: currentPlayer,
     queue: queue
@@ -17669,8 +17673,6 @@ var Filter = function Filter(_a) {
       },
       value: filter.player
     }, (0, _preact.h)("option", {
-      value: -1
-    }, "Any"), (0, _preact.h)("option", {
       value: _card.PlayerEnum.OPPONENT
     }, " \u2191 "), (0, _preact.h)("option", {
       value: _card.PlayerEnum.PLAYER
@@ -17681,9 +17683,7 @@ var Filter = function Filter(_a) {
         return handleAxisChange(e, filter, i);
       },
       value: filter.axis
-    }, (0, _preact.h)("option", {
-      value: -1
-    }, " No Axis "), Object.keys(_card.AxisEnum).map(function (key) {
+    }, Object.keys(_card.AxisEnum).map(function (key) {
       return (0, _preact.h)("option", {
         value: _card.AxisEnum[key],
         key: key
@@ -17710,7 +17710,105 @@ var handlePlayerChange = function handlePlayerChange(e, filter, index) {
 var _default = (0, _util.cleanConnect)(selector, Filter);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../deckViewer/dispatch":"src/deckViewer/dispatch.ts","../../interfaces/card":"src/interfaces/card.ts","../../util":"src/util.ts"}],"src/components/deckViewer/cards.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../deckViewer/dispatch":"src/deckViewer/dispatch.ts","../../interfaces/card":"src/interfaces/card.ts","../../util":"src/util.ts"}],"src/deckViewer/filter.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.filterInvalidCards = void 0;
+
+var _card = require("../interfaces/card");
+
+var _a;
+
+var filterInvalidCards = function filterInvalidCards(cards, filters) {
+  var validStates = createValidStates(filters);
+  return cards.filter(function (card) {
+    return isCardValid(card, validStates);
+  });
+};
+
+exports.filterInvalidCards = filterInvalidCards;
+
+var isCardValid = function isCardValid(card, invalidStates) {
+  return card.requirements.every(function (req) {
+    return getWhoToModify(req).every(function (player) {
+      if (card.name === "Groin Stomp") console.log(player, req, invalidStates[player][req.axis]);
+      return !invalidStates[player][req.axis];
+    });
+  });
+};
+
+var createValidStates = function createValidStates(filters) {
+  var statesArr = [{}, {}];
+  filters.forEach(function (filter) {
+    getWhoToModify(filter).forEach(function (player) {
+      updateFilterPiece(statesArr[player], filter);
+    });
+  });
+  return statesArr;
+};
+
+var updateFilterPiece = function updateFilterPiece(state, filter) {
+  var func = stateRouter[filter.axis];
+
+  if (func) {
+    func(state);
+  } else {
+    console.log("no filter for ", filter.axis);
+  }
+};
+
+var stateRouter = (_a = {}, _a[_card.AxisEnum.ANTICIPATING] = function (state) {
+  state[_card.AxisEnum.UNBALANCED] = true;
+  state[_card.AxisEnum.BALANCED] = true;
+}, _a[_card.AxisEnum.UNBALANCED] = function (state) {
+  state[_card.AxisEnum.ANTICIPATING] = true;
+  state[_card.AxisEnum.BALANCED] = true;
+}, _a[_card.AxisEnum.BALANCED] = function (state) {
+  return state[_card.AxisEnum.UNBALANCED] = true;
+}, _a[_card.AxisEnum.GRAPPLED] = function (state) {
+  state[_card.AxisEnum.CLOSE] = true;
+  state[_card.AxisEnum.FAR] = true;
+  state[_card.AxisEnum.NOT_GRAPPLED] = true;
+}, _a[_card.AxisEnum.CLOSE] = function (state) {
+  state[_card.AxisEnum.GRAPPLED] = true;
+  state[_card.AxisEnum.FAR] = true;
+  state[_card.AxisEnum.NOT_CLOSE] = true;
+}, _a[_card.AxisEnum.FAR] = function (state) {
+  state[_card.AxisEnum.CLOSE] = true;
+  state[_card.AxisEnum.GRAPPLED] = true;
+  state[_card.AxisEnum.NOT_FAR] = true;
+}, _a[_card.AxisEnum.NOT_FAR] = function (state) {
+  return state[_card.AxisEnum.FAR] = true;
+}, _a[_card.AxisEnum.NOT_CLOSE] = function (state) {
+  return state[_card.AxisEnum.CLOSE] = true;
+}, _a[_card.AxisEnum.NOT_GRAPPLED] = function (state) {
+  return state[_card.AxisEnum.GRAPPLED] = true;
+}, _a[_card.AxisEnum.STANDING] = function (state) {
+  return state[_card.AxisEnum.PRONE] = true;
+}, _a[_card.AxisEnum.PRONE] = function (state) {
+  return state[_card.AxisEnum.STANDING] = true;
+}, _a[_card.AxisEnum.STILL] = function (state) {
+  return state[_card.AxisEnum.MOVING] = true;
+}, _a[_card.AxisEnum.MOVING] = function (state) {
+  return state[_card.AxisEnum.STILL] = true;
+}, _a);
+
+var getWhoToModify = function getWhoToModify(filter) {
+  switch (filter.player) {
+    case _card.PlayerEnum.PLAYER:
+      return [0];
+
+    case _card.PlayerEnum.OPPONENT:
+      return [1];
+
+    default:
+      return [0, 1];
+  }
+};
+},{"../interfaces/card":"src/interfaces/card.ts"}],"src/components/deckViewer/cards.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17723,6 +17821,8 @@ var _preact = require("preact");
 var _handCard = _interopRequireDefault(require("../game/card/handCard"));
 
 var _filter = _interopRequireDefault(require("./filter"));
+
+var _filter2 = require("../../deckViewer/filter");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -17761,9 +17861,7 @@ var _default = function _default(_a) {
     class: 'description'
   }, description), (0, _preact.h)(_filter.default, null), (0, _preact.h)("div", {
     class: 'cards'
-  }, cards.filter(function (card) {
-    return cardFilters(card, filters);
-  }).map(function (card, i) {
+  }, (0, _filter2.filterInvalidCards)(cards, filters).map(function (card, i) {
     return (0, _preact.h)("div", {
       key: card.name + i
     }, (0, _preact.h)(_handCard.default, __assign({}, card)));
@@ -17774,27 +17872,7 @@ var _default = function _default(_a) {
 };
 
 exports.default = _default;
-
-var cardFilters = function cardFilters(card, filters) {
-  return filters.every(function (_a) {
-    var axis = _a.axis,
-        player = _a.player;
-
-    if (axis !== -1) {
-      var hasAxis = card.requirements.find(function (req) {
-        return req.axis === axis;
-      });
-      if (hasAxis === undefined) return false;
-
-      if (player !== -1) {
-        return hasAxis.player === player;
-      }
-    }
-
-    return true;
-  });
-};
-},{"preact":"node_modules/preact/dist/preact.mjs","../game/card/handCard":"src/components/game/card/handCard.tsx","./filter":"src/components/deckViewer/filter.tsx"}],"src/path/dispatch.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../game/card/handCard":"src/components/game/card/handCard.tsx","./filter":"src/components/deckViewer/filter.tsx","../../deckViewer/filter":"src/deckViewer/filter.ts"}],"src/path/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18186,7 +18264,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50430" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59242" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

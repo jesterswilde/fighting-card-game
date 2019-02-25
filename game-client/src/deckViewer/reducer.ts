@@ -1,6 +1,7 @@
 import { DeckViewerState, DeckViewerFilter } from "./interface";
 import { ActionType } from "../state/actionTypes";
 import { DeckViewerEnum, UpdateDVFilterAction, AddDVFilterAction, RemoveDVFilterAction } from "./actions";
+import { AxisEnum, PlayerEnum } from "../interfaces/card";
 
 export const deckViewerReducer = (state: DeckViewerState = {
     deck: null,
@@ -35,7 +36,7 @@ const updateFilter = (state: DeckViewerState, action: UpdateDVFilterAction): Dec
     return { ...state, filters };
 }
 const addFilter = (state: DeckViewerState, action: AddDVFilterAction): DeckViewerState => {
-    const filters: DeckViewerFilter[] = [...state.filters, { axis: -1, player: -1 }];
+    const filters: DeckViewerFilter[] = [...state.filters, { axis: AxisEnum.CLOSE, player: PlayerEnum.BOTH }];
     return { ...state, filters };
 }
 const removeFilter = (state: DeckViewerState, action: RemoveDVFilterAction): DeckViewerState => {

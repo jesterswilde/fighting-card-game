@@ -21,7 +21,6 @@ const selector = (state: StoreState): Props=>{
 
 const Hand = ({ hand, showFullCard }: Props) => {
     return <div>
-        <h2>Hand</h2>
         <div class='card-container'>
             {hand.map((card, i) => {
                 const key = card === undefined ? 'blank' : card.name;

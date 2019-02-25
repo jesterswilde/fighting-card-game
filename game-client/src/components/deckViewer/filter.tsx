@@ -19,13 +19,13 @@ const Filter = ({ filters }: Props) => {
             return <div class="filter">
                 <button class='btn btn-danger' onClick={() => removeFilter(i)}>-</button>
                 <select onChange={(e)=> handlePlayerChange(e, filter, i)} value={filter.player}>
-                    <option value={-1}>Any</option>
+                    {/* <option value={-1}>Any</option> */}
                     <option value={PlayerEnum.OPPONENT}> ↑ </option>
                     <option value={PlayerEnum.PLAYER}> ↓ </option>
                     <option value={PlayerEnum.BOTH}> ↕ </option>
                 </select>
                 <select onChange={(e)=> handleAxisChange(e, filter, i)} value={filter.axis}>
-                    <option value={-1}> No Axis </option>
+                    {/* <option value={-1}> No Axis </option> */}
                     {Object.keys(AxisEnum).map((key) => <option value={AxisEnum[key]} key={key}> {AxisEnum[key]}</option>)}
                 </select>
             </div>

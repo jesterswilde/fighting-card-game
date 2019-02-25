@@ -15,7 +15,6 @@ interface Props {
 export default (props: Props) => {
     const { queue = [], player, currentPlayer } = props;
     return <div class='board'>
-        <h2>Board</h2>
         <div class='card-container'>
             {renderBoard(queue, player)}
         </div>
