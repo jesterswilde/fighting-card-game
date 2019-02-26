@@ -7,6 +7,10 @@ if(location.host.split(':')[0] === 'localhost'){
     HOST_URL = 'http://localhost:8080/api'
 }
 
+export const nRange = (n: number)=>{
+    return Array.apply(null, {length: n}).map(Number.call, Number)
+}
+
 export const cleanConnect = <T>(selector: (state: StoreState)=>T, comp: (props: T)=> JSX.Element)=>{
     return connect(selector)(comp) as unknown as ()=> JSX.Element; 
 }

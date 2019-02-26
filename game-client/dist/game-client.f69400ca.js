@@ -2941,6 +2941,8 @@ exports.HandActionEnum = HandActionEnum;
 (function (HandActionEnum) {
   HandActionEnum["PICKED_CARD"] = "pickCard";
   HandActionEnum["GOT_CARDS"] = "gotCards";
+  HandActionEnum["OPPONENT_GOT_CARDS"] = "opponentGotCards";
+  HandActionEnum["OPPONENT_PICKED_CARD"] = "opponentPickedCard";
 })(HandActionEnum || (exports.HandActionEnum = HandActionEnum = {}));
 },{}],"node_modules/parseuri/index.js":[function(require,module,exports) {
 /**
@@ -12174,7 +12176,7 @@ exports.connect = lookup;
 exports.Manager = require('./manager');
 exports.Socket = require('./socket');
 
-},{"./url":"node_modules/socket.io-client/lib/url.js","socket.io-parser":"node_modules/socket.io-parser/index.js","./manager":"node_modules/socket.io-client/lib/manager.js","debug":"node_modules/socket.io-client/node_modules/debug/src/browser.js","./socket":"node_modules/socket.io-client/lib/socket.js"}],"src/socket/socketEnum.ts":[function(require,module,exports) {
+},{"./url":"node_modules/socket.io-client/lib/url.js","socket.io-parser":"node_modules/socket.io-parser/index.js","./manager":"node_modules/socket.io-client/lib/manager.js","debug":"node_modules/socket.io-client/node_modules/debug/src/browser.js","./socket":"node_modules/socket.io-client/lib/socket.js"}],"src/shared/socket.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12200,6 +12202,10 @@ exports.SocketEnum = SocketEnum;
   SocketEnum["GOT_EVENTS"] = "gotEvents";
   SocketEnum["GOT_FORCEFUL_CHOICE"] = "gotForcefulChoice";
   SocketEnum["PICKED_FORCEFUL"] = "pickedForceful";
+  SocketEnum["OPPONENT_GOT_CARDS"] = "opponentGotCards";
+  SocketEnum["OPPONENT_PICKED_CARDS"] = "opponentPickedCards";
+  SocketEnum["OPPONENT_IS_MAKING_CHOICES"] = "opponentIsMakingChoices";
+  SocketEnum["OPPONENT_MADE_CHOICE"] = "opponentMadeChoice";
 })(SocketEnum || (exports.SocketEnum = SocketEnum = {}));
 },{}],"src/hand/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12207,7 +12213,7 @@ exports.SocketEnum = SocketEnum;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchGotCards = exports.dispatchPickedCard = void 0;
+exports.dispatchGotCards = exports.dispatchPickedCard = exports.dispatchOppPickedCard = exports.dispatchOppGotCards = void 0;
 
 var _store = require("../state/store");
 
@@ -12215,10 +12221,31 @@ var _actions = require("./actions");
 
 var _socket = require("../socket/socket");
 
-var _socketEnum = require("../socket/socketEnum");
+var _socket2 = require("../shared/socket");
+
+var dispatchOppGotCards = function dispatchOppGotCards(cards) {
+  var action = {
+    type: _actions.HandActionEnum.OPPONENT_GOT_CARDS,
+    cards: cards
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchOppGotCards = dispatchOppGotCards;
+
+var dispatchOppPickedCard = function dispatchOppPickedCard() {
+  var action = {
+    type: _actions.HandActionEnum.OPPONENT_PICKED_CARD
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchOppPickedCard = dispatchOppPickedCard;
 
 var dispatchPickedCard = function dispatchPickedCard(cardNumber) {
-  _socket.socket.emit(_socketEnum.SocketEnum.PICKED_CARD, cardNumber);
+  _socket.socket.emit(_socket2.SocketEnum.PICKED_CARD, cardNumber);
 
   var action = {
     type: _actions.HandActionEnum.PICKED_CARD,
@@ -12240,7 +12267,7 @@ var dispatchGotCards = function dispatchGotCards(cards) {
 };
 
 exports.dispatchGotCards = dispatchGotCards;
-},{"../state/store":"src/state/store.ts","./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/display/actions.ts":[function(require,module,exports) {
+},{"../state/store":"src/state/store.ts","./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../shared/socket":"src/shared/socket.ts"}],"src/display/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12305,7 +12332,7 @@ var _actions = require("./actions");
 
 var _socket = require("../socket/socket");
 
-var _socketEnum = require("../socket/socketEnum");
+var _socket2 = require("../shared/socket");
 
 var dispatchSwitchCardDisplayMode = function dispatchSwitchCardDisplayMode(column, row) {
   var action = {
@@ -12327,7 +12354,7 @@ var dispatchMadePrediction = function dispatchMadePrediction(prediction) {
     prediction: prediction
   };
 
-  _socket.socket.emit(_socketEnum.SocketEnum.MADE_PREDICTION, prediction);
+  _socket.socket.emit(_socket2.SocketEnum.MADE_PREDICTION, prediction);
 
   _store.store.dispatch(action);
 };
@@ -12374,7 +12401,7 @@ var dispatchDidPickOne = function dispatchDidPickOne(choice) {
   };
   console.log("sending picked one");
 
-  _socket.socket.emit(_socketEnum.SocketEnum.PICKED_ONE, choice);
+  _socket.socket.emit(_socket2.SocketEnum.PICKED_ONE, choice);
 
   _store.store.dispatch(action);
 };
@@ -12398,13 +12425,13 @@ var dispatchDidPickForecful = function dispatchDidPickForecful(choice) {
     choice: choice
   };
 
-  _socket.socket.emit(_socketEnum.SocketEnum.PICKED_FORCEFUL, choice);
+  _socket.socket.emit(_socket2.SocketEnum.PICKED_FORCEFUL, choice);
 
   _store.store.dispatch(action);
 };
 
 exports.dispatchDidPickForecful = dispatchDidPickForecful;
-},{"../state/store":"src/state/store.ts","./actions":"src/game/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/lobby/actions.ts":[function(require,module,exports) {
+},{"../state/store":"src/state/store.ts","./actions":"src/game/actions.ts","../socket/socket":"src/socket/socket.ts","../shared/socket":"src/shared/socket.ts"}],"src/lobby/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12432,7 +12459,7 @@ var _store = require("../state/store");
 
 var _socket = require("../socket/socket");
 
-var _socketEnum = require("../socket/socketEnum");
+var _socket2 = require("../shared/socket");
 
 var dispatchGotDeckChoices = function dispatchGotDeckChoices(choices) {
   var action = {
@@ -12451,13 +12478,13 @@ var dispatchPickedDeck = function dispatchPickedDeck(choice) {
     choice: choice
   };
 
-  _socket.socket.emit(_socketEnum.SocketEnum.PICKED_DECK, choice);
+  _socket.socket.emit(_socket2.SocketEnum.PICKED_DECK, choice);
 
   _store.store.dispatch(action);
 };
 
 exports.dispatchPickedDeck = dispatchPickedDeck;
-},{"./actions":"src/lobby/actions.ts","../state/store":"src/state/store.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/gameDisplay/actions.ts":[function(require,module,exports) {
+},{"./actions":"src/lobby/actions.ts","../state/store":"src/state/store.ts","../socket/socket":"src/socket/socket.ts","../shared/socket":"src/shared/socket.ts"}],"src/gameDisplay/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12578,7 +12605,7 @@ var _interface = require("../display/interface");
 
 var _dispatch3 = require("../game/dispatch");
 
-var _socketEnum = require("./socketEnum");
+var _socket = require("../shared/socket");
 
 var _dispatch4 = require("../lobby/dispatch");
 
@@ -12588,46 +12615,54 @@ var _dispatch6 = require("../events/dispatch");
 
 var setupSockets = function setupSockets(socket) {
   console.log('running socket messsages');
-  socket.on(_socketEnum.SocketEnum.JOINED_LOBBY, function () {
+  socket.on(_socket.SocketEnum.JOINED_LOBBY, function () {
     console.log('joined lobby');
     (0, _dispatch2.dispatchSwitchScreen)(_interface.ScreenEnum.LOOKING_FOR_GAME);
   });
-  socket.on(_socketEnum.SocketEnum.GOT_CARDS, function (cards) {
+  socket.on(_socket.SocketEnum.GOT_CARDS, function (cards) {
     console.log('got cards', cards);
     (0, _dispatch.dispatchGotCards)(cards);
   });
-  socket.on(_socketEnum.SocketEnum.START_GAME, function (_a) {
+  socket.on(_socket.SocketEnum.START_GAME, function (_a) {
     var player = _a.player;
     console.log("game started");
     (0, _dispatch3.dispatchStartGame)(player);
   });
-  socket.on(_socketEnum.SocketEnum.GOT_DECK_OPTIONS, function (choices) {
+  socket.on(_socket.SocketEnum.GOT_DECK_OPTIONS, function (choices) {
     console.log('got deck options: ', choices);
     (0, _dispatch4.dispatchGotDeckChoices)(choices);
   });
-  socket.on(_socketEnum.SocketEnum.GOT_STATE, function (state) {
+  socket.on(_socket.SocketEnum.GOT_STATE, function (state) {
     console.log('gotState', state);
     (0, _dispatch3.dispatchGameState)(state);
   });
-  socket.on(_socketEnum.SocketEnum.SHOULD_PREDICT, function () {
+  socket.on(_socket.SocketEnum.SHOULD_PREDICT, function () {
     console.log('should predict');
     (0, _dispatch5.dispatchShouldPredict)();
   });
-  socket.on(_socketEnum.SocketEnum.SHOULD_PICK_ONE, function (choices) {
+  socket.on(_socket.SocketEnum.SHOULD_PICK_ONE, function (choices) {
     console.log("pick one", choices);
     (0, _dispatch3.dispatchShouldPickOne)(choices);
   });
-  socket.on(_socketEnum.SocketEnum.GOT_EVENTS, function (events) {
+  socket.on(_socket.SocketEnum.GOT_EVENTS, function (events) {
     console.log('gotEvents', events);
     (0, _dispatch6.dispatchGotEvents)(events);
   });
-  socket.on(_socketEnum.SocketEnum.GOT_FORCEFUL_CHOICE, function (options) {
+  socket.on(_socket.SocketEnum.GOT_FORCEFUL_CHOICE, function (options) {
     (0, _dispatch3.dispatchShouldPickForecful)(options);
+  });
+  socket.on(_socket.SocketEnum.OPPONENT_GOT_CARDS, function (cards) {
+    console.log('opponent got cards');
+    (0, _dispatch.dispatchOppGotCards)(cards);
+  });
+  socket.on(_socket.SocketEnum.OPPONENT_PICKED_CARDS, function () {
+    console.log('opponent picked cards');
+    (0, _dispatch.dispatchOppPickedCard)();
   });
 };
 
 exports.setupSockets = setupSockets;
-},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","./socketEnum":"src/socket/socketEnum.ts","../lobby/dispatch":"src/lobby/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts","../events/dispatch":"src/events/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
+},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","../shared/socket":"src/shared/socket.ts","../lobby/dispatch":"src/lobby/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts","../events/dispatch":"src/events/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12680,7 +12715,7 @@ var _actions = require("./actions");
 
 var _socket = require("../socket/socket");
 
-var _socketEnum = require("../socket/socketEnum");
+var _socket2 = require("../shared/socket");
 
 var __assign = void 0 && (void 0).__assign || function () {
   __assign = Object.assign || function (t) {
@@ -12712,6 +12747,16 @@ var handReducer = function handReducer(state, action) {
     case _actions.HandActionEnum.PICKED_CARD:
       return pickedCardReducer(state, action);
 
+    case _actions.HandActionEnum.OPPONENT_GOT_CARDS:
+      return __assign({}, state, {
+        opponentCards: action.cards
+      });
+
+    case _actions.HandActionEnum.OPPONENT_PICKED_CARD:
+      return __assign({}, state, {
+        opponentCards: null
+      });
+
     default:
       return state;
   }
@@ -12722,7 +12767,7 @@ exports.handReducer = handReducer;
 var pickedCardReducer = function pickedCardReducer(state, _a) {
   var index = _a.index;
 
-  _socket.socket.send(_socketEnum.SocketEnum.PICKED_CARD, index);
+  _socket.socket.send(_socket2.SocketEnum.PICKED_CARD, index);
 
   return __assign({}, state, {
     cards: []
@@ -12731,10 +12776,11 @@ var pickedCardReducer = function pickedCardReducer(state, _a) {
 
 var makeDefaultState = function makeDefaultState() {
   return {
-    cards: []
+    cards: [],
+    opponentCards: null
   };
 };
-},{"./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../socket/socketEnum":"src/socket/socketEnum.ts"}],"src/display/reducer.ts":[function(require,module,exports) {
+},{"./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../shared/socket":"src/shared/socket.ts"}],"src/display/reducer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15322,7 +15368,7 @@ module.exports = { Tooltip: _tooltip2.default };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.printMotion = exports.printStanding = exports.printDistance = exports.getUUID = exports.cleanConnect = exports.HOST_URL = void 0;
+exports.printMotion = exports.printStanding = exports.printDistance = exports.getUUID = exports.cleanConnect = exports.nRange = exports.HOST_URL = void 0;
 
 var _preactRedux = require("preact-redux");
 
@@ -15336,6 +15382,14 @@ exports.HOST_URL = HOST_URL;
 if (location.host.split(':')[0] === 'localhost') {
   exports.HOST_URL = HOST_URL = 'http://localhost:8080/api';
 }
+
+var nRange = function nRange(n) {
+  return Array.apply(null, {
+    length: n
+  }).map(Number.call, Number);
+};
+
+exports.nRange = nRange;
 
 var cleanConnect = function cleanConnect(selector, comp) {
   return (0, _preactRedux.connect)(selector)(comp);
@@ -15712,6 +15766,7 @@ var _default = function _default(props) {
     return (0, _preact.h)("span", {
       key: i
     }, (0, _preact.h)(_requirement.default, {
+      shouldFlip: props.shouldFlip,
       requirement: req
     }));
   })), (0, _preact.h)("div", {
@@ -15720,7 +15775,8 @@ var _default = function _default(props) {
     return (0, _preact.h)("span", {
       key: i
     }, (0, _preact.h)(_effect.default, {
-      effect: eff
+      effect: eff,
+      shouldFlip: props.shouldFlip
     }));
   })));
 };
@@ -15777,7 +15833,8 @@ var FullQueueCard = function FullQueueCard(_a) {
     return (0, _preact.h)("span", {
       key: i
     }, (0, _preact.h)(_Requirement.default, {
-      requirement: req
+      requirement: req,
+      shouldFlip: shouldFlip
     }));
   })), (0, _preact.h)("div", {
     class: 'card-section'
@@ -15785,6 +15842,7 @@ var FullQueueCard = function FullQueueCard(_a) {
     return (0, _preact.h)("span", {
       key: i
     }, " ", (0, _preact.h)(_optional.default, __assign({}, opt, {
+      shouldFlip: shouldFlip,
       greyUnusable: true
     })), " ");
   })), (0, _preact.h)("div", {
@@ -15793,6 +15851,7 @@ var FullQueueCard = function FullQueueCard(_a) {
     return (0, _preact.h)("span", {
       key: i
     }, (0, _preact.h)(_effect.default, {
+      shouldFlip: shouldFlip,
       effect: effect
     }));
   })));
@@ -16293,8 +16352,12 @@ var Block = function Block(_a) {
   var block = _a.block,
       playerIndex = _a.playerIndex;
   return (0, _preact.h)("div", {
-    class: "state-piece-container-sml distance "
-  }, (0, _preact.h)("div", null, "Block"), (0, _preact.h)("div", null, block[playerIndex]));
+    class: "state-piece-container health"
+  }, (0, _preact.h)("div", {
+    class: "state-piece-title"
+  }, "Block"), (0, _preact.h)("div", {
+    class: "state-content"
+  }, block[playerIndex]));
 };
 
 exports.Block = Block;
@@ -16303,8 +16366,12 @@ var Health = function Health(_a) {
   var health = _a.health,
       playerIndex = _a.playerIndex;
   return (0, _preact.h)("div", {
-    class: 'state-piece-container-sml distance sml'
-  }, (0, _preact.h)("div", null, "Health"), (0, _preact.h)("div", null, health[playerIndex]));
+    class: 'state-piece-container health'
+  }, (0, _preact.h)("div", {
+    class: "state-piece-title"
+  }, "Health"), (0, _preact.h)("div", {
+    class: "state-content"
+  }, health[playerIndex]));
 };
 
 exports.Health = Health;
@@ -16942,7 +17009,49 @@ function (_super) {
 var _default = (0, _preactRedux.connect)(selector)(Events);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../events/interface":"src/events/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../events/dispatch":"src/events/dispatch.ts","../../extras/gameOverMessages":"src/extras/gameOverMessages.ts"}],"src/components/game/gameScreen.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../events/interface":"src/events/interface.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../../images":"src/images/index.tsx","../../events/dispatch":"src/events/dispatch.ts","../../extras/gameOverMessages":"src/extras/gameOverMessages.ts"}],"src/components/game/oppHand.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _util = require("../../util");
+
+var selector = function selector(state) {
+  var num = state.hand.opponentCards;
+
+  if (num === null) {
+    return {
+      cards: []
+    };
+  }
+
+  var cards = (0, _util.nRange)(num);
+  return {
+    cards: cards
+  };
+};
+
+var oppCards = function oppCards(_a) {
+  var cards = _a.cards;
+  return (0, _preact.h)("div", {
+    class: "card-container"
+  }, cards.map(function (card) {
+    return (0, _preact.h)("div", {
+      key: card,
+      class: "game-card opp"
+    });
+  }));
+};
+
+var _default = (0, _util.cleanConnect)(selector, oppCards);
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../util":"src/util.ts"}],"src/components/game/gameScreen.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16967,6 +17076,8 @@ var _pickOne = _interopRequireDefault(require("./pickOne"));
 var _forceful = _interopRequireDefault(require("./forceful"));
 
 var _events = _interopRequireDefault(require("./events"));
+
+var _oppHand = _interopRequireDefault(require("./oppHand"));
 
 var _interface = require("../../gameDisplay/interface");
 
@@ -16994,8 +17105,10 @@ var selector = function selector(state) {
   var game = state.game,
       hand = state.hand,
       gameDisplay = state.gameDisplay;
+  var opponent = game.player === 0 ? 1 : 0;
   return {
     game: game,
+    opponent: opponent,
     hand: hand,
     screen: gameDisplay.screen,
     shouldDisplayEvents: state.events.isDisplaying
@@ -17005,30 +17118,45 @@ var selector = function selector(state) {
 var game = function game(_a) {
   var game = _a.game,
       screen = _a.screen,
+      opponent = _a.opponent,
       shouldDisplayEvents = _a.shouldDisplayEvents;
   var currentPlayer = game.currentPlayer,
       queue = game.queue,
       player = game.player,
       hasGameState = game.hasGameState;
-  console.log(game);
 
   if (!hasGameState) {
     return null;
   }
 
-  return (0, _preact.h)("div", null, shouldDisplayEvents && (0, _preact.h)(_events.default, null), (0, _preact.h)(_predictions.default, __assign({}, game)), (0, _preact.h)(_board.default, {
+  return (0, _preact.h)("div", {
+    class: "game"
+  }, (0, _preact.h)("div", {
+    class: "opponent-section"
+  }, (0, _preact.h)(_oppHand.default, null), (0, _preact.h)(_playerStates.default, __assign({}, game, {
+    identity: opponent
+  }))), shouldDisplayEvents && (0, _preact.h)(_events.default, null), (0, _preact.h)(_predictions.default, __assign({}, game)), (0, _preact.h)(_board.default, {
     player: player,
     currentPlayer: currentPlayer,
     queue: queue
-  }), screen === _interface.GameDisplayEnum.NORMAL && (0, _preact.h)(_hand.default, null), screen === _interface.GameDisplayEnum.PREDICT && (0, _preact.h)(_predictChoices.default, null), screen === _interface.GameDisplayEnum.PICK_ONE && (0, _preact.h)(_pickOne.default, null), screen === _interface.GameDisplayEnum.FORCEFUL && (0, _preact.h)(_forceful.default, null), (0, _preact.h)(_playerStates.default, __assign({}, game, {
+  }), (0, _preact.h)("div", {
+    className: "player-section"
+  }, (0, _preact.h)(_playerStates.default, __assign({}, game, {
     identity: player
+  })), (0, _preact.h)(PlayerHand, {
+    screen: screen
   })));
+};
+
+var PlayerHand = function PlayerHand(_a) {
+  var screen = _a.screen;
+  return (0, _preact.h)("div", null, screen === _interface.GameDisplayEnum.NORMAL && (0, _preact.h)(_hand.default, null), screen === _interface.GameDisplayEnum.PREDICT && (0, _preact.h)(_predictChoices.default, null), screen === _interface.GameDisplayEnum.PICK_ONE && (0, _preact.h)(_pickOne.default, null), screen === _interface.GameDisplayEnum.FORCEFUL && (0, _preact.h)(_forceful.default, null));
 };
 
 var _default = (0, _util.cleanConnect)(selector, game);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./board":"src/components/game/board.tsx","./hand":"src/components/game/hand.tsx","./predictChoices":"src/components/game/predictChoices.tsx","./stateMachine/playerStates":"src/components/game/stateMachine/playerStates.tsx","./predictions":"src/components/game/predictions.tsx","./pickOne":"src/components/game/pickOne.tsx","./forceful":"src/components/game/forceful.tsx","./events":"src/components/game/events.tsx","../../gameDisplay/interface":"src/gameDisplay/interface.ts","../../util":"src/util.ts"}],"src/components/lobby/pickDeck.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./board":"src/components/game/board.tsx","./hand":"src/components/game/hand.tsx","./predictChoices":"src/components/game/predictChoices.tsx","./stateMachine/playerStates":"src/components/game/stateMachine/playerStates.tsx","./predictions":"src/components/game/predictions.tsx","./pickOne":"src/components/game/pickOne.tsx","./forceful":"src/components/game/forceful.tsx","./events":"src/components/game/events.tsx","./oppHand":"src/components/game/oppHand.tsx","../../gameDisplay/interface":"src/gameDisplay/interface.ts","../../util":"src/util.ts"}],"src/components/lobby/pickDeck.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

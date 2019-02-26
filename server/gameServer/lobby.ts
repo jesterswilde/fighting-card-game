@@ -2,7 +2,7 @@ import { Socket } from "socket.io";
 import { GameState, DistanceEnum } from "./interfaces/stateInterface";
 import { STARTING_HEALTH } from "./gameSettings";
 import { makePlayerState, makeModifiedAxis, makeStateDurations, deepCopy } from "./util";
-import { SocketEnum } from "./interfaces/socket";
+import { SocketEnum } from "../shared/socket";
 import { getDeckOptions, getDeck } from "../decks";
 import { Card } from "./interfaces/cardInterface";
 import { playGame } from "./game/game";

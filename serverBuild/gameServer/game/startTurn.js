@@ -12,7 +12,8 @@ const socket_1 = require("./socket");
 const requirements_1 = require("./requirements");
 const gameSettings_1 = require("../gameSettings");
 const errors_1 = require("../errors");
-const socket_2 = require("../interfaces/socket");
+const socket_2 = require("../../shared/socket");
+const util_1 = require("../util");
 exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     exports.shuffleDeck(state);
     exports.addPoise(state);
@@ -86,9 +87,11 @@ const addPanicCard = (state) => {
 };
 exports.playerPicksCard = (state) => __awaiter(this, void 0, void 0, function* () {
     const { sockets, currentPlayer: player } = state;
+    const opponent = util_1.getOpponent(player);
     return new Promise((res, rej) => {
         sockets[player].once(socket_2.SocketEnum.PICKED_CARD, (index) => {
             exports.pickCard(index, state);
+            sockets[opponent].emit(socket_2.SocketEnum.OPPONENT_PICKED_CARDS);
             res();
         });
     });

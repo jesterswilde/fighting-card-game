@@ -9,7 +9,6 @@ interface Props extends GameState {
 };
 
 
-
 export default (props: Props): JSX.Element => {
     return <div class='state-machine'>
         <div class="poise">

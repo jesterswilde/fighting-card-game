@@ -15,4 +15,8 @@ export enum SocketEnum{
     GOT_EVENTS = 'gotEvents',
     GOT_FORCEFUL_CHOICE = 'gotForcefulChoice',
     PICKED_FORCEFUL = 'pickedForceful',
+    OPPONENT_GOT_CARDS = 'opponentGotCards',
+    OPPONENT_PICKED_CARDS = 'opponentPickedCards',
+    OPPONENT_IS_MAKING_CHOICES = 'opponentIsMakingChoices',
+    OPPONENT_MADE_CHOICE = 'opponentMadeChoice'
 }

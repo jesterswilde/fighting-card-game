@@ -9609,16 +9609,20 @@ h3 {
   background-color: #f71c1c;
 }
 
+.health {
+  background-color: #9b8484;
+}
+
 .distance {
-  background-color: #f2fbb5;
+  background-color: #bd815d;
 }
 
 .standing {
-  background-color: #6a7bf2;
+  background-color: #6f62df;
 }
 
 .motion {
-  background-color: #eed264;
+  background-color: #bcaa64;
 }
 
 .balance {
@@ -9633,26 +9637,34 @@ h3 {
 .state-machine {
   display: flex;
   flex-direction: row;
-  width: 100%;
 }
 .state-machine > div {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.state-machine .state-title {
-  flex-grow: 2;
-  text-align: center;
-  font-weight: bold;
-  font-size: 1.5rem;
+.state-machine .poise {
+  flex: 3;
+}
+
+.opponent-section .state-machine {
+  flex-direction: row-reverse;
+}
+
+.player-section .poise {
+  justify-content: flex-end;
 }
 
 .state-piece-container {
   display: flex;
   flex-direction: column;
   flex-grow: 2;
+  -moz-box-shadow: 1px 4px 11px -1px rgba(0, 0, 0, 0.75);
+  box-shadow: 1px 4px 11px -1px rgba(0, 0, 0, 0.75);
+  background-color: #6d78a0;
 }
 .state-piece-container .state-piece-title {
+  flex-grow: 1;
   display: flex;
   justify-content: center;
   align-content: center;
@@ -9660,6 +9672,18 @@ h3 {
   border-top: 2px solid;
   border-right: 2px solid;
   border-left: 2ps solid;
+  font-size: 1.3rem;
+}
+.state-piece-container .state-content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-weight: bold;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+  border-left: 2ps solid;
+  font-size: 1.6rem;
 }
 .state-piece-container .state-pieces {
   flex-direction: row;
@@ -9894,35 +9918,30 @@ div {
   cursor: pointer;
 }
 
-ul {
-  list-style: none;
-}
-
-.inline {
-  display: inline-block;
-}
-
-.h-divider {
-  margin-top: 4px;
-  margin-bottom: 4px;
-  height: 3px;
-  width: 85%;
-  margin: auto;
-  border-bottom: 1px solid gray;
-  border-top: 1px solid gray;
-  background-color: black;
-}
-
-.h-divider.thin {
-  margin-top: 2px;
-  margin-bottom: 2px;
-  height: 2px;
-  width: 60%;
-}
-
 .card-container {
+  justify-content: center;
   display: flex;
   flex-flow: row nowrap;
+}
+
+.player-section .card-container > div:first-child {
+  transform: rotate(-5deg);
+}
+.player-section .card-container > div:nth-child(2) {
+  transform: translateY(-20px);
+}
+.player-section .card-container > div:nth-child(3) {
+  transform: rotate(5deg);
+}
+
+.opponent-section .card-container > div:first-child {
+  transform: rotate(5deg);
+}
+.opponent-section .card-container > div:nth-child(2) {
+  transform: translateY(15px);
+}
+.opponent-section .card-container > div:nth-child(3) {
+  transform: rotate(-5deg);
 }
 
 .queue-card {
@@ -9959,6 +9978,11 @@ ul {
 
 .queue-card.opponent {
   background-color: #a06d6d;
+}
+
+.game-card.opp {
+  height: 200px;
+  width: 132px;
 }
 
 .game-card {
@@ -10038,6 +10062,58 @@ ul {
 
 .played-by-me {
   margin-top: 1rem;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  background-color: #3e2f1c;
+}
+.game .player-section, .game .opponent-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  margin: 1rem;
+}
+.game .player-section .state-machine, .game .opponent-section .state-machine {
+  flex: 3;
+}
+.game .player-section > div, .game .opponent-section > div {
+  flex: 2;
+}
+.game .player-section {
+  align-items: flex-end;
+}
+.game .opponent-section {
+  align-items: end;
+}
+
+ul {
+  list-style: none;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.h-divider {
+  margin-top: 4px;
+  margin-bottom: 4px;
+  height: 3px;
+  width: 85%;
+  margin: auto;
+  border-bottom: 1px solid gray;
+  border-top: 1px solid gray;
+  background-color: black;
+}
+
+.h-divider.thin {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  height: 2px;
+  width: 60%;
 }
 
 .deck-choice {

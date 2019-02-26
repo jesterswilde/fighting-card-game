@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const errors_1 = require("../errors");
-const socket_1 = require("../interfaces/socket");
+const socket_1 = require("../../shared/socket");
 const socket_2 = require("./socket");
 const playCard_1 = require("./playCard");
 const startTurn_1 = require("./startTurn");

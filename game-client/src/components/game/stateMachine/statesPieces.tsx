@@ -10,16 +10,16 @@ interface Props extends GameState {
 
 
 export const Block = ({ block, playerIndex }: Props, ) => {
-    return <div class="state-piece-container-sml distance ">
-        <div>Block</div>
-        <div>{block[playerIndex]}</div>
+    return <div class="state-piece-container health">
+        <div class="state-piece-title">Block</div>
+        <div class="state-content">{block[playerIndex]}</div>
     </div>
 }
 
 export const Health = ({ health, playerIndex }: Props) => {
-    return <div class='state-piece-container-sml distance sml'>
-        <div>Health</div>
-        <div>
+    return <div class='state-piece-container health'>
+        <div class="state-piece-title">Health</div>
+        <div class="state-content">
             {health[playerIndex]}
         </div>
     </div>

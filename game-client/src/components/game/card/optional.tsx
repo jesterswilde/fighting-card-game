@@ -5,17 +5,18 @@ import { Optional } from '../../../shared/card';
 
 interface Props extends Optional {
     greyUnusable?: boolean
+    shouldFlip?: boolean
 }
 
 export default (props: Props) => {
     const unusuable = !props.canPlay;
     return <div className={`optional ${unusuable ? 'unusable' : ''}`}>
         <div>
-            {props.requirements.map((req, i) => <span key={i}><Requirement requirement={req} /></span>)}
+            {props.requirements.map((req, i) => <span key={i}><Requirement shouldFlip={props.shouldFlip} requirement={req} /></span>)}
         </div>
             <div class='h-divider' />
         <div>
-            {props.effects.map((eff, i) => <span key={i}><Effect effect={eff} /></span>)}
+            {props.effects.map((eff, i) => <span key={i}><Effect effect={eff} shouldFlip={props.shouldFlip} /></span>)}
         </div>
     </div>
 }

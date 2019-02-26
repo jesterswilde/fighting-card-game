@@ -1,7 +1,7 @@
 import { GotDeckChoicesAction, PickedDeckAction, LobbyActionEnum } from "./actions";
 import { store } from "../state/store";
 import { socket } from "../socket/socket";
-import { SocketEnum } from "../socket/socketEnum";
+import { SocketEnum } from "../shared/socket";
 import { DeckChoice } from "./interfaces";
 
 

@@ -2,6 +2,10 @@ import { Card, StatePiece, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "
 import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ModifiedAxis } from "./interfaces/stateInterface";
 import { STARTING_POISE } from "./gameSettings";
 
+export const getOpponent = (player: number): number =>{
+    return player === 1 ? 0 : 1; 
+}
+
 export const deepCopy = <T>(obj: T): T => {
     if (null == obj || "object" != typeof obj) return obj;
     const copy = obj.constructor();

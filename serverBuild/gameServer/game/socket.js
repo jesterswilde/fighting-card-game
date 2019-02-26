@@ -1,10 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const socket_1 = require("../interfaces/socket");
+const socket_1 = require("../../shared/socket");
 const util_1 = require("../util");
 exports.sendHand = (state) => {
     const { sockets, currentPlayer: player, hands } = state;
+    const numCards = hands[player].length;
+    const opponent = util_1.getOpponent(player);
     sockets[player].emit(socket_1.SocketEnum.GOT_CARDS, hands[player]);
+    sockets[opponent].emit(socket_1.SocketEnum.OPPONENT_GOT_CARDS, numCards);
 };
 exports.sendState = (state) => {
     if (!state) {

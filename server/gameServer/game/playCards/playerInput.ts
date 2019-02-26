@@ -1,7 +1,7 @@
 import { MechanicEnum, Mechanic } from "../../../shared/card";
 import { ReadiedEffect, GameState, PredictionState, PredictionEnum } from "../../interfaces/stateInterface";
 import { mechanicsToReadiedEffects } from "../playCard";
-import { SocketEnum } from "../../interfaces/socket";
+import { SocketEnum } from "../../../shared/socket";
 import { deepCopy } from "../../util";
 import { Socket } from "socket.io";
 

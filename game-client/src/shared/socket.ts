@@ -1,0 +1,22 @@
+
+export enum SocketEnum{
+    PICKED_CARD = 'pickedCard',
+    GOT_CARDS = 'gotCards',
+    JOINED_LOBBY = 'joinedLobby',
+    FOUND_GAME = 'foundGame',
+    START_GAME = 'startGame',
+    GOT_DECK_OPTIONS = 'gotDeckOptions',
+    PICKED_DECK = 'pickedDeck',
+    GOT_STATE = 'gotState',
+    SHOULD_PREDICT = 'shouldPredict',
+    MADE_PREDICTION = 'madePrediction',
+    SHOULD_PICK_ONE = 'shouldPickOne',
+    PICKED_ONE = 'pickedOne',
+    GOT_EVENTS = 'gotEvents',
+    GOT_FORCEFUL_CHOICE = 'gotForcefulChoice',
+    PICKED_FORCEFUL = 'pickedForceful',
+    OPPONENT_GOT_CARDS = 'opponentGotCards',
+    OPPONENT_PICKED_CARDS = 'opponentPickedCards',
+    OPPONENT_IS_MAKING_CHOICES = 'opponentIsMakingChoices',
+    OPPONENT_MADE_CHOICE = 'opponentMadeChoice'
+}

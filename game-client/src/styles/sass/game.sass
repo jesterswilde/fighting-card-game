@@ -1,0 +1,20 @@
+.game
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    min-height: 100vh
+    background-color: #3e2f1c
+    .player-section, .opponent-section
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap-reverse
+        margin: 1rem
+        .state-machine
+            flex: 3
+        >div
+            flex: 2
+    .player-section
+        align-items: flex-end
+    .opponent-section
+        align-items: end
+

@@ -4,6 +4,8 @@
 @import "./landing.sass"
 @import "./cardViewer.sass"
 @import "./nav.sass"
+@import "./card.sass"
+@import "./game.sass"
 
 ul
     list-style: none
@@ -24,107 +26,6 @@ ul
     margin-bottom: 2px
     height: 2px
     width: 60%
-
-.card-container
-    display: flex
-    flex-flow: row nowrap
-
-.queue-card
-    cursor: pointer
-    width: 200px
-    font-weight: bold
-    font-size: 1.2rem
-    background-color: #d7b488
-    margin: 5px
-    -moz-box-shadow: 1px 4px 11px -1px rgba(0,0,0,0.75)
-    box-shadow: 1px 4px 11px -1px rgba(0,0,0,0.75)
-    background-color: #6d78a0
-    .card-section
-        margin: 0.2rem
-        -webkit-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-        -moz-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-        box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-    .req
-        background-color: #e4d9c5
-        border: 1px solid
-        padding: 3px
-    >div
-        max-height: 350px
-        transition: 0.4s
-        opacity: 1
-    .collapsed
-        max-height: 0
-        opacity: 0
-
-
-.queue-card.opponent
-    background-color: #a06d6d
-.game-card
-    cursor: pointer
-    display: flex
-    flex-direction: column
-    align-content: center
-    margin-left: 1rem
-    margin-right: 1rem
-    width: 200px
-    height: 300px
-    -moz-box-shadow: 1px 4px 11px -1px rgba(0,0,0,0.75)
-    box-shadow: 1px 4px 11px -1px rgba(0,0,0,0.75)
-    background-color: #413d01
-    padding: 4px
-    .optional
-        width: 90%
-        margin-left: 5%
-        margin-bottom: 5px
-        background-color: #e4d9c5
-        color: black
-        -webkit-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-        -moz-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-        box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-    .optional.unusable
-        background-color: #909090
-        div
-            background-color: #686868
-            color: #2b2b2b
-    .title
-        font-weight: bold
-        font-size: 1.2rem
-        background-color: #d7b488
-    .card-section
-        margin: 0.2rem
-        -webkit-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-        -moz-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-        box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-    .effect
-        background-color: #757586
-        flex-grow: 1
-        padding: 3px
-        .pick-one
-            -webkit-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-            -moz-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-            box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-            margin: 0.3rem
-            background-color: #5b5f80
-            .choices
-                padding: 0.2rem
-                margin: 0.2rem
-                background-color: #9494a0
-                .choice
-                    margin: 0.2rem
-                    background-color: #5b5f80
-            
-        .mechanic
-            -webkit-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-            -moz-box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-            box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75)
-            background-color: #aba4b3
-    .req
-        background-color: #e4d9c5
-        border: 1px solid
-        padding: 3px
-
-.played-by-me
-    margin-top: 1rem
 
 .deck-choice
     width: 500px

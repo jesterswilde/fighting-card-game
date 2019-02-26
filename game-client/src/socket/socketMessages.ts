@@ -1,9 +1,9 @@
 import { Card, Mechanic } from '../shared/card';
-import { dispatchGotCards } from '../hand/dispatch';
+import { dispatchGotCards, dispatchOppGotCards, dispatchOppPickedCard } from '../hand/dispatch';
 import { dispatchSwitchScreen } from '../display/dispatch';
 import { ScreenEnum } from '../display/interface';
 import { dispatchStartGame, dispatchGameState, dispatchShouldPickOne, dispatchShouldPickForecful } from '../game/dispatch';
-import { SocketEnum } from './socketEnum';
+import { SocketEnum } from '../shared/socket';
 import { dispatchGotDeckChoices } from '../lobby/dispatch';
 import { GameState } from '../game/interface';
 import { dispatchShouldPredict } from '../gameDisplay/dispatch';
@@ -57,6 +57,16 @@ export const setupSockets = (socket: SocketIOClient.Socket)=>{
 
      socket.on(SocketEnum.GOT_FORCEFUL_CHOICE, (options: {cardName: string, mechanic: Mechanic})=>{
         dispatchShouldPickForecful(options); 
+     })
+
+     socket.on(SocketEnum.OPPONENT_GOT_CARDS, (cards: number)=>{
+        console.log('opponent got cards'); 
+        dispatchOppGotCards(cards); 
+     })
+
+     socket.on(SocketEnum.OPPONENT_PICKED_CARDS, ()=>{
+      console.log('opponent picked cards');   
+      dispatchOppPickedCard(); 
      })
 }
 

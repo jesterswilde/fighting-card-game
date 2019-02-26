@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cardInterface_1 = require("./interfaces/cardInterface");
 const stateInterface_1 = require("./interfaces/stateInterface");
 const gameSettings_1 = require("./gameSettings");
+exports.getOpponent = (player) => {
+    return player === 1 ? 0 : 1;
+};
 exports.deepCopy = (obj) => {
     if (null == obj || "object" != typeof obj)
         return obj;

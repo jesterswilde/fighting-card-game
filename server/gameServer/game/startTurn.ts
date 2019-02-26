@@ -4,7 +4,8 @@ import { canPlayCard, canUseOptional } from "./requirements";
 import { HAND_SIZE, ANTICIPATING_POISE } from "../gameSettings";
 import { ErrorEnum } from "../errors";
 import { Card } from "../../shared/card";
-import { SocketEnum } from "../interfaces/socket";
+import { SocketEnum } from "../../shared/socket";
+import { getOpponent } from "../util";
 
 export const startTurn = async (state: GameState) => {
     shuffleDeck(state);
@@ -83,9 +84,11 @@ const addPanicCard = (state: GameState) => {
 
 export const playerPicksCard = async (state: GameState) => {
     const { sockets, currentPlayer: player } = state;
+    const opponent = getOpponent(player); 
     return new Promise((res, rej) => {
         sockets[player].once(SocketEnum.PICKED_CARD, (index: number) => {
             pickCard(index, state);
+            sockets[opponent].emit(SocketEnum.OPPONENT_PICKED_CARDS); 
             res();
         })
     })

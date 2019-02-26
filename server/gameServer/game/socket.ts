@@ -1,10 +1,13 @@
 import { GameState } from "../interfaces/stateInterface";
-import { SocketEnum } from "../interfaces/socket";
-import { deepCopy } from "../util";
+import { SocketEnum } from "../../shared/socket";
+import { deepCopy, getOpponent } from "../util";
 
 export const sendHand = (state: GameState) => {
     const { sockets, currentPlayer: player, hands } = state;
+    const numCards = hands[player].length;
+    const opponent = getOpponent(player); 
     sockets[player].emit(SocketEnum.GOT_CARDS, hands[player]);
+    sockets[opponent].emit(SocketEnum.OPPONENT_GOT_CARDS, numCards); 
 }
 
 

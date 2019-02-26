@@ -1,7 +1,7 @@
 import { Mechanic, MechanicEnum, Card } from "../../shared/card";
 import { GameState, PredictionEnum } from "../interfaces/stateInterface";
 import { EventTypeEnum } from "../interfaces/gameEvent";
-import { SocketEnum } from "../interfaces/socket";
+import { SocketEnum } from "../../shared/socket";
 
 export const addEffectEvent = (mechanic: Mechanic, playedBy: number, name: string, isEventOnly: boolean, isHappening: boolean, state: GameState) => {
     console.log(mechanic.mechanic, name, isEventOnly, isHappening)

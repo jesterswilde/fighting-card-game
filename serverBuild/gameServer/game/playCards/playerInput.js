@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const card_1 = require("../../../shared/card");
 const playCard_1 = require("../playCard");
-const socket_1 = require("../../interfaces/socket");
+const socket_1 = require("../../../shared/socket");
 const util_1 = require("../../util");
 exports.playerPicksOne = (state, { _waitForPlayerToChoose = waitForPlayerToChoose } = {}) => __awaiter(this, void 0, void 0, function* () {
     const { sockets, readiedEffects = [] } = state;

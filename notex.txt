@@ -1,5 +1,3 @@
-Cripple might not work
-
 Charge needs to be improved a litte. 
 
 When you reflex, you should be told what card you reflexed into if there are any choices to be made.

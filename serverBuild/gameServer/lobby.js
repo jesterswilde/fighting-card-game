@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const stateInterface_1 = require("./interfaces/stateInterface");
 const gameSettings_1 = require("./gameSettings");
 const util_1 = require("./util");
-const socket_1 = require("./interfaces/socket");
+const socket_1 = require("../shared/socket");
 const decks_1 = require("../decks");
 const game_1 = require("./game/game");
 let queue = [];

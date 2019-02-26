@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const card_1 = require("../../shared/card");
 const stateInterface_1 = require("../interfaces/stateInterface");
 const gameEvent_1 = require("../interfaces/gameEvent");
-const socket_1 = require("../interfaces/socket");
+const socket_1 = require("../../shared/socket");
 exports.addEffectEvent = (mechanic, playedBy, name, isEventOnly, isHappening, state) => {
     console.log(mechanic.mechanic, name, isEventOnly, isHappening);
     //These are for thigns like damage, block, and things that get printed in that format

@@ -1,6 +1,6 @@
 import { GameState} from "../interfaces/stateInterface";
 import { ControlEnum } from "../errors";
-import { SocketEnum } from "../interfaces/socket";
+import { SocketEnum } from "../../shared/socket";
 import { sendState } from "./socket";
 import { playCard } from "./playCard";
 import { startTurn } from "./startTurn";

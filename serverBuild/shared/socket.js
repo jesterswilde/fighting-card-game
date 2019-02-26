@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var SocketEnum;
+(function (SocketEnum) {
+    SocketEnum["PICKED_CARD"] = "pickedCard";
+    SocketEnum["GOT_CARDS"] = "gotCards";
+    SocketEnum["JOINED_LOBBY"] = "joinedLobby";
+    SocketEnum["FOUND_GAME"] = "foundGame";
+    SocketEnum["START_GAME"] = "startGame";
+    SocketEnum["GOT_DECK_OPTIONS"] = "gotDeckOptions";
+    SocketEnum["PICKED_DECK"] = "pickedDeck";
+    SocketEnum["GOT_STATE"] = "gotState";
+    SocketEnum["SHOULD_PREDICT"] = "shouldPredict";
+    SocketEnum["MADE_PREDICTION"] = "madePrediction";
+    SocketEnum["SHOULD_PICK_ONE"] = "shouldPickOne";
+    SocketEnum["PICKED_ONE"] = "pickedOne";
+    SocketEnum["GOT_EVENTS"] = "gotEvents";
+    SocketEnum["GOT_FORCEFUL_CHOICE"] = "gotForcefulChoice";
+    SocketEnum["PICKED_FORCEFUL"] = "pickedForceful";
+    SocketEnum["OPPONENT_GOT_CARDS"] = "opponentGotCards";
+    SocketEnum["OPPONENT_PICKED_CARDS"] = "opponentPickedCards";
+    SocketEnum["OPPONENT_IS_MAKING_CHOICES"] = "opponentIsMakingChoices";
+    SocketEnum["OPPONENT_MADE_CHOICE"] = "opponentMadeChoice";
+})(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
