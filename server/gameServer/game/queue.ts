@@ -1,5 +1,5 @@
 import { GameState } from "../interfaces/stateInterface";
-import { Card } from "../interfaces/cardInterface";
+import { Card } from "../../shared/card";
 import { QUEUE_LENGTH } from "../gameSettings";
 
 export const getLastPlayedCard = (state: GameState, player?: number): Card | null => {

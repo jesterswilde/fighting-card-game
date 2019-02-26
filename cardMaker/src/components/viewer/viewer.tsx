@@ -34,7 +34,7 @@ class Viewer extends React.Component<Props>{
         if (card === null) {
             return <div> No Card</div>
         }
-        const { requirements, optional, effects, name, tagObjs } = card;
+        const { requirements, optional, effects, name, tags: tagObjs } = card;
         return <div>
             <h3>{card.name}</h3>
             <ul>

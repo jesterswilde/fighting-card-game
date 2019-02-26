@@ -1,4 +1,4 @@
-import { Card, AxisEnum, PlayerEnum } from '../interfaces/card'
+import { Card, AxisEnum, PlayerEnum } from '../shared/card'
 import { DeckViewerFilter } from './interface';
 
 
@@ -51,6 +51,7 @@ const stateRouter = {
         state[AxisEnum.BALANCED] = true;
     },
     [AxisEnum.BALANCED]: (state: InvalidStates) => state[AxisEnum.UNBALANCED] = true,
+    [AxisEnum.NOT_ANTICIPATING]: (state: InvalidStates) => state[AxisEnum.ANTICIPATING] = true,
     [AxisEnum.GRAPPLED]: (state: InvalidStates) => {
         state[AxisEnum.CLOSE] = true;
         state[AxisEnum.FAR] = true;

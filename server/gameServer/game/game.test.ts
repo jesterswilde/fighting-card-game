@@ -1,5 +1,5 @@
 import { makeBlankCard, makeGameState, deepCopy } from "../util";
-import { Card, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "../interfaces/cardInterface";
+import { Card, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "../../shared/card";
 import { GameState, StandingEnum, PoiseEnum, DistanceEnum, MotionEnum, PredictionEnum, ModifiedAxis, PredictionState } from "../interfaces/stateInterface";
 import { STARTING_HEALTH, HAND_SIZE } from "../gameSettings";
 import { ControlEnum } from "../errors";

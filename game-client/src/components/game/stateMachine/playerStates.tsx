@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { GameState, } from '../../../game/interface';
 import Poise from './poise';
-import { PlayerEnum } from '../../../interfaces/card';
+import { PlayerEnum } from '../../../shared/card';
 import { Standing, Motion, Health, Block } from './statesPieces';
 
 interface Props extends GameState {

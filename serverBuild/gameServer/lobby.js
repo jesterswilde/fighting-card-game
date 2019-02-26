@@ -65,6 +65,7 @@ const makeGameState = (sockets, decks) => {
         distance: stateInterface_1.DistanceEnum.FAR,
         hands: [[], []],
         turnNumber: 0,
+        tagModification: [{}, {}],
         damaged: [false, false],
         lockedState: {
             distance: null,

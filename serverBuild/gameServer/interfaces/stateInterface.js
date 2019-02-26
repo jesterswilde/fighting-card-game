@@ -12,6 +12,7 @@ var PoiseEnum;
     PoiseEnum[PoiseEnum["BALANCED"] = 0] = "BALANCED";
     PoiseEnum[PoiseEnum["UNBALANCED"] = 1] = "UNBALANCED";
     PoiseEnum[PoiseEnum["ANTICIPATING"] = 2] = "ANTICIPATING";
+    PoiseEnum[PoiseEnum["NOT_ANTICIPATING"] = 3] = "NOT_ANTICIPATING";
 })(PoiseEnum = exports.PoiseEnum || (exports.PoiseEnum = {}));
 var StandingEnum;
 (function (StandingEnum) {

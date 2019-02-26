@@ -3,7 +3,7 @@ import { GameState, PredictionEnum } from './interface';
 import { GameActionEnum, ReplaceGameAction, StartGameAction, MadePredictionAction, ShouldPickOneAction, DidPickOneAction, ShouldPickForecfulAction, DidPickForcefulAction, SwapCardDisplayModeAction } from './actions';
 import { socket } from '../socket/socket';
 import { SocketEnum } from '../socket/socketEnum';
-import { Mechanic } from '../interfaces/card';
+import { Mechanic } from '../shared/card';
 
 export const dispatchSwitchCardDisplayMode = (column: number, row: number)=>{
     const action: SwapCardDisplayModeAction = {

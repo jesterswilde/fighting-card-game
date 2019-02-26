@@ -1,4 +1,4 @@
-import { Mechanic, Card, AxisEnum } from "../interfaces/cardInterface";
+import { Mechanic, Card, AxisEnum } from "../../shared/card";
 import { GameState, DistanceEnum, PoiseEnum, MotionEnum, StandingEnum } from "../interfaces/stateInterface";
 import { playerEnumToPlayerArray } from "../util";
 

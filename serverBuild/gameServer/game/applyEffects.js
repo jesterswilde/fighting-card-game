@@ -6,7 +6,7 @@ const predictions_1 = require("./predictions");
 const startTurn_1 = require("./startTurn");
 const util_1 = require("../util");
 const requirements_1 = require("./requirements");
-const cardInterface_1 = require("../interfaces/cardInterface");
+const card_1 = require("../../shared/card");
 const playCard_1 = require("./playCard");
 const events_1 = require("./events");
 /*
@@ -119,7 +119,7 @@ exports.checkReflex = (state) => {
     queue.forEach((cards = []) => {
         cards.forEach((card) => {
             if (card.shouldReflex && playerToReflex === null) {
-                readiedEffects.push({ card, mechanic: { mechanic: cardInterface_1.MechanicEnum.REFLEX }, isEventOnly: true, isHappening: true });
+                readiedEffects.push({ card, mechanic: { mechanic: card_1.MechanicEnum.REFLEX }, isEventOnly: true, isHappening: true });
                 console.log("card name: ", card.name, " | ", card.player);
                 playerToReflex = card.player;
                 card.shouldReflex = undefined;

@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { Icon } from '../../../images';
-import { AxisEnum } from '../../../interfaces/card';
+import { AxisEnum } from '../../../shared/card';
 import { GameState } from '../../../game/interface';
 import poiseBar from '../../../images/poiseBar.png'
 

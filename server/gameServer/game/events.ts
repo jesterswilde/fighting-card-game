@@ -1,4 +1,4 @@
-import { Mechanic, MechanicEnum, Card } from "../interfaces/cardInterface";
+import { Mechanic, MechanicEnum, Card } from "../../shared/card";
 import { GameState, PredictionEnum } from "../interfaces/stateInterface";
 import { EventTypeEnum } from "../interfaces/gameEvent";
 import { SocketEnum } from "../interfaces/socket";

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const cardInterface_1 = require("../interfaces/cardInterface");
+const card_1 = require("../../shared/card");
 const stateInterface_1 = require("../interfaces/stateInterface");
 const gameEvent_1 = require("../interfaces/gameEvent");
 const socket_1 = require("../interfaces/socket");
@@ -51,13 +51,13 @@ exports.sendEvents = (state) => {
 };
 //These are ignored because they are handled later.
 const ignoredMechanics = {
-    [cardInterface_1.MechanicEnum.REFLEX]: true,
-    [cardInterface_1.MechanicEnum.PREDICT]: true
+    [card_1.MechanicEnum.REFLEX]: true,
+    [card_1.MechanicEnum.PREDICT]: true
 };
 //They have their own printed versions
 const addableMechanics = {
-    [cardInterface_1.MechanicEnum.BLOCK]: true,
-    [cardInterface_1.MechanicEnum.CRIPPLE]: true,
-    [cardInterface_1.MechanicEnum.LOCK]: true,
-    [cardInterface_1.MechanicEnum.FORCEFUL]: true,
+    [card_1.MechanicEnum.BLOCK]: true,
+    [card_1.MechanicEnum.CRIPPLE]: true,
+    [card_1.MechanicEnum.LOCK]: true,
+    [card_1.MechanicEnum.FORCEFUL]: true,
 };

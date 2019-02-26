@@ -1,10 +1,10 @@
-import { MechanicEnum, AxisEnum, PlayerEnum } from './enums';
-import { TagObj } from '../card/interface';
+import { TagObj,  MechanicEnum, AxisEnum, PlayerEnum  } from '../shared/card';
+
 
 export interface CardJSON extends RequirementEffectJSON{
     name: string,
     optional: RequirementEffectJSON[]
-    tagObjs: TagObj[]
+    tags: TagObj[]
 }
 
 export interface MechanicJSON{

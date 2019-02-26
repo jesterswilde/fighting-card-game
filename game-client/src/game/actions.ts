@@ -1,5 +1,5 @@
 import { GameState, PredictionEnum } from "./interface";
-import { Mechanic } from "../interfaces/card";
+import { Mechanic } from "../shared/card";
 
 export enum GameActionEnum{
     REPLACE_STATE = 'replaceGameState',

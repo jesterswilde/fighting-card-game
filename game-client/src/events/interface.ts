@@ -1,4 +1,4 @@
-import { Mechanic } from "../interfaces/card";
+import { Mechanic } from "../shared/card";
 import { PredictionEnum } from "../game/interface";
 
 export const EVENT_PLAY_SPEED = 500; 

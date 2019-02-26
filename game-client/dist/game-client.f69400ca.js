@@ -13243,48 +13243,16 @@ exports.DeckViewerEnum = DeckViewerEnum;
   DeckViewerEnum["ADDED_FILTER"] = "addDeckViewerFilter";
   DeckViewerEnum["REMOVED_FILTER"] = "removeDeckViewerFilter";
 })(DeckViewerEnum || (exports.DeckViewerEnum = DeckViewerEnum = {}));
-},{}],"src/interfaces/card.ts":[function(require,module,exports) {
+},{}],"src/shared/card.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PlayerEnum = exports.AxisEnum = exports.MechanicDisplay = exports.DisplayEnum = exports.MechanicEnum = void 0;
+exports.PlayerEnum = exports.getMechDisplay = exports.MechanicEnum = exports.AxisEnum = void 0;
 
 var _a;
 
-var MechanicEnum;
-exports.MechanicEnum = MechanicEnum;
-
-(function (MechanicEnum) {
-  MechanicEnum["TELEGRAPH"] = "Telegraph";
-  MechanicEnum["FOCUS"] = "Focus";
-  MechanicEnum["PREDICT"] = "Predict";
-  MechanicEnum["BLOCK"] = "Block";
-  MechanicEnum["LOCK"] = "Lock";
-  MechanicEnum["REFLEX"] = "Reflex";
-  MechanicEnum["BUFF"] = "Buff";
-  MechanicEnum["CRIPPLE"] = "Cripple";
-  MechanicEnum["PICK_ONE"] = "Pick One";
-  MechanicEnum["FORCEFUL"] = "Forceful";
-})(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
-
-var DisplayEnum;
-exports.DisplayEnum = DisplayEnum;
-
-(function (DisplayEnum) {
-  DisplayEnum[DisplayEnum["REQ_EFF"] = 0] = "REQ_EFF";
-  DisplayEnum[DisplayEnum["EFF"] = 1] = "EFF";
-  DisplayEnum[DisplayEnum["AMOUNT_EFF"] = 2] = "AMOUNT_EFF";
-  DisplayEnum[DisplayEnum["NORMAL"] = 3] = "NORMAL";
-  DisplayEnum[DisplayEnum["NAME"] = 4] = "NAME";
-  DisplayEnum[DisplayEnum["AMOUNT"] = 5] = "AMOUNT";
-  DisplayEnum[DisplayEnum["PICK_ONE"] = 6] = "PICK_ONE";
-  DisplayEnum[DisplayEnum["NONE"] = 7] = "NONE";
-})(DisplayEnum || (exports.DisplayEnum = DisplayEnum = {}));
-
-var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = DisplayEnum.REQ_EFF, _a[MechanicEnum.FOCUS] = DisplayEnum.REQ_EFF, _a[MechanicEnum.PREDICT] = DisplayEnum.EFF, _a[MechanicEnum.BUFF] = DisplayEnum.NORMAL, _a[MechanicEnum.BLOCK] = DisplayEnum.AMOUNT, _a[MechanicEnum.LOCK] = DisplayEnum.NORMAL, _a[MechanicEnum.REFLEX] = DisplayEnum.NONE, _a[MechanicEnum.CRIPPLE] = DisplayEnum.NAME, _a[MechanicEnum.PICK_ONE] = DisplayEnum.PICK_ONE, _a[MechanicEnum.FORCEFUL] = DisplayEnum.AMOUNT_EFF, _a);
-exports.MechanicDisplay = MechanicDisplay;
 var AxisEnum;
 exports.AxisEnum = AxisEnum;
 
@@ -13303,6 +13271,7 @@ exports.AxisEnum = AxisEnum;
   AxisEnum["BALANCED"] = "Balanced";
   AxisEnum["UNBALANCED"] = "Unbalanced";
   AxisEnum["ANTICIPATING"] = "Anticipating";
+  AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
   AxisEnum["CLOSER"] = "Closer";
   AxisEnum["FURTHER"] = "Further";
   AxisEnum["BLOODIED"] = "Bloodied";
@@ -13313,6 +13282,70 @@ exports.AxisEnum = AxisEnum;
   AxisEnum["STANCE"] = "Stance";
 })(AxisEnum || (exports.AxisEnum = AxisEnum = {}));
 
+var MechanicEnum;
+exports.MechanicEnum = MechanicEnum;
+
+(function (MechanicEnum) {
+  MechanicEnum["TELEGRAPH"] = "Telegraph";
+  MechanicEnum["FOCUS"] = "Focus";
+  MechanicEnum["PREDICT"] = "Predict";
+  MechanicEnum["BLOCK"] = "Block";
+  MechanicEnum["LOCK"] = "Lock";
+  MechanicEnum["REFLEX"] = "Reflex";
+  MechanicEnum["BUFF"] = "Buff";
+  MechanicEnum["CRIPPLE"] = "Cripple";
+  MechanicEnum["PICK_ONE"] = "Pick One";
+  MechanicEnum["FORCEFUL"] = "Forceful";
+  MechanicEnum["ENHANCE"] = "Enhance";
+})(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
+
+var getMechDisplay = function getMechDisplay(mech) {
+  var defaultValue = {
+    state: true,
+    value: true
+  };
+
+  if (mech === undefined) {
+    return defaultValue;
+  }
+
+  var comp = MechanicDisplay[mech];
+
+  if (comp) {
+    return comp;
+  }
+
+  return defaultValue;
+};
+
+exports.getMechDisplay = getMechDisplay;
+var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.FOCUS] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.PREDICT] = {
+  eff: true
+}, _a[MechanicEnum.BUFF] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.ENHANCE] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.BLOCK] = {
+  value: true
+}, _a[MechanicEnum.LOCK] = {
+  state: true,
+  value: true
+}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
+  valueString: true
+}, _a[MechanicEnum.PICK_ONE] = {
+  pick: true
+}, _a[MechanicEnum.FORCEFUL] = {
+  value: true,
+  eff: true
+}, _a);
 var PlayerEnum;
 exports.PlayerEnum = PlayerEnum;
 
@@ -13331,7 +13364,7 @@ exports.deckViewerReducer = void 0;
 
 var _actions = require("./actions");
 
-var _card = require("../interfaces/card");
+var _card = require("../shared/card");
 
 var __assign = void 0 && (void 0).__assign || function () {
   __assign = Object.assign || function (t) {
@@ -13425,7 +13458,7 @@ var removeFilter = function removeFilter(state, action) {
     filters: filters
   });
 };
-},{"./actions":"src/deckViewer/actions.ts","../interfaces/card":"src/interfaces/card.ts"}],"src/state/store.ts":[function(require,module,exports) {
+},{"./actions":"src/deckViewer/actions.ts","../shared/card":"src/shared/card.ts"}],"src/state/store.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15355,7 +15388,7 @@ exports.Icon = exports.Arrow = void 0;
 
 var _preact = require("preact");
 
-var _card = require("../interfaces/card");
+var _card = require("../shared/card");
 
 var _grapple = _interopRequireDefault(require("./grapple.png"));
 
@@ -15465,7 +15498,7 @@ var Icon = function Icon(props) {
 };
 
 exports.Icon = Icon;
-},{"preact":"node_modules/preact/dist/preact.mjs","../interfaces/card":"src/interfaces/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../shared/card":"src/shared/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15497,7 +15530,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getMechanicDescription = void 0;
 
-var _card = require("../interfaces/card");
+var _card = require("../shared/card");
 
 var _a;
 
@@ -15508,7 +15541,7 @@ var getMechanicDescription = function getMechanicDescription(mech) {
 };
 
 exports.getMechanicDescription = getMechanicDescription;
-},{"../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/card/effect.tsx":[function(require,module,exports) {
+},{"../shared/card":"src/shared/card.ts"}],"src/components/game/card/effect.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15520,7 +15553,7 @@ var _preact = require("preact");
 
 var _Requirement = _interopRequireDefault(require("./Requirement"));
 
-var _card = require("../../../interfaces/card");
+var _card = require("../../../shared/card");
 
 var _images = require("../../../images");
 
@@ -15535,114 +15568,61 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Effect = function Effect(_a) {
   var effect = _a.effect,
       shouldFlip = _a.shouldFlip;
-  return renderSwitch(effect, shouldFlip);
-};
+  var _b = effect.mechanicRequirements,
+      reqs = _b === void 0 ? [] : _b,
+      _c = effect.mechanicEffects,
+      effs = _c === void 0 ? [] : _c;
+  var id = String((0, _util.getUUID)(effect));
+  var description = (0, _mechanicDescriptions.getMechanicDescription)(effect.mechanic);
 
-var renderSwitch = function renderSwitch(effect, shouldFlip) {
-  if (effect.mechanic === undefined) {
-    return renderEffect(effect, shouldFlip);
-  }
+  var _d = (0, _card.getMechDisplay)(effect.mechanic),
+      displayEff = _d.eff,
+      displayReq = _d.req,
+      valueString = _d.valueString,
+      displayPick = _d.pick,
+      displayState = _d.state,
+      value = _d.value;
 
-  switch (_card.MechanicDisplay[effect.mechanic]) {
-    case _card.DisplayEnum.EFF:
-    case _card.DisplayEnum.REQ_EFF:
-    case _card.DisplayEnum.AMOUNT_EFF:
-      return renderMechanic(effect, shouldFlip);
-
-    case _card.DisplayEnum.PICK_ONE:
-      return renderPickOne(effect, shouldFlip);
-
-    case _card.DisplayEnum.NONE:
-      return renderNone(effect);
-
-    case _card.DisplayEnum.AMOUNT:
-    case _card.DisplayEnum.NAME:
-    case _card.DisplayEnum.NORMAL:
-      return renderEffect(effect, shouldFlip);
-  }
-
-  return null;
-};
-
-var mechWithTooltip = function mechWithTooltip(mech) {
-  var description = (0, _mechanicDescriptions.getMechanicDescription)(mech);
-  return (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
-    content: description
-  }, (0, _preact.h)("div", null, (0, _preact.h)("b", null, mech)));
-};
-
-var renderNone = function renderNone(mechanic) {
-  var id = String((0, _util.getUUID)(mechanic));
   return (0, _preact.h)("div", {
-    class: 'mechanic'
-  }, mechWithTooltip(mechanic.mechanic));
-};
-
-var renderMechanic = function renderMechanic(mechanic, shouldFlip) {
-  var reqs = mechanic.mechanicRequirements || [];
-  var effs = mechanic.mechanicEffects || [];
-  var id = String((0, _util.getUUID)(mechanic));
-  return (0, _preact.h)("div", {
-    class: 'mechanic'
-  }, mechWithTooltip(mechanic.mechanic), (0, _preact.h)("div", {
+    class: 'inline'
+  }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), displayState && (0, _preact.h)(_images.Arrow, {
+    player: effect.player,
+    shouldFlip: shouldFlip
+  }), displayState && (0, _preact.h)(_images.Icon, {
+    name: effect.axis
+  }), (displayState || value || valueString) && effect.amount !== undefined && (0, _preact.h)("b", null, effect.amount), (displayEff || displayReq) && (0, _preact.h)("span", null, (0, _preact.h)("div", {
     class: 'h-divider'
-  }), (0, _preact.h)("div", null, (0, _preact.h)("div", null, reqs.map(function (req, i) {
+  }), (0, _preact.h)("div", null, displayReq && (0, _preact.h)("div", null, reqs.map(function (req, i) {
     return (0, _preact.h)("span", {
       key: i
     }, (0, _preact.h)(_Requirement.default, {
       requirement: req,
       shouldFlip: shouldFlip
     }));
-  })), (0, _preact.h)("div", {
+  })), displayEff && (0, _preact.h)("div", {
     class: 'h-divider thin'
-  }), (0, _preact.h)("div", null, effs.map(function (eff, i) {
+  }), displayEff && (0, _preact.h)("div", null, effs.map(function (eff, i) {
     return (0, _preact.h)("span", {
       key: i
     }, (0, _preact.h)(Effect, {
       effect: eff,
       shouldFlip: shouldFlip
     }));
-  }))));
+  })))));
 };
 
-var renderPickOne = function renderPickOne(mechanic, shouldFlip) {
-  var id = String((0, _util.getUUID)(mechanic));
-  return (0, _preact.h)("div", {
-    class: 'pick-one'
-  }, mechWithTooltip(mechanic.mechanic), (0, _preact.h)("div", {
-    class: 'choices'
-  }, mechanic.choices.map(function (choice, i) {
-    return (0, _preact.h)("div", {
-      key: i,
-      class: 'choice'
-    }, choice.map(function (effect, i) {
-      return (0, _preact.h)("div", {
-        key: i,
-        class: 'inline'
-      }, " ", (0, _preact.h)(Effect, {
-        shouldFlip: shouldFlip,
-        effect: effect
-      }));
-    }));
-  })));
-};
-
-var renderEffect = function renderEffect(effect, shouldFlip) {
-  var id = String((0, _util.getUUID)(effect));
-  var description = (0, _mechanicDescriptions.getMechanicDescription)(effect.mechanic);
-  return (0, _preact.h)("div", {
-    class: 'inline'
-  }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), effect.player !== undefined && (0, _preact.h)(_images.Arrow, {
-    player: effect.player,
-    shouldFlip: shouldFlip
-  }), effect.axis !== undefined && (0, _preact.h)(_images.Icon, {
-    name: effect.axis
-  }), (0, _preact.h)("b", null, effect.amount));
+var mechWithTooltip = function mechWithTooltip(mech) {
+  var description = (0, _mechanicDescriptions.getMechanicDescription)(mech);
+  return (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
+    content: description
+  }, (0, _preact.h)("div", {
+    class: "ml-1 mr-1"
+  }, (0, _preact.h)("b", null, mech)));
 };
 
 var _default = Effect;
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../interfaces/card":"src/interfaces/card.ts","../../../images":"src/images/index.tsx","../../../util":"src/util.ts","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../shared/card":"src/shared/card.ts","../../../images":"src/images/index.tsx","../../../util":"src/util.ts","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16000,7 +15980,7 @@ exports.default = exports.playerRouter = void 0;
 
 var _preact = require("preact");
 
-var _card = require("../../../interfaces/card");
+var _card = require("../../../shared/card");
 
 var _effect = _interopRequireDefault(require("./effect"));
 
@@ -16066,7 +16046,7 @@ var _default = function _default(_a) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../interfaces/card":"src/interfaces/card.ts","./effect":"src/components/game/card/effect.tsx","./requirement":"src/components/game/card/requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/hand.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.ts","./effect":"src/components/game/card/effect.tsx","./requirement":"src/components/game/card/requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/hand.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16206,7 +16186,7 @@ var _preact = require("preact");
 
 var _images = require("../../../images");
 
-var _card = require("../../../interfaces/card");
+var _card = require("../../../shared/card");
 
 var selector = function selector(state) {
   return {
@@ -16291,7 +16271,7 @@ var _default = function _default(state) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../images":"src/images/index.tsx","../../../interfaces/card":"src/interfaces/card.ts"}],"src/components/game/stateMachine/statesPieces.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../images":"src/images/index.tsx","../../../shared/card":"src/shared/card.ts"}],"src/components/game/stateMachine/statesPieces.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16301,7 +16281,7 @@ exports.Distance = exports.Standing = exports.Motion = exports.Health = exports.
 
 var _preact = require("preact");
 
-var _card = require("../../../interfaces/card");
+var _card = require("../../../shared/card");
 
 var _util = require("../../../util");
 
@@ -16409,7 +16389,7 @@ var Distance = function Distance(_a) {
 };
 
 exports.Distance = Distance;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../interfaces/card":"src/interfaces/card.ts","../../../util":"src/util.ts","../../../game/interface":"src/game/interface.ts","../../../images":"src/images/index.tsx"}],"src/components/game/stateMachine/playerStates.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.ts","../../../util":"src/util.ts","../../../game/interface":"src/game/interface.ts","../../../images":"src/images/index.tsx"}],"src/components/game/stateMachine/playerStates.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16600,7 +16580,7 @@ exports.default = void 0;
 
 var _preact = require("preact");
 
-var _card = require("../../interfaces/card");
+var _card = require("../../shared/card");
 
 var _handCard = _interopRequireDefault(require("./card/handCard"));
 
@@ -16675,7 +16655,7 @@ var makeUse = function makeUse(mechanic) {
 var _default = (0, _util.cleanConnect)(selector, forceful);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../interfaces/card":"src/interfaces/card.ts","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.ts","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17626,7 +17606,7 @@ var _preact = require("preact");
 
 var _dispatch = require("../../deckViewer/dispatch");
 
-var _card = require("../../interfaces/card");
+var _card = require("../../shared/card");
 
 var _util = require("../../util");
 
@@ -17710,7 +17690,7 @@ var handlePlayerChange = function handlePlayerChange(e, filter, index) {
 var _default = (0, _util.cleanConnect)(selector, Filter);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../deckViewer/dispatch":"src/deckViewer/dispatch.ts","../../interfaces/card":"src/interfaces/card.ts","../../util":"src/util.ts"}],"src/deckViewer/filter.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../deckViewer/dispatch":"src/deckViewer/dispatch.ts","../../shared/card":"src/shared/card.ts","../../util":"src/util.ts"}],"src/deckViewer/filter.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17718,7 +17698,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.filterInvalidCards = void 0;
 
-var _card = require("../interfaces/card");
+var _card = require("../shared/card");
 
 var _a;
 
@@ -17768,6 +17748,8 @@ var stateRouter = (_a = {}, _a[_card.AxisEnum.ANTICIPATING] = function (state) {
   state[_card.AxisEnum.BALANCED] = true;
 }, _a[_card.AxisEnum.BALANCED] = function (state) {
   return state[_card.AxisEnum.UNBALANCED] = true;
+}, _a[_card.AxisEnum.NOT_ANTICIPATING] = function (state) {
+  return state[_card.AxisEnum.ANTICIPATING] = true;
 }, _a[_card.AxisEnum.GRAPPLED] = function (state) {
   state[_card.AxisEnum.CLOSE] = true;
   state[_card.AxisEnum.FAR] = true;
@@ -17808,7 +17790,7 @@ var getWhoToModify = function getWhoToModify(filter) {
       return [0, 1];
   }
 };
-},{"../interfaces/card":"src/interfaces/card.ts"}],"src/components/deckViewer/cards.tsx":[function(require,module,exports) {
+},{"../shared/card":"src/shared/card.ts"}],"src/components/deckViewer/cards.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18264,7 +18246,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59242" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52851" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

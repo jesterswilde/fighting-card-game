@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Card } from '../../../interfaces/card';
+import { Card } from '../../../shared/card';
 import Effect from './effect'
 
 interface Props extends Card {

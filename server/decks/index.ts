@@ -12,7 +12,7 @@ import { boxerDeck } from './deckBoxer';
 
 
 
-const testDeck = ["WillTelegraph", "WillTelegraph", "TelegraphTest"]
+const testDeck = ["testCripple"]
 
 export const decks: DeckDescription[] = [
     grappleDeck,

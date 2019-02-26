@@ -1,5 +1,5 @@
 import {h} from 'preact'; 
-import { Card } from '../../../interfaces/card';
+import { Card } from '../../../shared/card';
 import Optional from './optional'; 
 import Effect from './effect'
 import Requirement from './Requirement';

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.boxerDeck = {
     deckList: [
+        "Kidney Jab",
         "Accurate Strike",
         "Punch, Counterpunch",
         "Rope-a-dope",

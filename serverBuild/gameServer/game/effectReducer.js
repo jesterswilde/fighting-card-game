@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const stateInterface_1 = require("../interfaces/stateInterface");
-const cardInterface_1 = require("../interfaces/cardInterface");
+const card_1 = require("../../shared/card");
 const getCards_1 = require("./getCards");
 const util_1 = require("../util");
 const events_1 = require("./events");
@@ -38,7 +38,7 @@ const reduceBlock = (mechanic, card, player, opponent, state) => {
 };
 const reduceBuff = (mechanic, card, player, opponent, state) => {
     const effect = card.effects.find(({ mechanic: mechEnum, axis, player, amount }) => {
-        return mechanic.axis === axis && player === mechanic.player && mechEnum !== cardInterface_1.MechanicEnum.BUFF;
+        return mechanic.axis === axis && player === mechanic.player && mechEnum !== card_1.MechanicEnum.BUFF;
     });
     if (effect !== undefined && typeof effect.amount === 'number' && typeof mechanic.amount === 'number') {
         effect.amount += mechanic.amount;
@@ -62,20 +62,20 @@ const reduceFocus = (mechanic, card, player, opponent, state) => {
 };
 const reduceLock = (mechanic, card, player, opponent, state) => {
     const { lockedState } = state;
-    if (mechanic.axis === cardInterface_1.AxisEnum.DISTANCE) {
+    if (mechanic.axis === card_1.AxisEnum.DISTANCE) {
         lockedState.distance = getLockMax(lockedState.distance, mechanic.amount);
         return;
     }
     let whoToCheck = util_1.playerEnumToPlayerArray(mechanic.player, player, opponent);
     whoToCheck.forEach((player) => {
         switch (mechanic.axis) {
-            case (cardInterface_1.AxisEnum.MOTION):
+            case (card_1.AxisEnum.MOTION):
                 lockedState.players[player].motion = getLockMax(lockedState.distance, mechanic.amount);
                 break;
-            case (cardInterface_1.AxisEnum.POISE):
+            case (card_1.AxisEnum.POISE):
                 lockedState.players[player].poise = getLockMax(lockedState.distance, mechanic.amount);
                 break;
-            case (cardInterface_1.AxisEnum.STANCE):
+            case (card_1.AxisEnum.STANCE):
                 lockedState.players[player].stance = getLockMax(lockedState.distance, mechanic.amount);
                 break;
             default: return;
@@ -102,6 +102,10 @@ const reduceTelegraph = (mechanic, card, player, opponent, state) => {
     card.telegraphs = card.telegraphs || [];
     card.telegraphs.push(mechanic);
 };
+const reduceEnhance = (mechanic, card, player, opponent, state) => {
+    const alterObj = state.tagModification[player];
+    alterObj[mechanic.amount] = [...(alterObj[mechanic.amount] || []), ...(mechanic.mechanicEffects || [])];
+};
 const reduceStateChange = (mechanic, card, player, opponent, state) => {
     const applyGlobal = globalAxis[mechanic.axis];
     if (applyGlobal !== undefined) {
@@ -121,21 +125,22 @@ const reduceStateChange = (mechanic, card, player, opponent, state) => {
     }
 };
 const mechanicRouter = {
-    [cardInterface_1.MechanicEnum.BLOCK]: reduceBlock,
-    [cardInterface_1.MechanicEnum.BUFF]: reduceBuff,
-    [cardInterface_1.MechanicEnum.CRIPPLE]: reduceCripple,
-    [cardInterface_1.MechanicEnum.FOCUS]: reduceFocus,
-    [cardInterface_1.MechanicEnum.LOCK]: reduceLock,
-    [cardInterface_1.MechanicEnum.PREDICT]: reducePredict,
-    [cardInterface_1.MechanicEnum.REFLEX]: reduceReflex,
-    [cardInterface_1.MechanicEnum.TELEGRAPH]: reduceTelegraph,
-    [cardInterface_1.MechanicEnum.FORCEFUL]: () => { },
+    [card_1.MechanicEnum.BLOCK]: reduceBlock,
+    [card_1.MechanicEnum.BUFF]: reduceBuff,
+    [card_1.MechanicEnum.CRIPPLE]: reduceCripple,
+    [card_1.MechanicEnum.FOCUS]: reduceFocus,
+    [card_1.MechanicEnum.LOCK]: reduceLock,
+    [card_1.MechanicEnum.PREDICT]: reducePredict,
+    [card_1.MechanicEnum.REFLEX]: reduceReflex,
+    [card_1.MechanicEnum.TELEGRAPH]: reduceTelegraph,
+    [card_1.MechanicEnum.FORCEFUL]: () => { },
+    [card_1.MechanicEnum.ENHANCE]: reduceEnhance,
 };
 const globalAxis = {
-    [cardInterface_1.AxisEnum.GRAPPLED]: (state) => state.distance = stateInterface_1.DistanceEnum.GRAPPLED,
-    [cardInterface_1.AxisEnum.CLOSE]: (state) => state.distance = stateInterface_1.DistanceEnum.CLOSE,
-    [cardInterface_1.AxisEnum.FAR]: (state) => state.distance = stateInterface_1.DistanceEnum.FAR,
-    [cardInterface_1.AxisEnum.CLOSER]: (state) => {
+    [card_1.AxisEnum.GRAPPLED]: (state) => state.distance = stateInterface_1.DistanceEnum.GRAPPLED,
+    [card_1.AxisEnum.CLOSE]: (state) => state.distance = stateInterface_1.DistanceEnum.CLOSE,
+    [card_1.AxisEnum.FAR]: (state) => state.distance = stateInterface_1.DistanceEnum.FAR,
+    [card_1.AxisEnum.CLOSER]: (state) => {
         if (state.distance === stateInterface_1.DistanceEnum.FAR) {
             state.distance = stateInterface_1.DistanceEnum.CLOSE;
         }
@@ -143,7 +148,7 @@ const globalAxis = {
             state.distance = stateInterface_1.DistanceEnum.GRAPPLED;
         }
     },
-    [cardInterface_1.AxisEnum.FURTHER]: (state) => {
+    [card_1.AxisEnum.FURTHER]: (state) => {
         if (state.distance === stateInterface_1.DistanceEnum.GRAPPLED) {
             state.distance = stateInterface_1.DistanceEnum.CLOSE;
         }
@@ -153,35 +158,35 @@ const globalAxis = {
     }
 };
 const playerAxis = {
-    [cardInterface_1.AxisEnum.POISE]: (players, amount, state) => players.forEach((i) => {
+    [card_1.AxisEnum.POISE]: (players, amount, state) => players.forEach((i) => {
         const { playerStates, lockedState } = state;
         if (!lockedState.players[i].poise) {
             playerStates[i].poise += amount;
             playerStates[i].poise = Math.min(playerStates[i].poise, gameSettings_1.MAX_POISE);
         }
     }),
-    [cardInterface_1.AxisEnum.LOSE_POISE]: (players, amount, state) => players.forEach((i) => {
+    [card_1.AxisEnum.LOSE_POISE]: (players, amount, state) => players.forEach((i) => {
         const { playerStates, lockedState } = state;
         if (!lockedState.players[i].poise) {
             playerStates[i].poise -= amount;
             playerStates[i].poise = Math.max(playerStates[i].poise, gameSettings_1.MIN_POISE);
         }
     }),
-    [cardInterface_1.AxisEnum.STANDING]: (players, amount, state) => players.forEach((i) => {
+    [card_1.AxisEnum.STANDING]: (players, amount, state) => players.forEach((i) => {
         const { stateDurations, playerStates, lockedState } = state;
         if (!lockedState.players[i].stance) {
             stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== stateInterface_1.StandingEnum.STANDING);
             playerStates[i].standing = stateInterface_1.StandingEnum.STANDING;
         }
     }),
-    [cardInterface_1.AxisEnum.PRONE]: (players, amount, state) => players.forEach((i) => {
+    [card_1.AxisEnum.PRONE]: (players, amount, state) => players.forEach((i) => {
         const { stateDurations, playerStates, lockedState } = state;
         if (!lockedState.players[i].stance) {
             stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== stateInterface_1.StandingEnum.PRONE);
             state.playerStates[i].standing = stateInterface_1.StandingEnum.PRONE;
         }
     }),
-    [cardInterface_1.AxisEnum.STILL]: (players, amount, state) => {
+    [card_1.AxisEnum.STILL]: (players, amount, state) => {
         players.forEach((i) => {
             const { stateDurations, playerStates, lockedState } = state;
             if (!lockedState.players[i].motion) {
@@ -190,7 +195,7 @@ const playerAxis = {
             }
         });
     },
-    [cardInterface_1.AxisEnum.MOVING]: (players, amount, state) => {
+    [card_1.AxisEnum.MOVING]: (players, amount, state) => {
         const { stateDurations, playerStates, lockedState } = state;
         players.forEach((i) => {
             if (!lockedState.players[i].motion) {
@@ -199,7 +204,7 @@ const playerAxis = {
             }
         });
     },
-    [cardInterface_1.AxisEnum.DAMAGE]: (players, amount, state) => {
+    [card_1.AxisEnum.DAMAGE]: (players, amount, state) => {
         players.forEach((i) => {
             const block = state.block[i];
             if (block > 0) {

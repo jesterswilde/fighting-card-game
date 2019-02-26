@@ -1,8 +1,8 @@
 import { h } from 'preact';
-import { Card } from '../../../interfaces/card';
 import Effect from './effect'
 import Requirement from './Requirement';
 import Optional from './optional';
+import { Card } from '../../../shared/card'
 
 interface Props extends Card {
     identity: number

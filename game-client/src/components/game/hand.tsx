@@ -1,10 +1,9 @@
 import { h } from 'preact';
-import { Card } from '../../interfaces/card';
+import { Card } from '../../shared/card';
 import { dispatchPickedCard } from '../../hand/dispatch'
 import HandCard from './card/handCard'
 import Viewer from './card/viewer'; 
 import { StoreState } from '../../state/store';
-import { connect } from 'preact-redux';
 import { cleanConnect } from '../../util';
 
 interface Props {

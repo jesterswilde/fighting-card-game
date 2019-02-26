@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Card } from '../../interfaces/card';
+import { Card } from '../../shared/card';
 import QueueCard from './card/queueCard'
 import { dispatchSwitchCardDisplayMode } from '../../game/dispatch';
 import FullQueueCard from './card/fullQueueCard';

@@ -12,6 +12,7 @@ var MechanicEnum;
     MechanicEnum["CRIPPLE"] = "Cripple";
     MechanicEnum["PICK_ONE"] = "Pick One";
     MechanicEnum["FORCEFUL"] = "Forceful";
+    MechanicEnum["ENHANCE"] = "Enhance";
 })(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
 var AxisEnum;
 (function (AxisEnum) {
@@ -29,6 +30,7 @@ var AxisEnum;
     AxisEnum["BALANCED"] = "Balanced";
     AxisEnum["UNBALANCED"] = "Unbalanced";
     AxisEnum["ANTICIPATING"] = "Anticipating";
+    AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
     AxisEnum["CLOSER"] = "Closer";
     AxisEnum["FURTHER"] = "Further";
     AxisEnum["BLOODIED"] = "Bloodied";

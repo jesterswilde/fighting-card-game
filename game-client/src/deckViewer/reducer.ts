@@ -1,7 +1,7 @@
 import { DeckViewerState, DeckViewerFilter } from "./interface";
 import { ActionType } from "../state/actionTypes";
 import { DeckViewerEnum, UpdateDVFilterAction, AddDVFilterAction, RemoveDVFilterAction } from "./actions";
-import { AxisEnum, PlayerEnum } from "../interfaces/card";
+import { AxisEnum, PlayerEnum } from "../shared/card";
 
 export const deckViewerReducer = (state: DeckViewerState = {
     deck: null,

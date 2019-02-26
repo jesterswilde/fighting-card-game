@@ -1,5 +1,5 @@
 import { StoreState } from "../state/store";
-import { AxisEnum, PlayerEnum, MechanicEnum } from '../interfaces/enums';
+import { AxisEnum, PlayerEnum, MechanicEnum } from '../shared/card';
 import { cardToJSON } from './cardToJSON';
 import { CardJSON } from '../interfaces/cardJSON';
 
@@ -76,7 +76,7 @@ describe("card utils", () => {
                     amount: "Leg"
                 }]
             }],
-            tagObjs: [{ id: 6, value: "tag" }]
+            tags: [{ id: 6, value: "tag" }]
         }
 
         const state: StoreState = {

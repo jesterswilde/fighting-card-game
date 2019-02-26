@@ -1,12 +1,11 @@
 import { reduceMechanics } from "./effectReducer";
-import { getLastPlayedCard } from "./queue";
 import { GameState, ReadiedEffect } from "../interfaces/stateInterface";
 import { ControlEnum } from "../errors";
 import { didPredictionHappen } from "./predictions";
 import { shuffleDeck } from "./startTurn";
 import { deepCopy } from "../util";
 import { mechReqsMet, canPlayCard } from "./requirements";
-import { Mechanic, MechanicEnum } from "../interfaces/cardInterface";
+import { Mechanic, MechanicEnum } from "../../shared/card";
 import { mechanicsToReadiedEffects } from "./playCard";
 import { addRevealPredictionEvent } from "./events";
 

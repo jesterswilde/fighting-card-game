@@ -1,5 +1,5 @@
 import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ReadiedEffect } from "../interfaces/stateInterface";
-import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../interfaces/cardInterface";
+import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../../shared/card";
 import { getCardByName } from "./getCards";
 import { playerEnumToPlayerArray } from "../util";
 import { addEffectEvent } from "./events";
@@ -94,6 +94,11 @@ const reduceTelegraph = (mechanic: Mechanic, card: Card, player: number, opponen
     card.telegraphs = card.telegraphs || [];
     card.telegraphs.push(mechanic);
 }
+const reduceEnhance = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState)=>{
+    const alterObj = state.tagModification[player];
+    alterObj[mechanic.amount] = [...(alterObj[mechanic.amount] || []), ...(mechanic.mechanicEffects || [])]; 
+
+}
 
 const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
     const applyGlobal = globalAxis[mechanic.axis];
@@ -123,6 +128,7 @@ const mechanicRouter: { [name: string]: (mechanic: Mechanic, card: Card, player:
     [MechanicEnum.REFLEX]: reduceReflex,
     [MechanicEnum.TELEGRAPH]: reduceTelegraph,
     [MechanicEnum.FORCEFUL]: () => { },
+    [MechanicEnum.ENHANCE]: reduceEnhance,
 }
 
 const globalAxis: { [axis: string]: (state: GameState) => void } = {

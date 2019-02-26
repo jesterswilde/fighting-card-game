@@ -3,22 +3,22 @@ import { sendHand, sendState } from "./socket";
 import { canPlayCard, canUseOptional } from "./requirements";
 import { HAND_SIZE, ANTICIPATING_POISE } from "../gameSettings";
 import { ErrorEnum } from "../errors";
-import { Card } from "../interfaces/cardInterface";
+import { Card } from "../../shared/card";
 import { SocketEnum } from "../interfaces/socket";
 
 export const startTurn = async (state: GameState) => {
     shuffleDeck(state);
-    addPoise(state); 
+    addPoise(state);
     drawHand(state);
-    sendState(state); 
+    sendState(state);
     await playerPicksCard(state);
 }
 
 export const addPoise = (state: GameState)=>{
     const {currentPlayer: player, playerStates} = state;
     if(state.turnNumber !== 0 && playerStates[player].poise < ANTICIPATING_POISE - 1){
-        playerStates[player].poise++; 
-        console.log('increasing poise', state.playerStates[player].poise)
+        playerStates[player].poise++;
+        console.log('increasing poise', state.playerStates[player].poise);
     } 
 }
 

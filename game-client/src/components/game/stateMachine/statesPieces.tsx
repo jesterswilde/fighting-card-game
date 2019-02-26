@@ -1,5 +1,5 @@
 import {h} from 'preact'; 
-import { AxisEnum } from '../../../interfaces/card';
+import { AxisEnum } from '../../../shared/card';
 import { printMotion, printStanding, printDistance } from '../../../util';
 import { MotionEnum, StandingEnum, GameState, DistanceEnum } from '../../../game/interface';
 import { Icon } from '../../../images';

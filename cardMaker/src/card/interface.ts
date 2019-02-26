@@ -36,7 +36,7 @@ export const makeDefaultCardJSON = (): CardJSON=>{
         optional: [], 
         requirements: [], 
         effects: [],
-        tagObjs: []
+        tags: []
     }
     return card; 
 }

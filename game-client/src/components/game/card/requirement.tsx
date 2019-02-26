@@ -1,6 +1,6 @@
 import { h } from 'preact';
 import { playerRouter } from './viewer';
-import { StatePiece } from '../../../interfaces/card';
+import { StatePiece } from '../../../shared/card';
 import {Icon, Arrow} from '../../../images/index'; 
 
 interface Props{

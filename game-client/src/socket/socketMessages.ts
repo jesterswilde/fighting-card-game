@@ -1,4 +1,4 @@
-import { Card, Mechanic } from '../interfaces/card';
+import { Card, Mechanic } from '../shared/card';
 import { dispatchGotCards } from '../hand/dispatch';
 import { dispatchSwitchScreen } from '../display/dispatch';
 import { ScreenEnum } from '../display/interface';

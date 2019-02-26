@@ -1,4 +1,4 @@
-import { Card, AxisEnum, PlayerEnum } from "../interfaces/card";
+import { Card, AxisEnum, PlayerEnum } from "../shared/card";
 import {PoiseEnum, StandingEnum, MotionEnum, DistanceEnum} from '../game/interface'
 
 export interface Deck{

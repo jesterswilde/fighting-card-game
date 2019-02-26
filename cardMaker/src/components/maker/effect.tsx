@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MechanicJSON } from '../../interfaces/cardJSON';
-import { MechanicEnum, PlayerEnum, AxisEnum, getMechDisplay } from '../../interfaces/enums';
+import { MechanicEnum, PlayerEnum, AxisEnum, getMechDisplay } from '../../shared/card';
 import { mechFromJSON, mechCreateEff, mechCreateReq, mechAddToChoice } from '../../mechanic/json';
 import { dispatchDeletedMech, dispatchMechCreatedChoiceCategory, dispatchMechDeletedChoice } from '../../mechanic/dispatch';
 import Requirement from './requirement';

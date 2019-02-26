@@ -5,11 +5,13 @@ import { StoreState } from '../../state/store';
 import { cardToJSON, updateCard } from '../../card/cardToJSON';
 import { connect } from 'react-redux';
 import { dispatchDeleteStatePiece } from '../../statePiece/dispatch';
-import { cardCreateReq, cardCreateEff } from '../../card/json';
+import { cardCreateReq, cardCreateEff, cardCreateOpt } from '../../card/json';
 import { dispatchDeletedMech } from '../../mechanic/dispatch';
+import { dispatchToPathString } from '../../path/dispatch';
 import Requirement from './requirement';
 import Effect from './effect';
-import { dispatchToPathString } from '../../path/dispatch';
+import Optional from './optional'; 
+import { dispatchDeletedOptional } from '../../optional/dispatch';
 
 interface Props extends InternalProps {
     path: string[]
@@ -32,7 +34,7 @@ class Maker extends React.Component<Props> {
         }
     }
     render() {
-        const { card: { name = '', requirements = [], effects = [], tagObjs = [] } } = this.props;
+        const { card: { name = '', requirements = [], effects = [], tags: tagObjs = [], optional = [] } } = this.props;
         return <div>
             <input placeholder="Card Name" className="form-control-lg" type="text" value={name} onChange={(e) => dispatchUpdatedCardName(e.target.value)} />
             <div>
@@ -54,6 +56,18 @@ class Maker extends React.Component<Props> {
                     {effects.map((effect, i) => <li key={effect.id}><div className="row">
                         <span className="col-1"><button className="btn btn-sm btn-danger" onClick={() => dispatchDeletedMech(effect.id)}>-</button></span>
                         <span className="col-11"><Effect effect={effect} /></span>
+                    </div>
+                    </li>)}
+                </ul>
+            </div>
+            <div>
+                <h2> Optional
+                <button className='ml-3 btn btn-sm btn-primary' onClick={cardCreateOpt}>+</button>
+                </h2>
+                <ul className="ml-1">
+                    {optional.map((opt) => <li key={opt.id}><div className="row">
+                        <span className="col-1"><button className="btn btn-sm btn-danger" onClick={() => dispatchDeletedOptional(opt.id)}>-</button></span>
+                        <span className="col-11"><Optional optional={opt} /></span>
                     </div>
                     </li>)}
                 </ul>

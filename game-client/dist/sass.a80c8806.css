@@ -9848,6 +9848,10 @@ h3 {
   cursor: pointer;
 }
 
+div {
+  color: #000000;
+}
+
 .card-list {
   display: flex;
   text-align: center;

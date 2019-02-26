@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import Requirement from './requirement';
 import Effect from './effect';
-import { Optional } from '../../../interfaces/card';
+import { Optional } from '../../../shared/card';
 
 interface Props extends Optional {
     greyUnusable?: boolean

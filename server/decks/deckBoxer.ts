@@ -2,6 +2,7 @@ import { DeckDescription } from "./interface";
 
 export const boxerDeck: DeckDescription = {
     deckList: [
+        "Kidney Jab",
         "Accurate Strike",
         "Punch, Counterpunch",
         "Rope-a-dope",

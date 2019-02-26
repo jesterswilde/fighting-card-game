@@ -31,10 +31,10 @@ export const cardFromJSON = (cardJSON: CardJSON | null) => {
     card.optional = cardJSON.optional.map(optionalFromJSON);
     card.effects = cardJSON.effects.map(mechFromJSON);
     card.name = cardJSON.name;
-    if(cardJSON.tagObjs === undefined){
+    if(cardJSON.tags === undefined){
         card.tagObjs = []
     }else{
-        card.tagObjs = cardJSON.tagObjs.map((tagObj)=> {
+        card.tagObjs = cardJSON.tags.map((tagObj)=> {
             if(tagObj.id === undefined){
                 return {...tagObj, id: getID()}
             }

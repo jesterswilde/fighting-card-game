@@ -3,7 +3,7 @@ import { Deck } from '../../deckViewer/interface';
 import HandCard from '../game/card/handCard';
 import Filter from './filter';
 import { DeckViewerFilter } from '../../deckViewer/interface'
-import {filterInvalidCards} from '../../deckViewer/filter'; 
+import { filterInvalidCards } from '../../deckViewer/filter';
 
 interface Props extends Deck {
     back: () => void

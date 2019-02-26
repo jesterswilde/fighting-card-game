@@ -27,7 +27,7 @@ export const cardToJSON = (state: StoreState): CardJSON => {
             requirements,
             effects,
             optional,
-            tagObjs,
+            tags: tagObjs,
         }
     }
     return makeDefaultCardJSON();
@@ -122,6 +122,6 @@ export const cardToServerJSON = (state: StoreState): CardJSON => {
         return omit(opt, 'id');
     });
     card.effects = card.effects.map(omitIdFromEff);
-    card.tagObjs = card.tagObjs.map((tag)=> omit(tag, 'id')); 
+    card.tags = card.tags.map((tag)=> omit(tag, 'id')); 
     return card;
 }

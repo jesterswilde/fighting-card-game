@@ -1,6 +1,6 @@
 import { store } from "../state/store";
 import { HandActionEnum, PickedCardAction, GotCardsAction } from "./actions";
-import { Card } from "../interfaces/card";
+import { Card } from "../shared/card";
 import { socket } from "../socket/socket";
 import { SocketEnum } from "../socket/socketEnum";
 

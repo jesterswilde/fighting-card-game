@@ -1,5 +1,5 @@
 import { createStore, combineReducers, Store } from 'redux';
-import { GameState, DistanceEnum } from '../game/interface';
+import { GameState } from '../game/interface';
 import { gameReducer } from '../game/reducer';
 import { ActionType } from './actionTypes';
 import { HandState } from '../hand/interface';

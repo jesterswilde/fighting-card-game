@@ -1,4 +1,4 @@
-import { Card, StatePiece, AxisEnum, MechanicEnum, PlayerEnum, RequirementEffect, Mechanic } from "../interfaces/cardInterface";
+import { Card, StatePiece, AxisEnum, MechanicEnum, PlayerEnum, RequirementEffect, Mechanic } from "../../shared/card";
 import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum } from "../interfaces/stateInterface";
 import { BLOODIED_HP } from "../gameSettings";
 import { playerEnumToPlayerArray } from "../util";
@@ -53,6 +53,7 @@ const globalAxis: { [axis: string]: (state: GameState) => boolean } = {
 }
 
 const playerAxis: { [axis: string]: (check: number[], state: GameState) => boolean } = {
+    [AxisEnum.NOT_ANTICIPATING]: (check: number[], state: GameState)=> check.every((i)=> hasPoise(PoiseEnum.NOT_ANTICIPATING, i, state)),
     [AxisEnum.STANDING]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].standing === StandingEnum.STANDING),
     [AxisEnum.PRONE]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].standing === StandingEnum.PRONE),
     [AxisEnum.STILL]: (check: number[], state: GameState) => check.every((i) => state.playerStates[i].motion === MotionEnum.STILL),

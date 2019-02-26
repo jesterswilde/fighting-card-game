@@ -7,6 +7,7 @@ export interface GameState{
     playerStates: PlayerState[]
     stateDurations: PlayerStateDuration[]
     modifiedAxis: ModifiedAxis
+    tagModification: TagModification[]
     block: number[]
     queue: Card[][]
     distance: DistanceEnum
@@ -26,6 +27,10 @@ export interface GameState{
     lockedState: LockState
     events: EventAction[]
     turnNumber: number
+}
+
+export interface TagModification{
+    [tag: string]: Mechanic[]
 }
 
 export interface ReadiedEffect{
@@ -79,8 +84,10 @@ export enum PredictionEnum {
 export enum PoiseEnum{
     BALANCED,
     UNBALANCED,
-    ANTICIPATING
+    ANTICIPATING,
+    NOT_ANTICIPATING
 }
+
 export enum StandingEnum{
     PRONE,
     STANDING

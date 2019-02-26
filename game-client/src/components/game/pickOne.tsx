@@ -1,5 +1,5 @@
 import {h} from 'preact'; 
-import {Mechanic, Card} from '../../interfaces/card'
+import {Mechanic, Card} from '../../shared/card'
 import {StoreState} from '../../state/store'
 import HandCard from './card/handCard'; 
 import { dispatchDidPickOne } from '../../game/dispatch';

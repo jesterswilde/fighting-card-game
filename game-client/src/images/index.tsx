@@ -1,6 +1,6 @@
 /// <reference path='./index.d.tsx'/>
 import { h } from 'preact';
-import { AxisEnum, PlayerEnum } from "../interfaces/card";
+import { AxisEnum, PlayerEnum } from "../shared/card";
 import grapple from './grapple.png';
 import close from './close.png';
 import far from './far.png';

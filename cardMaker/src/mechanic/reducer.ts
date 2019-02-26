@@ -4,7 +4,6 @@ import { MechActionEnum, DeletedMechActon, MechAddedEffAction, MechAddedReqActio
 import { reduce } from 'lodash'
 import { filterIfHas } from '../utils';
 import { StatePieceEnum, DeleteStatePieceAction } from '../statePiece/actions';
-import { stat } from 'fs';
 
 export const mechanicReducer = (state: MechanicState = { mechanicsById: {} }, action: ActionType): MechanicState => {
     switch (action.type) {

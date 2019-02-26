@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { DeckViewerFilter } from '../../deckViewer/interface';
 import { StoreState } from '../../state/store';
 import { dispatchUpdateDVFilter as updateFilter, dispatchAddDVFilter as addFilter, dispatchRemoveDVFilter as removeFilter } from '../../deckViewer/dispatch';
-import { PlayerEnum, AxisEnum } from '../../interfaces/card';
+import { PlayerEnum, AxisEnum } from '../../shared/card';
 import { cleanConnect } from '../../util';
 interface Props {
     filters: DeckViewerFilter[]

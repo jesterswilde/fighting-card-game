@@ -1,4 +1,4 @@
-import { MechanicEnum } from "../interfaces/card";
+import { MechanicEnum } from "../shared/card";
 
 const descObj: {[mech: string]: string} = {
     [MechanicEnum.BLOCK]: 'Reduces damage by X amount next turn',

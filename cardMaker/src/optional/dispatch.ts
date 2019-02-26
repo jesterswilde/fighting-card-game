@@ -29,7 +29,8 @@ export const dispatchUpdateOptional = (id: number, optional: Optional)=>{
     store.dispatch(action); 
 }
 
-export const dispatchDeletedOptional = (id: number)=>{
+export const dispatchDeletedOptional = (id?: number)=>{
+    if(id === undefined) return; 
     const action: DeletedOptionalAction = {
         type: OptionalEnum.DELETED,
         id

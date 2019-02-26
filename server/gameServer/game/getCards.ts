@@ -1,4 +1,4 @@
-import { Card, AxisEnum, PlayerEnum } from "../interfaces/cardInterface";
+import { Card, AxisEnum, PlayerEnum } from "../../shared/card";
 import { makeBlankCard } from "../util";
 
 export const getCardByName = (name: string): Card=>{

@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import { Mechanic, Card, AxisEnum, PlayerEnum } from '../../interfaces/card';
+import { Mechanic, Card, AxisEnum, PlayerEnum } from '../../shared/card';
 import { StoreState } from '../../state/store';
 import HandCard from './card/handCard'
 import { cleanConnect } from '../../util';

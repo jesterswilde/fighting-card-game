@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cardInterface_1 = require("../../interfaces/cardInterface");
+const card_1 = require("../../../shared/card");
 const playCard_1 = require("../playCard");
 const socket_1 = require("../../interfaces/socket");
 const util_1 = require("../../util");
@@ -18,7 +18,7 @@ exports.playerPicksOne = (state, { _waitForPlayerToChoose = waitForPlayerToChoos
     const unusedEffs = [];
     for (let i = 0; i < readiedEffects.length; i++) {
         const { mechanic: effect, card, isEventOnly } = state.readiedEffects[i];
-        if (effect.mechanic === cardInterface_1.MechanicEnum.PICK_ONE && !isEventOnly) {
+        if (effect.mechanic === card_1.MechanicEnum.PICK_ONE && !isEventOnly) {
             const player = sockets[card.player];
             const choice = yield _waitForPlayerToChoose(effect.choices, player);
             const picked = effect.choices[choice];
@@ -45,7 +45,7 @@ exports.makePredictions = (state, { _getPredictions = getPredictions } = {}) => 
     const { readiedEffects = [], sockets } = state;
     for (let i = 0; i < readiedEffects.length; i++) {
         const { mechanic: eff, card, isEventOnly } = readiedEffects[i];
-        if (eff.mechanic === cardInterface_1.MechanicEnum.PREDICT && !isEventOnly) {
+        if (eff.mechanic === card_1.MechanicEnum.PREDICT && !isEventOnly) {
             readiedEffects.push({ mechanic: eff, card, isEventOnly: true });
             const prediction = {};
             const player = sockets[card.player];
@@ -74,10 +74,10 @@ exports.checkForForecful = (state) => __awaiter(this, void 0, void 0, function* 
     const { readiedEffects = [] } = state;
     const options = readiedEffects.filter(({ card: { player }, mechanic: mech, isEventOnly }) => {
         const { poise } = state.playerStates[player];
-        return mech.mechanic === cardInterface_1.MechanicEnum.FORCEFUL && poise >= mech.amount && !isEventOnly;
+        return mech.mechanic === card_1.MechanicEnum.FORCEFUL && poise >= mech.amount && !isEventOnly;
     });
     //filter out all readied forecful mechanics
-    state.readiedEffects = readiedEffects.filter(({ mechanic: mech }) => mech.mechanic !== cardInterface_1.MechanicEnum.FORCEFUL);
+    state.readiedEffects = readiedEffects.filter(({ mechanic: mech }) => mech.mechanic !== card_1.MechanicEnum.FORCEFUL);
     for (let i = 0; i < options.length; i++) {
         const { card: { player, name: cardName }, mechanic, card } = options[i];
         const socket = state.sockets[player];

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const cardInterface_1 = require("../interfaces/cardInterface");
+const card_1 = require("../../shared/card");
 const stateInterface_1 = require("../interfaces/stateInterface");
 const gameSettings_1 = require("../gameSettings");
 const util_1 = require("../util");
@@ -44,21 +44,22 @@ exports.meetsRequirements = (req, state, player, opponent) => {
     }
 };
 const globalAxis = {
-    [cardInterface_1.AxisEnum.GRAPPLED]: (state) => state.distance === stateInterface_1.DistanceEnum.GRAPPLED,
-    [cardInterface_1.AxisEnum.NOT_GRAPPLED]: (state) => state.distance !== stateInterface_1.DistanceEnum.GRAPPLED,
-    [cardInterface_1.AxisEnum.CLOSE]: (state) => state.distance === stateInterface_1.DistanceEnum.CLOSE,
-    [cardInterface_1.AxisEnum.NOT_CLOSE]: (state) => state.distance !== stateInterface_1.DistanceEnum.CLOSE,
-    [cardInterface_1.AxisEnum.FAR]: (state) => state.distance === stateInterface_1.DistanceEnum.FAR,
-    [cardInterface_1.AxisEnum.NOT_FAR]: (state) => state.distance !== stateInterface_1.DistanceEnum.FAR
+    [card_1.AxisEnum.GRAPPLED]: (state) => state.distance === stateInterface_1.DistanceEnum.GRAPPLED,
+    [card_1.AxisEnum.NOT_GRAPPLED]: (state) => state.distance !== stateInterface_1.DistanceEnum.GRAPPLED,
+    [card_1.AxisEnum.CLOSE]: (state) => state.distance === stateInterface_1.DistanceEnum.CLOSE,
+    [card_1.AxisEnum.NOT_CLOSE]: (state) => state.distance !== stateInterface_1.DistanceEnum.CLOSE,
+    [card_1.AxisEnum.FAR]: (state) => state.distance === stateInterface_1.DistanceEnum.FAR,
+    [card_1.AxisEnum.NOT_FAR]: (state) => state.distance !== stateInterface_1.DistanceEnum.FAR
 };
 const playerAxis = {
-    [cardInterface_1.AxisEnum.STANDING]: (check, state) => check.every((i) => state.playerStates[i].standing === stateInterface_1.StandingEnum.STANDING),
-    [cardInterface_1.AxisEnum.PRONE]: (check, state) => check.every((i) => state.playerStates[i].standing === stateInterface_1.StandingEnum.PRONE),
-    [cardInterface_1.AxisEnum.STILL]: (check, state) => check.every((i) => state.playerStates[i].motion === stateInterface_1.MotionEnum.STILL),
-    [cardInterface_1.AxisEnum.MOVING]: (check, state) => check.every((i) => state.playerStates[i].motion === stateInterface_1.MotionEnum.MOVING),
-    [cardInterface_1.AxisEnum.BALANCED]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.BALANCED, i, state)),
-    [cardInterface_1.AxisEnum.ANTICIPATING]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.ANTICIPATING, i, state)),
-    [cardInterface_1.AxisEnum.UNBALANCED]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.UNBALANCED, i, state)),
-    [cardInterface_1.AxisEnum.BLOODIED]: (check, state) => check.every((i) => state.health[i] <= gameSettings_1.BLOODIED_HP),
-    [cardInterface_1.AxisEnum.DAMAGE]: (check, state) => check.every((i) => state.damaged[i]),
+    [card_1.AxisEnum.NOT_ANTICIPATING]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.NOT_ANTICIPATING, i, state)),
+    [card_1.AxisEnum.STANDING]: (check, state) => check.every((i) => state.playerStates[i].standing === stateInterface_1.StandingEnum.STANDING),
+    [card_1.AxisEnum.PRONE]: (check, state) => check.every((i) => state.playerStates[i].standing === stateInterface_1.StandingEnum.PRONE),
+    [card_1.AxisEnum.STILL]: (check, state) => check.every((i) => state.playerStates[i].motion === stateInterface_1.MotionEnum.STILL),
+    [card_1.AxisEnum.MOVING]: (check, state) => check.every((i) => state.playerStates[i].motion === stateInterface_1.MotionEnum.MOVING),
+    [card_1.AxisEnum.BALANCED]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.BALANCED, i, state)),
+    [card_1.AxisEnum.ANTICIPATING]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.ANTICIPATING, i, state)),
+    [card_1.AxisEnum.UNBALANCED]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.UNBALANCED, i, state)),
+    [card_1.AxisEnum.BLOODIED]: (check, state) => check.every((i) => state.health[i] <= gameSettings_1.BLOODIED_HP),
+    [card_1.AxisEnum.DAMAGE]: (check, state) => check.every((i) => state.damaged[i]),
 };

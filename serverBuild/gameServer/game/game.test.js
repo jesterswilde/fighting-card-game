@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = require("../util");
-const cardInterface_1 = require("../interfaces/cardInterface");
+const card_1 = require("../../shared/card");
 const stateInterface_1 = require("../interfaces/stateInterface");
 const gameSettings_1 = require("../gameSettings");
 const errors_1 = require("../errors");
@@ -21,62 +21,62 @@ const makeDeck = () => {
     const card1 = util_1.makeBlankCard();
     card1.name = "1";
     card1.requirements.push({
-        axis: cardInterface_1.AxisEnum.CLOSE,
-        player: cardInterface_1.PlayerEnum.BOTH
+        axis: card_1.AxisEnum.CLOSE,
+        player: card_1.PlayerEnum.BOTH
     });
     card1.effects.push({
-        axis: cardInterface_1.AxisEnum.CLOSE,
-        player: cardInterface_1.PlayerEnum.BOTH
+        axis: card_1.AxisEnum.CLOSE,
+        player: card_1.PlayerEnum.BOTH
     });
     const card2 = util_1.makeBlankCard();
     card2.name = "2";
     card2.requirements.push({
-        axis: cardInterface_1.AxisEnum.STANDING,
-        player: cardInterface_1.PlayerEnum.PLAYER
+        axis: card_1.AxisEnum.STANDING,
+        player: card_1.PlayerEnum.PLAYER
     });
     card2.effects.push({
-        axis: cardInterface_1.AxisEnum.PRONE,
-        player: cardInterface_1.PlayerEnum.PLAYER
+        axis: card_1.AxisEnum.PRONE,
+        player: card_1.PlayerEnum.PLAYER
     });
     const card3 = util_1.makeBlankCard();
     card3.name = "3";
     card3.requirements.push({
-        axis: cardInterface_1.AxisEnum.NOT_FAR,
-        player: cardInterface_1.PlayerEnum.BOTH
+        axis: card_1.AxisEnum.NOT_FAR,
+        player: card_1.PlayerEnum.BOTH
     });
     card3.effects.push({
-        axis: cardInterface_1.AxisEnum.BALANCED,
-        player: cardInterface_1.PlayerEnum.PLAYER
+        axis: card_1.AxisEnum.BALANCED,
+        player: card_1.PlayerEnum.PLAYER
     });
     const card4 = util_1.makeBlankCard();
     card4.name = "4";
     card4.requirements.push({
-        axis: cardInterface_1.AxisEnum.CLOSE,
-        player: cardInterface_1.PlayerEnum.BOTH
+        axis: card_1.AxisEnum.CLOSE,
+        player: card_1.PlayerEnum.BOTH
     }, {
-        axis: cardInterface_1.AxisEnum.UNBALANCED,
-        player: cardInterface_1.PlayerEnum.OPPONENT
+        axis: card_1.AxisEnum.UNBALANCED,
+        player: card_1.PlayerEnum.OPPONENT
     });
     card4.effects.push({
-        axis: cardInterface_1.AxisEnum.DAMAGE,
-        player: cardInterface_1.PlayerEnum.OPPONENT,
+        axis: card_1.AxisEnum.DAMAGE,
+        player: card_1.PlayerEnum.OPPONENT,
         amount: 3
     });
     const card5 = util_1.makeBlankCard();
     card5.name = "5";
     card5.requirements.push({
-        axis: cardInterface_1.AxisEnum.MOVING,
-        player: cardInterface_1.PlayerEnum.OPPONENT
+        axis: card_1.AxisEnum.MOVING,
+        player: card_1.PlayerEnum.OPPONENT
     });
     card5.effects.push({
-        axis: cardInterface_1.AxisEnum.STANDING,
-        player: cardInterface_1.PlayerEnum.BOTH
+        axis: card_1.AxisEnum.STANDING,
+        player: card_1.PlayerEnum.BOTH
     });
     const card6 = util_1.makeBlankCard();
     card6.name = "6";
     card6.requirements.push({
-        axis: cardInterface_1.AxisEnum.CLOSE,
-        player: cardInterface_1.PlayerEnum.BOTH
+        axis: card_1.AxisEnum.CLOSE,
+        player: card_1.PlayerEnum.BOTH
     });
     return [card1, card2, card3, card4, card5, card6];
 };
@@ -210,15 +210,15 @@ describe('game', () => {
     describe('getMechanicsReady', () => {
         let effect1, effect2, effect3, effect4;
         beforeEach(() => {
-            effect1 = { axis: cardInterface_1.AxisEnum.FAR, player: cardInterface_1.PlayerEnum.BOTH };
-            effect2 = { axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 2 };
+            effect1 = { axis: card_1.AxisEnum.FAR, player: card_1.PlayerEnum.BOTH };
+            effect2 = { axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 2 };
             effect3 = {
-                mechanic: cardInterface_1.MechanicEnum.TELEGRAPH, mechanicRequirements: [
-                    { axis: cardInterface_1.AxisEnum.GRAPPLED, player: cardInterface_1.PlayerEnum.BOTH }
+                mechanic: card_1.MechanicEnum.TELEGRAPH, mechanicRequirements: [
+                    { axis: card_1.AxisEnum.GRAPPLED, player: card_1.PlayerEnum.BOTH }
                 ],
-                mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 }]
+                mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 }]
             };
-            effect4 = { axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.PLAYER, amount: 5 };
+            effect4 = { axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.PLAYER, amount: 5 };
         });
         it('should store effects', () => {
             const card = util_1.makeBlankCard();
@@ -234,12 +234,12 @@ describe('game', () => {
             card.opponent = 1;
             card.effects = [effect1];
             card.optional = [
-                { effects: [effect3], requirements: [{ axis: cardInterface_1.AxisEnum.STANDING, player: cardInterface_1.PlayerEnum.OPPONENT }] },
-                { effects: [effect2], requirements: [{ axis: cardInterface_1.AxisEnum.ANTICIPATING, player: cardInterface_1.PlayerEnum.PLAYER }] },
+                { effects: [effect3], requirements: [{ axis: card_1.AxisEnum.STANDING, player: card_1.PlayerEnum.OPPONENT }] },
+                { effects: [effect2], requirements: [{ axis: card_1.AxisEnum.ANTICIPATING, player: card_1.PlayerEnum.PLAYER }] },
                 {
                     effects: [effect4], requirements: [
-                        { axis: cardInterface_1.AxisEnum.STANDING, player: cardInterface_1.PlayerEnum.PLAYER },
-                        { axis: cardInterface_1.AxisEnum.UNBALANCED, player: cardInterface_1.PlayerEnum.PLAYER }
+                        { axis: card_1.AxisEnum.STANDING, player: card_1.PlayerEnum.PLAYER },
+                        { axis: card_1.AxisEnum.UNBALANCED, player: card_1.PlayerEnum.PLAYER }
                     ]
                 },
             ];
@@ -255,9 +255,9 @@ describe('game', () => {
             _getPredictions.mockImplementationOnce(() => __awaiter(this, void 0, void 0, function* () { return stateInterface_1.PredictionEnum.MOTION; }));
             const card = util_1.makeBlankCard();
             card.effects = [
-                { mechanic: cardInterface_1.MechanicEnum.PREDICT, mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 }] },
-                { axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 },
-                { mechanic: cardInterface_1.MechanicEnum.PREDICT, mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 }] }
+                { mechanic: card_1.MechanicEnum.PREDICT, mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 }] },
+                { axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 },
+                { mechanic: card_1.MechanicEnum.PREDICT, mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 }] }
             ];
             state.readiedEffects = util_1.deepCopy(card.effects);
             state.pickedCard = card;
@@ -274,8 +274,8 @@ describe('game', () => {
         it('should mark all axis that change', () => {
             const card = util_1.makeBlankCard();
             card.effects = [
-                { axis: cardInterface_1.AxisEnum.GRAPPLED, player: cardInterface_1.PlayerEnum.BOTH },
-                { axis: cardInterface_1.AxisEnum.MOVING, player: cardInterface_1.PlayerEnum.OPPONENT }
+                { axis: card_1.AxisEnum.GRAPPLED, player: card_1.PlayerEnum.BOTH },
+                { axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.OPPONENT }
             ];
             state.readiedEffects = util_1.deepCopy(card.effects);
             card.opponent = 1;
@@ -289,9 +289,9 @@ describe('game', () => {
         it('should not mark axis that are on cards, but do not change', () => {
             const card = util_1.makeBlankCard();
             card.effects = [
-                { axis: cardInterface_1.AxisEnum.ANTICIPATING, player: cardInterface_1.PlayerEnum.BOTH },
-                { axis: cardInterface_1.AxisEnum.STANDING, player: cardInterface_1.PlayerEnum.OPPONENT },
-                { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.BOTH }
+                { axis: card_1.AxisEnum.ANTICIPATING, player: card_1.PlayerEnum.BOTH },
+                { axis: card_1.AxisEnum.STANDING, player: card_1.PlayerEnum.OPPONENT },
+                { axis: card_1.AxisEnum.CLOSE, player: card_1.PlayerEnum.BOTH }
             ];
             state.readiedEffects = util_1.deepCopy(card.effects);
             card.opponent = 1;
@@ -307,10 +307,10 @@ describe('game', () => {
         it('should apply basic effects like damamge, and modifying state', () => {
             const card = util_1.makeBlankCard();
             card.effects = [
-                { axis: cardInterface_1.AxisEnum.GRAPPLED, player: cardInterface_1.PlayerEnum.BOTH },
-                { axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 },
-                { axis: cardInterface_1.AxisEnum.MOVING, player: cardInterface_1.PlayerEnum.PLAYER },
-                { axis: cardInterface_1.AxisEnum.BALANCED, player: cardInterface_1.PlayerEnum.PLAYER }
+                { axis: card_1.AxisEnum.GRAPPLED, player: card_1.PlayerEnum.BOTH },
+                { axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 },
+                { axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.PLAYER },
+                { axis: card_1.AxisEnum.BALANCED, player: card_1.PlayerEnum.PLAYER }
             ];
             state.health = [gameSettings_1.STARTING_HEALTH, gameSettings_1.STARTING_HEALTH];
             state.readiedEffects = util_1.deepCopy(card.effects);
@@ -332,9 +332,9 @@ describe('game', () => {
         it('should mark time appropriately', () => {
             const card = util_1.makeBlankCard();
             card.effects = [
-                { axis: cardInterface_1.AxisEnum.MOVING, player: cardInterface_1.PlayerEnum.PLAYER, amount: 3 },
-                { axis: cardInterface_1.AxisEnum.ANTICIPATING, player: cardInterface_1.PlayerEnum.PLAYER },
-                { axis: cardInterface_1.AxisEnum.MOVING, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 },
+                { axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.PLAYER, amount: 3 },
+                { axis: card_1.AxisEnum.ANTICIPATING, player: card_1.PlayerEnum.PLAYER },
+                { axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.OPPONENT, amount: 3 },
             ];
             state.stateDurations[0].motion = 8;
             state.stateDurations[0].balance = 4;
@@ -354,11 +354,11 @@ describe('game', () => {
             const card = util_1.makeBlankCard();
             card.player = 0;
             card.opponent = 1;
-            const predictEff = { mechanic: cardInterface_1.MechanicEnum.PREDICT, mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 }] };
-            const focusEff = { mechanic: cardInterface_1.MechanicEnum.FOCUS, mechanicRequirements: [{ axis: cardInterface_1.AxisEnum.MOVING, player: cardInterface_1.PlayerEnum.OPPONENT }], mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 }] };
-            const teleEff = { mechanic: cardInterface_1.MechanicEnum.TELEGRAPH, mechanicRequirements: [{ axis: cardInterface_1.AxisEnum.MOVING, player: cardInterface_1.PlayerEnum.OPPONENT }], mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 }] };
-            const reflexEff = { mechanic: cardInterface_1.MechanicEnum.REFLEX };
-            const blockEff = { mechanic: cardInterface_1.MechanicEnum.BLOCK, amount: 2 };
+            const predictEff = { mechanic: card_1.MechanicEnum.PREDICT, mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 }] };
+            const focusEff = { mechanic: card_1.MechanicEnum.FOCUS, mechanicRequirements: [{ axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.OPPONENT }], mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 }] };
+            const teleEff = { mechanic: card_1.MechanicEnum.TELEGRAPH, mechanicRequirements: [{ axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.OPPONENT }], mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 }] };
+            const reflexEff = { mechanic: card_1.MechanicEnum.REFLEX };
+            const blockEff = { mechanic: card_1.MechanicEnum.BLOCK, amount: 2 };
             card.effects = [predictEff, focusEff, teleEff, reflexEff, blockEff];
             state.pickedCard = card;
             state.readiedEffects = util_1.deepCopy(card.effects);
@@ -379,9 +379,9 @@ describe('game', () => {
         it('should remove stored effects on the most recently played card', () => {
             const card = util_1.makeBlankCard();
             card.effects = [
-                { axis: cardInterface_1.AxisEnum.MOVING, player: cardInterface_1.PlayerEnum.PLAYER, amount: 3 },
-                { axis: cardInterface_1.AxisEnum.ANTICIPATING, player: cardInterface_1.PlayerEnum.PLAYER },
-                { axis: cardInterface_1.AxisEnum.MOVING, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 },
+                { axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.PLAYER, amount: 3 },
+                { axis: card_1.AxisEnum.ANTICIPATING, player: card_1.PlayerEnum.PLAYER },
+                { axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.OPPONENT, amount: 3 },
             ];
             state.readiedEffects = util_1.deepCopy(card.effects);
             state.pickedCard = card;
@@ -420,7 +420,7 @@ describe('game', () => {
             state.pendingPredictions = [
                 {
                     prediction: stateInterface_1.PredictionEnum.MOTION, mechanics: [
-                        { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.OPPONENT }
+                        { axis: card_1.AxisEnum.DAMAGE, amount: 2, player: card_1.PlayerEnum.OPPONENT }
                     ]
                 }
             ];
@@ -428,7 +428,7 @@ describe('game', () => {
             expect(state.pendingPredictions).toBeUndefined();
         });
         it('should apply the effects if the prediction was correct & remove the prediction', () => {
-            const mech = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.OPPONENT };
+            const mech = { axis: card_1.AxisEnum.DAMAGE, amount: 2, player: card_1.PlayerEnum.OPPONENT };
             state.pendingPredictions = [
                 { prediction: stateInterface_1.PredictionEnum.BALANCE, mechanics: [mech] }
             ];
@@ -445,23 +445,23 @@ describe('game', () => {
         const card3 = util_1.makeBlankCard();
         card1.telegraphs = [
             {
-                mechanic: cardInterface_1.MechanicEnum.TELEGRAPH,
-                mechanicRequirements: [{ axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.BOTH }],
-                mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 }]
+                mechanic: card_1.MechanicEnum.TELEGRAPH,
+                mechanicRequirements: [{ axis: card_1.AxisEnum.CLOSE, player: card_1.PlayerEnum.BOTH }],
+                mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 }]
             }
         ];
         card2.telegraphs = [
             {
-                mechanic: cardInterface_1.MechanicEnum.TELEGRAPH,
-                mechanicRequirements: [{ axis: cardInterface_1.AxisEnum.ANTICIPATING, player: cardInterface_1.PlayerEnum.BOTH }],
-                mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 2 }]
+                mechanic: card_1.MechanicEnum.TELEGRAPH,
+                mechanicRequirements: [{ axis: card_1.AxisEnum.ANTICIPATING, player: card_1.PlayerEnum.BOTH }],
+                mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 2 }]
             }
         ];
         card3.telegraphs = [
             {
-                mechanic: cardInterface_1.MechanicEnum.TELEGRAPH,
-                mechanicRequirements: [{ axis: cardInterface_1.AxisEnum.STANDING, player: cardInterface_1.PlayerEnum.BOTH }],
-                mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 6 }]
+                mechanic: card_1.MechanicEnum.TELEGRAPH,
+                mechanicRequirements: [{ axis: card_1.AxisEnum.STANDING, player: card_1.PlayerEnum.BOTH }],
+                mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 6 }]
             }
         ];
         it('should apply telegraphs whose requirements have been met', () => {
@@ -474,7 +474,7 @@ describe('game', () => {
             expect(card1.telegraphs).toBeUndefined();
             expect(card2.telegraphs).not.toBeUndefined();
             expect(card3.telegraphs).toBeUndefined();
-            expect(state.readiedEffects).toEqual([{ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 6 }, { axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT, amount: 3 }]);
+            expect(state.readiedEffects).toEqual([{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 6 }, { axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 }]);
         });
     });
     describe('checkReflex', () => {
@@ -504,9 +504,9 @@ describe('game', () => {
         card1.player = 0;
         card2.player = 1;
         card3.player = 1;
-        const card1Focus = { mechanic: cardInterface_1.MechanicEnum.FOCUS, mechanicRequirements: [], mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, amount: 1, player: cardInterface_1.PlayerEnum.BOTH }] };
-        const card2Focus = { mechanic: cardInterface_1.MechanicEnum.FOCUS, mechanicRequirements: [{ axis: cardInterface_1.AxisEnum.ANTICIPATING, player: cardInterface_1.PlayerEnum.BOTH }], mechanicEffects: [{ axis: cardInterface_1.AxisEnum.DAMAGE, amount: 1, player: cardInterface_1.PlayerEnum.BOTH }] };
-        const card3Focus = { mechanic: cardInterface_1.MechanicEnum.FOCUS, mechanicRequirements: [{ axis: cardInterface_1.AxisEnum.STANDING, player: cardInterface_1.PlayerEnum.BOTH }], mechanicEffects: [{ axis: cardInterface_1.AxisEnum.PRONE, player: cardInterface_1.PlayerEnum.BOTH }] };
+        const card1Focus = { mechanic: card_1.MechanicEnum.FOCUS, mechanicRequirements: [], mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, amount: 1, player: card_1.PlayerEnum.BOTH }] };
+        const card2Focus = { mechanic: card_1.MechanicEnum.FOCUS, mechanicRequirements: [{ axis: card_1.AxisEnum.ANTICIPATING, player: card_1.PlayerEnum.BOTH }], mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, amount: 1, player: card_1.PlayerEnum.BOTH }] };
+        const card3Focus = { mechanic: card_1.MechanicEnum.FOCUS, mechanicRequirements: [{ axis: card_1.AxisEnum.STANDING, player: card_1.PlayerEnum.BOTH }], mechanicEffects: [{ axis: card_1.AxisEnum.PRONE, player: card_1.PlayerEnum.BOTH }] };
         card1.focuses = [card1Focus];
         card2.focuses = [card2Focus];
         card3.focuses = [card3Focus];
@@ -516,13 +516,13 @@ describe('game', () => {
             ];
             expect(() => applyEffects_1.checkFocus(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);
             expect(state.checkedFocus).toEqual(true);
-            expect(state.readiedEffects).toEqual([{ axis: cardInterface_1.AxisEnum.DAMAGE, amount: 1, player: cardInterface_1.PlayerEnum.BOTH }]);
+            expect(state.readiedEffects).toEqual([{ axis: card_1.AxisEnum.DAMAGE, amount: 1, player: card_1.PlayerEnum.BOTH }]);
         });
     });
     describe('blocking', () => {
         it('should redice incoming damage', () => {
             const card = util_1.makeBlankCard();
-            const mechanic = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 3, player: opponent };
+            const mechanic = { axis: card_1.AxisEnum.DAMAGE, amount: 3, player: opponent };
             card.effects = [
                 mechanic
             ];
@@ -536,7 +536,7 @@ describe('game', () => {
         });
         it('should redice incoming damage to zero and keep remainder', () => {
             const card = util_1.makeBlankCard();
-            const mechanic = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 3, player: opponent };
+            const mechanic = { axis: card_1.AxisEnum.DAMAGE, amount: 3, player: opponent };
             card.effects = [
                 mechanic
             ];
@@ -555,8 +555,8 @@ describe('game', () => {
             state.lockedState.players[0].poise = 3;
             const card = util_1.makeBlankCard();
             card.effects = [
-                { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.BOTH },
-                { axis: cardInterface_1.AxisEnum.UNBALANCED, player: cardInterface_1.PlayerEnum.BOTH }
+                { axis: card_1.AxisEnum.CLOSE, player: card_1.PlayerEnum.BOTH },
+                { axis: card_1.AxisEnum.UNBALANCED, player: card_1.PlayerEnum.BOTH }
             ];
             effectReducer_1.reduceMechanics(card.effects, card, 0, 1, state);
             expect(state.distance).toEqual(stateInterface_1.DistanceEnum.CLOSE);
@@ -567,41 +567,41 @@ describe('game', () => {
     describe('playerPicksOne', () => {
         it('should lay out the picked mechanics in readied effects', () => __awaiter(this, void 0, void 0, function* () {
             state.sockets = [];
-            const effect1 = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 3, player: cardInterface_1.PlayerEnum.BOTH };
+            const effect1 = { axis: card_1.AxisEnum.DAMAGE, amount: 3, player: card_1.PlayerEnum.BOTH };
             const effect2 = {
-                mechanic: cardInterface_1.MechanicEnum.PICK_ONE,
+                mechanic: card_1.MechanicEnum.PICK_ONE,
                 choices: [
                     [
-                        { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.BOTH },
-                        { mechanic: cardInterface_1.MechanicEnum.BLOCK, amount: 3 }
+                        { axis: card_1.AxisEnum.CLOSE, player: card_1.PlayerEnum.BOTH },
+                        { mechanic: card_1.MechanicEnum.BLOCK, amount: 3 }
                     ], [
-                        { axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.OPPONENT }
+                        { axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT }
                     ]
                 ]
             };
             state.readiedEffects = [effect1, effect2];
             const _waitForPlayerToChoose = jest.fn(() => __awaiter(this, void 0, void 0, function* () { return 0; }));
             yield playCard_1.playerPicksOne(state, { _waitForPlayerToChoose });
-            expect(state.readiedEffects).toEqual([effect1, { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.BOTH }, { mechanic: cardInterface_1.MechanicEnum.BLOCK, amount: 3 }]);
+            expect(state.readiedEffects).toEqual([effect1, { axis: card_1.AxisEnum.CLOSE, player: card_1.PlayerEnum.BOTH }, { mechanic: card_1.MechanicEnum.BLOCK, amount: 3 }]);
         }));
     });
     describe('buff', () => {
         it('should increase the amount on a card if that axis/player combo exists', () => {
-            const effect1 = { axis: cardInterface_1.AxisEnum.DAMAGE, amount: 1, player: cardInterface_1.PlayerEnum.BOTH };
-            const effect2 = { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.OPPONENT };
-            const buffEff = { mechanic: cardInterface_1.MechanicEnum.BUFF, axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.BOTH };
+            const effect1 = { axis: card_1.AxisEnum.DAMAGE, amount: 1, player: card_1.PlayerEnum.BOTH };
+            const effect2 = { axis: card_1.AxisEnum.CLOSE, player: card_1.PlayerEnum.OPPONENT };
+            const buffEff = { mechanic: card_1.MechanicEnum.BUFF, axis: card_1.AxisEnum.DAMAGE, amount: 2, player: card_1.PlayerEnum.BOTH };
             const card = util_1.makeBlankCard();
             card.effects = [effect1, effect2, buffEff];
             effectReducer_1.reduceMechanics([buffEff], card, 0, 1, state);
             expect(effect1.amount).toEqual(3);
         });
         it('should insert the effect on a card if that axis/player combo does not exists', () => {
-            const effect2 = { axis: cardInterface_1.AxisEnum.CLOSE, player: cardInterface_1.PlayerEnum.OPPONENT };
-            const buffEff = { mechanic: cardInterface_1.MechanicEnum.BUFF, axis: cardInterface_1.AxisEnum.DAMAGE, amount: 2, player: cardInterface_1.PlayerEnum.BOTH };
+            const effect2 = { axis: card_1.AxisEnum.CLOSE, player: card_1.PlayerEnum.OPPONENT };
+            const buffEff = { mechanic: card_1.MechanicEnum.BUFF, axis: card_1.AxisEnum.DAMAGE, amount: 2, player: card_1.PlayerEnum.BOTH };
             const card = util_1.makeBlankCard();
             card.effects = [effect2, buffEff];
             effectReducer_1.reduceMechanics([buffEff], card, 0, 1, state);
-            expect(card.effects[2]).toEqual({ axis: cardInterface_1.AxisEnum.DAMAGE, player: cardInterface_1.PlayerEnum.BOTH, amount: 2 });
+            expect(card.effects[2]).toEqual({ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.BOTH, amount: 2 });
         });
     });
 });

@@ -1,4 +1,4 @@
-import { Card, Mechanic, AxisEnum } from "../interfaces/card";
+import { Card, Mechanic } from "../shared/card";
 
 export interface GameState{
     playerStates: PlayerState[]

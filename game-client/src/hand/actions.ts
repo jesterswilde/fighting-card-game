@@ -1,4 +1,4 @@
-import { Card } from "../interfaces/card";
+import { Card } from "../shared/card";
 
 export enum HandActionEnum {
     PICKED_CARD = 'pickCard',
