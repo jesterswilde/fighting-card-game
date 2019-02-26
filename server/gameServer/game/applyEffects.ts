@@ -5,7 +5,7 @@ import { didPredictionHappen } from "./predictions";
 import { shuffleDeck } from "./startTurn";
 import { deepCopy } from "../util";
 import { mechReqsMet, canPlayCard } from "./requirements";
-import { Mechanic, MechanicEnum } from "../../shared/card";
+import { MechanicEnum } from "../../shared/card";
 import { mechanicsToReadiedEffects } from "./playCard";
 import { addRevealPredictionEvent } from "./events";
 

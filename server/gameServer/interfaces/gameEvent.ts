@@ -1,4 +1,4 @@
-import { Mechanic } from "./cardInterface";
+import { Mechanic } from "../../shared/card";
 import { PredictionEnum } from "./stateInterface";
 
 export enum EventTypeEnum{

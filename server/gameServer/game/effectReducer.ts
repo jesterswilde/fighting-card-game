@@ -43,6 +43,8 @@ const reduceCripple = async (mechanic: Mechanic, card: Card, player: number, opp
     const deck = decks[opponent];
     if (typeof cardName === 'string') {
         const card = _getCardByName(cardName);
+        card.player = player;
+        card.opponent = opponent; 
         deck.push(card);
     }
 }

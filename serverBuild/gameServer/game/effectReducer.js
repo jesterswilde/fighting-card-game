@@ -53,6 +53,8 @@ const reduceCripple = (mechanic, card, player, opponent, state, { _getCardByName
     const deck = decks[opponent];
     if (typeof cardName === 'string') {
         const card = _getCardByName(cardName);
+        card.player = player;
+        card.opponent = opponent;
         deck.push(card);
     }
 });
