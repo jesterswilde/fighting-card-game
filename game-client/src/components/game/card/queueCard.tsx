@@ -7,7 +7,7 @@ interface Props extends Card {
 }
 
 const QueueCard = ({identity, name, telegraphs = [], focuses = [], player }: Props) => {
-    const shouldFlip = identity !== player; 
+    const shouldFlip = identity !== player;
     return <div>
         <div>{name}</div>
         {telegraphs.map((eff, i) => <div key={i}><Effect shouldFlip={shouldFlip} effect={eff} /></div>)}

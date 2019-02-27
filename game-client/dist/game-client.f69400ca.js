@@ -13543,7 +13543,7 @@ var rootReducer = (0, _redux.combineReducers)({
   path: _reducer7.pathReducer,
   socket: _reducer8.socketReducer
 });
-var store = (0, _redux.createStore)(rootReducer);
+var store = (0, _redux.createStore)(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 exports.store = store;
 },{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts"}],"src/images/grapple.png":[function(require,module,exports) {
 module.exports = "/grapple.b390bafe.png";
@@ -15950,7 +15950,7 @@ exports.default = _default;
 
 var cardNames = function cardNames(cards) {
   return cards.reduce(function (total, current) {
-    return total + "-" + current.name;
+    return total + "-" + current.id;
   }, '');
 };
 
@@ -15976,11 +15976,12 @@ var renderBoard = function renderBoard(queue, identity) {
         return (0, _dispatch2.dispatchDisplayEventHistory)(i);
       }
     }, "H")), cards.map(function (card, j) {
-      var opponent = card.player !== identity;
+      var opponent = card.player !== identity ? 'opponent' : '';
+      var shouldAnimate = card.telegraphs && card.telegraphs.length > 0 || card.focuses && card.focuses.length > 0 ? 'has-effects' : '';
       return (0, _preact.h)("div", {
-        key: card.name
+        key: card.id
       }, (0, _preact.h)("div", {
-        class: "text-center queue-card " + (opponent ? 'opponent' : ''),
+        class: "text-center queue-card " + opponent + " " + shouldAnimate,
         onClick: function onClick() {
           return (0, _dispatch.dispatchSwitchCardDisplayMode)(i, j);
         }
@@ -15989,7 +15990,7 @@ var renderBoard = function renderBoard(queue, identity) {
       }, (0, _preact.h)(_fullQueueCard.default, __assign({}, card, {
         identity: identity
       }))), (0, _preact.h)("div", {
-        class: card.showFullCard ? 'collapsed' : ''
+        class: (card.showFullCard ? 'collapsed' : '') + ' ongoing'
       }, (0, _preact.h)(_queueCard.default, __assign({}, card, {
         identity: identity
       })))));

@@ -1,22 +1,13 @@
 When you reflex, you should be told what card you reflexed into if there are any choices to be made.
 
-Damage got confused with block. Consider icon for block or better spacing? 
-
 How can you make the second player feel better? 
-
-Predict should be stronger, mess with heavy prediction cards. 
 
 Blood in the water needs another prone card (maybe block and gain focus)
 
 Sort card effect order. Probably a thing done on update. Maybe a script
 
-Make 2 decks by next week, add 2 or 3 cards to Stone Skin and Blood in the Water
-
 Consider seeing how many cards are in the opponents hand, if we do, maybe cripple cards should be face up. Would feel good.
 
-Stone deck should have a card that can knock it's opponent prone
+Prediction display needs to be updated.
 
-Fix cripple. 
-
-Put distance on side, make vertical.
-
+Prediction picking needs to be updated

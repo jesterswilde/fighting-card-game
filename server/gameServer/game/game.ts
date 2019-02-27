@@ -50,6 +50,7 @@ const assignPlayerToDecks = (state: GameState) => {
         const deck = state.decks[player];
         for (let i = 0; i < deck.length; i++) {
             deck[i].player = player;
+            deck[i].id = (i * 10) + player; 
         }
         console.log(deck.map(({ player }) => player));
     }

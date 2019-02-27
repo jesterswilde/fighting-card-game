@@ -106,7 +106,8 @@ const reduceTelegraph = (mechanic, card, player, opponent, state) => {
 };
 const reduceEnhance = (mechanic, card, player, opponent, state) => {
     const alterObj = state.tagModification[player];
-    alterObj[mechanic.amount] = [...(alterObj[mechanic.amount] || []), ...(mechanic.mechanicEffects || [])];
+    const enhanceArr = [...(alterObj[mechanic.amount] || []), ...(mechanic.mechanicEffects || [])];
+    alterObj[mechanic.amount] = util_1.consolidateMechanics(enhanceArr);
 };
 const reduceStateChange = (mechanic, card, player, opponent, state) => {
     const applyGlobal = globalAxis[mechanic.axis];

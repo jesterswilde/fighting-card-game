@@ -1,7 +1,7 @@
 import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ReadiedEffect } from "../interfaces/stateInterface";
 import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../../shared/card";
 import { getCardByName } from "./getCards";
-import { playerEnumToPlayerArray } from "../util";
+import { playerEnumToPlayerArray, consolidateMechanics } from "../util";
 import { addEffectEvent } from "./events";
 import { MAX_POISE, MIN_POISE } from "../gameSettings";
 
@@ -98,8 +98,8 @@ const reduceTelegraph = (mechanic: Mechanic, card: Card, player: number, opponen
 }
 const reduceEnhance = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState)=>{
     const alterObj = state.tagModification[player];
-    alterObj[mechanic.amount] = [...(alterObj[mechanic.amount] || []), ...(mechanic.mechanicEffects || [])]; 
-
+     const enhanceArr = [...(alterObj[mechanic.amount] || []), ...(mechanic.mechanicEffects || [])]; 
+     alterObj[mechanic.amount] = consolidateMechanics(enhanceArr); 
 }
 
 const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {

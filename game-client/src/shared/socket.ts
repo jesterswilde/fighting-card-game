@@ -18,5 +18,8 @@ export enum SocketEnum{
     OPPONENT_GOT_CARDS = 'opponentGotCards',
     OPPONENT_PICKED_CARDS = 'opponentPickedCards',
     OPPONENT_IS_MAKING_CHOICES = 'opponentIsMakingChoices',
-    OPPONENT_MADE_CHOICE = 'opponentMadeChoice'
+    OPPONENT_MADE_CHOICE = 'opponentMadeChoice',
+    SIEZE_INITIATIVE = 'siezeInitative',
+    INITATIVE_WAGERED = 'initiativeWagered',
+    INITIATIVE_RESULT = 'initiativeResult'
 }

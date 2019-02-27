@@ -10,6 +10,7 @@ export interface Card extends RequirementEffect{
     tags?: TagObj[]
     showFullCard?: boolean
     enhancements?: Enhancement[]
+    id?: number
 }
 
 export interface Enhancement {

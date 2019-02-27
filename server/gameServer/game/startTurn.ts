@@ -83,8 +83,8 @@ export const addEnhancement = (card: Card, state: GameState) => {
     const modObj = state.tagModification[card.player]
     card.enhancements = tags.reduce((enhArr: Enhancement[], {value:tag})=>{
         const mechanics = modObj[tag] || [];
-        enhArr.push({tag, mechanics}); 
-        return enhArr; 
+        enhArr.push({tag, mechanics});
+        return enhArr;
     },[])
 }
 

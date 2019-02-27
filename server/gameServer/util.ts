@@ -1,6 +1,6 @@
 import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, ModifiedAxis } from "./interfaces/stateInterface";
 import { STARTING_POISE } from "./gameSettings";
-import { Card, StatePiece, AxisEnum, PlayerEnum, Mechanic } from "../shared/card";
+import { Card, StatePiece, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "../shared/card";
 
 export const getOpponent = (player: number): number =>{
     return player === 1 ? 0 : 1; 
@@ -117,4 +117,17 @@ export const playerEnumToPlayerArray = (playerEnum: PlayerEnum, player: number, 
         whoToCheck = [player, opponent];
     }
     return whoToCheck
+}
+
+export const consolidateMechanics = (mechs: Mechanic[]): Mechanic[]=>{
+    return deepCopy(mechs).reduce((arr: Mechanic[], mech)=>{
+        const matchingMech = arr.find((testMech)=> testMech.axis === mech.axis && testMech.player === mech.player &&
+        ((testMech.mechanic === MechanicEnum.BLOCK && mech.mechanic === MechanicEnum.BLOCK) || (testMech.mechanic === undefined  && mech.mechanic === undefined)));
+        if(matchingMech !== undefined && typeof matchingMech.amount === 'number' && typeof mech.amount === 'number'){
+            matchingMech.amount +=  mech.amount;
+        }else{
+            arr.push(mech); 
+        }
+        return arr; 
+    }, [])
 }

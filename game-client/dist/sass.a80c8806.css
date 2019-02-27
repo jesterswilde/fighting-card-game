@@ -9605,6 +9605,22 @@ h3 {
     -webkit-transform: translate(0px, 0px) rotate(7deg) scaleX(1) scaleY(1);
   }
 }
+@keyframes anim-player-queue {
+  0% {
+    background-color: #6d78a0;
+  }
+  100% {
+    background-color: #98afd8;
+  }
+}
+@keyframes anim-opp-queue {
+  0% {
+    background-color: #a06d6d;
+  }
+  100% {
+    background-color: #cb9c9c;
+  }
+}
 .damage {
   background-color: #f71c1c;
 }
@@ -9993,6 +10009,7 @@ div {
   -moz-box-shadow: 1px 4px 11px -1px rgba(0, 0, 0, 0.75);
   box-shadow: 1px 4px 11px -1px rgba(0, 0, 0, 0.75);
   background-color: #6d78a0;
+  padding: 0 5px 5px 5px;
 }
 .queue-card .card-section {
   margin: 0.2rem;
@@ -10017,6 +10034,18 @@ div {
 
 .queue-card.opponent {
   background-color: #a06d6d;
+}
+
+.queue-card.has-effects .ongoing .mechanic {
+  margin: 0.1rem;
+  animation-name: anim-player-queue;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  animation-duration: 3s;
+}
+
+.queue-card.has-effects.opponent .ongoing .mechanic {
+  animation-name: anim-opp-queue;
 }
 
 .game-card.opp {

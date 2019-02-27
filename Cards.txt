@@ -5087,5 +5087,34 @@
     ],
     "tagObjs": [],
     "tags": []
+  },
+  "test_enhance": {
+    "name": "test_enhance",
+    "optional": [],
+    "requirements": [],
+    "effects": [
+      {
+        "mechanicEffects": [
+          {
+            "amount": "1",
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": "test",
+        "mechanic": "Enhance"
+      }
+    ],
+    "tagObjs": [
+      {
+        "value": "test",
+        "id": 1
+      }
+    ],
+    "tags": [
+      {
+        "value": "test"
+      }
+    ]
   }
 }

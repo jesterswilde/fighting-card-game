@@ -112,3 +112,16 @@ exports.playerEnumToPlayerArray = (playerEnum, player, opponent) => {
     }
     return whoToCheck;
 };
+exports.consolidateMechanics = (mechs) => {
+    return exports.deepCopy(mechs).reduce((arr, mech) => {
+        const matchingMech = arr.find((testMech) => testMech.axis === mech.axis && testMech.player === mech.player &&
+            ((testMech.mechanic === card_1.MechanicEnum.BLOCK && mech.mechanic === card_1.MechanicEnum.BLOCK) || (testMech.mechanic === undefined && mech.mechanic === undefined)));
+        if (matchingMech !== undefined && typeof matchingMech.amount === 'number' && typeof mech.amount === 'number') {
+            matchingMech.amount += mech.amount;
+        }
+        else {
+            arr.push(mech);
+        }
+        return arr;
+    }, []);
+};

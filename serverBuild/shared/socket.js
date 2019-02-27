@@ -21,4 +21,7 @@ var SocketEnum;
     SocketEnum["OPPONENT_PICKED_CARDS"] = "opponentPickedCards";
     SocketEnum["OPPONENT_IS_MAKING_CHOICES"] = "opponentIsMakingChoices";
     SocketEnum["OPPONENT_MADE_CHOICE"] = "opponentMadeChoice";
+    SocketEnum["SIEZE_INITIATIVE"] = "siezeInitative";
+    SocketEnum["INITATIVE_WAGERED"] = "initiativeWagered";
+    SocketEnum["INITIATIVE_RESULT"] = "initiativeResult";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
