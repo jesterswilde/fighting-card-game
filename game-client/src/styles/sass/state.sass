@@ -27,9 +27,37 @@
 .opponent-section
     .state-machine
         flex-direction: row-reverse
+
 .player-section
     .poise
         justify-content: flex-end
+
+.container-distance
+    display: flex
+    flex-direction: column
+    align-self: flex-end
+    width:50%
+    .distance-title
+        text-align: center
+        font-weight: bold
+        border-top: 2px solid
+        border-right: 2px solid
+        border-left: 2ps solid
+    .distance-pieces
+        display: flex
+        flex-direction: row
+        justify-content: space-evenly
+        >div
+            flex: 1
+            display: flex
+            justify-content: center            
+            border-right: 2px solid
+            border-left: 2px solid
+    .inactive
+        border-top: 2px solid
+        background-color: #909090
+        div
+            background-color: #828282
 .state-piece-container
     display: flex
     flex-direction: column

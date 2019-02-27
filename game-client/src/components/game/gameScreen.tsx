@@ -10,7 +10,8 @@ import Prediction from './predictions'
 import PickOne from './pickOne';
 import Forceful from './forceful';
 import Events from './events';
-import OppHand from './oppHand'; 
+import OppHand from './oppHand';
+import {Distance} from './stateMachine/statesPieces';  
 import { GameDisplayEnum } from '../../gameDisplay/interface';
 import { cleanConnect } from '../../util';
 

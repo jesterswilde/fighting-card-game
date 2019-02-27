@@ -17,7 +17,8 @@ const Effect = ({ effect, shouldFlip }: Props) => {
     const id = String(getUUID(effect));
     const description = getMechanicDescription(effect.mechanic);
     const { eff: displayEff, req: displayReq, valueString, pick: displayPick, state: displayState, value } = getMechDisplay(effect.mechanic);
-    return <div class='inline'>
+    const mechClass = displayEff ? 'mechanic' : ''
+    return <div class={mechClass}>
         {effect.mechanic !== undefined && mechWithTooltip(effect.mechanic)}
         {displayState && <Arrow player={effect.player} shouldFlip={shouldFlip} />}
         {displayState && <Icon name={effect.axis} />}

@@ -1,4 +1,4 @@
-import {h} from 'preact'; 
+import { h } from 'preact';
 import { AxisEnum } from '../../../shared/card';
 import { printMotion, printStanding, printDistance } from '../../../util';
 import { MotionEnum, StandingEnum, GameState, DistanceEnum } from '../../../game/interface';
@@ -59,10 +59,10 @@ export const Standing = ({ playerStates = [], stateDurations = [], playerIndex =
     </div>
 }
 
-export const Distance = ({ distance }: Props) => {
-    return <div class='state-piece-container'>
-        <div class='state-piece-title distance'>Distance: {printDistance(distance)}</div>
-        <div class='state-pieces'>
+export const Distance = ({ distance }: GameState) => {
+    return <div class='distance container-distance'>
+        <div class='distance-title'>Distance: {printDistance(distance)}</div>
+        <div class='distance-pieces'>
             <div class={`state-piece distance ${distance === DistanceEnum.GRAPPLED ? '' : 'inactive'}`}>
                 <Icon name={AxisEnum.GRAPPLED} />
             </div>

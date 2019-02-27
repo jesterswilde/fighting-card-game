@@ -15368,11 +15368,13 @@ module.exports = { Tooltip: _tooltip2.default };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.printMotion = exports.printStanding = exports.printDistance = exports.getUUID = exports.cleanConnect = exports.nRange = exports.HOST_URL = void 0;
+exports.printMotion = exports.printStanding = exports.printDistance = exports.getUUID = exports.cleanConnect = exports.nRange = exports.splitEffects = exports.HOST_URL = void 0;
 
 var _preactRedux = require("preact-redux");
 
 var _interface = require("./game/interface");
+
+var _card = require("./shared/card");
 
 var _a, _b, _c;
 
@@ -15382,6 +15384,25 @@ exports.HOST_URL = HOST_URL;
 if (location.host.split(':')[0] === 'localhost') {
   exports.HOST_URL = HOST_URL = 'http://localhost:8080/api';
 }
+
+var splitEffects = function splitEffects(mechs) {
+  return mechs.reduce(function (result, mech) {
+    var eff = (0, _card.getMechDisplay)(mech.mechanic).eff;
+
+    if (eff) {
+      result.mechanics.push(mech);
+    } else {
+      result.effects.push(mech);
+    }
+
+    return result;
+  }, {
+    effects: [],
+    mechanics: []
+  });
+};
+
+exports.splitEffects = splitEffects;
 
 var nRange = function nRange(n) {
   return Array.apply(null, {
@@ -15432,7 +15453,7 @@ var printMotion = function printMotion(motion) {
 
 exports.printMotion = printMotion;
 var motionRouter = (_c = {}, _c[_interface.MotionEnum.MOVING] = "Moving", _c[_interface.MotionEnum.STILL] = "Still", _c);
-},{"preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/interface":"src/game/interface.ts"}],"src/images/index.tsx":[function(require,module,exports) {
+},{"preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./game/interface":"src/game/interface.ts","./shared/card":"src/shared/card.ts"}],"src/images/index.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15637,8 +15658,9 @@ var Effect = function Effect(_a) {
       displayState = _d.state,
       value = _d.value;
 
+  var mechClass = displayEff ? 'mechanic' : '';
   return (0, _preact.h)("div", {
-    class: 'inline'
+    class: mechClass
   }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), displayState && (0, _preact.h)(_images.Arrow, {
     player: effect.player,
     shouldFlip: shouldFlip
@@ -15973,6 +15995,8 @@ var _effect = _interopRequireDefault(require("./effect"));
 
 var _Requirement = _interopRequireDefault(require("./Requirement"));
 
+var _util = require("../../../util");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var __assign = void 0 && (void 0).__assign || function () {
@@ -15996,6 +16020,12 @@ var HandCard = function HandCard(card) {
       optional = card.optional,
       effects = card.effects,
       requirements = card.requirements;
+
+  var _a = (0, _util.splitEffects)(effects),
+      effOnly = _a.effects,
+      mechanics = _a.mechanics;
+
+  console.log(effOnly, mechanics);
   return (0, _preact.h)("div", {
     class: 'game-card text-center'
   }, (0, _preact.h)("div", {
@@ -16003,33 +16033,39 @@ var HandCard = function HandCard(card) {
   }, name), (0, _preact.h)("div", {
     class: 'card-section req'
   }, requirements.map(function (req, i) {
-    return (0, _preact.h)("span", {
+    return (0, _preact.h)("div", {
       key: i
     }, (0, _preact.h)(_Requirement.default, {
       requirement: req
     }));
   })), (0, _preact.h)("div", {
-    class: 'card-section'
+    class: 'card-section '
   }, optional.map(function (opt, i) {
-    return (0, _preact.h)("span", {
+    return (0, _preact.h)("div", {
       key: i
     }, " ", (0, _preact.h)(_optional.default, __assign({}, opt, {
       greyUnusable: true
     })), " ");
   })), (0, _preact.h)("div", {
     class: 'card-section effect'
-  }, effects.map(function (effect, i) {
-    return (0, _preact.h)("span", {
+  }, (0, _preact.h)("div", null, effOnly.map(function (effect, i) {
+    return (0, _preact.h)("div", {
       key: i
     }, (0, _preact.h)(_effect.default, {
       effect: effect
     }));
-  })));
+  })), (0, _preact.h)("div", null, mechanics.map(function (effect, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_effect.default, {
+      effect: effect
+    }));
+  }))));
 };
 
 var _default = HandCard;
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx","../../../util":"src/util.ts"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16435,11 +16471,11 @@ exports.Standing = Standing;
 var Distance = function Distance(_a) {
   var distance = _a.distance;
   return (0, _preact.h)("div", {
-    class: 'state-piece-container'
+    class: 'distance container-distance'
   }, (0, _preact.h)("div", {
-    class: 'state-piece-title distance'
+    class: 'distance-title'
   }, "Distance: ", (0, _util.printDistance)(distance)), (0, _preact.h)("div", {
-    class: 'state-pieces'
+    class: 'distance-pieces'
   }, (0, _preact.h)("div", {
     class: "state-piece distance " + (distance === _interface.DistanceEnum.GRAPPLED ? '' : 'inactive')
   }, (0, _preact.h)(_images.Icon, {
@@ -16495,7 +16531,7 @@ var _default = function _default(props) {
     class: 'state-machine'
   }, (0, _preact.h)("div", {
     class: "poise"
-  }, (0, _preact.h)(_poise.default, __assign({}, props, {
+  }, props.player === props.identity && (0, _preact.h)(_statesPieces.Distance, __assign({}, props)), (0, _preact.h)(_poise.default, __assign({}, props, {
     playerIndex: props.identity
   }))), (0, _preact.h)("div", {
     class: "axis"
