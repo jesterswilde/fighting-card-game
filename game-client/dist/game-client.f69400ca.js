@@ -15645,28 +15645,30 @@ var Effect = function Effect(_a) {
       shouldFlip = _a.shouldFlip;
   var _b = effect.mechanicRequirements,
       reqs = _b === void 0 ? [] : _b,
-      _c = effect.mechanicEffects,
-      effs = _c === void 0 ? [] : _c;
+      _c = effect.choices,
+      choices = _c === void 0 ? [] : _c,
+      _d = effect.mechanicEffects,
+      effs = _d === void 0 ? [] : _d;
   var id = String((0, _util.getUUID)(effect));
   var description = (0, _mechanicDescriptions.getMechanicDescription)(effect.mechanic);
 
-  var _d = (0, _card.getMechDisplay)(effect.mechanic),
-      displayEff = _d.eff,
-      displayReq = _d.req,
-      valueString = _d.valueString,
-      displayPick = _d.pick,
-      displayState = _d.state,
-      value = _d.value;
+  var _e = (0, _card.getMechDisplay)(effect.mechanic),
+      displayEff = _e.eff,
+      displayReq = _e.req,
+      valueString = _e.valueString,
+      displayPick = _e.pick,
+      displayState = _e.state,
+      value = _e.value;
 
   var mechClass = displayEff ? 'mechanic' : '';
   return (0, _preact.h)("div", {
-    class: mechClass
+    class: 'small-pad ' + mechClass
   }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), displayState && (0, _preact.h)(_images.Arrow, {
     player: effect.player,
     shouldFlip: shouldFlip
   }), displayState && (0, _preact.h)(_images.Icon, {
     name: effect.axis
-  }), (displayState || value || valueString) && effect.amount !== undefined && (0, _preact.h)("b", null, effect.amount), (displayEff || displayReq) && (0, _preact.h)("span", null, (0, _preact.h)("div", {
+  }), (displayState || value || valueString) && effect.amount !== undefined && (0, _preact.h)("b", null, effect.amount), (displayEff || displayReq || displayPick) && (0, _preact.h)("span", null, (0, _preact.h)("div", {
     class: 'h-divider'
   }), (0, _preact.h)("div", null, displayReq && (0, _preact.h)("div", null, reqs.map(function (req, i) {
     return (0, _preact.h)("span", {
@@ -15683,6 +15685,21 @@ var Effect = function Effect(_a) {
     }, (0, _preact.h)(Effect, {
       effect: eff,
       shouldFlip: shouldFlip
+    }));
+  })), displayPick && (0, _preact.h)("div", {
+    class: "pick-one"
+  }, choices.map(function (category, i) {
+    return (0, _preact.h)("div", {
+      class: "choices",
+      key: i
+    }, category.map(function (choice, j) {
+      return (0, _preact.h)("div", {
+        class: "choice",
+        key: j
+      }, (0, _preact.h)(Effect, {
+        effect: choice,
+        shouldFlip: shouldFlip
+      }), " ");
     }));
   })))));
 };

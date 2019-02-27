@@ -2,6 +2,8 @@ import { DeckDescription } from "./interface";
 
 export const highGroundDeck: DeckDescription = {
     deckList: [
+        "Charge",
+        "Death From Above",
         "Groin Stomp",
         "Precise Kick",
         "'Ol 1, 2",

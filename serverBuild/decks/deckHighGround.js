@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.highGroundDeck = {
     deckList: [
+        "Charge",
+        "Death From Above",
         "Groin Stomp",
         "Precise Kick",
         "'Ol 1, 2",

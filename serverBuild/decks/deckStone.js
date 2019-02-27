@@ -14,7 +14,10 @@ exports.stoneDeck = {
         "Ankle Smash",
         "Incoming!",
         "Inertia",
-        "Break the Wheel"
+        "Break the Wheel",
+        "Overrun",
+        "Disengage",
+        "Hurl",
     ],
     name: "Stone Skin",
     description: "Focuses on block, choice, and momentum. Performs poorly if allowed to be unbalanced."
