@@ -142,6 +142,7 @@ const reflexCard = (player, state) => {
         const card = deck[cardIndex];
         state.decks[player] = deck.filter((card, i) => cardIndex !== i);
         card.opponent = card.player === 0 ? 1 : 0;
+        startTurn_1.addEnhancement(card, state);
         state.pickedCard = card;
         console.log(card.name);
         throw errors_1.ControlEnum.PLAY_CARD;

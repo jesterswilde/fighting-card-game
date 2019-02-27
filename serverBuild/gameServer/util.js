@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const cardInterface_1 = require("./interfaces/cardInterface");
 const stateInterface_1 = require("./interfaces/stateInterface");
 const gameSettings_1 = require("./gameSettings");
+const card_1 = require("../shared/card");
 exports.getOpponent = (player) => {
     return player === 1 ? 0 : 1;
 };
@@ -30,15 +30,15 @@ exports.makeBlankCard = () => {
 };
 exports.makeRequirement = () => {
     return {
-        axis: cardInterface_1.AxisEnum.CLOSE,
-        player: cardInterface_1.PlayerEnum.BOTH,
+        axis: card_1.AxisEnum.CLOSE,
+        player: card_1.PlayerEnum.BOTH,
         amount: 0,
     };
 };
 exports.makeMechanic = () => {
     return {
-        axis: cardInterface_1.AxisEnum.FAR,
-        player: cardInterface_1.PlayerEnum.OPPONENT,
+        axis: card_1.AxisEnum.FAR,
+        player: card_1.PlayerEnum.OPPONENT,
         mechanic: null,
         amount: 0
     };
@@ -54,6 +54,7 @@ exports.makeGameState = () => {
         decks: [],
         damaged: [],
         hands: [],
+        tagModification: [{}, {}],
         health: [],
         readiedEffects: [],
         modifiedAxis: exports.makeModifiedAxis(),
@@ -100,10 +101,10 @@ exports.makePlayerState = () => {
 };
 exports.playerEnumToPlayerArray = (playerEnum, player, opponent) => {
     let whoToCheck;
-    if (playerEnum === cardInterface_1.PlayerEnum.PLAYER) {
+    if (playerEnum === card_1.PlayerEnum.PLAYER) {
         whoToCheck = [player];
     }
-    else if (playerEnum === cardInterface_1.PlayerEnum.OPPONENT) {
+    else if (playerEnum === card_1.PlayerEnum.OPPONENT) {
         whoToCheck = [opponent];
     }
     else {

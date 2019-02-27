@@ -10032,6 +10032,18 @@ div {
   background-color: #413d01;
   padding: 4px;
 }
+.game-card .tags {
+  font-size: 0.6rem;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.game-card .tags > div {
+  padding: 2px;
+  background-color: #6f5b5b;
+  color: #d5d5d5;
+}
 .game-card .optional {
   margin-left: 5%;
   margin-bottom: 5px;

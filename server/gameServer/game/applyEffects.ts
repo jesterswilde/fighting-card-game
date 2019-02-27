@@ -2,7 +2,7 @@ import { reduceMechanics } from "./effectReducer";
 import { GameState, ReadiedEffect } from "../interfaces/stateInterface";
 import { ControlEnum } from "../errors";
 import { didPredictionHappen } from "./predictions";
-import { shuffleDeck } from "./startTurn";
+import { shuffleDeck, addEnhancement } from "./startTurn";
 import { deepCopy } from "../util";
 import { mechReqsMet, canPlayCard } from "./requirements";
 import { MechanicEnum } from "../../shared/card";
@@ -145,6 +145,7 @@ const reflexCard = (player: number, state: GameState) => {
         const card = deck[cardIndex];
         state.decks[player] = deck.filter((card, i) => cardIndex !== i);
         card.opponent = card.player === 0 ? 1 : 0;
+        addEnhancement(card, state); 
         state.pickedCard = card;
         console.log(card.name);
         throw ControlEnum.PLAY_CARD;

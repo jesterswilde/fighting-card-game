@@ -8,7 +8,7 @@ import { splitEffects } from '../../../util';
 interface Props extends Card { }
 
 const HandCard = (card: Props) => {
-    const { name, optional, effects, requirements } = card;
+    const { name, optional, effects, requirements, tags = [] } = card;
     const { effects: effOnly, mechanics } = splitEffects(effects);
     console.log(effOnly, mechanics); 
     return <div class='game-card text-center'>
@@ -16,6 +16,7 @@ const HandCard = (card: Props) => {
         <div class='card-section req'>
             {requirements.map((req, i) => <div key={i}><Requirement requirement={req} /></div>)}
         </div>
+        <div class="tags">{tags.map(({value}, i)=><div key={i}>{value}</div>)}</div>
         <div class='card-section '>
             {optional.map((opt, i) => <div key={i}> <Optional {...opt} greyUnusable={true} /> </div>)}
         </div>

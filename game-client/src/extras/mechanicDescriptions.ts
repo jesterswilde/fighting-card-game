@@ -10,7 +10,8 @@ const descObj: {[mech: string]: string} = {
     [MechanicEnum.PICK_ONE]: 'You choose which one of the listed effects will happen',
     [MechanicEnum.PREDICT]: 'Guess what the opponent will change with their next card, if correct, you get the effect',
     [MechanicEnum.REFLEX]: 'Plays a random, valid, card from your deck',
-    [MechanicEnum.TELEGRAPH]: 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens'
+    [MechanicEnum.TELEGRAPH]: 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens',
+    [MechanicEnum.ENHANCE]: 'All future cards with this tag, will be enhanced by this effect'
 }
 
 export const getMechanicDescription = (mech: MechanicEnum)=>{

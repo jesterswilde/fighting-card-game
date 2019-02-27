@@ -1,6 +1,6 @@
-import { Card, StatePiece, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "./interfaces/cardInterface";
-import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ModifiedAxis } from "./interfaces/stateInterface";
+import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, ModifiedAxis } from "./interfaces/stateInterface";
 import { STARTING_POISE } from "./gameSettings";
+import { Card, StatePiece, AxisEnum, PlayerEnum, Mechanic } from "../shared/card";
 
 export const getOpponent = (player: number): number =>{
     return player === 1 ? 0 : 1; 
@@ -56,6 +56,7 @@ export const makeGameState = (): GameState => {
         decks: [],
         damaged: [],
         hands: [],
+        tagModification: [{},{}],
         health: [],
         readiedEffects: [],
         modifiedAxis: makeModifiedAxis(),

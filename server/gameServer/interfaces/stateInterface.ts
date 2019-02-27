@@ -1,4 +1,4 @@
-import { Card, Mechanic, AxisEnum } from "./cardInterface";
+import { Card, Mechanic, AxisEnum } from "../../shared/card";
 import { Socket } from "socket.io";
 import { EventAction } from "./gameEvent";
 

@@ -39,13 +39,17 @@ exports.playCard = (state) => __awaiter(this, void 0, void 0, function* () {
     }
 });
 exports.getMechanicsReady = (state) => {
-    const { optional = [], effects = [] } = state.pickedCard;
+    const { optional = [], effects = [], enhancements = [] } = state.pickedCard;
     const validOptEff = optional.filter((reqEff) => requirements_1.canUseOptional(reqEff, state.pickedCard.player, state.pickedCard.opponent, state))
         .reduce((effsArr, reqEffs) => {
         effsArr.push(...reqEffs.effects);
         return effsArr;
     }, []);
-    const allEffects = [...effects, ...validOptEff];
+    const enhanceEffs = enhancements.reduce((effs, { mechanics = [] }) => {
+        effs.push(...mechanics);
+        return effs;
+    }, []);
+    const allEffects = [...effects, ...validOptEff, ...enhanceEffs];
     state.readiedEffects = exports.mechanicsToReadiedEffects(allEffects, state.pickedCard);
 };
 exports.mechanicsToReadiedEffects = (mechanics = [], card) => {

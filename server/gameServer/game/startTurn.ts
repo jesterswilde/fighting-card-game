@@ -3,7 +3,7 @@ import { sendHand, sendState } from "./socket";
 import { canPlayCard, canUseOptional } from "./requirements";
 import { HAND_SIZE, ANTICIPATING_POISE } from "../gameSettings";
 import { ErrorEnum } from "../errors";
-import { Card } from "../../shared/card";
+import { Card, Enhancement } from "../../shared/card";
 import { SocketEnum } from "../../shared/socket";
 import { getOpponent } from "../util";
 
@@ -15,35 +15,23 @@ export const startTurn = async (state: GameState) => {
     await playerPicksCard(state);
 }
 
-export const addPoise = (state: GameState)=>{
-    const {currentPlayer: player, playerStates} = state;
-    if(state.turnNumber !== 0 && playerStates[player].poise < ANTICIPATING_POISE - 1){
+export const addPoise = (state: GameState) => {
+    const { currentPlayer: player, playerStates } = state;
+    if (state.turnNumber !== 0 && playerStates[player].poise < ANTICIPATING_POISE - 1) {
         playerStates[player].poise++;
         console.log('increasing poise', state.playerStates[player].poise);
-    } 
+    }
 }
 
 export const drawHand = (state: GameState, { _sendHand = sendHand } = {}) => {
     const { decks, currentPlayer, hands } = state;
     const deck = decks[currentPlayer];
-    let handIndexes: number[] = [];
     try {
-        for (let i = 0; i < deck.length; i++) {
-            if (canPlayCard(deck[i], state)) {
-                handIndexes.push(i);
-            }
-            if (handIndexes.length === HAND_SIZE) {
-                break;
-            }
-        }
-        const hand = handIndexes.map((i) => {
-            const card = deck[i];
-            deck[i] = undefined;
-            return card;
-        })
+        const hand = drawCards(deck, state);
         decks[currentPlayer] = decks[currentPlayer].filter((card) => card !== undefined);
         hands[currentPlayer] = hand;
-        markOptional(hand, state); 
+        addEnhancements(hand, state); 
+        markOptional(hand, state);
         if (hand.length === 0) {
             addPanicCard(state);
         }
@@ -51,21 +39,53 @@ export const drawHand = (state: GameState, { _sendHand = sendHand } = {}) => {
     } catch (err) {
         if (err === ErrorEnum.NO_CARD) {
             console.log("No card", deck)
-        }else{
+        } else {
             throw err
         }
     }
 }
 
-const markOptional = (cards: Card[], state: GameState)=>{
-    cards.forEach(({optional = [], opponent, player})=>{
-        if(opponent === undefined){
-            opponent = player === 0 ? 1 : 0; 
+const drawCards = (deck: Card[], state: GameState) => {
+    let handIndexes: number[] = [];
+    for (let i = 0; i < deck.length; i++) {
+        if (canPlayCard(deck[i], state)) {
+            handIndexes.push(i);
         }
-        optional.forEach((opt)=>{
-            opt.canPlay = canUseOptional(opt, player, opponent, state); 
+        if (handIndexes.length === HAND_SIZE) {
+            break;
+        }
+    }
+    const hand = handIndexes.map((i) => {
+        const card = deck[i];
+        deck[i] = undefined;
+        return card;
+    })
+    return hand;
+}
+
+const markOptional = (cards: Card[], state: GameState) => {
+    cards.forEach(({ optional = [], opponent, player }) => {
+        if (opponent === undefined) {
+            opponent = player === 0 ? 1 : 0;
+        }
+        optional.forEach((opt) => {
+            opt.canPlay = canUseOptional(opt, player, opponent, state);
         })
     })
+}
+
+export const addEnhancements = (hand: Card[], state: GameState)=>{
+    return hand.forEach((card)=> addEnhancement(card, state)); 
+}
+
+export const addEnhancement = (card: Card, state: GameState) => {
+    const tags = card.tags || [];
+    const modObj = state.tagModification[card.player]
+    card.enhancements = tags.reduce((enhArr: Enhancement[], {value:tag})=>{
+        const mechanics = modObj[tag] || [];
+        enhArr.push({tag, mechanics}); 
+        return enhArr; 
+    },[])
 }
 
 const addPanicCard = (state: GameState) => {
@@ -84,11 +104,11 @@ const addPanicCard = (state: GameState) => {
 
 export const playerPicksCard = async (state: GameState) => {
     const { sockets, currentPlayer: player } = state;
-    const opponent = getOpponent(player); 
+    const opponent = getOpponent(player);
     return new Promise((res, rej) => {
         sockets[player].once(SocketEnum.PICKED_CARD, (index: number) => {
             pickCard(index, state);
-            sockets[opponent].emit(SocketEnum.OPPONENT_PICKED_CARDS); 
+            sockets[opponent].emit(SocketEnum.OPPONENT_PICKED_CARDS);
             res();
         })
     })

@@ -15609,7 +15609,7 @@ var _card = require("../shared/card");
 
 var _a;
 
-var descObj = (_a = {}, _a[_card.MechanicEnum.BLOCK] = 'Reduces damage by X amount next turn', _a[_card.MechanicEnum.BUFF] = 'Permanently buffs card for future uses', _a[_card.MechanicEnum.CRIPPLE] = 'Permanently adds a terrible card to your opponent\'s deck', _a[_card.MechanicEnum.FOCUS] = 'While on the queue, at the end of your turn, if the condition is met, the effect happens', _a[_card.MechanicEnum.FORCEFUL] = 'Allows you to spend X Poise to get the effect', _a[_card.MechanicEnum.LOCK] = 'That state cannot change for X turns', _a[_card.MechanicEnum.PICK_ONE] = 'You choose which one of the listed effects will happen', _a[_card.MechanicEnum.PREDICT] = 'Guess what the opponent will change with their next card, if correct, you get the effect', _a[_card.MechanicEnum.REFLEX] = 'Plays a random, valid, card from your deck', _a[_card.MechanicEnum.TELEGRAPH] = 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens', _a);
+var descObj = (_a = {}, _a[_card.MechanicEnum.BLOCK] = 'Reduces damage by X amount next turn', _a[_card.MechanicEnum.BUFF] = 'Permanently buffs card for future uses', _a[_card.MechanicEnum.CRIPPLE] = 'Permanently adds a terrible card to your opponent\'s deck', _a[_card.MechanicEnum.FOCUS] = 'While on the queue, at the end of your turn, if the condition is met, the effect happens', _a[_card.MechanicEnum.FORCEFUL] = 'Allows you to spend X Poise to get the effect', _a[_card.MechanicEnum.LOCK] = 'That state cannot change for X turns', _a[_card.MechanicEnum.PICK_ONE] = 'You choose which one of the listed effects will happen', _a[_card.MechanicEnum.PREDICT] = 'Guess what the opponent will change with their next card, if correct, you get the effect', _a[_card.MechanicEnum.REFLEX] = 'Plays a random, valid, card from your deck', _a[_card.MechanicEnum.TELEGRAPH] = 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens', _a[_card.MechanicEnum.ENHANCE] = 'All future cards with this tag, will be enhanced by this effect', _a);
 
 var getMechanicDescription = function getMechanicDescription(mech) {
   return descObj[mech] || null;
@@ -16036,11 +16036,13 @@ var HandCard = function HandCard(card) {
   var name = card.name,
       optional = card.optional,
       effects = card.effects,
-      requirements = card.requirements;
+      requirements = card.requirements,
+      _a = card.tags,
+      tags = _a === void 0 ? [] : _a;
 
-  var _a = (0, _util.splitEffects)(effects),
-      effOnly = _a.effects,
-      mechanics = _a.mechanics;
+  var _b = (0, _util.splitEffects)(effects),
+      effOnly = _b.effects,
+      mechanics = _b.mechanics;
 
   console.log(effOnly, mechanics);
   return (0, _preact.h)("div", {
@@ -16055,6 +16057,13 @@ var HandCard = function HandCard(card) {
     }, (0, _preact.h)(_Requirement.default, {
       requirement: req
     }));
+  })), (0, _preact.h)("div", {
+    class: "tags"
+  }, tags.map(function (_a, i) {
+    var value = _a.value;
+    return (0, _preact.h)("div", {
+      key: i
+    }, value);
   })), (0, _preact.h)("div", {
     class: 'card-section '
   }, optional.map(function (opt, i) {

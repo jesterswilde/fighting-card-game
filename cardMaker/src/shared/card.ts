@@ -9,6 +9,12 @@ export interface Card extends RequirementEffect{
     opponent?: number
     tags?: TagObj[]
     showFullCard?: boolean
+    enhancements?: Enhancement[]
+}
+
+export interface Enhancement {
+    tag: string
+    mechanics: Mechanic[]
 }
 
 export interface TagObj {

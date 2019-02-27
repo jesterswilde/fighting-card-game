@@ -31,23 +31,11 @@ exports.addPoise = (state) => {
 exports.drawHand = (state, { _sendHand = socket_1.sendHand } = {}) => {
     const { decks, currentPlayer, hands } = state;
     const deck = decks[currentPlayer];
-    let handIndexes = [];
     try {
-        for (let i = 0; i < deck.length; i++) {
-            if (requirements_1.canPlayCard(deck[i], state)) {
-                handIndexes.push(i);
-            }
-            if (handIndexes.length === gameSettings_1.HAND_SIZE) {
-                break;
-            }
-        }
-        const hand = handIndexes.map((i) => {
-            const card = deck[i];
-            deck[i] = undefined;
-            return card;
-        });
+        const hand = drawCards(deck, state);
         decks[currentPlayer] = decks[currentPlayer].filter((card) => card !== undefined);
         hands[currentPlayer] = hand;
+        exports.addEnhancements(hand, state);
         markOptional(hand, state);
         if (hand.length === 0) {
             addPanicCard(state);
@@ -63,6 +51,23 @@ exports.drawHand = (state, { _sendHand = socket_1.sendHand } = {}) => {
         }
     }
 };
+const drawCards = (deck, state) => {
+    let handIndexes = [];
+    for (let i = 0; i < deck.length; i++) {
+        if (requirements_1.canPlayCard(deck[i], state)) {
+            handIndexes.push(i);
+        }
+        if (handIndexes.length === gameSettings_1.HAND_SIZE) {
+            break;
+        }
+    }
+    const hand = handIndexes.map((i) => {
+        const card = deck[i];
+        deck[i] = undefined;
+        return card;
+    });
+    return hand;
+};
 const markOptional = (cards, state) => {
     cards.forEach(({ optional = [], opponent, player }) => {
         if (opponent === undefined) {
@@ -72,6 +77,18 @@ const markOptional = (cards, state) => {
             opt.canPlay = requirements_1.canUseOptional(opt, player, opponent, state);
         });
     });
+};
+exports.addEnhancements = (hand, state) => {
+    return hand.forEach((card) => exports.addEnhancement(card, state));
+};
+exports.addEnhancement = (card, state) => {
+    const tags = card.tags || [];
+    const modObj = state.tagModification[card.player];
+    card.enhancements = tags.reduce((enhArr, { value: tag }) => {
+        const mechanics = modObj[tag] || [];
+        enhArr.push({ tag, mechanics });
+        return enhArr;
+    }, []);
 };
 const addPanicCard = (state) => {
     const { currentPlayer: player } = state;
