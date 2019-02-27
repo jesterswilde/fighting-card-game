@@ -12,6 +12,7 @@ export const boxerDeck: DeckDescription = {
         "Saved By The Bell",
         "Swarm of Punches",
         "Clinch",
+        "Break Out",
     ],
     name: "Boxer",
     description: "Rope-a-dope"
