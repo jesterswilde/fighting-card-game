@@ -16500,20 +16500,20 @@ var Distance = function Distance(_a) {
     class: 'distance container-distance'
   }, (0, _preact.h)("div", {
     class: 'distance-title'
-  }, "Distance: ", (0, _util.printDistance)(distance)), (0, _preact.h)("div", {
+  }, (0, _util.printDistance)(distance)), (0, _preact.h)("div", {
     class: 'distance-pieces'
   }, (0, _preact.h)("div", {
-    class: "state-piece distance " + (distance === _interface.DistanceEnum.GRAPPLED ? '' : 'inactive')
+    class: "state-piece distance " + (distance === _interface.DistanceEnum.FAR ? '' : 'inactive')
   }, (0, _preact.h)(_images.Icon, {
-    name: _card.AxisEnum.GRAPPLED
+    name: _card.AxisEnum.FAR
   })), (0, _preact.h)("div", {
     class: "state-piece distance " + (distance === _interface.DistanceEnum.CLOSE ? '' : 'inactive')
   }, (0, _preact.h)(_images.Icon, {
     name: _card.AxisEnum.CLOSE
   })), (0, _preact.h)("div", {
-    class: "state-piece distance " + (distance === _interface.DistanceEnum.FAR ? '' : 'inactive')
+    class: "state-piece distance " + (distance === _interface.DistanceEnum.GRAPPLED ? '' : 'inactive')
   }, (0, _preact.h)(_images.Icon, {
-    name: _card.AxisEnum.FAR
+    name: _card.AxisEnum.GRAPPLED
   }))));
 };
 
@@ -16557,7 +16557,7 @@ var _default = function _default(props) {
     class: 'state-machine'
   }, (0, _preact.h)("div", {
     class: "poise"
-  }, props.player === props.identity && (0, _preact.h)(_statesPieces.Distance, __assign({}, props)), (0, _preact.h)(_poise.default, __assign({}, props, {
+  }, (0, _preact.h)(_poise.default, __assign({}, props, {
     playerIndex: props.identity
   }))), (0, _preact.h)("div", {
     class: "axis"
@@ -16613,7 +16613,7 @@ var Prediction = function Prediction(_a) {
       return (0, _preact.h)("div", null, (0, _preact.h)("h3", null, " Opponents Prediction"), renderPrediction(predictions, !isMyPrediction));
     }
   } else {
-    return null;
+    return (0, _preact.h)("div", null);
   }
 };
 
@@ -17141,6 +17141,8 @@ var _events = _interopRequireDefault(require("./events"));
 
 var _oppHand = _interopRequireDefault(require("./oppHand"));
 
+var _statesPieces = require("./stateMachine/statesPieces");
+
 var _interface = require("../../gameDisplay/interface");
 
 var _util = require("../../util");
@@ -17197,11 +17199,13 @@ var game = function game(_a) {
     class: "opponent-section"
   }, (0, _preact.h)(_oppHand.default, null), (0, _preact.h)(_playerStates.default, __assign({}, game, {
     identity: opponent
-  }))), shouldDisplayEvents && (0, _preact.h)(_events.default, null), (0, _preact.h)(_predictions.default, __assign({}, game)), (0, _preact.h)(_board.default, {
+  }))), shouldDisplayEvents && (0, _preact.h)(_events.default, null), (0, _preact.h)("div", {
+    class: "board-section"
+  }, (0, _preact.h)(_predictions.default, __assign({}, game)), (0, _preact.h)(_board.default, {
     player: player,
     currentPlayer: currentPlayer,
     queue: queue
-  }), (0, _preact.h)("div", {
+  }), (0, _preact.h)(_statesPieces.Distance, __assign({}, game))), (0, _preact.h)("div", {
     className: "player-section"
   }, (0, _preact.h)(_playerStates.default, __assign({}, game, {
     identity: player
@@ -17218,7 +17222,7 @@ var PlayerHand = function PlayerHand(_a) {
 var _default = (0, _util.cleanConnect)(selector, game);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./board":"src/components/game/board.tsx","./hand":"src/components/game/hand.tsx","./predictChoices":"src/components/game/predictChoices.tsx","./stateMachine/playerStates":"src/components/game/stateMachine/playerStates.tsx","./predictions":"src/components/game/predictions.tsx","./pickOne":"src/components/game/pickOne.tsx","./forceful":"src/components/game/forceful.tsx","./events":"src/components/game/events.tsx","./oppHand":"src/components/game/oppHand.tsx","../../gameDisplay/interface":"src/gameDisplay/interface.ts","../../util":"src/util.ts"}],"src/components/lobby/pickDeck.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./board":"src/components/game/board.tsx","./hand":"src/components/game/hand.tsx","./predictChoices":"src/components/game/predictChoices.tsx","./stateMachine/playerStates":"src/components/game/stateMachine/playerStates.tsx","./predictions":"src/components/game/predictions.tsx","./pickOne":"src/components/game/pickOne.tsx","./forceful":"src/components/game/forceful.tsx","./events":"src/components/game/events.tsx","./oppHand":"src/components/game/oppHand.tsx","./stateMachine/statesPieces":"src/components/game/stateMachine/statesPieces.tsx","../../gameDisplay/interface":"src/gameDisplay/interface.ts","../../util":"src/util.ts"}],"src/components/lobby/pickDeck.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

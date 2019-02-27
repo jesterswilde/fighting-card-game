@@ -1,13 +1,12 @@
 import { applyEffects } from "./applyEffects";
 import { ControlEnum } from "../errors";
-import { GameState, PredictionState, PredictionEnum, ReadiedEffect } from "../interfaces/stateInterface";
+import { GameState, ReadiedEffect } from "../interfaces/stateInterface";
 import { deepCopy } from "../util";
 import { canUseOptional } from "./requirements";
-import { Mechanic, MechanicEnum, Card } from "../interfaces/cardInterface";
 import { markAxisChange } from "./modifiedAxis";
 import { addCardEvent } from "./events";
 import { playerPicksOne, makePredictions, checkForForecful as checkForForceful } from "./playCards/playerInput";
-import { Mechanic, Mechanic, Mechanic } from "../../cards/CardInterfaces";
+import { Mechanic, Card } from "../../shared/card";
 
 export const playCard = async (state: GameState) => {
     try {

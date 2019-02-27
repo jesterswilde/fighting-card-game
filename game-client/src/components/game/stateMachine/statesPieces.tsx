@@ -61,16 +61,16 @@ export const Standing = ({ playerStates = [], stateDurations = [], playerIndex =
 
 export const Distance = ({ distance }: GameState) => {
     return <div class='distance container-distance'>
-        <div class='distance-title'>Distance: {printDistance(distance)}</div>
+        <div class='distance-title'>{printDistance(distance)}</div>
         <div class='distance-pieces'>
-            <div class={`state-piece distance ${distance === DistanceEnum.GRAPPLED ? '' : 'inactive'}`}>
-                <Icon name={AxisEnum.GRAPPLED} />
+            <div class={`state-piece distance ${distance === DistanceEnum.FAR ? '' : 'inactive'}`}>
+                <Icon name={AxisEnum.FAR} />
             </div>
             <div class={`state-piece distance ${distance === DistanceEnum.CLOSE ? '' : 'inactive'}`}>
                 <Icon name={AxisEnum.CLOSE} />
             </div>
-            <div class={`state-piece distance ${distance === DistanceEnum.FAR ? '' : 'inactive'}`}>
-                <Icon name={AxisEnum.FAR} />
+            <div class={`state-piece distance ${distance === DistanceEnum.GRAPPLED ? '' : 'inactive'}`}>
+                <Icon name={AxisEnum.GRAPPLED} />
             </div>
         </div>
     </div>

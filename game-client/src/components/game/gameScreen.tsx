@@ -11,7 +11,7 @@ import PickOne from './pickOne';
 import Forceful from './forceful';
 import Events from './events';
 import OppHand from './oppHand';
-import {Distance} from './stateMachine/statesPieces';  
+import { Distance } from './stateMachine/statesPieces';
 import { GameDisplayEnum } from '../../gameDisplay/interface';
 import { cleanConnect } from '../../util';
 
@@ -40,8 +40,11 @@ const game = ({ game, screen, opponent, shouldDisplayEvents }: Props) => {
             <PlayerState {...game} identity={opponent} />
         </div>
         {shouldDisplayEvents && <Events />}
-        <Prediction {...game} />
-        <Board player={player} currentPlayer={currentPlayer} queue={queue} />
+        <div class="board-section">
+            <Prediction {...game} />
+            <Board player={player} currentPlayer={currentPlayer} queue={queue} />
+            <Distance {...game} />
+        </div>
         <div className="player-section">
             <PlayerState {...game} identity={player} />
             <PlayerHand screen={screen} />

@@ -1,12 +1,4 @@
-Charge needs to be improved a litte. 
-
 When you reflex, you should be told what card you reflexed into if there are any choices to be made.
-
-Work on consolidating the state chunk.
-
-Some indication that it's the opponent's turn would be good.
-
-Break up ui to top / bottom.
 
 Damage got confused with block. Consider icon for block or better spacing? 
 
@@ -23,3 +15,8 @@ Make 2 decks by next week, add 2 or 3 cards to Stone Skin and Blood in the Water
 Consider seeing how many cards are in the opponents hand, if we do, maybe cripple cards should be face up. Would feel good.
 
 Stone deck should have a card that can knock it's opponent prone
+
+Fix cripple. 
+
+Put distance on side, make vertical.
+

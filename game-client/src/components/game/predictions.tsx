@@ -32,7 +32,7 @@ const Prediction = ({ predictions, isMyPrediction }: Props) => {
             </div>
         }
     } else {
-        return null
+        return <div></div>
     }
 }
 

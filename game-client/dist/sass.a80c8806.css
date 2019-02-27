@@ -9657,28 +9657,34 @@ h3 {
 
 .container-distance {
   display: flex;
-  flex-direction: column;
-  align-self: flex-end;
-  width: 50%;
+  flex-direction: row;
+  height: 12rem;
 }
 .container-distance .distance-title {
+  writing-mode: vertical-lr;
+  text-orientation: upright;
   text-align: center;
   font-weight: bold;
+  font-size: 1.1rem;
   border-top: 2px solid;
-  border-right: 2px solid;
+  border-bottom: 2px solid;
   border-left: 2ps solid;
 }
 .container-distance .distance-pieces {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-evenly;
 }
+.container-distance .distance-pieces .axis-icon {
+  height: 40px;
+  width: 40px;
+}
 .container-distance .distance-pieces > div {
-  flex: 1;
   display: flex;
-  justify-content: center;
-  border-right: 2px solid;
-  border-left: 2px solid;
+  align-items: center;
+  flex: 1;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
 }
 .container-distance .inactive {
   border-top: 2px solid;
@@ -10137,11 +10143,17 @@ div {
 }
 
 .game {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
   background-color: #3e2f1c;
+}
+.game .board-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .game .player-section, .game .opponent-section {
   display: flex;
