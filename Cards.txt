@@ -5116,5 +5116,50 @@
         "value": "test"
       }
     ]
+  },
+  "Rolling Leap": {
+    "name": "Rolling Leap",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "amount": "3",
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "amount": "1",
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "choices": [
+          [
+            {
+              "axis": "Further",
+              "player": 2
+            }
+          ],
+          [
+            {
+              "axis": "Closer",
+              "player": 2
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "tagObjs": [],
+    "tags": []
   }
 }

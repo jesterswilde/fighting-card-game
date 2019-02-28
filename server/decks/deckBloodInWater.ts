@@ -13,6 +13,7 @@ export const bloodInWaterDeck: DeckDescription = {
         "Clever Reposition",
         "Bloody Finale",
         "Targeted Strike",
+        "Rolling Leap",
     ],
     name: "Blood in the Water",
     description: "This deck focuses on continous low amounts of damage. Has lots of poise damage. Goes berzerk when low on health",
