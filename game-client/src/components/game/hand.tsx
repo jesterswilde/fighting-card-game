@@ -13,7 +13,7 @@ interface Props {
 
 const selector = (state: StoreState): Props=>{
     return {
-        hand: state.hand.cards,
+        hand: state.hand.hand,
         showFullCard: state.gameDisplay.showFullCard
     }
 }

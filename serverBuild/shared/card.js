@@ -31,6 +31,7 @@ var MechanicEnum;
     MechanicEnum["TELEGRAPH"] = "Telegraph";
     MechanicEnum["FOCUS"] = "Focus";
     MechanicEnum["PREDICT"] = "Predict";
+    MechanicEnum["PARRY"] = "Parry";
     MechanicEnum["BLOCK"] = "Block";
     MechanicEnum["LOCK"] = "Lock";
     MechanicEnum["REFLEX"] = "Reflex";

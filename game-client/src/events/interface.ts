@@ -16,11 +16,15 @@ export enum EventTypeEnum{
     MECHANIC, 
     ADDED_MECHANIC,
     REVEAL_PREDICTION,
-    GAME_OVER
+    GAME_OVER,
+    MULTIPLE,
+    EVENT_SECTION,
+    CARD_NAME_SECTION,
 }
 
 export interface EventAction{
     type: EventTypeEnum,
+    events?: EventAction[]
     effect?: Mechanic,
     cardName?: string,
     mechanicName?: string,
@@ -28,5 +32,12 @@ export interface EventAction{
     correct?: boolean,
     prediction?: PredictionEnum,
     correctGuesses?: PredictionEnum[],
-    winner?: number
+    winner?: number,
+    happenedTo?: HappensEnum[]
+}
+
+export enum HappensEnum{
+    NEVER_AFFECTED,
+    HAPPENS,
+    BLOCKED
 }

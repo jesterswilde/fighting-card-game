@@ -37,6 +37,7 @@ class Viewer extends React.Component<Props>{
         const { requirements, optional, effects, name, tags: tagObjs } = card;
         return <div>
             <h3>{card.name}</h3>
+            {card.priority !== undefined &&<div> Priority: {card.priority}</div>}
             <ul>
                 {requirements.map((req) => <Requirement key={req.id} requirement={req} />)}
             </ul>

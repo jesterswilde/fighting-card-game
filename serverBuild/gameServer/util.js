@@ -43,13 +43,15 @@ exports.makeMechanic = () => {
         amount: 0
     };
 };
-exports.makeGameState = () => {
+exports.makeTestingGameState = () => {
     return {
-        currentPlayer: 0,
+        numPlayers: 2,
         playerStates: [exports.makePlayerState(), exports.makePlayerState()],
         stateDurations: [exports.makeStateDurations(), exports.makeStateDurations()],
+        parry: [0, 0],
         block: [0, 0],
         queue: [[], []],
+        pickedCards: [],
         distance: stateInterface_1.DistanceEnum.FAR,
         decks: [],
         damaged: [],
@@ -57,6 +59,7 @@ exports.makeGameState = () => {
         tagModification: [{}, {}],
         health: [],
         readiedEffects: [],
+        damageEffects: [],
         modifiedAxis: exports.makeModifiedAxis(),
         sockets: [],
         events: [],
@@ -111,6 +114,24 @@ exports.playerEnumToPlayerArray = (playerEnum, player, opponent) => {
         whoToCheck = [player, opponent];
     }
     return whoToCheck;
+};
+exports.splitArray = (arr, filter) => {
+    const matches = arr.filter(filter);
+    const noMatch = arr.filter((value) => !filter(value));
+    return [matches, noMatch];
+};
+exports.uniqByReverse = (arr, by) => {
+    const values = {};
+    const reverseArr = [];
+    for (let i = arr.length - 1; i >= 0; i--) {
+        const item = arr[i];
+        const key = by(item);
+        if (!values[key]) {
+            values[key] = true;
+            reverseArr.push(item);
+        }
+    }
+    return reverseArr.reverse();
 };
 exports.consolidateMechanics = (mechs) => {
     return exports.deepCopy(mechs).reduce((arr, mech) => {

@@ -52,21 +52,23 @@ const playerPicksDeck = (player) => {
 };
 const makeGameState = (sockets, decks) => {
     const state = {
+        numPlayers: 2,
         sockets,
-        decks,
-        health: [gameSettings_1.STARTING_HEALTH, gameSettings_1.STARTING_HEALTH],
-        currentPlayer: 0,
-        playerStates: [util_1.makePlayerState(), util_1.makePlayerState()],
-        stateDurations: [util_1.makeStateDurations(), util_1.makeStateDurations()],
-        readiedEffects: [],
-        modifiedAxis: util_1.makeModifiedAxis(),
-        block: [0, 0],
         queue: [],
-        distance: stateInterface_1.DistanceEnum.FAR,
+        decks,
         hands: [[], []],
-        turnNumber: 0,
-        tagModification: [{}, {}],
+        pickedCards: [],
+        health: [gameSettings_1.STARTING_HEALTH, gameSettings_1.STARTING_HEALTH],
+        parry: [0, 0],
+        block: [0, 0],
+        playerStates: [util_1.makePlayerState(), util_1.makePlayerState()],
+        distance: stateInterface_1.DistanceEnum.FAR,
+        stateDurations: [util_1.makeStateDurations(), util_1.makeStateDurations()],
+        readiedEffects: [[], []],
+        damageEffects: [[], []],
+        modifiedAxis: util_1.makeModifiedAxis(),
         damaged: [false, false],
+        tagModification: [{}, {}],
         lockedState: {
             distance: null,
             players: [
@@ -74,6 +76,7 @@ const makeGameState = (sockets, decks) => {
                 { motion: null, poise: null, stance: null }
             ]
         },
+        turnNumber: 0,
         events: []
     };
     return state;

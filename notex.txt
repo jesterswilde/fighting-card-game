@@ -11,3 +11,9 @@ Consider seeing how many cards are in the opponents hand, if we do, maybe crippl
 Prediction display needs to be updated.
 
 Prediction picking needs to be updated
+
+Focuses and Telegraphs need to be cleared after they are put back into the deck (or leave queue)
+
+Game board should change as people get more and more damaged. 
+
+Glowing effect could be punched up. 

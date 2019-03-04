@@ -9,126 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const socket_1 = require("./socket");
-const requirements_1 = require("./requirements");
 const gameSettings_1 = require("../gameSettings");
-const errors_1 = require("../errors");
-const socket_2 = require("../../shared/socket");
-const util_1 = require("../util");
+const drawCards_1 = require("./drawCards");
 exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
-    exports.shuffleDeck(state);
+    console.log('starting turn');
     exports.addPoise(state);
-    exports.drawHand(state);
+    drawCards_1.givePlayersCards(state);
     socket_1.sendState(state);
-    yield exports.playerPicksCard(state);
 });
 exports.addPoise = (state) => {
-    const { currentPlayer: player, playerStates } = state;
-    if (state.turnNumber !== 0 && playerStates[player].poise < gameSettings_1.ANTICIPATING_POISE - 1) {
-        playerStates[player].poise++;
-        console.log('increasing poise', state.playerStates[player].poise);
-    }
-};
-exports.drawHand = (state, { _sendHand = socket_1.sendHand } = {}) => {
-    const { decks, currentPlayer, hands } = state;
-    const deck = decks[currentPlayer];
-    try {
-        const hand = drawCards(deck, state);
-        decks[currentPlayer] = decks[currentPlayer].filter((card) => card !== undefined);
-        hands[currentPlayer] = hand;
-        exports.addEnhancements(hand, state);
-        markOptional(hand, state);
-        if (hand.length === 0) {
-            addPanicCard(state);
+    const { playerStates } = state;
+    playerStates.forEach((pState) => {
+        if (state.turnNumber !== 0 && pState.poise < gameSettings_1.ANTICIPATING_POISE - 1) {
+            pState.poise++;
         }
-        _sendHand(state);
-    }
-    catch (err) {
-        if (err === errors_1.ErrorEnum.NO_CARD) {
-            console.log("No card", deck);
-        }
-        else {
-            throw err;
-        }
-    }
-};
-const drawCards = (deck, state) => {
-    let handIndexes = [];
-    for (let i = 0; i < deck.length; i++) {
-        if (requirements_1.canPlayCard(deck[i], state)) {
-            handIndexes.push(i);
-        }
-        if (handIndexes.length === gameSettings_1.HAND_SIZE) {
-            break;
-        }
-    }
-    const hand = handIndexes.map((i) => {
-        const card = deck[i];
-        deck[i] = undefined;
-        return card;
     });
-    return hand;
-};
-const markOptional = (cards, state) => {
-    cards.forEach(({ optional = [], opponent, player }) => {
-        if (opponent === undefined) {
-            opponent = player === 0 ? 1 : 0;
-        }
-        optional.forEach((opt) => {
-            opt.canPlay = requirements_1.canUseOptional(opt, player, opponent, state);
-        });
-    });
-};
-exports.addEnhancements = (hand, state) => {
-    return hand.forEach((card) => exports.addEnhancement(card, state));
-};
-exports.addEnhancement = (card, state) => {
-    const tags = card.tags || [];
-    const modObj = state.tagModification[card.player];
-    card.enhancements = tags.reduce((enhArr, { value: tag }) => {
-        const mechanics = modObj[tag] || [];
-        enhArr.push({ tag, mechanics });
-        return enhArr;
-    }, []);
-};
-const addPanicCard = (state) => {
-    const { currentPlayer: player } = state;
-    const card = {
-        name: 'Panic',
-        effects: [],
-        requirements: [],
-        player,
-        opponent: player === 0 ? 1 : 0,
-        optional: []
-    };
-    state.hands[player].push(card);
-};
-exports.playerPicksCard = (state) => __awaiter(this, void 0, void 0, function* () {
-    const { sockets, currentPlayer: player } = state;
-    const opponent = util_1.getOpponent(player);
-    return new Promise((res, rej) => {
-        sockets[player].once(socket_2.SocketEnum.PICKED_CARD, (index) => {
-            exports.pickCard(index, state);
-            sockets[opponent].emit(socket_2.SocketEnum.OPPONENT_PICKED_CARDS);
-            res();
-        });
-    });
-});
-exports.pickCard = (cardNumber, state) => {
-    const { currentPlayer: player, hands, decks } = state;
-    state.pickedCard = hands[player][cardNumber];
-    const unusedCards = hands[player].filter((_, i) => i !== cardNumber);
-    decks[player].push(...unusedCards);
-    hands[player] = [];
-    const opponent = state.currentPlayer === 0 ? 1 : 0;
-    state.pickedCard.opponent = opponent;
-};
-exports.shuffleDeck = (state, playerToShuffle) => {
-    const { decks, currentPlayer: player } = state;
-    const deck = decks[player];
-    for (let i = 0; i < deck.length; i++) {
-        const rand = Math.floor(Math.random() * deck.length);
-        const temp = deck[rand];
-        deck[rand] = deck[i];
-        deck[i] = temp;
-    }
 };

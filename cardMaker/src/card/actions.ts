@@ -14,8 +14,13 @@ export enum CardEnum{
     CREATE_TAG = 'cardCreateTag',
     DELETE_TAG = 'cardDeleteTag',
     UPDATE_TAG = 'updateTag',
+    UPDATE_PRIORITY = 'updatedPriority',
 }
 
+export interface UpdatePriorityAction{
+    type: CardEnum.UPDATE_PRIORITY,
+    priority: number
+}
 
 export interface CreateTagAction {
     type: CardEnum.CREATE_TAG,
@@ -74,4 +79,4 @@ export interface DeletedCardAction{
 
 export type CardActions = UpdatedEditedCardAction | DeletedCardAction | GotCardListAction | 
 UpdatedCardNameAction | CardAddedEffAction | CardAddedOptAction | CardAddedReqAction | UpdateFilterAction |
-CreateTagAction | UpdateTagAction | DeleteTagAction; 
+CreateTagAction | UpdateTagAction | DeleteTagAction | UpdatePriorityAction; 

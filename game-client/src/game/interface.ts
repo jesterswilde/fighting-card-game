@@ -4,7 +4,7 @@ export interface GameState{
     playerStates: PlayerState[]
     stateDurations: PlayerStateDuration[]
     block: number[]
-    queue: Card[][]
+    queue: Card[][][]
     distance: DistanceEnum
     currentPlayer: number
     player: number

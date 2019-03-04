@@ -8,4 +8,7 @@ var EventTypeEnum;
     EventTypeEnum[EventTypeEnum["ADDED_MECHANIC"] = 3] = "ADDED_MECHANIC";
     EventTypeEnum[EventTypeEnum["REVEAL_PREDICTION"] = 4] = "REVEAL_PREDICTION";
     EventTypeEnum[EventTypeEnum["GAME_OVER"] = 5] = "GAME_OVER";
+    EventTypeEnum[EventTypeEnum["MULTIPLE"] = 6] = "MULTIPLE";
+    EventTypeEnum[EventTypeEnum["EVENT_SECTION"] = 7] = "EVENT_SECTION";
+    EventTypeEnum[EventTypeEnum["CARD_NAME_SECTION"] = 8] = "CARD_NAME_SECTION";
 })(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));

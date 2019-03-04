@@ -11,6 +11,7 @@ export interface Card extends RequirementEffect{
     showFullCard?: boolean
     enhancements?: Enhancement[]
     id?: number
+    priority?: number
 }
 
 export interface Enhancement {
@@ -85,6 +86,7 @@ export enum MechanicEnum{
     TELEGRAPH = "Telegraph",
     FOCUS = "Focus",
     PREDICT = "Predict",
+    PARRY = "Parry",
     BLOCK = "Block",
     LOCK = "Lock",
     REFLEX = "Reflex",

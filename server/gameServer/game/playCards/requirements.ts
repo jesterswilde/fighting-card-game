@@ -1,9 +1,9 @@
-import { Card, StatePiece, AxisEnum, MechanicEnum, PlayerEnum, RequirementEffect, Mechanic } from "../../shared/card";
-import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum } from "../interfaces/stateInterface";
-import { BLOODIED_HP } from "../gameSettings";
-import { playerEnumToPlayerArray } from "../util";
-import { ErrorEnum } from "../errors";
-import { hasPoise } from "./poise";
+import { Card, StatePiece, AxisEnum, MechanicEnum, PlayerEnum, RequirementEffect, Mechanic } from "../../../shared/card";
+import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum } from "../../interfaces/stateInterface";
+import { BLOODIED_HP } from "../../gameSettings";
+import { playerEnumToPlayerArray } from "../../util";
+import { ErrorEnum } from "../../errors";
+import { hasPoise } from "../poise";
 
 export const canPlayCard = (card: Card, state: GameState): boolean => {
     if(card === undefined){

@@ -16,7 +16,7 @@ export default (io: SocketIO.Server) => {
 
 const joinLobby = (player: Socket) => {
     console.log('joining lobby');
-    player.emit(SocketEnum.JOINED_LOBBY); 
+    player.emit(SocketEnum.JOINED_LOBBY);
     if (queue.length > 0) {
         console.log('starting game');
         createGame(queue[0], player);
@@ -26,53 +26,56 @@ const joinLobby = (player: Socket) => {
     }
 }
 
-const createGame = async(player1: Socket, player2: Socket) => {
+const createGame = async (player1: Socket, player2: Socket) => {
     const players = [player1, player2];
     const deckPromises = players.map(playerPicksDeck);
     let decks = await Promise.all<Card[]>(deckPromises);
-    decks = decks.map((deck)=> deepCopy(deck)); 
-    console.log('all deck choices in'); 
-    const state = makeGameState(players, decks); 
-    playGame(state); 
+    decks = decks.map((deck) => deepCopy(deck));
+    console.log('all deck choices in');
+    const state = makeGameState(players, decks);
+    playGame(state);
 }
 
-const playerPicksDeck = (player: Socket):Promise<Card[]> => {
+const playerPicksDeck = (player: Socket): Promise<Card[]> => {
     return new Promise((res, rej) => {
-        const deckOptions = getDeckOptions();   
+        const deckOptions = getDeckOptions();
         player.emit(SocketEnum.GOT_DECK_OPTIONS, deckOptions);
         player.once(SocketEnum.PICKED_DECK, (index) => {
             console.log('got deck choice')
-            const deck = getDeck(deckOptions[index].name); 
-            res(deck); 
+            const deck = getDeck(deckOptions[index].name);
+            res(deck);
         })
     })
 }
 
-const makeGameState = (sockets: Socket[], decks: Card[][])=>{
+const makeGameState = (sockets: Socket[], decks: Card[][]) => {
     const state: GameState = {
+        numPlayers: 2,
         sockets,
-        decks,
-        health: [STARTING_HEALTH, STARTING_HEALTH],
-        currentPlayer: 0,
-        playerStates: [makePlayerState(), makePlayerState()],
-        stateDurations: [makeStateDurations(), makeStateDurations()],
-        readiedEffects: [],
-        modifiedAxis: makeModifiedAxis(),
-        block: [0, 0],
         queue: [],
-        distance: DistanceEnum.FAR,
+        decks,
         hands: [[], []],
-        turnNumber: 0,
-        tagModification: [{},{}],
-        damaged: [false,false],
+        pickedCards: [],
+        health: [STARTING_HEALTH, STARTING_HEALTH],
+        parry: [0, 0],
+        block: [0, 0],
+        playerStates: [makePlayerState(), makePlayerState()],
+        distance: DistanceEnum.FAR,
+        stateDurations: [makeStateDurations(), makeStateDurations()],
+        readiedEffects: [[], []],
+        damageEffects: [[], []],
+        modifiedAxis: makeModifiedAxis(),
+        damaged: [false, false],
+        tagModification: [{}, {}],
         lockedState: {
             distance: null,
             players: [
-                {motion: null, poise: null, stance: null},
-                {motion: null, poise: null, stance: null}
+                { motion: null, poise: null, stance: null },
+                { motion: null, poise: null, stance: null }
             ]
         },
-        events:[]
+        turnNumber: 0,
+        events: []
     }
-    return state; 
+    return state;
 }

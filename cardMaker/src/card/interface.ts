@@ -8,6 +8,7 @@ export interface CardState {
 
 export interface Card {
     name: string,
+    priority?: number,
     tagObjs: TagObj[],
     optional: number[], // Optional
     requirements: number[], // StatePiece

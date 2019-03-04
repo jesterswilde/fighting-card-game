@@ -15,7 +15,7 @@ export enum GameActionEnum{
 
 export interface SwapCardDisplayModeAction{
     type: GameActionEnum.SWAPPED_CARD_DISPLAY_MODE,
-    cardLoc: {column: number, row: number}
+    cardLoc: {turn: number, player: number, index: number}
 }
 
 export interface ShouldPickForecfulAction{

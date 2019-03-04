@@ -5,10 +5,10 @@ import { socket } from '../socket/socket';
 import { SocketEnum } from '../shared/socket';
 import { Mechanic } from '../shared/card';
 
-export const dispatchSwitchCardDisplayMode = (column: number, row: number)=>{
+export const dispatchSwitchCardDisplayMode = (turn: number, player: number, index: number)=>{
     const action: SwapCardDisplayModeAction = {
         type: GameActionEnum.SWAPPED_CARD_DISPLAY_MODE,
-        cardLoc: {column, row}
+        cardLoc: {turn, player, index}
     } 
     store.dispatch(action); 
 }

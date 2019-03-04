@@ -2,14 +2,12 @@ import { GameState } from "../interfaces/stateInterface";
 import { Card } from "../../shared/card";
 import { QUEUE_LENGTH } from "../gameSettings";
 
-export const getLastPlayedCard = (state: GameState, player?: number): Card | null => {
-    const { queue, currentPlayer } = state;
-    if (player === undefined) {
-        player = currentPlayer;
-    }
-    const index = queue[0].length - 1;
-    if (index < 0) {
-        return null;
-    }
-    return queue[0][index];
+export const forEachCardInQueue = (state: GameState, cb: (card: Card, queueIndex: number)=>void)=>{
+    state.queue.forEach((queueSlot, queueIndex)=>{
+        queueSlot.forEach((playerCards, player)=>{
+            playerCards.forEach((card)=>{
+                cb(card, queueIndex); 
+            })
+        })
+    })
 }

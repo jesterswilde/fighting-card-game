@@ -1,8 +1,9 @@
 import { store } from "../state/store";
-import { HandActionEnum, PickedCardAction, GotCardsAction, OppGotCardsAction, OppPickedCardAction } from "./actions";
+import { HandActionEnum, PickedCardAction, GotHandStateAction, OppGotCardsAction, OppPickedCardAction } from "./actions";
 import { Card } from "../shared/card";
 import { socket } from "../socket/socket";
 import { SocketEnum } from "../shared/socket";
+import { HandState } from "./interface";
 
 export const dispatchOppGotCards = (cards: number)=>{
     const action: OppGotCardsAction = {
@@ -28,10 +29,10 @@ export const dispatchPickedCard = (cardNumber: number)=>{
     store.dispatch(action)
 }
 
-export const dispatchGotCards = (cards: Card[])=>{
-    const action: GotCardsAction = {
-        type: HandActionEnum.GOT_CARDS,
-        cards
+export const dispatchGotHandState = (handState: HandState)=>{
+    const action: GotHandStateAction = {
+        type: HandActionEnum.GOT_HAND_STATE,
+        handState
     }
     store.dispatch(action); 
 }

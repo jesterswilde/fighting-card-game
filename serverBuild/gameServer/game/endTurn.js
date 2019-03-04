@@ -13,24 +13,29 @@ const gameSettings_1 = require("../gameSettings");
 const util_1 = require("../util");
 const events_1 = require("./events");
 const socket_1 = require("./socket");
+const queue_1 = require("./queue");
 exports.endTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     exports.cullQueue(state);
     decrementCounters(state);
     clearTurnData(state);
-    changePlayers(state);
     socket_1.sendState(state);
     events_1.sendEvents(state);
+    console.log('turn ended');
 });
 exports.cullQueue = (state) => {
     const { decks, queue } = state;
-    if (queue.length > gameSettings_1.QUEUE_LENGTH) {
-        const cards = queue.pop();
-        cards.forEach((card) => {
-            console.log('culling', card.name, card.player);
-            if (card.name !== 'Panic') {
-                decks[card.player].push(card);
-            }
-        });
+    queue_1.forEachCardInQueue(state, (card, queueIndex) => {
+        if (queueIndex >= gameSettings_1.QUEUE_LENGTH && card.name !== "Panic") {
+            card.telegraphs = undefined;
+            card.focuses = undefined;
+            card.shouldReflex = false;
+            card.predictions = undefined;
+            card.enhancements = undefined;
+            decks[card.player].push(card);
+        }
+    });
+    if (state.queue.length >= gameSettings_1.QUEUE_LENGTH) {
+        queue.pop();
     }
 };
 const decrementCounters = (state) => {
@@ -53,18 +58,12 @@ const decrementCounters = (state) => {
     });
 };
 const clearTurnData = (state) => {
-    const opponent = state.currentPlayer === 0 ? 1 : 0;
-    state.damaged[state.currentPlayer] = false;
+    state.damaged = state.damaged.map(() => false);
     state.turnIsOver = false;
     state.modifiedAxis = util_1.makeModifiedAxis();
     state.incrementedQueue = false;
     state.pendingPredictions = state.predictions;
     state.predictions = null;
-    state.block[opponent] = 0;
+    state.parry = state.parry.map(() => 0);
     state.checkedFocus = false;
-};
-const changePlayers = (state) => {
-    const player = state.currentPlayer === 0 ? 1 : 0;
-    state.turnNumber++;
-    state.currentPlayer = player;
 };

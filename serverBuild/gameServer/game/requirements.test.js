@@ -7,7 +7,7 @@ const stateInterface_1 = require("../interfaces/stateInterface");
 describe('Requirements', () => {
     let state;
     beforeEach(() => {
-        state = util_1.makeGameState();
+        state = util_1.makeTestingGameState();
         state.distance = stateInterface_1.DistanceEnum.CLOSE;
     });
     describe('meetsRequirements', () => {

@@ -1,6 +1,6 @@
 import { Card } from "../shared/card";
 
 export interface HandState{
-    cards: Card[],
-    opponentCards: number | null
+    hand: Card[],
+    handSizes: number[]
 }

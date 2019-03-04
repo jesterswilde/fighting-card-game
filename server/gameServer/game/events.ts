@@ -1,28 +1,77 @@
 import { Mechanic, MechanicEnum, Card } from "../../shared/card";
-import { GameState, PredictionEnum } from "../interfaces/stateInterface";
-import { EventTypeEnum } from "../interfaces/gameEvent";
+import { GameState, PredictionEnum, ReadiedEffect } from "../interfaces/stateInterface";
+import { EventTypeEnum, EventAction } from "../interfaces/gameEvent";
 import { SocketEnum } from "../../shared/socket";
 
 export const addEffectEvent = (mechanic: Mechanic, playedBy: number, name: string, isEventOnly: boolean, isHappening: boolean, state: GameState) => {
-    console.log(mechanic.mechanic, name, isEventOnly, isHappening)
     //These are for thigns like damage, block, and things that get printed in that format
     if (mechanic.mechanic === undefined || (addableMechanics[mechanic.mechanic] && !isHappening)) {
-        state.events.push({ effect: mechanic, type: EventTypeEnum.EFFECT, playedBy });
+        return { effect: mechanic, type: EventTypeEnum.EFFECT, playedBy }
     } //This is for when a telegraph, reflex, or focus is actually triggered 
-    else if(isHappening && isEventOnly) {
-        mechanicIsHappeningEvent(mechanic.mechanic, name, playedBy, state); 
+    else if (isHappening && isEventOnly) {
+        mechanicIsHappeningEvent(mechanic.mechanic, name, playedBy, state);
     }//This is for when delayed mechanics are added, but have no current effect. 
-    else if(!ignoredMechanics[mechanic.mechanic] || isEventOnly){
+    else if (!ignoredMechanics[mechanic.mechanic] || isEventOnly) {
         addedMechanicEvent(mechanic.mechanic, playedBy, state);
     }
 }
+
+export const storeEffectsForEvents = (state: GameState) => {
+    state.pendingEvents = [...state.readiedEffects];
+}
+
+
+export const storedEffectsToEvents = (state: GameState) => {
+    const events: EventAction[] = state.pendingEvents.map((playerReaEff, player) => {
+        const events = playerReaEff.map((reaEff) => reaEfftoEvent(reaEff))
+        return { type: EventTypeEnum.MULTIPLE, events };
+    })
+    state.events.push({ type: EventTypeEnum.EVENT_SECTION, events });
+    state.pendingEvents = undefined;
+}
+
+
+export const storePlayedCardEvent = (player: number, state: GameState) => {
+    const card = state.pickedCards[player]; 
+    state.pendingCardEvents = state.pendingCardEvents || [];
+    state.pendingCardEvents[card.player] = card;
+}
+
+export const processPlayedCardEvents = (state: GameState) => {
+    if(state.pendingCardEvents === undefined) return; 
+    const events: EventAction[] = state.pendingCardEvents.map((card) => {
+        if(card){
+            return { type: EventTypeEnum.CARD_NAME, cardName: card.name, playedBy: card.player };
+        }
+        return null; 
+    });
+    state.events.push({events, type: EventTypeEnum.CARD_NAME_SECTION});
+    state.pendingCardEvents = undefined; 
+}
+
+const reaEfftoEvent = (reaEff: ReadiedEffect): EventAction => {
+    const { mechanic: mech, isHappening, card, isEventOnly } = reaEff;
+    //These are for thigns like damage, block, and things that get printed in that format
+    if (mech.mechanic === undefined || (addableMechanics[reaEff.mechanic.mechanic] && !reaEff.isHappening)) {
+        return { type: EventTypeEnum.EFFECT, effect: reaEff.mechanic, playedBy: card.player }
+    } //This is for when a telegraph, reflex, or focus is actually triggered 
+    else if (isHappening && isEventOnly) {
+        return { type: EventTypeEnum.MECHANIC, mechanicName: mech.mechanic, cardName: card.name, playedBy: card.player }
+    }//This is for when delayed mechanics are added, but have no current effect. 
+    else if (!ignoredMechanics[mech.mechanic] || isEventOnly) {
+        return { type: EventTypeEnum.ADDED_MECHANIC, mechanicName: mech.mechanic, playedBy: card.player };
+    }
+}
+
+export const stateReaEffEvent = (reaEffs: ReadiedEffect, state: GameState) => {
+    state.events.push({ type: EventTypeEnum.EFFECT, playedBy: reaEffs.card.player, effect: reaEffs.mechanic, happenedTo: reaEffs.happensTo });
+}
+
 export const mechanicIsHappeningEvent = (mechEnum: MechanicEnum, cardName: string, playedBy: number, state: GameState) => {
-    console.log("adding effect event",cardName, mechEnum)
     state.events.push({ type: EventTypeEnum.MECHANIC, mechanicName: mechEnum, cardName, playedBy })
 }
 
 export const addedMechanicEvent = (mechEnum: MechanicEnum, playedBy, state: GameState) => {
-    console.log("added effect", mechEnum);
     state.events.push({ type: EventTypeEnum.ADDED_MECHANIC, mechanicName: mechEnum, playedBy })
 }
 
@@ -40,9 +89,7 @@ export const addRevealPredictionEvent = (correct: boolean, prediction: Predictio
     state.events.push({ type: EventTypeEnum.REVEAL_PREDICTION, correct, prediction, correctGuesses, cardName: card.name, playedBy: card.player })
 }
 
-export const addCardEvent = (card: Card, state: GameState) => {
-    state.events.push({ type: EventTypeEnum.CARD_NAME, playedBy: card.player, cardName: card.name })
-}
+
 
 export const sendEvents = (state: GameState) => {
     state.sockets.forEach((socket) => {

@@ -1,4 +1,4 @@
-import { GameState, PredictionState, PredictionEnum } from "../interfaces/stateInterface";
+import { GameState, PredictionState, PredictionEnum } from "../../interfaces/stateInterface";
 
 export const didPredictionHappen = (prediction: PredictionState, state: GameState): boolean=>{
     switch(prediction.prediction){

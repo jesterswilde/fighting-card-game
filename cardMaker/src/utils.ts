@@ -1,4 +1,4 @@
-import { PlayerEnum } from './interfaces/enums';
+import { PlayerEnum } from './shared/card';
 
 export let hostURL = "http://localhost:8080/api/";
 

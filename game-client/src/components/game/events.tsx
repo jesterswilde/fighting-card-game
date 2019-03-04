@@ -62,14 +62,14 @@ class Events extends Component<Props, State>{
             <div class='event-container'>
                 {events.map((event, i) => {
                     return <div class="event" key={JSON.stringify(event) + i}>
-                        {this.reducer(event, this.props.player)}
+                        {this.reducer(event)}
                     </div>
                 })}
             </div>
         </div>
     }
-    reducer = (event: EventAction, player: number) => {
-        const opponent = event.playedBy !== this.props.player;
+    reducer = (event: EventAction, opponent?: boolean) => {
+        if(event === null) return null; 
         switch (event.type) {
             case EventTypeEnum.CARD_NAME:
                 return this.renderCard(event, opponent);
@@ -82,12 +82,16 @@ class Events extends Component<Props, State>{
             case EventTypeEnum.REVEAL_PREDICTION:
                 return this.renderRevealPrediction(event, opponent);
             case EventTypeEnum.GAME_OVER:
-                return this.renderGameOver(event, player)
+                return this.renderGameOver(event);
+            case EventTypeEnum.EVENT_SECTION:
+                return this.renderEventSection(event);
+            case EventTypeEnum.CARD_NAME_SECTION:
+                return this.renderCardNameSection(event); 
             default: return null;
         }
     }
-    renderGameOver = (event: EventAction, player: number) => {
-        const lost = event.winner !== player;
+    renderGameOver = (event: EventAction) => {
+        const lost = event.winner !== this.props.player;
         if (event.winner < 0) {
             return <div class='event-game-over opponent'>
                 Everybody Loses!
@@ -140,6 +144,32 @@ class Events extends Component<Props, State>{
     renderMechanic = (event: EventAction, opponent: boolean) => {
         return <div class={`event-mechanic ${opponent ? 'opponent' : ''}`}>
             {event.cardName}: {event.mechanicName}
+        </div>
+    }
+    renderEventSection = (eventSection: EventAction) => {
+        return <div class='event-section'>
+            {eventSection.events.map((playerEvent, playerIndex) => {
+                return <div class='players-events' key={playerIndex}>
+                    {playerEvent.events.map((event) => {
+                        if(event === null){
+                            return <div />
+                        }
+                        const opponent = event.playedBy !== this.props.player;
+                        return this.reducer(event, opponent)
+                    })}
+                </div>
+            })}
+        </div>
+    }
+    renderCardNameSection = (eventSection: EventAction) => {
+        return <div class='event-section'>
+            {eventSection.events.map((cardEvent, playerIndex) => {
+                const opponent = cardEvent.playedBy !== this.props.player;
+                if (cardEvent) {
+                    return <div class="card-names">{this.renderCard(cardEvent, opponent)}</div> 
+                }
+                return <div class='card-names' key={playerIndex} />
+            })}
         </div>
     }
 }

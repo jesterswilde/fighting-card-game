@@ -1,5 +1,5 @@
 import { Card, Mechanic } from '../shared/card';
-import { dispatchGotCards, dispatchOppGotCards, dispatchOppPickedCard } from '../hand/dispatch';
+import { dispatchGotHandState, dispatchOppGotCards, dispatchOppPickedCard } from '../hand/dispatch';
 import { dispatchSwitchScreen } from '../display/dispatch';
 import { ScreenEnum } from '../display/interface';
 import { dispatchStartGame, dispatchGameState, dispatchShouldPickOne, dispatchShouldPickForecful } from '../game/dispatch';
@@ -10,6 +10,7 @@ import { dispatchShouldPredict } from '../gameDisplay/dispatch';
 import { DeckChoice } from '../lobby/interfaces';
 import { EventAction } from '../events/interface';
 import { dispatchGotEvents } from '../events/dispatch';
+import { HandState } from '../hand/interface';
 
 export const setupSockets = (socket: SocketIOClient.Socket)=>{
     console.log('running socket messsages'); 
@@ -19,9 +20,9 @@ export const setupSockets = (socket: SocketIOClient.Socket)=>{
         dispatchSwitchScreen(ScreenEnum.LOOKING_FOR_GAME)
     })
     
-     socket.on(SocketEnum.GOT_CARDS, (cards: Card[])=>{
-         console.log('got cards', cards); 
-        dispatchGotCards(cards); 
+     socket.on(SocketEnum.GOT_CARDS, (handState: HandState)=>{
+         console.log('got hand State', handState); 
+        dispatchGotHandState(handState); 
      })
 
      socket.on(SocketEnum.START_GAME, ({player})=>{

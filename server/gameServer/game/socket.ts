@@ -3,11 +3,11 @@ import { SocketEnum } from "../../shared/socket";
 import { deepCopy, getOpponent } from "../util";
 
 export const sendHand = (state: GameState) => {
-    const { sockets, currentPlayer: player, hands } = state;
-    const numCards = hands[player].length;
-    const opponent = getOpponent(player); 
-    sockets[player].emit(SocketEnum.GOT_CARDS, hands[player]);
-    sockets[opponent].emit(SocketEnum.OPPONENT_GOT_CARDS, numCards); 
+    const { sockets, hands } = state;
+    const handSizes = hands.map((hand)=> hand.length); 
+    sockets.forEach((socket, player)=>{
+        sockets[player].emit(SocketEnum.GOT_CARDS, {hand:hands[player], handSizes});
+    }) 
 }
 
 
@@ -18,10 +18,9 @@ export const sendState = (state: GameState) => {
     const sendState = {
         playerStates: state.playerStates,
         stateDurations: state.stateDurations,
-        block: state.block,
+        block: state.parry,
         queue: state.queue,
         distance: state.distance,
-        currentPlayer: state.currentPlayer,
         health: state.health,
         damaged: state.damaged,
         predictions: state.pendingPredictions,

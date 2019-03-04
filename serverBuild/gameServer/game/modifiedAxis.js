@@ -4,7 +4,7 @@ const card_1 = require("../../shared/card");
 const stateInterface_1 = require("../interfaces/stateInterface");
 const util_1 = require("../util");
 exports.markAxisChange = (mechanic, card, state) => {
-    const players = util_1.playerEnumToPlayerArray(mechanic.player, state.currentPlayer, card.opponent);
+    const players = util_1.playerEnumToPlayerArray(mechanic.player, card.player, card.opponent);
     switch (mechanic.axis) {
         case card_1.AxisEnum.MOVING:
         case card_1.AxisEnum.STILL:

@@ -2,8 +2,8 @@ import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, Modifie
 import { STARTING_POISE } from "./gameSettings";
 import { Card, StatePiece, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "../shared/card";
 
-export const getOpponent = (player: number): number =>{
-    return player === 1 ? 0 : 1; 
+export const getOpponent = (player: number): number => {
+    return player === 1 ? 0 : 1;
 }
 
 export const deepCopy = <T>(obj: T): T => {
@@ -45,23 +45,26 @@ export const makeMechanic = (): Mechanic => {
     }
 }
 
-export const makeGameState = (): GameState => {
+export const makeTestingGameState = (): GameState => {
     return {
-        currentPlayer: 0,
+        numPlayers: 2,
         playerStates: [makePlayerState(), makePlayerState()],
         stateDurations: [makeStateDurations(), makeStateDurations()],
+        parry: [0, 0],
         block: [0, 0],
         queue: [[], []],
+        pickedCards: [],
         distance: DistanceEnum.FAR,
         decks: [],
         damaged: [],
         hands: [],
-        tagModification: [{},{}],
+        tagModification: [{}, {}],
         health: [],
         readiedEffects: [],
+        damageEffects: [],
         modifiedAxis: makeModifiedAxis(),
-        sockets:[],
-        events:[],
+        sockets: [],
+        events: [],
         turnNumber: 0,
         lockedState: {
             distance: null,
@@ -70,7 +73,7 @@ export const makeGameState = (): GameState => {
                     poise: null,
                     motion: null,
                     stance: null
-                },{
+                }, {
                     poise: null,
                     motion: null,
                     stance: null
@@ -119,15 +122,35 @@ export const playerEnumToPlayerArray = (playerEnum: PlayerEnum, player: number, 
     return whoToCheck
 }
 
-export const consolidateMechanics = (mechs: Mechanic[]): Mechanic[]=>{
-    return deepCopy(mechs).reduce((arr: Mechanic[], mech)=>{
-        const matchingMech = arr.find((testMech)=> testMech.axis === mech.axis && testMech.player === mech.player &&
-        ((testMech.mechanic === MechanicEnum.BLOCK && mech.mechanic === MechanicEnum.BLOCK) || (testMech.mechanic === undefined  && mech.mechanic === undefined)));
-        if(matchingMech !== undefined && typeof matchingMech.amount === 'number' && typeof mech.amount === 'number'){
-            matchingMech.amount +=  mech.amount;
-        }else{
-            arr.push(mech); 
+export const splitArray = <T>(arr: T[], filter: (value: T) => boolean): [T[], T[]] => {
+    const matches = arr.filter(filter);
+    const noMatch = arr.filter((value) => !filter(value));
+    return [matches, noMatch];
+}
+
+export const uniqByReverse = <T>(arr: T[], by: (value: T) => string | number): T[] => {
+    const values: { [key: number | string]: boolean } = {};
+    const reverseArr: T[] = [];
+    for (let i = arr.length - 1; i >= 0; i--) {
+        const item = arr[i];
+        const key = by(item);
+        if (!values[key]) {
+            values[key] = true;
+            reverseArr.push(item);
         }
-        return arr; 
+    }
+    return reverseArr.reverse();
+}
+
+export const consolidateMechanics = (mechs: Mechanic[]): Mechanic[] => {
+    return deepCopy(mechs).reduce((arr: Mechanic[], mech) => {
+        const matchingMech = arr.find((testMech) => testMech.axis === mech.axis && testMech.player === mech.player &&
+            ((testMech.mechanic === MechanicEnum.BLOCK && mech.mechanic === MechanicEnum.BLOCK) || (testMech.mechanic === undefined && mech.mechanic === undefined)));
+        if (matchingMech !== undefined && typeof matchingMech.amount === 'number' && typeof mech.amount === 'number') {
+            matchingMech.amount += mech.amount;
+        } else {
+            arr.push(mech);
+        }
+        return arr;
     }, [])
 }

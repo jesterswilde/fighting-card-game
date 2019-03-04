@@ -1,32 +1,36 @@
-import { Card, Mechanic, AxisEnum } from "../../shared/card";
+import { Card, Mechanic, AxisEnum, PlayerEnum } from "../../shared/card";
 import { Socket } from "socket.io";
 import { EventAction } from "./gameEvent";
 
 export interface GameState{
     sockets: Socket[]
-    playerStates: PlayerState[]
-    stateDurations: PlayerStateDuration[]
-    modifiedAxis: ModifiedAxis
-    tagModification: TagModification[]
-    block: number[]
-    queue: Card[][]
-    distance: DistanceEnum
-    currentPlayer: number
-    health: number[]
+    numPlayers: number
     decks: Card[][]
     hands: Card[][]
+    pickedCards: Array<Card | null> 
+    queue: Card[][][]
+    playerStates: PlayerState[]
+    lockedState: LockState
+    distance: DistanceEnum
+    stateDurations: PlayerStateDuration[]
+    modifiedAxis: ModifiedAxis
+    parry: number[]
+    block: number[]
+    tagModification: TagModification[]
+    health: number[]
     damaged: boolean[]
-    pickedCard?: Card
-    readiedEffects: ReadiedEffect[]
-    winner?: number
-    turnIsOver?: boolean
+    readiedEffects: ReadiedEffect[][]
+    damageEffects: ReadiedEffect[][]
     predictions?: PredictionState[]
     pendingPredictions?: PredictionState[]
     checkedFocus?: boolean
     incrementedQueue?: boolean
-    lockedState: LockState
     events: EventAction[]
+    pendingEvents?: ReadiedEffect[][]
+    pendingCardEvents?: Card[]
+    turnIsOver?: boolean
     turnNumber: number
+    winner?: number
 }
 
 export interface TagModification{
@@ -38,6 +42,13 @@ export interface ReadiedEffect{
     mechanic: Mechanic,
     isEventOnly?: boolean,
     isHappening?: boolean,
+    happensTo?: HappensEnum[]
+}
+
+export enum HappensEnum{
+    NEVER_AFFECTED,
+    HAPPENS,
+    BLOCKED
 }
 
 export interface ModifiedAxis {

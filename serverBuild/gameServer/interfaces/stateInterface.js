@@ -1,5 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var HappensEnum;
+(function (HappensEnum) {
+    HappensEnum[HappensEnum["NEVER_AFFECTED"] = 0] = "NEVER_AFFECTED";
+    HappensEnum[HappensEnum["HAPPENS"] = 1] = "HAPPENS";
+    HappensEnum[HappensEnum["BLOCKED"] = 2] = "BLOCKED";
+})(HappensEnum = exports.HappensEnum || (exports.HappensEnum = {}));
 var PredictionEnum;
 (function (PredictionEnum) {
     PredictionEnum["NONE"] = "None";

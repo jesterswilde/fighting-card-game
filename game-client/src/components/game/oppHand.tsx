@@ -7,7 +7,8 @@ interface Props {
 }
 
 const selector = (state: StoreState): Props => {
-    const num = state.hand.opponentCards;
+    const opponent = state.game.player === 0 ? 1 : 0; 
+    const num = state.hand.handSizes[opponent];
     if (num === null) {
         return { cards: [] }
     }

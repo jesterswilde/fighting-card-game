@@ -12,7 +12,7 @@ import { boxerDeck } from './deckBoxer';
 
 
 
-const testDeck = ["test_enhance","test_enhance", "test_enhance", "test_enhance", "test_enhance"]
+const testDeck = ["Flying Kick"]
 
 export const decks: DeckDescription[] = [
     grappleDeck,

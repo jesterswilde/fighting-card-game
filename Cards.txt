@@ -1,3039 +1,54 @@
 {
-  "Drop Caltrops": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Still"
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ]
-      }
-    ],
-    "name": "Drop Caltrops",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Moving",
-        "player": 0
-      }
-    ]
-  },
-  "Backflip": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Further"
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Backflip",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Flying Kick Pin": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 8
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "axis": "Lose Poise",
-        "player": 1,
-        "amount": 3
-      },
-      {
-        "player": 2,
-        "axis": "Close"
-      },
-      {
-        "mechanic": "Forceful",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 8
-          },
-          {
-            "player": 2,
-            "axis": "Lose Poise",
-            "amount": 2
-          },
-          {
-            "player": 2,
-            "axis": "Grappled"
-          }
-        ],
-        "amount": 5
-      }
-    ],
-    "name": "Flying Kick Pin",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Anticipating",
-        "player": 0
-      }
-    ]
-  },
   "'Ol 1, 2": {
-    "effects": [
+    "priority": 5,
+    "requirements": [
       {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 6
+        "axis": "Close",
+        "player": 2
       },
       {
-        "player": 1,
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 1
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 4
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 3,
         "axis": "Prone",
-        "amount": 3
+        "player": 1
       }
     ],
     "name": "'Ol 1, 2",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Moving",
-        "player": 1
-      }
-    ]
-  },
-  "Bolas": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 6
-      },
-      {
-        "player": 1,
-        "axis": "Still"
-      }
-    ],
-    "name": "Bolas",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 4
-          },
-          {
-            "player": 1,
-            "axis": "Prone",
-            "amount": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Balanced",
-            "player": 0
-          },
-          {
-            "axis": "Standing",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "axis": "Moving",
-        "player": 1
-      }
-    ]
-  },
-  "Death From Above": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 7
-      },
-      {
-        "player": 2,
-        "axis": "Grappled",
-        "amount": 2
-      },
-      {
-        "player": 0,
-        "axis": "Prone",
-        "amount": 3
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 2
-      },
-      {
-        "mechanic": "Lock",
-        "player": 2,
-        "axis": "Prone",
-        "amount": 1
-      }
-    ],
-    "name": "Death From Above",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Prone",
-        "player": 1
-      }
-    ]
-  },
-  "Smash Kneecap": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 7
-      },
-      {
-        "player": 1,
-        "axis": "Still"
-      }
-    ],
-    "name": "Smash Kneecap",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Cripple",
-            "amount": "Leg"
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Grappled",
-        "player": 2
-      }
-    ]
-  },
-  "Tendon Slash": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "player": 1,
-        "axis": "Prone",
-        "amount": 2
-      }
-    ],
-    "name": "Tendon Slash",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Cripple",
-            "amount": "Leg"
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Throw Rock": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Throw Rock",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Break The Wheel": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 5
-      },
-      {
-        "player": 0,
-        "axis": "Prone",
-        "amount": 1
-      },
-      {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "mechanic": "Cripple",
-              "amount": "Leg"
-            }
-          ],
-          [
-            {
-              "player": 1,
-              "axis": "Damage",
-              "amount": 4
-            },
-            {
-              "player": 1,
-              "axis": "Lose Poise",
-              "amount": 3
-            }
-          ]
-        ]
-      }
-    ],
-    "name": "Break The Wheel",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 1
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      },
-      {
-        "axis": "Anticipating",
-        "player": 0
-      }
-    ]
-  },
-  "To The Ground": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 8
-      },
-      {
-        "player": 1,
-        "axis": "Prone",
-        "amount": 3
-      }
-    ],
-    "name": "To The Ground",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 1
-      },
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "focus_test": {
-    "effects": [
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ]
-      }
-    ],
-    "name": "focus_test",
-    "optional": [],
-    "requirements": []
-  },
-  "Bloody Flourish": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 3
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 2
-      },
-      {
-        "mechanic": "Reflex"
-      }
-    ],
-    "name": "Bloody Flourish",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 4
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Anticipating",
-        "player": 0
-      }
-    ]
-  },
-  "Cheap Trick": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 2
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ]
-      }
-    ],
-    "name": "Cheap Trick",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Circle Opponent": {
-    "effects": [
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ]
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Prone",
-            "player": 2
-          },
-          {
-            "axis": "Grappled",
-            "player": 2
-          },
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 18
-          }
-        ]
-      }
-    ],
-    "name": "Circle Opponent",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Defensive Crawl": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Close"
-      },
-      {
-        "player": 0,
-        "mechanic": "Block",
-        "amount": 7
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      }
-    ],
-    "name": "Defensive Crawl",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Defensive Roll": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Further"
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      }
-    ],
-    "name": "Defensive Roll",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Block",
-            "amount": 7
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Desperate Swing": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 8
-      },
-      {
-        "player": 2,
-        "axis": "Lose Poise",
-        "amount": 2
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 2,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 6
-          }
-        ]
-      }
-    ],
-    "name": "Desperate Swing",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 0,
-            "axis": "Damage",
-            "amount": 5
-          },
-          {
-            "mechanic": "Reflex"
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Bloodied",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Feign Strength": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 3
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ]
-      },
-      {
-        "mechanic": "Block",
-        "amount": 4
-      }
-    ],
-    "name": "Feign Strength",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      }
-    ]
-  },
-  "Goad": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 3
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Balanced",
-            "player": 0
-          },
-          {
-            "axis": "Damage",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ]
-      }
-    ],
-    "name": "Goad",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      }
-    ]
-  },
-  "Ground Grab": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "mechanic": "Block",
-        "amount": 7
-      }
-    ],
-    "name": "Ground Grab",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Predict",
-            "mechanicEffects": [
-              {
-                "player": 1,
-                "axis": "Prone",
-                "amount": 3
-              },
-              {
-                "mechanic": "Lock",
-                "player": 1,
-                "axis": "Prone",
-                "amount": 2
-              }
-            ]
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Not Far",
-            "player": 2
-          }
-        ]
-      },
-      {
-        "effects": [
-          {
-            "mechanic": "Block",
-            "amount": 5
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Far",
-            "player": 2
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 0
-      },
-      {
-        "axis": "Close",
-        "player": 1
-      }
-    ]
-  },
-  "Human Ladder": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Further"
-      },
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 6
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 2,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 3
-          },
-          {
-            "player": 2,
-            "axis": "Far"
-          },
-          {
-            "player": 1,
-            "axis": "Moving",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Human Ladder",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 2
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Moving",
-        "player": 0
-      },
-      {
-        "axis": "Prone",
-        "player": 1
-      }
-    ]
-  },
-  "Jaw Break": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Standing"
-      },
-      {
-        "player": 1,
-        "axis": "Prone",
-        "amount": 4
-      },
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 10
-      },
-      {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "player": 1,
-              "axis": "Damage",
-              "amount": 4
-            }
-          ],
-          [
-            {
-              "player": 1,
-              "axis": "Lose Poise",
-              "amount": 2
-            }
-          ]
-        ]
-      }
-    ],
-    "name": "Jaw Break",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Prone",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 1
-      },
-      {
-        "axis": "Anticipating",
-        "player": 0
-      }
-    ]
-  },
-  "Kip Up": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Standing"
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "mechanic": "Block",
-        "amount": 5
-      }
-    ],
-    "name": "Kip Up",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Leg Grab": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Grappled"
-      },
-      {
-        "mechanic": "Lock",
-        "player": 2,
-        "axis": "Grappled",
-        "amount": 2
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Prone",
-            "amount": 4
-          }
-        ]
-      }
-    ],
-    "name": "Leg Grab",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Lunge": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Closer"
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 3,
-        "mechanicEffects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ]
-      }
-    ],
-    "name": "Lunge",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      }
-    ]
-  },
-  "Pile Driver": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 3
-      },
-      {
-        "player": 2,
-        "axis": "Prone",
-        "amount": 3
-      },
-      {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "player": 0,
-              "axis": "Lose Poise",
-              "amount": 2
-            },
-            {
-              "mechanic": "Reflex"
-            }
-          ],
-          [
-            {
-              "player": 1,
-              "axis": "Damage",
-              "amount": 5
-            },
-            {
-              "player": 1,
-              "axis": "Lose Poise",
-              "amount": 3
-            }
-          ]
-        ]
-      }
-    ],
-    "name": "Pile Driver",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Precise Kick": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 9
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 4,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 7
-          },
-          {
-            "mechanic": "Cripple",
-            "amount": "Chest"
-          }
-        ]
-      }
-    ],
-    "name": "Precise Kick",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Anticipating",
-        "player": 0
-      }
-    ]
-  },
-  "Pull By The Neck": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Closer"
-      },
-      {
-        "player": 1,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Prone",
-            "amount": 2
-          },
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 6
-          }
-        ]
-      }
-    ],
-    "name": "Pull By The Neck",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      }
-    ]
-  },
-  "Ready Trident": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Prone",
-            "player": 1
-          },
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 10
-          }
-        ]
-      }
-    ],
-    "name": "Ready Trident",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Rip From Socket": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 7
-      },
-      {
-        "player": 0,
-        "axis": "Standing"
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 1,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Prone",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Rip From Socket",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Skewer": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 5
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 3
-      }
-    ],
-    "name": "Skewer",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 6
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Prone",
-        "player": 1
-      }
-    ]
-  },
-  "Spinning Slash": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 6
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 4
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 2
-          }
-        ]
-      }
-    ],
-    "name": "Spinning Slash",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 8
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Spring Trap": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 5
-      },
-      {
-        "player": 0,
-        "axis": "Standing"
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 9
-          }
-        ]
-      }
-    ],
-    "name": "Spring Trap",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Stone Strength": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 3
-      },
-      {
-        "mechanic": "Block",
-        "amount": 8
-      }
-    ],
-    "name": "Stone Strength",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      }
-    ]
-  },
-  "Study Balance": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 3
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Prone",
-            "player": 2
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 7
-          }
-        ]
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Study Balance",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Still",
-        "player": 0
-      }
-    ]
-  },
-  "Surefooted Smash": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Closer"
-      },
-      {
-        "axis": "Damage",
-        "player": 1,
-        "amount": 6
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 0,
-            "axis": "Poise",
-            "amount": 2
-          },
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 2
-          }
-        ]
-      }
-    ],
-    "name": "Surefooted Smash",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Still",
-        "player": 1
-      }
-    ]
-  },
-  "Sweep The Legs": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Prone",
-        "amount": 3
-      },
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 7
-      }
-    ],
-    "name": "Sweep The Legs",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 1
-      }
-    ]
-  },
-  "Throat Jab": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 5
-      },
-      {
-        "player": 1,
-        "axis": "Prone",
-        "amount": 2
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 2
-      }
-    ],
-    "name": "Throat Jab",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          },
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      }
-    ]
-  },
-  "Throw Net": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Prone",
-        "amount": 3
-      },
-      {
-        "player": 1,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 3
-      }
-    ],
-    "name": "Throw Net",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      }
-    ]
-  },
-  "Throw Person": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "player": 1,
-        "axis": "Prone",
-        "amount": 3
-      },
-      {
-        "player": 1,
-        "axis": "Moving",
-        "amount": 2
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 2,
-        "mechanicEffects": [
-          {
-            "player": 2,
-            "axis": "Far"
-          },
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 2
-          }
-        ]
-      }
-    ],
-    "name": "Throw Person",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Tie The Noose": {
-    "effects": [
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Far",
-            "player": 2
-          },
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 11
-          }
-        ]
-      }
-    ],
-    "name": "Tie The Noose",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "PredictTest": {
-    "effects": [
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ]
-      }
-    ],
-    "name": "PredictTest",
-    "optional": [],
-    "requirements": []
-  },
-  "Wind Up": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 3
-      }
-    ],
-    "name": "Wind Up",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Reflex"
-          },
-          {
-            "player": 0,
-            "axis": "Lose Poise",
-            "amount": 2
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      }
-    ]
-  },
-  "Ankle Smash": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Still"
-      },
-      {
-        "player": 1,
-        "axis": "Prone",
-        "amount": 3
-      },
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 9
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 3,
-        "mechanicEffects": [
-          {
-            "mechanic": "Cripple",
-            "amount": "Leg"
-          }
-        ]
-      }
-    ],
-    "name": "Ankle Smash",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Moving",
-        "player": 1
-      }
-    ]
-  },
-  "Body Slam": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 7
-      },
-      {
-        "player": 2,
-        "axis": "Prone",
-        "amount": 3
-      }
-    ],
-    "name": "Body Slam",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 2,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 0
-          }
-        ]
-      },
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "axis": "Moving",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Feint": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Still"
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 1
-      },
-      {
-        "mechanic": "Block",
-        "amount": 6
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Moving",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "mechanic": "Block",
-            "amount": 5
-          }
-        ]
-      }
-    ],
-    "name": "Feint",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Moving",
-        "player": 0
-      }
-    ]
-  },
-  "Charging Flourish": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "player": 2,
-        "axis": "Closer"
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      }
-    ],
-    "name": "Charging Flourish",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Forceful",
-            "amount": 3,
-            "mechanicEffects": [
-              {
-                "mechanic": "Reflex"
-              }
-            ]
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Moving",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Find The Joint": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 6
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 1
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 2,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 6
-          },
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 1
-          }
-        ]
-      }
-    ],
-    "name": "Find The Joint",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Flying Kick": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 5
-      },
-      {
-        "player": 2,
-        "axis": "Close"
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 2,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 7
-          }
-        ]
-      }
-    ],
-    "name": "Flying Kick",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Flying Slash": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "player": 2,
-        "axis": "Closer"
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 2,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 6
-          }
-        ]
-      }
-    ],
-    "name": "Flying Slash",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 4
-          },
-          {
-            "player": 1,
-            "axis": "Prone",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Moving",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Going For The High Ground": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Prone",
-            "player": 1
-          },
-          {
-            "axis": "Standing",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 12
-          }
-        ]
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 1,
-        "mechanicEffects": [
-          {
-            "mechanic": "Block",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Going For The High Ground",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 1
-      }
-    ]
-  },
-  "Going For The Pin": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 5
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Grappled",
-            "player": 2
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ]
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 0,
-            "axis": "Poise",
-            "amount": 3
-          }
-        ]
-      },
-      {
-        "mechanic": "Block",
-        "amount": 5
-      }
-    ],
-    "name": "Going For The Pin",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 2
-      },
-      {
-        "axis": "Not Far",
-        "player": 2
-      }
-    ]
-  },
-  "Grand Setup": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Further"
-      },
-      {
-        "player": 1,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Grappled",
-            "player": 2
-          },
-          {
-            "axis": "Prone",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ]
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 2,
-        "mechanicEffects": [
-          {
-            "player": 2,
-            "axis": "Far"
-          },
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 3
-          },
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 2
-          }
-        ]
-      }
-    ],
-    "name": "Grand Setup",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Groin Stomp": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 7
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 1
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 3,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 7
-          },
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 2
-          }
-        ]
-      }
-    ],
-    "name": "Groin Stomp",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Prone",
-        "player": 1
-      }
-    ]
-  },
-  "Grounded": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Still"
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "player": 0,
-              "axis": "Poise",
-              "amount": 2
-            },
-            {
-              "mechanic": "Focus",
-              "mechanicRequirements": [
-                {
-                  "axis": "Prone",
-                  "player": 0
-                }
-              ],
-              "mechanicEffects": [
-                {
-                  "mechanic": "Block",
-                  "amount": 4
-                }
-              ]
-            }
-          ],
-          [
-            {
-              "mechanic": "Focus",
-              "mechanicRequirements": [
-                {
-                  "axis": "Prone",
-                  "player": 0
-                }
-              ],
-              "mechanicEffects": [
-                {
-                  "mechanic": "Block",
-                  "amount": 6
-                }
-              ]
-            }
-          ]
-        ]
-      }
-    ],
-    "name": "Grounded",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Moving",
-        "player": 0
-      }
-    ]
-  },
-  "Guarded Maneuvers": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 2
-      },
-      {
-        "mechanic": "Block",
-        "amount": 7
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 2,
-        "mechanicEffects": [
-          {
-            "mechanic": "Block",
-            "amount": 5
-          }
-        ]
-      },
-      {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "player": 2,
-              "axis": "Closer"
-            }
-          ],
-          [
-            {
-              "player": 2,
-              "axis": "Further"
-            }
-          ]
-        ]
-      }
-    ],
-    "name": "Guarded Maneuvers",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Headbutt": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Still"
-      },
-      {
-        "player": 1,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 6
-      }
-    ],
-    "name": "Headbutt",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 2,
-            "axis": "Close"
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Far",
-            "player": 1
-          }
-        ]
-      },
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Moving",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 1
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Hit The Floor": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Prone"
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "mechanic": "Block",
-        "amount": 6
-      }
-    ],
-    "name": "Hit The Floor",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Immovable Wall": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Still"
-      },
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 8
-      },
-      {
-        "mechanic": "Block",
-        "amount": 8
-      },
-      {
-        "player": 0,
-        "axis": "Lose Poise",
-        "amount": 2
-      }
-    ],
-    "name": "Immovable Wall",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      },
-      {
-        "axis": "Moving",
-        "player": 1
-      }
-    ]
-  },
-  "Incoming!": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Standing"
-      },
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 4
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Still",
-            "player": 0
-          },
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 10
-          }
-        ]
-      }
-    ],
-    "name": "Incoming!",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 0,
-            "axis": "Poise",
-            "amount": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Still",
-        "player": 0
-      }
-    ]
-  },
-  "Joint Lock": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 6
-      },
-      {
-        "player": 2,
-        "axis": "Grappled"
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 3,
-        "mechanicEffects": [
-          {
-            "mechanic": "Lock",
-            "player": 2,
-            "axis": "Grappled",
-            "amount": 2
-          },
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Joint Lock",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 2
-      }
-    ]
-  },
-  "Leaping Smash": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Still"
-      },
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 11
-      },
-      {
-        "mechanic": "Lock",
-        "player": 1,
-        "axis": "Prone",
-        "amount": 1
-      },
-      {
-        "player": 0,
-        "axis": "Lose Poise",
-        "amount": 2
-      }
-    ],
-    "name": "Leaping Smash",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 4
-          },
-          {
-            "player": 2,
-            "axis": "Close"
-          },
-          {
-            "player": 0,
-            "axis": "Lose Poise",
-            "amount": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Far",
-            "player": 2
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Moving",
-        "player": 0
-      },
-      {
-        "axis": "Prone",
-        "player": 1
-      }
-    ]
-  },
-  "Mounting Force": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Moving",
-            "player": 0
-          },
-          {
-            "axis": "Still",
-            "player": 1
-          },
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "mechanic": "Block",
-            "amount": 7
-          },
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 7
-          }
-        ]
-      }
-    ],
-    "name": "Mounting Force",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Opportunist": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 7
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "player": 1,
-        "axis": "Prone",
-        "amount": 2
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ]
-      }
-    ],
-    "name": "Opportunist",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Unbalanced",
-        "player": 1
-      }
-    ]
-  },
-  "TelegraphTest": {
-    "effects": [
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [],
-        "mechanicEffects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ]
-      }
-    ],
-    "name": "TelegraphTest",
-    "optional": [],
-    "requirements": []
-  },
-  "WillTelegraph": {
-    "effects": [
-      {
-        "mechanic": "Telegraph",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 6
-          }
-        ]
-      }
-    ],
-    "name": "WillTelegraph",
-    "optional": [],
-    "requirements": []
-  },
-  "Fancy Footwork": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 3
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 1
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Moving",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "mechanic": "Block",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Fancy Footwork",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
+    "tagObjs": [],
+    "tags": []
   },
   "1000 Cuts": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 4
-          }
-        ]
-      }
-    ],
-    "name": "1000 Cuts",
-    "optional": [],
+    "priority": 1,
     "requirements": [
       {
         "axis": "Moving",
@@ -3043,964 +58,15 @@
         "axis": "Still",
         "player": 1
       }
-    ]
-  },
-  "Femoral Strike": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 4
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Standing",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 2
-          },
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 1
-          }
-        ]
-      }
     ],
-    "name": "Femoral Strike",
     "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Anticipating",
-        "player": 0
-      }
-    ]
-  },
-  "Exploit Weakness": {
     "effects": [
       {
-        "mechanic": "Block",
-        "amount": 7
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          },
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 15
-          },
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 2
-          },
-          {
-            "player": 1,
-            "axis": "Prone",
-            "amount": 3
-          }
-        ]
-      }
-    ],
-    "name": "Exploit Weakness",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Got Your Back": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 1
-      },
-      {
-        "amount": 3,
-        "player": 0,
-        "axis": "Moving"
-      },
-      {
-        "mechanic": "Block",
-        "amount": 4
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ]
-      }
-    ],
-    "name": "Got Your Back",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 0,
-            "axis": "Standing"
-          },
-          {
-            "player": 0,
-            "axis": "Poise",
-            "amount": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Prone",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      }
-    ]
-  },
-  "Piercing Lunge": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Closer"
-      },
-      {
-        "player": 0,
-        "axis": "Still"
-      },
-      {
-        "player": 0,
-        "axis": "Lose Poise",
-        "amount": 3
-      },
-      {
-        "player": 1,
+        "amount": 4,
         "axis": "Damage",
-        "amount": 10
-      },
-      {
-        "player": null,
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 8
-          }
-        ]
-      }
-    ],
-    "name": "Piercing Lunge",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Moving",
-        "player": 0
-      }
-    ]
-  },
-  "Seething Red": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "player": 0,
-        "axis": "Lose Poise",
-        "amount": 1
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Damage",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 5
-          },
-          {
-            "player": 0,
-            "axis": "Lose Poise",
-            "amount": 2
-          }
-        ]
-      }
-    ],
-    "name": "Seething Red",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Bloodied",
-        "player": 0
-      },
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Red Fury": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Lose Poise",
-        "amount": 2
-      },
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 6
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 1
-          }
-        ]
-      }
-    ],
-    "name": "Red Fury",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 0,
-            "axis": "Lose Poise",
-            "amount": 2
-          },
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 4
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Bloodied",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Prone",
-        "player": 2
-      }
-    ]
-  },
-  "Bloody Finale": {
-    "effects": [
-      {
-        "player": 2,
-        "axis": "Close"
-      },
-      {
-        "player": 0,
-        "axis": "Still"
-      },
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 10
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 8,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 10
-          }
-        ]
-      }
-    ],
-    "name": "Bloody Finale",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Bloodied",
         "player": 1
       },
       {
-        "axis": "Unbalanced",
-        "player": 1
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Moving",
-        "player": 0
-      }
-    ]
-  },
-  "Targeted Strike": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 1
-      },
-      {
-        "mechanic": "Block",
-        "amount": 3
-      },
-      {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "player": 1,
-              "axis": "Damage",
-              "amount": 6
-            }
-          ],
-          [
-            {
-              "player": 1,
-              "axis": "Lose Poise",
-              "amount": 3
-            }
-          ]
-        ]
-      }
-    ],
-    "name": "Targeted Strike",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Neck Break": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 13
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 6,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 13
-          }
-        ]
-      }
-    ],
-    "name": "Neck Break",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 7
-          },
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 2
-      },
-      {
-        "axis": "Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Knife Throw": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 5
-      },
-      {
-        "mechanic": "Forceful",
-        "amount": 3,
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 6
-          }
-        ]
-      }
-    ],
-    "name": "Knife Throw",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 1
-      }
-    ]
-  },
-  "Reposition": {
-    "effects": [
-      {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "axis": "Further",
-              "player": 2
-            }
-          ],
-          [
-            {
-              "axis": "Still",
-              "player": 0
-            }
-          ]
-        ]
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "axis": "Poise",
-            "amount": 3,
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "name": "Reposition",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Moving",
-        "player": 0
-      }
-    ]
-  },
-  "Coil Up": {
-    "effects": [
-      {
-        "mechanic": "Block",
-        "amount": 3
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Close",
-            "player": 2
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "axis": "Damage",
-            "amount": 5,
-            "player": 1
-          },
-          {
-            "mechanic": "Reflex"
-          }
-        ]
-      }
-    ],
-    "name": "Coil Up",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Close",
-        "player": 2
-      },
-      {
-        "axis": "Anticipating",
-        "player": 0
-      }
-    ]
-  },
-  "Choke": {
-    "effects": [
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Grappled",
-            "player": 2
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "axis": "Damage",
-            "player": 1,
-            "amount": 7
-          }
-        ]
-      }
-    ],
-    "name": "Choke",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Unbalanced",
-        "player": 1
-      }
-    ]
-  },
-  "Zen State": {
-    "effects": [
-      {
-        "axis": "Poise",
-        "player": 0,
-        "amount": 3
-      },
-      {
-        "player": 0,
-        "axis": "Prone"
-      },
-      {
-        "player": 0,
-        "mechanic": "Block",
-        "amount": 8
-      }
-    ],
-    "name": "Zen State",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      }
-    ]
-  },
-  "Nailed!": {
-    "effects": [
-      {
-        "axis": "Damage",
-        "amount": 10,
-        "player": 1
-      },
-      {
-        "axis": "Lose Poise",
-        "amount": 3,
-        "player": 1
-      },
-      {
-        "player": 1,
-        "mechanic": "Lock",
-        "axis": "Still",
-        "amount": 1
-      }
-    ],
-    "name": "Nailed!",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Still",
-        "player": 1
-      }
-    ]
-  },
-  "Bite": {
-    "effects": [
-      {
-        "axis": "Damage",
-        "amount": 5,
-        "player": 1
-      }
-    ],
-    "name": "Bite",
-    "optional": [
-      {
-        "effects": [
-          {
-            "axis": "Damage",
-            "amount": 5,
-            "player": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Standing",
-            "player": 2
-          }
-        ]
-      },
-      {
-        "effects": [
-          {
-            "axis": "Lose Poise",
-            "amount": 3,
-            "player": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Standing",
-            "player": 1
-          },
-          {
-            "axis": "Prone",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Grappled",
-        "player": 2
-      }
-    ]
-  },
-  "Smash the Bridge": {
-    "effects": [
-      {
-        "axis": "Damage",
-        "amount": 6,
-        "player": 1
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 2
-      },
-      {
-        "player": 2,
-        "axis": "Close"
-      }
-    ],
-    "name": "Smash the Bridge",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 2
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 2
-      }
-    ]
-  },
-  "Luring Trap": {
-    "effects": [
-      {
-        "axis": "Further",
-        "player": 2
-      },
-      {
-        "mechanic": "Telegraph",
-        "mechanicRequirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "axis": "Prone",
-            "amount": 3,
-            "player": 1
-          },
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 7
-          }
-        ]
-      }
-    ],
-    "name": "Luring Trap",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Inertia": {
-    "effects": [
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Moving",
-            "player": 0
-          },
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 4
-          }
-        ]
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Still",
-            "player": 0
-          },
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "mechanic": "Block",
-            "amount": 4
-          }
-        ]
-      }
-    ],
-    "name": "Inertia",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ]
-  },
-  "Low Stance": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Standing"
-      },
-      {
-        "mechanic": "Pick One",
-        "choices": [
-          [
-            {
-              "player": 0,
-              "axis": "Poise",
-              "amount": 2
-            },
-            {
-              "mechanic": "Block",
-              "amount": 3
-            }
-          ],
-          [
-            {
-              "mechanic": "Block",
-              "amount": 8
-            }
-          ]
-        ]
-      }
-    ],
-    "name": "Low Stance",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Prone",
-        "player": 0
-      }
-    ]
-  },
-  "Clever Reposition": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Moving",
-        "amount": 2
-      },
-      {
-        "mechanic": "Block",
-        "amount": 4
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 2
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 2
-      }
-    ],
-    "name": "Clever Reposition",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ]
-  },
-  "Insidious Plan": {
-    "effects": [
-      {
-        "mechanic": "Focus",
         "mechanicRequirements": [
           {
             "axis": "Anticipating",
@@ -4009,273 +75,248 @@
         ],
         "mechanicEffects": [
           {
+            "amount": 4,
             "axis": "Damage",
-            "amount": 5,
-            "player": 1
-          }
-        ]
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Lose Poise",
-            "amount": 2
-          }
-        ]
-      },
-      {
-        "mechanic": "Focus",
-        "mechanicRequirements": [
-          {
-            "axis": "Grappled",
-            "player": 2
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "axis": "Damage",
-            "amount": 5,
-            "player": 1
-          },
-          {
-            "axis": "Lose Poise",
-            "player": 0,
-            "amount": 2
-          }
-        ]
-      }
-    ],
-    "name": "Insidious Plan",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Anticipating",
-        "player": 0
-      },
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      }
-    ]
-  },
-  "Punch, Counterpunch": {
-    "effects": [
-      {
-        "player": 1,
-        "axis": "Damage",
-        "amount": 4
-      },
-      {
-        "player": 1,
-        "axis": "Lose Poise",
-        "amount": 1
-      }
-    ],
-    "name": "Punch, Counterpunch",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Block",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      },
-      {
-        "effects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 4
-          },
-          {
-            "axis": "Lose Poise",
-            "amount": 1,
-            "player": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Damage",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Close",
-        "player": 2
-      }
-    ],
-    "tags": []
-  },
-  "Accurate Strike": {
-    "effects": [
-      {
-        "player": 1,
-        "amount": 2,
-        "axis": "Damage"
-      },
-      {
-        "mechanic": "Block",
-        "amount": 6
-      },
-      {
-        "mechanic": "Predict",
-        "mechanicEffects": [
-          {
-            "player": 1,
-            "axis": "Damage",
-            "amount": 10
-          }
-        ]
-      }
-    ],
-    "name": "Accurate Strike",
-    "optional": [
-      {
-        "effects": [
-          {
-            "player": 2,
-            "axis": "Close"
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Far",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Not Grappled",
-        "player": 0
-      }
-    ],
-    "tags": []
-  },
-  "Ride The Ropes": {
-    "effects": [
-      {
-        "player": 0,
-        "axis": "Still"
-      },
-      {
-        "player": 0,
-        "axis": "Poise",
-        "amount": 3
-      },
-      {
-        "mechanic": "Block",
-        "amount": 4
-      }
-    ],
-    "name": "Ride The Ropes",
-    "optional": [
-      {
-        "effects": [
-          {
-            "mechanic": "Block",
-            "amount": 3
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      }
-    ],
-    "tags": []
-  },
-  "Rope-a-dope": {
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ],
-    "optional": [
-      {
-        "effects": [
-          {
-            "amount": 1,
-            "axis": "Poise",
-            "player": 0
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Still",
-            "player": 0,
-            "id": 2
-          }
-        ]
-      }
-    ],
-    "effects": [
-      {
-        "amount": 3,
-        "mechanic": "Block"
-      },
-      {
-        "mechanicRequirements": [
-          {
-            "axis": "Damage",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "amount": 1,
-            "axis": "Lose Poise",
             "player": 1
           }
         ],
         "mechanic": "Focus"
       }
     ],
-    "name": "Rope-a-dope",
-    "tagObjs": []
+    "name": "1000 Cuts",
+    "tagObjs": [],
+    "tags": []
   },
-  "Haymaker": {
+  "Accurate Strike": {
     "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "axis": "Close",
+            "player": 2
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Far",
+            "player": 0,
+            "id": 17
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 6,
+        "mechanic": "Block"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 10,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Accurate Strike",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Bloody Finale": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Bloodied",
+        "player": 1
+      },
+      {
+        "axis": "Unbalanced",
+        "player": 1
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 10,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 10,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": 8,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Bloody Finale",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Body Slam": {
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 2
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 0,
+            "id": 90
+          }
+        ]
+      },
+      {
+        "effects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Moving",
+            "player": 1,
+            "id": 93
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 7,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Prone",
+        "player": 2
+      }
+    ],
+    "name": "Body Slam",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Adrenaline Surge": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicEffects": [
+          {
+            "amount": "3",
+            "axis": "Lose Poise",
+            "player": 0
+          },
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "mechanic": "Focus"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Moving",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": "1",
+            "axis": "Poise",
+            "player": 0
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Adrenaline Surge",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Ankle Smash": {
+    "priority": 2,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
       {
         "axis": "Balanced",
         "player": 0
@@ -4285,11 +326,84 @@
         "player": 0
       },
       {
+        "axis": "Moving",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 9,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Prone",
+        "player": 1
+      },
+      {
         "axis": "Still",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "Leg",
+            "mechanic": "Cripple"
+          }
+        ],
+        "amount": 3,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Ankle Smash",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Backflip": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Not Far",
         "player": 2
       },
       {
-        "axis": "Close",
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Further",
+        "player": 2
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Backflip",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Bite": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Grappled",
         "player": 2
       }
     ],
@@ -4297,49 +411,253 @@
       {
         "effects": [
           {
-            "amount": 3,
+            "amount": 5,
             "axis": "Damage",
             "player": 1
           }
         ],
         "requirements": [
           {
-            "axis": "Anticipating",
+            "axis": "Standing",
+            "player": 2,
+            "id": 63
+          }
+        ]
+      },
+      {
+        "effects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Standing",
+            "player": 1,
+            "id": 66
+          },
+          {
+            "axis": "Prone",
             "player": 0,
-            "id": 25
+            "id": 67
           }
         ]
       }
     ],
     "effects": [
       {
-        "amount": 14,
+        "amount": 5,
+        "axis": "Damage",
+        "player": 1
+      }
+    ],
+    "name": "Bite",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Bloody Flourish": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Anticipating",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 4,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1,
+            "id": 81
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 3,
         "axis": "Damage",
         "player": 1
       },
       {
-        "amount": 4,
-        "axis": "Lose Poise",
+        "amount": 2,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "mechanic": "Reflex"
+      }
+    ],
+    "name": "Bloody Flourish",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Bolas": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Moving",
+        "player": 1
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 4,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 1,
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Balanced",
+            "player": 0,
+            "id": 100
+          },
+          {
+            "axis": "Standing",
+            "player": 1,
+            "id": 101
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "name": "Bolas",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Break Out": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
         "player": 0
       }
     ],
-    "name": "Haymaker",
-    "tagObjs": []
-  },
-  "testCripple": {
-    "name": "testCripple",
     "optional": [],
-    "requirements": [],
     "effects": [
       {
-        "amount": "Leg",
-        "mechanic": "Cripple"
+        "axis": "Further",
+        "player": 2
+      },
+      {
+        "amount": "2",
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": "2",
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "2",
+            "axis": "Poise",
+            "player": 0
+          }
+        ],
+        "mechanic": "Predict"
       }
     ],
+    "name": "Break Out",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Break The Wheel": {
+    "priority": 9,
+    "requirements": [
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 5,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 1,
+        "axis": "Prone",
+        "player": 0
+      },
+      {
+        "choices": [
+          [
+            {
+              "amount": "Leg",
+              "mechanic": "Cripple"
+            }
+          ],
+          [
+            {
+              "amount": 4,
+              "axis": "Damage",
+              "player": 1
+            },
+            {
+              "amount": 3,
+              "axis": "Lose Poise",
+              "player": 1
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "name": "Break The Wheel",
     "tagObjs": [],
     "tags": []
   },
   "Charge": {
+    "priority": 7,
     "requirements": [
       {
         "axis": "Far",
@@ -4358,11 +676,6 @@
       },
       {
         "amount": 2,
-        "axis": "Moving",
-        "player": 0
-      },
-      {
-        "amount": 2,
         "axis": "Poise",
         "player": 0
       },
@@ -4370,67 +683,30 @@
         "amount": "1",
         "axis": "Lose Poise",
         "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Moving",
+        "player": 0
       }
     ],
     "name": "Charge",
     "tagObjs": [],
     "tags": []
   },
-  "Kidney Jab": {
+  "Charging Flourish": {
+    "priority": 4,
     "requirements": [
       {
-        "axis": "Close",
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
         "player": 0
       },
       {
         "axis": "Moving",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ],
-    "optional": [],
-    "effects": [
-      {
-        "amount": "4",
-        "axis": "Damage",
-        "player": 1
-      },
-      {
-        "mechanicEffects": [
-          {
-            "amount": "4",
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "amount": "Kidney Shot",
-        "mechanic": "Enhance"
-      }
-    ],
-    "name": "Kidney Jab",
-    "tagObjs": [
-      {
-        "value": "Kidney Shot",
-        "id": 6
-      }
-    ],
-    "tags": [
-      {
-        "value": "Kidney Shot"
-      }
-    ]
-  },
-  "To The Pocket": {
-    "requirements": [
-      {
-        "axis": "Not Close",
-        "player": 2
-      },
-      {
-        "axis": "Standing",
         "player": 0
       }
     ],
@@ -4438,166 +714,223 @@
       {
         "effects": [
           {
+            "mechanicEffects": [
+              {
+                "mechanic": "Reflex"
+              }
+            ],
             "amount": 3,
-            "mechanic": "Block"
+            "mechanic": "Forceful"
           }
         ],
         "requirements": [
           {
             "axis": "Anticipating",
             "player": 0,
-            "id": 10
+            "id": 230
           }
         ]
       }
     ],
     "effects": [
       {
-        "axis": "Close",
+        "amount": 4,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Closer",
         "player": 2
       },
       {
-        "amount": 1,
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      }
+    ],
+    "name": "Charging Flourish",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Cheap Trick": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
         "axis": "Poise",
         "player": 0
       },
       {
-        "axis": "Moving",
-        "player": 0
+        "amount": 2,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
       }
     ],
-    "name": "To The Pocket",
+    "name": "Cheap Trick",
     "tagObjs": [],
     "tags": []
   },
-  "Overrun": {
-    "name": "Overrun",
-    "optional": [],
+  "Choke": {
     "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Unbalanced",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Grappled",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 7,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Choke",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Circle Opponent": {
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
       {
         "axis": "Standing",
         "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
       },
       {
-        "axis": "Moving",
-        "player": 0
-      },
+        "mechanicRequirements": [
+          {
+            "axis": "Grappled",
+            "player": 2
+          },
+          {
+            "axis": "Balanced",
+            "player": 0
+          },
+          {
+            "axis": "Prone",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 18,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Circle Opponent",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Clever Reposition": {
+    "priority": 4,
+    "requirements": [
       {
         "axis": "Balanced",
         "player": 0
       },
       {
-        "axis": "Not Grappled",
-        "player": 2
-      }
-    ],
-    "effects": [
-      {
-        "amount": "4",
-        "axis": "Prone",
-        "player": 1
-      },
-      {
-        "axis": "Still",
-        "player": 1
-      },
-      {
-        "amount": "8",
-        "axis": "Damage",
-        "player": 1
-      },
-      {
-        "axis": "Close",
-        "player": 2
-      }
-    ],
-    "tagObjs": [],
-    "tags": []
-  },
-  "Saved By The Bell": {
-    "name": "Saved By The Bell",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      }
-    ],
-    "effects": [
-      {
         "axis": "Standing",
-        "player": 2
-      },
-      {
-        "amount": "4",
-        "axis": "Poise",
-        "player": 2
-      },
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "amount": "3",
-        "mechanic": "Block"
-      }
-    ],
-    "tagObjs": [],
-    "tags": []
-  },
-  "Swarm of Punches": {
-    "name": "Swarm of Punches",
-    "optional": [
-      {
-        "effects": [
-          {
-            "axis": "Close",
-            "player": 2
-          }
-        ],
-        "requirements": [
-          {
-            "id": 47,
-            "axis": "Far",
-            "player": 2
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Moving",
         "player": 0
       }
     ],
+    "optional": [],
     "effects": [
       {
-        "amount": "6",
-        "axis": "Damage",
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": 2,
+        "axis": "Lose Poise",
         "player": 1
       },
       {
-        "amount": "1",
-        "axis": "Lose Poise",
-        "player": 2
+        "amount": 2,
+        "axis": "Moving",
+        "player": 0
       },
       {
-        "mechanicEffects": [
-          {
-            "amount": "5",
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "amount": "2",
-        "mechanic": "Forceful"
+        "amount": 4,
+        "mechanic": "Block"
       }
     ],
+    "name": "Clever Reposition",
     "tagObjs": [],
     "tags": []
   },
   "Clinch": {
-    "name": "Clinch",
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
     "optional": [
       {
         "effects": [
@@ -4613,16 +946,6 @@
             "player": 0
           }
         ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
       }
     ],
     "effects": [
@@ -4654,11 +977,250 @@
         "mechanic": "Pick One"
       }
     ],
+    "name": "Clinch",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Coil Up": {
+    "requirements": [
+      {
+        "axis": "Not Close",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 3,
+        "mechanic": "Block"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Close",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Coil Up",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Death From Above": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 7,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "amount": 3,
+        "axis": "Prone",
+        "player": 0
+      },
+      {
+        "amount": 2,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "amount": 1,
+        "axis": "Prone",
+        "player": 2,
+        "mechanic": "Lock"
+      }
+    ],
+    "name": "Death From Above",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Defensive Crawl": {
+    "priority": 9,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": 7,
+        "player": 0,
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Defensive Crawl",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Defensive Roll": {
+    "priority": 9,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 7,
+            "mechanic": "Block"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Balanced",
+            "player": 0,
+            "id": 294
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Further",
+        "player": 2
+      },
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      }
+    ],
+    "name": "Defensive Roll",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Desperate Swing": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 0
+          },
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Bloodied",
+            "player": 0,
+            "id": 301
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 8,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Lose Poise",
+        "player": 2
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 6,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": 2,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Desperate Swing",
     "tagObjs": [],
     "tags": []
   },
   "Disengage": {
-    "name": "Disengage",
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
     "optional": [
       {
         "effects": [
@@ -4676,150 +1238,62 @@
         ]
       }
     ],
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ],
     "effects": [
       {
         "axis": "Further",
         "player": 2
       },
       {
-        "axis": "Moving",
-        "player": 0
-      },
-      {
         "amount": "3",
         "axis": "Poise",
         "player": 0
-      }
-    ],
-    "tagObjs": [],
-    "tags": []
-  },
-  "Hurl": {
-    "name": "Hurl",
-    "optional": [
-      {
-        "effects": [
-          {
-            "axis": "Further",
-            "player": 2
-          },
-          {
-            "amount": "4",
-            "axis": "Damage",
-            "player": 1
-          },
-          {
-            "amount": "1",
-            "axis": "Lose Poise",
-            "player": 1
-          }
-        ],
-        "requirements": [
-          {
-            "id": 81,
-            "axis": "Anticipating",
-            "player": 0
-          }
-        ]
-      }
-    ],
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
       },
       {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Not Far",
-        "player": 2
-      }
-    ],
-    "effects": [
-      {
-        "amount": "1",
-        "axis": "Lose Poise",
-        "player": 1
-      },
-      {
-        "amount": "2",
         "axis": "Moving",
-        "player": 2
-      },
-      {
-        "amount": "3",
-        "axis": "Prone",
-        "player": 1
-      },
-      {
-        "amount": "7",
-        "axis": "Damage",
-        "player": 1
+        "player": 0
       }
     ],
+    "name": "Disengage",
     "tagObjs": [],
     "tags": []
   },
-  "Smoke Bomb": {
+  "Drop Caltrops": {
+    "priority": 3,
     "requirements": [
       {
-        "axis": "Balanced",
+        "axis": "Moving",
         "player": 0
-      },
-      {
-        "axis": "Not Grappled",
-        "player": 2
       }
     ],
     "optional": [],
     "effects": [
       {
-        "amount": "6",
-        "mechanic": "Block"
-      },
-      {
-        "amount": "2",
-        "axis": "Lose Poise",
-        "player": 1
+        "axis": "Still",
+        "player": 0
       },
       {
         "mechanicRequirements": [
           {
-            "axis": "Prone",
-            "player": 0
+            "axis": "Moving",
+            "player": 1
           }
         ],
         "mechanicEffects": [
           {
-            "amount": "3",
-            "mechanic": "Block"
-          },
-          {
-            "amount": "1",
-            "axis": "Poise",
-            "player": 0
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
           }
         ],
         "mechanic": "Focus"
       }
     ],
-    "name": "Smoke Bomb",
+    "name": "Drop Caltrops",
     "tagObjs": [],
     "tags": []
   },
   "Drop Chandelier": {
+    "priority": 3,
     "requirements": [
       {
         "axis": "Not Grappled",
@@ -4872,35 +1346,91 @@
     "tagObjs": [],
     "tags": []
   },
-  "Adrenaline Surge": {
+  "Exploit Weakness": {
     "requirements": [
       {
-        "axis": "Anticipating",
-        "player": 0
-      },
-      {
-        "axis": "Moving",
-        "player": 0
-      },
-      {
-        "axis": "Not Grappled",
+        "axis": "Not Far",
         "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
       }
     ],
     "optional": [],
     "effects": [
       {
-        "mechanicEffects": [
+        "amount": 7,
+        "mechanic": "Block"
+      },
+      {
+        "mechanicRequirements": [
           {
-            "amount": "3",
-            "axis": "Lose Poise",
+            "axis": "Anticipating",
             "player": 0
           },
           {
-            "mechanic": "Reflex"
+            "axis": "Unbalanced",
+            "player": 1
           }
         ],
-        "mechanic": "Focus"
+        "mechanicEffects": [
+          {
+            "amount": 15,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 1
+          },
+          {
+            "amount": 3,
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Exploit Weakness",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Fancy Footwork": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": 1,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 0
       },
       {
         "mechanicRequirements": [
@@ -4911,24 +1441,20 @@
         ],
         "mechanicEffects": [
           {
-            "amount": "1",
-            "axis": "Poise",
-            "player": 0
+            "amount": 3,
+            "mechanic": "Block"
           }
         ],
         "mechanic": "Focus"
       }
     ],
-    "name": "Adrenaline Surge",
+    "name": "Fancy Footwork",
     "tagObjs": [],
     "tags": []
   },
-  "Holographic Copies": {
+  "Feign Strength": {
+    "priority": 7,
     "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
       {
         "axis": "Not Grappled",
         "player": 2
@@ -4937,38 +1463,110 @@
     "optional": [],
     "effects": [
       {
-        "amount": "4",
+        "amount": 3,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": 4,
+        "mechanic": "Block"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Feign Strength",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Feint": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 1,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "amount": 6,
         "mechanic": "Block"
       },
       {
         "mechanicRequirements": [
           {
-            "axis": "Balanced",
+            "axis": "Moving",
             "player": 0
-          },
-          {
-            "axis": "Not Grappled",
-            "player": 2
           }
         ],
         "mechanicEffects": [
           {
-            "amount": 3,
+            "amount": 5,
             "mechanic": "Block"
           }
         ],
-        "mechanic": "Focus"
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Feint",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Femoral Strike": {
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 4,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 4,
+        "axis": "Lose Poise",
+        "player": 1
       },
       {
         "mechanicRequirements": [
           {
-            "axis": "Anticipating",
-            "player": 0
+            "axis": "Standing",
+            "player": 1
           }
         ],
         "mechanicEffects": [
           {
             "amount": 2,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 1,
             "axis": "Lose Poise",
             "player": 1
           }
@@ -4976,19 +1574,525 @@
         "mechanic": "Focus"
       }
     ],
-    "name": "Holographic Copies",
+    "name": "Femoral Strike",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Find The Joint": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 1,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 6,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 1,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "amount": 2,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Find The Joint",
     "tagObjs": [],
     "tags": []
   },
-  "Grenade": {
+  "Flying Kick": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 5,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 7,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": 2,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Flying Kick",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Flying Kick Pin": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 8,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": 3,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 8,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "axis": "Grappled",
+            "player": 2
+          },
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 2
+          }
+        ],
+        "amount": 5,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Flying Kick Pin",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Flying Slash": {
+    "priority": 5,
     "requirements": [
       {
         "axis": "Balanced",
         "player": 0
       },
       {
+        "axis": "Moving",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 4,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 3,
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1,
+            "id": 396
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 4,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Closer",
+        "player": 2
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 6,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": 2,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Flying Slash",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Goad": {
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 3,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Damage",
+            "player": 0
+          },
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Goad",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Going For The High Ground": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Prone",
+            "player": 1
+          },
+          {
+            "axis": "Standing",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 12,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "mechanic": "Block"
+          }
+        ],
+        "amount": 1,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Going For The High Ground",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Going For The Pin": {
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 2
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 5,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 5,
+        "mechanic": "Block"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Grappled",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Poise",
+            "player": 0
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Going For The Pin",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Got Your Back": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 1,
+            "axis": "Poise",
+            "player": 0
+          },
+          {
+            "axis": "Standing",
+            "player": 0
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Prone",
+            "player": 0,
+            "id": 433
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 1,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "amount": 4,
+        "mechanic": "Block"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Got Your Back",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Grand Setup": {
+    "priority": 9,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Further",
+        "player": 2
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 1
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Grappled",
+            "player": 2
+          },
+          {
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "mechanic": "Telegraph"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "axis": "Far",
+            "player": 2
+          },
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "amount": 2,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Grand Setup",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Grenade": {
+    "priority": 9,
+    "requirements": [
+      {
         "axis": "Not Grappled",
         "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
       }
     ],
     "optional": [
@@ -5046,9 +2150,1244 @@
     "tagObjs": [],
     "tags": []
   },
-  "Break Out": {
-    "name": "Break Out",
+  "Groin Stomp": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
     "optional": [],
+    "effects": [
+      {
+        "amount": 7,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 1,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 7,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "amount": 3,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Groin Stomp",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Ground Grab": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 1
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "mechanicEffects": [
+              {
+                "amount": 3,
+                "axis": "Prone",
+                "player": 1
+              },
+              {
+                "amount": 2,
+                "axis": "Prone",
+                "player": 1,
+                "mechanic": "Lock"
+              }
+            ],
+            "mechanic": "Predict"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Not Far",
+            "player": 2,
+            "id": 473
+          }
+        ]
+      },
+      {
+        "effects": [
+          {
+            "amount": 5,
+            "mechanic": "Block"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Far",
+            "player": 2,
+            "id": 478
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": 7,
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Ground Grab",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Grounded": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "choices": [
+          [
+            {
+              "amount": 2,
+              "axis": "Poise",
+              "player": 0
+            },
+            {
+              "mechanicRequirements": [
+                {
+                  "axis": "Prone",
+                  "player": 0,
+                  "id": 488
+                }
+              ],
+              "mechanicEffects": [
+                {
+                  "amount": 4,
+                  "mechanic": "Block",
+                  "id": 489
+                }
+              ],
+              "mechanic": "Focus"
+            }
+          ],
+          [
+            {
+              "mechanicRequirements": [
+                {
+                  "axis": "Prone",
+                  "player": 0,
+                  "id": 491
+                }
+              ],
+              "mechanicEffects": [
+                {
+                  "amount": 6,
+                  "mechanic": "Block",
+                  "id": 492
+                }
+              ],
+              "mechanic": "Focus"
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "name": "Grounded",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Guarded Maneuvers": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "amount": 7,
+        "mechanic": "Block"
+      },
+      {
+        "choices": [
+          [
+            {
+              "axis": "Closer",
+              "player": 2
+            }
+          ],
+          [
+            {
+              "axis": "Further",
+              "player": 2
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 5,
+            "mechanic": "Block"
+          }
+        ],
+        "amount": 2,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Guarded Maneuvers",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Haymaker": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 3,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 25
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 14,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 4,
+        "axis": "Lose Poise",
+        "player": 0
+      }
+    ],
+    "name": "Haymaker",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Headbutt": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "axis": "Close",
+            "player": 2
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Far",
+            "player": 1,
+            "id": 514
+          }
+        ]
+      },
+      {
+        "effects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 517
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 1
+      }
+    ],
+    "name": "Headbutt",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Hit The Floor": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      },
+      {
+        "amount": 6,
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Hit The Floor",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Holographic Copies": {
+    "priority": 2,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "4",
+        "mechanic": "Block"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Not Grappled",
+            "player": 2
+          },
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "mechanic": "Block"
+          }
+        ],
+        "mechanic": "Focus"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Holographic Copies",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Human Ladder": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Moving",
+            "player": 1,
+            "id": 540
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Further",
+        "player": 2
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "axis": "Far",
+            "player": 2
+          },
+          {
+            "amount": 3,
+            "axis": "Moving",
+            "player": 1
+          }
+        ],
+        "amount": 2,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Human Ladder",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Hurl": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": "4",
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "axis": "Further",
+            "player": 2
+          },
+          {
+            "amount": "1",
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "id": 81,
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": "7",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": "1",
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": "3",
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "amount": "2",
+        "axis": "Moving",
+        "player": 2
+      }
+    ],
+    "name": "Hurl",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Immovable Wall": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 8,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Lose Poise",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      },
+      {
+        "amount": 8,
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Immovable Wall",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Incoming!": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 1,
+            "axis": "Poise",
+            "player": 0
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Balanced",
+            "player": 0,
+            "id": 568
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "amount": 4,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Still",
+            "player": 0
+          },
+          {
+            "axis": "Moving",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 10,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Incoming!",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Inertia": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Balanced",
+            "player": 0
+          },
+          {
+            "axis": "Moving",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 4,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Balanced",
+            "player": 0
+          },
+          {
+            "axis": "Still",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 4,
+            "mechanic": "Block"
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Inertia",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Insidious Plan": {
+    "priority": 2,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Moving",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Grappled",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 0
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Insidious Plan",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Jaw Break": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 10,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "amount": 4,
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "choices": [
+          [
+            {
+              "amount": 4,
+              "axis": "Damage",
+              "player": 1
+            }
+          ],
+          [
+            {
+              "amount": 2,
+              "axis": "Lose Poise",
+              "player": 1
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "name": "Jaw Break",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Joint Lock": {
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 610
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 2,
+            "axis": "Grappled",
+            "player": 2,
+            "mechanic": "Lock"
+          }
+        ],
+        "amount": 3,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Joint Lock",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Kidney Jab": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "4",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "4",
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": "Kidney Shot",
+        "mechanic": "Enhance"
+      }
+    ],
+    "name": "Kidney Jab",
+    "tagObjs": [
+      {
+        "value": "Kidney Shot",
+        "id": 623
+      }
+    ],
+    "tags": [
+      {
+        "value": "Kidney Shot"
+      }
+    ]
+  },
+  "Kip Up": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "amount": 5,
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Kip Up",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Knife Throw": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 5,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 6,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": 3,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Knife Throw",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Leaping Smash": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 4,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "axis": "Close",
+            "player": 2
+          },
+          {
+            "amount": 1,
+            "axis": "Lose Poise",
+            "player": 0
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Far",
+            "player": 2,
+            "id": 638
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 11,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Lose Poise",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "amount": 1,
+        "axis": "Prone",
+        "player": 1,
+        "mechanic": "Lock"
+      }
+    ],
+    "name": "Leaping Smash",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Leg Grab": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "amount": 2,
+        "axis": "Grappled",
+        "player": 2,
+        "mechanic": "Lock"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 4,
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Leg Grab",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Low Stance": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "choices": [
+          [
+            {
+              "amount": 2,
+              "axis": "Poise",
+              "player": 0
+            },
+            {
+              "amount": 3,
+              "mechanic": "Block"
+            }
+          ],
+          [
+            {
+              "amount": 8,
+              "mechanic": "Block"
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "name": "Low Stance",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Lunge": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Closer",
+        "player": 2
+      },
+      {
+        "mechanicEffects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "amount": 3,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Lunge",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Luring Trap": {
+    "priority": 3,
     "requirements": [
       {
         "axis": "Not Far",
@@ -5059,74 +3398,837 @@
         "player": 0
       }
     ],
+    "optional": [],
     "effects": [
       {
         "axis": "Further",
         "player": 2
       },
       {
-        "amount": "2",
-        "axis": "Moving",
+        "mechanicRequirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 7,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 3,
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Luring Trap",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Mounting Force": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Balanced",
         "player": 0
       },
       {
-        "amount": "2",
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
         "axis": "Poise",
         "player": 0
       },
       {
+        "mechanicRequirements": [
+          {
+            "axis": "Balanced",
+            "player": 0
+          },
+          {
+            "axis": "Moving",
+            "player": 0
+          },
+          {
+            "axis": "Still",
+            "player": 1
+          }
+        ],
         "mechanicEffects": [
           {
-            "amount": "2",
-            "axis": "Poise",
-            "player": 0
+            "amount": 7,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 7,
+            "mechanic": "Block"
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Mounting Force",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Nailed!": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 10,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": 1,
+        "axis": "Still",
+        "player": 1,
+        "mechanic": "Lock"
+      }
+    ],
+    "name": "Nailed!",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Neck Break": {
+    "priority": 2,
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 7,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 697
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 13,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 13,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": 6,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Neck Break",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Opportunist": {
+    "priority": 2,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Unbalanced",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 7,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": 2,
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "mechanic": "Reflex"
           }
         ],
         "mechanic": "Predict"
       }
     ],
+    "name": "Opportunist",
     "tagObjs": [],
     "tags": []
   },
-  "test_enhance": {
-    "name": "test_enhance",
+  "Overrun": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
     "optional": [],
-    "requirements": [],
     "effects": [
+      {
+        "amount": "8",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": "4",
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "name": "Overrun",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Piercing Lunge": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 10,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Closer",
+        "player": 0
+      },
+      {
+        "amount": 3,
+        "axis": "Lose Poise",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
       {
         "mechanicEffects": [
           {
-            "amount": "1",
+            "amount": 8,
             "axis": "Damage",
             "player": 1
           }
         ],
-        "amount": "test",
-        "mechanic": "Enhance"
+        "player": null,
+        "mechanic": "Predict"
       }
     ],
-    "tagObjs": [
+    "name": "Piercing Lunge",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Pile Driver": {
+    "priority": 3,
+    "requirements": [
       {
-        "value": "test",
-        "id": 1
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
       }
     ],
-    "tags": [
+    "optional": [],
+    "effects": [
       {
-        "value": "test"
+        "amount": 3,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Prone",
+        "player": 2
+      },
+      {
+        "choices": [
+          [
+            {
+              "amount": 2,
+              "axis": "Lose Poise",
+              "player": 0
+            },
+            {
+              "mechanic": "Reflex"
+            }
+          ],
+          [
+            {
+              "amount": 5,
+              "axis": "Damage",
+              "player": 1
+            },
+            {
+              "amount": 3,
+              "axis": "Lose Poise",
+              "player": 1
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
       }
-    ]
+    ],
+    "name": "Pile Driver",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Precise Kick": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 9,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 7,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": "Chest",
+            "mechanic": "Cripple"
+          }
+        ],
+        "amount": 4,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Precise Kick",
+    "tagObjs": [],
+    "tags": []
+  },
+  "PredictTest": {
+    "requirements": [],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicEffects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "PredictTest",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Pull By The Neck": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Moving",
+            "player": 1,
+            "id": 750
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Closer",
+        "player": 2
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 1
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 6,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 2,
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Pull By The Neck",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Punch, Counterpunch": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 3,
+            "mechanic": "Block"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 762
+          }
+        ]
+      },
+      {
+        "effects": [
+          {
+            "amount": 4,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 1,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Damage",
+            "player": 0,
+            "id": 765
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 4,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 1,
+        "axis": "Lose Poise",
+        "player": 1
+      }
+    ],
+    "name": "Punch, Counterpunch",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Ready Trident": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Prone",
+            "player": 1
+          },
+          {
+            "axis": "Moving",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 10,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Ready Trident",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Red Fury": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 4,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 0
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Bloodied",
+            "player": 0,
+            "id": 780
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Lose Poise",
+        "player": 2
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 1,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Red Fury",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Reposition": {
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Poise",
+            "player": 0
+          }
+        ],
+        "mechanic": "Predict"
+      },
+      {
+        "choices": [
+          [
+            {
+              "axis": "Further",
+              "player": 2
+            }
+          ],
+          [
+            {
+              "axis": "Still",
+              "player": 0
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "name": "Reposition",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Ride The Ropes": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 3,
+            "mechanic": "Block"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Balanced",
+            "player": 0,
+            "id": 796
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 3,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "amount": 4,
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Ride The Ropes",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Rip From Socket": {
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 7,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "amount": 1,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Rip From Socket",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
   },
   "Rolling Leap": {
-    "name": "Rolling Leap",
-    "optional": [],
+    "priority": 4,
     "requirements": [
       {
         "axis": "Moving",
         "player": 0
       }
     ],
+    "optional": [],
     "effects": [
+      {
+        "amount": "1",
+        "axis": "Poise",
+        "player": 0
+      },
       {
         "axis": "Standing",
         "player": 0
@@ -5134,11 +4236,6 @@
       {
         "amount": "3",
         "axis": "Moving",
-        "player": 0
-      },
-      {
-        "amount": "1",
-        "axis": "Poise",
         "player": 0
       },
       {
@@ -5159,7 +4256,1256 @@
         "mechanic": "Pick One"
       }
     ],
+    "name": "Rolling Leap",
     "tagObjs": [],
     "tags": []
+  },
+  "Rope-a-dope": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 1,
+            "axis": "Poise",
+            "player": 0
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Still",
+            "player": 0,
+            "id": 2
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 3,
+        "mechanic": "Block"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Damage",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 1,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Rope-a-dope",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Saved By The Bell": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": "4",
+        "axis": "Poise",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 2
+      },
+      {
+        "amount": "3",
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Saved By The Bell",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Seething Red": {
+    "requirements": [
+      {
+        "axis": "Bloodied",
+        "player": 0
+      },
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 4,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 1,
+        "axis": "Lose Poise",
+        "player": 0
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Damage",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 0
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Seething Red",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Skewer": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 6,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Moving",
+            "player": 1,
+            "id": 852
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 5,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "name": "Skewer",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Smash Kneecap": {
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": "Leg",
+            "mechanic": "Cripple"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 858
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 7,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "name": "Smash Kneecap",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Smash the Bridge": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 865
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": 2,
+        "axis": "Lose Poise",
+        "player": 1
+      }
+    ],
+    "name": "Smash the Bridge",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Smoke Bomb": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "2",
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": "6",
+        "mechanic": "Block"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Prone",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": "1",
+            "axis": "Poise",
+            "player": 0
+          },
+          {
+            "amount": "3",
+            "mechanic": "Block"
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Smoke Bomb",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Spinning Slash": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 8,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 881
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 4,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Spinning Slash",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Spring Trap": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 5,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 9,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Spring Trap",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Stone Strength": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 3,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": 8,
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Stone Strength",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Study Balance": {
+    "priority": 2,
+    "requirements": [
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 3,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Prone",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 7,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Study Balance",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Surefooted Smash": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Closer",
+        "player": 2
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 2,
+            "axis": "Poise",
+            "player": 0
+          },
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Surefooted Smash",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Swarm of Punches": {
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "axis": "Close",
+            "player": 2
+          }
+        ],
+        "requirements": [
+          {
+            "id": 47,
+            "axis": "Far",
+            "player": 2
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": "6",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": "1",
+        "axis": "Lose Poise",
+        "player": 2
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "5",
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": "2",
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Swarm of Punches",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Sweep The Legs": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 1
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 921
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 7,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Prone",
+        "player": 2
+      }
+    ],
+    "name": "Sweep The Legs",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Targeted Strike": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 1,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": 3,
+        "mechanic": "Block"
+      },
+      {
+        "choices": [
+          [
+            {
+              "amount": 6,
+              "axis": "Damage",
+              "player": 1
+            }
+          ],
+          [
+            {
+              "amount": 3,
+              "axis": "Lose Poise",
+              "player": 1
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "name": "Targeted Strike",
+    "tagObjs": [],
+    "tags": []
+  },
+  "TelegraphTest": {
+    "requirements": [],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicRequirements": [],
+        "mechanicEffects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "TelegraphTest",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Tendon Slash": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": "Leg",
+            "mechanic": "Cripple"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1,
+            "id": 937
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 4,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "name": "Tendon Slash",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Throat Jab": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 1,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 945
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 5,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "name": "Throat Jab",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Throw Net": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 3,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 1
+      }
+    ],
+    "name": "Throw Net",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Throw Person": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 4,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Moving",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 2,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "axis": "Far",
+            "player": 2
+          }
+        ],
+        "amount": 2,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Throw Person",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Throw Rock": {
+    "priority": 2,
+    "requirements": [
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 965
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 4,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Throw Rock",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Tie The Noose": {
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1,
+            "id": 973
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Far",
+            "player": 2
+          },
+          {
+            "axis": "Moving",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 11,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Tie The Noose",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "To The Ground": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 1
+      },
+      {
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 983
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 8,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "name": "To The Ground",
+    "tagObjs": [],
+    "tags": []
+  },
+  "To The Pocket": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Close",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 3,
+            "mechanic": "Block"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 10
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": 1,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "name": "To The Pocket",
+    "tagObjs": [],
+    "tags": []
+  },
+  "WillTelegraph": {
+    "requirements": [],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicEffects": [
+          {
+            "amount": 6,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "WillTelegraph",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Wind Up": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 2,
+            "axis": "Lose Poise",
+            "player": 0
+          },
+          {
+            "mechanic": "Reflex"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 998
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 3,
+        "axis": "Poise",
+        "player": 0
+      }
+    ],
+    "name": "Wind Up",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Zen State": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 3,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": "2",
+        "axis": "Prone",
+        "player": 0
+      },
+      {
+        "amount": 8,
+        "player": 0,
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Zen State",
+    "tagObjs": [],
+    "tags": []
+  },
+  "focus_test": {
+    "requirements": [],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Balanced",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "focus_test",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "testCripple": {
+    "requirements": [],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "Leg",
+        "mechanic": "Cripple"
+      }
+    ],
+    "name": "testCripple",
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "test_enhance": {
+    "requirements": [],
+    "optional": [],
+    "effects": [
+      {
+        "mechanicEffects": [
+          {
+            "amount": "1",
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": "test",
+        "mechanic": "Enhance"
+      }
+    ],
+    "name": "test_enhance",
+    "tagObjs": [
+      {
+        "value": "test",
+        "id": 1014
+      }
+    ],
+    "tags": [
+      {
+        "value": "test"
+      }
+    ],
+    "priority": 5
   }
 }

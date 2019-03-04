@@ -1,4 +1,4 @@
-import { MechanicEnum, AxisEnum, PlayerEnum } from '../interfaces/enums';
+import { MechanicEnum, AxisEnum, PlayerEnum } from '../shared/card';
 import { getID } from '../utils';
 
 export interface Mechanic {

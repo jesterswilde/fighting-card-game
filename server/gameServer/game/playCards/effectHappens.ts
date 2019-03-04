@@ -1,14 +1,13 @@
-import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ReadiedEffect } from "../interfaces/stateInterface";
-import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../../shared/card";
+import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ReadiedEffect, HappensEnum } from "../../interfaces/stateInterface";
+import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../../../shared/card";
 import { getCardByName } from "./getCards";
-import { playerEnumToPlayerArray, consolidateMechanics } from "../util";
-import { addEffectEvent } from "./events";
-import { MAX_POISE, MIN_POISE } from "../gameSettings";
+import { playerEnumToPlayerArray, consolidateMechanics } from "../../util";
+import { addEffectEvent } from "../events";
+import { MAX_POISE, MIN_POISE } from "../../gameSettings";
 
 export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
     readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly, isHappening }) => {
         const reducer = mechanicRouter[mech.mechanic];
-        addEffectEvent(mech, card.player, card.name, isEventOnly, isHappening, state);
         if (isEventOnly) return;
         if (reducer !== undefined) {
             reducer(mech, card, card.player, card.opponent, state);
@@ -90,6 +89,7 @@ const reducePredict = (mechanic: Mechanic, card: Card, player: number, opponent:
     card.predictions.push(mechanic);
 }
 const reduceReflex = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
+    console.log('marking reflex'); 
     card.shouldReflex = true;
 }
 const reduceTelegraph = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
@@ -102,12 +102,20 @@ const reduceEnhance = (mechanic: Mechanic, card: Card, player: number, opponent:
      alterObj[mechanic.amount] = consolidateMechanics(enhanceArr); 
 }
 
-const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
+export const reduceStateChangeReaEff = (reaEff: ReadiedEffect, state: GameState)=>{
+    const whoToCheck = reaEff.happensTo.map((value, i)=> value === HappensEnum.HAPPENS ? i : undefined)
+            .filter((value)=> value !== undefined); 
+    reduceStateChange(reaEff.mechanic, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck); 
+}
+
+const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState, whoToCheck?: number[]) => {
     const applyGlobal = globalAxis[mechanic.axis];
     if (applyGlobal !== undefined) {
         applyGlobal(state);
     }
-    let whoToCheck = playerEnumToPlayerArray(mechanic.player, player, opponent);
+    if(whoToCheck === undefined){
+        whoToCheck = playerEnumToPlayerArray(mechanic.player, player, opponent);
+    }
     let amount: number | null;
     if (mechanic.amount !== undefined && mechanic.amount !== null) {
         amount = Number(mechanic.amount)
@@ -203,14 +211,14 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
     },
     [AxisEnum.DAMAGE]: (players: number[], amount: number, state: GameState) => {
         players.forEach((i) => {
-            const block = state.block[i];
-            if (block > 0) {
-                const remaining = amount - block;
-                if (remaining >= 0) {
-                    state.block[i] = 0;
-                    state.health[i] -= remaining;
+            const parry = state.parry[i];
+            if (parry > 0) {
+                const remainingDamage = amount - parry;
+                if (remainingDamage >= 0) {
+                    state.parry[i] = 0;
+                    state.health[i] -= remainingDamage;
                 } else {
-                    state.block[i] = -remaining;
+                    state.parry[i] -= amount;
                 }
             } else {
                 state.health[i] -= amount
@@ -226,10 +234,10 @@ const getMaxAmount = (currentAmount: number, nextAmount: number, changed: boolea
         return null;
     }
     if (changed) {
-        return nextAmount * 2;
+        return nextAmount;
     }
     if (currentAmount === null) {
         return null;
     }
-    return Math.max(currentAmount, nextAmount * 2);
+    return Math.max(currentAmount, nextAmount);
 }

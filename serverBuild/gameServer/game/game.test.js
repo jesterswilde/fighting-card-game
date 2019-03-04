@@ -13,10 +13,10 @@ const card_1 = require("../../shared/card");
 const stateInterface_1 = require("../interfaces/stateInterface");
 const gameSettings_1 = require("../gameSettings");
 const errors_1 = require("../errors");
-const effectReducer_1 = require("./effectReducer");
+const effectHappens_1 = require("./playCards/effectHappens");
 const startTurn_1 = require("./startTurn");
-const playCard_1 = require("./playCard");
-const applyEffects_1 = require("./applyEffects");
+const playCard_1 = require("./playCards/playCard");
+const cardHappens_1 = require("./playCards/cardHappens");
 const makeDeck = () => {
     const card1 = util_1.makeBlankCard();
     card1.name = "1";
@@ -87,13 +87,13 @@ describe('game', () => {
     let opponent = 1;
     beforeEach(() => {
         deck = makeDeck();
-        state = util_1.makeGameState();
+        state = util_1.makeTestingGameState();
         state.decks[0] = deck;
         state.distance = stateInterface_1.DistanceEnum.CLOSE;
     });
     describe('drawHand', () => {
         it('should ' + gameSettings_1.HAND_SIZE + ' cards when possible', () => {
-            startTurn_1.drawHand(state, { _sendHand: jest.fn() });
+            startTurn_1.givePlayersCards(state, { _sendHand: jest.fn() });
             expect(state.hands[player][0].name).toBe('1');
             expect(state.hands[player][1].name).toBe('2');
             expect(state.hands[player][2].name).toBe('3');
@@ -102,21 +102,21 @@ describe('game', () => {
         it('should draw only valid cards', () => {
             state.playerStates[0].standing = stateInterface_1.StandingEnum.PRONE;
             state.playerStates[1].poise = stateInterface_1.PoiseEnum.UNBALANCED;
-            startTurn_1.drawHand(state, { _sendHand: jest.fn() });
+            startTurn_1.givePlayersCards(state, { _sendHand: jest.fn() });
             expect(state.hands[player][0].name).toBe('1');
             expect(state.hands[player][1].name).toBe('3');
             expect(state.hands[player][2].name).toBe('4');
             expect(state.hands[player].length).toBe(3);
         });
         it('should remove the drawn cards from the deck', () => {
-            startTurn_1.drawHand(state, { _sendHand: jest.fn() });
+            startTurn_1.givePlayersCards(state, { _sendHand: jest.fn() });
             expect(state.decks[player].find((card) => card.name === '1')).toBe(undefined);
             expect(state.decks[player].find((card) => card.name === '2')).toBe(undefined);
             expect(state.decks[player].find((card) => card.name === '3')).toBe(undefined);
         });
         it('should draw less than 3 if 3 cards are not valid', () => {
             state.distance = stateInterface_1.DistanceEnum.FAR;
-            startTurn_1.drawHand(state, { _sendHand: jest.fn() });
+            startTurn_1.givePlayersCards(state, { _sendHand: jest.fn() });
             expect(state.hands[player][0].name).toBe('2');
             expect(state.hands[player].length).toBe(1);
         });
@@ -136,7 +136,7 @@ describe('game', () => {
         });
         it('should tell state about which card is picked', () => {
             startTurn_1.pickCard(0, state);
-            expect(state.pickedCard).toBe(card1);
+            expect(state.pickedCards).toBe(card1);
         });
         it('should assign player and opponent', () => {
             startTurn_1.pickCard(1, state);
@@ -185,23 +185,23 @@ describe('game', () => {
     describe('addCardToQueue', () => {
         it('should put the card into the queue', () => {
             const card = util_1.makeBlankCard();
-            state.pickedCard = card;
+            state.pickedCards = card;
             playCard_1.addCardToQueue(state);
             expect(state.queue[0][0]).toBe(card);
         });
         it('should remove card from pickedCard', () => {
             const card = util_1.makeBlankCard();
-            state.pickedCard = card;
+            state.pickedCards = card;
             playCard_1.addCardToQueue(state);
-            expect(state.pickedCard).toBeUndefined();
+            expect(state.pickedCards).toBeUndefined();
         });
         it('should handle putting multiple cards into the same bucket', () => {
             state.queue = [[util_1.makeBlankCard()], [util_1.makeBlankCard()], [util_1.makeBlankCard()]];
             const card1 = util_1.makeBlankCard();
-            state.pickedCard = card1;
+            state.pickedCards = card1;
             playCard_1.addCardToQueue(state);
             const card2 = util_1.makeBlankCard();
-            state.pickedCard = card2;
+            state.pickedCards = card2;
             playCard_1.addCardToQueue(state);
             expect(state.queue[0][0]).toEqual(card1);
             expect(state.queue[0][1]).toEqual(card2);
@@ -223,7 +223,7 @@ describe('game', () => {
         it('should store effects', () => {
             const card = util_1.makeBlankCard();
             card.effects = [effect1, effect2];
-            state.pickedCard = card;
+            state.pickedCards = card;
             card.opponent = 1;
             playCard_1.getMechanicsReady(state);
             expect(state.readiedEffects).toEqual([effect1, effect2]);
@@ -243,7 +243,7 @@ describe('game', () => {
                     ]
                 },
             ];
-            state.pickedCard = card;
+            state.pickedCards = card;
             playCard_1.getMechanicsReady(state);
             expect(state.readiedEffects).toEqual([effect1, effect3]);
         });
@@ -260,7 +260,7 @@ describe('game', () => {
                 { mechanic: card_1.MechanicEnum.PREDICT, mechanicEffects: [{ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.OPPONENT, amount: 3 }] }
             ];
             state.readiedEffects = util_1.deepCopy(card.effects);
-            state.pickedCard = card;
+            state.pickedCards = card;
             yield playCard_1.makePredictions(state, { _getPredictions });
             expect(state.predictions[0].prediction).toEqual(stateInterface_1.PredictionEnum.BALANCE);
             expect(state.predictions[0].mechanics).toEqual(card.effects[0].mechanicEffects);
@@ -279,7 +279,7 @@ describe('game', () => {
             ];
             state.readiedEffects = util_1.deepCopy(card.effects);
             card.opponent = 1;
-            state.pickedCard = card;
+            state.pickedCards = card;
             playCard_1.markAxisChanges(state);
             expect(state.modifiedAxis.balance).toBe(false);
             expect(state.modifiedAxis.distance).toBe(true);
@@ -295,7 +295,7 @@ describe('game', () => {
             ];
             state.readiedEffects = util_1.deepCopy(card.effects);
             card.opponent = 1;
-            state.pickedCard = card;
+            state.pickedCards = card;
             playCard_1.markAxisChanges(state);
             expect(state.modifiedAxis.balance).toBe(true);
             expect(state.modifiedAxis.distance).toBe(false);
@@ -316,9 +316,9 @@ describe('game', () => {
             state.readiedEffects = util_1.deepCopy(card.effects);
             card.player = 0;
             card.opponent = 1;
-            state.pickedCard = card;
+            state.pickedCards = card;
             playCard_1.addCardToQueue(state);
-            applyEffects_1.makeEffectsReduceable(state);
+            cardHappens_1.applyMechanics(state);
             expect(state.distance).toEqual(stateInterface_1.DistanceEnum.GRAPPLED);
             expect(state.health[opponent]).toEqual(gameSettings_1.STARTING_HEALTH - 3);
             expect(state.playerStates[player].motion).toEqual(stateInterface_1.MotionEnum.MOVING);
@@ -343,9 +343,9 @@ describe('game', () => {
             state.readiedEffects = util_1.deepCopy(card.effects);
             card.player = 0;
             card.opponent = 1;
-            state.pickedCard = card;
+            state.pickedCards = card;
             playCard_1.addCardToQueue(state);
-            applyEffects_1.makeEffectsReduceable(state);
+            cardHappens_1.applyMechanics(state);
             expect(state.stateDurations[player].motion).toEqual(8);
             expect(state.stateDurations[player].balance).toEqual(null);
             expect(state.stateDurations[opponent].motion).toEqual(6);
@@ -360,19 +360,19 @@ describe('game', () => {
             const reflexEff = { mechanic: card_1.MechanicEnum.REFLEX };
             const blockEff = { mechanic: card_1.MechanicEnum.BLOCK, amount: 2 };
             card.effects = [predictEff, focusEff, teleEff, reflexEff, blockEff];
-            state.pickedCard = card;
+            state.pickedCards = card;
             state.readiedEffects = util_1.deepCopy(card.effects);
             state.health = [gameSettings_1.STARTING_HEALTH, gameSettings_1.STARTING_HEALTH];
             state.readiedEffects = util_1.deepCopy(card.effects);
-            state.pickedCard = card;
+            state.pickedCards = card;
             playCard_1.incrementQueue(state);
             playCard_1.addCardToQueue(state);
-            applyEffects_1.makeEffectsReduceable(state);
+            cardHappens_1.applyMechanics(state);
             expect(card.focuses).toEqual([focusEff]);
             expect(card.telegraphs).toEqual([teleEff]);
             expect(card.predictions).toEqual([predictEff]);
             expect(card.shouldReflex).toEqual(true);
-            expect(state.block[player]).toEqual(2);
+            expect(state.parry[player]).toEqual(2);
         });
     });
     describe("removeStoredEffects", () => {
@@ -384,27 +384,27 @@ describe('game', () => {
                 { axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.OPPONENT, amount: 3 },
             ];
             state.readiedEffects = util_1.deepCopy(card.effects);
-            state.pickedCard = card;
+            state.pickedCards = card;
             playCard_1.incrementQueue(state);
             playCard_1.addCardToQueue(state);
-            applyEffects_1.removeStoredEffects(state);
+            cardHappens_1.removeStoredEffects(state);
             expect(state.readiedEffects).toBeUndefined();
         });
     });
     describe("checkForVictor", () => {
         it('should mark victory if a player\'s health drops to 0', () => {
             state.health = [5, 0];
-            expect(() => applyEffects_1.checkForVictor(state)).toThrowError(errors_1.ControlEnum.GAME_OVER);
+            expect(() => cardHappens_1.checkForVictor(state)).toThrowError(errors_1.ControlEnum.GAME_OVER);
             expect(state.winner).toEqual(0);
         });
         it('should not erroneously makr victory', () => {
             state.health = [1, 4];
-            applyEffects_1.checkForVictor(state);
+            cardHappens_1.checkForVictor(state);
             expect(state.winner).toBeUndefined();
         });
         it('should mark -1 if both players health is at or below 0', () => {
             state.health = [-1, 0];
-            expect(() => applyEffects_1.checkForVictor(state)).toThrow();
+            expect(() => cardHappens_1.checkForVictor(state)).toThrow();
             expect(state.winner).toEqual(-1);
         });
     });
@@ -414,7 +414,7 @@ describe('game', () => {
             predictCard = util_1.makeBlankCard();
         });
         it('should do nothing if there is no prediction', () => {
-            expect(() => applyEffects_1.checkPredictions(state)).not.toThrow();
+            expect(() => cardHappens_1.checkPredictions(state)).not.toThrow();
         });
         it('should remove the prediction if the prediction was wrong', () => {
             state.pendingPredictions = [
@@ -424,7 +424,7 @@ describe('game', () => {
                     ]
                 }
             ];
-            expect(() => applyEffects_1.checkPredictions(state)).not.toThrow();
+            expect(() => cardHappens_1.checkPredictions(state)).not.toThrow();
             expect(state.pendingPredictions).toBeUndefined();
         });
         it('should apply the effects if the prediction was correct & remove the prediction', () => {
@@ -433,7 +433,7 @@ describe('game', () => {
                 { prediction: stateInterface_1.PredictionEnum.BALANCE, mechanics: [mech] }
             ];
             state.modifiedAxis.balance = true;
-            expect(() => applyEffects_1.checkPredictions(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);
+            expect(() => cardHappens_1.checkPredictions(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);
             expect(state.pendingPredictions).toBeUndefined();
             expect(state.readiedEffects).toEqual([mech]);
             expect(state.readiedEffects[0]).not.toBe(mech);
@@ -470,7 +470,7 @@ describe('game', () => {
             ];
             card2.player = card3.player = card1.opponent = 0;
             card2.opponent = card3.opponent = card2.player = 1;
-            expect(() => applyEffects_1.checkTelegraph(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);
+            expect(() => cardHappens_1.checkTelegraph(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);
             expect(card1.telegraphs).toBeUndefined();
             expect(card2.telegraphs).not.toBeUndefined();
             expect(card3.telegraphs).toBeUndefined();
@@ -491,9 +491,9 @@ describe('game', () => {
             state.queue = [
                 [], [refCard], [], [], [], [], []
             ];
-            expect(() => applyEffects_1.checkReflex(state)).toThrowError(errors_1.ControlEnum.PLAY_CARD);
+            expect(() => cardHappens_1.checkReflex(state)).toThrowError(errors_1.ControlEnum.PLAY_CARD);
             expect(refCard.shouldReflex).toBeFalsy();
-            expect(state.pickedCard.name).toEqual('drawn');
+            expect(state.pickedCards.name).toEqual('drawn');
             expect(drawnCard.opponent).toEqual(0);
         });
     });
@@ -514,7 +514,7 @@ describe('game', () => {
             state.queue = [
                 [card1], [], [], [], [], [card2], [card3]
             ];
-            expect(() => applyEffects_1.checkFocus(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);
+            expect(() => cardHappens_1.checkFocus(state)).toThrowError(errors_1.ControlEnum.NEW_EFFECTS);
             expect(state.checkedFocus).toEqual(true);
             expect(state.readiedEffects).toEqual([{ axis: card_1.AxisEnum.DAMAGE, amount: 1, player: card_1.PlayerEnum.BOTH }]);
         });
@@ -528,11 +528,11 @@ describe('game', () => {
             ];
             card.player = 0;
             card.opponent = 1;
-            state.block = [0, 2];
+            state.parry = [0, 2];
             state.health = [10, 10];
-            effectReducer_1.reduceMechanics(card.effects, card, 0, 1, state);
+            effectHappens_1.reduceMechanics(card.effects, card, 0, 1, state);
             expect(state.health[1]).toEqual(9);
-            expect(state.block[1]).toEqual(0);
+            expect(state.parry[1]).toEqual(0);
         });
         it('should redice incoming damage to zero and keep remainder', () => {
             const card = util_1.makeBlankCard();
@@ -542,11 +542,11 @@ describe('game', () => {
             ];
             card.player = 0;
             card.opponent = 1;
-            state.block = [2, 4];
+            state.parry = [2, 4];
             state.health = [10, 10];
-            effectReducer_1.reduceMechanics(card.effects, card, 0, 1, state);
+            effectHappens_1.reduceMechanics(card.effects, card, 0, 1, state);
             expect(state.health[1]).toEqual(10);
-            expect(state.block[1]).toEqual(1);
+            expect(state.parry[1]).toEqual(1);
         });
     });
     describe("Lock", () => {
@@ -558,7 +558,7 @@ describe('game', () => {
                 { axis: card_1.AxisEnum.CLOSE, player: card_1.PlayerEnum.BOTH },
                 { axis: card_1.AxisEnum.UNBALANCED, player: card_1.PlayerEnum.BOTH }
             ];
-            effectReducer_1.reduceMechanics(card.effects, card, 0, 1, state);
+            effectHappens_1.reduceMechanics(card.effects, card, 0, 1, state);
             expect(state.distance).toEqual(stateInterface_1.DistanceEnum.CLOSE);
             expect(state.playerStates[0].poise).toEqual(stateInterface_1.PoiseEnum.BALANCED);
             expect(state.playerStates[1].poise).toEqual(stateInterface_1.PoiseEnum.UNBALANCED);
@@ -592,7 +592,7 @@ describe('game', () => {
             const buffEff = { mechanic: card_1.MechanicEnum.BUFF, axis: card_1.AxisEnum.DAMAGE, amount: 2, player: card_1.PlayerEnum.BOTH };
             const card = util_1.makeBlankCard();
             card.effects = [effect1, effect2, buffEff];
-            effectReducer_1.reduceMechanics([buffEff], card, 0, 1, state);
+            effectHappens_1.reduceMechanics([buffEff], card, 0, 1, state);
             expect(effect1.amount).toEqual(3);
         });
         it('should insert the effect on a card if that axis/player combo does not exists', () => {
@@ -600,7 +600,7 @@ describe('game', () => {
             const buffEff = { mechanic: card_1.MechanicEnum.BUFF, axis: card_1.AxisEnum.DAMAGE, amount: 2, player: card_1.PlayerEnum.BOTH };
             const card = util_1.makeBlankCard();
             card.effects = [effect2, buffEff];
-            effectReducer_1.reduceMechanics([buffEff], card, 0, 1, state);
+            effectHappens_1.reduceMechanics([buffEff], card, 0, 1, state);
             expect(card.effects[2]).toEqual({ axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.BOTH, amount: 2 });
         });
     });

@@ -1,9 +1,10 @@
-import { Mechanic, Card, AxisEnum } from "../../shared/card";
-import { GameState, DistanceEnum, PoiseEnum, MotionEnum, StandingEnum } from "../interfaces/stateInterface";
-import { playerEnumToPlayerArray } from "../util";
+import { Mechanic, Card, AxisEnum } from "../../../shared/card";
+import { GameState, DistanceEnum, PoiseEnum, MotionEnum, StandingEnum } from "../../interfaces/stateInterface";
+import { playerEnumToPlayerArray } from "../../util";
 
 export const markAxisChange = (mechanic: Mechanic, card: Card, state: GameState) => {
-    const players = playerEnumToPlayerArray(mechanic.player, state.currentPlayer, card.opponent); 
+    const players = playerEnumToPlayerArray(mechanic.player, card.player, card.opponent);
+    console.log('axis - playrs', players, card);
     switch(mechanic.axis){
         case AxisEnum.MOVING:
         case AxisEnum.STILL: 

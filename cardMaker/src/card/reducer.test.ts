@@ -6,6 +6,7 @@ import { OptionalEnum } from '../optional/action';
 
 describe("cardReducer", () => {
     const state: CardState = {
+        filter: '',
         editingCard: {
             requirements: [0, 1, 2],
             effects: [3, 4, 5],

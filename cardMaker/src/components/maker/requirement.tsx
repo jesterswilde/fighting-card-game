@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PlayerEnum, AxisEnum } from '../../interfaces/enums';
+import { PlayerEnum, AxisEnum } from '../../shared/card'
 import { StatePieceJSON } from '../../interfaces/cardJSON';
 import { diaptchUpdateStatePieceJSON as update } from '../../statePiece/dispatch';
 

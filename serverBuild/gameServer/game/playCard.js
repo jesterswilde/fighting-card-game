@@ -10,21 +10,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const applyEffects_1 = require("./applyEffects");
 const errors_1 = require("../errors");
-const util_1 = require("../util");
 const requirements_1 = require("./requirements");
 const modifiedAxis_1 = require("./modifiedAxis");
 const events_1 = require("./events");
 const playerInput_1 = require("./playCards/playerInput");
+const readiedEffects_1 = require("./readiedEffects");
 exports.playCard = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
-        events_1.addCardEvent(state.pickedCard, state);
+        events_1.addCardEvent(state);
         exports.getMechanicsReady(state);
-        yield playerInput_1.playerPicksOne(state);
-        yield playerInput_1.makePredictions(state);
-        yield playerInput_1.checkForForecful(state);
+        yield playerInput_1.playersPickOne(state);
+        yield playerInput_1.playersMakePredictions(state);
+        yield playerInput_1.playersChooseForce(state);
         exports.markAxisChanges(state);
         exports.incrementQueue(state);
-        exports.addCardToQueue(state);
+        exports.addCardsToQueue(state);
         applyEffects_1.applyEffects(state);
     }
     catch (err) {
@@ -39,24 +39,20 @@ exports.playCard = (state) => __awaiter(this, void 0, void 0, function* () {
     }
 });
 exports.getMechanicsReady = (state) => {
-    const { optional = [], effects = [], enhancements = [] } = state.pickedCard;
-    const validOptEff = optional.filter((reqEff) => requirements_1.canUseOptional(reqEff, state.pickedCard.player, state.pickedCard.opponent, state))
-        .reduce((effsArr, reqEffs) => {
-        effsArr.push(...reqEffs.effects);
-        return effsArr;
-    }, []);
-    const enhanceEffs = enhancements.reduce((effs, { mechanics = [] }) => {
-        effs.push(...mechanics);
-        return effs;
-    }, []);
-    const allEffects = [...effects, ...validOptEff, ...enhanceEffs];
-    state.readiedEffects = exports.mechanicsToReadiedEffects(allEffects, state.pickedCard);
-};
-exports.mechanicsToReadiedEffects = (mechanics = [], card) => {
-    return mechanics.map((mech) => exports.mechanicToReadiedEffect(mech, card));
-};
-exports.mechanicToReadiedEffect = (mechanic, card) => {
-    return { mechanic: util_1.deepCopy(mechanic), card };
+    state.pickedCards.forEach((card, playedBy) => {
+        const { optional = [], effects = [], enhancements = [], player, opponent } = card;
+        const validOptEff = optional.filter((reqEff) => requirements_1.canUseOptional(reqEff, player, opponent, state))
+            .reduce((effsArr, reqEffs) => {
+            effsArr.push(...reqEffs.effects);
+            return effsArr;
+        }, []);
+        const enhanceEffs = enhancements.reduce((effs, { mechanics = [] }) => {
+            effs.push(...mechanics);
+            return effs;
+        }, []);
+        const allEffects = [...effects, ...validOptEff, ...enhanceEffs];
+        state.readiedEffects[playedBy] = readiedEffects_1.mechanicsToReadiedEffects(allEffects, card);
+    });
 };
 exports.incrementQueue = (state) => {
     const { queue } = state;
@@ -68,17 +64,24 @@ exports.incrementQueue = (state) => {
         state.incrementedQueue = true;
     }
 };
-exports.addCardToQueue = (state) => {
-    const { currentPlayer: player, queue } = state;
-    const pickedCard = state.pickedCard;
-    state.pickedCard = undefined;
-    queue[0] = queue[0] || [];
-    queue[0].push(pickedCard);
+exports.addCardsToQueue = (state) => {
+    state.pickedCards.forEach((card, player) => {
+        addCardToQueue(card, player, state);
+    });
+};
+const addCardToQueue = (card, player, state) => {
+    const { queue } = state;
+    const slot = 0;
+    state.pickedCards[player] = null;
+    queue[slot][player] = queue[slot][player] || [];
+    queue[slot][player].push(card);
 };
 exports.markAxisChanges = (state) => {
     if (state.readiedEffects) {
-        state.readiedEffects.forEach(({ mechanic, card }) => {
-            modifiedAxis_1.markAxisChange(mechanic, card, state);
+        state.readiedEffects.forEach((playerEffect = []) => {
+            playerEffect.forEach(({ mechanic, card }) => {
+                modifiedAxis_1.markAxisChange(mechanic, card, state);
+            });
         });
     }
 };

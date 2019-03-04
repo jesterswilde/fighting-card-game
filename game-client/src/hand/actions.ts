@@ -1,8 +1,9 @@
 import { Card } from "../shared/card";
+import { HandState } from "./interface";
 
 export enum HandActionEnum {
     PICKED_CARD = 'pickCard',
-    GOT_CARDS = 'gotCards',
+    GOT_HAND_STATE = 'gotHandState',
     OPPONENT_GOT_CARDS = 'opponentGotCards',
     OPPONENT_PICKED_CARD = 'opponentPickedCard'
 }
@@ -21,9 +22,9 @@ export interface PickedCardAction{
     index: number
 }
 
-export interface GotCardsAction{
-    type: HandActionEnum.GOT_CARDS,
-    cards: Card[]
+export interface GotHandStateAction{
+    type: HandActionEnum.GOT_HAND_STATE,
+    handState: HandState
 }
 
-export type HandActions = PickedCardAction | GotCardsAction | OppGotCardsAction | OppPickedCardAction; 
+export type HandActions = PickedCardAction | GotHandStateAction | OppGotCardsAction | OppPickedCardAction; 

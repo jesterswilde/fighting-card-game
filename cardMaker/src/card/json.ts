@@ -27,6 +27,7 @@ export const cardFromJSON = (cardJSON: CardJSON | null) => {
         return;
     }
     const card = {} as Card;
+    card.priority = cardJSON.priority; 
     card.requirements = cardJSON.requirements.map(statePieceFromJSON)
     card.optional = cardJSON.optional.map(optionalFromJSON);
     card.effects = cardJSON.effects.map(mechFromJSON);

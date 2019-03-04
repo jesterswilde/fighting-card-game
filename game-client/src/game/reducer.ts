@@ -23,14 +23,15 @@ export const gameReducer = (state: GameState = makeDefaultGameState(), action: A
     }
 }
 
-const swapDisplayMode = (state: GameState, { cardLoc: { column, row } }: SwapCardDisplayModeAction): GameState => {
+const swapDisplayMode = (state: GameState, { cardLoc: { turn, player, index } }: SwapCardDisplayModeAction): GameState => {
     const queue = [...state.queue];
-    const cardColumn = [...queue[column]];
-    const card = { ...cardColumn[row] };
+    const turnColumn = [...queue[turn]];
+    const playerCards = [...turnColumn[player]];
+    const card = { ...playerCards[index] }
     card.showFullCard = !card.showFullCard;
-    cardColumn[row] = card;
-    queue[column] = cardColumn;
-    console.log("swapped show card: ", card.showFullCard);
+    playerCards[index] = card; 
+    turnColumn[player] = playerCards;
+    queue[turn] = turnColumn;
     return {
         ...state,
         queue

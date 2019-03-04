@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CardJSON } from "../../interfaces/cardJSON";
-import { dispatchUpdatedCardName, dispatchGetCard, dispatchChangeCurrentCard, dispatchCreateTag, dispatchUpdateTag, dispatchDeleteTag } from '../../card/dispatch';
+import { dispatchUpdatedCardName, dispatchGetCard, dispatchChangeCurrentCard, dispatchCreateTag, dispatchUpdateTag, dispatchDeleteTag, dispatchUpdatePriority } from '../../card/dispatch';
 import { StoreState } from '../../state/store';
 import { cardToJSON, updateCard } from '../../card/cardToJSON';
 import { connect } from 'react-redux';
@@ -10,7 +10,7 @@ import { dispatchDeletedMech } from '../../mechanic/dispatch';
 import { dispatchToPathString } from '../../path/dispatch';
 import Requirement from './requirement';
 import Effect from './effect';
-import Optional from './optional'; 
+import Optional from './optional';
 import { dispatchDeletedOptional } from '../../optional/dispatch';
 
 interface Props extends InternalProps {
@@ -34,9 +34,13 @@ class Maker extends React.Component<Props> {
         }
     }
     render() {
-        const { card: { name = '', requirements = [], effects = [], tags: tagObjs = [], optional = [] } } = this.props;
+        const { card: { name = '', requirements = [], effects = [], priority = 5, tags: tagObjs = [], optional = [] } } = this.props;
         return <div>
             <input placeholder="Card Name" className="form-control-lg" type="text" value={name} onChange={(e) => dispatchUpdatedCardName(e.target.value)} />
+            <div>
+                <label>Priority</label>
+                <input type="number" value={priority} onChange={(e) => dispatchUpdatePriority(e.target.valueAsNumber)} />
+            </div>
             <div>
                 <h2> Requirements
                 <button className='ml-3 btn btn-sm btn-primary' onClick={cardCreateReq}>+</button>
@@ -76,9 +80,9 @@ class Maker extends React.Component<Props> {
                 <h2>Tags
                 <button className='ml-3 btn btn-sm btn-primary' onClick={dispatchCreateTag}>+</button>
                 </h2>
-                {tagObjs.map((tag)=> <div key={tag.id}>
-                <button className="btn btn-sm btn-danger" onClick={() => dispatchDeleteTag(tag.id)}>-</button>
-                    <input type="text" value={tag.value} onChange={({target})=> dispatchUpdateTag(tag.id, target.value)}/>
+                {tagObjs.map((tag) => <div key={tag.id}>
+                    <button className="btn btn-sm btn-danger" onClick={() => dispatchDeleteTag(tag.id)}>-</button>
+                    <input type="text" value={tag.value} onChange={({ target }) => dispatchUpdateTag(tag.id, target.value)} />
                 </div>)}
             </div>
             <div>

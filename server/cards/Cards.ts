@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'fs';
-import { Card } from './CardInterfaces';
+import { Card } from '../shared/card';
 import * as path from 'path'; 
 
 export let cards: { [name: string]: Card } = {};

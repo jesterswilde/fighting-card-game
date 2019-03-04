@@ -1,4 +1,4 @@
-import { AxisEnum, PlayerEnum } from '../interfaces/enums';
+import { AxisEnum, PlayerEnum } from '../shared/card';
 import { getID } from '../utils';
 
 export const makeDefaultStatePiece = (): StatePiece=>{

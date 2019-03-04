@@ -2886,17 +2886,19 @@ exports.gameReducer = gameReducer;
 
 var swapDisplayMode = function swapDisplayMode(state, _a) {
   var _b = _a.cardLoc,
-      column = _b.column,
-      row = _b.row;
+      turn = _b.turn,
+      player = _b.player,
+      index = _b.index;
   var queue = state.queue.slice();
-  var cardColumn = queue[column].slice();
+  var turnColumn = queue[turn].slice();
+  var playerCards = turnColumn[player].slice();
 
-  var card = __assign({}, cardColumn[row]);
+  var card = __assign({}, playerCards[index]);
 
   card.showFullCard = !card.showFullCard;
-  cardColumn[row] = card;
-  queue[column] = cardColumn;
-  console.log("swapped show card: ", card.showFullCard);
+  playerCards[index] = card;
+  turnColumn[player] = playerCards;
+  queue[turn] = turnColumn;
   return __assign({}, state, {
     queue: queue
   });
@@ -2940,7 +2942,7 @@ exports.HandActionEnum = HandActionEnum;
 
 (function (HandActionEnum) {
   HandActionEnum["PICKED_CARD"] = "pickCard";
-  HandActionEnum["GOT_CARDS"] = "gotCards";
+  HandActionEnum["GOT_HAND_STATE"] = "gotHandState";
   HandActionEnum["OPPONENT_GOT_CARDS"] = "opponentGotCards";
   HandActionEnum["OPPONENT_PICKED_CARD"] = "opponentPickedCard";
 })(HandActionEnum || (exports.HandActionEnum = HandActionEnum = {}));
@@ -12206,6 +12208,9 @@ exports.SocketEnum = SocketEnum;
   SocketEnum["OPPONENT_PICKED_CARDS"] = "opponentPickedCards";
   SocketEnum["OPPONENT_IS_MAKING_CHOICES"] = "opponentIsMakingChoices";
   SocketEnum["OPPONENT_MADE_CHOICE"] = "opponentMadeChoice";
+  SocketEnum["SIEZE_INITIATIVE"] = "siezeInitative";
+  SocketEnum["INITATIVE_WAGERED"] = "initiativeWagered";
+  SocketEnum["INITIATIVE_RESULT"] = "initiativeResult";
 })(SocketEnum || (exports.SocketEnum = SocketEnum = {}));
 },{}],"src/hand/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12213,7 +12218,7 @@ exports.SocketEnum = SocketEnum;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchGotCards = exports.dispatchPickedCard = exports.dispatchOppPickedCard = exports.dispatchOppGotCards = void 0;
+exports.dispatchGotHandState = exports.dispatchPickedCard = exports.dispatchOppPickedCard = exports.dispatchOppGotCards = void 0;
 
 var _store = require("../state/store");
 
@@ -12257,16 +12262,16 @@ var dispatchPickedCard = function dispatchPickedCard(cardNumber) {
 
 exports.dispatchPickedCard = dispatchPickedCard;
 
-var dispatchGotCards = function dispatchGotCards(cards) {
+var dispatchGotHandState = function dispatchGotHandState(handState) {
   var action = {
-    type: _actions.HandActionEnum.GOT_CARDS,
-    cards: cards
+    type: _actions.HandActionEnum.GOT_HAND_STATE,
+    handState: handState
   };
 
   _store.store.dispatch(action);
 };
 
-exports.dispatchGotCards = dispatchGotCards;
+exports.dispatchGotHandState = dispatchGotHandState;
 },{"../state/store":"src/state/store.ts","./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../shared/socket":"src/shared/socket.ts"}],"src/display/actions.ts":[function(require,module,exports) {
 "use strict";
 
@@ -12334,12 +12339,13 @@ var _socket = require("../socket/socket");
 
 var _socket2 = require("../shared/socket");
 
-var dispatchSwitchCardDisplayMode = function dispatchSwitchCardDisplayMode(column, row) {
+var dispatchSwitchCardDisplayMode = function dispatchSwitchCardDisplayMode(turn, player, index) {
   var action = {
     type: _actions.GameActionEnum.SWAPPED_CARD_DISPLAY_MODE,
     cardLoc: {
-      column: column,
-      row: row
+      turn: turn,
+      player: player,
+      index: index
     }
   };
 
@@ -12619,9 +12625,9 @@ var setupSockets = function setupSockets(socket) {
     console.log('joined lobby');
     (0, _dispatch2.dispatchSwitchScreen)(_interface.ScreenEnum.LOOKING_FOR_GAME);
   });
-  socket.on(_socket.SocketEnum.GOT_CARDS, function (cards) {
-    console.log('got cards', cards);
-    (0, _dispatch.dispatchGotCards)(cards);
+  socket.on(_socket.SocketEnum.GOT_CARDS, function (handState) {
+    console.log('got hand State', handState);
+    (0, _dispatch.dispatchGotHandState)(handState);
   });
   socket.on(_socket.SocketEnum.START_GAME, function (_a) {
     var player = _a.player;
@@ -12739,23 +12745,11 @@ var handReducer = function handReducer(state, action) {
   }
 
   switch (action.type) {
-    case _actions.HandActionEnum.GOT_CARDS:
-      return __assign({}, state, {
-        cards: action.cards
-      });
+    case _actions.HandActionEnum.GOT_HAND_STATE:
+      return __assign({}, state, action.handState);
 
     case _actions.HandActionEnum.PICKED_CARD:
       return pickedCardReducer(state, action);
-
-    case _actions.HandActionEnum.OPPONENT_GOT_CARDS:
-      return __assign({}, state, {
-        opponentCards: action.cards
-      });
-
-    case _actions.HandActionEnum.OPPONENT_PICKED_CARD:
-      return __assign({}, state, {
-        opponentCards: null
-      });
 
     default:
       return state;
@@ -12770,14 +12764,14 @@ var pickedCardReducer = function pickedCardReducer(state, _a) {
   _socket.socket.send(_socket2.SocketEnum.PICKED_CARD, index);
 
   return __assign({}, state, {
-    cards: []
+    hand: []
   });
 };
 
 var makeDefaultState = function makeDefaultState() {
   return {
-    cards: [],
-    opponentCards: null
+    hand: [],
+    handSizes: []
   };
 };
 },{"./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../shared/socket":"src/shared/socket.ts"}],"src/display/reducer.ts":[function(require,module,exports) {
@@ -12995,7 +12989,7 @@ exports.gameDisplayReducer = gameDisplayReducer;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.EventTypeEnum = exports.EVENT_REPLAY_SPEED = exports.EVENT_PLAY_SPEED = void 0;
+exports.HappensEnum = exports.EventTypeEnum = exports.EVENT_REPLAY_SPEED = exports.EVENT_PLAY_SPEED = void 0;
 var EVENT_PLAY_SPEED = 500;
 exports.EVENT_PLAY_SPEED = EVENT_PLAY_SPEED;
 var EVENT_REPLAY_SPEED = 200;
@@ -13010,7 +13004,19 @@ exports.EventTypeEnum = EventTypeEnum;
   EventTypeEnum[EventTypeEnum["ADDED_MECHANIC"] = 3] = "ADDED_MECHANIC";
   EventTypeEnum[EventTypeEnum["REVEAL_PREDICTION"] = 4] = "REVEAL_PREDICTION";
   EventTypeEnum[EventTypeEnum["GAME_OVER"] = 5] = "GAME_OVER";
+  EventTypeEnum[EventTypeEnum["MULTIPLE"] = 6] = "MULTIPLE";
+  EventTypeEnum[EventTypeEnum["EVENT_SECTION"] = 7] = "EVENT_SECTION";
+  EventTypeEnum[EventTypeEnum["CARD_NAME_SECTION"] = 8] = "CARD_NAME_SECTION";
 })(EventTypeEnum || (exports.EventTypeEnum = EventTypeEnum = {}));
+
+var HappensEnum;
+exports.HappensEnum = HappensEnum;
+
+(function (HappensEnum) {
+  HappensEnum[HappensEnum["NEVER_AFFECTED"] = 0] = "NEVER_AFFECTED";
+  HappensEnum[HappensEnum["HAPPENS"] = 1] = "HAPPENS";
+  HappensEnum[HappensEnum["BLOCKED"] = 2] = "BLOCKED";
+})(HappensEnum || (exports.HappensEnum = HappensEnum = {}));
 },{}],"src/gameSettings.ts":[function(require,module,exports) {
 "use strict";
 
@@ -13335,6 +13341,7 @@ exports.MechanicEnum = MechanicEnum;
   MechanicEnum["TELEGRAPH"] = "Telegraph";
   MechanicEnum["FOCUS"] = "Focus";
   MechanicEnum["PREDICT"] = "Predict";
+  MechanicEnum["PARRY"] = "Parry";
   MechanicEnum["BLOCK"] = "Block";
   MechanicEnum["LOCK"] = "Lock";
   MechanicEnum["REFLEX"] = "Reflex";
@@ -15937,8 +15944,7 @@ var __assign = void 0 && (void 0).__assign || function () {
 var _default = function _default(props) {
   var _a = props.queue,
       queue = _a === void 0 ? [] : _a,
-      player = props.player,
-      currentPlayer = props.currentPlayer;
+      player = props.player;
   return (0, _preact.h)("div", {
     class: 'board'
   }, (0, _preact.h)("div", {
@@ -15949,8 +15955,22 @@ var _default = function _default(props) {
 exports.default = _default;
 
 var cardNames = function cardNames(cards) {
+  if (cards === void 0) {
+    cards = [];
+  }
+
   return cards.reduce(function (total, current) {
     return total + "-" + current.id;
+  }, '');
+};
+
+var cardPlayerKey = function cardPlayerKey(cardsByPlayer) {
+  if (cardsByPlayer === void 0) {
+    cardsByPlayer = [];
+  }
+
+  return cardsByPlayer.reduce(function (total, cards) {
+    return total + cardNames(cards);
   }, '');
 };
 
@@ -15959,41 +15979,41 @@ var renderBoard = function renderBoard(queue, identity) {
     queue = [];
   }
 
-  return queue.map(function (cards, i) {
-    if (cards === void 0) {
-      cards = [];
+  return queue.map(function (cardByPlayer, i) {
+    if (cardByPlayer === void 0) {
+      cardByPlayer = [];
     }
 
-    var myQueueSlot = cards[0] && cards[0].player !== identity;
-    var key = cardNames(cards);
+    var key = cardPlayerKey(cardByPlayer);
     return (0, _preact.h)("div", {
-      key: key,
-      class: !myQueueSlot ? 'played-by-me' : ''
+      key: key
     }, (0, _preact.h)("div", {
       class: 'history-btn'
     }, (0, _preact.h)("button", {
       onClick: function onClick() {
         return (0, _dispatch2.dispatchDisplayEventHistory)(i);
       }
-    }, "H")), cards.map(function (card, j) {
-      var opponent = card.player !== identity ? 'opponent' : '';
-      var shouldAnimate = card.telegraphs && card.telegraphs.length > 0 || card.focuses && card.focuses.length > 0 ? 'has-effects' : '';
-      return (0, _preact.h)("div", {
-        key: card.id
-      }, (0, _preact.h)("div", {
-        class: "text-center queue-card " + opponent + " " + shouldAnimate,
-        onClick: function onClick() {
-          return (0, _dispatch.dispatchSwitchCardDisplayMode)(i, j);
-        }
-      }, (0, _preact.h)("div", {
-        class: card.showFullCard ? '' : 'collapsed'
-      }, (0, _preact.h)(_fullQueueCard.default, __assign({}, card, {
-        identity: identity
-      }))), (0, _preact.h)("div", {
-        class: (card.showFullCard ? 'collapsed' : '') + ' ongoing'
-      }, (0, _preact.h)(_queueCard.default, __assign({}, card, {
-        identity: identity
-      })))));
+    }, "H")), cardByPlayer.map(function (cards, j) {
+      return cards.map(function (card, k) {
+        var opponent = card.player !== identity ? 'opponent' : '';
+        var shouldAnimate = card.telegraphs && card.telegraphs.length > 0 || card.focuses && card.focuses.length > 0 ? 'has-effects' : '';
+        return (0, _preact.h)("div", {
+          key: card.id
+        }, (0, _preact.h)("div", {
+          class: "text-center queue-card " + opponent + " " + shouldAnimate,
+          onClick: function onClick() {
+            return (0, _dispatch.dispatchSwitchCardDisplayMode)(i, j, k);
+          }
+        }, (0, _preact.h)("div", {
+          class: card.showFullCard ? '' : 'collapsed'
+        }, (0, _preact.h)(_fullQueueCard.default, __assign({}, card, {
+          identity: identity
+        }))), (0, _preact.h)("div", {
+          class: (card.showFullCard ? 'collapsed' : '') + ' ongoing'
+        }, (0, _preact.h)(_queueCard.default, __assign({}, card, {
+          identity: identity
+        })))));
+      });
     }));
   });
 };
@@ -16014,6 +16034,8 @@ var _effect = _interopRequireDefault(require("./effect"));
 var _Requirement = _interopRequireDefault(require("./Requirement"));
 
 var _util = require("../../../util");
+
+var _reactLightweightTooltip = require("react-lightweight-tooltip");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -16039,18 +16061,20 @@ var HandCard = function HandCard(card) {
       effects = card.effects,
       requirements = card.requirements,
       _a = card.tags,
-      tags = _a === void 0 ? [] : _a;
+      tags = _a === void 0 ? [] : _a,
+      priority = card.priority;
 
   var _b = (0, _util.splitEffects)(effects),
       effOnly = _b.effects,
       mechanics = _b.mechanics;
 
-  console.log(effOnly, mechanics);
   return (0, _preact.h)("div", {
     class: 'game-card text-center'
   }, (0, _preact.h)("div", {
     class: 'title'
-  }, name), (0, _preact.h)("div", {
+  }, (0, _preact.h)("div", null), (0, _preact.h)("div", null, name), " ", (0, _preact.h)("div", {
+    class: "priority"
+  }, renderPriority(priority)), " "), (0, _preact.h)("div", {
     class: 'card-section req'
   }, requirements.map(function (req, i) {
     return (0, _preact.h)("div", {
@@ -16090,9 +16114,30 @@ var HandCard = function HandCard(card) {
   }))));
 };
 
+var renderPriority = function renderPriority(priority) {
+  return (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
+    content: "Priority: When 2 cards say conflicting things, the one with the higher number wins",
+    styles: priorityStyle
+  }, priority);
+};
+
+var priorityStyle = {
+  wrapper: {
+    cursor: 'default'
+  },
+  tooltip: {
+    minWidth: '80px',
+    whiteSpace: "nowrap"
+  },
+  arrow: {},
+  gap: {},
+  content: {
+    zIndex: 100
+  }
+};
 var _default = HandCard;
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx","../../../util":"src/util.ts"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx","../../../util":"src/util.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16206,7 +16251,7 @@ var __assign = void 0 && (void 0).__assign || function () {
 
 var selector = function selector(state) {
   return {
-    hand: state.hand.cards,
+    hand: state.hand.hand,
     showFullCard: state.gameDisplay.showFullCard
   };
 };
@@ -16910,8 +16955,8 @@ function (_super) {
       }
     };
 
-    _this.reducer = function (event, player) {
-      var opponent = event.playedBy !== _this.props.player;
+    _this.reducer = function (event, opponent) {
+      if (event === null) return null;
 
       switch (event.type) {
         case _interface.EventTypeEnum.CARD_NAME:
@@ -16930,15 +16975,21 @@ function (_super) {
           return _this.renderRevealPrediction(event, opponent);
 
         case _interface.EventTypeEnum.GAME_OVER:
-          return _this.renderGameOver(event, player);
+          return _this.renderGameOver(event);
+
+        case _interface.EventTypeEnum.EVENT_SECTION:
+          return _this.renderEventSection(event);
+
+        case _interface.EventTypeEnum.CARD_NAME_SECTION:
+          return _this.renderCardNameSection(event);
 
         default:
           return null;
       }
     };
 
-    _this.renderGameOver = function (event, player) {
-      var lost = event.winner !== player;
+    _this.renderGameOver = function (event) {
+      var lost = event.winner !== _this.props.player;
 
       if (event.winner < 0) {
         return (0, _preact.h)("div", {
@@ -17016,6 +17067,43 @@ function (_super) {
       }, event.cardName, ": ", event.mechanicName);
     };
 
+    _this.renderEventSection = function (eventSection) {
+      return (0, _preact.h)("div", {
+        class: 'event-section'
+      }, eventSection.events.map(function (playerEvent, playerIndex) {
+        return (0, _preact.h)("div", {
+          class: 'players-events',
+          key: playerIndex
+        }, playerEvent.events.map(function (event) {
+          if (event === null) {
+            return (0, _preact.h)("div", null);
+          }
+
+          var opponent = event.playedBy !== _this.props.player;
+          return _this.reducer(event, opponent);
+        }));
+      }));
+    };
+
+    _this.renderCardNameSection = function (eventSection) {
+      return (0, _preact.h)("div", {
+        class: 'event-section'
+      }, eventSection.events.map(function (cardEvent, playerIndex) {
+        var opponent = cardEvent.playedBy !== _this.props.player;
+
+        if (cardEvent) {
+          return (0, _preact.h)("div", {
+            class: "card-names"
+          }, _this.renderCard(cardEvent, opponent));
+        }
+
+        return (0, _preact.h)("div", {
+          class: 'card-names',
+          key: playerIndex
+        });
+      }));
+    };
+
     _this.state = {
       events: [],
       counter: 0,
@@ -17062,7 +17150,7 @@ function (_super) {
       return (0, _preact.h)("div", {
         class: "event",
         key: JSON.stringify(event) + i
-      }, _this.reducer(event, _this.props.player));
+      }, _this.reducer(event));
     })));
   };
 
@@ -17085,7 +17173,8 @@ var _preact = require("preact");
 var _util = require("../../util");
 
 var selector = function selector(state) {
-  var num = state.hand.opponentCards;
+  var opponent = state.game.player === 0 ? 1 : 0;
+  var num = state.hand.handSizes[opponent];
 
   if (num === null) {
     return {
@@ -18441,7 +18530,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52851" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50700" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

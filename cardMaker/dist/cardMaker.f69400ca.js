@@ -27370,6 +27370,7 @@ exports.CardEnum = CardEnum;
   CardEnum["CREATE_TAG"] = "cardCreateTag";
   CardEnum["DELETE_TAG"] = "cardDeleteTag";
   CardEnum["UPDATE_TAG"] = "updateTag";
+  CardEnum["UPDATE_PRIORITY"] = "updatedPriority";
 })(CardEnum || (exports.CardEnum = CardEnum = {}));
 },{}],"src/path/actions.ts":[function(require,module,exports) {
 "use strict";
@@ -27448,15 +27449,44 @@ exports.MechActionEnum = MechActionEnum;
   MechActionEnum["DELETE_CHOICE_CATEGORY"] = "mechanicDeleteChoiceCategory";
   MechActionEnum["ADDED_CHOICE_TO_CATEGORY"] = "mechanicAddedChoiceToCateogry";
 })(MechActionEnum || (exports.MechActionEnum = MechActionEnum = {}));
-},{}],"src/interfaces/enums.ts":[function(require,module,exports) {
+},{}],"src/shared/card.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.PlayerEnum = exports.AxisEnum = exports.getMechDisplay = exports.MechanicEnum = void 0;
+exports.PlayerEnum = exports.getMechDisplay = exports.MechanicEnum = exports.AxisEnum = void 0;
 
 var _a;
+
+var AxisEnum;
+exports.AxisEnum = AxisEnum;
+
+(function (AxisEnum) {
+  AxisEnum["DAMAGE"] = "Damage";
+  AxisEnum["PRONE"] = "Prone";
+  AxisEnum["STANDING"] = "Standing";
+  AxisEnum["MOVING"] = "Moving";
+  AxisEnum["STILL"] = "Still";
+  AxisEnum["GRAPPLED"] = "Grappled";
+  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
+  AxisEnum["CLOSE"] = "Close";
+  AxisEnum["NOT_CLOSE"] = "Not Close";
+  AxisEnum["FAR"] = "Far";
+  AxisEnum["NOT_FAR"] = "Not Far";
+  AxisEnum["BALANCED"] = "Balanced";
+  AxisEnum["UNBALANCED"] = "Unbalanced";
+  AxisEnum["ANTICIPATING"] = "Anticipating";
+  AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
+  AxisEnum["CLOSER"] = "Closer";
+  AxisEnum["FURTHER"] = "Further";
+  AxisEnum["BLOODIED"] = "Bloodied";
+  AxisEnum["MOTION"] = "Motion";
+  AxisEnum["DISTANCE"] = "Distance";
+  AxisEnum["POISE"] = "Poise";
+  AxisEnum["LOSE_POISE"] = "Lose Poise";
+  AxisEnum["STANCE"] = "Stance";
+})(AxisEnum || (exports.AxisEnum = AxisEnum = {}));
 
 var MechanicEnum;
 exports.MechanicEnum = MechanicEnum;
@@ -27465,6 +27495,7 @@ exports.MechanicEnum = MechanicEnum;
   MechanicEnum["TELEGRAPH"] = "Telegraph";
   MechanicEnum["FOCUS"] = "Focus";
   MechanicEnum["PREDICT"] = "Predict";
+  MechanicEnum["PARRY"] = "Parry";
   MechanicEnum["BLOCK"] = "Block";
   MechanicEnum["LOCK"] = "Lock";
   MechanicEnum["REFLEX"] = "Reflex";
@@ -27522,32 +27553,6 @@ var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
   value: true,
   eff: true
 }, _a);
-var AxisEnum;
-exports.AxisEnum = AxisEnum;
-
-(function (AxisEnum) {
-  AxisEnum["DAMAGE"] = "Damage";
-  AxisEnum["PRONE"] = "Prone";
-  AxisEnum["STANDING"] = "Standing";
-  AxisEnum["MOVING"] = "Moving";
-  AxisEnum["STILL"] = "Still";
-  AxisEnum["GRAPPLED"] = "Grappled";
-  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
-  AxisEnum["CLOSE"] = "Close";
-  AxisEnum["NOT_CLOSE"] = "Not Close";
-  AxisEnum["FAR"] = "Far";
-  AxisEnum["NOT_FAR"] = "Not Far";
-  AxisEnum["POISE"] = "Poise";
-  AxisEnum["LOSE_POISE"] = "Lose Poise";
-  AxisEnum["BALANCED"] = "Balanced";
-  AxisEnum["UNBALANCED"] = "Unbalanced";
-  AxisEnum["ANTICIPATING"] = "Anticipating";
-  AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
-  AxisEnum["CLOSER"] = "Closer";
-  AxisEnum["FURTHER"] = "Further";
-  AxisEnum["BLOODIED"] = "Bloodied";
-})(AxisEnum || (exports.AxisEnum = AxisEnum = {}));
-
 var PlayerEnum;
 exports.PlayerEnum = PlayerEnum;
 
@@ -27564,13 +27569,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getID = exports.filterIfHas = exports.playerRouter = exports.hostURL = void 0;
 
-var _enums = require("./interfaces/enums");
+var _card = require("./shared/card");
 
 var _a;
 
 var hostURL = "http://localhost:8080/api/";
 exports.hostURL = hostURL;
-var playerRouter = (_a = {}, _a[_enums.PlayerEnum.PLAYER] = '↓', _a[_enums.PlayerEnum.OPPONENT] = '↑', _a[_enums.PlayerEnum.BOTH] = '↕', _a);
+var playerRouter = (_a = {}, _a[_card.PlayerEnum.PLAYER] = '↓', _a[_card.PlayerEnum.OPPONENT] = '↑', _a[_card.PlayerEnum.BOTH] = '↕', _a);
 exports.playerRouter = playerRouter;
 
 var filterIfHas = function filterIfHas(arr, value) {
@@ -27597,7 +27602,7 @@ var getID = function getID() {
 };
 
 exports.getID = getID;
-},{"./interfaces/enums":"src/interfaces/enums.ts"}],"src/statePiece/actions.ts":[function(require,module,exports) {
+},{"./shared/card":"src/shared/card.ts"}],"src/statePiece/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -27660,6 +27665,13 @@ var cardReducer = function cardReducer(state, action) {
     case _actions.CardEnum.UPDATED_EDITED_CARD:
       return tslib_1.__assign({}, state, {
         editingCard: action.card
+      });
+
+    case _actions.CardEnum.UPDATE_PRIORITY:
+      return tslib_1.__assign({}, state, {
+        editingCard: tslib_1.__assign({}, state.editingCard, {
+          priority: action.priority
+        })
       });
 
     case _actions.CardEnum.UPDATED_CARD_NAME:
@@ -47562,20 +47574,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.makeDefaultStatePiece = void 0;
 
-var _enums = require("../interfaces/enums");
+var _card = require("../shared/card");
 
 var _utils = require("../utils");
 
 var makeDefaultStatePiece = function makeDefaultStatePiece() {
   return {
     id: (0, _utils.getID)(),
-    axis: _enums.AxisEnum.CLOSE,
-    player: _enums.PlayerEnum.BOTH
+    axis: _card.AxisEnum.CLOSE,
+    player: _card.PlayerEnum.BOTH
   };
 };
 
 exports.makeDefaultStatePiece = makeDefaultStatePiece;
-},{"../interfaces/enums":"src/interfaces/enums.ts","../utils":"src/utils.ts"}],"src/statePiece/dispatch.ts":[function(require,module,exports) {
+},{"../shared/card":"src/shared/card.ts","../utils":"src/utils.ts"}],"src/statePiece/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47948,6 +47960,7 @@ var cardFromJSON = function cardFromJSON(cardJSON) {
   }
 
   var card = {};
+  card.priority = cardJSON.priority;
   card.requirements = cardJSON.requirements.map(_json2.statePieceFromJSON);
   card.optional = cardJSON.optional.map(_json3.optionalFromJSON);
   card.effects = cardJSON.effects.map(_json.mechFromJSON);
@@ -48015,7 +48028,7 @@ window.onpopstate = function (ev) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchGetCardList = exports.dispatchDeleteCard = exports.dispatchUpdateEditedCard = exports.dispatchGetCard = exports.dispatchUpdatedCardName = exports.dispatchMakeBlankCard = exports.dispatchCardAddOpt = exports.dispatchCardAddEff = exports.dispatchCardAddReq = exports.dispatchChangeCurrentCard = exports.dispatchUpdateCardFilter = exports.dispatchUpdateTag = exports.dispatchDeleteTag = exports.dispatchCreateTag = void 0;
+exports.dispatchGetCardList = exports.dispatchDeleteCard = exports.dispatchUpdateEditedCard = exports.dispatchGetCard = exports.dispatchUpdatedCardName = exports.dispatchMakeBlankCard = exports.dispatchCardAddOpt = exports.dispatchCardAddEff = exports.dispatchCardAddReq = exports.dispatchChangeCurrentCard = exports.dispatchUpdateCardFilter = exports.dispatchUpdateTag = exports.dispatchDeleteTag = exports.dispatchCreateTag = exports.dispatchUpdatePriority = void 0;
 
 var tslib_1 = _interopRequireWildcard(require("tslib"));
 
@@ -48036,6 +48049,17 @@ var _dispatch = require("../path/dispatch");
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var _this = void 0;
+
+var dispatchUpdatePriority = function dispatchUpdatePriority(priority) {
+  var action = {
+    type: _actions.CardEnum.UPDATE_PRIORITY,
+    priority: priority
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUpdatePriority = dispatchUpdatePriority;
 
 var dispatchCreateTag = function dispatchCreateTag() {
   var action = {
@@ -48735,118 +48759,7 @@ var _default = function _default(props) {
 };
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../../utils":"src/utils.ts"}],"src/shared/card.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PlayerEnum = exports.getMechDisplay = exports.MechanicEnum = exports.AxisEnum = void 0;
-
-var _a;
-
-var AxisEnum;
-exports.AxisEnum = AxisEnum;
-
-(function (AxisEnum) {
-  AxisEnum["DAMAGE"] = "Damage";
-  AxisEnum["PRONE"] = "Prone";
-  AxisEnum["STANDING"] = "Standing";
-  AxisEnum["MOVING"] = "Moving";
-  AxisEnum["STILL"] = "Still";
-  AxisEnum["GRAPPLED"] = "Grappled";
-  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
-  AxisEnum["CLOSE"] = "Close";
-  AxisEnum["NOT_CLOSE"] = "Not Close";
-  AxisEnum["FAR"] = "Far";
-  AxisEnum["NOT_FAR"] = "Not Far";
-  AxisEnum["BALANCED"] = "Balanced";
-  AxisEnum["UNBALANCED"] = "Unbalanced";
-  AxisEnum["ANTICIPATING"] = "Anticipating";
-  AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
-  AxisEnum["CLOSER"] = "Closer";
-  AxisEnum["FURTHER"] = "Further";
-  AxisEnum["BLOODIED"] = "Bloodied";
-  AxisEnum["MOTION"] = "Motion";
-  AxisEnum["DISTANCE"] = "Distance";
-  AxisEnum["POISE"] = "Poise";
-  AxisEnum["LOSE_POISE"] = "Lose Poise";
-  AxisEnum["STANCE"] = "Stance";
-})(AxisEnum || (exports.AxisEnum = AxisEnum = {}));
-
-var MechanicEnum;
-exports.MechanicEnum = MechanicEnum;
-
-(function (MechanicEnum) {
-  MechanicEnum["TELEGRAPH"] = "Telegraph";
-  MechanicEnum["FOCUS"] = "Focus";
-  MechanicEnum["PREDICT"] = "Predict";
-  MechanicEnum["BLOCK"] = "Block";
-  MechanicEnum["LOCK"] = "Lock";
-  MechanicEnum["REFLEX"] = "Reflex";
-  MechanicEnum["BUFF"] = "Buff";
-  MechanicEnum["CRIPPLE"] = "Cripple";
-  MechanicEnum["PICK_ONE"] = "Pick One";
-  MechanicEnum["FORCEFUL"] = "Forceful";
-  MechanicEnum["ENHANCE"] = "Enhance";
-})(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
-
-var getMechDisplay = function getMechDisplay(mech) {
-  var defaultValue = {
-    state: true,
-    value: true
-  };
-
-  if (mech === undefined) {
-    return defaultValue;
-  }
-
-  var comp = MechanicDisplay[mech];
-
-  if (comp) {
-    return comp;
-  }
-
-  return defaultValue;
-};
-
-exports.getMechDisplay = getMechDisplay;
-var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
-  req: true,
-  eff: true
-}, _a[MechanicEnum.FOCUS] = {
-  req: true,
-  eff: true
-}, _a[MechanicEnum.PREDICT] = {
-  eff: true
-}, _a[MechanicEnum.BUFF] = {
-  valueString: true,
-  eff: true
-}, _a[MechanicEnum.ENHANCE] = {
-  valueString: true,
-  eff: true
-}, _a[MechanicEnum.BLOCK] = {
-  value: true
-}, _a[MechanicEnum.LOCK] = {
-  state: true,
-  value: true
-}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
-  valueString: true
-}, _a[MechanicEnum.PICK_ONE] = {
-  pick: true
-}, _a[MechanicEnum.FORCEFUL] = {
-  value: true,
-  eff: true
-}, _a);
-var PlayerEnum;
-exports.PlayerEnum = PlayerEnum;
-
-(function (PlayerEnum) {
-  PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
-  PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
-  PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
-})(PlayerEnum || (exports.PlayerEnum = PlayerEnum = {}));
-},{}],"src/components/viewer/effect.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../../utils":"src/utils.ts"}],"src/components/viewer/effect.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49042,7 +48955,7 @@ function (_super) {
         effects = card.effects,
         name = card.name,
         tagObjs = card.tags;
-    return React.createElement("div", null, React.createElement("h3", null, card.name), React.createElement("ul", null, requirements.map(function (req) {
+    return React.createElement("div", null, React.createElement("h3", null, card.name), card.priority !== undefined && React.createElement("div", null, " Priority: ", card.priority), React.createElement("ul", null, requirements.map(function (req) {
       return React.createElement(_requirement.default, {
         key: req.id,
         requirement: req
@@ -49137,7 +49050,7 @@ var tslib_1 = _interopRequireWildcard(require("tslib"));
 
 var React = _interopRequireWildcard(require("react"));
 
-var _enums = require("../../interfaces/enums");
+var _card = require("../../shared/card");
 
 var _dispatch = require("../../statePiece/dispatch");
 
@@ -49157,11 +49070,11 @@ var _default = function _default(_a) {
     },
     value: requirement.player
   }, React.createElement("option", {
-    value: _enums.PlayerEnum.OPPONENT
+    value: _card.PlayerEnum.OPPONENT
   }, " \u2191 "), React.createElement("option", {
-    value: _enums.PlayerEnum.PLAYER
+    value: _card.PlayerEnum.PLAYER
   }, " \u2193 "), React.createElement("option", {
-    value: _enums.PlayerEnum.BOTH
+    value: _card.PlayerEnum.BOTH
   }, " \u2195 ")), React.createElement("select", {
     className: "form-control",
     id: "axis",
@@ -49171,16 +49084,16 @@ var _default = function _default(_a) {
       }));
     },
     value: requirement.axis
-  }, Object.keys(_enums.AxisEnum).map(function (key) {
+  }, Object.keys(_card.AxisEnum).map(function (key) {
     return React.createElement("option", {
-      value: _enums.AxisEnum[key],
+      value: _card.AxisEnum[key],
       key: key
-    }, " ", _enums.AxisEnum[key]);
+    }, " ", _card.AxisEnum[key]);
   })));
 };
 
 exports.default = _default;
-},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../interfaces/enums":"src/interfaces/enums.ts","../../statePiece/dispatch":"src/statePiece/dispatch.ts"}],"src/components/maker/effect.tsx":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../shared/card":"src/shared/card.ts","../../statePiece/dispatch":"src/statePiece/dispatch.ts"}],"src/components/maker/effect.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49515,10 +49428,12 @@ function (_super) {
         requirements = _c === void 0 ? [] : _c,
         _d = _a.effects,
         effects = _d === void 0 ? [] : _d,
-        _e = _a.tags,
-        tagObjs = _e === void 0 ? [] : _e,
-        _f = _a.optional,
-        optional = _f === void 0 ? [] : _f;
+        _e = _a.priority,
+        priority = _e === void 0 ? 5 : _e,
+        _f = _a.tags,
+        tagObjs = _f === void 0 ? [] : _f,
+        _g = _a.optional,
+        optional = _g === void 0 ? [] : _g;
     return React.createElement("div", null, React.createElement("input", {
       placeholder: "Card Name",
       className: "form-control-lg",
@@ -49527,7 +49442,13 @@ function (_super) {
       onChange: function onChange(e) {
         return (0, _dispatch.dispatchUpdatedCardName)(e.target.value);
       }
-    }), React.createElement("div", null, React.createElement("h2", null, " Requirements", React.createElement("button", {
+    }), React.createElement("div", null, React.createElement("label", null, "Priority"), React.createElement("input", {
+      type: "number",
+      value: priority,
+      onChange: function onChange(e) {
+        return (0, _dispatch.dispatchUpdatePriority)(e.target.valueAsNumber);
+      }
+    })), React.createElement("div", null, React.createElement("h2", null, " Requirements", React.createElement("button", {
       className: 'ml-3 btn btn-sm btn-primary',
       onClick: _json.cardCreateReq
     }, "+")), React.createElement("ul", {
@@ -49795,7 +49716,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52285" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52216" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

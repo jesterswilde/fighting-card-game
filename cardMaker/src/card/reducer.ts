@@ -10,6 +10,8 @@ export const cardReducer = (state: CardState = makeCardState(), action: ActionTy
     switch (action.type) {
         case CardEnum.UPDATED_EDITED_CARD:
             return { ...state, editingCard: action.card };
+        case CardEnum.UPDATE_PRIORITY:
+            return {...state, editingCard: {...state.editingCard, priority: action.priority}}
         case CardEnum.UPDATED_CARD_NAME:
             return updateCardName(state, action);
         case CardEnum.DELETED_BY_NAME:

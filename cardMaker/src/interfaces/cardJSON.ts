@@ -5,6 +5,7 @@ export interface CardJSON extends RequirementEffectJSON{
     name: string,
     optional: RequirementEffectJSON[]
     tags: TagObj[]
+    priority?: number
 }
 
 export interface MechanicJSON{

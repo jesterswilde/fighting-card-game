@@ -1,11 +1,19 @@
 import { makeDefaultCard } from "./interface";
-import { CardEnum, DeletedCardAction, UpdatedEditedCardAction, GotCardListAction, UpdatedCardNameAction, CardAddedReqAction, CardAddedEffAction, CardAddedOptAction, UpdateFilterAction, CreateTagAction, DeleteTagAction, UpdateTagAction } from './actions';
+import { CardEnum, DeletedCardAction, UpdatedEditedCardAction, GotCardListAction, UpdatedCardNameAction, CardAddedReqAction, CardAddedEffAction, CardAddedOptAction, UpdateFilterAction, CreateTagAction, DeleteTagAction, UpdateTagAction, UpdatePriorityAction } from './actions';
 import { store } from '../state/store';
 import { hostURL } from '../utils';
 import { CardJSON } from '../interfaces/cardJSON';
 import { cardFromJSON } from './json';
 import { PathActionEnum, ToPathStringAction } from '../path/actions';
 import { dispatchToPathArray } from '../path/dispatch';
+
+export const dispatchUpdatePriority = (priority: number)=>{
+    const action: UpdatePriorityAction = {
+        type: CardEnum.UPDATE_PRIORITY,
+        priority
+    }
+    store.dispatch(action); 
+}
 
 export const dispatchCreateTag = ()=>{
     const action: CreateTagAction = {
