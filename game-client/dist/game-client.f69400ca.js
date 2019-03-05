@@ -17042,7 +17042,9 @@ function (_super) {
     _this.renderCard = function (event, opponent) {
       return (0, _preact.h)("div", {
         class: "event-card " + (opponent ? 'opponent' : '')
-      }, " ", event.cardName, " ");
+      }, " ", (0, _preact.h)("div", null), (0, _preact.h)("div", null, event.cardName), " ", (0, _preact.h)("div", {
+        class: 'priority'
+      }, event.priority), " ");
     };
 
     _this.renderEffect = function (event, opponent) {
@@ -17051,8 +17053,13 @@ function (_super) {
           axis = _a.axis,
           mechanic = _a.mechanic,
           amount = _a.amount;
+      var _b = event.happenedTo,
+          happenedTo = _b === void 0 ? [] : _b;
+      var blocked = happenedTo.some(function (value) {
+        return value === _interface.HappensEnum.BLOCKED;
+      }) ? 'blocked' : '';
       return (0, _preact.h)("div", {
-        class: "event-effect " + (opponent ? 'opponent' : '')
+        class: "event-effect " + (opponent ? 'opponent' : '') + " " + blocked
       }, mechanic !== undefined && mechanic, mechanic !== undefined && ' ', player !== undefined && (0, _preact.h)(_images.Arrow, {
         player: player,
         shouldFlip: opponent
@@ -17089,9 +17096,8 @@ function (_super) {
       return (0, _preact.h)("div", {
         class: 'event-section'
       }, eventSection.events.map(function (cardEvent, playerIndex) {
-        var opponent = cardEvent.playedBy !== _this.props.player;
-
         if (cardEvent) {
+          var opponent = cardEvent.playedBy !== _this.props.player;
           return (0, _preact.h)("div", {
             class: "card-names"
           }, _this.renderCard(cardEvent, opponent));

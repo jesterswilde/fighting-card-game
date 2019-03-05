@@ -149,16 +149,26 @@
                     flex: 1
                     >div
                         margin: 0.1rem
-                        display: flex
-                        justify-content: center
             >div
                 width: 100%
                 display: flex
                 justify-content: center
             .event-card
+                display: flex
+                justify-content: space-around
                 font-size: 2rem
                 font-weight: bold
                 background-color: #6d78a0
+                .priority
+                    text-align: center
+                    background-color: #b99d75
+                    font-weight: bold
+                    font-size: 1.5rem
+                    border-radius: 1.2rem
+                    width: 2rem
+                    height: 2rem
+                    marigh-right: 0.1rem
+                    margin-top: 0.1rem
             .event-card.opponent
                 background-color: #a06d6d
             .event-game-over
@@ -176,6 +186,8 @@
             .event-game-over.opponent
                  background-color: #b55757
             .event-mechanic
+                display: flex
+                justify-content: center
                 font-size: 1.5rem
                 font-weight: bold
                 background-color: #6d7aa0
@@ -198,7 +210,13 @@
                 background-color: #a06d6d
             .event-effect.opponent
                 background-color: #a3877e
+            .event-effect.blocked, .event-effect.opponent.blocked
+                background-color: #909090
+                .axis-icon
+                    background-color: #707070
             .event-effect
+                display: flex
+                justify-content: center
                 background-color: #7c82a5
                 font-size: 2rem
                 font-weight: bold

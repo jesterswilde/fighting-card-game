@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Card, StatePiece, Mechanic } from './shared/card';
+import { Card, StatePiece, Mechanic, AxisEnum } from './shared/card';
 import { getSortOrder } from './shared/sortOrder';
 
 
@@ -14,7 +14,7 @@ const run = () => {
             for (let key in cards) {
                 sortCard(cards[key]);
             }
-            fs.writeFile(path.join(__dirname, 'SortedCards.txt'), JSON.stringify(cards, null, 2), () => {
+            fs.writeFile(path.join(__dirname, 'Cards.txt'), JSON.stringify(cards, null, 2), () => {
                 process.exit();
             });
         }
@@ -53,6 +53,9 @@ const sortEffects = (effs: Mechanic[]) => {
         return aVal - bVal;
     })
     effs.forEach((eff) => {
+        if((eff.axis === AxisEnum.PRONE || eff.axis === AxisEnum.MOVING) && eff.amount === undefined){
+            eff.amount = 2; 
+        }
         if (Array.isArray(eff.mechanicEffects)) {
             sortEffects(eff.mechanicEffects);
         }

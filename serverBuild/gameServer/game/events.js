@@ -4,22 +4,18 @@ const card_1 = require("../../shared/card");
 const stateInterface_1 = require("../interfaces/stateInterface");
 const gameEvent_1 = require("../interfaces/gameEvent");
 const socket_1 = require("../../shared/socket");
-exports.addEffectEvent = (mechanic, playedBy, name, isEventOnly, isHappening, state) => {
-    //These are for thigns like damage, block, and things that get printed in that format
-    if (mechanic.mechanic === undefined || (addableMechanics[mechanic.mechanic] && !isHappening)) {
-        return { effect: mechanic, type: gameEvent_1.EventTypeEnum.EFFECT, playedBy };
-    } //This is for when a telegraph, reflex, or focus is actually triggered 
-    else if (isHappening && isEventOnly) {
-        exports.mechanicIsHappeningEvent(mechanic.mechanic, name, playedBy, state);
-    } //This is for when delayed mechanics are added, but have no current effect. 
-    else if (!ignoredMechanics[mechanic.mechanic] || isEventOnly) {
-        exports.addedMechanicEvent(mechanic.mechanic, playedBy, state);
-    }
+exports.addReflexEffects = (players, state) => {
+    let lastEvent = state.events[state.events.length - 1];
+    players.forEach((cardName, playedBy) => {
+        if (cardName && Array.isArray(lastEvent.events) && Array.isArray(lastEvent.events[playedBy].events)) {
+            lastEvent.events[playedBy].events.push({ type: gameEvent_1.EventTypeEnum.MECHANIC, mechanicName: card_1.MechanicEnum.REFLEX, cardName, playedBy });
+        }
+    });
 };
 exports.storeEffectsForEvents = (state) => {
     state.pendingEvents = [...state.readiedEffects];
 };
-exports.storedEffectsToEvents = (state) => {
+exports.processEffectEvents = (state) => {
     const events = state.pendingEvents.map((playerReaEff, player) => {
         const events = playerReaEff.map((reaEff) => reaEfftoEvent(reaEff));
         return { type: gameEvent_1.EventTypeEnum.MULTIPLE, events };
@@ -30,14 +26,14 @@ exports.storedEffectsToEvents = (state) => {
 exports.storePlayedCardEvent = (player, state) => {
     const card = state.pickedCards[player];
     state.pendingCardEvents = state.pendingCardEvents || [];
-    state.pendingCardEvents[card.player] = card;
+    state.pendingCardEvents[player] = card;
 };
 exports.processPlayedCardEvents = (state) => {
     if (state.pendingCardEvents === undefined)
         return;
     const events = state.pendingCardEvents.map((card) => {
         if (card) {
-            return { type: gameEvent_1.EventTypeEnum.CARD_NAME, cardName: card.name, playedBy: card.player };
+            return { type: gameEvent_1.EventTypeEnum.CARD_NAME, priority: card.priority, cardName: card.name, playedBy: card.player };
         }
         return null;
     });
@@ -45,10 +41,10 @@ exports.processPlayedCardEvents = (state) => {
     state.pendingCardEvents = undefined;
 };
 const reaEfftoEvent = (reaEff) => {
-    const { mechanic: mech, isHappening, card, isEventOnly } = reaEff;
+    const { mechanic: mech, isHappening, card, isEventOnly, happensTo } = reaEff;
     //These are for thigns like damage, block, and things that get printed in that format
     if (mech.mechanic === undefined || (addableMechanics[reaEff.mechanic.mechanic] && !reaEff.isHappening)) {
-        return { type: gameEvent_1.EventTypeEnum.EFFECT, effect: reaEff.mechanic, playedBy: card.player };
+        return { type: gameEvent_1.EventTypeEnum.EFFECT, effect: reaEff.mechanic, playedBy: card.player, happenedTo: happensTo };
     } //This is for when a telegraph, reflex, or focus is actually triggered 
     else if (isHappening && isEventOnly) {
         return { type: gameEvent_1.EventTypeEnum.MECHANIC, mechanicName: mech.mechanic, cardName: card.name, playedBy: card.player };

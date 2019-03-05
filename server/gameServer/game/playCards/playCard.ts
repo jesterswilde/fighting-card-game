@@ -43,7 +43,7 @@ export const getPlayerMechanicsReady = (playedBy: number, state: GameState)=>{
             return effs;
         }, [])
         const allEffects: Mechanic[] = [...effects, ...validOptEff, ...enhanceEffs];
-        state.readiedEffects[playedBy] = mechanicsToReadiedEffects(allEffects, card, state);
+        state.readiedEffects[playedBy] = [...state.readiedEffects[playedBy], ...mechanicsToReadiedEffects(allEffects, card, state)];
 }
 
 export const getMechanicsReady = (state: GameState) => {

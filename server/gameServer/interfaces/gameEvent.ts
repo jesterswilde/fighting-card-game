@@ -18,6 +18,7 @@ export interface EventAction{
     events?: EventAction[]
     effect?: Mechanic,
     cardName?: string,
+    priority?: number,
     mechanicName?: string,
     playedBy?: number,
     correct?: boolean,

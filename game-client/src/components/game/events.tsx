@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { EventState, EventAction, EventTypeEnum, EVENT_PLAY_SPEED } from '../../events/interface';
+import { EventState, EventAction, EventTypeEnum, EVENT_PLAY_SPEED, HappensEnum } from '../../events/interface';
 import { StoreState } from '../../state/store';
 import { connect } from 'preact-redux';
 import { Arrow, Icon } from '../../images'
@@ -69,7 +69,7 @@ class Events extends Component<Props, State>{
         </div>
     }
     reducer = (event: EventAction, opponent?: boolean) => {
-        if(event === null) return null; 
+        if (event === null) return null;
         switch (event.type) {
             case EventTypeEnum.CARD_NAME:
                 return this.renderCard(event, opponent);
@@ -86,7 +86,7 @@ class Events extends Component<Props, State>{
             case EventTypeEnum.EVENT_SECTION:
                 return this.renderEventSection(event);
             case EventTypeEnum.CARD_NAME_SECTION:
-                return this.renderCardNameSection(event); 
+                return this.renderCardNameSection(event);
             default: return null;
         }
     }
@@ -128,11 +128,13 @@ class Events extends Component<Props, State>{
         </div>
     }
     renderCard = (event: EventAction, opponent: boolean) => {
-        return <div class={`event-card ${opponent ? 'opponent' : ''}`}> {event.cardName} </div>
+        return <div class={`event-card ${opponent ? 'opponent' : ''}`}> <div/><div>{event.cardName}</div> <div class='priority'>{event.priority}</div> </div>
     }
     renderEffect = (event: EventAction, opponent: boolean) => {
         const { player, axis, mechanic, amount } = event.effect;
-        return <div class={`event-effect ${opponent ? 'opponent' : ''}`}>
+        const { happenedTo = [] } = event;
+        const blocked = happenedTo.some((value)=> value === HappensEnum.BLOCKED)? 'blocked' : ''; 
+        return <div class={`event-effect ${opponent ? 'opponent' : ''} ${blocked}`}>
             {mechanic !== undefined && mechanic}
             {mechanic !== undefined && ' '}
             {player !== undefined && <Arrow player={player} shouldFlip={opponent} />}
@@ -151,7 +153,7 @@ class Events extends Component<Props, State>{
             {eventSection.events.map((playerEvent, playerIndex) => {
                 return <div class='players-events' key={playerIndex}>
                     {playerEvent.events.map((event) => {
-                        if(event === null){
+                        if (event === null) {
                             return <div />
                         }
                         const opponent = event.playedBy !== this.props.player;
@@ -164,9 +166,9 @@ class Events extends Component<Props, State>{
     renderCardNameSection = (eventSection: EventAction) => {
         return <div class='event-section'>
             {eventSection.events.map((cardEvent, playerIndex) => {
-                const opponent = cardEvent.playedBy !== this.props.player;
                 if (cardEvent) {
-                    return <div class="card-names">{this.renderCard(cardEvent, opponent)}</div> 
+                    const opponent = cardEvent.playedBy !== this.props.player;
+                    return <div class="card-names">{this.renderCard(cardEvent, opponent)}</div>
                 }
                 return <div class='card-names' key={playerIndex} />
             })}

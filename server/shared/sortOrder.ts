@@ -1,6 +1,6 @@
 import { AxisEnum, MechanicEnum } from "./card";
 
-export const getSortOrder = (mechanic: MechanicEnum)=>{
+export const getSortOrder = (mechanic: MechanicEnum | AxisEnum)=>{
     const order = SORT_ORDER[mechanic]; 
     return order || 100; 
 }

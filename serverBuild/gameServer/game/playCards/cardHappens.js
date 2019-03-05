@@ -35,7 +35,7 @@ exports.cardHappens = (state) => {
         collectDamage_1.collectBlockAndDamage(state);
         handleStateEffects_1.applyStateEffects(state);
         exports.applyMechanics(state);
-        events_1.storedEffectsToEvents(state);
+        events_1.processEffectEvents(state);
         exports.removeStoredEffects(state);
         exports.checkPredictions(state);
         collectDamage_1.applyCollectedDamage(state);

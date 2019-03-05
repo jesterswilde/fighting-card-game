@@ -9,7 +9,7 @@ const deckInspectorGadget_1 = require("./deckInspectorGadget");
 const deckASDF_1 = require("./deckASDF");
 const deckBloodInWater_1 = require("./deckBloodInWater");
 const deckBoxer_1 = require("./deckBoxer");
-const testDeck = ["Flying Kick"];
+const testDeck = ["Lunge", "Study Balance", "Hit The Floor"];
 exports.decks = [
     deckGrapple_1.grappleDeck,
     deckHighGround_1.highGroundDeck,

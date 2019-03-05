@@ -26,7 +26,7 @@ export const cullQueue = (state: GameState) => {
             decks[card.player].push(card); 
         }
     })
-    if(state.queue.length >= QUEUE_LENGTH){
+    if(state.queue.length > QUEUE_LENGTH){
         queue.pop(); 
     }
 }

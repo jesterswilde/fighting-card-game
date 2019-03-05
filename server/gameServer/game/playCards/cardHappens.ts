@@ -2,7 +2,7 @@ import { reduceMechanics } from "./effectHappens";
 import { GameState } from "../../interfaces/stateInterface";
 import { ControlEnum } from "../../errors";
 import { didPredictionHappen } from "./predictions";
-import { addRevealPredictionEvent, storeEffectsForEvents, storedEffectsToEvents } from "../events";
+import { addRevealPredictionEvent, storeEffectsForEvents, processEffectEvents } from "../events";
 import { checkTelegraph } from "../checkMechanics/telegraph";
 import { checkReflex } from "../checkMechanics/reflex";
 import { checkFocus } from "../checkMechanics/focus";
@@ -37,7 +37,7 @@ export const cardHappens = (state: GameState) => {
         collectBlockAndDamage(state); 
         applyStateEffects(state);
         applyMechanics(state);
-        storedEffectsToEvents(state); 
+        processEffectEvents(state); 
         removeStoredEffects(state);
         checkPredictions(state);
         applyCollectedDamage(state); 

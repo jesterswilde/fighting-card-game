@@ -51,7 +51,7 @@ exports.getPlayerMechanicsReady = (playedBy, state) => {
         return effs;
     }, []);
     const allEffects = [...effects, ...validOptEff, ...enhanceEffs];
-    state.readiedEffects[playedBy] = readiedEffects_1.mechanicsToReadiedEffects(allEffects, card, state);
+    state.readiedEffects[playedBy] = [...state.readiedEffects[playedBy], ...readiedEffects_1.mechanicsToReadiedEffects(allEffects, card, state)];
 };
 exports.getMechanicsReady = (state) => {
     state.pickedCards.forEach((card, playedBy) => {

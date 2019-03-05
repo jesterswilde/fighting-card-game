@@ -2,21 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const errors_1 = require("../../errors");
 const queue_1 = require("../queue");
-const card_1 = require("../../../shared/card");
 const drawCards_1 = require("../drawCards");
+const events_1 = require("../events");
 exports.checkReflex = (state) => {
-    const reflexingPlayers = getReflexingPlayers(state);
-    const shouldReflex = reflexingPlayers.some((should) => should);
+    const reflexingCards = getReflexingPlayers(state);
+    const shouldReflex = reflexingCards.some((should) => should !== null);
     if (shouldReflex) {
-        console.log("player to reflex", reflexingPlayers);
+        console.log("player to reflex", reflexingCards);
         let didReflex = false;
-        reflexingPlayers.forEach((playerWillReflex, player) => {
+        reflexingCards.map((playerWillReflex, player) => {
             if (playerWillReflex) {
                 didReflex = true;
                 reflexCard(player, state);
             }
         });
         if (didReflex) {
+            events_1.addReflexEffects(reflexingCards, state);
             console.log('did reflex');
             throw errors_1.ControlEnum.PLAY_CARD;
         }
@@ -24,13 +25,11 @@ exports.checkReflex = (state) => {
 };
 const getReflexingPlayers = (state) => {
     const { readiedEffects = [] } = state;
-    let playersToReflex = state.readiedEffects.map(() => false);
+    let playersToReflex = state.readiedEffects.map(() => null);
     queue_1.forEachCardInQueue(state, (card) => {
-        const playerEffects = readiedEffects[card.player];
         if (card.shouldReflex && !playersToReflex[card.player]) {
-            playerEffects.push({ card, mechanic: { mechanic: card_1.MechanicEnum.REFLEX }, isEventOnly: true, isHappening: true });
             console.log("card name: ", card.name, " | ", card.player);
-            playersToReflex[card.player] = true;
+            playersToReflex[card.player] = card.name;
             card.shouldReflex = undefined;
         }
     });
@@ -42,10 +41,10 @@ const reflexCard = (player, state) => {
     if (hand.length > 0) {
         state.pickedCards[player] = hand[0];
         console.log('reflexed into', hand[0].name);
-        return true;
+        return hand[0].name;
     }
     else {
         console.log('reflexed into nothing');
-        return false;
+        return null;
     }
 };

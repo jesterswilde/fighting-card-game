@@ -34,7 +34,7 @@ exports.cullQueue = (state) => {
             decks[card.player].push(card);
         }
     });
-    if (state.queue.length >= gameSettings_1.QUEUE_LENGTH) {
+    if (state.queue.length > gameSettings_1.QUEUE_LENGTH) {
         queue.pop();
     }
 };

@@ -9807,8 +9807,6 @@ h3 {
 }
 .event-modal .event-container .event .event-section .players-events > div, .event-modal .event-container .event .event-section .card-names > div {
   margin: 0.1rem;
-  display: flex;
-  justify-content: center;
 }
 .event-modal .event-container .event > div {
   width: 100%;
@@ -9816,9 +9814,22 @@ h3 {
   justify-content: center;
 }
 .event-modal .event-container .event .event-card {
+  display: flex;
+  justify-content: space-around;
   font-size: 2rem;
   font-weight: bold;
   background-color: #6d78a0;
+}
+.event-modal .event-container .event .event-card .priority {
+  text-align: center;
+  background-color: #b99d75;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-radius: 1.2rem;
+  width: 2rem;
+  height: 2rem;
+  marigh-right: 0.1rem;
+  margin-top: 0.1rem;
 }
 .event-modal .event-container .event .event-card.opponent {
   background-color: #a06d6d;
@@ -9841,6 +9852,8 @@ h3 {
   background-color: #b55757;
 }
 .event-modal .event-container .event .event-mechanic {
+  display: flex;
+  justify-content: center;
   font-size: 1.5rem;
   font-weight: bold;
   background-color: #6d7aa0;
@@ -9870,7 +9883,15 @@ h3 {
 .event-modal .event-container .event .event-effect.opponent {
   background-color: #a3877e;
 }
+.event-modal .event-container .event .event-effect.blocked, .event-modal .event-container .event .event-effect.opponent.blocked {
+  background-color: #909090;
+}
+.event-modal .event-container .event .event-effect.blocked .axis-icon, .event-modal .event-container .event .event-effect.opponent.blocked .axis-icon {
+  background-color: #707070;
+}
 .event-modal .event-container .event .event-effect {
+  display: flex;
+  justify-content: center;
   background-color: #7c82a5;
   font-size: 2rem;
   font-weight: bold;

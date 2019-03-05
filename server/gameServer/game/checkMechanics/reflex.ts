@@ -1,22 +1,23 @@
 import { GameState } from "../../interfaces/stateInterface";
 import { ControlEnum } from "../../errors";
 import { forEachCardInQueue } from "../queue";
-import { MechanicEnum } from "../../../shared/card";
 import { drawCards } from "../drawCards";
+import { addReflexEffects } from "../events";
 
 export const checkReflex = (state: GameState) => {
-    const reflexingPlayers = getReflexingPlayers(state);
-    const shouldReflex = reflexingPlayers.some((should) => should)
+    const reflexingCards = getReflexingPlayers(state);
+    const shouldReflex = reflexingCards.some((should) => should !== null)
     if (shouldReflex) {
-        console.log("player to reflex", reflexingPlayers);
+        console.log("player to reflex", reflexingCards);
         let didReflex = false;
-        reflexingPlayers.forEach((playerWillReflex, player) => {
+        reflexingCards.map((playerWillReflex, player) => {
             if (playerWillReflex) {
                 didReflex = true;
                 reflexCard(player, state);
             }
         })
         if (didReflex) {
+            addReflexEffects(reflexingCards, state); 
             console.log('did reflex');
             throw ControlEnum.PLAY_CARD;
         }
@@ -25,13 +26,11 @@ export const checkReflex = (state: GameState) => {
 
 const getReflexingPlayers = (state: GameState) => {
     const { readiedEffects = [] } = state;
-    let playersToReflex: boolean[] = state.readiedEffects.map(() => false);
+    let playersToReflex: string[] = state.readiedEffects.map(() => null);
     forEachCardInQueue(state, (card) => {
-        const playerEffects = readiedEffects[card.player]
         if (card.shouldReflex && !playersToReflex[card.player]) {
-            playerEffects.push({ card, mechanic: { mechanic: MechanicEnum.REFLEX }, isEventOnly: true, isHappening: true })
             console.log("card name: ", card.name, " | ", card.player);
-            playersToReflex[card.player] = true;
+            playersToReflex[card.player] = card.name;
             card.shouldReflex = undefined;
         }
     })
@@ -44,9 +43,9 @@ const reflexCard = (player: number, state: GameState) => {
     if (hand.length > 0) {
         state.pickedCards[player] = hand[0];
         console.log('reflexed into', hand[0].name);
-        return true
+        return hand[0].name;
     } else {
         console.log('reflexed into nothing')
-        return false;
+        return null;
     }
 }

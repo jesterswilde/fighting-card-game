@@ -129,7 +129,7 @@ export const splitArray = <T>(arr: T[], filter: (value: T) => boolean): [T[], T[
 }
 
 export const uniqByReverse = <T>(arr: T[], by: (value: T) => string | number): T[] => {
-    const values: { [key: number | string]: boolean } = {};
+    const values: { [key: number]: boolean } = {};
     const reverseArr: T[] = [];
     for (let i = arr.length - 1; i >= 0; i--) {
         const item = arr[i];

@@ -2,7 +2,6 @@ import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ReadiedEf
 import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../../../shared/card";
 import { getCardByName } from "./getCards";
 import { playerEnumToPlayerArray, consolidateMechanics } from "../../util";
-import { addEffectEvent } from "../events";
 import { MAX_POISE, MIN_POISE } from "../../gameSettings";
 
 export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
