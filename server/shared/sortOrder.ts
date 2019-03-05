@@ -1,8 +1,11 @@
 import { AxisEnum, MechanicEnum } from "./card";
 
-export const getSortOrder = (mechanic: MechanicEnum | AxisEnum)=>{
-    const order = SORT_ORDER[mechanic]; 
-    return order || 100; 
+export const getSortOrder = (mechanic: MechanicEnum | AxisEnum) => {
+    const order = SORT_ORDER[mechanic];
+    if(order !== undefined){
+        return order; 
+    }
+    return 100; 
 }
 
 export const SORT_ORDER = {

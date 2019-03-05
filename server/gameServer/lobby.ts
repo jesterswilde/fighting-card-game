@@ -75,6 +75,7 @@ const makeGameState = (sockets: Socket[], decks: Card[][]) => {
             ]
         },
         turnNumber: 0,
+        cardUID: 0,
         events: []
     }
     return state;

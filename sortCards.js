@@ -2,6 +2,7 @@
 exports.__esModule = true;
 var fs = require("fs");
 var path = require("path");
+var card_1 = require("./shared/card");
 var sortOrder_1 = require("./shared/sortOrder");
 var cards;
 var run = function () {
@@ -14,7 +15,7 @@ var run = function () {
             for (var key in cards) {
                 sortCard(cards[key]);
             }
-            fs.writeFile(path.join(__dirname, 'SortedCards.txt'), JSON.stringify(cards, null, 2), function () {
+            fs.writeFile(path.join(__dirname, 'Cards.txt'), JSON.stringify(cards, null, 2), function () {
                 process.exit();
             });
         }
@@ -52,6 +53,9 @@ var sortEffects = function (effs) {
         return aVal - bVal;
     });
     effs.forEach(function (eff) {
+        if ((eff.axis === card_1.AxisEnum.PRONE || eff.axis === card_1.AxisEnum.MOVING) && eff.amount === undefined) {
+            eff.amount = 2;
+        }
         if (Array.isArray(eff.mechanicEffects)) {
             sortEffects(eff.mechanicEffects);
         }

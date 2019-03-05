@@ -60,5 +60,6 @@ const clearTurnData = (state: GameState) => {
     state.pendingPredictions = state.predictions;
     state.predictions = null; 
     state.parry = state.parry.map(()=> 0)
-    state.checkedFocus = false; 
+    state.checkedFocus = false;
+    state.turnNumber++; 
 }

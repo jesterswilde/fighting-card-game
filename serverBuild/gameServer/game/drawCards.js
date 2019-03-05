@@ -79,7 +79,8 @@ const addPanicCard = (state) => {
                 requirements: [],
                 player,
                 opponent: util_1.getOpponent(player),
-                optional: []
+                optional: [],
+                id: state.cardUID++
             };
             state.hands[player].push(card);
         }

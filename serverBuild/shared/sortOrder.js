@@ -3,7 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const card_1 = require("./card");
 exports.getSortOrder = (mechanic) => {
     const order = exports.SORT_ORDER[mechanic];
-    return order || 100;
+    if (order !== undefined) {
+        return order;
+    }
+    return 100;
 };
 exports.SORT_ORDER = {
     [card_1.AxisEnum.DAMAGE]: 0,

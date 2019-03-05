@@ -91,6 +91,7 @@ const ignoredMechanics = {
 //They have their own printed versions
 const addableMechanics = {
     [card_1.MechanicEnum.BLOCK]: true,
+    [card_1.MechanicEnum.PARRY]: true,
     [card_1.MechanicEnum.CRIPPLE]: true,
     [card_1.MechanicEnum.LOCK]: true,
     [card_1.MechanicEnum.FORCEFUL]: true,

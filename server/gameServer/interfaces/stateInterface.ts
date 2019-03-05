@@ -31,6 +31,7 @@ export interface GameState{
     turnIsOver?: boolean
     turnNumber: number
     winner?: number
+    cardUID: number
 }
 
 export interface TagModification{

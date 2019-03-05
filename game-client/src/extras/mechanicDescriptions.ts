@@ -2,6 +2,7 @@ import { MechanicEnum } from "../shared/card";
 
 const descObj: {[mech: string]: string} = {
     [MechanicEnum.BLOCK]: 'Reduces damage by X amount next turn',
+    [MechanicEnum.PARRY]: 'Reduces damage by X amount this turn',
     [MechanicEnum.BUFF]: 'Permanently buffs card for future uses',
     [MechanicEnum.CRIPPLE]: 'Permanently adds a terrible card to your opponent\'s deck',
     [MechanicEnum.FOCUS]: 'While on the queue, at the end of your turn, if the condition is met, the effect happens',

@@ -22,7 +22,7 @@ exports.reduceMechanics = (readiedMechanics, state) => {
             reducer(mech, card, card.player, card.opponent, state);
         }
         else {
-            reduceStateChange(mech, card, card.player, card.opponent, state);
+            throw "Tried to reduce effect here";
         }
     });
 };
@@ -109,18 +109,22 @@ const reduceEnhance = (mechanic, card, player, opponent, state) => {
     alterObj[mechanic.amount] = util_1.consolidateMechanics(enhanceArr);
 };
 exports.reduceStateChangeReaEff = (reaEff, state) => {
-    const whoToCheck = reaEff.happensTo.map((value, i) => value === stateInterface_1.HappensEnum.HAPPENS ? i : undefined)
-        .filter((value) => value !== undefined);
+    const whoToCheck = reaEff.happensTo.map((value, i) => value === stateInterface_1.HappensEnum.HAPPENS ? i : null)
+        .filter((value) => value !== null);
+    console.log('who to check', whoToCheck);
     reduceStateChange(reaEff.mechanic, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck);
 };
-const reduceStateChange = (mechanic, card, player, opponent, state, whoToCheck) => {
+const reduceStateChange = (mechanic, card, player, opponent, state, appliesTo) => {
     const applyGlobal = globalAxis[mechanic.axis];
+    if (appliesTo.length === 0) {
+        return;
+    }
     if (applyGlobal !== undefined) {
         applyGlobal(state);
     }
-    if (whoToCheck === undefined) {
-        whoToCheck = util_1.playerEnumToPlayerArray(mechanic.player, player, opponent);
-    }
+    // if(whoToCheck === undefined){
+    //     whoToCheck = playerEnumToPlayerArray(mechanic.player, player, opponent);
+    // }
     let amount;
     if (mechanic.amount !== undefined && mechanic.amount !== null) {
         amount = Number(mechanic.amount);
@@ -130,7 +134,7 @@ const reduceStateChange = (mechanic, card, player, opponent, state, whoToCheck) 
     }
     const applyPlayerState = playerAxis[mechanic.axis];
     if (applyPlayerState !== undefined && (amount === undefined || !isNaN(amount))) {
-        applyPlayerState(whoToCheck, amount, state);
+        applyPlayerState(appliesTo, amount, state);
     }
 };
 const mechanicRouter = {

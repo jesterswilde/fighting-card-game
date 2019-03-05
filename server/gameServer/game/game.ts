@@ -52,7 +52,7 @@ const assignPlayerToDecks = (state: GameState) => {
         for (let i = 0; i < deck.length; i++) {
             deck[i].player = player;
             deck[i].opponent = getOpponent(player); 
-            deck[i].id = (i * 10) + player; 
+            deck[i].id = state.cardUID++; 
         }
     }
 }

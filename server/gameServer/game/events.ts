@@ -104,6 +104,7 @@ const ignoredMechanics: { [name: string]: boolean } = {
 //They have their own printed versions
 const addableMechanics: { [name: string]: boolean } = {
     [MechanicEnum.BLOCK]: true,
+    [MechanicEnum.PARRY]: true,
     [MechanicEnum.CRIPPLE]: true,
     [MechanicEnum.LOCK]: true,
     [MechanicEnum.FORCEFUL]: true,

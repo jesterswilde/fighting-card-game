@@ -786,7 +786,8 @@
       },
       {
         "axis": "Moving",
-        "player": 0
+        "player": 0,
+        "amount": 2
       }
     ],
     "name": "Disengage",
@@ -3723,6 +3724,10 @@
         "player": 1
       },
       {
+        "axis": "Close",
+        "player": 2
+      },
+      {
         "amount": 6,
         "mechanic": "Block"
       },
@@ -3735,10 +3740,6 @@
           }
         ],
         "mechanic": "Predict"
-      },
-      {
-        "axis": "Close",
-        "player": 2
       }
     ],
     "name": "Accurate Strike",
@@ -3778,6 +3779,10 @@
         "player": 1
       },
       {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
         "axis": "Still",
         "player": 1
       },
@@ -3790,10 +3795,6 @@
         ],
         "amount": 3,
         "mechanic": "Forceful"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Ankle Smash",
@@ -3894,6 +3895,10 @@
         "player": 2
       },
       {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
         "axis": "Still",
         "player": 0
       },
@@ -3907,10 +3912,6 @@
         ],
         "amount": 8,
         "mechanic": "Forceful"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Bloody Finale",
@@ -3974,12 +3975,12 @@
         "player": 1
       },
       {
-        "amount": 3,
-        "axis": "Prone",
+        "axis": "Close",
         "player": 2
       },
       {
-        "axis": "Close",
+        "amount": 3,
+        "axis": "Prone",
         "player": 2
       }
     ],
@@ -4064,6 +4065,10 @@
     "optional": [],
     "effects": [
       {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
         "mechanicRequirements": [
           {
             "axis": "Grappled",
@@ -4078,10 +4083,6 @@
           }
         ],
         "mechanic": "Focus"
-      },
-      {
-        "axis": "Grappled",
-        "player": 2
       }
     ],
     "name": "Choke",
@@ -4102,6 +4103,10 @@
     ],
     "optional": [],
     "effects": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
       {
         "mechanicEffects": [
           {
@@ -4135,10 +4140,6 @@
           }
         ],
         "mechanic": "Telegraph"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Circle Opponent",
@@ -4170,6 +4171,10 @@
         "player": 1
       },
       {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
         "amount": 2,
         "axis": "Moving",
         "player": 0
@@ -4177,10 +4182,6 @@
       {
         "amount": 4,
         "mechanic": "Block"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Clever Reposition",
@@ -4205,6 +4206,10 @@
     ],
     "optional": [],
     "effects": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
       {
         "amount": 7,
         "mechanic": "Block"
@@ -4238,10 +4243,6 @@
           }
         ],
         "mechanic": "Telegraph"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Exploit Weakness",
@@ -4268,6 +4269,10 @@
         "player": 1
       },
       {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
         "amount": 1,
         "axis": "Lose Poise",
         "player": 1
@@ -4287,10 +4292,6 @@
         ],
         "amount": 2,
         "mechanic": "Forceful"
-      },
-      {
-        "axis": "Grappled",
-        "player": 2
       }
     ],
     "name": "Find The Joint",
@@ -4343,6 +4344,11 @@
         "player": 2
       },
       {
+        "amount": "2",
+        "axis": "Moving",
+        "player": 0
+      },
+      {
         "mechanicEffects": [
           {
             "amount": 6,
@@ -4352,11 +4358,6 @@
         ],
         "amount": 2,
         "mechanic": "Forceful"
-      },
-      {
-        "amount": "2",
-        "axis": "Moving",
-        "player": 0
       }
     ],
     "name": "Flying Slash",
@@ -4384,6 +4385,10 @@
       {
         "amount": 2,
         "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
         "player": 0
       },
       {
@@ -4415,10 +4420,6 @@
         ],
         "amount": 1,
         "mechanic": "Forceful"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Going For The High Ground",
@@ -4443,6 +4444,11 @@
         "amount": 5,
         "axis": "Damage",
         "player": 1
+      },
+      {
+        "amount": "2",
+        "axis": "Prone",
+        "player": 2
       },
       {
         "amount": 5,
@@ -4479,11 +4485,6 @@
           }
         ],
         "mechanic": "Telegraph"
-      },
-      {
-        "amount": "2",
-        "axis": "Prone",
-        "player": 2
       }
     ],
     "name": "Going For The Pin",
@@ -4519,6 +4520,11 @@
         "player": 1
       },
       {
+        "amount": "3",
+        "axis": "Prone",
+        "player": 1
+      },
+      {
         "mechanicEffects": [
           {
             "amount": 7,
@@ -4533,11 +4539,6 @@
         ],
         "amount": 3,
         "mechanic": "Forceful"
-      },
-      {
-        "amount": "3",
-        "axis": "Prone",
-        "player": 1
       }
     ],
     "name": "Groin Stomp",
@@ -4558,6 +4559,10 @@
     ],
     "optional": [],
     "effects": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
       {
         "amount": 2,
         "axis": "Moving",
@@ -4593,10 +4598,6 @@
         ],
         "amount": 2,
         "mechanic": "Forceful"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Guarded Maneuvers",
@@ -4677,6 +4678,11 @@
         "player": 2
       },
       {
+        "amount": "2",
+        "axis": "Moving",
+        "player": 0
+      },
+      {
         "mechanicEffects": [
           {
             "amount": 3,
@@ -4695,11 +4701,6 @@
         ],
         "amount": 2,
         "mechanic": "Forceful"
-      },
-      {
-        "amount": "2",
-        "axis": "Moving",
-        "player": 0
       }
     ],
     "name": "Human Ladder",
@@ -4841,6 +4842,10 @@
         "player": 0
       },
       {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
         "mechanicRequirements": [
           {
             "axis": "Balanced",
@@ -4867,10 +4872,6 @@
           }
         ],
         "mechanic": "Telegraph"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Mounting Force",
@@ -4923,6 +4924,15 @@
         "player": 1
       },
       {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "amount": "2",
+        "axis": "Prone",
+        "player": 2
+      },
+      {
         "mechanicEffects": [
           {
             "amount": 13,
@@ -4932,15 +4942,6 @@
         ],
         "amount": 6,
         "mechanic": "Forceful"
-      },
-      {
-        "axis": "Grappled",
-        "player": 2
-      },
-      {
-        "amount": "2",
-        "axis": "Prone",
-        "player": 2
       }
     ],
     "name": "Neck Break",
@@ -5021,6 +5022,10 @@
         "player": 1
       },
       {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
         "amount": 3,
         "axis": "Prone",
         "player": 2
@@ -5051,10 +5056,6 @@
           ]
         ],
         "mechanic": "Pick One"
-      },
-      {
-        "axis": "Grappled",
-        "player": 2
       }
     ],
     "name": "Pile Driver",
@@ -5085,6 +5086,10 @@
         "player": 1
       },
       {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
         "mechanicEffects": [
           {
             "amount": 7,
@@ -5098,10 +5103,6 @@
         ],
         "amount": 4,
         "mechanic": "Forceful"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Precise Kick",
@@ -5128,12 +5129,12 @@
       {
         "effects": [
           {
-            "amount": 3,
-            "mechanic": "Block"
-          },
-          {
             "axis": "Standing",
             "player": 0
+          },
+          {
+            "amount": 3,
+            "mechanic": "Block"
           }
         ],
         "requirements": [
@@ -5202,6 +5203,10 @@
         "player": 0
       },
       {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
         "mechanicRequirements": [
           {
             "axis": "Prone",
@@ -5220,10 +5225,6 @@
           }
         ],
         "mechanic": "Telegraph"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Ready Trident",
@@ -5262,6 +5263,10 @@
     ],
     "effects": [
       {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
         "amount": 3,
         "mechanic": "Block"
       },
@@ -5280,10 +5285,6 @@
           }
         ],
         "mechanic": "Focus"
-      },
-      {
-        "axis": "Standing",
-        "player": 0
       }
     ],
     "name": "Rope-a-dope",
@@ -5327,14 +5328,14 @@
         "player": 1
       },
       {
-        "amount": 3,
-        "axis": "Moving",
-        "player": 0
-      },
-      {
         "amount": "2",
         "axis": "Prone",
         "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 0
       }
     ],
     "name": "Skewer",
@@ -5361,12 +5362,12 @@
         "player": 0
       },
       {
-        "amount": 8,
-        "mechanic": "Block"
-      },
-      {
         "axis": "Still",
         "player": 0
+      },
+      {
+        "amount": 8,
+        "mechanic": "Block"
       }
     ],
     "name": "Stone Strength",
@@ -5523,12 +5524,13 @@
         "player": 0
       },
       {
-        "axis": "Moving",
+        "axis": "Standing",
         "player": 0
       },
       {
-        "axis": "Standing",
-        "player": 0
+        "axis": "Moving",
+        "player": 0,
+        "amount": 2
       }
     ],
     "name": "To The Pocket",
@@ -5608,13 +5610,13 @@
         "player": 0
       },
       {
+        "axis": "Still",
+        "player": 0
+      },
+      {
         "amount": 8,
         "player": 0,
         "mechanic": "Block"
-      },
-      {
-        "axis": "Still",
-        "player": 0
       }
     ],
     "name": "Zen State",

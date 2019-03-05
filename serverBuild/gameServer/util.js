@@ -64,6 +64,7 @@ exports.makeTestingGameState = () => {
         sockets: [],
         events: [],
         turnNumber: 0,
+        cardUID: 0,
         lockedState: {
             distance: null,
             players: [

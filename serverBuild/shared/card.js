@@ -59,6 +59,7 @@ const MechanicDisplay = {
     [MechanicEnum.BUFF]: { valueString: true, eff: true },
     [MechanicEnum.ENHANCE]: { valueString: true, eff: true },
     [MechanicEnum.BLOCK]: { value: true },
+    [MechanicEnum.PARRY]: { value: true },
     [MechanicEnum.LOCK]: { state: true, value: true },
     [MechanicEnum.REFLEX]: {},
     [MechanicEnum.CRIPPLE]: { valueString: true },

@@ -27542,6 +27542,8 @@ var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
   eff: true
 }, _a[MechanicEnum.BLOCK] = {
   value: true
+}, _a[MechanicEnum.PARRY] = {
+  value: true
 }, _a[MechanicEnum.LOCK] = {
   state: true,
   value: true
@@ -49716,7 +49718,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52216" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59029" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

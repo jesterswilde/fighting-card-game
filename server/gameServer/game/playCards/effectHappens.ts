@@ -10,8 +10,8 @@ export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameSt
         if (isEventOnly) return;
         if (reducer !== undefined) {
             reducer(mech, card, card.player, card.opponent, state);
-        } else {
-            reduceStateChange(mech, card, card.player, card.opponent, state);
+        }else{
+            throw "Tried to reduce effect here"
         }
     });
 }
@@ -102,19 +102,24 @@ const reduceEnhance = (mechanic: Mechanic, card: Card, player: number, opponent:
 }
 
 export const reduceStateChangeReaEff = (reaEff: ReadiedEffect, state: GameState)=>{
-    const whoToCheck = reaEff.happensTo.map((value, i)=> value === HappensEnum.HAPPENS ? i : undefined)
-            .filter((value)=> value !== undefined); 
+    const whoToCheck = reaEff.happensTo.map((value, i)=> value === HappensEnum.HAPPENS ? i : null)
+            .filter((value)=> value !== null);
+
+    console.log('who to check', whoToCheck); 
     reduceStateChange(reaEff.mechanic, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck); 
 }
 
-const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState, whoToCheck?: number[]) => {
+const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState, appliesTo: number[]) => {
     const applyGlobal = globalAxis[mechanic.axis];
-    if (applyGlobal !== undefined) {
+    if(appliesTo.length === 0){
+        return; 
+    }
+    if (applyGlobal !== undefined){
         applyGlobal(state);
     }
-    if(whoToCheck === undefined){
-        whoToCheck = playerEnumToPlayerArray(mechanic.player, player, opponent);
-    }
+    // if(whoToCheck === undefined){
+    //     whoToCheck = playerEnumToPlayerArray(mechanic.player, player, opponent);
+    // }
     let amount: number | null;
     if (mechanic.amount !== undefined && mechanic.amount !== null) {
         amount = Number(mechanic.amount)
@@ -123,7 +128,7 @@ const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, oppon
     }
     const applyPlayerState = playerAxis[mechanic.axis];
     if (applyPlayerState !== undefined && (amount === undefined || !isNaN(amount))) {
-        applyPlayerState(whoToCheck, amount, state);
+        applyPlayerState(appliesTo, amount, state);
     }
 }
 

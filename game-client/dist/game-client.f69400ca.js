@@ -13388,6 +13388,8 @@ var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
   eff: true
 }, _a[MechanicEnum.BLOCK] = {
   value: true
+}, _a[MechanicEnum.PARRY] = {
+  value: true
 }, _a[MechanicEnum.LOCK] = {
   state: true,
   value: true
@@ -15616,7 +15618,7 @@ var _card = require("../shared/card");
 
 var _a;
 
-var descObj = (_a = {}, _a[_card.MechanicEnum.BLOCK] = 'Reduces damage by X amount next turn', _a[_card.MechanicEnum.BUFF] = 'Permanently buffs card for future uses', _a[_card.MechanicEnum.CRIPPLE] = 'Permanently adds a terrible card to your opponent\'s deck', _a[_card.MechanicEnum.FOCUS] = 'While on the queue, at the end of your turn, if the condition is met, the effect happens', _a[_card.MechanicEnum.FORCEFUL] = 'Allows you to spend X Poise to get the effect', _a[_card.MechanicEnum.LOCK] = 'That state cannot change for X turns', _a[_card.MechanicEnum.PICK_ONE] = 'You choose which one of the listed effects will happen', _a[_card.MechanicEnum.PREDICT] = 'Guess what the opponent will change with their next card, if correct, you get the effect', _a[_card.MechanicEnum.REFLEX] = 'Plays a random, valid, card from your deck', _a[_card.MechanicEnum.TELEGRAPH] = 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens', _a[_card.MechanicEnum.ENHANCE] = 'All future cards with this tag, will be enhanced by this effect', _a);
+var descObj = (_a = {}, _a[_card.MechanicEnum.BLOCK] = 'Reduces damage by X amount next turn', _a[_card.MechanicEnum.PARRY] = 'Reduces damage by X amount this turn', _a[_card.MechanicEnum.BUFF] = 'Permanently buffs card for future uses', _a[_card.MechanicEnum.CRIPPLE] = 'Permanently adds a terrible card to your opponent\'s deck', _a[_card.MechanicEnum.FOCUS] = 'While on the queue, at the end of your turn, if the condition is met, the effect happens', _a[_card.MechanicEnum.FORCEFUL] = 'Allows you to spend X Poise to get the effect', _a[_card.MechanicEnum.LOCK] = 'That state cannot change for X turns', _a[_card.MechanicEnum.PICK_ONE] = 'You choose which one of the listed effects will happen', _a[_card.MechanicEnum.PREDICT] = 'Guess what the opponent will change with their next card, if correct, you get the effect', _a[_card.MechanicEnum.REFLEX] = 'Plays a random, valid, card from your deck', _a[_card.MechanicEnum.TELEGRAPH] = 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens', _a[_card.MechanicEnum.ENHANCE] = 'All future cards with this tag, will be enhanced by this effect', _a);
 
 var getMechanicDescription = function getMechanicDescription(mech) {
   return descObj[mech] || null;
@@ -18536,7 +18538,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50700" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59374" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
