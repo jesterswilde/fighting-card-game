@@ -11,12 +11,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const socket_1 = require("./socket");
 const gameSettings_1 = require("../gameSettings");
 const drawCards_1 = require("./drawCards");
+const collectDamage_1 = require("./playCards/collectDamage");
 exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     console.log('starting turn');
     exports.addPoise(state);
     movePendingPredictions(state);
     drawCards_1.givePlayersCards(state);
     socket_1.sendState(state);
+    collectDamage_1.convertBlockToParry(state);
 });
 const movePendingPredictions = (state) => {
     state.predictions = state.pendingPredictions;

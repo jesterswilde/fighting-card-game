@@ -10,7 +10,7 @@ export const collectBlockAndDamage = (state: GameState) => {
 }
 
 export const convertBlockToParry = (state: GameState) => {
-    state.block.map((block, index) => {
+    state.block = state.block.map((block, index) => {
         state.parry[index] += block;
         return 0;
     })

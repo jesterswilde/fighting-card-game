@@ -18,7 +18,7 @@ export const sendState = (state: GameState) => {
     const sendState = {
         playerStates: state.playerStates,
         stateDurations: state.stateDurations,
-        block: state.parry,
+        block: state.block,
         queue: state.queue,
         distance: state.distance,
         health: state.health,

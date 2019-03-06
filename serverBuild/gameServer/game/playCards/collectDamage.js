@@ -9,7 +9,7 @@ exports.collectBlockAndDamage = (state) => {
     exports.collectDamage(state);
 };
 exports.convertBlockToParry = (state) => {
-    state.block.map((block, index) => {
+    state.block = state.block.map((block, index) => {
         state.parry[index] += block;
         return 0;
     });

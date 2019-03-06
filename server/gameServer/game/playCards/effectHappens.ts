@@ -1,5 +1,5 @@
 import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ReadiedEffect, HappensEnum } from "../../interfaces/stateInterface";
-import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../../../shared/card";
+import { MechanicEnum, Mechanic, Card, AxisEnum } from "../../../shared/card";
 import { getCardByName } from "./getCards";
 import { playerEnumToPlayerArray, consolidateMechanics } from "../../util";
 import { MAX_POISE, MIN_POISE } from "../../gameSettings";
