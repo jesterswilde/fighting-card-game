@@ -2,7 +2,7 @@ import { DeckDescription } from "./interface";
 
 export const boxerDeck: DeckDescription = {
     deckList: [
-        "Kidney Jab",
+        "Kidney Blow",
         "Accurate Strike",
         "Punch, Counterpunch",
         "Rope-a-dope",
@@ -13,6 +13,10 @@ export const boxerDeck: DeckDescription = {
         "Swarm of Punches",
         "Clinch",
         "Break Out",
+        "Wind Up",
+        "Bolo Punch",
+        "Work The Body",
+        "Check Hook"
     ],
     name: "Boxer",
     description: "Rope-a-dope"

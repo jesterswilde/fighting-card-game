@@ -1549,60 +1549,6 @@
     "tagObjs": [],
     "tags": []
   },
-  "Haymaker": {
-    "priority": 3,
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 2
-      }
-    ],
-    "optional": [
-      {
-        "effects": [
-          {
-            "amount": 3,
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0,
-            "id": 25
-          }
-        ]
-      }
-    ],
-    "effects": [
-      {
-        "amount": 14,
-        "axis": "Damage",
-        "player": 1
-      },
-      {
-        "amount": 4,
-        "axis": "Lose Poise",
-        "player": 0
-      }
-    ],
-    "name": "Haymaker",
-    "tagObjs": [],
-    "tags": []
-  },
   "Headbutt": {
     "priority": 4,
     "requirements": [
@@ -2049,54 +1995,6 @@
     "name": "Jaw Break",
     "tagObjs": [],
     "tags": []
-  },
-  "Kidney Jab": {
-    "priority": 6,
-    "requirements": [
-      {
-        "axis": "Close",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Moving",
-        "player": 0
-      }
-    ],
-    "optional": [],
-    "effects": [
-      {
-        "amount": "4",
-        "axis": "Damage",
-        "player": 1
-      },
-      {
-        "mechanicEffects": [
-          {
-            "amount": "4",
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "amount": "Kidney Shot",
-        "mechanic": "Enhance"
-      }
-    ],
-    "name": "Kidney Jab",
-    "tagObjs": [
-      {
-        "value": "Kidney Shot",
-        "id": 623
-      }
-    ],
-    "tags": [
-      {
-        "value": "Kidney Shot"
-      }
-    ]
   },
   "Kip Up": {
     "priority": 6,
@@ -2672,50 +2570,6 @@
     "tagObjs": [],
     "tags": [],
     "priority": 5
-  },
-  "Ride The Ropes": {
-    "priority": 7,
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      }
-    ],
-    "optional": [
-      {
-        "effects": [
-          {
-            "amount": 3,
-            "mechanic": "Block"
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Balanced",
-            "player": 0,
-            "id": 796
-          }
-        ]
-      }
-    ],
-    "effects": [
-      {
-        "amount": 3,
-        "axis": "Poise",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      },
-      {
-        "amount": 4,
-        "mechanic": "Block"
-      }
-    ],
-    "name": "Ride The Ropes",
-    "tagObjs": [],
-    "tags": []
   },
   "Rip From Socket": {
     "requirements": [
@@ -3703,48 +3557,6 @@
       }
     ],
     "priority": 5
-  },
-  "Accurate Strike": {
-    "priority": 4,
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 0
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ],
-    "optional": [],
-    "effects": [
-      {
-        "amount": 2,
-        "axis": "Damage",
-        "player": 1
-      },
-      {
-        "axis": "Close",
-        "player": 2
-      },
-      {
-        "amount": 6,
-        "mechanic": "Block"
-      },
-      {
-        "mechanicEffects": [
-          {
-            "amount": 10,
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "mechanic": "Predict"
-      }
-    ],
-    "name": "Accurate Strike",
-    "tagObjs": [],
-    "tags": []
   },
   "Ankle Smash": {
     "priority": 2,
@@ -5231,66 +5043,6 @@
     "tagObjs": [],
     "tags": []
   },
-  "Rope-a-dope": {
-    "priority": 6,
-    "requirements": [
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ],
-    "optional": [
-      {
-        "effects": [
-          {
-            "amount": 1,
-            "axis": "Poise",
-            "player": 0
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Still",
-            "player": 0,
-            "id": 2
-          }
-        ]
-      }
-    ],
-    "effects": [
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "amount": 3,
-        "mechanic": "Block"
-      },
-      {
-        "mechanicRequirements": [
-          {
-            "axis": "Damage",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "amount": 1,
-            "axis": "Lose Poise",
-            "player": 1
-          }
-        ],
-        "mechanic": "Focus"
-      }
-    ],
-    "name": "Rope-a-dope",
-    "tagObjs": [],
-    "tags": []
-  },
   "Skewer": {
     "priority": 3,
     "requirements": [
@@ -5620,6 +5372,430 @@
       }
     ],
     "name": "Zen State",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Kidney Blow": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 0
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "4",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "4",
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "amount": "Kidney Shot",
+        "mechanic": "Enhance"
+      }
+    ],
+    "name": "Kidney Blow",
+    "tagObjs": [
+      {
+        "value": "Kidney Shot",
+        "id": 6
+      }
+    ],
+    "tags": [
+      {
+        "value": "Kidney Shot"
+      }
+    ]
+  },
+  "Bolo Punch": {
+    "name": "Bolo Punch",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "amount": "17",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": "3",
+        "axis": "Lose Poise",
+        "player": 0
+      },
+      {
+        "amount": "2",
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "tagObjs": [],
+    "tags": []
+  },
+  "Check Hook": {
+    "name": "Check Hook",
+    "optional": [
+      {
+        "effects": [
+          {
+            "axis": "Standing",
+            "player": 0
+          }
+        ],
+        "requirements": [
+          {
+            "id": 32,
+            "axis": "Standing",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Not Far",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "amount": "1",
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": "4",
+        "mechanic": "Block"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "7",
+            "mechanic": "Parry"
+          },
+          {
+            "amount": "7",
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      },
+      {
+        "amount": "4",
+        "axis": "Damage",
+        "player": 1
+      }
+    ],
+    "tagObjs": [],
+    "priority": 6,
+    "tags": []
+  },
+  "Work The Body": {
+    "name": "Work The Body",
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": "3",
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "id": 47,
+            "axis": "Anticipating",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "axis": "Not Far",
+        "player": 2
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "amount": "7",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": "1",
+        "axis": "Lose Poise",
+        "player": 0
+      }
+    ],
+    "tagObjs": [
+      {
+        "value": "Kidney Shot",
+        "id": 40
+      }
+    ],
+    "priority": 6,
+    "tags": [
+      {
+        "value": "Kidney Shot"
+      }
+    ]
+  },
+  "Ride The Ropes": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": "3",
+            "mechanic": "Block"
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Balanced",
+            "player": 0,
+            "id": 796
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 3,
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "amount": "4",
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Ride The Ropes",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Accurate Strike": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": 2,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": "5",
+        "mechanic": "Parry"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": 10,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Accurate Strike",
+    "tagObjs": [
+      {
+        "value": "Kidney Shot",
+        "id": 62
+      }
+    ],
+    "tags": [
+      {
+        "value": "Kidney Shot"
+      }
+    ]
+  },
+  "Haymaker": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 2
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 3,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 25
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 14,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 4,
+        "axis": "Lose Poise",
+        "player": 0
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      }
+    ],
+    "name": "Haymaker",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Rope-a-dope": {
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 1,
+            "axis": "Poise",
+            "player": 0
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Still",
+            "player": 0,
+            "id": 2
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "amount": "6",
+        "mechanic": "Block"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Damage",
+            "player": 0
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 1,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Rope-a-dope",
     "tagObjs": [],
     "tags": []
   }
