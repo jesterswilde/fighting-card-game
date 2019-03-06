@@ -65,6 +65,8 @@ exports.makeTestingGameState = () => {
         events: [],
         turnNumber: 0,
         cardUID: 0,
+        predictions: [],
+        pendingPredictions: [],
         lockedState: {
             distance: null,
             players: [

@@ -28,19 +28,19 @@ import { collectBlockAndDamage, applyCollectedDamage } from "./collectDamage";
     check for reflex
     check telegraph
     check focus
-*/ 
+*/
 export const cardHappens = (state: GameState) => {
     try {
         //parry
         //collect damage
-        storeEffectsForEvents(state); 
-        collectBlockAndDamage(state); 
+        storeEffectsForEvents(state);
+        collectBlockAndDamage(state);
         applyStateEffects(state);
         applyMechanics(state);
-        processEffectEvents(state); 
+        processEffectEvents(state);
         removeStoredEffects(state);
         checkPredictions(state);
-        applyCollectedDamage(state); 
+        applyCollectedDamage(state);
         checkForVictor(state);
         checkReflex(state);
         checkTelegraph(state);
@@ -82,20 +82,17 @@ export const checkForVictor = (state: GameState) => {
 }
 
 export const checkPredictions = (state: GameState) => {
-    const { pendingPredictions: predictions } = state;
+    const { predictions } = state;
     let stateChanged = false;
-    if (predictions) {
-        predictions.forEach((pred) => {
-            const didHappen = didPredictionHappen(pred, state)
-            addRevealPredictionEvent(didHappen, pred.prediction, pred.card, state);
-            if (didHappen) {
-                stateChanged = true;
-                const readied = mechanicsToReadiedEffects(pred.mechanics, pred.card, state);
-                addReadiedToState(readied, state); 
-            }
-        })
-        state.pendingPredictions = undefined;
-    }
+    predictions.forEach((pred, player) => {
+        const didHappen = didPredictionHappen(pred, state)
+        addRevealPredictionEvent(didHappen, pred.prediction, player, state);
+        if (didHappen) {
+            stateChanged = true;
+            addReadiedToState(pred.readiedEffects, state);
+        }
+    })
+    state.predictions = [];
     if (stateChanged) {
         throw ControlEnum.NEW_EFFECTS;
     }

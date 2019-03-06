@@ -6,6 +6,7 @@ import Requirement from './Requirement';
 import { splitEffects } from '../../../util';
 import { Tooltip, TooltipStyles } from 'react-lightweight-tooltip';
 
+
 interface Props extends Card { }
 
 const HandCard = (card: Props) => {

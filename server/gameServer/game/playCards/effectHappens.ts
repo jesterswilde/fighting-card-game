@@ -3,6 +3,7 @@ import { MechanicEnum, Mechanic, Card, AxisEnum, PlayerEnum } from "../../../sha
 import { getCardByName } from "./getCards";
 import { playerEnumToPlayerArray, consolidateMechanics } from "../../util";
 import { MAX_POISE, MIN_POISE } from "../../gameSettings";
+import { mechanicsToReadiedEffects } from "../readiedEffects";
 
 export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
     readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly, isHappening }) => {
@@ -10,7 +11,7 @@ export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameSt
         if (isEventOnly) return;
         if (reducer !== undefined) {
             reducer(mech, card, card.player, card.opponent, state);
-        }else{
+        } else {
             throw "Tried to reduce effect here"
         }
     });
@@ -42,7 +43,7 @@ const reduceCripple = async (mechanic: Mechanic, card: Card, player: number, opp
     if (typeof cardName === 'string') {
         const card = _getCardByName(cardName);
         card.player = opponent;
-        card.opponent = player; 
+        card.opponent = player;
         deck.push(card);
     }
 }
@@ -84,42 +85,38 @@ const getLockMax = (current, next) => {
 }
 
 const reducePredict = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
-    card.predictions = card.predictions || [];
-    card.predictions.push(mechanic);
+    state.pendingPredictions[card.player] = state.pendingPredictions[card.player] || { readiedEffects: [] }
+    const reaEffs = mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state); 
+    state.pendingPredictions[card.player].readiedEffects.push(...reaEffs)
 }
 const reduceReflex = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
-    console.log('marking reflex'); 
+    console.log('marking reflex');
     card.shouldReflex = true;
 }
 const reduceTelegraph = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
     card.telegraphs = card.telegraphs || [];
     card.telegraphs.push(mechanic);
 }
-const reduceEnhance = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState)=>{
+const reduceEnhance = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
     const alterObj = state.tagModification[player];
-     const enhanceArr = [...(alterObj[mechanic.amount] || []), ...(mechanic.mechanicEffects || [])]; 
-     alterObj[mechanic.amount] = consolidateMechanics(enhanceArr); 
+    const enhanceArr = [...(alterObj[mechanic.amount] || []), ...(mechanic.mechanicEffects || [])];
+    alterObj[mechanic.amount] = consolidateMechanics(enhanceArr);
 }
 
-export const reduceStateChangeReaEff = (reaEff: ReadiedEffect, state: GameState)=>{
-    const whoToCheck = reaEff.happensTo.map((value, i)=> value === HappensEnum.HAPPENS ? i : null)
-            .filter((value)=> value !== null);
-
-    console.log('who to check', whoToCheck); 
-    reduceStateChange(reaEff.mechanic, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck); 
+export const reduceStateChangeReaEff = (reaEff: ReadiedEffect, state: GameState) => {
+    const whoToCheck = reaEff.happensTo.map((value, i) => value === HappensEnum.HAPPENS ? i : null)
+        .filter((value) => value !== null);
+    reduceStateChange(reaEff.mechanic, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck);
 }
 
 const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState, appliesTo: number[]) => {
     const applyGlobal = globalAxis[mechanic.axis];
-    if(appliesTo.length === 0){
-        return; 
+    if (appliesTo.length === 0) {
+        return;
     }
-    if (applyGlobal !== undefined){
+    if (applyGlobal !== undefined) {
         applyGlobal(state);
     }
-    // if(whoToCheck === undefined){
-    //     whoToCheck = playerEnumToPlayerArray(mechanic.player, player, opponent);
-    // }
     let amount: number | null;
     if (mechanic.amount !== undefined && mechanic.amount !== null) {
         amount = Number(mechanic.amount)

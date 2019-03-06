@@ -13,6 +13,7 @@ const card_1 = require("../../../shared/card");
 const getCards_1 = require("./getCards");
 const util_1 = require("../../util");
 const gameSettings_1 = require("../../gameSettings");
+const readiedEffects_1 = require("../readiedEffects");
 exports.reduceMechanics = (readiedMechanics, state) => {
     readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly, isHappening }) => {
         const reducer = mechanicRouter[mech.mechanic];
@@ -92,8 +93,9 @@ const getLockMax = (current, next) => {
     return Math.max(next * 2, current);
 };
 const reducePredict = (mechanic, card, player, opponent, state) => {
-    card.predictions = card.predictions || [];
-    card.predictions.push(mechanic);
+    state.pendingPredictions[card.player] = state.pendingPredictions[card.player] || { readiedEffects: [] };
+    const reaEffs = readiedEffects_1.mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state);
+    state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
 };
 const reduceReflex = (mechanic, card, player, opponent, state) => {
     console.log('marking reflex');
@@ -111,7 +113,6 @@ const reduceEnhance = (mechanic, card, player, opponent, state) => {
 exports.reduceStateChangeReaEff = (reaEff, state) => {
     const whoToCheck = reaEff.happensTo.map((value, i) => value === stateInterface_1.HappensEnum.HAPPENS ? i : null)
         .filter((value) => value !== null);
-    console.log('who to check', whoToCheck);
     reduceStateChange(reaEff.mechanic, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck);
 };
 const reduceStateChange = (mechanic, card, player, opponent, state, appliesTo) => {
@@ -122,9 +123,6 @@ const reduceStateChange = (mechanic, card, player, opponent, state, appliesTo) =
     if (applyGlobal !== undefined) {
         applyGlobal(state);
     }
-    // if(whoToCheck === undefined){
-    //     whoToCheck = playerEnumToPlayerArray(mechanic.player, player, opponent);
-    // }
     let amount;
     if (mechanic.amount !== undefined && mechanic.amount !== null) {
         amount = Number(mechanic.amount);

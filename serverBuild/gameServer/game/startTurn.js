@@ -14,9 +14,14 @@ const drawCards_1 = require("./drawCards");
 exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     console.log('starting turn');
     exports.addPoise(state);
+    movePendingPredictions(state);
     drawCards_1.givePlayersCards(state);
     socket_1.sendState(state);
 });
+const movePendingPredictions = (state) => {
+    state.predictions = state.pendingPredictions;
+    state.pendingPredictions = [];
+};
 exports.addPoise = (state) => {
     const { playerStates } = state;
     playerStates.forEach((pState) => {

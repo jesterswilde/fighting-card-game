@@ -46,7 +46,6 @@ export interface PlayerState {
 }
 
 export interface PredictionState{
-    player:number
     prediction: PredictionEnum | null
     mechanics: Mechanic[]
 }

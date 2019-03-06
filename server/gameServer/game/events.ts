@@ -78,13 +78,13 @@ export const addGameOverEvent = (winner: number, state: GameState) => {
 }
 
 
-export const addRevealPredictionEvent = (correct: boolean, prediction: PredictionEnum, card: Card, state: GameState) => {
+export const addRevealPredictionEvent = (correct: boolean, prediction: PredictionEnum, player: number, state: GameState) => {
     const correctGuesses: PredictionEnum[] = [];
     if (state.modifiedAxis.distance) correctGuesses.push(PredictionEnum.DISTANCE);
     if (state.modifiedAxis.motion) correctGuesses.push(PredictionEnum.MOTION);
     if (state.modifiedAxis.standing) correctGuesses.push(PredictionEnum.STANDING);
     if (correctGuesses.length === 0) correctGuesses.push(PredictionEnum.NONE);
-    state.events.push({ type: EventTypeEnum.REVEAL_PREDICTION, correct, prediction, correctGuesses, cardName: card.name, playedBy: card.player })
+    state.events.push({ type: EventTypeEnum.REVEAL_PREDICTION, correct, prediction, correctGuesses})
 }
 
 

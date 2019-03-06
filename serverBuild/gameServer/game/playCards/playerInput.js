@@ -19,11 +19,11 @@ exports.playersMakeChoices = (state) => {
     return Promise.all(promiseArr);
 };
 const playerMakesChoices = (player, state) => __awaiter(this, void 0, void 0, function* () {
+    yield playerMakesPredictions(player, state);
     yield playerPicksCard(player, state);
     events_1.storePlayedCardEvent(player, state);
     playCard_1.getPlayerMechanicsReady(player, state);
     yield playerPicksOne(player, state);
-    yield playerMakesPredictions(player, state);
     yield playerChoosesForce(player, state);
 });
 const playerPicksCard = (player, state) => __awaiter(this, void 0, void 0, function* () {
@@ -80,21 +80,12 @@ const waitForPlayerToChoose = (choices, player) => {
     });
 };
 const playerMakesPredictions = (player, state, { _getPredictions = getPredictions } = {}) => __awaiter(this, void 0, void 0, function* () {
-    const { readiedEffects = [], sockets } = state;
-    const playerEffects = readiedEffects[player] || [];
-    for (let i = 0; i < playerEffects.length; i++) {
-        const { mechanic: eff, card, isEventOnly } = playerEffects[i];
-        if (eff.mechanic === card_1.MechanicEnum.PREDICT && !isEventOnly) {
-            playerEffects.push({ mechanic: eff, card, isEventOnly: true });
-            const prediction = {};
-            const socket = sockets[player];
-            prediction.prediction = yield _getPredictions(state, socket);
-            prediction.card = card;
-            prediction.mechanics = util_1.deepCopy(eff.mechanicEffects);
-            state.predictions = state.predictions || [];
-            state.predictions.push(prediction);
-        }
-    }
+    const { predictions, sockets } = state;
+    const prediction = predictions[player];
+    const socket = sockets[player];
+    if (!prediction)
+        return;
+    prediction.prediction = yield _getPredictions(state, socket);
 });
 const getPredictions = (state, socket) => {
     return new Promise((res, rej) => {

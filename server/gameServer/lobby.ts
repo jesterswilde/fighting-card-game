@@ -65,6 +65,8 @@ const makeGameState = (sockets: Socket[], decks: Card[][]) => {
         readiedEffects: [[], []],
         damageEffects: [[], []],
         modifiedAxis: makeModifiedAxis(),
+        predictions: [],
+        pendingPredictions: [],
         damaged: [false, false],
         tagModification: [{}, {}],
         lockedState: {

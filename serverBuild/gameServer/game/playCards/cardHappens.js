@@ -78,20 +78,17 @@ exports.checkForVictor = (state) => {
     }
 };
 exports.checkPredictions = (state) => {
-    const { pendingPredictions: predictions } = state;
+    const { predictions } = state;
     let stateChanged = false;
-    if (predictions) {
-        predictions.forEach((pred) => {
-            const didHappen = predictions_1.didPredictionHappen(pred, state);
-            events_1.addRevealPredictionEvent(didHappen, pred.prediction, pred.card, state);
-            if (didHappen) {
-                stateChanged = true;
-                const readied = readiedEffects_1.mechanicsToReadiedEffects(pred.mechanics, pred.card, state);
-                readiedEffects_1.addReadiedToState(readied, state);
-            }
-        });
-        state.pendingPredictions = undefined;
-    }
+    predictions.forEach((pred, player) => {
+        const didHappen = predictions_1.didPredictionHappen(pred, state);
+        events_1.addRevealPredictionEvent(didHappen, pred.prediction, player, state);
+        if (didHappen) {
+            stateChanged = true;
+            readiedEffects_1.addReadiedToState(pred.readiedEffects, state);
+        }
+    });
+    state.predictions = [];
     if (stateChanged) {
         throw errors_1.ControlEnum.NEW_EFFECTS;
     }

@@ -6,8 +6,14 @@ import { givePlayersCards } from "./drawCards";
 export const startTurn = async (state: GameState) => {
     console.log('starting turn'); 
     addPoise(state);
+    movePendingPredictions(state); 
     givePlayersCards(state);
     sendState(state);
+}
+
+const movePendingPredictions = (state: GameState)=>{
+    state.predictions = state.pendingPredictions; 
+    state.pendingPredictions = []; 
 }
 
 export const addPoise = (state: GameState) => {

@@ -65,7 +65,7 @@ exports.addedMechanicEvent = (mechEnum, playedBy, state) => {
 exports.addGameOverEvent = (winner, state) => {
     state.events.push({ type: gameEvent_1.EventTypeEnum.GAME_OVER, winner });
 };
-exports.addRevealPredictionEvent = (correct, prediction, card, state) => {
+exports.addRevealPredictionEvent = (correct, prediction, player, state) => {
     const correctGuesses = [];
     if (state.modifiedAxis.distance)
         correctGuesses.push(stateInterface_1.PredictionEnum.DISTANCE);
@@ -75,7 +75,7 @@ exports.addRevealPredictionEvent = (correct, prediction, card, state) => {
         correctGuesses.push(stateInterface_1.PredictionEnum.STANDING);
     if (correctGuesses.length === 0)
         correctGuesses.push(stateInterface_1.PredictionEnum.NONE);
-    state.events.push({ type: gameEvent_1.EventTypeEnum.REVEAL_PREDICTION, correct, prediction, correctGuesses, cardName: card.name, playedBy: card.player });
+    state.events.push({ type: gameEvent_1.EventTypeEnum.REVEAL_PREDICTION, correct, prediction, correctGuesses });
 };
 exports.sendEvents = (state) => {
     state.sockets.forEach((socket) => {

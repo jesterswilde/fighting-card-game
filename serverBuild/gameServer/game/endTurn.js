@@ -62,8 +62,6 @@ const clearTurnData = (state) => {
     state.turnIsOver = false;
     state.modifiedAxis = util_1.makeModifiedAxis();
     state.incrementedQueue = false;
-    state.pendingPredictions = state.predictions;
-    state.predictions = null;
     state.parry = state.parry.map(() => 0);
     state.checkedFocus = false;
     state.turnNumber++;

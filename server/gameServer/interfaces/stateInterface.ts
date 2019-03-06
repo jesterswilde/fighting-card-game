@@ -21,8 +21,8 @@ export interface GameState{
     damaged: boolean[]
     readiedEffects: ReadiedEffect[][]
     damageEffects: ReadiedEffect[][]
-    predictions?: PredictionState[]
-    pendingPredictions?: PredictionState[]
+    predictions: PredictionState[]
+    pendingPredictions: PredictionState[]
     checkedFocus?: boolean
     incrementedQueue?: boolean
     events: EventAction[]
@@ -81,9 +81,8 @@ export interface PlayerState {
 }
 
 export interface PredictionState{
-    card: Card,
-    prediction: PredictionEnum,
-    mechanics: Mechanic[]
+    prediction?: PredictionEnum,
+    readiedEffects: ReadiedEffect[]
 }
 
 export enum PredictionEnum {

@@ -21,18 +21,17 @@ exports.sendState = (state) => {
         distance: state.distance,
         health: state.health,
         damaged: state.damaged,
-        predictions: state.pendingPredictions,
+        predictions: state.predictions.map((pred) => stripCardForPred(pred)),
         turnNumber: state.turnNumber
     };
-    state.sockets.forEach((socket, i) => {
+    state.sockets.forEach((socket, player) => {
         const stateToSend = util_1.deepCopy(sendState);
-        if (stateToSend.predictions) {
-            stateToSend.predictions.forEach((pred) => {
-                if (pred.card.player !== i) {
-                    pred.prediction = null;
-                }
-            });
+        if (stateToSend.predictions[player]) {
+            stateToSend.predictions[player].prediction = null;
         }
         socket.emit(socket_1.SocketEnum.GOT_STATE, stateToSend);
     });
+};
+const stripCardForPred = (pred) => {
+    return { prediction: pred.prediction, mechanics: pred.readiedEffects.map((reaEff) => reaEff.mechanic) };
 };

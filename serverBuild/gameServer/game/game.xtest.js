@@ -80,7 +80,7 @@ const makeDeck = () => {
     });
     return [card1, card2, card3, card4, card5, card6];
 };
-xdescribe('game', () => {
+describe('game', () => {
     let deck;
     let state;
     let player = 0;

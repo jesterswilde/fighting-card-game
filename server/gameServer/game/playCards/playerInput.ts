@@ -8,18 +8,18 @@ import { getPlayerMechanicsReady } from "./playCard";
 import { storePlayedCardEvent } from "../events";
 
 
-export const playersMakeChoices = (state: GameState)=>{
-    const promiseArr = state.sockets.map((_, player)=> playerMakesChoices(player, state));
-    return Promise.all(promiseArr); 
+export const playersMakeChoices = (state: GameState) => {
+    const promiseArr = state.sockets.map((_, player) => playerMakesChoices(player, state));
+    return Promise.all(promiseArr);
 }
 
 const playerMakesChoices = async (player: number, state: GameState) => {
+    await playerMakesPredictions(player, state);
     await playerPicksCard(player, state);
     storePlayedCardEvent(player, state);
-    getPlayerMechanicsReady(player, state); 
+    getPlayerMechanicsReady(player, state);
     await playerPicksOne(player, state);
-    await playerMakesPredictions(player, state);
-    await playerChoosesForce(player, state); 
+    await playerChoosesForce(player, state);
 }
 
 const playerPicksCard = async (player: number, state: GameState) => {
@@ -80,21 +80,11 @@ const waitForPlayerToChoose = (choices: Mechanic[][], player: Socket): Promise<n
 }
 
 const playerMakesPredictions = async (player: number, state: GameState, { _getPredictions = getPredictions } = {}) => {
-    const { readiedEffects = [], sockets } = state;
-    const playerEffects = readiedEffects[player] || [];
-    for (let i = 0; i < playerEffects.length; i++) {
-        const { mechanic: eff, card, isEventOnly } = playerEffects[i];
-        if (eff.mechanic === MechanicEnum.PREDICT && !isEventOnly) {
-            playerEffects.push({ mechanic: eff, card, isEventOnly: true });
-            const prediction: PredictionState = {} as PredictionState;
-            const socket = sockets[player];
-            prediction.prediction = await _getPredictions(state, socket);
-            prediction.card = card;
-            prediction.mechanics = deepCopy(eff.mechanicEffects);
-            state.predictions = state.predictions || [];
-            state.predictions.push(prediction);
-        }
-    }
+    const { predictions, sockets } = state;
+    const prediction = predictions[player];
+    const socket = sockets[player];
+    if (!prediction) return;
+    prediction.prediction = await _getPredictions(state, socket);
 }
 
 const getPredictions = (state: GameState, socket: Socket): Promise<PredictionEnum> => {
@@ -109,8 +99,8 @@ const getPredictions = (state: GameState, socket: Socket): Promise<PredictionEnu
 const playerChoosesForce = async (player: number, state: GameState) => {
     const { readiedEffects = [] } = state;
     let playerEffects = readiedEffects[player] || [];
-    let [allForcefulArr, unused] = splitArray(playerEffects, ({mechanic})=> mechanic.mechanic === MechanicEnum.FORCEFUL); 
-    const validForcefulArr = allForcefulArr.filter(({mechanic})=> state.playerStates[player].poise >= mechanic.amount); 
+    let [allForcefulArr, unused] = splitArray(playerEffects, ({ mechanic }) => mechanic.mechanic === MechanicEnum.FORCEFUL);
+    const validForcefulArr = allForcefulArr.filter(({ mechanic }) => state.playerStates[player].poise >= mechanic.amount);
     const readiedArr: ReadiedEffect[] = []
     for (let i = 0; i < validForcefulArr.length; i++) {
         const { card: { name: cardName }, mechanic, card } = validForcefulArr[i];

@@ -1,4 +1,4 @@
-import { GameState } from "../interfaces/stateInterface";
+import { GameState, PredictionState } from "../interfaces/stateInterface";
 import { SocketEnum } from "../../shared/socket";
 import { deepCopy, getOpponent } from "../util";
 
@@ -23,18 +23,18 @@ export const sendState = (state: GameState) => {
         distance: state.distance,
         health: state.health,
         damaged: state.damaged,
-        predictions: state.pendingPredictions,
+        predictions: state.predictions.map((pred)=> stripCardForPred(pred)),
         turnNumber: state.turnNumber
     }
-    state.sockets.forEach((socket, i) => {
-        const stateToSend = deepCopy(sendState) as GameState; 
-        if(stateToSend.predictions){
-            stateToSend.predictions.forEach((pred)=>{
-                if(pred.card.player !== i){
-                    pred.prediction = null; 
-                }
-            })
+    state.sockets.forEach((socket, player) => {
+        const stateToSend = deepCopy(sendState); 
+        if(stateToSend.predictions[player]){
+            stateToSend.predictions[player].prediction = null; 
         }
         socket.emit(SocketEnum.GOT_STATE, stateToSend);
     })
+}
+
+const stripCardForPred = (pred: PredictionState)=>{
+    return {prediction: pred.prediction, mechanics: pred.readiedEffects.map((reaEff)=> reaEff.mechanic)}
 }

@@ -15641,8 +15641,6 @@ var _card = require("../../../shared/card");
 
 var _images = require("../../../images");
 
-var _util = require("../../../util");
-
 var _mechanicDescriptions = require("../../../extras/mechanicDescriptions");
 
 var _reactLightweightTooltip = require("react-lightweight-tooltip");
@@ -15658,8 +15656,6 @@ var Effect = function Effect(_a) {
       choices = _c === void 0 ? [] : _c,
       _d = effect.mechanicEffects,
       effs = _d === void 0 ? [] : _d;
-  var id = String((0, _util.getUUID)(effect));
-  var description = (0, _mechanicDescriptions.getMechanicDescription)(effect.mechanic);
 
   var _e = (0, _card.getMechDisplay)(effect.mechanic),
       displayEff = _e.eff,
@@ -15724,7 +15720,7 @@ var mechWithTooltip = function mechWithTooltip(mech) {
 
 var _default = Effect;
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../shared/card":"src/shared/card.ts","../../../images":"src/images/index.tsx","../../../util":"src/util.ts","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../shared/card":"src/shared/card.ts","../../../images":"src/images/index.tsx","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16296,15 +16292,31 @@ var _interface2 = require("../../gameDisplay/interface");
 
 var _util = require("../../util");
 
+var _reactLightweightTooltip = require("react-lightweight-tooltip");
+
 var selector = function selector(state) {
   return {
     display: state.gameDisplay.screen
   };
 };
 
+var tooltipStyle = {
+  wrapper: {
+    cursor: 'default',
+    transform: 'translate(200px, 40px)'
+  },
+  tooltip: {
+    width: '1.5rem'
+  },
+  arrow: {},
+  gap: {},
+  content: {
+    zIndex: 100
+  }
+};
+
 var Choices = function Choices(_a) {
   var display = _a.display;
-  console.log('got displays', display);
 
   switch (display) {
     case _interface2.GameDisplayEnum.PREDICT:
@@ -16316,34 +16328,52 @@ var Choices = function Choices(_a) {
 };
 
 var Prediction = function Prediction() {
-  console.log('prediction');
-  return (0, _preact.h)("div", null, (0, _preact.h)("h2", null, "Make Prediction"), (0, _preact.h)("button", {
-    class: "btn btn-primary",
+  return (0, _preact.h)("div", {
+    class: "prediction-wrapper"
+  }, (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
+    styles: tooltipStyle,
+    content: "Guess correctly what state will be on your opponents card this turn to get prediction effect"
+  }, (0, _preact.h)("div", {
+    class: "help"
+  }, "?")), (0, _preact.h)("div", {
+    class: "prediction-choices"
+  }, (0, _preact.h)("h2", {
+    class: "title"
+  }, "Predict: "), (0, _preact.h)("div", {
+    class: "prediction-offset"
+  }, (0, _preact.h)("div", {
+    class: "prediction-choice",
     onClick: function onClick() {
       return (0, _dispatch.dispatchMadePrediction)(_interface.PredictionEnum.DISTANCE);
     }
-  }, "Distance"), (0, _preact.h)("button", {
-    class: "btn btn-primary",
+  }, "Distance"), (0, _preact.h)("div", {
+    class: "prediction-offset"
+  }, (0, _preact.h)("div", {
+    class: "prediction-choice",
     onClick: function onClick() {
       return (0, _dispatch.dispatchMadePrediction)(_interface.PredictionEnum.MOTION);
     }
-  }, "Motion"), (0, _preact.h)("button", {
-    class: "btn btn-primary",
+  }, "Motion"), (0, _preact.h)("div", {
+    class: "prediction-offset"
+  }, (0, _preact.h)("div", {
+    class: "prediction-choice",
     onClick: function onClick() {
       return (0, _dispatch.dispatchMadePrediction)(_interface.PredictionEnum.STANDING);
     }
-  }, "Standing"), (0, _preact.h)("button", {
-    class: "btn btn-primary",
+  }, "Standing"), (0, _preact.h)("div", {
+    class: "prediction-offset"
+  }, (0, _preact.h)("div", {
+    class: "prediction-choice",
     onClick: function onClick() {
       return (0, _dispatch.dispatchMadePrediction)(_interface.PredictionEnum.NONE);
     }
-  }, "None"));
+  }, "None")))))));
 };
 
 var _default = (0, _util.cleanConnect)(selector, Choices);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../game/dispatch":"src/game/dispatch.ts","../../game/interface":"src/game/interface.ts","../../gameDisplay/interface":"src/gameDisplay/interface.ts","../../util":"src/util.ts"}],"src/components/game/stateMachine/poise.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../game/dispatch":"src/game/dispatch.ts","../../game/interface":"src/game/interface.ts","../../gameDisplay/interface":"src/gameDisplay/interface.ts","../../util":"src/util.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/stateMachine/poise.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16638,44 +16668,47 @@ var _effect = _interopRequireDefault(require("./card/effect"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var selector = function selector(state) {
-  var isMyPrediction = false;
-
-  if (state.predictions) {
-    isMyPrediction = state.predictions[0].player === state.player;
-  }
-
+  var predictions = state.predictions || [];
   return {
-    predictions: state.predictions,
-    isMyPrediction: isMyPrediction
+    predictions: predictions.map(function (pred, player) {
+      if (!pred) return null;
+      return {
+        isMine: player === state.player,
+        prediction: pred.prediction,
+        mechanics: pred.mechanics
+      };
+    })
   };
 };
 
 var Prediction = function Prediction(_a) {
-  var predictions = _a.predictions,
-      isMyPrediction = _a.isMyPrediction;
+  var predictions = _a.predictions;
 
-  if (predictions) {
-    if (isMyPrediction) {
-      return (0, _preact.h)("div", null, (0, _preact.h)("h3", null, "My Prediction"), renderPrediction(predictions, !isMyPrediction));
-    } else {
-      return (0, _preact.h)("div", null, (0, _preact.h)("h3", null, " Opponents Prediction"), renderPrediction(predictions, !isMyPrediction));
-    }
+  if (predictions.length > 0) {
+    return (0, _preact.h)("div", {
+      class: 'predictions'
+    }, (0, _preact.h)("div", {
+      class: "title"
+    }, "Predictions: "), predictions.map(function (pred, i) {
+      if (!pred) return null;
+      var isMine = pred.isMine ? '' : 'opponent';
+      return (0, _preact.h)("div", {
+        class: 'prediction ' + isMine,
+        key: i
+      }, pred.prediction && (0, _preact.h)("div", {
+        class: "guess"
+      }, "Prediction: ", pred.prediction), pred.mechanics.map(function (mech, i) {
+        return (0, _preact.h)("div", {
+          key: i
+        }, (0, _preact.h)(_effect.default, {
+          effect: mech,
+          shouldFlip: !isMine
+        }), " ");
+      }));
+    }));
   } else {
     return (0, _preact.h)("div", null);
   }
-};
-
-var renderPrediction = function renderPrediction(predictions, shouldFlip) {
-  return predictions.map(function (_a) {
-    var prediction = _a.prediction,
-        mechanics = _a.mechanics;
-    return (0, _preact.h)("div", null, prediction !== undefined && prediction, mechanics.map(function (eff) {
-      return (0, _preact.h)(_effect.default, {
-        effect: eff,
-        shouldFlip: shouldFlip
-      });
-    }));
-  });
 };
 
 var _default = function _default(props) {
