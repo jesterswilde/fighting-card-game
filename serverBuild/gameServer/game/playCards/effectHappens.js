@@ -12,7 +12,6 @@ const stateInterface_1 = require("../../interfaces/stateInterface");
 const card_1 = require("../../../shared/card");
 const getCards_1 = require("./getCards");
 const util_1 = require("../../util");
-const gameSettings_1 = require("../../gameSettings");
 const readiedEffects_1 = require("../readiedEffects");
 exports.reduceMechanics = (readiedMechanics, state) => {
     readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly, isHappening }) => {
@@ -170,18 +169,12 @@ const globalAxis = {
 };
 const playerAxis = {
     [card_1.AxisEnum.POISE]: (players, amount, state) => players.forEach((i) => {
-        const { playerStates, lockedState } = state;
-        if (!lockedState.players[i].poise) {
-            playerStates[i].poise += amount;
-            playerStates[i].poise = Math.min(playerStates[i].poise, gameSettings_1.MAX_POISE);
-        }
+        const { playerStates } = state;
+        playerStates[i].poise += amount;
     }),
     [card_1.AxisEnum.LOSE_POISE]: (players, amount, state) => players.forEach((i) => {
-        const { playerStates, lockedState } = state;
-        if (!lockedState.players[i].poise) {
-            playerStates[i].poise -= amount;
-            playerStates[i].poise = Math.max(playerStates[i].poise, gameSettings_1.MIN_POISE);
-        }
+        const { playerStates } = state;
+        playerStates[i].poise -= amount;
     }),
     [card_1.AxisEnum.STANDING]: (players, amount, state) => players.forEach((i) => {
         const { stateDurations, playerStates, lockedState } = state;
@@ -232,7 +225,6 @@ const playerAxis = {
                 state.health[i] -= amount;
             }
         });
-        players.forEach((i) => state.damaged[i] = true);
     },
 };
 const getMaxAmount = (currentAmount, nextAmount, changed) => {

@@ -1,50 +1,33 @@
-import { reduceMechanics } from "./effectHappens";
-import { GameState } from "../../interfaces/stateInterface";
+import { reduceMechanics, reduceStateChangeReaEff } from "./effectHappens";
+import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { ControlEnum } from "../../errors";
-import { didPredictionHappen } from "./predictions";
-import { addRevealPredictionEvent, storeEffectsForEvents, processEffectEvents } from "../events";
+import { storeEffectsForEvents, processEffectEvents } from "../events";
 import { checkTelegraph } from "../checkMechanics/telegraph";
 import { checkReflex } from "../checkMechanics/reflex";
 import { checkFocus } from "../checkMechanics/focus";
-import { mechanicsToReadiedEffects, addReadiedToState } from "../readiedEffects";
 import { applyStateEffects } from "./handleStateEffects";
 import { collectBlockAndDamage, applyCollectedDamage } from "./collectDamage";
+import { checkPredictions } from "./predictions";
+import { splitArray } from "../../util";
+import { AxisEnum } from "../../../shared/card";
 
-/*
-    --- TODO ---
-    if a telegraph adds a focus or some other effect that lives on the queue, that new effect should be
-    it's own entity on the queue. This is not handled in any way currently. 
-    smimilarly, if the card is undefined, we don't handle this at all. Will crash. 
-*/
-
-
-/*
-    ++ NEW ORDER ++
-    apply parry
-    apply state effects
-    check predictions
-    add delayed effects (telegraphs, focus)
-    apply damage -- Breaking this out will help possibly modify order later
-    check for reflex
-    check telegraph
-    check focus
-*/
 export const cardHappens = (state: GameState) => {
     try {
         //parry
         //collect damage
         storeEffectsForEvents(state);
         collectBlockAndDamage(state);
+        applyPoise(state); 
         applyStateEffects(state);
         applyMechanics(state);
         processEffectEvents(state);
         removeStoredEffects(state);
         checkPredictions(state);
-        applyCollectedDamage(state);
-        checkForVictor(state);
         checkReflex(state);
         checkTelegraph(state);
         checkFocus(state);
+        applyCollectedDamage(state);
+        checkForVictor(state);
     } catch (err) {
         if (err === ControlEnum.NEW_EFFECTS) {
             console.log("New effects were found");
@@ -54,8 +37,6 @@ export const cardHappens = (state: GameState) => {
         }
     }
 }
-
-
 
 export const applyMechanics = (state: GameState) => {
     state.readiedEffects.forEach((playerEffects) => {
@@ -81,20 +62,12 @@ export const checkForVictor = (state: GameState) => {
     }
 }
 
-export const checkPredictions = (state: GameState) => {
-    const { predictions } = state;
-    let stateChanged = false;
-    predictions.forEach((pred, player) => {
-        const didHappen = didPredictionHappen(pred, state)
-        addRevealPredictionEvent(didHappen, pred.prediction, player, state);
-        if (didHappen) {
-            stateChanged = true;
-            addReadiedToState(pred.readiedEffects, state);
-        }
-    })
-    state.predictions = [];
-    if (stateChanged) {
-        throw ControlEnum.NEW_EFFECTS;
-    }
+export const applyPoise = (state: GameState)=>{
+    state.readiedEffects = state.readiedEffects.map((playerReaEffs, player)=>{
+        const [poiseArr, unusedArr] = splitArray(playerReaEffs, ({mechanic})=> mechanic.axis === AxisEnum.POISE || mechanic.axis === AxisEnum.LOSE_POISE); 
+        poiseArr.forEach((reaEff)=>{
+            reduceStateChangeReaEff(reaEff, state); 
+        })
+        return unusedArr; 
+    });
 }
-

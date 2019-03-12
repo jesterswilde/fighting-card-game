@@ -4,15 +4,23 @@ import QueueCard from './card/queueCard'
 import { dispatchSwitchCardDisplayMode } from '../../game/dispatch';
 import FullQueueCard from './card/fullQueueCard';
 import { dispatchDisplayEventHistory } from '../../events/dispatch';
+import { GameState } from '../../game/interface';
 
 interface Props {
     queue: Card[][][]
     player: number
-    currentPlayer: number
 }
 
+const selector = (state: GameState): Props => {
+    const player = state.player;
+    const opponent = state.player === 0 ? 1 : 0;
+    let queue = state.queue.map((turnArr) => {
+        return [turnArr[opponent], turnArr[player]]
+    });
+    return { queue, player }
+}
 
-export default (props: Props) => {
+const board = (props: Props) => {
     const { queue = [], player } = props;
     return <div class='board'>
         <div class='card-container'>
@@ -56,3 +64,5 @@ const renderBoard = (queue: Card[][][] = [], identity: number) => {
         </div>
     });
 }
+
+export default (state: GameState)=> board(selector(state)); 

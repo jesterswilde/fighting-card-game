@@ -8,10 +8,12 @@ import moving from './moving.png';
 import notClose from './not_close.png';
 import notGrappled from './not_grapple.png';
 import notFar from './not_far.png';
+import bloodied from './bloodied.png'; 
 import still from './still.png';
 import standing from './standing.png';
 import prone from './prone.png';
 import balanced from './balanced.png';
+import notAnticipating from './not_anticipating.png'
 import anticipating from './anticipating.png';
 import unbalanced from './unbalanced.png';
 import upArrow from './upArrow.png';
@@ -42,6 +44,7 @@ const iconRouter: { [name: string]: string } = {
     [AxisEnum.BALANCED]: balanced,
     [AxisEnum.ANTICIPATING]: anticipating,
     [AxisEnum.UNBALANCED]: unbalanced,
+    [AxisEnum.NOT_ANTICIPATING]: notAnticipating,
     [AxisEnum.DAMAGE]: damage,
     [AxisEnum.CLOSER]: closer,
     [AxisEnum.FURTHER]: further,
@@ -50,6 +53,7 @@ const iconRouter: { [name: string]: string } = {
     [AxisEnum.NOT_GRAPPLED]: notGrappled,
     [AxisEnum.NOT_CLOSE]: notClose,
     [AxisEnum.NOT_FAR]: notFar,
+    [AxisEnum.BLOODIED]: bloodied,
 }
 
 const classRouter: { [name: string]: string } = {
@@ -67,10 +71,12 @@ const classRouter: { [name: string]: string } = {
     [AxisEnum.PRONE]: 'standing',
     [AxisEnum.BALANCED]: 'balance',
     [AxisEnum.ANTICIPATING]: 'balance',
+    [AxisEnum.NOT_ANTICIPATING]: 'balance',
     [AxisEnum.UNBALANCED]: 'balance',
     [AxisEnum.POISE]: 'balance',
     [AxisEnum.LOSE_POISE]: 'balance',
     [AxisEnum.DAMAGE]: 'damage',
+    [AxisEnum.BLOODIED]: 'damage',
 }
 
 export const Arrow = ({ player, shouldFlip }: { player: PlayerEnum, shouldFlip?: boolean }) => {

@@ -13568,6 +13568,8 @@ module.exports = "/not_close.b0803724.png";
 module.exports = "/not_grapple.fe33e5f8.png";
 },{}],"src/images/not_far.png":[function(require,module,exports) {
 module.exports = "/not_far.cb70b38a.png";
+},{}],"src/images/bloodied.png":[function(require,module,exports) {
+module.exports = "/bloodied.7c44d386.png";
 },{}],"src/images/still.png":[function(require,module,exports) {
 module.exports = "/still.ae2418c3.png";
 },{}],"src/images/standing.png":[function(require,module,exports) {
@@ -13576,6 +13578,8 @@ module.exports = "/standing.cab69b03.png";
 module.exports = "/prone.5291de5f.png";
 },{}],"src/images/balanced.png":[function(require,module,exports) {
 module.exports = "/balanced.013e74b1.png";
+},{}],"src/images/not_anticipating.png":[function(require,module,exports) {
+module.exports = "/not_anticipating.4e08ca44.png";
 },{}],"src/images/anticipating.png":[function(require,module,exports) {
 module.exports = "/anticipating.ec051de8.png";
 },{}],"src/images/unbalanced.png":[function(require,module,exports) {
@@ -15488,6 +15492,8 @@ var _not_grapple = _interopRequireDefault(require("./not_grapple.png"));
 
 var _not_far = _interopRequireDefault(require("./not_far.png"));
 
+var _bloodied = _interopRequireDefault(require("./bloodied.png"));
+
 var _still = _interopRequireDefault(require("./still.png"));
 
 var _standing = _interopRequireDefault(require("./standing.png"));
@@ -15495,6 +15501,8 @@ var _standing = _interopRequireDefault(require("./standing.png"));
 var _prone = _interopRequireDefault(require("./prone.png"));
 
 var _balanced = _interopRequireDefault(require("./balanced.png"));
+
+var _not_anticipating = _interopRequireDefault(require("./not_anticipating.png"));
 
 var _anticipating = _interopRequireDefault(require("./anticipating.png"));
 
@@ -15526,8 +15534,8 @@ var _a, _b, _c; /// <reference path='./index.d.tsx'/>
 
 
 var playerRouter = (_a = {}, _a[_card.PlayerEnum.PLAYER] = _downArrow.default, _a[_card.PlayerEnum.OPPONENT] = _upArrow.default, _a[_card.PlayerEnum.BOTH] = _bothArrow.default, _a);
-var iconRouter = (_b = {}, _b[_card.AxisEnum.GRAPPLED] = _grapple.default, _b[_card.AxisEnum.CLOSE] = _close.default, _b[_card.AxisEnum.FAR] = _far.default, _b[_card.AxisEnum.MOVING] = _moving.default, _b[_card.AxisEnum.STILL] = _still.default, _b[_card.AxisEnum.STANDING] = _standing.default, _b[_card.AxisEnum.PRONE] = _prone.default, _b[_card.AxisEnum.BALANCED] = _balanced.default, _b[_card.AxisEnum.ANTICIPATING] = _anticipating.default, _b[_card.AxisEnum.UNBALANCED] = _unbalanced.default, _b[_card.AxisEnum.DAMAGE] = _damage.default, _b[_card.AxisEnum.CLOSER] = _closer.default, _b[_card.AxisEnum.FURTHER] = _further.default, _b[_card.AxisEnum.POISE] = _poise.default, _b[_card.AxisEnum.LOSE_POISE] = _losePoise.default, _b[_card.AxisEnum.NOT_GRAPPLED] = _not_grapple.default, _b[_card.AxisEnum.NOT_CLOSE] = _not_close.default, _b[_card.AxisEnum.NOT_FAR] = _not_far.default, _b);
-var classRouter = (_c = {}, _c[_card.AxisEnum.GRAPPLED] = 'distance', _c[_card.AxisEnum.CLOSE] = 'distance', _c[_card.AxisEnum.FAR] = 'distance', _c[_card.AxisEnum.CLOSER] = 'distance', _c[_card.AxisEnum.FURTHER] = 'distance', _c[_card.AxisEnum.NOT_GRAPPLED] = 'distance', _c[_card.AxisEnum.NOT_CLOSE] = 'distance', _c[_card.AxisEnum.NOT_FAR] = 'distance', _c[_card.AxisEnum.MOVING] = 'motion', _c[_card.AxisEnum.STILL] = 'motion', _c[_card.AxisEnum.STANDING] = 'standing', _c[_card.AxisEnum.PRONE] = 'standing', _c[_card.AxisEnum.BALANCED] = 'balance', _c[_card.AxisEnum.ANTICIPATING] = 'balance', _c[_card.AxisEnum.UNBALANCED] = 'balance', _c[_card.AxisEnum.POISE] = 'balance', _c[_card.AxisEnum.LOSE_POISE] = 'balance', _c[_card.AxisEnum.DAMAGE] = 'damage', _c);
+var iconRouter = (_b = {}, _b[_card.AxisEnum.GRAPPLED] = _grapple.default, _b[_card.AxisEnum.CLOSE] = _close.default, _b[_card.AxisEnum.FAR] = _far.default, _b[_card.AxisEnum.MOVING] = _moving.default, _b[_card.AxisEnum.STILL] = _still.default, _b[_card.AxisEnum.STANDING] = _standing.default, _b[_card.AxisEnum.PRONE] = _prone.default, _b[_card.AxisEnum.BALANCED] = _balanced.default, _b[_card.AxisEnum.ANTICIPATING] = _anticipating.default, _b[_card.AxisEnum.UNBALANCED] = _unbalanced.default, _b[_card.AxisEnum.NOT_ANTICIPATING] = _not_anticipating.default, _b[_card.AxisEnum.DAMAGE] = _damage.default, _b[_card.AxisEnum.CLOSER] = _closer.default, _b[_card.AxisEnum.FURTHER] = _further.default, _b[_card.AxisEnum.POISE] = _poise.default, _b[_card.AxisEnum.LOSE_POISE] = _losePoise.default, _b[_card.AxisEnum.NOT_GRAPPLED] = _not_grapple.default, _b[_card.AxisEnum.NOT_CLOSE] = _not_close.default, _b[_card.AxisEnum.NOT_FAR] = _not_far.default, _b[_card.AxisEnum.BLOODIED] = _bloodied.default, _b);
+var classRouter = (_c = {}, _c[_card.AxisEnum.GRAPPLED] = 'distance', _c[_card.AxisEnum.CLOSE] = 'distance', _c[_card.AxisEnum.FAR] = 'distance', _c[_card.AxisEnum.CLOSER] = 'distance', _c[_card.AxisEnum.FURTHER] = 'distance', _c[_card.AxisEnum.NOT_GRAPPLED] = 'distance', _c[_card.AxisEnum.NOT_CLOSE] = 'distance', _c[_card.AxisEnum.NOT_FAR] = 'distance', _c[_card.AxisEnum.MOVING] = 'motion', _c[_card.AxisEnum.STILL] = 'motion', _c[_card.AxisEnum.STANDING] = 'standing', _c[_card.AxisEnum.PRONE] = 'standing', _c[_card.AxisEnum.BALANCED] = 'balance', _c[_card.AxisEnum.ANTICIPATING] = 'balance', _c[_card.AxisEnum.NOT_ANTICIPATING] = 'balance', _c[_card.AxisEnum.UNBALANCED] = 'balance', _c[_card.AxisEnum.POISE] = 'balance', _c[_card.AxisEnum.LOSE_POISE] = 'balance', _c[_card.AxisEnum.DAMAGE] = 'damage', _c[_card.AxisEnum.BLOODIED] = 'damage', _c);
 
 var Arrow = function Arrow(_a) {
   var player = _a.player,
@@ -15582,7 +15590,7 @@ var Icon = function Icon(props) {
 };
 
 exports.Icon = Icon;
-},{"preact":"node_modules/preact/dist/preact.mjs","../shared/card":"src/shared/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../shared/card":"src/shared/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./bloodied.png":"src/images/bloodied.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./not_anticipating.png":"src/images/not_anticipating.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15665,7 +15673,7 @@ var Effect = function Effect(_a) {
       displayState = _e.state,
       value = _e.value;
 
-  var mechClass = displayEff ? 'mechanic' : '';
+  var mechClass = displayEff || displayPick ? 'mechanic' : 'icon-section';
   return (0, _preact.h)("div", {
     class: 'small-pad ' + mechClass
   }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), displayState && (0, _preact.h)(_images.Arrow, {
@@ -15675,8 +15683,10 @@ var Effect = function Effect(_a) {
     name: effect.axis
   }), (displayState || value || valueString) && effect.amount !== undefined && (0, _preact.h)("b", null, effect.amount), (displayEff || displayReq || displayPick) && (0, _preact.h)("span", null, (0, _preact.h)("div", {
     class: 'h-divider'
-  }), (0, _preact.h)("div", null, displayReq && (0, _preact.h)("div", null, reqs.map(function (req, i) {
-    return (0, _preact.h)("span", {
+  }), (0, _preact.h)("div", null, displayReq && (0, _preact.h)("div", {
+    class: "req-parent"
+  }, reqs.map(function (req, i) {
+    return (0, _preact.h)("div", {
       key: i
     }, (0, _preact.h)(_Requirement.default, {
       requirement: req,
@@ -15684,7 +15694,9 @@ var Effect = function Effect(_a) {
     }));
   })), displayEff && (0, _preact.h)("div", {
     class: 'h-divider thin'
-  }), displayEff && (0, _preact.h)("div", null, effs.map(function (eff, i) {
+  }), displayEff && (0, _preact.h)("div", {
+    class: "effect-parent"
+  }, effs.map(function (eff, i) {
     return (0, _preact.h)("span", {
       key: i
     }, (0, _preact.h)(Effect, {
@@ -15939,7 +15951,19 @@ var __assign = void 0 && (void 0).__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-var _default = function _default(props) {
+var selector = function selector(state) {
+  var player = state.player;
+  var opponent = state.player === 0 ? 1 : 0;
+  var queue = state.queue.map(function (turnArr) {
+    return [turnArr[opponent], turnArr[player]];
+  });
+  return {
+    queue: queue,
+    player: player
+  };
+};
+
+var board = function board(props) {
   var _a = props.queue,
       queue = _a === void 0 ? [] : _a,
       player = props.player;
@@ -15949,8 +15973,6 @@ var _default = function _default(props) {
     class: 'card-container'
   }, renderBoard(queue, player)));
 };
-
-exports.default = _default;
 
 var cardNames = function cardNames(cards) {
   if (cards === void 0) {
@@ -16015,6 +16037,12 @@ var renderBoard = function renderBoard(queue, identity) {
     }));
   });
 };
+
+var _default = function _default(state) {
+  return board(selector(state));
+};
+
+exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx","../../game/dispatch":"src/game/dispatch.ts","./card/fullQueueCard":"src/components/game/card/fullQueueCard.tsx","../../events/dispatch":"src/events/dispatch.ts"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -16702,7 +16730,7 @@ var Prediction = function Prediction(_a) {
           key: i
         }, (0, _preact.h)(_effect.default, {
           effect: mech,
-          shouldFlip: !isMine
+          shouldFlip: !pred.isMine
         }), " ");
       }));
     }));
@@ -18571,7 +18599,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59374" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59463" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

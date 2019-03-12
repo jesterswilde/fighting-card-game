@@ -13,7 +13,6 @@ exports.boxerDeck = {
         "Swarm of Punches",
         "Clinch",
         "Break Out",
-        "Wind Up",
         "Bolo Punch",
         "Work The Body",
         "Check Hook"

@@ -20,6 +20,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const decks_1 = require("./decks");
 const Cards_1 = require("./cards/Cards");
+const sortOrder_1 = require("./shared/sortOrder");
 const router = express_1.Router();
 router.get('/deckList', (req, res) => {
     res.status(200).send(getDeckList());
@@ -37,6 +38,7 @@ router.get('/deck/:deckName', (req, res) => {
 });
 router.post('/card', (req, res) => {
     const _a = req.body, { index } = _a, card = __rest(_a, ["index"]);
+    sortOrder_1.sortCard(card);
     Cards_1.addCard(card, index);
     res.status(201).send();
 });

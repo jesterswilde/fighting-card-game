@@ -2,47 +2,32 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const effectHappens_1 = require("./effectHappens");
 const errors_1 = require("../../errors");
-const predictions_1 = require("./predictions");
 const events_1 = require("../events");
 const telegraph_1 = require("../checkMechanics/telegraph");
 const reflex_1 = require("../checkMechanics/reflex");
 const focus_1 = require("../checkMechanics/focus");
-const readiedEffects_1 = require("../readiedEffects");
 const handleStateEffects_1 = require("./handleStateEffects");
 const collectDamage_1 = require("./collectDamage");
-/*
-    --- TODO ---
-    if a telegraph adds a focus or some other effect that lives on the queue, that new effect should be
-    it's own entity on the queue. This is not handled in any way currently.
-    smimilarly, if the card is undefined, we don't handle this at all. Will crash.
-*/
-/*
-    ++ NEW ORDER ++
-    apply parry
-    apply state effects
-    check predictions
-    add delayed effects (telegraphs, focus)
-    apply damage -- Breaking this out will help possibly modify order later
-    check for reflex
-    check telegraph
-    check focus
-*/
+const predictions_1 = require("./predictions");
+const util_1 = require("../../util");
+const card_1 = require("../../../shared/card");
 exports.cardHappens = (state) => {
     try {
         //parry
         //collect damage
         events_1.storeEffectsForEvents(state);
         collectDamage_1.collectBlockAndDamage(state);
+        exports.applyPoise(state);
         handleStateEffects_1.applyStateEffects(state);
         exports.applyMechanics(state);
         events_1.processEffectEvents(state);
         exports.removeStoredEffects(state);
-        exports.checkPredictions(state);
-        collectDamage_1.applyCollectedDamage(state);
-        exports.checkForVictor(state);
+        predictions_1.checkPredictions(state);
         reflex_1.checkReflex(state);
         telegraph_1.checkTelegraph(state);
         focus_1.checkFocus(state);
+        collectDamage_1.applyCollectedDamage(state);
+        exports.checkForVictor(state);
     }
     catch (err) {
         if (err === errors_1.ControlEnum.NEW_EFFECTS) {
@@ -77,19 +62,12 @@ exports.checkForVictor = (state) => {
         throw errors_1.ControlEnum.GAME_OVER;
     }
 };
-exports.checkPredictions = (state) => {
-    const { predictions } = state;
-    let stateChanged = false;
-    predictions.forEach((pred, player) => {
-        const didHappen = predictions_1.didPredictionHappen(pred, state);
-        events_1.addRevealPredictionEvent(didHappen, pred.prediction, player, state);
-        if (didHappen) {
-            stateChanged = true;
-            readiedEffects_1.addReadiedToState(pred.readiedEffects, state);
-        }
+exports.applyPoise = (state) => {
+    state.readiedEffects = state.readiedEffects.map((playerReaEffs, player) => {
+        const [poiseArr, unusedArr] = util_1.splitArray(playerReaEffs, ({ mechanic }) => mechanic.axis === card_1.AxisEnum.POISE || mechanic.axis === card_1.AxisEnum.LOSE_POISE);
+        poiseArr.forEach((reaEff) => {
+            effectHappens_1.reduceStateChangeReaEff(reaEff, state);
+        });
+        return unusedArr;
     });
-    state.predictions = [];
-    if (stateChanged) {
-        throw errors_1.ControlEnum.NEW_EFFECTS;
-    }
 };

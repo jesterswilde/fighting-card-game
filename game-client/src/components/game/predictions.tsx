@@ -38,7 +38,7 @@ const Prediction = ({ predictions }: Props) => {
                 return <div class={'prediction ' + isMine} key={i}>
                     {pred.prediction && <div class="guess">Prediction: {pred.prediction}</div>}
                     {pred.mechanics.map((mech, i) => {
-                        return <div key={i}><Effect effect={mech} shouldFlip={!isMine} /> </div>
+                        return <div key={i}><Effect effect={mech} shouldFlip={!pred.isMine} /> </div>
                     })}
                 </div>
             })}

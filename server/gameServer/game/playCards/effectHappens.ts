@@ -86,7 +86,7 @@ const getLockMax = (current, next) => {
 
 const reducePredict = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
     state.pendingPredictions[card.player] = state.pendingPredictions[card.player] || { readiedEffects: [] }
-    const reaEffs = mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state); 
+    const reaEffs = mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state);
     state.pendingPredictions[card.player].readiedEffects.push(...reaEffs)
 }
 const reduceReflex = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
@@ -165,18 +165,12 @@ const globalAxis: { [axis: string]: (state: GameState) => void } = {
 
 const playerAxis: { [axis: string]: (players: number[], amount: number, state: GameState) => void } = {
     [AxisEnum.POISE]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
-        const { playerStates, lockedState } = state;
-        if (!lockedState.players[i].poise) {
-            playerStates[i].poise += amount;
-            playerStates[i].poise = Math.min(playerStates[i].poise, MAX_POISE);
-        }
+        const { playerStates } = state;
+        playerStates[i].poise += amount;
     }),
     [AxisEnum.LOSE_POISE]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
-        const { playerStates, lockedState } = state;
-        if (!lockedState.players[i].poise) {
-            playerStates[i].poise -= amount;
-            playerStates[i].poise = Math.max(playerStates[i].poise, MIN_POISE);
-        }
+        const { playerStates } = state;
+        playerStates[i].poise -= amount;
     }),
     [AxisEnum.STANDING]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
         const { stateDurations, playerStates, lockedState } = state;
@@ -225,7 +219,6 @@ const playerAxis: { [axis: string]: (players: number[], amount: number, state: G
                 state.health[i] -= amount
             }
         })
-        players.forEach((i) => state.damaged[i] = true);
     },
 }
 

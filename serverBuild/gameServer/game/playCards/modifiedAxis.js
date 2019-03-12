@@ -5,7 +5,6 @@ const stateInterface_1 = require("../../interfaces/stateInterface");
 const util_1 = require("../../util");
 exports.markAxisChange = (mechanic, card, state) => {
     const players = util_1.playerEnumToPlayerArray(mechanic.player, card.player, card.opponent);
-    console.log('axis - playrs', players, card);
     switch (mechanic.axis) {
         case card_1.AxisEnum.MOVING:
         case card_1.AxisEnum.STILL:

@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getDeckOptions, getDeckForViewer } from './decks';
 import { addCard, cards, removeCard } from './cards/Cards';
+import { sortCard } from './shared/sortOrder';
 
 const router = Router();
 
@@ -23,6 +24,7 @@ router.get('/deck/:deckName', (req, res) => {
 
 router.post('/card', (req, res) => {
     const { index, ...card } = req.body;
+    sortCard(card); 
     addCard(card, index);
     res.status(201).send();
 })

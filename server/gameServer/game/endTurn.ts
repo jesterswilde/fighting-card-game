@@ -10,8 +10,16 @@ export const endTurn = async (state: GameState) => {
     decrementCounters(state);
     clearTurnData(state);
     sendState(state);
-    sendEvents(state); 
+    sendEvents(state);
+    capPoise(state); 
     console.log('turn ended'); 
+}
+
+const capPoise = (state: GameState)=>{
+    state.playerStates.forEach((pState)=>{
+        pState.poise = Math.max(0, pState.poise);
+        pState.poise = Math.min(10, pState.poise);  
+    })
 }
 
 export const cullQueue = (state: GameState) => {

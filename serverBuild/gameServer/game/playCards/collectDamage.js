@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const stateInterface_1 = require("../../interfaces/stateInterface");
 const util_1 = require("../../util");
 const card_1 = require("../../../shared/card");
 const effectHappens_1 = require("./effectHappens");
@@ -41,8 +42,19 @@ const collectBlock = (state) => {
 exports.collectDamage = (state) => {
     state.readiedEffects = state.readiedEffects.map((playerEff, player) => {
         const [damageEffectsPlayer, otherEffects] = util_1.splitArray(playerEff, (reaEff) => reaEff.mechanic.axis === card_1.AxisEnum.DAMAGE);
-        state.damageEffects[player] = damageEffectsPlayer;
+        state.damageEffects[player] = state.damageEffects[player] || [];
+        state.damageEffects[player].push(...damageEffectsPlayer);
+        markDamaged(damageEffectsPlayer, state);
         return otherEffects;
+    });
+};
+const markDamaged = (damageEffects, state) => {
+    damageEffects.forEach((damageEffect) => {
+        damageEffect.happensTo.forEach((happens, player) => {
+            if (happens === stateInterface_1.HappensEnum.HAPPENS) {
+                state.damaged[player] = true;
+            }
+        });
     });
 };
 exports.applyCollectedDamage = (state) => {

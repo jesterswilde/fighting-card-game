@@ -10104,6 +10104,12 @@ div {
   background-color: #413d01;
   padding: 4px;
 }
+.game-card .effect-parent, .game-card .icon-section, .game-card .req-parent {
+  max-width: 160px;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+}
 .game-card .tags {
   font-size: 0.6rem;
   display: flex;

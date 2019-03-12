@@ -20,8 +20,15 @@ exports.endTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     clearTurnData(state);
     socket_1.sendState(state);
     events_1.sendEvents(state);
+    capPoise(state);
     console.log('turn ended');
 });
+const capPoise = (state) => {
+    state.playerStates.forEach((pState) => {
+        pState.poise = Math.max(0, pState.poise);
+        pState.poise = Math.min(10, pState.poise);
+    });
+};
 exports.cullQueue = (state) => {
     const { decks, queue } = state;
     queue_1.forEachCardInQueue(state, (card, queueIndex) => {

@@ -43,3 +43,51 @@ exports.SORT_ORDER = {
     [card_1.MechanicEnum.FOCUS]: 11,
     [card_1.MechanicEnum.TELEGRAPH]: 11,
 };
+exports.sortCard = (card) => {
+    if (card.priority === undefined) {
+        card.priority = 5;
+    }
+    sortRequirements(card.requirements);
+    sortEffects(card.effects);
+    card.optional.forEach((opt) => {
+        sortRequirements(opt.requirements);
+        sortEffects(opt.effects);
+    });
+};
+const sortRequirements = (reqs) => {
+    reqs.sort((a, b) => exports.getSortOrder(a.axis) - exports.getSortOrder(b.axis));
+};
+const sortEffects = (effs) => {
+    effs.sort((a, b) => {
+        let aVal, bVal;
+        if (a.mechanic !== undefined) {
+            aVal = exports.getSortOrder(a.mechanic);
+        }
+        else {
+            aVal = exports.getSortOrder(a.axis);
+        }
+        if (b.mechanic !== undefined) {
+            bVal = exports.getSortOrder(b.mechanic);
+        }
+        else {
+            bVal = exports.getSortOrder(b.axis);
+        }
+        return aVal - bVal;
+    });
+    effs.forEach((eff) => {
+        if ((eff.axis === card_1.AxisEnum.PRONE || eff.axis === card_1.AxisEnum.MOVING) && eff.amount === undefined) {
+            eff.amount = 2;
+        }
+        if (Array.isArray(eff.mechanicEffects)) {
+            sortEffects(eff.mechanicEffects);
+        }
+        if (Array.isArray(eff.mechanicRequirements)) {
+            sortRequirements(eff.mechanicRequirements);
+        }
+        if (Array.isArray(eff.choices)) {
+            eff.choices.forEach((choice) => {
+                sortEffects(choice);
+            });
+        }
+    });
+};
