@@ -5,6 +5,7 @@ const sortOrder_1 = require("../../../shared/sortOrder");
 const effectHappens_1 = require("./effectHappens");
 const util_1 = require("../../util");
 const card_1 = require("../../../shared/card");
+const priority_1 = require("../checkMechanics/priority");
 exports.applyStateEffects = (state) => {
     let stateReaEffs = getStateReaEffs(state);
     markConflicts(stateReaEffs, state);
@@ -49,11 +50,13 @@ const markConflicts = (stateReaEffs, state) => {
 const handleConflict = (reaEffA, reaEffB, targetPlayer, state) => {
     if (checkEquality(reaEffA.mechanic.axis, reaEffB.mechanic.axis, state))
         return;
-    if (reaEffA.card.priority > reaEffB.card.priority) {
+    const priorityA = priority_1.calculatePriority(reaEffA.card);
+    const priorityB = priority_1.calculatePriority(reaEffB.card);
+    if (priorityA > priorityB) {
         reaEffB.happensTo[targetPlayer] = stateInterface_1.HappensEnum.BLOCKED;
         return reaEffA;
     }
-    if (reaEffA.card.priority < reaEffB.card.priority) {
+    if (priorityA < priorityB) {
         reaEffA.happensTo[targetPlayer] = stateInterface_1.HappensEnum.BLOCKED;
         return reaEffB;
     }

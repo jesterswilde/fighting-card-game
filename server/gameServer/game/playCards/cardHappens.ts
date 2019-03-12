@@ -10,14 +10,14 @@ import { collectBlockAndDamage, applyCollectedDamage } from "./collectDamage";
 import { checkPredictions } from "./predictions";
 import { splitArray } from "../../util";
 import { AxisEnum } from "../../../shared/card";
+import { applyClutch } from "../checkMechanics/priority";
 
 export const cardHappens = (state: GameState) => {
     try {
-        //parry
-        //collect damage
         storeEffectsForEvents(state);
         collectBlockAndDamage(state);
-        applyPoise(state); 
+        applyClutch(state);
+        applyPoise(state);
         applyStateEffects(state);
         applyMechanics(state);
         processEffectEvents(state);
@@ -62,12 +62,12 @@ export const checkForVictor = (state: GameState) => {
     }
 }
 
-export const applyPoise = (state: GameState)=>{
-    state.readiedEffects = state.readiedEffects.map((playerReaEffs, player)=>{
-        const [poiseArr, unusedArr] = splitArray(playerReaEffs, ({mechanic})=> mechanic.axis === AxisEnum.POISE || mechanic.axis === AxisEnum.LOSE_POISE); 
-        poiseArr.forEach((reaEff)=>{
-            reduceStateChangeReaEff(reaEff, state); 
+export const applyPoise = (state: GameState) => {
+    state.readiedEffects = state.readiedEffects.map((playerReaEffs, player) => {
+        const [poiseArr, unusedArr] = splitArray(playerReaEffs, ({ mechanic }) => mechanic.axis === AxisEnum.POISE || mechanic.axis === AxisEnum.LOSE_POISE);
+        poiseArr.forEach((reaEff) => {
+            reduceStateChangeReaEff(reaEff, state);
         })
-        return unusedArr; 
+        return unusedArr;
     });
 }

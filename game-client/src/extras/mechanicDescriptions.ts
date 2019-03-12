@@ -12,7 +12,8 @@ const descObj: {[mech: string]: string} = {
     [MechanicEnum.PREDICT]: 'Guess what the opponent will change with their next card, if correct, you get the effect',
     [MechanicEnum.REFLEX]: 'Plays a random, valid, card from your deck',
     [MechanicEnum.TELEGRAPH]: 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens',
-    [MechanicEnum.ENHANCE]: 'All future cards with this tag, will be enhanced by this effect'
+    [MechanicEnum.ENHANCE]: 'All future cards with this tag, will be enhanced by this effect',
+    [MechanicEnum.CLUTCH]: 'Increases the cards Priority by X (this turn only)',
 }
 
 export const getMechanicDescription = (mech: MechanicEnum)=>{

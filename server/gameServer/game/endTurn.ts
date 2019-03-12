@@ -31,6 +31,7 @@ export const cullQueue = (state: GameState) => {
             card.shouldReflex = false; 
             card.predictions = undefined; 
             card.enhancements = undefined; 
+            card.clutch = 0; 
             decks[card.player].push(card); 
         }
     })

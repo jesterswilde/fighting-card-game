@@ -13,6 +13,7 @@ export interface Card extends RequirementEffect{
     isFaceUp?: boolean
     id?: number
     priority?: number
+    clutch?: number
 }
 
 export interface Enhancement {
@@ -96,6 +97,7 @@ export enum MechanicEnum{
     PICK_ONE = "Pick One",
     FORCEFUL = "Forceful",
     ENHANCE = "Enhance",
+    CLUTCH = 'Clutch',
 }
 
 
@@ -133,6 +135,7 @@ const MechanicDisplay: {[mech: string]: DisplayComponents} = {
     [MechanicEnum.CRIPPLE]: {valueString: true},
     [MechanicEnum.PICK_ONE]: {pick: true},
     [MechanicEnum.FORCEFUL]: {value: true, eff: true},
+    [MechanicEnum.CLUTCH]: {value: true}
 }
 
 

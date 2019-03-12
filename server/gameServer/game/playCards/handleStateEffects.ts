@@ -3,6 +3,7 @@ import { getSortOrder } from "../../../shared/sortOrder";
 import { reduceStateChangeReaEff } from "./effectHappens";
 import { splitArray } from "../../util";
 import { AxisEnum } from "../../../shared/card";
+import { calculatePriority } from "../checkMechanics/priority";
 
 interface OrderPlayerObj {
     [order: number]: {
@@ -55,11 +56,13 @@ const markConflicts = (stateReaEffs: ReadiedEffect[][], state: GameState) => {
 
 const handleConflict = (reaEffA: ReadiedEffect, reaEffB: ReadiedEffect, targetPlayer: number, state: GameState) => {
     if (checkEquality(reaEffA.mechanic.axis, reaEffB.mechanic.axis, state)) return;
-    if (reaEffA.card.priority > reaEffB.card.priority) {
+    const priorityA = calculatePriority(reaEffA.card); 
+    const priorityB = calculatePriority(reaEffB.card); 
+    if (priorityA > priorityB) {
         reaEffB.happensTo[targetPlayer] = HappensEnum.BLOCKED;
         return reaEffA;
     }
-    if (reaEffA.card.priority < reaEffB.card.priority) {
+    if (priorityA < priorityB) {
         reaEffA.happensTo[targetPlayer] = HappensEnum.BLOCKED;
         return reaEffB;
     }

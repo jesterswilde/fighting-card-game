@@ -11,12 +11,12 @@ const collectDamage_1 = require("./collectDamage");
 const predictions_1 = require("./predictions");
 const util_1 = require("../../util");
 const card_1 = require("../../../shared/card");
+const priority_1 = require("../checkMechanics/priority");
 exports.cardHappens = (state) => {
     try {
-        //parry
-        //collect damage
         events_1.storeEffectsForEvents(state);
         collectDamage_1.collectBlockAndDamage(state);
+        priority_1.applyClutch(state);
         exports.applyPoise(state);
         handleStateEffects_1.applyStateEffects(state);
         exports.applyMechanics(state);

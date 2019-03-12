@@ -40,6 +40,7 @@ var MechanicEnum;
     MechanicEnum["PICK_ONE"] = "Pick One";
     MechanicEnum["FORCEFUL"] = "Forceful";
     MechanicEnum["ENHANCE"] = "Enhance";
+    MechanicEnum["CLUTCH"] = "Clutch";
 })(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
 exports.getMechDisplay = (mech) => {
     const defaultValue = { state: true, value: true };
@@ -65,6 +66,7 @@ const MechanicDisplay = {
     [MechanicEnum.CRIPPLE]: { valueString: true },
     [MechanicEnum.PICK_ONE]: { pick: true },
     [MechanicEnum.FORCEFUL]: { value: true, eff: true },
+    [MechanicEnum.CLUTCH]: { value: true }
 };
 var PlayerEnum;
 (function (PlayerEnum) {

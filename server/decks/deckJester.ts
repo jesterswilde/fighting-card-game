@@ -2,7 +2,8 @@ import { DeckDescription } from "./interface";
 
 export const jesterDeck: DeckDescription = {
     deckList: [
-        "Vicious Mockery"
+        "Vicious Mockery",
+        "Cower"
     ],
         name: "Jester",
         description: "In Progress"
