@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { Card } from '../../shared/card';
 import { dispatchPickedCard } from '../../hand/dispatch'
 import HandCard from './card/handCard'
-import Viewer from './card/viewer'; 
+import Viewer from './card/viewer';
 import { StoreState } from '../../state/store';
 import { cleanConnect } from '../../util';
 
@@ -11,9 +11,15 @@ interface Props {
     showFullCard: boolean
 }
 
-const selector = (state: StoreState): Props=>{
+const selector = (state: StoreState): Props => {
+    let hand: Card[];
+    if (state.hand.showHand) {
+        hand = state.hand.hands[state.game.player] || []
+    }else{
+        hand = [];
+    }
     return {
-        hand: state.hand.hand,
+        hand,
         showFullCard: state.gameDisplay.showFullCard
     }
 }
@@ -28,8 +34,8 @@ const Hand = ({ hand, showFullCard }: Props) => {
                     key={key}
                     onClick={() => dispatchPickedCard(i)}
                 >
-                    { showFullCard && <Viewer {...card} />}
-                    { showFullCard || <HandCard {...card} />}
+                    {showFullCard && <Viewer {...card} />}
+                    {showFullCard || <HandCard {...card} />}
                 </div>
             })}
         </div>

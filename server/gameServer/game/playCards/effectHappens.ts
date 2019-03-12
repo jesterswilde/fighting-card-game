@@ -6,7 +6,7 @@ import { MAX_POISE, MIN_POISE } from "../../gameSettings";
 import { mechanicsToReadiedEffects } from "../readiedEffects";
 
 export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
-    readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly, isHappening }) => {
+    readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly }) => {
         const reducer = mechanicRouter[mech.mechanic];
         if (isEventOnly) return;
         if (reducer !== undefined) {
@@ -37,6 +37,7 @@ const reduceBuff = (mechanic: Mechanic, card: Card, player: number, opponent: nu
 }
 
 const reduceCripple = async (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState, { _getCardByName = getCardByName } = {}) => {
+    console.log("reducing cripple", player, opponent)
     const { decks } = state;
     const { amount: cardName } = mechanic;
     const deck = decks[opponent];

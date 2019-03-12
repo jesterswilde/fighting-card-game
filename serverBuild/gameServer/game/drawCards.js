@@ -42,6 +42,8 @@ exports.drawCards = (player, state, handSize = gameSettings_1.HAND_SIZE) => {
     }
     const hand = handIndexes.map((i) => {
         const card = deck[i];
+        if (card.isFaceUp)
+            console.log(card);
         exports.addEnhancement(card, state);
         deck[i] = undefined;
         return card;

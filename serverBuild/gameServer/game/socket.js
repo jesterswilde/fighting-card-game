@@ -4,9 +4,15 @@ const socket_1 = require("../../shared/socket");
 const util_1 = require("../util");
 exports.sendHand = (state) => {
     const { sockets, hands } = state;
-    const handSizes = hands.map((hand) => hand.length);
-    sockets.forEach((socket, player) => {
-        sockets[player].emit(socket_1.SocketEnum.GOT_CARDS, { hand: hands[player], handSizes });
+    sockets.forEach((socket, currentPlayer) => {
+        socket.emit(socket_1.SocketEnum.GOT_CARDS, {
+            hands: hands.map((hand, player) => {
+                if (player === currentPlayer) {
+                    return hand;
+                }
+                return hand.map((card) => card.isFaceUp ? card : null);
+            })
+        });
     });
 };
 exports.sendState = (state) => {

@@ -12746,7 +12746,9 @@ var handReducer = function handReducer(state, action) {
 
   switch (action.type) {
     case _actions.HandActionEnum.GOT_HAND_STATE:
-      return __assign({}, state, action.handState);
+      return __assign({}, state, action.handState, {
+        showHand: true
+      });
 
     case _actions.HandActionEnum.PICKED_CARD:
       return pickedCardReducer(state, action);
@@ -12764,14 +12766,14 @@ var pickedCardReducer = function pickedCardReducer(state, _a) {
   _socket.socket.send(_socket2.SocketEnum.PICKED_CARD, index);
 
   return __assign({}, state, {
-    hand: []
+    showHand: false
   });
 };
 
 var makeDefaultState = function makeDefaultState() {
   return {
-    hand: [],
-    handSizes: []
+    hands: [],
+    showHand: false
   };
 };
 },{"./actions":"src/hand/actions.ts","../socket/socket":"src/socket/socket.ts","../shared/socket":"src/shared/socket.ts"}],"src/display/reducer.ts":[function(require,module,exports) {
@@ -16088,7 +16090,8 @@ var HandCard = function HandCard(card) {
       requirements = card.requirements,
       _a = card.tags,
       tags = _a === void 0 ? [] : _a,
-      priority = card.priority;
+      priority = card.priority,
+      shouldFlip = card.shouldFlip;
 
   var _b = (0, _util.splitEffects)(effects),
       effOnly = _b.effects,
@@ -16106,6 +16109,7 @@ var HandCard = function HandCard(card) {
     return (0, _preact.h)("div", {
       key: i
     }, (0, _preact.h)(_Requirement.default, {
+      shouldFlip: shouldFlip,
       requirement: req
     }));
   })), (0, _preact.h)("div", {
@@ -16121,6 +16125,7 @@ var HandCard = function HandCard(card) {
     return (0, _preact.h)("div", {
       key: i
     }, " ", (0, _preact.h)(_optional.default, __assign({}, opt, {
+      shouldFlip: shouldFlip,
       greyUnusable: true
     })), " ");
   })), (0, _preact.h)("div", {
@@ -16129,12 +16134,14 @@ var HandCard = function HandCard(card) {
     return (0, _preact.h)("div", {
       key: i
     }, (0, _preact.h)(_effect.default, {
+      shouldFlip: shouldFlip,
       effect: effect
     }));
   })), (0, _preact.h)("div", null, mechanics.map(function (effect, i) {
     return (0, _preact.h)("div", {
       key: i
     }, (0, _preact.h)(_effect.default, {
+      shouldFlip: shouldFlip,
       effect: effect
     }));
   }))));
@@ -16276,8 +16283,16 @@ var __assign = void 0 && (void 0).__assign || function () {
 };
 
 var selector = function selector(state) {
+  var hand;
+
+  if (state.hand.showHand) {
+    hand = state.hand.hands[state.game.player] || [];
+  } else {
+    hand = [];
+  }
+
   return {
-    hand: state.hand.hand,
+    hand: hand,
     showFullCard: state.gameDisplay.showFullCard
   };
 };
@@ -17241,17 +17256,36 @@ var _preact = require("preact");
 
 var _util = require("../../util");
 
+var _handCard = _interopRequireDefault(require("./card/handCard"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
 var selector = function selector(state) {
   var opponent = state.game.player === 0 ? 1 : 0;
-  var num = state.hand.handSizes[opponent];
+  var cards = state.hand.hands[opponent];
 
-  if (num === null) {
+  if (cards === null || cards === undefined) {
     return {
       cards: []
     };
   }
 
-  var cards = (0, _util.nRange)(num);
   return {
     cards: cards
   };
@@ -17260,19 +17294,25 @@ var selector = function selector(state) {
 var oppCards = function oppCards(_a) {
   var cards = _a.cards;
   return (0, _preact.h)("div", {
-    class: "card-container"
-  }, cards.map(function (card) {
-    return (0, _preact.h)("div", {
-      key: card,
-      class: "game-card opp"
-    });
+    class: "card-container opp"
+  }, cards.map(function (card, i) {
+    if (card === null) {
+      return (0, _preact.h)("div", {
+        key: i,
+        class: "game-card"
+      });
+    }
+
+    return (0, _preact.h)(_handCard.default, __assign({
+      shouldFlip: true
+    }, card));
   }));
 };
 
 var _default = (0, _util.cleanConnect)(selector, oppCards);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../util":"src/util.ts"}],"src/components/game/gameScreen.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../util":"src/util.ts","./card/handCard":"src/components/game/card/handCard.tsx"}],"src/components/game/gameScreen.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18599,7 +18639,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59463" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63718" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

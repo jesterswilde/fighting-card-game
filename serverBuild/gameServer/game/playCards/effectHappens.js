@@ -14,7 +14,7 @@ const getCards_1 = require("./getCards");
 const util_1 = require("../../util");
 const readiedEffects_1 = require("../readiedEffects");
 exports.reduceMechanics = (readiedMechanics, state) => {
-    readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly, isHappening }) => {
+    readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly }) => {
         const reducer = mechanicRouter[mech.mechanic];
         if (isEventOnly)
             return;
@@ -46,6 +46,7 @@ const reduceBuff = (mechanic, card, player, opponent, state) => {
     }
 };
 const reduceCripple = (mechanic, card, player, opponent, state, { _getCardByName = getCards_1.getCardByName } = {}) => __awaiter(this, void 0, void 0, function* () {
+    console.log("reducing cripple", player, opponent);
     const { decks } = state;
     const { amount: cardName } = mechanic;
     const deck = decks[opponent];

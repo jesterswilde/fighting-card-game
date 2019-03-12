@@ -9,7 +9,9 @@ const deckInspectorGadget_1 = require("./deckInspectorGadget");
 const deckASDF_1 = require("./deckASDF");
 const deckBloodInWater_1 = require("./deckBloodInWater");
 const deckBoxer_1 = require("./deckBoxer");
-const testDeck = [];
+const deckJester_1 = require("./deckJester");
+const deckHunter_1 = require("./deckHunter");
+const testDeck = ['crippleTest', 'crippleTest'];
 exports.decks = [
     deckGrapple_1.grappleDeck,
     deckHighGround_1.highGroundDeck,
@@ -17,8 +19,10 @@ exports.decks = [
     deckStone_1.stoneDeck,
     deckBloodInWater_1.bloodInWaterDeck,
     deckInspectorGadget_1.inspectorGadgetDeck,
-    deckASDF_1.ASDFdeck,
+    deckHunter_1.hunterDeck,
+    deckJester_1.jesterDeck,
     deckBoxer_1.boxerDeck,
+    deckASDF_1.ASDFdeck,
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
 ];
 exports.getDeckForViewer = (name) => {

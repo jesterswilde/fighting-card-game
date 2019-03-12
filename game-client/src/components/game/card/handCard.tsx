@@ -7,26 +7,28 @@ import { splitEffects } from '../../../util';
 import { Tooltip, TooltipStyles } from 'react-lightweight-tooltip';
 
 
-interface Props extends Card { }
+interface Props extends Card {
+    shouldFlip?: boolean
+ }
 
 const HandCard = (card: Props) => {
-    const { name, optional, effects, requirements, tags = [], priority } = card;
+    const { name, optional, effects, requirements, tags = [], priority, shouldFlip } = card;
     const { effects: effOnly, mechanics } = splitEffects(effects);
     return <div class='game-card text-center'>
         <div class='title'><div/><div>{name}</div> <div class="priority">{renderPriority(priority)}</div> </div>
         <div class='card-section req'>
-            {requirements.map((req, i) => <div key={i}><Requirement requirement={req} /></div>)}
+            {requirements.map((req, i) => <div key={i}><Requirement shouldFlip={shouldFlip} requirement={req} /></div>)}
         </div>
         <div class="tags">{tags.map(({ value }, i) => <div key={i}>{value}</div>)}</div>
         <div class='card-section '>
-            {optional.map((opt, i) => <div key={i}> <Optional {...opt} greyUnusable={true} /> </div>)}
+            {optional.map((opt, i) => <div key={i}> <Optional {...opt} shouldFlip={shouldFlip} greyUnusable={true} /> </div>)}
         </div>
         <div class='card-section effect'>
             <div>
-                {effOnly.map((effect, i) => <div key={i}><Effect effect={effect} /></div>)}
+                {effOnly.map((effect, i) => <div key={i}><Effect shouldFlip={shouldFlip} effect={effect} /></div>)}
             </div>
             <div>
-                {mechanics.map((effect, i) => <div key={i}><Effect effect={effect} /></div>)}
+                {mechanics.map((effect, i) => <div key={i}><Effect shouldFlip={shouldFlip} effect={effect} /></div>)}
             </div>
         </div>
     </div>

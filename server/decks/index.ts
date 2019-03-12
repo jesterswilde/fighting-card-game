@@ -8,11 +8,12 @@ import { DeckDescription } from './interface';
 import { ASDFdeck } from './deckASDF';
 import { bloodInWaterDeck } from './deckBloodInWater';
 import { boxerDeck } from './deckBoxer';
+import { jesterDeck } from './deckJester';
+import { hunterDeck } from './deckHunter';
 
 
 
-
-const testDeck = []
+const testDeck = ['crippleTest','crippleTest']
 
 export const decks: DeckDescription[] = [
     grappleDeck,
@@ -21,17 +22,19 @@ export const decks: DeckDescription[] = [
     stoneDeck,
     bloodInWaterDeck,
     inspectorGadgetDeck,
-    ASDFdeck,
+    hunterDeck,
+    jesterDeck,
     boxerDeck,
+    ASDFdeck,
     { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
 ]
 
-export const getDeckForViewer = (name: string)=>{
-    const deckObj =  decks.find((deck) => deck.name === name);
+export const getDeckForViewer = (name: string) => {
+    const deckObj = decks.find((deck) => deck.name === name);
     if (!deckObj) {
         return null;
     }
-    const cards = getDeck(name); 
+    const cards = getDeck(name);
     return {
         name: deckObj.name,
         description: deckObj.description || 'No Description',

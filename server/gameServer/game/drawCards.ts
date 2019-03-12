@@ -5,7 +5,6 @@ import { Card, Enhancement } from "../../shared/card";
 import { HAND_SIZE } from "../gameSettings";
 import { canPlayCard, canUseOptional } from "./playCards/requirements";
 import { getOpponent } from "../util";
-import { stat } from "fs";
 
 export const givePlayersCards = (state: GameState, { _sendHand = sendHand } = {}) => {
     try {
@@ -44,6 +43,7 @@ export const drawCards = (player:number, state: GameState, handSize = HAND_SIZE)
     }
     const hand = handIndexes.map((i) => {
         const card = deck[i];
+        if(card.isFaceUp) console.log(card); 
         addEnhancement(card, state); 
         deck[i] = undefined;
         return card;
