@@ -64,7 +64,7 @@ const decrementCounters = (state: GameState) => {
 const clearTurnData = (state: GameState) => {
     state.damaged = state.damaged.map(()=> false);
     state.turnIsOver = false;
-    state.modifiedAxis = makeModifiedAxis();
+    state.modifiedAxis = state.modifiedAxis.map(()=> makeModifiedAxis());
     state.incrementedQueue = false;
     state.parry = state.parry.map(()=> 0)
     state.checkedFocus = false;

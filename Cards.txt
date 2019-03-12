@@ -6065,57 +6065,6 @@
     "priority": 6,
     "tags": []
   },
-  "Vicious Mockery": {
-    "name": "Vicious Mockery",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Anticipating",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      }
-    ],
-    "effects": [
-      {
-        "amount": "3",
-        "axis": "Lose Poise",
-        "player": 1
-      },
-      {
-        "axis": "Moving",
-        "player": 0,
-        "amount": 2
-      },
-      {
-        "mechanicEffects": [
-          {
-            "amount": "7",
-            "mechanic": "Parry"
-          }
-        ],
-        "mechanic": "Predict"
-      }
-    ],
-    "tagObjs": [
-      {
-        "value": "Crowd Pleaser",
-        "id": 154
-      }
-    ],
-    "tags": [
-      {
-        "value": "Crowd Pleaser"
-      }
-    ],
-    "priority": 5
-  },
   "Femoral Strike": {
     "priority": 5,
     "requirements": [
@@ -6180,8 +6129,158 @@
     "tags": [],
     "priority": 5
   },
+  "Vicious Mockery": {
+    "priority": 5,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "3",
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "7",
+            "mechanic": "Parry"
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Vicious Mockery",
+    "tagObjs": [
+      {
+        "value": "Performance",
+        "id": 34
+      }
+    ],
+    "tags": [
+      {
+        "value": "Performance"
+      }
+    ]
+  },
+  "Hardcore Parkour": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "amount": "2",
+        "axis": "Moving",
+        "player": 0
+      },
+      {
+        "amount": "3",
+        "mechanic": "Parry"
+      },
+      {
+        "choices": [
+          [
+            {
+              "mechanicRequirements": [
+                {
+                  "id": 22,
+                  "axis": "Moving",
+                  "player": 0
+                }
+              ],
+              "mechanicEffects": [
+                {
+                  "amount": "1",
+                  "axis": "Poise",
+                  "player": 0,
+                  "id": 23
+                }
+              ],
+              "mechanic": "Focus"
+            }
+          ],
+          [
+            {
+              "mechanicRequirements": [
+                {
+                  "id": 24,
+                  "axis": "Far",
+                  "player": 2
+                }
+              ],
+              "mechanicEffects": [
+                {
+                  "amount": "3",
+                  "mechanic": "Parry",
+                  "id": 25
+                }
+              ],
+              "mechanic": "Focus"
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "name": "Hardcore Parkour",
+    "tagObjs": [
+      {
+        "value": "Performance",
+        "id": 44
+      }
+    ],
+    "tags": [
+      {
+        "value": "Performance"
+      }
+    ]
+  },
   "Cower": {
-    "name": "Cower",
+    "priority": 6,
+    "requirements": [
+      {
+        "axis": "Bloodied",
+        "player": 0
+      },
+      {
+        "axis": "Close",
+        "player": 2
+      }
+    ],
     "optional": [
       {
         "effects": [
@@ -6209,25 +6308,16 @@
         ]
       }
     ],
-    "requirements": [
-      {
-        "axis": "Bloodied",
-        "player": 0
-      },
-      {
-        "axis": "Close",
-        "player": 2
-      }
-    ],
     "effects": [
       {
+        "amount": "2",
         "axis": "Lose Poise",
         "player": 2
       },
       {
+        "amount": 2,
         "axis": "Prone",
-        "player": 0,
-        "amount": 2
+        "player": 0
       },
       {
         "axis": "Still",
@@ -6238,17 +6328,8 @@
         "mechanic": "Block"
       }
     ],
+    "name": "Cower",
     "tagObjs": [],
-    "priority": 6,
-    "tags": []
-  },
-  "Hardcore Parkour": {
-    "name": "Hardcore Parkour",
-    "optional": [],
-    "requirements": [],
-    "effects": [],
-    "tagObjs": [],
-    "priority": 4,
     "tags": []
   }
 }

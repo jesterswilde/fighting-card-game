@@ -38,19 +38,20 @@ export const SORT_ORDER = {
     [AxisEnum.STILL]: 5,
     [AxisEnum.MOVING]: 5,
 
-    [MechanicEnum.BLOCK]: 6,
+    [MechanicEnum.BLOCK]: 10,
+    [MechanicEnum.PARRY]: 11,
+    [MechanicEnum.CLUTCH]: 12,
 
-    [MechanicEnum.REFLEX]: 7,
-    [MechanicEnum.CRIPPLE]: 8,
-    [MechanicEnum.ENHANCE]: 8,
-    [MechanicEnum.PREDICT]: 9,
-    [MechanicEnum.PREDICT]: 9,
-    [MechanicEnum.LOCK]: 9,
+    [MechanicEnum.REFLEX]: 20,
+    [MechanicEnum.CRIPPLE]: 21,
+    [MechanicEnum.ENHANCE]: 22,
+    [MechanicEnum.PREDICT]: 23,
+    [MechanicEnum.LOCK]: 24,
 
-    [MechanicEnum.PICK_ONE]: 10,
+    [MechanicEnum.PICK_ONE]: 30,
 
-    [MechanicEnum.FOCUS]: 11,
-    [MechanicEnum.TELEGRAPH]: 11,
+    [MechanicEnum.FOCUS]: 31,
+    [MechanicEnum.TELEGRAPH]: 32,
 }
 
 export const sortCard = (card: Card) => {

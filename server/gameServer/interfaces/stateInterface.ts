@@ -85,6 +85,12 @@ export interface PredictionState{
     readiedEffects: ReadiedEffect[]
 }
 
+export interface PredictionEvent{
+    prediction: PredictionEnum,
+    player: number,
+    didHappen: boolean
+}
+
 export enum PredictionEnum {
     NONE = "None",
     DISTANCE = "Distance",
