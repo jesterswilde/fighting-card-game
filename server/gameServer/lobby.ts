@@ -16,6 +16,7 @@ export default (io: SocketIO.Server) => {
 
 const joinLobby = (player: Socket) => {
     console.log('joining lobby');
+    handleDCDuringLobby(player); 
     player.emit(SocketEnum.JOINED_LOBBY);
     if (queue.length > 0) {
         console.log('starting game');
@@ -28,12 +29,31 @@ const joinLobby = (player: Socket) => {
 
 const createGame = async (player1: Socket, player2: Socket) => {
     const players = [player1, player2];
+    handleDCDuringGame(players); 
     const deckPromises = players.map(playerPicksDeck);
     let decks = await Promise.all<Card[]>(deckPromises);
     decks = decks.map((deck) => deepCopy(deck));
     console.log('all deck choices in');
     const state = makeGameState(players, decks);
     playGame(state);
+}
+
+const handleDCDuringLobby = (dcSocket: Socket) => {
+    dcSocket.removeAllListeners('disconnect'); 
+    dcSocket.on('disconnect',()=>{
+        console.log('disconnected during lobby'); 
+        queue = queue.filter((socket) => socket !== dcSocket);
+    })
+}
+
+const handleDCDuringGame = (sockets: Socket[]) => {
+    sockets.forEach((dcSocket)=>{
+        dcSocket.removeAllListeners('disconnect'); 
+        dcSocket.on('disconnect',()=>{
+            console.log('disconnected during game'); 
+            sockets.filter((socket) => socket !== dcSocket).forEach((socket) => joinLobby(socket))
+        })
+    })
 }
 
 const playerPicksDeck = (player: Socket): Promise<Card[]> => {

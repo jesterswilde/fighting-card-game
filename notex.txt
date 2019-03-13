@@ -4,6 +4,4 @@ Game board should change as people get more and more damaged.
 
 (evaluate next time you play) Glowing effect could be punched up. 
 
-Prediction (in event log) needs to color coordiante
-
 Lobby improvement - reconnect
