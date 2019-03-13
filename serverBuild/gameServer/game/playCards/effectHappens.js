@@ -97,8 +97,11 @@ const reducePredict = (mechanic, card, player, opponent, state) => {
     const reaEffs = readiedEffects_1.mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state);
     state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
 };
+const reduceSetup = (mechanic, card, player, opponent, state) => {
+    state.pendingSetup[player] = state.pendingSetup[player] || 0;
+    state.pendingSetup[player] += Number(mechanic.amount);
+};
 const reduceReflex = (mechanic, card, player, opponent, state) => {
-    console.log('marking reflex');
     card.shouldReflex = true;
 };
 const reduceTelegraph = (mechanic, card, player, opponent, state) => {
@@ -146,6 +149,7 @@ const mechanicRouter = {
     [card_1.MechanicEnum.TELEGRAPH]: reduceTelegraph,
     [card_1.MechanicEnum.FORCEFUL]: () => { },
     [card_1.MechanicEnum.ENHANCE]: reduceEnhance,
+    [card_1.MechanicEnum.SETUP]: reduceSetup,
 };
 const globalAxis = {
     [card_1.AxisEnum.GRAPPLED]: (state) => state.distance = stateInterface_1.DistanceEnum.GRAPPLED,

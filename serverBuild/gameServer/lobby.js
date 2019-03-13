@@ -88,6 +88,8 @@ const makeGameState = (sockets, decks) => {
         predictions: [],
         pendingPredictions: [],
         damaged: [false, false],
+        setup: [0, 0],
+        pendingSetup: [0, 0],
         tagModification: [{}, {}],
         lockedState: {
             distance: null,

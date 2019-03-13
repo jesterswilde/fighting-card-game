@@ -12,8 +12,9 @@ exports.applyClutch = (state) => {
         return unusedArr;
     });
 };
-exports.calculatePriority = (card) => {
+exports.calculatePriority = (card, player, state) => {
     const clutch = card.clutch || 0;
     const priority = card.priority || 0;
-    return clutch + priority;
+    const setup = state.setup[player] || 0;
+    return clutch + priority + setup;
 };

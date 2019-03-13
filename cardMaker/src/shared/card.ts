@@ -98,6 +98,7 @@ export enum MechanicEnum{
     FORCEFUL = "Forceful",
     ENHANCE = "Enhance",
     CLUTCH = 'Clutch',
+    SETUP = "Setup",
 }
 
 
@@ -135,7 +136,8 @@ const MechanicDisplay: {[mech: string]: DisplayComponents} = {
     [MechanicEnum.CRIPPLE]: {valueString: true},
     [MechanicEnum.PICK_ONE]: {pick: true},
     [MechanicEnum.FORCEFUL]: {value: true, eff: true},
-    [MechanicEnum.CLUTCH]: {value: true}
+    [MechanicEnum.CLUTCH]: {value: true},
+    [MechanicEnum.SETUP]: {value: true},
 }
 
 

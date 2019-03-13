@@ -2,7 +2,6 @@ import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum, ReadiedEf
 import { MechanicEnum, Mechanic, Card, AxisEnum } from "../../../shared/card";
 import { getCardByName } from "./getCards";
 import { playerEnumToPlayerArray, consolidateMechanics } from "../../util";
-import { MAX_POISE, MIN_POISE } from "../../gameSettings";
 import { mechanicsToReadiedEffects } from "../readiedEffects";
 
 export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
@@ -90,8 +89,11 @@ const reducePredict = (mechanic: Mechanic, card: Card, player: number, opponent:
     const reaEffs = mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state);
     state.pendingPredictions[card.player].readiedEffects.push(...reaEffs)
 }
+const reduceSetup = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState)=>{
+    state.pendingSetup[player] = state.pendingSetup[player] || 0; 
+    state.pendingSetup[player] += Number(mechanic.amount); 
+}
 const reduceReflex = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
-    console.log('marking reflex');
     card.shouldReflex = true;
 }
 const reduceTelegraph = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
@@ -141,6 +143,7 @@ const mechanicRouter: { [name: string]: (mechanic: Mechanic, card: Card, player:
     [MechanicEnum.TELEGRAPH]: reduceTelegraph,
     [MechanicEnum.FORCEFUL]: () => { },
     [MechanicEnum.ENHANCE]: reduceEnhance,
+    [MechanicEnum.SETUP]: reduceSetup,
 }
 
 const globalAxis: { [axis: string]: (state: GameState) => void } = {

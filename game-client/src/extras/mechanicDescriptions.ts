@@ -14,6 +14,7 @@ const descObj: {[mech: string]: string} = {
     [MechanicEnum.TELEGRAPH]: 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens',
     [MechanicEnum.ENHANCE]: 'All future cards with this tag, will be enhanced by this effect',
     [MechanicEnum.CLUTCH]: 'Increases the cards Priority by X (this turn only)',
+    [MechanicEnum.SETUP]: 'Increases the priority of the card played next turn by X (that turn only)',
 }
 
 export const getMechanicDescription = (mech: MechanicEnum)=>{

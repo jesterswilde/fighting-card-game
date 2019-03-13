@@ -13,8 +13,9 @@ export const applyClutch = (state: GameState) => {
     });
 };
 
-export const calculatePriority = (card: Card)=>{
-    const clutch = card.clutch || 0; 
-    const priority = card.priority || 0; 
-    return clutch + priority; 
+export const calculatePriority = (card: Card, player: number, state: GameState) => {
+    const clutch = card.clutch || 0;
+    const priority = card.priority || 0;
+    const setup = state.setup[player] || 0; 
+    return clutch + priority + setup;
 }

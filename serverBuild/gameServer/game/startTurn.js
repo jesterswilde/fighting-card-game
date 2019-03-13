@@ -32,3 +32,7 @@ exports.addPoise = (state) => {
         }
     });
 };
+exports.moveSetup = (state) => {
+    state.setup = state.pendingSetup;
+    state.pendingSetup = state.pendingSetup.map(() => 0);
+};

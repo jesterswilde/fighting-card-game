@@ -63,6 +63,8 @@ exports.makeTestingGameState = () => {
         modifiedAxis: [exports.makeModifiedAxis(), exports.makeModifiedAxis()],
         sockets: [],
         events: [],
+        setup: [0, 0],
+        pendingSetup: [0, 0],
         turnNumber: 0,
         cardUID: 0,
         predictions: [],

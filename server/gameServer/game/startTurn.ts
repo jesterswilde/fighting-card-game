@@ -18,6 +18,7 @@ const movePendingPredictions = (state: GameState)=>{
     state.pendingPredictions = []; 
 }
 
+
 export const addPoise = (state: GameState) => {
     const { playerStates } = state;
     playerStates.forEach((pState) => {
@@ -25,4 +26,9 @@ export const addPoise = (state: GameState) => {
             pState.poise++;
         }
     })
+}
+
+export const moveSetup = (state: GameState)=>{
+    state.setup = state.pendingSetup; 
+    state.pendingSetup = state.pendingSetup.map(()=> 0); 
 }
