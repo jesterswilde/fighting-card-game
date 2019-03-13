@@ -13009,6 +13009,7 @@ exports.EventTypeEnum = EventTypeEnum;
   EventTypeEnum[EventTypeEnum["MULTIPLE"] = 6] = "MULTIPLE";
   EventTypeEnum[EventTypeEnum["EVENT_SECTION"] = 7] = "EVENT_SECTION";
   EventTypeEnum[EventTypeEnum["CARD_NAME_SECTION"] = 8] = "CARD_NAME_SECTION";
+  EventTypeEnum[EventTypeEnum["PREDICTION_SECTION"] = 9] = "PREDICTION_SECTION";
 })(EventTypeEnum || (exports.EventTypeEnum = EventTypeEnum = {}));
 
 var HappensEnum;
@@ -17061,6 +17062,9 @@ function (_super) {
         case _interface.EventTypeEnum.CARD_NAME_SECTION:
           return _this.renderCardNameSection(event);
 
+        case _interface.EventTypeEnum.PREDICTION_SECTION:
+          return _this.renderPredictionSection(event);
+
         default:
           return null;
       }
@@ -17167,6 +17171,21 @@ function (_super) {
           var opponent = event.playedBy !== _this.props.player;
           return _this.reducer(event, opponent);
         }));
+      }));
+    };
+
+    _this.renderPredictionSection = function (_a) {
+      var _b = _a.events,
+          events = _b === void 0 ? [] : _b;
+      return (0, _preact.h)("div", {
+        class: "event-section"
+      }, events.map(function (playerEvent, player) {
+        if (!playerEvent) return (0, _preact.h)("div", null);
+        var opponent = player !== _this.props.player;
+        return (0, _preact.h)("div", {
+          class: "players-events",
+          key: player
+        }, _this.renderRevealPrediction(playerEvent, opponent));
       }));
     };
 

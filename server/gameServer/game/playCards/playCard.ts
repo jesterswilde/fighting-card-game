@@ -2,11 +2,11 @@ import { cardHappens } from "./cardHappens";
 import { ControlEnum } from "../../errors";
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { canUseOptional } from "./requirements";
-import { markAxisChange } from "./modifiedAxis";
 import { Mechanic, Card } from "../../../shared/card";
 import { mechanicsToReadiedEffects } from "../readiedEffects";
 import { playersMakeChoices } from "./playerInput";
 import { processPlayedCardEvents } from "../events";
+import { markAxisChanges } from "./predictions";
 
 export const playCards = async (state: GameState) => {
     try {
@@ -90,14 +90,4 @@ const addCardToQueue = (card: Card, player: number, state: GameState) => {
     queue[slot] = queue[slot] || []; 
     queue[slot][player] = queue[slot][player] || [];
     queue[slot][player].push(card);
-}
-
-export const markAxisChanges = (state: GameState) => {
-    if (state.readiedEffects) {
-        state.readiedEffects.forEach((playerEffect = []) => {
-            playerEffect.forEach(({ mechanic, card }) => {
-                markAxisChange(mechanic, card, state);
-            })
-        })
-    }
 }

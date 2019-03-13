@@ -4,17 +4,17 @@ import { addReadiedToState } from "../readiedEffects";
 import { ControlEnum } from "../../errors";
 import { Mechanic, Card, AxisEnum } from "../../../shared/card";
 
-export const didPredictionHappen = (prediction: PredictionState, state: GameState): boolean => {
+export const didPredictionHappen = (prediction: PredictionState, player: number, state: GameState): boolean => {
     switch (prediction.prediction) {
         case (PredictionEnum.DISTANCE):
-            return state.modifiedAxis.distance;
+            return state.modifiedAxis[player].distance;
         case (PredictionEnum.MOTION):
-            return state.modifiedAxis.motion;
+            return state.modifiedAxis[player].motion;
         case (PredictionEnum.STANDING):
-            return state.modifiedAxis.standing;
+            return state.modifiedAxis[player].standing;
         case (PredictionEnum.NONE):
-            return !state.modifiedAxis.balance && !state.modifiedAxis.distance
-                && !state.modifiedAxis.motion && !state.modifiedAxis.standing;
+            return !state.modifiedAxis[player].balance && !state.modifiedAxis[player].distance
+                && !state.modifiedAxis[player].motion && !state.modifiedAxis[player].standing;
     }
     return false;
 }
@@ -23,12 +23,12 @@ export const checkPredictions = (state: GameState) => {
     const { predictions } = state;
     let stateChanged = false;
     const predEvents: PredictionEvent[] = predictions.map((pred, player) => {
-        const didHappen = didPredictionHappen(pred, state)
+        const didHappen = didPredictionHappen(pred, pred.targetPlayer, state)
         if (didHappen) {
             stateChanged = true;
             addReadiedToState(pred.readiedEffects, state);
         }
-        return { didHappen, prediction: pred.prediction, player };
+        return { didHappen, prediction: pred.prediction, player, targetPlayer: pred.targetPlayer };
     })
     addRevealPredictionEvent(predEvents, state);
     state.predictions = [];
@@ -68,4 +68,13 @@ export const markAxisChanges = (state: GameState) => {
             })
         })
     }
+}
+
+export const getCorrectGuessArray = (targetPlayer: number, state: GameState) => {
+    const correctGuesses: PredictionEnum[] = [];
+    if (state.modifiedAxis[targetPlayer].distance) correctGuesses.push(PredictionEnum.DISTANCE);
+    if (state.modifiedAxis[targetPlayer].motion) correctGuesses.push(PredictionEnum.MOTION);
+    if (state.modifiedAxis[targetPlayer].standing) correctGuesses.push(PredictionEnum.STANDING);
+    if (correctGuesses.length === 0) correctGuesses.push(PredictionEnum.NONE);
+    return correctGuesses; 
 }

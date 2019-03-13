@@ -66,7 +66,7 @@ const makeGameState = (sockets, decks) => {
         stateDurations: [util_1.makeStateDurations(), util_1.makeStateDurations()],
         readiedEffects: [[], []],
         damageEffects: [[], []],
-        modifiedAxis: util_1.makeModifiedAxis(),
+        modifiedAxis: [util_1.makeModifiedAxis(), util_1.makeModifiedAxis()],
         predictions: [],
         pendingPredictions: [],
         damaged: [false, false],

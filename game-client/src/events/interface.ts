@@ -10,6 +10,7 @@ export interface EventState{
     history: EventAction[][]
     playSpeed?: number
 }
+
 export enum EventTypeEnum{
     CARD_NAME,
     EFFECT,
@@ -20,6 +21,7 @@ export enum EventTypeEnum{
     MULTIPLE,
     EVENT_SECTION,
     CARD_NAME_SECTION,
+    PREDICTION_SECTION,
 }
 
 export interface EventAction{

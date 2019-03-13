@@ -13,7 +13,7 @@ export interface GameState{
     lockedState: LockState
     distance: DistanceEnum
     stateDurations: PlayerStateDuration[]
-    modifiedAxis: ModifiedAxis
+    modifiedAxis: ModifiedAxis[]
     parry: number[]
     block: number[]
     tagModification: TagModification[]
@@ -74,6 +74,7 @@ export interface PlayerStateDuration{
     standing: number | null, 
     motion: number | null,
 }
+
 export interface PlayerState {
     standing: StandingEnum,
     motion: MotionEnum,
@@ -81,6 +82,7 @@ export interface PlayerState {
 }
 
 export interface PredictionState{
+    targetPlayer: number,
     prediction?: PredictionEnum,
     readiedEffects: ReadiedEffect[]
 }
@@ -88,6 +90,7 @@ export interface PredictionState{
 export interface PredictionEvent{
     prediction: PredictionEnum,
     player: number,
+    targetPlayer: number,
     didHappen: boolean
 }
 

@@ -62,7 +62,7 @@ export const makeTestingGameState = (): GameState => {
         health: [],
         readiedEffects: [],
         damageEffects: [],
-        modifiedAxis: makeModifiedAxis(),
+        modifiedAxis: [makeModifiedAxis(),makeModifiedAxis()],
         sockets: [],
         events: [],
         turnNumber: 0,

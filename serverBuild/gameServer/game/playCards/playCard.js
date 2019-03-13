@@ -11,15 +11,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cardHappens_1 = require("./cardHappens");
 const errors_1 = require("../../errors");
 const requirements_1 = require("./requirements");
-const modifiedAxis_1 = require("./modifiedAxis");
 const readiedEffects_1 = require("../readiedEffects");
 const playerInput_1 = require("./playerInput");
 const events_1 = require("../events");
+const predictions_1 = require("./predictions");
 exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
         yield playerInput_1.playersMakeChoices(state);
         events_1.processPlayedCardEvents(state);
-        exports.markAxisChanges(state);
+        predictions_1.markAxisChanges(state);
         exports.incrementQueue(state);
         exports.addCardsToQueue(state);
         cardHappens_1.cardHappens(state);
@@ -93,13 +93,4 @@ const addCardToQueue = (card, player, state) => {
     queue[slot] = queue[slot] || [];
     queue[slot][player] = queue[slot][player] || [];
     queue[slot][player].push(card);
-};
-exports.markAxisChanges = (state) => {
-    if (state.readiedEffects) {
-        state.readiedEffects.forEach((playerEffect = []) => {
-            playerEffect.forEach(({ mechanic, card }) => {
-                modifiedAxis_1.markAxisChange(mechanic, card, state);
-            });
-        });
-    }
 };

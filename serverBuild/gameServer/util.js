@@ -60,7 +60,7 @@ exports.makeTestingGameState = () => {
         health: [],
         readiedEffects: [],
         damageEffects: [],
-        modifiedAxis: exports.makeModifiedAxis(),
+        modifiedAxis: [exports.makeModifiedAxis(), exports.makeModifiedAxis()],
         sockets: [],
         events: [],
         turnNumber: 0,

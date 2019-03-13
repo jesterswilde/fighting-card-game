@@ -10,7 +10,8 @@ export enum EventTypeEnum{
     GAME_OVER,
     MULTIPLE,
     EVENT_SECTION,
-    CARD_NAME_SECTION
+    CARD_NAME_SECTION,
+    PREDICTION_SECTION,
 }
 
 export interface EventAction{

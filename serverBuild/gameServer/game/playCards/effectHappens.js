@@ -93,7 +93,7 @@ const getLockMax = (current, next) => {
     return Math.max(next * 2, current);
 };
 const reducePredict = (mechanic, card, player, opponent, state) => {
-    state.pendingPredictions[card.player] = state.pendingPredictions[card.player] || { readiedEffects: [] };
+    state.pendingPredictions[card.player] = state.pendingPredictions[card.player] || { readiedEffects: [], targetPlayer: opponent };
     const reaEffs = readiedEffects_1.mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state);
     state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
 };

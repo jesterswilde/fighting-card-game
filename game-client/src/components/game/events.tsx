@@ -87,6 +87,8 @@ class Events extends Component<Props, State>{
                 return this.renderEventSection(event);
             case EventTypeEnum.CARD_NAME_SECTION:
                 return this.renderCardNameSection(event);
+            case EventTypeEnum.PREDICTION_SECTION:
+                return this.renderPredictionSection(event); 
             default: return null;
         }
     }
@@ -159,6 +161,17 @@ class Events extends Component<Props, State>{
                         const opponent = event.playedBy !== this.props.player;
                         return this.reducer(event, opponent)
                     })}
+                </div>
+            })}
+        </div>
+    }
+    renderPredictionSection = ({events = []}: EventAction)=>{
+        return <div class="event-section">
+            {events.map((playerEvent, player)=>{
+                if(!playerEvent) return <div/>;
+                const opponent = player !== this.props.player;
+                return <div class="players-events" key={player}>
+                    {this.renderRevealPrediction(playerEvent, opponent)}
                 </div>
             })}
         </div>

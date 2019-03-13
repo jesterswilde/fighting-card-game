@@ -5,17 +5,17 @@ const events_1 = require("../events");
 const readiedEffects_1 = require("../readiedEffects");
 const errors_1 = require("../../errors");
 const card_1 = require("../../../shared/card");
-exports.didPredictionHappen = (prediction, state) => {
+exports.didPredictionHappen = (prediction, player, state) => {
     switch (prediction.prediction) {
         case (stateInterface_1.PredictionEnum.DISTANCE):
-            return state.modifiedAxis.distance;
+            return state.modifiedAxis[player].distance;
         case (stateInterface_1.PredictionEnum.MOTION):
-            return state.modifiedAxis.motion;
+            return state.modifiedAxis[player].motion;
         case (stateInterface_1.PredictionEnum.STANDING):
-            return state.modifiedAxis.standing;
+            return state.modifiedAxis[player].standing;
         case (stateInterface_1.PredictionEnum.NONE):
-            return !state.modifiedAxis.balance && !state.modifiedAxis.distance
-                && !state.modifiedAxis.motion && !state.modifiedAxis.standing;
+            return !state.modifiedAxis[player].balance && !state.modifiedAxis[player].distance
+                && !state.modifiedAxis[player].motion && !state.modifiedAxis[player].standing;
     }
     return false;
 };
@@ -23,12 +23,12 @@ exports.checkPredictions = (state) => {
     const { predictions } = state;
     let stateChanged = false;
     const predEvents = predictions.map((pred, player) => {
-        const didHappen = exports.didPredictionHappen(pred, state);
+        const didHappen = exports.didPredictionHappen(pred, pred.targetPlayer, state);
         if (didHappen) {
             stateChanged = true;
             readiedEffects_1.addReadiedToState(pred.readiedEffects, state);
         }
-        return { didHappen, prediction: pred.prediction, player };
+        return { didHappen, prediction: pred.prediction, player, targetPlayer: pred.targetPlayer };
     });
     events_1.addRevealPredictionEvent(predEvents, state);
     state.predictions = [];
@@ -65,4 +65,16 @@ exports.markAxisChanges = (state) => {
             });
         });
     }
+};
+exports.getCorrectGuessArray = (targetPlayer, state) => {
+    const correctGuesses = [];
+    if (state.modifiedAxis[targetPlayer].distance)
+        correctGuesses.push(stateInterface_1.PredictionEnum.DISTANCE);
+    if (state.modifiedAxis[targetPlayer].motion)
+        correctGuesses.push(stateInterface_1.PredictionEnum.MOTION);
+    if (state.modifiedAxis[targetPlayer].standing)
+        correctGuesses.push(stateInterface_1.PredictionEnum.STANDING);
+    if (correctGuesses.length === 0)
+        correctGuesses.push(stateInterface_1.PredictionEnum.NONE);
+    return correctGuesses;
 };

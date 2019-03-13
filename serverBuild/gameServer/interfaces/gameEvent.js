@@ -11,4 +11,5 @@ var EventTypeEnum;
     EventTypeEnum[EventTypeEnum["MULTIPLE"] = 6] = "MULTIPLE";
     EventTypeEnum[EventTypeEnum["EVENT_SECTION"] = 7] = "EVENT_SECTION";
     EventTypeEnum[EventTypeEnum["CARD_NAME_SECTION"] = 8] = "CARD_NAME_SECTION";
+    EventTypeEnum[EventTypeEnum["PREDICTION_SECTION"] = 9] = "PREDICTION_SECTION";
 })(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const card_1 = require("../../shared/card");
-const stateInterface_1 = require("../interfaces/stateInterface");
 const gameEvent_1 = require("../interfaces/gameEvent");
 const socket_1 = require("../../shared/socket");
+const predictions_1 = require("./playCards/predictions");
 exports.addReflexEffects = (players, state) => {
     let lastEvent = state.events[state.events.length - 1];
     players.forEach((cardName, playedBy) => {
@@ -53,29 +53,21 @@ const reaEfftoEvent = (reaEff) => {
         return { type: gameEvent_1.EventTypeEnum.ADDED_MECHANIC, mechanicName: mech.mechanic, playedBy: card.player };
     }
 };
-exports.stateReaEffEvent = (reaEffs, state) => {
-    state.events.push({ type: gameEvent_1.EventTypeEnum.EFFECT, playedBy: reaEffs.card.player, effect: reaEffs.mechanic, happenedTo: reaEffs.happensTo });
-};
-exports.mechanicIsHappeningEvent = (mechEnum, cardName, playedBy, state) => {
-    state.events.push({ type: gameEvent_1.EventTypeEnum.MECHANIC, mechanicName: mechEnum, cardName, playedBy });
-};
-exports.addedMechanicEvent = (mechEnum, playedBy, state) => {
-    state.events.push({ type: gameEvent_1.EventTypeEnum.ADDED_MECHANIC, mechanicName: mechEnum, playedBy });
-};
+// export const stateReaEffEvent = (reaEffs: ReadiedEffect, state: GameState) => {
+//     state.events.push({ type: EventTypeEnum.EFFECT, playedBy: reaEffs.card.player, effect: reaEffs.mechanic, happenedTo: reaEffs.happensTo });
+// }
 exports.addGameOverEvent = (winner, state) => {
     state.events.push({ type: gameEvent_1.EventTypeEnum.GAME_OVER, winner });
 };
-exports.addRevealPredictionEvent = (correct, prediction, player, state) => {
-    const correctGuesses = [];
-    if (state.modifiedAxis.distance)
-        correctGuesses.push(stateInterface_1.PredictionEnum.DISTANCE);
-    if (state.modifiedAxis.motion)
-        correctGuesses.push(stateInterface_1.PredictionEnum.MOTION);
-    if (state.modifiedAxis.standing)
-        correctGuesses.push(stateInterface_1.PredictionEnum.STANDING);
-    if (correctGuesses.length === 0)
-        correctGuesses.push(stateInterface_1.PredictionEnum.NONE);
-    state.events.push({ type: gameEvent_1.EventTypeEnum.REVEAL_PREDICTION, correct, prediction, correctGuesses });
+exports.addRevealPredictionEvent = (predEvents, state) => {
+    const hasEvents = predEvents.some((a) => a !== undefined && a !== null);
+    if (hasEvents) {
+        const playerEvents = predEvents.map((predEvent, player) => {
+            const correctGuesses = predictions_1.getCorrectGuessArray(predEvent.targetPlayer, state);
+            return { type: gameEvent_1.EventTypeEnum.REVEAL_PREDICTION, correct: predEvent.didHappen, prediction: predEvent.prediction, correctGuesses };
+        });
+        state.events.push({ type: gameEvent_1.EventTypeEnum.PREDICTION_SECTION, events: playerEvents });
+    }
 };
 exports.sendEvents = (state) => {
     state.sockets.forEach((socket) => {
@@ -86,7 +78,6 @@ exports.sendEvents = (state) => {
 //These are ignored because they are handled later.
 const ignoredMechanics = {
     [card_1.MechanicEnum.REFLEX]: true,
-    [card_1.MechanicEnum.PREDICT]: true
 };
 //They have their own printed versions
 const addableMechanics = {
