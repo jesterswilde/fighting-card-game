@@ -5930,76 +5930,6 @@
     "tagObjs": [],
     "tags": []
   },
-  "Sky Shot": {
-    "name": "Sky Shot",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ],
-    "effects": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "amount": "1",
-        "axis": "Poise",
-        "player": 0
-      },
-      {
-        "mechanicRequirements": [
-          {
-            "axis": "Far",
-            "player": 2
-          },
-          {
-            "axis": "Not Anticipating",
-            "player": 1
-          },
-          {
-            "axis": "Prone",
-            "player": 1
-          },
-          {
-            "axis": "Still",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "amount": "15",
-            "axis": "Damage",
-            "player": 1
-          },
-          {
-            "amount": "2",
-            "axis": "Lose Poise",
-            "player": 1
-          }
-        ],
-        "mechanic": "Telegraph"
-      }
-    ],
-    "tagObjs": [
-      {
-        "value": "Shot",
-        "id": 133
-      }
-    ],
-    "priority": 4,
-    "tags": [
-      {
-        "value": "Shot"
-      }
-    ]
-  },
   "Set Snare": {
     "name": "Set Snare",
     "optional": [],
@@ -6331,5 +6261,252 @@
     "name": "Cower",
     "tagObjs": [],
     "tags": []
+  },
+  "Aim": {
+    "name": "Aim",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      }
+    ],
+    "effects": [
+      {
+        "amount": "3",
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "amount": "1",
+        "axis": "Poise",
+        "player": 1
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "axis": "Far",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": "8",
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": "1",
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "tagObjs": [],
+    "priority": 4,
+    "tags": []
+  },
+  "Sky Shot": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "amount": "1",
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Not Grappled",
+            "player": 2
+          },
+          {
+            "axis": "Not Anticipating",
+            "player": 1
+          },
+          {
+            "axis": "Prone",
+            "player": 1
+          },
+          {
+            "axis": "Still",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": "15",
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": "2",
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Sky Shot",
+    "tagObjs": [
+      {
+        "value": "Shot",
+        "id": 34
+      }
+    ],
+    "tags": [
+      {
+        "value": "Shot"
+      }
+    ]
+  },
+  "Pinning Shot": {
+    "priority": 4,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "amount": "3",
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": "1",
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "3",
+            "axis": "Prone",
+            "player": 1
+          },
+          {
+            "amount": "3",
+            "mechanic": "Clutch"
+          }
+        ],
+        "amount": "2",
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Pinning Shot",
+    "tagObjs": [
+      {
+        "value": "Shot",
+        "id": 55
+      }
+    ],
+    "tags": [
+      {
+        "value": "Shot"
+      }
+    ]
+  },
+  "Boom, Headshot!": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Unbalanced",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "1",
+        "axis": "Lose Poise",
+        "player": 0
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "35",
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "axis": "Far",
+            "player": 2
+          },
+          {
+            "amount": "2",
+            "axis": "Moving",
+            "player": 0
+          }
+        ],
+        "amount": "2",
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Boom, Headshot!",
+    "tagObjs": [
+      {
+        "value": "Shot",
+        "id": 65
+      }
+    ],
+    "tags": [
+      {
+        "value": "Shot"
+      }
+    ]
   }
 }

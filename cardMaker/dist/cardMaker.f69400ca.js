@@ -27504,6 +27504,7 @@ exports.MechanicEnum = MechanicEnum;
   MechanicEnum["PICK_ONE"] = "Pick One";
   MechanicEnum["FORCEFUL"] = "Forceful";
   MechanicEnum["ENHANCE"] = "Enhance";
+  MechanicEnum["CLUTCH"] = "Clutch";
 })(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
 
 var getMechDisplay = function getMechDisplay(mech) {
@@ -27554,6 +27555,8 @@ var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
 }, _a[MechanicEnum.FORCEFUL] = {
   value: true,
   eff: true
+}, _a[MechanicEnum.CLUTCH] = {
+  value: true
 }, _a);
 var PlayerEnum;
 exports.PlayerEnum = PlayerEnum;
@@ -49718,7 +49721,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63725" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53181" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

@@ -10114,6 +10114,7 @@ div {
   justify-content: center;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .game-card .tags {
   font-size: 0.6rem;

@@ -51,7 +51,7 @@ const handleDCDuringGame = (sockets: Socket[]) => {
         dcSocket.removeAllListeners('disconnect'); 
         dcSocket.on('disconnect',()=>{
             console.log('disconnected during game'); 
-            sockets.filter((socket) => socket !== dcSocket).forEach((socket) => joinLobby(socket))
+            sockets.filter((socket) => socket !== dcSocket).forEach(joinLobby);
         })
     })
 }
