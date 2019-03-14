@@ -1,7 +1,7 @@
 import { reduceMechanics, reduceStateChangeReaEff } from "./effectHappens";
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { ControlEnum } from "../../errors";
-import { storeEffectsForEvents, processEffectEvents } from "../events";
+import { storeEffectsForEvents, processEffectEvents, processPlayedCardEvents } from "../events";
 import { checkTelegraph } from "../checkMechanics/telegraph";
 import { checkReflex } from "../checkMechanics/reflex";
 import { checkFocus } from "../checkMechanics/focus";
@@ -20,6 +20,7 @@ export const cardHappens = (state: GameState) => {
         applyPoise(state);
         applyStateEffects(state);
         applyMechanics(state);
+        processPlayedCardEvents(state); 
         processEffectEvents(state);
         removeStoredEffects(state);
         checkPredictions(state);

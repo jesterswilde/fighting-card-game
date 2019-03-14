@@ -17,6 +17,13 @@ const crippledObj = {
         optional: [],
         isFaceUp: true
     },
+    "Psyche": {
+        name: "Crippled Psyche",
+        requirements: [{ axis: card_1.AxisEnum.UNBALANCED, player: card_1.PlayerEnum.PLAYER }],
+        effects: [{ axis: card_1.AxisEnum.PRONE, player: card_1.PlayerEnum.PLAYER }, { axis: card_1.AxisEnum.DAMAGE, player: card_1.PlayerEnum.PLAYER, amount: 6 }],
+        optional: [],
+        isFaceUp: true
+    },
     "Leg": {
         name: "Crippled Leg",
         requirements: [{ axis: card_1.AxisEnum.MOVING, player: card_1.PlayerEnum.PLAYER }],

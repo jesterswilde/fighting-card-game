@@ -16,6 +16,7 @@ exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     console.log('starting turn');
     exports.addPoise(state);
     movePendingPredictions(state);
+    exports.moveSetup(state);
     drawCards_1.givePlayersCards(state);
     socket_1.sendState(state);
     collectDamage_1.convertBlockToParry(state);

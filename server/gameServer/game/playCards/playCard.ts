@@ -5,13 +5,11 @@ import { canUseOptional } from "./requirements";
 import { Mechanic, Card } from "../../../shared/card";
 import { mechanicsToReadiedEffects } from "../readiedEffects";
 import { playersMakeChoices } from "./playerInput";
-import { processPlayedCardEvents } from "../events";
 import { markAxisChanges } from "./predictions";
 
 export const playCards = async (state: GameState) => {
     try {
         await playersMakeChoices(state);
-        processPlayedCardEvents(state); 
         markAxisChanges(state);
         incrementQueue(state);
         addCardsToQueue(state);

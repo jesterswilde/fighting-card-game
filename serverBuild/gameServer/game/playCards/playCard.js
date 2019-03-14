@@ -13,12 +13,10 @@ const errors_1 = require("../../errors");
 const requirements_1 = require("./requirements");
 const readiedEffects_1 = require("../readiedEffects");
 const playerInput_1 = require("./playerInput");
-const events_1 = require("../events");
 const predictions_1 = require("./predictions");
 exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
         yield playerInput_1.playersMakeChoices(state);
-        events_1.processPlayedCardEvents(state);
         predictions_1.markAxisChanges(state);
         exports.incrementQueue(state);
         exports.addCardsToQueue(state);

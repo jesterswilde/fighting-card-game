@@ -13,7 +13,7 @@ import { hunterDeck } from './deckHunter';
 
 
 
-const testDeck = ['crippleTest','crippleTest']
+const testDeck = ['crippleTest','setupTest', 'clutchTest']
 
 export const decks: DeckDescription[] = [
     grappleDeck,

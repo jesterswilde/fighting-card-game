@@ -7,6 +7,8 @@ export const hunterDeck: DeckDescription = {
         "Pinning Shot",
         "Aim",
         "Boom, Headshot!",
+        "Gut 'Em",
+        "Hogtie",
     ],
         name: "Hunter",
         description: "In Progress"

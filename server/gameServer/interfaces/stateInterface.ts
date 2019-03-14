@@ -16,6 +16,8 @@ export interface GameState{
     modifiedAxis: ModifiedAxis[]
     parry: number[]
     block: number[]
+    setup: number[]
+    pendingSetup: number[]
     tagModification: TagModification[]
     health: number[]
     damaged: boolean[]

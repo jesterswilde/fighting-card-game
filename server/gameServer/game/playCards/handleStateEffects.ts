@@ -56,8 +56,8 @@ const markConflicts = (stateReaEffs: ReadiedEffect[][], state: GameState) => {
 
 const handleConflict = (reaEffA: ReadiedEffect, reaEffB: ReadiedEffect, targetPlayer: number, state: GameState) => {
     if (checkEquality(reaEffA.mechanic.axis, reaEffB.mechanic.axis, state)) return;
-    const priorityA = calculatePriority(reaEffA.card); 
-    const priorityB = calculatePriority(reaEffB.card); 
+    const priorityA = calculatePriority(reaEffA.card, reaEffA.card.player, state); 
+    const priorityB = calculatePriority(reaEffB.card, reaEffB.card.player, state); 
     if (priorityA > priorityB) {
         reaEffB.happensTo[targetPlayer] = HappensEnum.BLOCKED;
         return reaEffA;

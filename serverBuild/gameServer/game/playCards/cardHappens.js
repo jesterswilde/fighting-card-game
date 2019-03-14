@@ -20,6 +20,7 @@ exports.cardHappens = (state) => {
         exports.applyPoise(state);
         handleStateEffects_1.applyStateEffects(state);
         exports.applyMechanics(state);
+        events_1.processPlayedCardEvents(state);
         events_1.processEffectEvents(state);
         exports.removeStoredEffects(state);
         predictions_1.checkPredictions(state);

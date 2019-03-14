@@ -5,6 +5,7 @@ export const jesterDeck: DeckDescription = {
         "Vicious Mockery",
         "Cower",
         "Hardcore Parkour",
+        "Maniacal Laughter",
     ],
         name: "Jester",
         description: "In Progress"

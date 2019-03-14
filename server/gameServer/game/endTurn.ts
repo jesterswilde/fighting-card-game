@@ -66,7 +66,7 @@ const clearTurnData = (state: GameState) => {
     state.turnIsOver = false;
     state.modifiedAxis = state.modifiedAxis.map(()=> makeModifiedAxis());
     state.incrementedQueue = false;
-    state.parry = state.parry.map(()=> 0)
+    state.parry = state.parry.map(()=> 0);
     state.checkedFocus = false;
     state.turnNumber++; 
 }

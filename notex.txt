@@ -5,3 +5,5 @@ Game board should change as people get more and more damaged.
 (evaluate next time you play) Glowing effect could be punched up. 
 
 Lobby improvement - reconnect
+
+Telegraph bug

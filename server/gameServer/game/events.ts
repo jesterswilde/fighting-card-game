@@ -3,6 +3,7 @@ import { GameState, ReadiedEffect, PredictionEvent } from "../interfaces/stateIn
 import { EventTypeEnum, EventAction } from "../interfaces/gameEvent";
 import { SocketEnum } from "../../shared/socket";
 import { getCorrectGuessArray } from "./playCards/predictions";
+import { calculatePriority } from "./checkMechanics/priority";
 
 
 export const addReflexEffects = (players: string[], state: GameState) => {
@@ -39,7 +40,7 @@ export const processPlayedCardEvents = (state: GameState) => {
     if (state.pendingCardEvents === undefined) return;
     const events: EventAction[] = state.pendingCardEvents.map((card) => {
         if (card) {
-            return { type: EventTypeEnum.CARD_NAME, priority: card.priority, cardName: card.name, playedBy: card.player };
+            return { type: EventTypeEnum.CARD_NAME, priority: calculatePriority(card, card.player, state), cardName: card.name, playedBy: card.player };
         }
         return null;
     });

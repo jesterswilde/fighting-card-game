@@ -4,6 +4,7 @@ const card_1 = require("../../shared/card");
 const gameEvent_1 = require("../interfaces/gameEvent");
 const socket_1 = require("../../shared/socket");
 const predictions_1 = require("./playCards/predictions");
+const priority_1 = require("./checkMechanics/priority");
 exports.addReflexEffects = (players, state) => {
     let lastEvent = state.events[state.events.length - 1];
     players.forEach((cardName, playedBy) => {
@@ -33,7 +34,7 @@ exports.processPlayedCardEvents = (state) => {
         return;
     const events = state.pendingCardEvents.map((card) => {
         if (card) {
-            return { type: gameEvent_1.EventTypeEnum.CARD_NAME, priority: card.priority, cardName: card.name, playedBy: card.player };
+            return { type: gameEvent_1.EventTypeEnum.CARD_NAME, priority: priority_1.calculatePriority(card, card.player, state), cardName: card.name, playedBy: card.player };
         }
         return null;
     });

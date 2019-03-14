@@ -8,6 +8,7 @@ export const startTurn = async (state: GameState) => {
     console.log('starting turn'); 
     addPoise(state);
     movePendingPredictions(state);
+    moveSetup(state); 
     givePlayersCards(state);
     sendState(state);
     convertBlockToParry(state); 
