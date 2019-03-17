@@ -19,6 +19,7 @@ export interface GameState{
     setup: number[]
     pendingSetup: number[]
     tagModification: TagModification[]
+    tagsPlayed: {[tag: string]: number}[]
     health: number[]
     damaged: boolean[]
     readiedEffects: ReadiedEffect[][]

@@ -10,6 +10,7 @@ import { markAxisChanges } from "./predictions";
 export const playCards = async (state: GameState) => {
     try {
         await playersMakeChoices(state);
+        countTags(state);
         markAxisChanges(state);
         incrementQueue(state);
         addCardsToQueue(state);
@@ -23,6 +24,18 @@ export const playCards = async (state: GameState) => {
             throw err;
         }
     }
+}
+
+
+const countTags = (state: GameState)=>{
+    state.pickedCards.forEach((card)=>{
+        if(card && card.tags){
+            card.tags.forEach(({value: tag}, player)=>{
+                state.tagsPlayed[player][tag] = state.tagsPlayed[player][tag] || 0; 
+                state.tagsPlayed[player][tag]++; 
+            })
+        }
+    })
 }
 
 export const getPlayerMechanicsReady = (playedBy: number, state: GameState)=>{

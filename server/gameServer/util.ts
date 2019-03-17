@@ -59,6 +59,7 @@ export const makeTestingGameState = (): GameState => {
         damaged: [],
         hands: [],
         tagModification: [{}, {}],
+        tagsPlayed: [{},{}],
         health: [],
         readiedEffects: [],
         damageEffects: [],

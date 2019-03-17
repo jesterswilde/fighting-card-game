@@ -57,6 +57,7 @@ exports.makeTestingGameState = () => {
         damaged: [],
         hands: [],
         tagModification: [{}, {}],
+        tagsPlayed: [{}, {}],
         health: [],
         readiedEffects: [],
         damageEffects: [],

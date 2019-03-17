@@ -91,6 +91,7 @@ const makeGameState = (sockets, decks) => {
         setup: [0, 0],
         pendingSetup: [0, 0],
         tagModification: [{}, {}],
+        tagsPlayed: [{}, {}],
         lockedState: {
             distance: null,
             players: [

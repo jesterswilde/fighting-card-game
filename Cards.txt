@@ -1810,26 +1810,6 @@
     "tagObjs": [],
     "tags": []
   },
-  "PredictTest": {
-    "requirements": [],
-    "optional": [],
-    "effects": [
-      {
-        "mechanicEffects": [
-          {
-            "amount": 5,
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "mechanic": "Predict"
-      }
-    ],
-    "name": "PredictTest",
-    "tagObjs": [],
-    "tags": [],
-    "priority": 5
-  },
   "Pull By The Neck": {
     "priority": 4,
     "requirements": [
@@ -2394,25 +2374,6 @@
     "tagObjs": [],
     "tags": []
   },
-  "TelegraphTest": {
-    "requirements": [],
-    "optional": [],
-    "effects": [
-      {
-        "mechanicRequirements": [],
-        "mechanicEffects": [
-          {
-            "mechanic": "Reflex"
-          }
-        ],
-        "mechanic": "Telegraph"
-      }
-    ],
-    "name": "TelegraphTest",
-    "tagObjs": [],
-    "tags": [],
-    "priority": 5
-  },
   "Tendon Slash": {
     "priority": 4,
     "requirements": [
@@ -2455,66 +2416,6 @@
       }
     ],
     "name": "Tendon Slash",
-    "tagObjs": [],
-    "tags": []
-  },
-  "Throat Jab": {
-    "priority": 7,
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Still",
-        "player": 0
-      }
-    ],
-    "optional": [
-      {
-        "effects": [
-          {
-            "amount": 5,
-            "axis": "Damage",
-            "player": 1
-          },
-          {
-            "amount": 1,
-            "axis": "Lose Poise",
-            "player": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Anticipating",
-            "player": 0,
-            "id": 945
-          }
-        ]
-      }
-    ],
-    "effects": [
-      {
-        "amount": 5,
-        "axis": "Damage",
-        "player": 1
-      },
-      {
-        "amount": 2,
-        "axis": "Lose Poise",
-        "player": 1
-      },
-      {
-        "amount": 2,
-        "axis": "Prone",
-        "player": 1
-      }
-    ],
-    "name": "Throat Jab",
     "tagObjs": [],
     "tags": []
   },
@@ -2719,76 +2620,6 @@
     "name": "WillTelegraph",
     "tagObjs": [],
     "tags": [],
-    "priority": 5
-  },
-  "focus_test": {
-    "requirements": [],
-    "optional": [],
-    "effects": [
-      {
-        "mechanicRequirements": [
-          {
-            "axis": "Balanced",
-            "player": 0
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "amount": 5,
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "mechanic": "Focus"
-      }
-    ],
-    "name": "focus_test",
-    "tagObjs": [],
-    "tags": [],
-    "priority": 5
-  },
-  "testCripple": {
-    "requirements": [],
-    "optional": [],
-    "effects": [
-      {
-        "amount": "Leg",
-        "mechanic": "Cripple"
-      }
-    ],
-    "name": "testCripple",
-    "tagObjs": [],
-    "tags": [],
-    "priority": 5
-  },
-  "test_enhance": {
-    "requirements": [],
-    "optional": [],
-    "effects": [
-      {
-        "mechanicEffects": [
-          {
-            "amount": "1",
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "amount": "test",
-        "mechanic": "Enhance"
-      }
-    ],
-    "name": "test_enhance",
-    "tagObjs": [
-      {
-        "value": "test",
-        "id": 1014
-      }
-    ],
-    "tags": [
-      {
-        "value": "test"
-      }
-    ],
     "priority": 5
   },
   "Ankle Smash": {
@@ -5334,20 +5165,6 @@
     "tagObjs": [],
     "tags": []
   },
-  "crippleTest": {
-    "name": "crippleTest",
-    "optional": [],
-    "requirements": [],
-    "effects": [
-      {
-        "amount": "Everything",
-        "mechanic": "Cripple"
-      }
-    ],
-    "tagObjs": [],
-    "tags": [],
-    "priority": 5
-  },
   "Hardcore Parkour": {
     "priority": 4,
     "requirements": [
@@ -6684,32 +6501,64 @@
     "priority": 5,
     "tags": []
   },
-  "clutchTest": {
-    "name": "clutchTest",
-    "optional": [],
-    "requirements": [],
-    "effects": [
+  "Throat Jab": {
+    "priority": 7,
+    "requirements": [
       {
-        "amount": "4",
-        "mechanic": "Clutch"
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
       }
     ],
-    "tagObjs": [],
-    "priority": 3,
-    "tags": []
-  },
-  "setupTest": {
-    "name": "setupTest",
-    "optional": [],
-    "requirements": [],
-    "effects": [
+    "optional": [
       {
-        "amount": "5",
-        "mechanic": "Setup"
+        "effects": [
+          {
+            "amount": "6",
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 1,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Anticipating",
+            "player": 0,
+            "id": 945
+          }
+        ]
       }
     ],
+    "effects": [
+      {
+        "amount": "6",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": 2,
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "name": "Throat Jab",
     "tagObjs": [],
-    "priority": 3,
     "tags": []
   }
 }
