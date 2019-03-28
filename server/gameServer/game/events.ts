@@ -8,8 +8,8 @@ import { calculatePriority } from "./checkMechanics/priority";
 
 export const addReflexEffects = (players: string[], state: GameState) => {
     let lastEvent = state.events[state.events.length - 1];
-    players.forEach((cardName, playedBy)=>{
-        if(cardName && Array.isArray(lastEvent.events) && Array.isArray(lastEvent.events[playedBy].events)){
+    players.forEach((cardName, playedBy)=>{ //cannot read property events of undefined (lastEvent is null at some point for some reason)
+        if(cardName && Array.isArray(lastEvent.events) && lastEvent.events[playedBy] && Array.isArray(lastEvent.events[playedBy].events)){
             lastEvent.events[playedBy].events.push({ type: EventTypeEnum.MECHANIC, mechanicName: MechanicEnum.REFLEX, cardName, playedBy })
         }
     })

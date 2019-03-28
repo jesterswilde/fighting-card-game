@@ -6,6 +6,7 @@ import * as cors from 'cors';
 import * as http from 'http';
 import lobby from './gameServer/lobby';
 import apiRouter from './router'; 
+import './db/index'; 
 
 
 const port = process.env.PORT || 8080;

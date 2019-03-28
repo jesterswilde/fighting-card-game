@@ -15,7 +15,11 @@
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "ncp": "^2.0.0",
-    "socket.io": "^2.2.0"
+    "pg": "^7.9.0",
+    "pg-hstore": "^2.3.2",
+    "reflect-metadata": "^0.1.13",
+    "socket.io": "^2.2.0",
+    "typeorm": "^0.2.16"
   },
   "devDependencies": {
     "@types/jest": "^23.3.12",

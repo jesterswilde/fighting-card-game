@@ -13522,7 +13522,92 @@ var removeFilter = function removeFilter(state, action) {
     filters: filters
   });
 };
-},{"./actions":"src/deckViewer/actions.ts","../shared/card":"src/shared/card.ts"}],"src/state/store.ts":[function(require,module,exports) {
+},{"./actions":"src/deckViewer/actions.ts","../shared/card":"src/shared/card.ts"}],"src/fightingStyles/actions.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FightingStyleEnum = void 0;
+var FightingStyleEnum;
+exports.FightingStyleEnum = FightingStyleEnum;
+
+(function (FightingStyleEnum) {
+  FightingStyleEnum["LOADING_STYLE"] = "loadingFightingStyle";
+  FightingStyleEnum["GOT_STYLE"] = "gotFightingStyle";
+  FightingStyleEnum["LOADING_STYLE_NAMES"] = "loadingFightingStyleNames";
+  FightingStyleEnum["GOT_STYLE_NAMES"] = "gotFightingStyleNames";
+})(FightingStyleEnum || (exports.FightingStyleEnum = FightingStyleEnum = {}));
+},{}],"src/fightingStyles/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fightingStyleReducer = void 0;
+
+var _actions = require("./actions");
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var fightingStyleReducer = function fightingStyleReducer(state, action) {
+  if (state === void 0) {
+    state = makeDefaultState();
+  }
+
+  switch (action.type) {
+    case _actions.FightingStyleEnum.GOT_STYLE:
+      return __assign({}, state, {
+        loadingStyle: false,
+        style: action.style
+      });
+
+    case _actions.FightingStyleEnum.GOT_STYLE_NAMES:
+      return __assign({}, state, {
+        loadingStyleNames: false,
+        styleDescriptions: action.styleDescriptions
+      });
+
+    case _actions.FightingStyleEnum.LOADING_STYLE:
+      return __assign({}, state, {
+        loadingStyle: true
+      });
+
+    case _actions.FightingStyleEnum.LOADING_STYLE_NAMES:
+      return __assign({}, state, {
+        loadingStyleNames: true
+      });
+
+    default:
+      return state;
+  }
+};
+
+exports.fightingStyleReducer = fightingStyleReducer;
+
+var makeDefaultState = function makeDefaultState() {
+  return {
+    style: null,
+    styleDescriptions: [],
+    loadingStyle: false,
+    loadingStyleNames: false
+  };
+};
+},{"./actions":"src/fightingStyles/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13550,6 +13635,8 @@ var _reducer8 = require("../socket/reducer");
 
 var _reducer9 = require("../deckViewer/reducer");
 
+var _reducer10 = require("../fightingStyles/reducer");
+
 var rootReducer = (0, _redux.combineReducers)({
   game: _reducer.gameReducer,
   hand: _reducer2.handReducer,
@@ -13559,11 +13646,122 @@ var rootReducer = (0, _redux.combineReducers)({
   events: _reducer6.eventReducer,
   deckViewer: _reducer9.deckViewerReducer,
   path: _reducer7.pathReducer,
-  socket: _reducer8.socketReducer
+  socket: _reducer8.socketReducer,
+  fightingStyle: _reducer10.fightingStyleReducer
 });
-var store = (0, _redux.createStore)(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+var devToolsExtension = window['devToolsExtension'] ? window['devToolsExtension']() : function (f) {
+  return f;
+};
+var store = (0, _redux.createStore)(rootReducer, devToolsExtension);
 exports.store = store;
-},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts"}],"src/images/grapple.png":[function(require,module,exports) {
+},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts","../fightingStyles/reducer":"src/fightingStyles/reducer.ts"}],"src/shared/card.js":[function(require,module,exports) {
+"use strict";
+
+exports.__esModule = true;
+
+var _a;
+
+var AxisEnum;
+
+(function (AxisEnum) {
+  AxisEnum["DAMAGE"] = "Damage";
+  AxisEnum["PRONE"] = "Prone";
+  AxisEnum["STANDING"] = "Standing";
+  AxisEnum["MOVING"] = "Moving";
+  AxisEnum["STILL"] = "Still";
+  AxisEnum["GRAPPLED"] = "Grappled";
+  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
+  AxisEnum["CLOSE"] = "Close";
+  AxisEnum["NOT_CLOSE"] = "Not Close";
+  AxisEnum["FAR"] = "Far";
+  AxisEnum["NOT_FAR"] = "Not Far";
+  AxisEnum["BALANCED"] = "Balanced";
+  AxisEnum["UNBALANCED"] = "Unbalanced";
+  AxisEnum["ANTICIPATING"] = "Anticipating";
+  AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
+  AxisEnum["CLOSER"] = "Closer";
+  AxisEnum["FURTHER"] = "Further";
+  AxisEnum["BLOODIED"] = "Bloodied";
+  AxisEnum["MOTION"] = "Motion";
+  AxisEnum["DISTANCE"] = "Distance";
+  AxisEnum["POISE"] = "Poise";
+  AxisEnum["LOSE_POISE"] = "Lose Poise";
+  AxisEnum["STANCE"] = "Stance";
+})(AxisEnum = exports.AxisEnum || (exports.AxisEnum = {}));
+
+var MechanicEnum;
+
+(function (MechanicEnum) {
+  MechanicEnum["TELEGRAPH"] = "Telegraph";
+  MechanicEnum["FOCUS"] = "Focus";
+  MechanicEnum["PREDICT"] = "Predict";
+  MechanicEnum["PARRY"] = "Parry";
+  MechanicEnum["BLOCK"] = "Block";
+  MechanicEnum["LOCK"] = "Lock";
+  MechanicEnum["REFLEX"] = "Reflex";
+  MechanicEnum["BUFF"] = "Buff";
+  MechanicEnum["CRIPPLE"] = "Cripple";
+  MechanicEnum["PICK_ONE"] = "Pick One";
+  MechanicEnum["FORCEFUL"] = "Forceful";
+  MechanicEnum["ENHANCE"] = "Enhance";
+})(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
+
+exports.getMechDisplay = function (mech) {
+  var defaultValue = {
+    state: true,
+    value: true
+  };
+
+  if (mech === undefined) {
+    return defaultValue;
+  }
+
+  var comp = MechanicDisplay[mech];
+
+  if (comp) {
+    return comp;
+  }
+
+  return defaultValue;
+};
+
+var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.FOCUS] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.PREDICT] = {
+  eff: true
+}, _a[MechanicEnum.BUFF] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.ENHANCE] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.BLOCK] = {
+  value: true
+}, _a[MechanicEnum.PARRY] = {
+  value: true
+}, _a[MechanicEnum.LOCK] = {
+  state: true,
+  value: true
+}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
+  valueString: true
+}, _a[MechanicEnum.PICK_ONE] = {
+  pick: true
+}, _a[MechanicEnum.FORCEFUL] = {
+  value: true,
+  eff: true
+}, _a);
+var PlayerEnum;
+
+(function (PlayerEnum) {
+  PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
+  PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
+  PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
+})(PlayerEnum = exports.PlayerEnum || (exports.PlayerEnum = {}));
+},{}],"src/images/grapple.png":[function(require,module,exports) {
 module.exports = "/grapple.b390bafe.png";
 },{}],"src/images/close.png":[function(require,module,exports) {
 module.exports = "/close.9d2dba97.png";
@@ -15599,7 +15797,7 @@ var Icon = function Icon(props) {
 };
 
 exports.Icon = Icon;
-},{"preact":"node_modules/preact/dist/preact.mjs","../shared/card":"src/shared/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./bloodied.png":"src/images/bloodied.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./not_anticipating.png":"src/images/not_anticipating.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../shared/card":"src/shared/card.js","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./bloodied.png":"src/images/bloodied.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./not_anticipating.png":"src/images/not_anticipating.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15741,7 +15939,7 @@ var mechWithTooltip = function mechWithTooltip(mech) {
 
 var _default = Effect;
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../shared/card":"src/shared/card.ts","../../../images":"src/images/index.tsx","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../shared/card":"src/shared/card.js","../../../images":"src/images/index.tsx","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16253,7 +16451,7 @@ var _default = function _default(_a) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.ts","./effect":"src/components/game/card/effect.tsx","./requirement":"src/components/game/card/requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/hand.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.js","./effect":"src/components/game/card/effect.tsx","./requirement":"src/components/game/card/requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/hand.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16520,7 +16718,7 @@ var _default = function _default(state) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../images":"src/images/index.tsx","../../../shared/card":"src/shared/card.ts"}],"src/components/game/stateMachine/statesPieces.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../images":"src/images/index.tsx","../../../shared/card":"src/shared/card.js"}],"src/components/game/stateMachine/statesPieces.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16646,7 +16844,7 @@ var Distance = function Distance(_a) {
 };
 
 exports.Distance = Distance;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.ts","../../../util":"src/util.ts","../../../game/interface":"src/game/interface.ts","../../../images":"src/images/index.tsx"}],"src/components/game/stateMachine/playerStates.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.js","../../../util":"src/util.ts","../../../game/interface":"src/game/interface.ts","../../../images":"src/images/index.tsx"}],"src/components/game/stateMachine/playerStates.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16915,7 +17113,7 @@ var makeUse = function makeUse(mechanic) {
 var _default = (0, _util.cleanConnect)(selector, forceful);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.ts","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.js","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18108,7 +18306,7 @@ var handlePlayerChange = function handlePlayerChange(e, filter, index) {
 var _default = (0, _util.cleanConnect)(selector, Filter);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../deckViewer/dispatch":"src/deckViewer/dispatch.ts","../../shared/card":"src/shared/card.ts","../../util":"src/util.ts"}],"src/deckViewer/filter.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../deckViewer/dispatch":"src/deckViewer/dispatch.ts","../../shared/card":"src/shared/card.js","../../util":"src/util.ts"}],"src/deckViewer/filter.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18485,7 +18683,537 @@ function (_super) {
 var _default = (0, _preactRedux.connect)(selector)(DeckViewer);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../deckViewer/dispatch":"src/deckViewer/dispatch.ts","./deckViewer/cards":"src/components/deckViewer/cards.tsx","../path/dispatch":"src/path/dispatch.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./deckViewer/deckList":"src/components/deckViewer/deckList.tsx"}],"src/listeners/index.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../deckViewer/dispatch":"src/deckViewer/dispatch.ts","./deckViewer/cards":"src/components/deckViewer/cards.tsx","../path/dispatch":"src/path/dispatch.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./deckViewer/deckList":"src/components/deckViewer/deckList.tsx"}],"src/fightingStyles/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchGetFightingStyles = exports.dispatchGetFightingStyleByName = void 0;
+
+var _store = require("../state/store");
+
+var _actions = require("./actions");
+
+var _util = require("../util");
+
+var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var _this = void 0;
+
+var dispatchGetFightingStyleByName = function dispatchGetFightingStyleByName(styleName) {
+  return __awaiter(_this, void 0, void 0, function () {
+    var style, action;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          return [4
+          /*yield*/
+          , getFightingStyle(styleName)];
+
+        case 1:
+          style = _a.sent();
+          action = {
+            type: _actions.FightingStyleEnum.GOT_STYLE,
+            style: style
+          };
+
+          _store.store.dispatch(action);
+
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+exports.dispatchGetFightingStyleByName = dispatchGetFightingStyleByName;
+
+var getFightingStyle = function getFightingStyle(styleName) {
+  return __awaiter(_this, void 0, void 0, function () {
+    var fetched, style;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _store.store.dispatch({
+            type: _actions.FightingStyleEnum.LOADING_STYLE
+          });
+
+          return [4
+          /*yield*/
+          , fetch(_util.HOST_URL + '/styles/' + styleName)];
+
+        case 1:
+          fetched = _a.sent();
+          if (!fetched.ok) return [3
+          /*break*/
+          , 3];
+          return [4
+          /*yield*/
+          , fetched.json()];
+
+        case 2:
+          style = _a.sent();
+          return [2
+          /*return*/
+          , style];
+
+        case 3:
+          return [2
+          /*return*/
+          , null];
+      }
+    });
+  });
+};
+
+var dispatchGetFightingStyles = function dispatchGetFightingStyles() {
+  return __awaiter(_this, void 0, void 0, function () {
+    var styleDescriptions, action;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          return [4
+          /*yield*/
+          , getFightingStyleDescriptions()];
+
+        case 1:
+          styleDescriptions = _a.sent();
+          action = {
+            type: _actions.FightingStyleEnum.GOT_STYLE_NAMES,
+            styleDescriptions: styleDescriptions
+          };
+
+          _store.store.dispatch(action);
+
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+exports.dispatchGetFightingStyles = dispatchGetFightingStyles;
+
+var getFightingStyleDescriptions = function getFightingStyleDescriptions() {
+  return __awaiter(_this, void 0, void 0, function () {
+    var fetched, styles;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          _store.store.dispatch({
+            type: _actions.FightingStyleEnum.LOADING_STYLE_NAMES
+          });
+
+          return [4
+          /*yield*/
+          , fetch(_util.HOST_URL + '/styles')];
+
+        case 1:
+          fetched = _a.sent();
+          if (!fetched.ok) return [3
+          /*break*/
+          , 3];
+          return [4
+          /*yield*/
+          , fetched.json()];
+
+        case 2:
+          styles = _a.sent();
+          return [2
+          /*return*/
+          , styles];
+
+        case 3:
+          return [2
+          /*return*/
+          , null];
+      }
+    });
+  });
+};
+},{"../state/store":"src/state/store.ts","./actions":"src/fightingStyles/actions.ts","../util":"src/util.ts"}],"src/components/styleViewer/style.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _handCard = _interopRequireDefault(require("../game/card/handCard"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var _default = function _default(_a) {
+  var isLoading = _a.isLoading,
+      _b = _a.cards,
+      cards = _b === void 0 ? [] : _b,
+      description = _a.description,
+      identity = _a.identity,
+      strengths = _a.strengths,
+      name = _a.name,
+      back = _a.back;
+
+  if (isLoading) {
+    return (0, _preact.h)("h3", null, "Loading...");
+  }
+
+  console.log(cards);
+  return (0, _preact.h)("div", {
+    class: "card-list"
+  }, (0, _preact.h)("h3", null, name), (0, _preact.h)("div", {
+    class: 'description'
+  }, description), (0, _preact.h)("div", {
+    class: 'identity'
+  }, identity), (0, _preact.h)("div", {
+    class: 'strengths'
+  }, strengths), (0, _preact.h)("div", {
+    class: 'cards'
+  }, cards.map(function (card, i) {
+    if (card === null) {
+      return (0, _preact.h)("div", null, " Null Card");
+    }
+
+    return (0, _preact.h)("div", {
+      key: card.name + i
+    }, (0, _preact.h)(_handCard.default, __assign({}, card)));
+  })), (0, _preact.h)("button", {
+    onClick: back,
+    class: 'btn btn-primary mt-3 mb-3'
+  }, "Back To Decks"));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../game/card/handCard":"src/components/game/card/handCard.tsx"}],"src/components/styleViewer/styleNames.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _default = function _default(_a) {
+  var _b = _a.styles,
+      styles = _b === void 0 ? [] : _b,
+      isLoading = _a.isLoading,
+      chooseStyle = _a.chooseStyle;
+
+  if (isLoading) {
+    return (0, _preact.h)("div", null, "Loading Deck list...");
+  }
+
+  return (0, _preact.h)("div", {
+    class: 'container mt-3'
+  }, (0, _preact.h)("h1", {
+    class: 'mb-3 mt-3'
+  }, "Choose Deck"), styles.map(function (style, i) {
+    return (0, _preact.h)("div", {
+      key: style.name,
+      class: "mb-3 ml-2 deck-choice",
+      onClick: function onClick() {
+        return chooseStyle(style.name);
+      }
+    }, (0, _preact.h)("h3", null, style.name), (0, _preact.h)("div", {
+      class: 'ml-2'
+    }, style.description));
+  }));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs"}],"src/components/styleViewer.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _dispatch = require("../path/dispatch");
+
+var _preactRedux = require("preact-redux");
+
+var _dispatch2 = require("../fightingStyles/dispatch");
+
+var _style = _interopRequireDefault(require("./styleViewer/style"));
+
+var _styleNames = _interopRequireDefault(require("./styleViewer/styleNames"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __extends = void 0 && (void 0).__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var selector = function selector(state) {
+  return {
+    isLoadingStyle: state.fightingStyle.loadingStyle,
+    isLoadingStyles: state.fightingStyle.loadingStyleNames,
+    styleDescriptions: state.fightingStyle.styleDescriptions,
+    style: state.fightingStyle.style
+  };
+};
+
+var StyleViewer =
+/** @class */
+function (_super) {
+  __extends(StyleViewer, _super);
+
+  function StyleViewer() {
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+
+    _this.componentDidMount = function () {
+      (0, _dispatch2.dispatchGetFightingStyles)();
+
+      if (_this.props.path.length > 0) {
+        var styleName = _this.props.path[1];
+
+        if (styleName) {
+          (0, _dispatch2.dispatchGetFightingStyleByName)(styleName);
+        }
+      }
+    };
+
+    _this.render = function () {
+      var _a = _this.props,
+          path = _a.path,
+          pathPrepend = _a.pathPrepend,
+          style = _a.style,
+          styleDescriptions = _a.styleDescriptions,
+          isLoadingStyle = _a.isLoadingStyle,
+          isLoadingStyles = _a.isLoadingStyles;
+      var viewingDeck = path.length > 0;
+
+      if (viewingDeck) {
+        return (0, _preact.h)(_style.default, __assign({
+          isLoading: isLoadingStyle
+        }, style, {
+          back: function back() {
+            return (0, _dispatch.dispatchToPathArray)(pathPrepend);
+          }
+        }));
+      } else {
+        return (0, _preact.h)(_styleNames.default, {
+          styles: styleDescriptions,
+          isLoading: isLoadingStyles,
+          chooseStyle: _this.chooseStyle
+        });
+      }
+    };
+
+    _this.chooseStyle = function (name) {
+      (0, _dispatch.dispatchToPathArray)(_this.props.pathPrepend.concat(['deck', name]));
+      (0, _dispatch2.dispatchGetFightingStyleByName)(name);
+    };
+
+    return _this;
+  }
+
+  return StyleViewer;
+}(_preact.Component);
+
+var _default = (0, _preactRedux.connect)(selector)(StyleViewer);
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../path/dispatch":"src/path/dispatch.ts","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","../fightingStyles/dispatch":"src/fightingStyles/dispatch.ts","./styleViewer/style":"src/components/styleViewer/style.tsx","./styleViewer/styleNames":"src/components/styleViewer/styleNames.tsx"}],"src/listeners/index.ts":[function(require,module,exports) {
 "use strict";
 
 var _dispatch = require("../gameDisplay/dispatch");
@@ -18529,7 +19257,12 @@ var _default = function _default() {
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/decks');
     }
-  }, "View Decks")));
+  }, "View Decks")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+    class: 'link',
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchToPathString)('/styles');
+    }
+  }, "View Styles")));
 };
 
 exports.default = _default;
@@ -18570,6 +19303,8 @@ var _game = _interopRequireDefault(require("./game"));
 
 var _deckViewer = _interopRequireDefault(require("./deckViewer"));
 
+var _styleViewer = _interopRequireDefault(require("./styleViewer"));
+
 require("../listeners");
 
 var _util = require("../util");
@@ -18588,6 +19323,7 @@ var selector = function selector(state) {
   return {
     showGame: path[1] === 'game',
     showDeckViewer: path[1] === 'decks',
+    showStyleViewer: path[1] === 'styles',
     prepend: [blank, root],
     remainingPath: remainingPath
   };
@@ -18595,6 +19331,7 @@ var selector = function selector(state) {
 
 var App = function App(_a) {
   var showDeckViewer = _a.showDeckViewer,
+      showStyleViewer = _a.showStyleViewer,
       showGame = _a.showGame,
       prepend = _a.prepend,
       remainingPath = _a.remainingPath;
@@ -18606,13 +19343,16 @@ var App = function App(_a) {
   return (0, _preact.h)("div", null, (0, _preact.h)(_nav.default, null), showDeckViewer && (0, _preact.h)(_deckViewer.default, {
     pathPrepend: prepend,
     path: remainingPath
-  }), !showDeckViewer && (0, _preact.h)(_landing.default, null));
+  }), showStyleViewer && (0, _preact.h)(_styleViewer.default, {
+    pathPrepend: prepend,
+    path: remainingPath
+  }), !showDeckViewer && !showStyleViewer && (0, _preact.h)(_landing.default, null));
 };
 
 var _default = (0, _util.cleanConnect)(selector, App);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./game":"src/components/game.tsx","./deckViewer":"src/components/deckViewer.tsx","../listeners":"src/listeners/index.ts","../util":"src/util.ts","./landing":"src/components/landing.tsx","./nav":"src/components/nav.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./game":"src/components/game.tsx","./deckViewer":"src/components/deckViewer.tsx","./styleViewer":"src/components/styleViewer.tsx","../listeners":"src/listeners/index.ts","../util":"src/util.ts","./landing":"src/components/landing.tsx","./nav":"src/components/nav.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var _preact = require("preact");
@@ -18664,7 +19404,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52790" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49282" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

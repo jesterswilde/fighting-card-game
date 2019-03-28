@@ -8,6 +8,7 @@ const cors = require("cors");
 const http = require("http");
 const lobby_1 = require("./gameServer/lobby");
 const router_1 = require("./router");
+require("./db/index");
 const port = process.env.PORT || 8080;
 const app = express();
 const server = http.createServer(app);

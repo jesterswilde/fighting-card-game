@@ -21,7 +21,12 @@ const express_1 = require("express");
 const decks_1 = require("./decks");
 const Cards_1 = require("./cards/Cards");
 const sortOrder_1 = require("./shared/sortOrder");
+const styles_1 = require("./styles");
+const card_1 = require("./db/entities/card");
+const db_1 = require("./db");
+const router_1 = require("./users/router");
 const router = express_1.Router();
+router.use('/users', router_1.userRouter);
 router.get('/deckList', (req, res) => {
     res.status(200).send(getDeckList());
 });
@@ -49,6 +54,28 @@ router.get('/cards', (req, res) => {
 router.get('/card/:name', (req, res) => {
     const card = Cards_1.cards[req.params.name];
     res.status(200).send(card || null);
+});
+router.get('/styles', (req, res) => {
+    res.status(200).send(styles_1.getFightingStyles());
+});
+router.get('/updatedb', () => {
+    const dbCards = [];
+    for (const cardName in Cards_1.cards) {
+        const card = Cards_1.cards[cardName];
+        const dbCard = new card_1.DBCard(card);
+        dbCards.push(dbCard);
+    }
+    db_1.cardRepo.save(dbCards);
+});
+router.get('/styles/:style', (req, res) => {
+    const styleName = req.params.style;
+    const style = styles_1.getFightingStyleByName(styleName);
+    if (style) {
+        res.status(200).send(style);
+    }
+    else {
+        res.status(418).send();
+    }
 });
 router.delete('/card', (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {

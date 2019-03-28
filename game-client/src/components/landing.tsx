@@ -10,6 +10,9 @@ export default () => {
         <div>
             <a class='link' onClick={()=> to('/decks')}>View Decks</a>
         </div>
+        <div>
+            <a class='link' onClick={()=> to('/styles')}>View Styles</a>
+        </div>
 
     </div>
 

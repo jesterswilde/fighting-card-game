@@ -8,7 +8,7 @@ const priority_1 = require("./checkMechanics/priority");
 exports.addReflexEffects = (players, state) => {
     let lastEvent = state.events[state.events.length - 1];
     players.forEach((cardName, playedBy) => {
-        if (cardName && Array.isArray(lastEvent.events) && Array.isArray(lastEvent.events[playedBy].events)) {
+        if (cardName && Array.isArray(lastEvent.events) && lastEvent.events[playedBy] && Array.isArray(lastEvent.events[playedBy].events)) {
             lastEvent.events[playedBy].events.push({ type: gameEvent_1.EventTypeEnum.MECHANIC, mechanicName: card_1.MechanicEnum.REFLEX, cardName, playedBy });
         }
     });

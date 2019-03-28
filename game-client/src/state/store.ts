@@ -1,4 +1,4 @@
-import { createStore, combineReducers, Store } from 'redux';
+import { createStore, combineReducers, Store, StoreEnhancer } from 'redux'; 
 import { GameState } from '../game/interface';
 import { gameReducer } from '../game/reducer';
 import { ActionType } from './actionTypes';
@@ -16,6 +16,8 @@ import { DeckViewerState } from '../deckViewer/interface';
 import { pathReducer } from '../path/reducer';
 import { socketReducer } from '../socket/reducer';
 import { deckViewerReducer } from '../deckViewer/reducer';
+import { FightingStyleState } from '../fightingStyles/interface';
+import { fightingStyleReducer } from '../fightingStyles/reducer';
 
 export interface StoreState {
     game: GameState
@@ -27,6 +29,7 @@ export interface StoreState {
     path: PathState,
     deckViewer: DeckViewerState,
     socket: SocketState,
+    fightingStyle: FightingStyleState,
 }
 
 const rootReducer = combineReducers({
@@ -39,8 +42,10 @@ const rootReducer = combineReducers({
     deckViewer: deckViewerReducer,
     path: pathReducer,
     socket: socketReducer,
+    fightingStyle: fightingStyleReducer,
 })
 
+const devToolsExtension: StoreEnhancer = window['devToolsExtension'] ?
+  window['devToolsExtension']() : f => f;
 
-
-export const store: Store<StoreState, ActionType> = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()); 
+export const store: Store<StoreState, ActionType> = createStore(rootReducer, devToolsExtension); 
