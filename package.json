@@ -16,6 +16,7 @@
     "lodash": "^4.17.11",
     "ncp": "^2.0.0",
     "pg": "^7.9.0",
+    "pg-connection-string": "^2.0.0",
     "pg-hstore": "^2.3.2",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^2.2.0",
