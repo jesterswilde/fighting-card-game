@@ -23,10 +23,11 @@ let connectionObj: ConnectionOptions = {
 }
 
 if (process.env.DATABASE_URL) {
+    console.log("Found db url"); 
     const dbURL = urLReader.parse(process.env.DATABASE_URL);
     connectionObj = {
         ...connectionObj, ...{
-            name: 'DATABASE',
+            database: 'DATABASE',
             username: dbURL.user,
             password: dbURL.password,
             host: dbURL.host,
