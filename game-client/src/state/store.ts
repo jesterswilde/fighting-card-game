@@ -18,6 +18,9 @@ import { socketReducer } from '../socket/reducer';
 import { deckViewerReducer } from '../deckViewer/reducer';
 import { FightingStyleState } from '../fightingStyles/interface';
 import { fightingStyleReducer } from '../fightingStyles/reducer';
+import { UserState } from '../user/interface';
+import { loadState } from './localStorage';
+import { userReducer } from '../user/reducer';
 
 export interface StoreState {
     game: GameState
@@ -30,6 +33,7 @@ export interface StoreState {
     deckViewer: DeckViewerState,
     socket: SocketState,
     fightingStyle: FightingStyleState,
+    user: UserState,
 }
 
 const rootReducer = combineReducers({
@@ -43,9 +47,12 @@ const rootReducer = combineReducers({
     path: pathReducer,
     socket: socketReducer,
     fightingStyle: fightingStyleReducer,
+    user: userReducer,
 })
 
 const devToolsExtension: StoreEnhancer = window['devToolsExtension'] ?
   window['devToolsExtension']() : f => f;
 
-export const store: Store<StoreState, ActionType> = createStore(rootReducer, devToolsExtension); 
+const loadedState = loadState(); 
+
+export const store: Store<StoreState, ActionType> = createStore(rootReducer, loadedState, devToolsExtension); 

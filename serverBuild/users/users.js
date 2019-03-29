@@ -46,3 +46,9 @@ exports.verifyUser = (token) => __awaiter(this, void 0, void 0, function* () {
         return "Booooooooo, bad token";
     }
 });
+exports.validateEmail = (email) => {
+    return !!email;
+};
+exports.validatePassword = (pw) => {
+    return pw.length > 7;
+};

@@ -13178,15 +13178,18 @@ var pathReducer = function pathReducer(state, action) {
 
   switch (action.type) {
     case _actions.PathActionEnum.TO_PATH_ARRAY:
-      history.pushState(null, null, action.path.join('/'));
+      history.pushState(null, null, '/' + action.path.join('/'));
       return __assign({}, state, {
         pathArr: action.path
       });
 
     case _actions.PathActionEnum.TO_PATH_STRING:
       history.pushState(null, null, action.path);
+      var pathArr = action.path.split('/').filter(function (el) {
+        return el !== '';
+      });
       return __assign({}, state, {
-        pathArr: action.path.split('/')
+        pathArr: pathArr
       });
 
     default:
@@ -13198,7 +13201,9 @@ exports.pathReducer = pathReducer;
 
 var makeDefaultState = function makeDefaultState() {
   return {
-    pathArr: location.pathname.split('/')
+    pathArr: location.pathname.split('/').filter(function (el) {
+      return el !== '';
+    })
   };
 };
 },{"./actions":"src/path/actions.ts"}],"src/socket/actions.ts":[function(require,module,exports) {
@@ -13607,7 +13612,113 @@ var makeDefaultState = function makeDefaultState() {
     loadingStyleNames: false
   };
 };
-},{"./actions":"src/fightingStyles/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
+},{"./actions":"src/fightingStyles/actions.ts"}],"src/state/localStorage.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.loadState = exports.saveLogin = void 0;
+
+var saveLogin = function saveLogin(user) {
+  try {
+    var stringified = JSON.stringify({
+      user: user
+    });
+    localStorage.setItem("storeState", stringified);
+  } catch (err) {}
+};
+
+exports.saveLogin = saveLogin;
+
+var loadState = function loadState() {
+  try {
+    var stringified = localStorage.getItem("storeState");
+
+    if (stringified) {
+      return JSON.parse(stringified);
+    } else {
+      return undefined;
+    }
+  } catch (err) {
+    return undefined;
+  }
+};
+
+exports.loadState = loadState;
+},{}],"src/user/actions.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UserActionEnum = void 0;
+var UserActionEnum;
+exports.UserActionEnum = UserActionEnum;
+
+(function (UserActionEnum) {
+  UserActionEnum["LOGIN"] = "userLogin";
+  UserActionEnum["LOGOUT"] = "userLogout";
+})(UserActionEnum || (exports.UserActionEnum = UserActionEnum = {}));
+},{}],"src/user/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.userReducer = void 0;
+
+var _actions = require("./actions");
+
+var _localStorage = require("../state/localStorage");
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var userReducer = function userReducer(state, action) {
+  if (state === void 0) {
+    state = {};
+  }
+
+  var newState;
+
+  switch (action.type) {
+    case _actions.UserActionEnum.LOGIN:
+      newState = __assign({}, state, {
+        token: action.token,
+        username: action.username
+      });
+      (0, _localStorage.saveLogin)(newState);
+      return newState;
+
+    case _actions.UserActionEnum.LOGOUT:
+      newState = __assign({}, state, {
+        token: undefined,
+        username: undefined
+      });
+      (0, _localStorage.saveLogin)(newState);
+      return newState;
+
+    default:
+      return state;
+  }
+};
+
+exports.userReducer = userReducer;
+},{"./actions":"src/user/actions.ts","../state/localStorage":"src/state/localStorage.ts"}],"src/state/store.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13637,6 +13748,10 @@ var _reducer9 = require("../deckViewer/reducer");
 
 var _reducer10 = require("../fightingStyles/reducer");
 
+var _localStorage = require("./localStorage");
+
+var _reducer11 = require("../user/reducer");
+
 var rootReducer = (0, _redux.combineReducers)({
   game: _reducer.gameReducer,
   hand: _reducer2.handReducer,
@@ -13647,14 +13762,16 @@ var rootReducer = (0, _redux.combineReducers)({
   deckViewer: _reducer9.deckViewerReducer,
   path: _reducer7.pathReducer,
   socket: _reducer8.socketReducer,
-  fightingStyle: _reducer10.fightingStyleReducer
+  fightingStyle: _reducer10.fightingStyleReducer,
+  user: _reducer11.userReducer
 });
 var devToolsExtension = window['devToolsExtension'] ? window['devToolsExtension']() : function (f) {
   return f;
 };
-var store = (0, _redux.createStore)(rootReducer, devToolsExtension);
+var loadedState = (0, _localStorage.loadState)();
+var store = (0, _redux.createStore)(rootReducer, loadedState, devToolsExtension);
 exports.store = store;
-},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts","../fightingStyles/reducer":"src/fightingStyles/reducer.ts"}],"src/shared/card.js":[function(require,module,exports) {
+},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts","../fightingStyles/reducer":"src/fightingStyles/reducer.ts","./localStorage":"src/state/localStorage.ts","../user/reducer":"src/user/reducer.ts"}],"src/shared/card.js":[function(require,module,exports) {
 "use strict";
 
 exports.__esModule = true;
@@ -19262,11 +19379,296 @@ var _default = function _default() {
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/styles');
     }
-  }, "View Styles")));
+  }, "View Styles")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+    class: "link",
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchToPathString)('/user/login');
+    }
+  }, "Login")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+    class: "link",
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchToPathString)('/user/create');
+    }
+  }, "Create Account")));
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../path/dispatch":"src/path/dispatch.ts"}],"src/components/nav.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../path/dispatch":"src/path/dispatch.ts"}],"src/user/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchUserLogout = exports.dispatchUserLogin = exports.createUserWithEmail = exports.loginWithEmail = void 0;
+
+var _actions = require("./actions");
+
+var _store = require("../state/store");
+
+var _util = require("../util");
+
+var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P, generator) {
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : new P(function (resolve) {
+        resolve(result.value);
+      }).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var _this = void 0;
+
+var loginWithEmail = function loginWithEmail(email, password) {
+  return __awaiter(_this, void 0, void 0, function () {
+    var fetched, token, baseToken, stringified, username;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          return [4
+          /*yield*/
+          , fetch(_util.HOST_URL + '/users/login', {
+            method: "POST",
+            body: JSON.stringify({
+              email: email,
+              password: password
+            }),
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          })];
+
+        case 1:
+          fetched = _a.sent();
+          if (!fetched.ok) return [3
+          /*break*/
+          , 3];
+          return [4
+          /*yield*/
+          , fetched.text()];
+
+        case 2:
+          token = _a.sent();
+          baseToken = token.split('.')[0];
+          stringified = atob(baseToken);
+          console.log(stringified);
+          username = JSON.parse(stringified).username;
+          console.log(token, username);
+          dispatchUserLogin(username, token);
+          _a.label = 3;
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+exports.loginWithEmail = loginWithEmail;
+
+var createUserWithEmail = function createUserWithEmail(email, password) {
+  return __awaiter(_this, void 0, void 0, function () {
+    var fetched, token, baseToken, stringified, username;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
+        case 0:
+          return [4
+          /*yield*/
+          , fetch(_util.HOST_URL + '/users/create', {
+            method: "POST",
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password
+            })
+          })];
+
+        case 1:
+          fetched = _a.sent();
+          if (!fetched.ok) return [3
+          /*break*/
+          , 3];
+          return [4
+          /*yield*/
+          , fetched.text()];
+
+        case 2:
+          token = _a.sent();
+          baseToken = token.split('.')[0];
+          stringified = atob(baseToken);
+          username = JSON.parse(stringified).username;
+          console.log(token, username);
+          dispatchUserLogin(username, token);
+          _a.label = 3;
+
+        case 3:
+          return [2
+          /*return*/
+          ];
+      }
+    });
+  });
+};
+
+exports.createUserWithEmail = createUserWithEmail;
+
+var dispatchUserLogin = function dispatchUserLogin(username, token) {
+  var action = {
+    type: _actions.UserActionEnum.LOGIN,
+    username: username,
+    token: token
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUserLogin = dispatchUserLogin;
+
+var dispatchUserLogout = function dispatchUserLogout() {
+  var action = {
+    type: _actions.UserActionEnum.LOGOUT
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUserLogout = dispatchUserLogout;
+},{"./actions":"src/user/actions.ts","../state/store":"src/state/store.ts","../util":"src/util.ts"}],"src/components/nav.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19278,18 +19680,318 @@ var _preact = require("preact");
 
 var _dispatch = require("../path/dispatch");
 
-var _default = function _default() {
+var _util = require("../util");
+
+var _dispatch2 = require("../user/dispatch");
+
+var selector = function selector(_a) {
+  var user = _a.user;
+  return {
+    isLoggedIn: !!user.username,
+    username: user.username
+  };
+};
+
+var nav = function nav(_a) {
+  var isLoggedIn = _a.isLoggedIn,
+      username = _a.username;
   return (0, _preact.h)("nav", {
     class: 'navbar'
+  }, (0, _preact.h)("div", {
+    class: 'home'
   }, (0, _preact.h)("a", {
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathArray)(['']);
     }
-  }, "Home"));
+  }, "Home")), !isLoggedIn && (0, _preact.h)("div", {
+    class: "right-side"
+  }, (0, _preact.h)("a", {
+    class: "mr-4",
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchToPathArray)(['user', 'login']);
+    }
+  }, " Login "), (0, _preact.h)("a", {
+    onClick: function onClick() {
+      return (0, _dispatch.dispatchToPathArray)(['user', 'create']);
+    }
+  }, " Create Account ")), isLoggedIn && (0, _preact.h)("div", {
+    class: "right-side"
+  }, (0, _preact.h)("div", {
+    class: "mr-4"
+  }, username), (0, _preact.h)("a", {
+    onClick: _dispatch2.dispatchUserLogout
+  }, "Logout")));
+};
+
+var _default = (0, _util.cleanConnect)(selector, nav);
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../path/dispatch":"src/path/dispatch.ts","../util":"src/util.ts","../user/dispatch":"src/user/dispatch.ts"}],"src/components/login/login.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _dispatch = require("../../path/dispatch");
+
+var _dispatch2 = require("../../user/dispatch");
+
+var __extends = void 0 && (void 0).__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var Login =
+/** @class */
+function (_super) {
+  __extends(Login, _super);
+
+  function Login() {
+    var _this = _super.call(this) || this;
+
+    _this.emailChange = function (e) {
+      var el = e.target;
+
+      _this.setState({
+        email: el.value
+      });
+    };
+
+    _this.passwordChange = function (e) {
+      var el = e.target;
+
+      _this.setState({
+        password: el.value
+      });
+    };
+
+    _this.state = {
+      email: '',
+      password: ''
+    };
+    return _this;
+  }
+
+  Login.prototype.render = function () {
+    var _this = this;
+
+    return (0, _preact.h)("div", {
+      class: "login"
+    }, (0, _preact.h)("div", {
+      class: "title"
+    }, "Login: "), (0, _preact.h)("form", {
+      class: "form"
+    }, (0, _preact.h)("label", {
+      for: "email"
+    }, "Email: "), (0, _preact.h)("input", {
+      type: "text",
+      id: "email",
+      placeholder: "you@host.com",
+      onChange: this.emailChange,
+      value: this.state.email
+    }), (0, _preact.h)("label", {
+      for: "pass"
+    }, "Password: "), (0, _preact.h)("input", {
+      type: "password",
+      id: "pass",
+      onChange: this.passwordChange,
+      value: this.state.password
+    }), (0, _preact.h)("button", {
+      class: "btn btn-primary mt-4",
+      onClick: function onClick(e) {
+        (0, _dispatch2.loginWithEmail)(_this.state.email, _this.state.password);
+        e.preventDefault();
+      }
+    }, "Login"), (0, _preact.h)("div", {
+      class: 'mt-2'
+    }, "Don't have an account? Create one instead.", (0, _preact.h)("button", {
+      class: "btn",
+      onClick: function onClick() {
+        return (0, _dispatch.dispatchToPathString)('/user/create');
+      }
+    }, "Create Account"))));
+  };
+
+  return Login;
+}(_preact.Component);
+
+var _default = Login;
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../path/dispatch":"src/path/dispatch.ts","../../user/dispatch":"src/user/dispatch.ts"}],"src/components/login/create.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _dispatch = require("../../path/dispatch");
+
+var _dispatch2 = require("../../user/dispatch");
+
+var __extends = void 0 && (void 0).__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var Login =
+/** @class */
+function (_super) {
+  __extends(Login, _super);
+
+  function Login(props) {
+    var _this = _super.call(this, props) || this;
+
+    _this.emailChange = function (e) {
+      var el = e.target;
+
+      _this.setState({
+        email: el.value
+      });
+    };
+
+    _this.passwordChange = function (e) {
+      var el = e.target;
+
+      _this.setState({
+        password: el.value
+      });
+    };
+
+    _this.state = {
+      email: '',
+      password: ''
+    };
+    return _this;
+  }
+
+  Login.prototype.render = function () {
+    var _this = this;
+
+    return (0, _preact.h)("div", {
+      class: "login"
+    }, (0, _preact.h)("div", {
+      class: "title"
+    }, "Create Account: "), (0, _preact.h)("form", {
+      class: "form"
+    }, (0, _preact.h)("label", {
+      for: "email"
+    }, "Email: "), (0, _preact.h)("input", {
+      type: "text",
+      id: "email",
+      placeholder: "you@host.com",
+      onChange: this.emailChange,
+      value: this.state.email
+    }), (0, _preact.h)("label", {
+      for: "pass"
+    }, "Password: "), (0, _preact.h)("input", {
+      type: "password",
+      id: "pass",
+      onChange: this.passwordChange,
+      value: this.state.password
+    }), (0, _preact.h)("button", {
+      class: "btn btn-primary mt-4",
+      onClick: function onClick(e) {
+        (0, _dispatch2.createUserWithEmail)(_this.state.email, _this.state.password);
+        e.preventDefault();
+      }
+    }, "Create Account"), (0, _preact.h)("div", {
+      class: 'mt-2'
+    }, "Already have an account?", (0, _preact.h)("button", {
+      class: "btn",
+      onClick: function onClick() {
+        return (0, _dispatch.dispatchToPathString)('/user/login');
+      }
+    }, " Login "))));
+  };
+
+  return Login;
+}(_preact.Component);
+
+var _default = Login;
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../path/dispatch":"src/path/dispatch.ts","../../user/dispatch":"src/user/dispatch.ts"}],"src/components/login/user.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _login = _interopRequireDefault(require("./login"));
+
+var _create = _interopRequireDefault(require("./create"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = function _default(_a) {
+  var path = _a.path;
+
+  if (path.length === 0) {
+    return (0, _preact.h)("h2", null, "Unimplemented Dashboard");
+  }
+
+  if (path[0] === 'login') {
+    return (0, _preact.h)(_login.default, null);
+  }
+
+  if (path[0] === 'create') {
+    return (0, _preact.h)(_create.default, null);
+  }
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../path/dispatch":"src/path/dispatch.ts"}],"src/components/app.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./login":"src/components/login/login.tsx","./create":"src/components/login/create.tsx"}],"src/components/app.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19313,18 +20015,21 @@ var _landing = _interopRequireDefault(require("./landing"));
 
 var _nav = _interopRequireDefault(require("./nav"));
 
+var _user = _interopRequireDefault(require("./login/user"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var selector = function selector(state) {
   var path = state.path.pathArr || [];
-  var blank = path[0],
-      root = path[1],
-      remainingPath = path.slice(2);
+  var root = path[0],
+      remainingPath = path.slice(1);
+  console.log('root', state.path.pathArr);
   return {
-    showGame: path[1] === 'game',
-    showDeckViewer: path[1] === 'decks',
-    showStyleViewer: path[1] === 'styles',
-    prepend: [blank, root],
+    showGame: root === 'game',
+    showDeckViewer: root === 'decks',
+    showStyleViewer: root === 'styles',
+    showUserViewer: root === 'user',
+    prepend: [root],
     remainingPath: remainingPath
   };
 };
@@ -19332,6 +20037,7 @@ var selector = function selector(state) {
 var App = function App(_a) {
   var showDeckViewer = _a.showDeckViewer,
       showStyleViewer = _a.showStyleViewer,
+      showUserViewer = _a.showUserViewer,
       showGame = _a.showGame,
       prepend = _a.prepend,
       remainingPath = _a.remainingPath;
@@ -19346,13 +20052,15 @@ var App = function App(_a) {
   }), showStyleViewer && (0, _preact.h)(_styleViewer.default, {
     pathPrepend: prepend,
     path: remainingPath
-  }), !showDeckViewer && !showStyleViewer && (0, _preact.h)(_landing.default, null));
+  }), showUserViewer && (0, _preact.h)(_user.default, {
+    path: remainingPath
+  }), !showDeckViewer && !showStyleViewer && !showUserViewer && (0, _preact.h)(_landing.default, null));
 };
 
 var _default = (0, _util.cleanConnect)(selector, App);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./game":"src/components/game.tsx","./deckViewer":"src/components/deckViewer.tsx","./styleViewer":"src/components/styleViewer.tsx","../listeners":"src/listeners/index.ts","../util":"src/util.ts","./landing":"src/components/landing.tsx","./nav":"src/components/nav.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./game":"src/components/game.tsx","./deckViewer":"src/components/deckViewer.tsx","./styleViewer":"src/components/styleViewer.tsx","../listeners":"src/listeners/index.ts","../util":"src/util.ts","./landing":"src/components/landing.tsx","./nav":"src/components/nav.tsx","./login/user":"src/components/login/user.tsx"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var _preact = require("preact");

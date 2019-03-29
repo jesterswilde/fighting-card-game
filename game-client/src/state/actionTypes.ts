@@ -8,6 +8,7 @@ import { DeckViewerActions } from "../deckViewer/actions";
 import { PathActions } from "../path/actions";
 import { SocketActions } from "../socket/actions";
 import { FightingStyleActions } from "../fightingStyles/actions";
+import { UserActions } from "../user/actions";
 
 export type ActionType = GameActions | HandActions | DisplayActions | LobbyActions | ScreenDisplayActions | 
-    EventActions | DeckViewerActions | PathActions | SocketActions | FightingStyleActions; 
+    EventActions | DeckViewerActions | PathActions | SocketActions | FightingStyleActions | UserActions; 

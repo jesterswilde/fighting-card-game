@@ -7,28 +7,32 @@ import '../listeners';
 import { cleanConnect } from '../util';
 import Landing from './landing';
 import Nav from './nav'; 
+import User from './login/user'; 
 
 interface Props {
     showGame: boolean,
     showDeckViewer: boolean,
     showStyleViewer: boolean,
+    showUserViewer: boolean,
     prepend?: string[],
     remainingPath?: string[]
 }
 
 const selector = (state: StoreState): Props => {
     const path = state.path.pathArr as string[] || [];
-    const [blank, root, ...remainingPath] = path;
+    const [root, ...remainingPath] = path;
+    console.log('root', state.path.pathArr)
     return {
-        showGame: path[1] === 'game',
-        showDeckViewer: path[1] === 'decks',
-        showStyleViewer: path[1] === 'styles',
-        prepend: [blank, root],
+        showGame: root === 'game',
+        showDeckViewer: root === 'decks',
+        showStyleViewer: root === 'styles',
+        showUserViewer: root === 'user',
+        prepend: [root],
         remainingPath
     }
 }
 
-const App = ({ showDeckViewer, showStyleViewer, showGame, prepend, remainingPath }: Props) => {
+const App = ({ showDeckViewer, showStyleViewer, showUserViewer, showGame, prepend, remainingPath }: Props) => {
     if (showGame) {
         return <Game />
     }
@@ -36,7 +40,8 @@ const App = ({ showDeckViewer, showStyleViewer, showGame, prepend, remainingPath
         <Nav />
         {showDeckViewer && <DeckViewer pathPrepend={prepend} path={remainingPath} />}
         {showStyleViewer && <StyleViewer pathPrepend={prepend} path={remainingPath} />}
-        {!showDeckViewer && ! showStyleViewer && <Landing />}
+        {showUserViewer && <User path={remainingPath} />}
+        {!showDeckViewer && ! showStyleViewer && ! showUserViewer && <Landing />}
     </div>
 }
 

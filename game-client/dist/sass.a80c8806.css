@@ -10002,11 +10002,27 @@ div {
 
 .navbar {
   background-color: #2e2e2e;
-  color: #d4d4d4;
   display: flex;
+  flex-direction: row;
   margin: 5px;
 }
-.navbar > a {
+.navbar .home {
+  color: #d4d4d4;
+}
+.navbar .right-side {
+  display: flex;
+  flex-direction: row;
+  justify-self: flex-end;
+  color: #d4d4d4;
+}
+.navbar .right-side div {
+  color: #d4d4d4;
+}
+.navbar .right-side a {
+  color: #d4d4d4;
+  cursor: pointer;
+}
+.navbar a {
   cursor: pointer;
 }
 
@@ -10347,6 +10363,19 @@ div {
   background-color: #525252;
   -moz-box-shadow: 1px 10px 18px -1px rgba(0, 0, 0, 0.75);
   box-shadow: 1px 10px 18px -1px rgba(0, 0, 0, 0.75);
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  margin-top: 20px;
+}
+.login .form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 .small-pad {
