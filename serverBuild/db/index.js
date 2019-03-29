@@ -19,10 +19,9 @@ let connectionObj = {
     ]
 };
 if (process.env.DATABASE_URL) {
-    console.log("Found db url");
     const dbURL = urLReader.parse(process.env.DATABASE_URL);
     connectionObj = Object.assign({}, connectionObj, {
-        database: 'DATABASE',
+        database: dbURL.database,
         username: dbURL.user,
         password: dbURL.password,
         host: dbURL.host,
