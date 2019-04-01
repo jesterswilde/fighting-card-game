@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getDeckOptions, getDeckForViewer } from './decks';
-import { addCard, cards, removeCard } from './cards/Cards';
+import { addCard, cards, removeCard, downloadCards, stringifiedCards } from './cards/Cards';
 import { sortCard } from './shared/sortOrder';
 import { getFightingStyles, getFightingStyleByName } from './styles';
 import { DBCard } from './db/entities/card';
@@ -31,7 +31,7 @@ router.get('/deck/:deckName', (req, res) => {
 router.post('/card', (req, res) => {
     const { index, ...card } = req.body;
     sortCard(card);
-    addCard(card, index);
+    addCard(card);
     res.status(201).send();
 })
 router.get('/cards', (req, res) => {
@@ -71,6 +71,14 @@ router.delete('/card', async (req, res) => {
         console.error(err);
         res.status(400).send();
     }
+})
+router.get('/backup', async(req, res)=>{
+    downloadCards(); 
+    res.status(200).send(); 
+})
+router.get('/download', (req, res)=>{
+    res.setHeader('Content-Disposition', 'attachment'); 
+    res.status(200).send(stringifiedCards());
 })
 
 

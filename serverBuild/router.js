@@ -44,7 +44,7 @@ router.get('/deck/:deckName', (req, res) => {
 router.post('/card', (req, res) => {
     const _a = req.body, { index } = _a, card = __rest(_a, ["index"]);
     sortOrder_1.sortCard(card);
-    Cards_1.addCard(card, index);
+    Cards_1.addCard(card);
     res.status(201).send();
 });
 router.get('/cards', (req, res) => {
@@ -87,6 +87,14 @@ router.delete('/card', (req, res) => __awaiter(this, void 0, void 0, function* (
         res.status(400).send();
     }
 }));
+router.get('/backup', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    Cards_1.downloadCards();
+    res.status(200).send();
+}));
+router.get('/download', (req, res) => {
+    res.setHeader('Content-Disposition', 'attachment');
+    res.status(200).send(Cards_1.stringifiedCards());
+});
 const getDeckList = () => {
     return decks_1.getDeckOptions();
 };

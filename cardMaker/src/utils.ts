@@ -1,6 +1,7 @@
 import { PlayerEnum } from './shared/card';
 
 export let hostURL = "http://localhost:8080/api/";
+export let liveURL = "https://enigmatic-anchorage-18133.herokuapp.com/api/"
 
 export const playerRouter = {
     [PlayerEnum.PLAYER]: '↓',
