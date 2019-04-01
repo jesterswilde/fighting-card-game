@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cheapShot = {
+exports.cheapShotStyle = {
     name: "Cheap Shot",
     description: "Full of dirty tricks and debilitating attacks.",
     strengths: "Stadning over a prone and unbalanced opponent.",

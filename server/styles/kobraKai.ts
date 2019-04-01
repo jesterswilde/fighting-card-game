@@ -1,6 +1,6 @@
 import { FightingStyle } from "./interfaces";
 
-export const kobraKai: FightingStyle = {
+export const kobraKaiStyle: FightingStyle = {
     name: "Kobra Kai", 
     description: "Karate style that focuses on putting it's opponent flat on their back",
     cards: [

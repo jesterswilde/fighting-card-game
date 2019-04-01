@@ -1,6 +1,6 @@
 import { FightingStyle } from "./interfaces";
 
-export const cheapShot: FightingStyle = {
+export const cheapShotStyle: FightingStyle = {
     name: "Cheap Shot",
     description: "Full of dirty tricks and debilitating attacks.",
     strengths: "Stadning over a prone and unbalanced opponent.",
@@ -10,6 +10,6 @@ export const cheapShot: FightingStyle = {
         "Going For The High Ground",
         "Rip From Socket",
         "Spring Trap",
-        
+
     ]
 }

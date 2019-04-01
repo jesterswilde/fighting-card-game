@@ -1,11 +1,11 @@
 import { FightingStyle } from "./interfaces";
 
-export const toolsOfTheTrade: FightingStyle = {
+export const toolsOfTheTradeStyle: FightingStyle = {
     name: "Tools Of The Trade",
     cards: [
         "Bolas",
         "Drop Caltrops",
         "Knife Throw",
-        
+
     ]
 }

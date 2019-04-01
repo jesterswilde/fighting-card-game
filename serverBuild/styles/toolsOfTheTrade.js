@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toolsOfTheTrade = {
+exports.toolsOfTheTradeStyle = {
     name: "Tools Of The Trade",
     cards: [
         "Bolas",
