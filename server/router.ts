@@ -77,7 +77,6 @@ router.get('/backup', async(req, res)=>{
     res.status(200).send(); 
 })
 router.get('/download', (req, res)=>{
-    res.setHeader('Content-Disposition', 'attachment'); 
     res.status(200).send(stringifiedCards());
 })
 

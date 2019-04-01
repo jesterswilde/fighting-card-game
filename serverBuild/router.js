@@ -92,7 +92,6 @@ router.get('/backup', (req, res) => __awaiter(this, void 0, void 0, function* ()
     res.status(200).send();
 }));
 router.get('/download', (req, res) => {
-    res.setHeader('Content-Disposition', 'attachment');
     res.status(200).send(Cards_1.stringifiedCards());
 });
 const getDeckList = () => {

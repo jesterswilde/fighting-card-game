@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { dispatchToPathString as to } from './path/dispatch';
 import { dispatchMakeBlankCard } from './card/dispatch';
-import { liveURL } from './utils';
 
 export default () => {
     return (
@@ -14,9 +13,6 @@ export default () => {
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" onClick={dispatchMakeBlankCard}>New Card</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href={liveURL + 'download'}>Backup</a>
                     </li>
                 </ul>
             </div>

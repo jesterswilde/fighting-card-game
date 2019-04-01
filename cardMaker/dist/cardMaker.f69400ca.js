@@ -27581,7 +27581,7 @@ var _card = require("./shared/card");
 
 var _a;
 
-var hostURL = "http://localhost:8080/api/";
+var hostURL = "https://enigmatic-anchorage-18133.herokuapp.com/api/";
 exports.hostURL = hostURL;
 var liveURL = "https://enigmatic-anchorage-18133.herokuapp.com/api/";
 exports.liveURL = liveURL;
@@ -49584,8 +49584,6 @@ var _dispatch = require("./path/dispatch");
 
 var _dispatch2 = require("./card/dispatch");
 
-var _utils = require("./utils");
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
 var _default = function _default() {
@@ -49611,16 +49609,11 @@ var _default = function _default() {
   }, React.createElement("a", {
     className: "nav-link",
     onClick: _dispatch2.dispatchMakeBlankCard
-  }, "New Card")), React.createElement("li", {
-    className: "nav-item"
-  }, React.createElement("a", {
-    className: "nav-link",
-    href: _utils.liveURL + 'download'
-  }, "Backup")))));
+  }, "New Card")))));
 };
 
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./path/dispatch":"src/path/dispatch.ts","./card/dispatch":"src/card/dispatch.ts","./utils":"src/utils.ts"}],"src/App.tsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./path/dispatch":"src/path/dispatch.ts","./card/dispatch":"src/card/dispatch.ts"}],"src/App.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
