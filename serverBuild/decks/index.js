@@ -1,57 +1,50 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Cards_1 = require("../cards/Cards");
-const deckGrapple_1 = require("./deckGrapple");
-const deckHighGround_1 = require("./deckHighGround");
-const deckGaldiator_1 = require("./deckGaldiator");
-const deckStone_1 = require("./deckStone");
-const deckInspectorGadget_1 = require("./deckInspectorGadget");
-const deckASDF_1 = require("./deckASDF");
-const deckBloodInWater_1 = require("./deckBloodInWater");
-const deckBoxer_1 = require("./deckBoxer");
-const deckJester_1 = require("./deckJester");
-const deckHunter_1 = require("./deckHunter");
-const testDeck = ['crippleTest', 'setupTest', 'clutchTest'];
-exports.decks = [
-    deckGrapple_1.grappleDeck,
-    deckHighGround_1.highGroundDeck,
-    deckGaldiator_1.gladiatorDeck,
-    deckStone_1.stoneDeck,
-    deckBloodInWater_1.bloodInWaterDeck,
-    deckInspectorGadget_1.inspectorGadgetDeck,
-    deckHunter_1.hunterDeck,
-    deckJester_1.jesterDeck,
-    deckBoxer_1.boxerDeck,
-    deckASDF_1.ASDFdeck,
-    { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
-];
-exports.getDeckForViewer = (name) => {
-    const deckObj = exports.decks.find((deck) => deck.name === name);
-    if (!deckObj) {
-        return null;
+const deck_1 = require("../db/entities/deck");
+const db_1 = require("../db");
+const error_1 = require("../error");
+const config_1 = require("../config");
+exports.makeDeck = (user) => {
+    const deck = new deck_1.DBDeck();
+    deck.user = user;
+    deck.name = "New Deck";
+    db_1.deckRepo.save(deck);
+};
+exports.deleteDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
+    // const deck = await deckRepo.findOne(deckID); 
+    // if(deck){
+    //     deckRepo.delete(deck); 
+    // }
+    const deck = yield getValidDeck(user, deckID);
+    db_1.deckRepo.delete(deck);
+});
+exports.updateDeckCards = (user, deckID, cardNames) => __awaiter(this, void 0, void 0, function* () {
+    const deck = yield getValidDeck(user, deckID);
+    const cardsQuery = cardNames.map((name) => ({ name }));
+    const cards = yield db_1.cardRepo.find({
+        where: cardsQuery
+    });
+    deck.cards = cards;
+    db_1.deckRepo.save(deck);
+});
+exports.updateDeckStyles = (user, deckID, styles) => __awaiter(this, void 0, void 0, function* () {
+    if (styles.length > config_1.MAX_STYLES) {
+        return;
     }
-    const cards = exports.getDeck(name);
-    return {
-        name: deckObj.name,
-        description: deckObj.description || 'No Description',
-        cards
-    };
-};
-exports.getDeckOptions = () => {
-    return exports.decks.map((deck) => ({ name: deck.name, description: deck.description }));
-};
-exports.getDeck = (name) => {
-    const deck = exports.decks.find((deck) => deck.name === name);
-    if (!deck) {
-        return null;
+    const deck = yield getValidDeck(user, deckID);
+});
+const getValidDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
+    const deck = yield db_1.deckRepo.findOne({ id: deckID });
+    if (deck.user.id !== user.id) {
+        throw error_1.ErrorEnum.DOESNT_OWN_DECK;
     }
-    const filteredDeck = deck.deckList.map((name) => {
-        const card = Cards_1.cards[name];
-        if (!card) {
-            console.log("error, card not found", name);
-            return null;
-        }
-        return card;
-    }).filter((card) => card !== null);
-    return filteredDeck;
-};
+    return deck;
+});

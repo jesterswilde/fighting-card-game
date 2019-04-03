@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getDeckOptions, getDeckForViewer } from './decks';
+import { getDeckOptions, getDeckForViewer } from './decks/premade';
 import { addCard, cards, removeCard, downloadCards, stringifiedCards } from './cards/Cards';
 import { sortCard } from './shared/sortOrder';
 import { getFightingStyles, getFightingStyleByName } from './styles';

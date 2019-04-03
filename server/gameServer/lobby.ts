@@ -3,7 +3,7 @@ import { GameState, DistanceEnum } from "./interfaces/stateInterface";
 import { STARTING_HEALTH } from "./gameSettings";
 import { makePlayerState, makeModifiedAxis, makeStateDurations, deepCopy } from "./util";
 import { SocketEnum } from "../shared/socket";
-import { getDeckOptions, getDeck } from "../decks";
+import { getDeckOptions, getDeck } from "../decks/premade";
 import { playGame } from "./game/game";
 import { Card } from "../shared/card";
 

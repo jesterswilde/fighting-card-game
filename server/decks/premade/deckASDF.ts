@@ -1,4 +1,4 @@
-import { DeckDescription } from "./interface";
+import { DeckDescription } from "../interface";
 
 export const ASDFdeck: DeckDescription = {
   deckList: [

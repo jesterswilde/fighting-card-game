@@ -1,5 +1,6 @@
-import {Entity, Column, PrimaryColumn} from 'typeorm';
+import {Entity, Column, PrimaryColumn, ManyToMany} from 'typeorm';
 import { Card } from '../../shared/card';
+import { DBFightingStyle } from './fightingStyle';
 
 @Entity()
 export class DBCard {
@@ -12,7 +13,10 @@ export class DBCard {
 
     @PrimaryColumn()
     name: string
-    
+
     @Column("json")
     card: Card
+
+    @ManyToMany(type => DBFightingStyle, style => style.cards)
+    styles: DBFightingStyle[]
 }

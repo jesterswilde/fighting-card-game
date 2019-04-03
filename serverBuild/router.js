@@ -18,7 +18,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const decks_1 = require("./decks");
+const premade_1 = require("./decks/premade");
 const Cards_1 = require("./cards/Cards");
 const sortOrder_1 = require("./shared/sortOrder");
 const styles_1 = require("./styles");
@@ -33,7 +33,7 @@ router.get('/deckList', (req, res) => {
 router.get('/deck/:deckName', (req, res) => {
     const { deckName = '' } = req.params;
     if (deckName) {
-        const deck = decks_1.getDeckForViewer(deckName);
+        const deck = premade_1.getDeckForViewer(deckName);
         if (deck) {
             res.status(200).send(deck);
             return;
@@ -95,6 +95,6 @@ router.get('/download', (req, res) => {
     res.status(200).send(Cards_1.stringifiedCards());
 });
 const getDeckList = () => {
-    return decks_1.getDeckOptions();
+    return premade_1.getDeckOptions();
 };
 exports.default = router;

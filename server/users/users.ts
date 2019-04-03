@@ -2,6 +2,7 @@ import { makeValidUsername } from "./username";
 import { DBUser } from "../db/entities/user";
 import { makeHashAndSalt, createToken, verifyToken, verifyPasswordForEmail } from "../auth";
 import { userRepo } from "../db";
+import { ErrorEnum } from "../error";
 
 export const createUser = async (email: string, userPassword: string) => {
     const user = new DBUser();
@@ -21,23 +22,32 @@ export const createUser = async (email: string, userPassword: string) => {
 
 export const loginWithEmail = async (email: string, password: string) => {
     if (!verifyPasswordForEmail(email, password)) {
-        throw "Coudldn't verify"
+        throw ErrorEnum.INCORRECT_USER_OR_PW
     }
     const user = await userRepo.findOne({ email });
     if (!user) {
-        throw "Couldn't find user, this is weird since you have a token"
+        throw ErrorEnum.INCORRECT_USER_OR_PW
     }
     const token = await createToken(user.serialize());
     return token;
 }
 
 
-export const verifyUser = async (token: string) => {
-    const verified = await verifyToken(token);
-    if (verified) {
-        return "Verified"
-    } else {
-        return "Booooooooo, bad token"
+export const getVerifieduser = async (token: string) => {
+    try{
+        const verified = await verifyToken(token);
+        if (verified) {
+            const [b64] = token.split('.'); 
+            const stringified = Buffer.from(b64).toString('utf-8');
+            const {username} = JSON.parse(stringified); 
+            if(username){
+                const user = await userRepo.findOne({username});
+                return user; 
+            }
+        }
+        throw ErrorEnum.INVALID_TOKEN
+    }catch(err){
+        throw err; 
     }
 }
 

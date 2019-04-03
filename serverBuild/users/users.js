@@ -12,6 +12,7 @@ const username_1 = require("./username");
 const user_1 = require("../db/entities/user");
 const auth_1 = require("../auth");
 const db_1 = require("../db");
+const error_1 = require("../error");
 exports.createUser = (email, userPassword) => __awaiter(this, void 0, void 0, function* () {
     const user = new user_1.DBUser();
     const username = yield username_1.makeValidUsername();
@@ -28,22 +29,31 @@ exports.createUser = (email, userPassword) => __awaiter(this, void 0, void 0, fu
 });
 exports.loginWithEmail = (email, password) => __awaiter(this, void 0, void 0, function* () {
     if (!auth_1.verifyPasswordForEmail(email, password)) {
-        throw "Coudldn't verify";
+        throw error_1.ErrorEnum.INCORRECT_USER_OR_PW;
     }
     const user = yield db_1.userRepo.findOne({ email });
     if (!user) {
-        throw "Couldn't find user, this is weird since you have a token";
+        throw error_1.ErrorEnum.INCORRECT_USER_OR_PW;
     }
     const token = yield auth_1.createToken(user.serialize());
     return token;
 });
-exports.verifyUser = (token) => __awaiter(this, void 0, void 0, function* () {
-    const verified = yield auth_1.verifyToken(token);
-    if (verified) {
-        return "Verified";
+exports.getVerifieduser = (token) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        const verified = yield auth_1.verifyToken(token);
+        if (verified) {
+            const [b64] = token.split('.');
+            const stringified = Buffer.from(b64).toString('utf-8');
+            const { username } = JSON.parse(stringified);
+            if (username) {
+                const user = yield db_1.userRepo.findOne({ username });
+                return user;
+            }
+        }
+        throw error_1.ErrorEnum.INVALID_TOKEN;
     }
-    else {
-        return "Booooooooo, bad token";
+    catch (err) {
+        throw err;
     }
 });
 exports.validateEmail = (email) => {

@@ -1,6 +1,6 @@
-import { DeckDescription } from "./interface";
-
-export const boxerDeck: DeckDescription = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.boxerDeck = {
     deckList: [
         "Kidney Blow",
         "Accurate Strike",
@@ -19,4 +19,4 @@ export const boxerDeck: DeckDescription = {
     ],
     name: "Boxer",
     description: "Rope-a-dope"
-}
+};

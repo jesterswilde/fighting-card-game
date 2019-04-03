@@ -10,29 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const fightingStyle_1 = require("./fightingStyle");
-let DBCard = class DBCard {
-    constructor(cardObj) {
-        if (cardObj) {
-            this.name = cardObj.name;
-            this.card = cardObj;
-        }
-    }
+const card_1 = require("./card");
+let DBFightingStyle = class DBFightingStyle {
 };
 __decorate([
     typeorm_1.PrimaryColumn(),
     __metadata("design:type", String)
-], DBCard.prototype, "name", void 0);
+], DBFightingStyle.prototype, "name", void 0);
 __decorate([
-    typeorm_1.Column("json"),
-    __metadata("design:type", Object)
-], DBCard.prototype, "card", void 0);
-__decorate([
-    typeorm_1.ManyToMany(type => fightingStyle_1.DBFightingStyle, style => style.cards),
+    typeorm_1.ManyToMany(type => card_1.DBCard, card => card.styles),
+    typeorm_1.JoinTable(),
     __metadata("design:type", Array)
-], DBCard.prototype, "styles", void 0);
-DBCard = __decorate([
-    typeorm_1.Entity(),
-    __metadata("design:paramtypes", [Object])
-], DBCard);
-exports.DBCard = DBCard;
+], DBFightingStyle.prototype, "cards", void 0);
+DBFightingStyle = __decorate([
+    typeorm_1.Entity()
+], DBFightingStyle);
+exports.DBFightingStyle = DBFightingStyle;

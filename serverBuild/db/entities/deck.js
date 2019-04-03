@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const card_1 = require("./card");
 const user_1 = require("./user");
+const fightingStyle_1 = require("./fightingStyle");
 let DBDeck = class DBDeck {
 };
 __decorate([
@@ -27,6 +28,11 @@ __decorate([
     typeorm_1.JoinTable(),
     __metadata("design:type", Array)
 ], DBDeck.prototype, "cards", void 0);
+__decorate([
+    typeorm_1.ManyToMany(type => fightingStyle_1.DBFightingStyle),
+    typeorm_1.JoinTable(),
+    __metadata("design:type", Array)
+], DBDeck.prototype, "styles", void 0);
 __decorate([
     typeorm_1.ManyToOne(type => user_1.DBUser, user => user.decks),
     __metadata("design:type", user_1.DBUser)

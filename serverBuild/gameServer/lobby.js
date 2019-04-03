@@ -12,7 +12,7 @@ const stateInterface_1 = require("./interfaces/stateInterface");
 const gameSettings_1 = require("./gameSettings");
 const util_1 = require("./util");
 const socket_1 = require("../shared/socket");
-const decks_1 = require("../decks");
+const premade_1 = require("../decks/premade");
 const game_1 = require("./game/game");
 let queue = [];
 exports.default = (io) => {
@@ -59,11 +59,11 @@ const handleDCDuringGame = (sockets) => {
 };
 const playerPicksDeck = (player) => {
     return new Promise((res, rej) => {
-        const deckOptions = decks_1.getDeckOptions();
+        const deckOptions = premade_1.getDeckOptions();
         player.emit(socket_1.SocketEnum.GOT_DECK_OPTIONS, deckOptions);
         player.once(socket_1.SocketEnum.PICKED_DECK, (index) => {
             console.log('got deck choice');
-            const deck = decks_1.getDeck(deckOptions[index].name);
+            const deck = premade_1.getDeck(deckOptions[index].name);
             res(deck);
         });
     });

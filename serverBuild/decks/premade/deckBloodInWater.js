@@ -1,6 +1,6 @@
-import { DeckDescription } from "./interface";
-
-export const bloodInWaterDeck: DeckDescription = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.bloodInWaterDeck = {
     deckList: [
         "Fancy Footwork",
         "1000 Cuts",
@@ -20,5 +20,4 @@ export const bloodInWaterDeck: DeckDescription = {
     ],
     name: "Blood in the Water",
     description: "This deck focuses on continous low amounts of damage. Has lots of poise damage. Goes berzerk when low on health",
-}
-
+};
