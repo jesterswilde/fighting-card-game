@@ -31,11 +31,22 @@ const allStyles = [
     toolsOfTheTrade_1.toolsOfTheTradeStyle,
     unstoppable_1.unstoppableStyle
 ];
+const fightingStylesObj = {};
+allStyles.forEach((style) => {
+    fightingStylesObj[style.name] = style;
+});
 exports.getFightingStyles = () => {
-    return allStyles.map(({ name, description, identity, strengths }) => ({ name, description }));
+    return allStyles.map(({ name, description }) => ({ name, description }));
 };
 exports.getFightingStyleByName = (styleName) => {
-    const style = allStyles.find(({ name }) => name === styleName);
+    const style = fightingStylesObj[styleName];
+    if (style) {
+        return style;
+    }
+    return null;
+};
+exports.getFullFightingStyleByName = (styleName) => {
+    const style = fightingStylesObj[styleName];
     if (style) {
         return Object.assign({}, style, { cards: style.cards.map((cardName) => Cards_1.cards[cardName] ? Cards_1.cards[cardName] : null) });
     }

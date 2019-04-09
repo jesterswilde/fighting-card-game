@@ -32,12 +32,26 @@ const allStyles: FightingStyle[] = [
     unstoppableStyle
 ]
 
+const fightingStylesObj = {};
+
+allStyles.forEach((style)=>{
+    fightingStylesObj[style.name] = style; 
+})
+
 export const getFightingStyles = () => {
-    return allStyles.map(({ name, description, identity, strengths }) => ({ name, description }));
+    return allStyles.map(({ name, description }) => ({ name, description }));
 }
 
-export const getFightingStyleByName = (styleName: string) => {
-    const style = allStyles.find(({ name }) => name === styleName);
+export const getFightingStyleByName = (styleName: string): FightingStyle | null => {
+    const style = fightingStylesObj[styleName]; 
+    if (style) {
+        return style; 
+    }
+    return null;
+}
+
+export const getFullFightingStyleByName = (styleName: string) => {
+    const style = fightingStylesObj[styleName]; 
     if (style) {
         return {
             ...style,
