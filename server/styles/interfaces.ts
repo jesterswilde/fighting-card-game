@@ -8,3 +8,12 @@ export interface FightingStyle {
     strengths?: string
     mainMechanics?: string
 }
+
+export interface FullFightingStyle{
+    name: string
+    cards: Card[]
+    description?: string
+    identity?: string
+    strengths?: string
+    mainMechanics?: string
+}

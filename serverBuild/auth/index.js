@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const crypto = require("crypto");
 const db_1 = require("../db");
+const error_1 = require("../error");
 const { SECRET = "shhhhhhhh" } = process.env;
 exports.createToken = (data) => __awaiter(this, void 0, void 0, function* () {
     const stringified = JSON.stringify(data);
@@ -48,4 +49,34 @@ const makeHash = (password, salt) => __awaiter(this, void 0, void 0, function* (
             }
         });
     });
+});
+const reqToUser = (req) => __awaiter(this, void 0, void 0, function* () {
+    const token = req.headers.authorization;
+    if (!exports.verifyToken(token)) {
+        throw error_1.ErrorEnum.INVALID_TOKEN;
+    }
+    const username = tokenToUsername(token);
+    const user = yield db_1.userRepo.findOne({ username });
+    return user;
+});
+const tokenToUsername = (token) => {
+    const [b64] = token.split('.');
+    const stringified = Buffer.from(b64, 'base64').toString('utf8');
+    console.log(stringified);
+    const { username } = JSON.parse(stringified);
+    return username;
+};
+exports.authMiddleware = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        if (req.headers.authorization) {
+            req.user = yield reqToUser(req);
+            next();
+        }
+        else {
+            res.status(403).send();
+        }
+    }
+    catch (err) {
+        res.status(403).send();
+    }
 });

@@ -7,3 +7,11 @@ Game board should change as people get more and more damaged.
 Lobby improvement - reconnect
 
 Telegraph bug
+
+Clear up cards (anatomy of the card isn't clear immediately) 
+
+Poise bar isn't clear immediately as to it's purpose
+
+Focus vs Telegraph, differences not immediately obvious.  Consider how to make that more apparent
+
+Bloodied needs a tooltip to explain what bloodied means

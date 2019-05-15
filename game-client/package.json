@@ -12,6 +12,7 @@
     "@types/redux": "^3.6.0",
     "@types/socket.io-client": "^1.4.32",
     "bootstrap": "^4.2.1",
+    "decko": "^1.2.0",
     "game": "file:../shared",
     "preact": "^8.4.2",
     "preact-compat": "^3.18.4",

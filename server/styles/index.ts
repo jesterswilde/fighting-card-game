@@ -1,6 +1,6 @@
 import { grappleStyle } from './grappler';
-import { FightingStyle } from './interfaces';
-import { cards } from '../cards/Cards';
+import { FightingStyle, FullFightingStyle } from './interfaces';
+import { allCards } from '../cards/Cards';
 import { cheapShotStyle } from './cheapShot';
 import { crowdPleaserStyle } from './crowdPleaser';
 import { deathFromAboveStyle } from './deathFromAbove';
@@ -50,12 +50,12 @@ export const getFightingStyleByName = (styleName: string): FightingStyle | null 
     return null;
 }
 
-export const getFullFightingStyleByName = (styleName: string) => {
+export const getFullFightingStyleByName = (styleName: string): FullFightingStyle => {
     const style = fightingStylesObj[styleName]; 
     if (style) {
         return {
             ...style,
-            cards: style.cards.map((cardName) => cards[cardName] ? cards[cardName] : null)
+            cards: style.cards.map((cardName) => allCards[cardName] ? allCards[cardName] : null)
         }
     }
     return null;

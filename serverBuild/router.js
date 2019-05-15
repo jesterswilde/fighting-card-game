@@ -22,11 +22,11 @@ const premade_1 = require("./decks/premade");
 const Cards_1 = require("./cards/Cards");
 const sortOrder_1 = require("./shared/sortOrder");
 const styles_1 = require("./styles");
-const card_1 = require("./db/entities/card");
-const db_1 = require("./db");
 const router_1 = require("./users/router");
+const router_2 = require("./decks/router");
 const router = express_1.Router();
 router.use('/users', router_1.userRouter);
+router.use('/decks', router_2.decksRouter);
 router.get('/deckList', (req, res) => {
     res.status(200).send(getDeckList());
 });
@@ -44,32 +44,32 @@ router.get('/deck/:deckName', (req, res) => {
 router.post('/card', (req, res) => {
     const _a = req.body, { index } = _a, card = __rest(_a, ["index"]);
     sortOrder_1.sortCard(card);
-    Cards_1.addCard(card);
+    Cards_1.addCard(card, card.index);
     res.status(201).send();
 });
 router.get('/cards', (req, res) => {
-    const cardList = Object.keys(Cards_1.cards);
+    const cardList = Object.keys(Cards_1.allCards);
     res.status(200).send(cardList);
 });
 router.get('/card/:name', (req, res) => {
-    const card = Cards_1.cards[req.params.name];
+    const card = Cards_1.allCards[req.params.name];
     res.status(200).send(card || null);
 });
 router.get('/styles', (req, res) => {
     res.status(200).send(styles_1.getFightingStyles());
 });
-router.get('/updatedb', () => {
-    const dbCards = [];
-    for (const cardName in Cards_1.cards) {
-        const card = Cards_1.cards[cardName];
-        const dbCard = new card_1.DBCard(card);
-        dbCards.push(dbCard);
-    }
-    db_1.cardRepo.save(dbCards);
-});
+// router.get('/updatedb', () => {
+//     const dbCards: DBCard[] = [];
+//     for (const cardName in allCards) {
+//         const card = allCards[cardName];
+//         const dbCard = new DBCard(card);
+//         dbCards.push(dbCard);
+//     }
+//     cardRepo.save(dbCards);
+// })
 router.get('/styles/:style', (req, res) => {
     const styleName = req.params.style;
-    const style = styles_1.getFightingStyleByName(styleName);
+    const style = styles_1.getFullFightingStyleByName(styleName);
     if (style) {
         res.status(200).send(style);
     }
@@ -87,13 +87,6 @@ router.delete('/card', (req, res) => __awaiter(this, void 0, void 0, function* (
         res.status(400).send();
     }
 }));
-router.get('/backup', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    Cards_1.downloadCards();
-    res.status(200).send();
-}));
-router.get('/download', (req, res) => {
-    res.status(200).send(Cards_1.stringifiedCards());
-});
 const getDeckList = () => {
     return premade_1.getDeckOptions();
 };

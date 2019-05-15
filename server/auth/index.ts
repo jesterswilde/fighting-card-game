@@ -1,6 +1,9 @@
 import * as crypto from 'crypto';
 import { userRepo } from '../db';
+import { Request, Response, NextFunction } from 'express';
+import { ErrorEnum } from '../error';
 const { SECRET = "shhhhhhhh" } = process.env
+
 
 export const createToken = async (data: object) => {
     const stringified = JSON.stringify(data);
@@ -42,4 +45,35 @@ const makeHash = async (password: string, salt: string) => {
             }
         })
     })
+}
+
+const reqToUser = async (req: Request) => {
+    const token = req.headers.authorization
+    if (!verifyToken(token)) {
+        throw ErrorEnum.INVALID_TOKEN
+    }
+    const username = tokenToUsername(token);
+    const user = await userRepo.findOne({ username });
+    return user;
+}
+
+const tokenToUsername = (token: string) => {
+    const [b64] = token.split('.');
+    const stringified = Buffer.from(b64, 'base64').toString('utf8');
+    console.log(stringified);
+    const { username } = JSON.parse(stringified);
+    return username;
+}
+
+export const authMiddleware = async(req: Request, res: Response, next: NextFunction)=> {
+    try{
+        if(req.headers.authorization){
+            req.user = await reqToUser(req); 
+            next(); 
+        }else{
+            res.status(403).send(); 
+        }
+    }catch(err){
+        res.status(403).send(); 
+    }
 }

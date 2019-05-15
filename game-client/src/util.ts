@@ -1,4 +1,4 @@
-import { StoreState } from "./state/store";
+import { StoreState, store } from "./state/store";
 import { connect } from 'preact-redux';
 import { DistanceEnum, StandingEnum, MotionEnum } from "./game/interface";
 import { Mechanic, getMechDisplay } from "./shared/card";
@@ -64,4 +64,13 @@ export const printMotion = (motion: MotionEnum) => {
 const motionRouter = {
     [MotionEnum.MOVING]: "Moving",
     [MotionEnum.STILL]: "Still"
+}
+
+export const makeAuthHeader = ()=>{
+    const token = store.getState().user.token
+    const header = new Headers(); 
+    if(token){
+        header.set("Authorization", token); 
+    }
+    return header; 
 }

@@ -1,14 +1,10 @@
 import { createConnection, Repository, ConnectionOptions, Connection } from "typeorm";
 import * as urLReader from 'pg-connection-string';
-import { DBCard } from './entities/card';
 import { DBDeck } from "./entities/deck";
 import { DBUser } from "./entities/user";
-import { DBFightingStyle } from "./entities/fightingStyle";
 
-export let cardRepo: Repository<DBCard>
 export let deckRepo: Repository<DBDeck>
 export let userRepo: Repository<DBUser>
-export let styleRepo: Repository<DBFightingStyle>
 
 
 let dbMethods: Array<(conn:Connection)=>void> = []
@@ -30,10 +26,8 @@ let connectionObj: ConnectionOptions = {
     database: 'fight',
     synchronize: true,
     entities: [
-        DBCard,
         DBDeck,
         DBUser,
-        DBFightingStyle
     ]
 }
 
@@ -53,10 +47,8 @@ if (process.env.DATABASE_URL) {
 
 
 createConnection(connectionObj).then((connection) => {
-    cardRepo = connection.getRepository(DBCard);
     deckRepo = connection.getRepository(DBDeck);
     userRepo = connection.getRepository(DBUser);
-    styleRepo = connection.getRepository(DBFightingStyle); 
 
     dbConnection = connection;
     dbMethods.forEach((cb)=> cb(connection));

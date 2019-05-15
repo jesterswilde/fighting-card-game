@@ -13,42 +13,35 @@ const db_1 = require("../db");
 const error_1 = require("../error");
 const config_1 = require("../config");
 const styles_1 = require("../styles");
-const Cards_1 = require("../cards/Cards");
-exports.makeDeck = (user) => {
+const validation_1 = require("./validation");
+exports.makeDeck = (user) => __awaiter(this, void 0, void 0, function* () {
     const deck = new deck_1.DBDeck();
     deck.user = user;
     deck.name = "New Deck";
-    db_1.deckRepo.save(deck);
-};
+    yield db_1.deckRepo.save(deck);
+    return deck.sendToUser();
+});
 exports.deleteDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
-    const deck = yield getValidDeck(user, deckID);
+    const deck = yield validation_1.getValidDeck(user, deckID);
     db_1.deckRepo.delete(deck);
 });
-exports.updateDeckCards = (user, deckID, cardNames) => __awaiter(this, void 0, void 0, function* () {
-    const deck = yield getValidDeck(user, deckID);
-    if (areCardsInStyles(deck.styles, cardNames)) {
-        deck.cards = cardNames;
-        db_1.deckRepo.save(deck);
+exports.updateDeck = (user, deckID, deckUpdates) => __awaiter(this, void 0, void 0, function* () {
+    const deck = yield validation_1.getValidDeck(user, deckID);
+    if (deckUpdates.styles) {
+        updateDeckStyles(deck, deckUpdates.styles);
     }
-    else {
-        throw error_1.ErrorEnum.CARDS_ARENT_IN_STYLES;
+    if (deckUpdates.cards) {
+        updateDeckCards(deck, deckUpdates.cards);
     }
+    if (deckUpdates.name) {
+        deck.name = deckUpdates.name;
+    }
+    if (deckUpdates.description) {
+        deck.description = deckUpdates.description;
+    }
+    yield db_1.deckRepo.save(deck);
 });
-const areCardsInStyles = (styleNames, cards) => {
-    const stylesObj = styleNames.map((name) => styles_1.getFightingStyleByName(name))
-        .filter((style) => style !== null)
-        .reduce((styleObj, style) => {
-        style.cards.forEach((cardName) => {
-            const card = Cards_1.allCards[cardName];
-            if (card) {
-                styleObj[cardName] = card;
-            }
-        });
-        return styleObj;
-    }, {});
-    return cards.every((cardName) => stylesObj[cardName] !== undefined && stylesObj[cardName] !== null);
-};
-exports.updateDeckStyles = (user, deckID, styles) => __awaiter(this, void 0, void 0, function* () {
+const updateDeckStyles = (deck, styles) => __awaiter(this, void 0, void 0, function* () {
     const validStyles = styles
         .map(styles_1.getFightingStyleByName)
         .filter((style) => style !== null)
@@ -56,22 +49,30 @@ exports.updateDeckStyles = (user, deckID, styles) => __awaiter(this, void 0, voi
     if (validStyles.length > config_1.MAX_STYLES) {
         throw error_1.ErrorEnum.TOO_MANY_STYLES;
     }
-    const deck = yield getValidDeck(user, deckID);
     deck.styles = validStyles;
 });
-const getValidDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
-    const deck = yield db_1.deckRepo.findOne({ id: deckID });
-    if (deck.user.id !== user.id) {
-        throw error_1.ErrorEnum.DOESNT_OWN_DECK;
+const updateDeckCards = (deck, cards) => {
+    if (validation_1.areCardsInStyles(deck.styles, cards)) {
+        deck.cards = cards;
     }
-    return deck;
-});
+    else {
+        throw error_1.ErrorEnum.CARDS_ARENT_IN_STYLES;
+    }
+};
 exports.getFullDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
-    const deck = yield getValidDeck(user, deckID);
-    const possibleCards2D = deck.styles.map(styles_1.getFullFightingStyleByName).map(({ cards }) => cards);
-    const possibleCards = possibleCards2D.reduce((result, cards) => {
-        result.push(...cards);
-        return result;
-    }, []);
-    return Object.assign({}, deck, { possibleCards });
+    const deck = yield validation_1.getValidDeck(user, deckID);
+    const possibleCards = exports.getPossibleCards(deck.styles);
+    return deck.sendToUser(possibleCards);
+});
+//Styles give a pool of possible cards they could put in their deck. This gets those. 
+exports.getPossibleCards = (styles) => {
+    const possibleCards = styles.map(styles_1.getFullFightingStyleByName)
+        .reduce((cardsObj, { cards, name }) => {
+        cardsObj[name] = cards;
+        return cardsObj;
+    }, {});
+    return possibleCards;
+};
+exports.getUsersDecks = (user) => __awaiter(this, void 0, void 0, function* () {
+    return user.decks.map(({ name, id, description }) => ({ name, id, description }));
 });

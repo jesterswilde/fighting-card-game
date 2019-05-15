@@ -4,13 +4,15 @@ import { deckRepo } from "../db";
 import { ErrorEnum } from "../error";
 import { MAX_STYLES } from "../config";
 import { getFightingStyleByName, getFullFightingStyleByName } from "../styles";
-import { allCards } from "../cards/Cards";
+import { getValidDeck, areCardsInStyles } from "./validation";
+import { EditedDeck, PossibleCards } from "./interface";
 
-export const makeDeck = (user: DBUser) => {
+export const makeDeck = async (user: DBUser) => {
     const deck = new DBDeck();
     deck.user = user;
     deck.name = "New Deck";
-    deckRepo.save(deck);
+    await deckRepo.save(deck);
+    return deck.sendToUser();
 }
 
 export const deleteDeck = async (user: DBUser, deckID: number) => {
@@ -18,32 +20,24 @@ export const deleteDeck = async (user: DBUser, deckID: number) => {
     deckRepo.delete(deck);
 }
 
-export const updateDeckCards = async (user: DBUser, deckID: number, cardNames: string[]) => {
+export const updateDeck = async (user: DBUser, deckID: number, deckUpdates: EditedDeck) => {
     const deck = await getValidDeck(user, deckID);
-    if (areCardsInStyles(deck.styles, cardNames)) {
-        deck.cards = cardNames;
-        deckRepo.save(deck);
-    } else {
-        throw ErrorEnum.CARDS_ARENT_IN_STYLES
+    if (deckUpdates.styles) {
+        updateDeckStyles(deck, deckUpdates.styles);
     }
+    if (deckUpdates.cards) {
+        updateDeckCards(deck, deckUpdates.cards);
+    }
+    if (deckUpdates.name) {
+        deck.name = deckUpdates.name;
+    }
+    if (deckUpdates.description) {
+        deck.description = deckUpdates.description;
+    }
+    await deckRepo.save(deck);
 }
 
-const areCardsInStyles = (styleNames: string[], cards: string[]) => {
-    const stylesObj = styleNames.map((name) => getFightingStyleByName(name))
-        .filter((style) => style !== null)
-        .reduce((styleObj, style) => {
-            style.cards.forEach((cardName) => {
-                const card = allCards[cardName];
-                if (card) {
-                    styleObj[cardName] = card;
-                }
-            });
-            return styleObj;
-        }, {})
-    return cards.every((cardName) => stylesObj[cardName] !== undefined && stylesObj[cardName] !== null);
-}
-
-export const updateDeckStyles = async (user: DBUser, deckID: number, styles: string[]) => {
+const updateDeckStyles = async (deck: DBDeck, styles: string[]) => {
     const validStyles = styles
         .map(getFightingStyleByName)
         .filter((style) => style !== null)
@@ -51,27 +45,33 @@ export const updateDeckStyles = async (user: DBUser, deckID: number, styles: str
     if (validStyles.length > MAX_STYLES) {
         throw ErrorEnum.TOO_MANY_STYLES
     }
-    const deck = await getValidDeck(user, deckID);
     deck.styles = validStyles;
 }
 
-const getValidDeck = async (user: DBUser, deckID: number) => {
-    const deck = await deckRepo.findOne({ id: deckID });
-    if (deck.user.id !== user.id) {
-        throw ErrorEnum.DOESNT_OWN_DECK;
+const updateDeckCards = (deck: DBDeck, cards: string[]) => {
+    if (areCardsInStyles(deck.styles, cards)) {
+        deck.cards = cards;
+    } else {
+        throw ErrorEnum.CARDS_ARENT_IN_STYLES;
     }
-    return deck;
 }
 
 export const getFullDeck = async (user: DBUser, deckID: number) => {
     const deck = await getValidDeck(user, deckID);
-    const possibleCards2D = deck.styles.map(getFullFightingStyleByName).map(({ cards }) => cards);
-    const possibleCards = possibleCards2D.reduce((result, cards) => {
-        result.push(...cards);
-        return result;
-    }, [])
-    return {
-        ...deck,
-        possibleCards
-    }
+    const possibleCards = getPossibleCards(deck.styles);
+    return deck.sendToUser(possibleCards)
+}
+
+//Styles give a pool of possible cards they could put in their deck. This gets those. 
+export const getPossibleCards = (styles: string[]): PossibleCards => {
+    const possibleCards = styles.map(getFullFightingStyleByName)
+        .reduce((cardsObj, { cards, name }) => {
+            cardsObj[name] = cards;
+            return cardsObj;
+        }, {});
+    return possibleCards;
+}
+
+export const getUsersDecks = async (user: DBUser) => {
+    return user.decks.map(({ name, id, description }) => ({ name, id, description }));
 }

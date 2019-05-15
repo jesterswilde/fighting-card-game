@@ -46,7 +46,7 @@ exports.getDeck = (name) => {
         return null;
     }
     const filteredDeck = deck.deckList.map((name) => {
-        const card = Cards_1.cards[name];
+        const card = Cards_1.allCards[name];
         if (!card) {
             console.log("error, card not found", name);
             return null;

@@ -7,3 +7,4 @@ export const MAX_POISE = 10;
 export const MIN_POISE = 0;
 export const UNBALANCED_POISE = 3; 
 export const ANTICIPATING_POISE = 8; 
+export const MAX_STYLES_PER_DECK = 3; 

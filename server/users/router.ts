@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { createUser, loginWithEmail, validateEmail, validatePassword } from "./users";
-import { verifyToken } from "../auth";
 
 export const userRouter = Router(); 
 

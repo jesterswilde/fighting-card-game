@@ -9,6 +9,8 @@ import { PathActions } from "../path/actions";
 import { SocketActions } from "../socket/actions";
 import { FightingStyleActions } from "../fightingStyles/actions";
 import { UserActions } from "../user/actions";
+import { DeckEditorActions } from "../deckBuilder/actions";
 
 export type ActionType = GameActions | HandActions | DisplayActions | LobbyActions | ScreenDisplayActions | 
-    EventActions | DeckViewerActions | PathActions | SocketActions | FightingStyleActions | UserActions; 
+    EventActions | DeckViewerActions | PathActions | SocketActions | FightingStyleActions | UserActions | 
+    DeckEditorActions; 

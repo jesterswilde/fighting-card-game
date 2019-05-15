@@ -1,4 +1,4 @@
-import { cards } from '../../cards/Cards';
+import { allCards } from '../../cards/Cards';
 import { grappleDeck } from './deckGrapple';
 import { highGroundDeck } from './deckHighGround';
 import { gladiatorDeck } from './deckGaldiator';
@@ -52,7 +52,7 @@ export const getDeck = (name: string) => {
         return null;
     }
     const filteredDeck = deck.deckList.map((name) => {
-        const card = cards[name]
+        const card = allCards[name]
         if (!card) {
             console.log("error, card not found", name);
             return null;

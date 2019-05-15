@@ -48,7 +48,7 @@ exports.getFightingStyleByName = (styleName) => {
 exports.getFullFightingStyleByName = (styleName) => {
     const style = fightingStylesObj[styleName];
     if (style) {
-        return Object.assign({}, style, { cards: style.cards.map((cardName) => Cards_1.cards[cardName] ? Cards_1.cards[cardName] : null) });
+        return Object.assign({}, style, { cards: style.cards.map((cardName) => Cards_1.allCards[cardName] ? Cards_1.allCards[cardName] : null) });
     }
     return null;
 };

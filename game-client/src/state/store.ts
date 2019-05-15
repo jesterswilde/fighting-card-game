@@ -13,6 +13,7 @@ import { gameDisplayReducer } from '../gameDisplay/reducer';
 import { EventState } from '../events/interface';
 import { eventReducer } from '../events/reducer';
 import { DeckViewerState } from '../deckViewer/interface';
+import { DeckEditState} from '../deckBuilder/interfaces'; 
 import { pathReducer } from '../path/reducer';
 import { socketReducer } from '../socket/reducer';
 import { deckViewerReducer } from '../deckViewer/reducer';
@@ -21,6 +22,7 @@ import { fightingStyleReducer } from '../fightingStyles/reducer';
 import { UserState } from '../user/interface';
 import { loadState } from './localStorage';
 import { userReducer } from '../user/reducer';
+import { deckEditorReducer } from '../deckBuilder/reducer';
 
 export interface StoreState {
     game: GameState
@@ -34,6 +36,7 @@ export interface StoreState {
     socket: SocketState,
     fightingStyle: FightingStyleState,
     user: UserState,
+    deckEditor: DeckEditState,
 }
 
 const rootReducer = combineReducers({
@@ -48,6 +51,7 @@ const rootReducer = combineReducers({
     socket: socketReducer,
     fightingStyle: fightingStyleReducer,
     user: userReducer,
+    deckEditor: deckEditorReducer,
 })
 
 const devToolsExtension: StoreEnhancer = window['devToolsExtension'] ?
@@ -55,4 +59,4 @@ const devToolsExtension: StoreEnhancer = window['devToolsExtension'] ?
 
 const loadedState = loadState(); 
 
-export const store: Store<StoreState, ActionType> = createStore(rootReducer, loadedState, devToolsExtension); 
+export const store: Store<StoreState, ActionType> = createStore(rootReducer, loadedState, devToolsExtension);

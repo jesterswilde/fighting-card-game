@@ -1,15 +1,16 @@
 import { Router } from 'express';
 import { getDeckOptions, getDeckForViewer } from './decks/premade';
-import { addCard, cards, removeCard, downloadCards, stringifiedCards } from './cards/Cards';
+import { addCard, allCards, removeCard, downloadCards } from './cards/Cards';
 import { sortCard } from './shared/sortOrder';
-import { getFightingStyles, getFightingStyleByName } from './styles';
-import { DBCard } from './db/entities/card';
-import { cardRepo } from './db';
+import { getFightingStyles, getFullFightingStyleByName } from './styles';
 import { userRouter } from './users/router';
+import { decksRouter } from './decks/router';
 
 const router = Router();
 
-router.use('/users', userRouter); 
+router.use('/users', userRouter);
+router.use('/decks', decksRouter);
+
 
 router.get('/deckList', (req, res) => {
     res.status(200).send(getDeckList());
@@ -27,36 +28,35 @@ router.get('/deck/:deckName', (req, res) => {
     res.status(404).send();
 })
 
-
 router.post('/card', (req, res) => {
     const { index, ...card } = req.body;
     sortCard(card);
-    addCard(card);
+    addCard(card, card.index);
     res.status(201).send();
 })
 router.get('/cards', (req, res) => {
-    const cardList = Object.keys(cards);
+    const cardList = Object.keys(allCards);
     res.status(200).send(cardList);
 })
 router.get('/card/:name', (req, res) => {
-    const card = cards[req.params.name];
+    const card = allCards[req.params.name];
     res.status(200).send(card || null);
 })
 router.get('/styles', (req, res) => {
     res.status(200).send(getFightingStyles());
 })
-router.get('/updatedb', () => {
-    const dbCards: DBCard[] = [];
-    for (const cardName in cards) {
-        const card = cards[cardName];
-        const dbCard = new DBCard(card);
-        dbCards.push(dbCard);
-    }
-    cardRepo.save(dbCards);
-})
+// router.get('/updatedb', () => {
+//     const dbCards: DBCard[] = [];
+//     for (const cardName in allCards) {
+//         const card = allCards[cardName];
+//         const dbCard = new DBCard(card);
+//         dbCards.push(dbCard);
+//     }
+//     cardRepo.save(dbCards);
+// })
 router.get('/styles/:style', (req, res) => {
     const styleName = req.params.style;
-    const style = getFightingStyleByName(styleName);
+    const style = getFullFightingStyleByName(styleName);
     if (style) {
         res.status(200).send(style);
     } else {
@@ -72,14 +72,6 @@ router.delete('/card', async (req, res) => {
         res.status(400).send();
     }
 })
-router.get('/backup', async(req, res)=>{
-    downloadCards(); 
-    res.status(200).send(); 
-})
-router.get('/download', (req, res)=>{
-    res.status(200).send(stringifiedCards());
-})
-
 
 const getDeckList = () => {
     return getDeckOptions();

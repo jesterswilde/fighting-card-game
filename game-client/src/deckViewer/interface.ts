@@ -9,6 +9,7 @@ export interface Deck{
 
 export interface DeckDescription{
     name: string,
+    id?: number,
     description?: string
 }
 
