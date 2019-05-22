@@ -19,6 +19,9 @@ export default () => {
         <div>
             <a class="link" onClick={()=> to('/user/create')}>Create Account</a>
         </div>
+        <div>
+            <a class="link" onClick={()=> to('/builder')}>Make a Deck</a>
+        </div>
 
 
     </div>

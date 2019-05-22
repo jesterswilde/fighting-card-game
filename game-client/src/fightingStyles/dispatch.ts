@@ -24,6 +24,12 @@ const getFightingStyle = async(styleName: string)=>{
 }
 
 export const dispatchGetFightingStyles = async()=>{
+    //If you already have the styles, don't re-fetch them
+    const currentStyles = store.getState().fightingStyle.styleDescriptions 
+    if(currentStyles && currentStyles.length > 0){
+        return; 
+    }
+    store.dispatch({type: FightingStyleEnum.LOADING_STYLE_NAMES});
     const styleDescriptions = await getFightingStyleDescriptions();
     const action: GotFightingStyleDescriptions = {
         type: FightingStyleEnum.GOT_STYLE_NAMES,
@@ -33,7 +39,6 @@ export const dispatchGetFightingStyles = async()=>{
 }
 
 const getFightingStyleDescriptions = async()=>{
-    store.dispatch({type: FightingStyleEnum.LOADING_STYLE_NAMES});
     const fetched = await fetch(HOST_URL + '/styles'); 
     if(fetched.ok){
         const styles: FightingStyleDescription[] = await fetched.json(); 

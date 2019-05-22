@@ -1,6 +1,17 @@
 export enum PathActionEnum{
     TO_PATH_STRING = 'toPathString',
     TO_PATH_ARRAY = 'toPathArray',
+    APPEND_TO_PATH = 'appendToPath',
+    POP_PATH = 'popPath'
+}
+
+export interface AppendToPathAction {
+    type: PathActionEnum.APPEND_TO_PATH
+    toAppend: string | string[]
+}
+
+export interface PopPathAction{
+    type: PathActionEnum.POP_PATH
 }
 
 export interface ToPathStringAction {
@@ -13,4 +24,4 @@ export interface ToPathArrayActon{
     path: string[], 
 }
 
-export type PathActions = ToPathArrayActon | ToPathStringAction; 
+export type PathActions = ToPathArrayActon | ToPathStringAction | AppendToPathAction | PopPathAction; 

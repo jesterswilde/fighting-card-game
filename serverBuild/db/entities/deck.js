@@ -28,19 +28,19 @@ __decorate([
     __metadata("design:type", Number)
 ], DBDeck.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ default: "New Deck" }),
     __metadata("design:type", String)
 ], DBDeck.prototype, "name", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ default: "Undecided" }),
     __metadata("design:type", String)
 ], DBDeck.prototype, "description", void 0);
 __decorate([
-    typeorm_1.Column("text", { array: true }),
+    typeorm_1.Column("text", { array: true, default: "{}" }),
     __metadata("design:type", Array)
 ], DBDeck.prototype, "cards", void 0);
 __decorate([
-    typeorm_1.Column("text", { array: true }),
+    typeorm_1.Column("text", { array: true, default: "{}" }),
     __metadata("design:type", Array)
 ], DBDeck.prototype, "styles", void 0);
 __decorate([

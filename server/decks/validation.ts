@@ -23,7 +23,11 @@ export const areCardsInStyles = (styleNames: string[], cards: string[]) => {
 
 //Just make sure the user owns the deck
 export const getValidDeck = async (user: DBUser, deckID: number) => {
-    const deck = await deckRepo.findOne({ id: deckID });
+    const deck = await deckRepo.findOne({
+        where: { id: deckID },
+        relations: ['user']
+    });
+    console.log("deck", deck);
     if (deck.user.id !== user.id) {
         throw ErrorEnum.DOESNT_OWN_DECK;
     }

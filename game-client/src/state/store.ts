@@ -13,7 +13,7 @@ import { gameDisplayReducer } from '../gameDisplay/reducer';
 import { EventState } from '../events/interface';
 import { eventReducer } from '../events/reducer';
 import { DeckViewerState } from '../deckViewer/interface';
-import { DeckEditState} from '../deckBuilder/interfaces'; 
+import { DeckEditState} from '../deckBuilder/interface'; 
 import { pathReducer } from '../path/reducer';
 import { socketReducer } from '../socket/reducer';
 import { deckViewerReducer } from '../deckViewer/reducer';

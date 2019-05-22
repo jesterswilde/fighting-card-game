@@ -9987,6 +9987,13 @@ div {
   margin-bottom: 15px;
 }
 
+.style-section {
+  background-color: #baaca0;
+  margin: 20px;
+  padding: 20px;
+  overflow: hidden;
+}
+
 .card-filter .options {
   display: flex;
 }
@@ -9998,6 +10005,27 @@ div {
 .card-filter .options .active {
   color: white;
   background-color: #4676f4;
+}
+
+.make-button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  width: 20vw;
+  height: 5vw;
+}
+
+.style-list {
+  padding: 15px;
+}
+.style-list .style-item {
+  margin: 5px;
+  padding: 5px;
+  background-color: #868686;
+}
+.style-list .style-item .style-title {
+  display: flex;
+  flex-direction: row;
 }
 
 .navbar {
@@ -10376,6 +10404,14 @@ div {
   width: 50%;
   display: flex;
   flex-direction: column;
+}
+
+.main {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  margin-top: 20px;
+  align-items: center;
 }
 
 .small-pad {

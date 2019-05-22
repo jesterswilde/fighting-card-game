@@ -1,5 +1,20 @@
-import { ToPathStringAction, PathActionEnum, ToPathArrayActon } from "./actions";
+import { ToPathStringAction, PathActionEnum, ToPathArrayActon, PopPathAction, AppendToPathAction } from "./actions";
 import { store } from "../state/store";
+
+export const dispatchPopPath = ()=>{
+    const action: PopPathAction = {
+        type: PathActionEnum.POP_PATH
+    }
+    store.dispatch(action); 
+}
+
+export const dispatchAppendPath = (toAppend: string | string[])=>{
+    const action: AppendToPathAction = {
+        type: PathActionEnum.APPEND_TO_PATH,
+        toAppend
+    }
+    store.dispatch(action); 
+}
 
 export const dispatchToPathString = (path: string)=>{
     const action: ToPathStringAction = {

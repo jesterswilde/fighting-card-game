@@ -1,7 +1,9 @@
-import { h } from 'preact';
-import { EditingDeck } from '../../deckBuilder/interfaces';
-import { dispatchDEToggleCard } from '../../deckBuilder/dispatch'
+import { h, Component } from 'preact';
+import { EditingDeck } from '../../deckBuilder/interface';
 import HandCard from '../game/card/handCard';
+import { FightingStyleDescription } from '../../fightingStyles/interface';
+import { dispatchDEToggleCard } from '../../deckBuilder/dispatchEditDeck';
+import StyleList from './styleList';
 /*
     Deck Name -edit-
     -----------------
@@ -35,11 +37,13 @@ import HandCard from '../game/card/handCard';
 
 interface ExternalProps {
     deck: EditingDeck
+    allStyles: FightingStyleDescription[]
 }
 
 interface Props {
     deck: EditingDeck
     cardsObj: { [key: string]: boolean }
+    allStyles: FightingStyleDescription[]
 }
 
 
@@ -47,37 +51,48 @@ const checkIfHasCard = (cardName: string, cardsObj: { [key: string]: boolean }) 
     return cardsObj[cardName];
 }
 
-const deckViewer = ({ deck, cardsObj }: Props) => {
-    const { cards, possibleCards, styles, name } = deck;
-    return <div>
-        <input value={name} />
-        <div class="styles">
-            <h2>Current Styles</h2>
-            <ul>
-                {styles.map((style, i) => <li key={style + i}>{style}</li>)}
-            </ul>
+class DeckViewer extends Component<Props, {}>{
+    render({ deck, cardsObj, allStyles }: Props) {
+        if (!deck) {
+            return <div>
+                Loading...
+            </div>
+        }
+        const { cards, possibleCards, styles, name } = deck;
+        return <div class='deck-builder'>
+            <input value={name} />
+            <StyleList deck={deck} styles={allStyles} />
+            <div class='deck'>
+                {Object.keys(possibleCards).map((style, i) => {
+                    const cards = possibleCards[style];
+                    return <div class="card-list style-section" key={style}>
+                        <h3>{style}</h3>
+                        <div class="cards">
+                            {cards.map((card) => {
+                                const hasCard = checkIfHasCard(card.name, cardsObj)
+                                return <div
+                                    key={card.name}
+                                    class={'card ' + hasCard ? '' : 'greyed'}
+                                    onClick={() => dispatchDEToggleCard(card.name, hasCard)}
+                                >
+                                    <HandCard {...card} />
+                                </div>
+                            })}
+                        </div>
+                    </div>
+                })}
+            </div>
         </div>
-        <div class="cards">
-            {possibleCards.map((card, i) => {
-                const hasCard = checkIfHasCard(card.name, cardsObj)
-                return <div
-                    class={'card ' + hasCard ? '' : 'greyed'}
-                    onClick={() => dispatchDEToggleCard(card.name, hasCard)}
-                >
-                    <HandCard {...card} />
-                </div>
-            })}
-        </div>
-    </div>
+    }
 }
 
 export default (props: ExternalProps) => {
-    const cardsObj = props.deck.cards.reduce((obj, name) => {
+    const cards = !props.deck ? [] : props.deck.cards;
+    const cardsObj = cards.reduce((obj, name) => {
         obj[name] = true;
         return obj;
     }, {});
-    return deckViewer({
-        ...props,
-        cardsObj
-    })
+    //@ts-ignore
+    return <DeckViewer {...props} cardsObj={cardsObj} />
+
 }

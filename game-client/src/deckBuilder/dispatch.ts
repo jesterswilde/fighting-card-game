@@ -1,68 +1,109 @@
 import { HOST_URL, makeAuthHeader } from "../util";
-import { DEGotDecksAction, DeckEditorEnum, DEChoseDeckAction, DEAddCardAction, DERemoveCardAction, DEAddStyleAction, DERemoveStyleAction, DECreateDeckAction } from "./actions";
+import { GotDecksAction, DeckEditorEnum, ChoseDeckAction, CreateDeckAction, UpdateDeckAction, DeleteDeckAction } from "./actions";
 import { store } from "../state/store";
-import { EditingDeck } from "./interfaces";
+import { EditingDeck, UpdateDeckObj } from "./interface";
+import { getUpdateDeckObj } from "./util";
 
-export const dispatchDECreateDeck = async()=>{
-    const deck = await createDeck(); 
-    const action: DECreateDeckAction = {
+export const dispatchCreateDeck = async () => {
+    const deck = await createDeck();
+    const action: CreateDeckAction = {
         type: DeckEditorEnum.CREATE_DECK,
         deck
     }
-    store.dispatch(action): 
+    store.dispatch(action);
 }
 
-const createDeck = async()=>{
+const createDeck = async () => {
     const fetched = await fetch(HOST_URL + '/decks/new', {
         headers: makeAuthHeader(),
         method: 'POST'
     })
-    if(fetched.ok){
+    if (fetched.ok) {
         const deck: EditingDeck = await fetched.json();
-        return deck; 
+        return deck;
     }
 }
 
-export const updateDeck = async(deck: EditingDeck)=>{
-    
+export const dispatchUpdateDeck = async (id: number) => {
+    const updateDeckObj = getUpdateDeckObj();
+    const success = await updateDeck(id, updateDeckObj);
+    if (success) {
+        const action: UpdateDeckAction = {
+            type: DeckEditorEnum.UPDATE_DECK
+        }
+        store.dispatch(action);
+    }
 }
 
-export const dispatchDEGotDecks = async()=>{
-    const decks = await fetchDecks(); 
-    const action: DEGotDecksAction = {
+const updateDeck = async (id: number, deck: UpdateDeckObj) => {
+    const fetched = await fetch(HOST_URL + '/decks/' + id, {
+        method: "PUT",
+        body: JSON.stringify(deck)
+    });
+    if (fetched.ok) {
+        return true;
+    }
+    return false;
+}
+
+export const dispatchGetDecks = async () => {
+    const decks = await fetchDecks();
+    const action: GotDecksAction = {
         type: DeckEditorEnum.GOT_DECKS,
         decks
     }
-    store.dispatch(action); 
+    store.dispatch(action);
 }
 
-const fetchDecks = async()=>{
-    const fetched = await fetch(HOST_URL + '/user/decks',{
+const fetchDecks = async () => {
+    const fetched = await fetch(HOST_URL + '/decks/', {
         headers: makeAuthHeader(),
         method: "GET",
     });
-    if(fetched.ok){
-        const decks = await fetched.json(); 
-        return decks; 
+    if (fetched.ok) {
+        const decks = await fetched.json();
+        return decks;
     }
 }
 
-export const dispatchDEChoseDeck = async(deckID: number)=>{
-    const deck = await getDeckByID(deckID); 
-    const action: DEChoseDeckAction = {
+export const dispatchChoseDeck = async (deckID: number) => {
+    const deck = await getDeckByID(deckID);
+    const action: ChoseDeckAction = {
         type: DeckEditorEnum.CHOSE_DECK,
         deck
     }
-    store.dispatch(action); 
+    store.dispatch(action);
 }
 
-const getDeckByID = async(deckID: number)=>{
-    const fetched = await fetch(HOST_URL + '/user/decks/' + deckID, {
+const getDeckByID = async (deckID: number) => {
+    const fetched = await fetch(HOST_URL + '/decks/' + deckID, {
         headers: makeAuthHeader(),
         method: "GET",
     })
-    if(fetched.ok){
-        const deck = await fetched.json(); 
-        return deck; 
+    if (fetched.ok) {
+        const deck = await fetched.json();
+        return deck;
     }
+}
+
+export const dispatchDeleteDeck = async (deckID: number) => {
+    const success = await deleteDeck(deckID);
+    if (success) {
+        const action: DeleteDeckAction = {
+            type: DeckEditorEnum.DELETE_DECK,
+            id: deckID
+        }
+        store.dispatch(action);
+    }
+}
+
+const deleteDeck = async (deckID: number) => {
+    const fetched = await fetch(HOST_URL + '/decks/' + deckID, {
+        method: "DELETE",
+        headers: makeAuthHeader(),
+    })
+    if (fetched.ok) {
+        return true;
+    }
+    return false;
 }

@@ -1,13 +1,18 @@
 import { h, Component } from 'preact';
 import { FightingStyleDescription } from '../../fightingStyles/interface';
 import { bind } from 'decko'
-import { EditingDeck } from '../../deckBuilder/interfaces';
-import { dispatchDEToggleStyle } from '../../deckBuilder/dispatch';
+import { EditingDeck } from '../../deckBuilder/interface';
+import { dispatchDEToggleStyle } from '../../deckBuilder/dispatchEditDeck';
 
 interface Props {
     styles: FightingStyleDescription[]
     chosenStyles: { [style: string]: boolean }
     stylesUsed: number
+}
+
+interface ExternalProps {
+    deck: EditingDeck,
+    styles: FightingStyleDescription[]
 }
 
 interface State {
@@ -32,15 +37,20 @@ class StyleList extends Component<Props, State>{
         const checked = el.checked
         dispatchDEToggleStyle(style, checked);
     }
-    render({ styles }: Props, { expandedStyles }: State) {
+    render({ styles, chosenStyles, stylesUsed }: Props, { expandedStyles }: State) {
         return <div class="style-list">
+            <h3>Styles</h3>
             {styles.map((style) => {
+                const isChecked = chosenStyles[style.name];
+                const isDisabled = !isChecked && stylesUsed >= 3;  
                 const isExpanded = expandedStyles[style.name];
                 const expandDisplay = isExpanded ? 'v' : '>';
                 return <div class="style-item" key={style.name}>
-                    <div class="expander" onClick={() => this.expandStyle(style.name)}> {expandDisplay} </div>
-                    <input type="checkbox" checked={isExpanded} onChange={(e) => this.checkStyle(e, style.name)} />
-                    <div class="style-title"> {style.name} </div>
+                    <div class="style-title">
+                        <div class="expander" onClick={() => this.expandStyle(style.name)}> {expandDisplay} </div>
+                        <input type="checkbox" disabled={isDisabled} checked={isChecked} onChange={(e) => this.checkStyle(e, style.name)} />
+                        <div> {style.name} </div>
+                    </div>
                     {isExpanded && <div class="expander"> {style.description}</div>}
                 </div>
             })}
@@ -49,7 +59,7 @@ class StyleList extends Component<Props, State>{
 }
 
 
-export default ({ deck, styles }: { deck: EditingDeck, styles: FightingStyleDescription[] }) => {
+export default ({ deck, styles }: ExternalProps) => {
     const chosenStyles = deck.styles.reduce((obj, name) => {
         obj[name] = true;
         return obj;

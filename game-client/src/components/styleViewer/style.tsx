@@ -14,7 +14,6 @@ export default ({ isLoading, cards = [], description, identity, strengths, name,
             Loading...
         </h3>
     }
-    console.log(cards);
     return <div class="card-list">
         <h3>{name}</h3>
         <div class='description'>{description}</div>

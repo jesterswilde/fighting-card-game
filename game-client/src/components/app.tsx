@@ -2,18 +2,20 @@ import { h } from 'preact';
 import { StoreState } from '../state/store';
 import Game from './game';
 import DeckViewer from './deckViewer';
-import StyleViewer from './styleViewer'; 
+import StyleViewer from './styleViewer';
 import '../listeners';
 import { cleanConnect } from '../util';
 import Landing from './landing';
-import Nav from './nav'; 
-import User from './login/user'; 
+import Nav from './nav';
+import User from './login/user';
+import DeckBuilder from './deckBuilder'
 
 interface Props {
     showGame: boolean,
     showDeckViewer: boolean,
     showStyleViewer: boolean,
     showUserViewer: boolean,
+    showDeckBuilder: boolean,
     prepend?: string[],
     remainingPath?: string[]
 }
@@ -25,6 +27,7 @@ const selector = (state: StoreState): Props => {
     return {
         showGame: root === 'game',
         showDeckViewer: root === 'decks',
+        showDeckBuilder: root === 'builder',
         showStyleViewer: root === 'styles',
         showUserViewer: root === 'user',
         prepend: [root],
@@ -32,7 +35,8 @@ const selector = (state: StoreState): Props => {
     }
 }
 
-const App = ({ showDeckViewer, showStyleViewer, showUserViewer, showGame, prepend, remainingPath }: Props) => {
+const App = ({ showDeckViewer, showStyleViewer, showUserViewer,
+    showGame, prepend, remainingPath, showDeckBuilder }: Props) => {
     if (showGame) {
         return <Game />
     }
@@ -41,7 +45,8 @@ const App = ({ showDeckViewer, showStyleViewer, showUserViewer, showGame, prepen
         {showDeckViewer && <DeckViewer pathPrepend={prepend} path={remainingPath} />}
         {showStyleViewer && <StyleViewer pathPrepend={prepend} path={remainingPath} />}
         {showUserViewer && <User path={remainingPath} />}
-        {!showDeckViewer && ! showStyleViewer && ! showUserViewer && <Landing />}
+        {showDeckBuilder && <DeckBuilder path={remainingPath} pathPrepend={prepend} />}
+        {!showDeckViewer && ! showStyleViewer && ! showUserViewer && !showDeckBuilder && <Landing />}
     </div>
 }
 

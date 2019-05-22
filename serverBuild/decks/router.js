@@ -16,16 +16,23 @@ exports.decksRouter = express_1.Router();
 //This gets full versions of all cards given a set of styles. 
 exports.decksRouter.get('/possibleCards', (req, res) => {
     const { styles } = req.query;
-    const possibleCards = _1.getPossibleCards(styles);
-    res.status(200).send(possibleCards);
+    if (styles) {
+        const stylesArray = styles.split(',');
+        const possibleCards = _1.getPossibleCards(stylesArray);
+        res.status(200).send(possibleCards);
+    }
+    else {
+        res.status(403).send();
+    }
 });
 //Should return an abridges version of all your decks. Names, maybe description, styles in use. Possibly card names, not full cards. 
-exports.decksRouter.get('/myDecks', auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.decksRouter.get('/', auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
         const decks = yield _1.getUsersDecks(req.user);
         res.status(200).send(decks);
     }
     catch (err) {
+        console.error(err);
         res.status(500).send();
     }
 }));
@@ -41,6 +48,7 @@ exports.decksRouter.get('/:id', auth_1.authMiddleware, (req, res) => __awaiter(t
             res.status(403).send();
         }
         else {
+            console.error(err);
             res.status(500).send();
         }
     }
@@ -52,6 +60,7 @@ exports.decksRouter.post('/new', auth_1.authMiddleware, (req, res) => __awaiter(
         res.status(200).send(deck);
     }
     catch (err) {
+        console.error(err);
         res.status(500).send();
     }
 }));
@@ -65,6 +74,7 @@ exports.decksRouter.put('/:id', auth_1.authMiddleware, (req, res) => __awaiter(t
             res.status(400).send(err);
         }
         else {
+            console.error(err);
             res.status(500).send();
         }
     }
@@ -80,6 +90,7 @@ exports.decksRouter.delete('/:id', auth_1.authMiddleware, (req, res) => __awaite
             res.status(403).send();
         }
         else {
+            console.error(err);
             res.status(500);
         }
     }

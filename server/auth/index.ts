@@ -53,7 +53,7 @@ const reqToUser = async (req: Request) => {
         throw ErrorEnum.INVALID_TOKEN
     }
     const username = tokenToUsername(token);
-    const user = await userRepo.findOne({ username });
+    const user = await userRepo.findOneOrFail({ username });
     return user;
 }
 
@@ -68,12 +68,13 @@ const tokenToUsername = (token: string) => {
 export const authMiddleware = async(req: Request, res: Response, next: NextFunction)=> {
     try{
         if(req.headers.authorization){
-            req.user = await reqToUser(req); 
+            req.user = await reqToUser(req);
             next(); 
         }else{
             res.status(403).send(); 
         }
     }catch(err){
+        console.error(err);
         res.status(403).send(); 
     }
 }

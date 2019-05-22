@@ -1,8 +1,9 @@
-import { DEAddCardAction, DeckEditorEnum, DERemoveCardAction, DEAddStyleAction, DERemoveStyleAction } from "./actions";
+import { AddCardAction, DeckEditorEnum, RemoveCardAction, AddStyleAction, RemoveStyleAction, GotPossibleCardsAction } from "./actions";
 import { store } from "../state/store";
+import { HOST_URL } from "../util";
 
 const dispatchDEAddCard = (card: string)=>{
-    const action: DEAddCardAction = {
+    const action: AddCardAction = {
         type: DeckEditorEnum.ADD_CARD,
         card
     }
@@ -10,7 +11,7 @@ const dispatchDEAddCard = (card: string)=>{
 }
 
 const dispatchDERemoveCard = (card: string)=>{
-    const action: DERemoveCardAction = {
+    const action: RemoveCardAction = {
         type: DeckEditorEnum.REMOVE_CARD,
         card
     }
@@ -27,7 +28,7 @@ export const dispatchDEToggleCard = (card: string, hasCard: boolean)=>{
 
 
 export const dispatchDEAddStyle = (style: string)=>{
-    const action: DEAddStyleAction = {
+    const action: AddStyleAction = {
         type: DeckEditorEnum.ADD_STYLE,
         style
     }
@@ -35,7 +36,7 @@ export const dispatchDEAddStyle = (style: string)=>{
 }
 
 export const dispatchDERemoveStyle = (style: string)=>{
-    const action: DERemoveStyleAction = {
+    const action: RemoveStyleAction = {
         type: DeckEditorEnum.REMOVE_STYLE,
         style
     }
@@ -47,5 +48,21 @@ export const dispatchDEToggleStyle = (style: string, addStyle: boolean)=>{
         dispatchDEAddStyle(style); 
     }else{
         dispatchDERemoveStyle(style); 
+    }
+    getPossibleCards(); 
+}
+
+const getPossibleCards = async()=>{
+    const styles = store.getState().deckEditor.deck.styles; 
+    const fetched = await fetch(HOST_URL + '/decks/possibleCards?styles=' + styles.join(','), {
+        method: "GET",
+    });
+    if (fetched.ok) {
+        const possibleCards = await fetched.json(); 
+        const action: GotPossibleCardsAction = {
+            type: DeckEditorEnum.GOT_POSSIBLE_CARDS,
+            possibleCards
+        }
+        store.dispatch(action); 
     }
 }

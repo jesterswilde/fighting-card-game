@@ -17,7 +17,6 @@ const validation_1 = require("./validation");
 exports.makeDeck = (user) => __awaiter(this, void 0, void 0, function* () {
     const deck = new deck_1.DBDeck();
     deck.user = user;
-    deck.name = "New Deck";
     yield db_1.deckRepo.save(deck);
     return deck.sendToUser();
 });
@@ -74,5 +73,6 @@ exports.getPossibleCards = (styles) => {
     return possibleCards;
 };
 exports.getUsersDecks = (user) => __awaiter(this, void 0, void 0, function* () {
-    return user.decks.map(({ name, id, description }) => ({ name, id, description }));
+    const decks = yield db_1.deckRepo.find({ user: user });
+    return decks.map(({ name, id, description }) => ({ name, id, description }));
 });

@@ -29,7 +29,11 @@ exports.areCardsInStyles = (styleNames, cards) => {
 };
 //Just make sure the user owns the deck
 exports.getValidDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
-    const deck = yield db_1.deckRepo.findOne({ id: deckID });
+    const deck = yield db_1.deckRepo.findOne({
+        where: { id: deckID },
+        relations: ['user']
+    });
+    console.log("deck", deck);
     if (deck.user.id !== user.id) {
         throw error_1.ErrorEnum.DOESNT_OWN_DECK;
     }

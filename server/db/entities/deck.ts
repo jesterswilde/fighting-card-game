@@ -7,16 +7,16 @@ export class DBDeck {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column()
+    @Column({ default: "New Deck" })
     name: string
 
-    @Column()
+    @Column({ default: "Undecided" })
     description: string
 
-    @Column("text", { array: true })
+    @Column("text", { array: true, default: "{}" })
     cards: string[]
 
-    @Column("text", { array: true })
+    @Column("text", { array: true, default: "{}" })
     styles: string[]
 
     @ManyToOne(type => DBUser, user => user.decks)

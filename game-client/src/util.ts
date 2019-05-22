@@ -66,6 +66,7 @@ const motionRouter = {
     [MotionEnum.STILL]: "Still"
 }
 
+
 export const makeAuthHeader = ()=>{
     const token = store.getState().user.token
     const header = new Headers(); 

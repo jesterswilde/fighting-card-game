@@ -10,7 +10,6 @@ import { EditedDeck, PossibleCards } from "./interface";
 export const makeDeck = async (user: DBUser) => {
     const deck = new DBDeck();
     deck.user = user;
-    deck.name = "New Deck";
     await deckRepo.save(deck);
     return deck.sendToUser();
 }
@@ -73,5 +72,6 @@ export const getPossibleCards = (styles: string[]): PossibleCards => {
 }
 
 export const getUsersDecks = async (user: DBUser) => {
-    return user.decks.map(({ name, id, description }) => ({ name, id, description }));
+    const decks = await deckRepo.find({user: user})
+    return decks.map(({ name, id, description }) => ({ name, id, description }));
 }

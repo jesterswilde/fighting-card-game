@@ -56,7 +56,7 @@ const reqToUser = (req) => __awaiter(this, void 0, void 0, function* () {
         throw error_1.ErrorEnum.INVALID_TOKEN;
     }
     const username = tokenToUsername(token);
-    const user = yield db_1.userRepo.findOne({ username });
+    const user = yield db_1.userRepo.findOneOrFail({ username });
     return user;
 });
 const tokenToUsername = (token) => {
@@ -77,6 +77,7 @@ exports.authMiddleware = (req, res, next) => __awaiter(this, void 0, void 0, fun
         }
     }
     catch (err) {
+        console.error(err);
         res.status(403).send();
     }
 });
