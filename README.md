@@ -10,3 +10,5 @@
     Server runs on port 8080
     Game Client runs on port 1234
     Card Editor run son port 3000
+
+    
