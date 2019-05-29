@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from "typeorm";
 import { DBUser } from "./user";
-import { Card } from "../../shared/card";
-import { PossibleCards } from "../../decks/interface";
+import { PossibleCards, DeckDescription } from "../../decks/interface";
+
 @Entity()
 export class DBDeck {
     @PrimaryGeneratedColumn()
@@ -27,7 +27,15 @@ export class DBDeck {
             name: this.name,
             cards: this.cards,
             possibleCards,
-            styles: this.styles
+            styles: this.styles,
+            id: this.id
+        }
+    }
+    toDeckDescription = (): DeckDescription=>{
+        return {
+            name: this.name,
+            deckList: this.cards,
+            description: this.description
         }
     }
 }

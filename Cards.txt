@@ -6560,5 +6560,105 @@
     "name": "Throat Jab",
     "tagObjs": [],
     "tags": []
+  },
+  "Tester": {
+    "name": "Tester",
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": "5",
+            "axis": "Lose Poise",
+            "player": 2
+          }
+        ],
+        "requirements": [
+          {
+            "id": 17,
+            "axis": "Close",
+            "player": 2
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Prone",
+        "player": 2
+      }
+    ],
+    "effects": [
+      {
+        "amount": "8",
+        "axis": "Damage",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Close",
+            "player": 2
+          },
+          {
+            "axis": "Motion",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": "5",
+            "axis": "Poise",
+            "player": 2
+          }
+        ],
+        "mechanic": "Focus"
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Close",
+            "player": 2
+          },
+          {
+            "axis": "Not Anticipating",
+            "player": 2
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": "5",
+            "axis": "Damage",
+            "player": 2
+          },
+          {
+            "axis": "Moving",
+            "player": 1,
+            "amount": 2
+          }
+        ],
+        "mechanic": "Telegraph"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "axis": "Grappled",
+            "player": 1
+          }
+        ],
+        "amount": "3",
+        "mechanic": "Forceful"
+      }
+    ],
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
   }
 }

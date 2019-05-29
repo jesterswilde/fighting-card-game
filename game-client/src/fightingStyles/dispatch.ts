@@ -1,8 +1,27 @@
 import { store } from "../state/store";
-import { FightingStyleEnum, GotFightingStyleAction, GotFightingStyleDescriptions } from "./actions";
+import { FightingStyleEnum, GotFightingStyleAction, GotFightingStyleDescriptions, ViewingFromDeckEditAction } from "./actions";
 import { HOST_URL } from "../util";
 import { FightingStyle, FightingStyleDescription } from "./interface";
+import { dispatchToPathArray } from "../path/dispatch";
 
+export const dispatchViewStyleFromDeck = (styleName: string)=>{
+    dispatchToPathArray(['styles', styleName])
+    viewingFromDeckEdit(true); 
+}
+
+export const dispatchFromStyleToDeckEdit = ()=>{
+    const deckID = store.getState().deckEditor.deck.id; 
+    dispatchToPathArray(['builder', deckID.toString()]);
+    viewingFromDeckEdit(false)
+}
+
+const viewingFromDeckEdit = (isEditingDeck: boolean)=>{
+    const action: ViewingFromDeckEditAction = {
+        type: FightingStyleEnum.VIEWING_FROM_DECK_EDIT,
+        isEditingDeck
+    }
+    store.dispatch(action); 
+}
 
 export const dispatchGetFightingStyleByName = async(styleName: string)=>{
     const style = await getFightingStyle(styleName); 

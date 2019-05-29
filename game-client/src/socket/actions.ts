@@ -5,7 +5,8 @@ export enum SocketActionEnum{
 
 
 export interface ConnectSocketAction{
-    type: SocketActionEnum.CONNECT; 
+    type: SocketActionEnum.CONNECT
+    socket: SocketIOClient.Socket
 }
 
 export interface DisconnectSocketAction{

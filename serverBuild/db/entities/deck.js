@@ -18,7 +18,15 @@ let DBDeck = class DBDeck {
                 name: this.name,
                 cards: this.cards,
                 possibleCards,
-                styles: this.styles
+                styles: this.styles,
+                id: this.id
+            };
+        };
+        this.toDeckDescription = () => {
+            return {
+                name: this.name,
+                deckList: this.cards,
+                description: this.description
             };
         };
     }

@@ -4,6 +4,8 @@ import { FightingStyleEnum } from "./actions";
 
 export const fightingStyleReducer = (state: FightingStyleState = makeDefaultState(), action: ActionType): FightingStyleState => {
     switch (action.type) {
+        case FightingStyleEnum.VIEWING_FROM_DECK_EDIT:
+            return { ...state, isEditingDeck: action.isEditingDeck }
         case FightingStyleEnum.GOT_STYLE:
             return { ...state, loadingStyle: false, style: action.style }
         case FightingStyleEnum.GOT_STYLE_NAMES:

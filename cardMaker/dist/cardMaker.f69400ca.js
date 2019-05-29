@@ -27581,9 +27581,9 @@ var _card = require("./shared/card");
 
 var _a;
 
-var hostURL = "https://enigmatic-anchorage-18133.herokuapp.com/api/";
+var hostURL = "http://localhost:8080/api/";
 exports.hostURL = hostURL;
-var liveURL = "https://enigmatic-anchorage-18133.herokuapp.com/api/";
+var liveURL = "http://localhost:8080/api/";
 exports.liveURL = liveURL;
 var playerRouter = (_a = {}, _a[_card.PlayerEnum.PLAYER] = '↓', _a[_card.PlayerEnum.OPPONENT] = '↑', _a[_card.PlayerEnum.BOTH] = '↕', _a);
 exports.playerRouter = playerRouter;
@@ -49726,7 +49726,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63398" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56363" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

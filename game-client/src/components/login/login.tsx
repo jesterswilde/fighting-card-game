@@ -44,7 +44,7 @@ export default class Login extends Component<{}, State>{
                 >
                     Login
             </button>
-                <div class='mt-2'>
+                <div class='mt-2    '>
                     Don't have an account? Create one instead.
                 <button
                         class="btn"

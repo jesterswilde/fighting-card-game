@@ -19,7 +19,7 @@ const dispatchDERemoveCard = (card: string)=>{
 }
 
 export const dispatchDEToggleCard = (card: string, hasCard: boolean)=>{
-    if(hasCard){
+    if(!hasCard){
         dispatchDEAddCard(card); 
     }else{
         dispatchDERemoveCard(card); 

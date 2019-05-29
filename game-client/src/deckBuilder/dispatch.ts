@@ -1,5 +1,5 @@
 import { HOST_URL, makeAuthHeader } from "../util";
-import { GotDecksAction, DeckEditorEnum, ChoseDeckAction, CreateDeckAction, UpdateDeckAction, DeleteDeckAction } from "./actions";
+import { GotDecksAction, DeckEditorEnum, ChoseDeckAction, CreateDeckAction, UpdateDeckAction, DeleteDeckAction, RevertDeckAction, ChangeDeckNameAction } from "./actions";
 import { store } from "../state/store";
 import { EditingDeck, UpdateDeckObj } from "./interface";
 import { getUpdateDeckObj } from "./util";
@@ -24,8 +24,8 @@ const createDeck = async () => {
     }
 }
 
-export const dispatchUpdateDeck = async (id: number) => {
-    const updateDeckObj = getUpdateDeckObj();
+export const dispatchUpdateDeck = async () => {
+    const { updateDeckObj, id } = getUpdateDeckObj();
     const success = await updateDeck(id, updateDeckObj);
     if (success) {
         const action: UpdateDeckAction = {
@@ -36,8 +36,12 @@ export const dispatchUpdateDeck = async (id: number) => {
 }
 
 const updateDeck = async (id: number, deck: UpdateDeckObj) => {
+    const headers = makeAuthHeader(); 
+    headers.append('Accept', 'application/json'); 
+    headers.append('Content-Type', 'application/json'); 
     const fetched = await fetch(HOST_URL + '/decks/' + id, {
         method: "PUT",
+        headers,
         body: JSON.stringify(deck)
     });
     if (fetched.ok) {
@@ -106,4 +110,19 @@ const deleteDeck = async (deckID: number) => {
         return true;
     }
     return false;
+}
+
+export const dispatchRevertDeck = () => {
+    const action: RevertDeckAction = {
+        type: DeckEditorEnum.REVERT_DECK
+    }
+    store.dispatch(action);
+}
+
+export const dispatchChangeDeckName = (name: string)=>{
+    const action: ChangeDeckNameAction = {
+        type: DeckEditorEnum.CHANGE_NAME,
+        name
+    };
+    store.dispatch(action); 
 }

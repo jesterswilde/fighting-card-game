@@ -1,6 +1,6 @@
 import { h } from 'preact';
-import { StatePiece } from '../../../shared/card';
-import {Icon, Arrow} from '../../../images/index'; 
+import { StatePiece } from '../../shared/card';
+import {Icon, Arrow} from '../../images/index'; 
 
 interface Props{
     requirement : StatePiece

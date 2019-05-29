@@ -4,7 +4,13 @@ export enum FightingStyleEnum{
     LOADING_STYLE = 'loadingFightingStyle',
     GOT_STYLE = "gotFightingStyle",
     LOADING_STYLE_NAMES = 'loadingFightingStyleNames',
-    GOT_STYLE_NAMES = "gotFightingStyleNames"
+    GOT_STYLE_NAMES = "gotFightingStyleNames",
+    VIEWING_FROM_DECK_EDIT = 'viewingFromDeckEdit'
+}
+
+export interface ViewingFromDeckEditAction{
+    type: FightingStyleEnum.VIEWING_FROM_DECK_EDIT
+    isEditingDeck: boolean
 }
 
 export interface LoadingFightingStyleAction{
@@ -25,4 +31,5 @@ export interface GotFightingStyleDescriptions {
     styleDescriptions: FightingStyleDescription[]
 }
 
-export type FightingStyleActions = GotFightingStyleAction | GotFightingStyleDescriptions | LoadingFightingStyleAction | LoadingFightingStyleNames;
+export type FightingStyleActions = GotFightingStyleAction | GotFightingStyleDescriptions | LoadingFightingStyleAction |
+  LoadingFightingStyleNames | ViewingFromDeckEditAction;

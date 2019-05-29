@@ -1,4 +1,13 @@
 $cardWidth: 200px
+$fullCardHeight: 30rem
+$bgColor: #484b4d
+$sectionBg: #897361
+$cardBg: #7c6043
+$lightBlack: #493f36
+$medBlack: #101518
+$highlight: #bfbcbd
+$richRed:   #b33b2c
+$iconSize: 25px
 
 @import "../../../node_modules/bootstrap/scss/bootstrap.scss"
 @import "./anim.scss"
@@ -10,6 +19,14 @@ $cardWidth: 200px
 @import "./game.sass"
 @import "./prediction.sass"
 @import "./login.sass"
+@import "./fullCard.sass"
+
+
+body
+    background-color: $bgColor
+
+.description
+    font-family: 'Philosopher', sans-serif
 
 .main
     display: flex
@@ -32,8 +49,8 @@ ul
     height: 3px
     width: 85%
     margin: auto
-    border-bottom: 1px solid gray
-    border-top: 1px solid gray
+    border-bottom: 1px solid black
+    border-top: 1px solid black
     background-color: black
 .h-divider.thin
     margin-top: 2px
@@ -53,10 +70,13 @@ ul
     box-shadow: 1px 10px 18px -1px rgba(0,0,0,0.75)
     background-color: #d4d4d4
 
+.axis-icon
+    height: $iconSize
+    width: $iconSize
 .player-icon
-    height: 25px
-    width: 25px
-    margin-right: -10px
+    height: $iconSize
+    width: $iconSize
+    margin-right: -7px
 .axis-bg
     border-radius: 25px
     margin-top: 2px

@@ -33,7 +33,6 @@ exports.getValidDeck = (user, deckID) => __awaiter(this, void 0, void 0, functio
         where: { id: deckID },
         relations: ['user']
     });
-    console.log("deck", deck);
     if (deck.user.id !== user.id) {
         throw error_1.ErrorEnum.DOESNT_OWN_DECK;
     }

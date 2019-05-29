@@ -22,7 +22,7 @@ exports.decksRouter.get('/possibleCards', (req, res) => {
         res.status(200).send(possibleCards);
     }
     else {
-        res.status(403).send();
+        res.status(200).send([]);
     }
 });
 //Should return an abridges version of all your decks. Names, maybe description, styles in use. Possibly card names, not full cards. 
@@ -67,7 +67,8 @@ exports.decksRouter.post('/new', auth_1.authMiddleware, (req, res) => __awaiter(
 //Updates a deck
 exports.decksRouter.put('/:id', auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
-        yield _1.updateDeck(req.user, req.params.id, req.body.deck);
+        yield _1.updateDeck(req.user, req.params.id, req.body);
+        res.status(200).send();
     }
     catch (err) {
         if (err === error_1.ErrorEnum.CARDS_ARENT_IN_STYLES || err === error_1.ErrorEnum.TOO_MANY_STYLES) {

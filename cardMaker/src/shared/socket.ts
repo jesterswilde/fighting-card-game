@@ -21,5 +21,6 @@ export enum SocketEnum{
     OPPONENT_MADE_CHOICE = 'opponentMadeChoice',
     SIEZE_INITIATIVE = 'siezeInitative',
     INITATIVE_WAGERED = 'initiativeWagered',
-    INITIATIVE_RESULT = 'initiativeResult'
+    INITIATIVE_RESULT = 'initiativeResult',
+    AUTHORIZATION = 'authorization',
 }

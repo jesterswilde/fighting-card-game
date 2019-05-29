@@ -27,7 +27,6 @@ export const getValidDeck = async (user: DBUser, deckID: number) => {
         where: { id: deckID },
         relations: ['user']
     });
-    console.log("deck", deck);
     if (deck.user.id !== user.id) {
         throw ErrorEnum.DOESNT_OWN_DECK;
     }

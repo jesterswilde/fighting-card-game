@@ -4,16 +4,17 @@ import { highGroundDeck } from './deckHighGround';
 import { gladiatorDeck } from './deckGaldiator';
 import { stoneDeck } from './deckStone';
 import { inspectorGadgetDeck } from './deckInspectorGadget';
-import { DeckDescription } from '../interface';
+import { DeckDescription, DeckSelection } from '../interface';
 import { ASDFdeck } from './deckASDF';
 import { bloodInWaterDeck } from './deckBloodInWater';
 import { boxerDeck } from './deckBoxer';
 import { jesterDeck } from './deckJester';
 import { hunterDeck } from './deckHunter';
+import { userRepo, deckRepo } from '../../db';
 
 
 
-const testDeck = ['crippleTest','setupTest', 'clutchTest']
+const testDeck = ['crippleTest', 'setupTest', 'clutchTest']
 
 export const decks: DeckDescription[] = [
     grappleDeck,
@@ -42,15 +43,34 @@ export const getDeckForViewer = (name: string) => {
     }
 }
 
-export const getDeckOptions = () => {
+export const getStandardDecks = (): DeckSelection[] => {
     return decks.map((deck) => ({ name: deck.name, description: deck.description }));
 }
 
-export const getDeck = (name: string) => {
-    const deck = decks.find((deck) => deck.name === name);
+
+export const getDeck = async (deckSelection: DeckSelection) => {
+    const deck = await getDeckDescription(deckSelection);
+    return filterDeck(deck); 
+}
+
+const getDeckDescription = async ({ name, id, isCustom }: DeckSelection): Promise<DeckDescription> => {
+    let deck: DeckDescription;
+    if (isCustom) {
+        const deckDB = await deckRepo.findOne({ id })
+        if (!deckDB) {
+            return null;
+        }
+        deck = deckDB.toDeckDescription();
+    } else {
+        deck = decks.find((deck) => deck.name === name);
+    }
     if (!deck) {
         return null;
     }
+    return deck;
+}
+
+const filterDeck = (deck: DeckDescription) => {
     const filteredDeck = deck.deckList.map((name) => {
         const card = allCards[name]
         if (!card) {
@@ -61,4 +81,3 @@ export const getDeck = (name: string) => {
     }).filter((card) => card !== null);
     return filteredDeck;
 }
-

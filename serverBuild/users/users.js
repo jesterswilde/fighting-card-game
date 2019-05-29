@@ -16,9 +16,7 @@ const error_1 = require("../error");
 exports.createUser = (email, userPassword) => __awaiter(this, void 0, void 0, function* () {
     const user = new user_1.DBUser();
     const username = yield username_1.makeValidUsername();
-    console.log("Useranme: ", username);
     const { salt, hash } = yield auth_1.makeHashAndSalt(userPassword);
-    console.log(salt, "\n", hash);
     user.salt = salt;
     user.password = hash;
     user.username = username;

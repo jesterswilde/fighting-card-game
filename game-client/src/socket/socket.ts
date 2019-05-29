@@ -1,5 +1,6 @@
 import * as socketClient from 'socket.io-client'; 
 import { setupSockets } from './socketMessages';
+import { store } from '../state/store';
 
 
 let url; 
@@ -10,7 +11,9 @@ if(location.host.split(':')[0] === 'localhost'){
 export let socket: SocketIOClient.Socket; 
 
 export const connectSocket = ()=>{
-    socket = socketClient.connect(url);
+    const token = store.getState().user.token;
+    //Token is in b64. This contains a couple characters (= and +) that are not URI safe. 
+    socket = socketClient.connect(url + '?token='+ encodeURIComponent(token));
     setupSockets(socket); 
     return socket; 
 }

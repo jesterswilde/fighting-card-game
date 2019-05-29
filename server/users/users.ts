@@ -7,9 +7,7 @@ import { ErrorEnum } from "../error";
 export const createUser = async (email: string, userPassword: string) => {
     const user = new DBUser();
     const username = await makeValidUsername();
-    console.log("Useranme: ", username);
     const { salt, hash } = await makeHashAndSalt(userPassword);
-    console.log(salt, "\n", hash);
     user.salt = salt;
     user.password = hash;
     user.username = username;

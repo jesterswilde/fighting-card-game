@@ -45,6 +45,7 @@ exports.makeMechanic = () => {
 };
 exports.makeTestingGameState = () => {
     return {
+        usernames: [],
         numPlayers: 2,
         playerStates: [exports.makePlayerState(), exports.makePlayerState()],
         stateDurations: [exports.makeStateDurations(), exports.makeStateDurations()],

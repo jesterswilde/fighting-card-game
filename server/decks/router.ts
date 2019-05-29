@@ -13,7 +13,7 @@ decksRouter.get('/possibleCards', (req, res) => {
         const possibleCards = getPossibleCards(stylesArray);
         res.status(200).send(possibleCards);
     }else{
-        res.status(403).send(); 
+        res.status(200).send([]); 
     }
 })
 
@@ -59,7 +59,8 @@ decksRouter.post('/new', authMiddleware, async (req, res) => {
 //Updates a deck
 decksRouter.put('/:id', authMiddleware, async (req, res) => {
     try{
-        await updateDeck(req.user, req.params.id, req.body.deck);
+        await updateDeck(req.user, req.params.id, req.body);
+        res.status(200).send(); 
     }catch(err){
         if(err === ErrorEnum.CARDS_ARENT_IN_STYLES || err === ErrorEnum.TOO_MANY_STYLES){
             res.status(400).send(err); 

@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { getDeckOptions, getDeckForViewer } from './decks/premade';
+import { getDeckForViewer } from './decks/premade';
+import { getDeckOptions } from './decks'
 import { addCard, allCards, removeCard, downloadCards } from './cards/Cards';
 import { sortCard } from './shared/sortOrder';
 import { getFightingStyles, getFullFightingStyleByName } from './styles';
@@ -12,8 +13,9 @@ router.use('/users', userRouter);
 router.use('/decks', decksRouter);
 
 
-router.get('/deckList', (req, res) => {
-    res.status(200).send(getDeckList());
+router.get('/deckList', async(req, res) => {
+    const decks = await getDeckOptions(); 
+    res.status(200).send(decks);
 })
 
 router.get('/deck/:deckName', (req, res) => {
@@ -72,9 +74,5 @@ router.delete('/card', async (req, res) => {
         res.status(400).send();
     }
 })
-
-const getDeckList = () => {
-    return getDeckOptions();
-}
 
 export default router; 

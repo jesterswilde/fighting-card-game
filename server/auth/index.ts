@@ -13,6 +13,7 @@ export const createToken = async (data: object) => {
 }
 
 export const verifyToken = async (token) => {
+    console.log('token', token); 
     const [b64, userHash] = token.split('.');
     const hash = await makeHash(b64, SECRET);
     return hash === userHash;
@@ -53,16 +54,28 @@ const reqToUser = async (req: Request) => {
         throw ErrorEnum.INVALID_TOKEN
     }
     const username = tokenToUsername(token);
-    const user = await userRepo.findOneOrFail({ username });
+    const user = await userRepo.findOne({ username });
     return user;
 }
 
 const tokenToUsername = (token: string) => {
     const [b64] = token.split('.');
     const stringified = Buffer.from(b64, 'base64').toString('utf8');
-    console.log(stringified);
     const { username } = JSON.parse(stringified);
     return username;
+}
+
+export const getVerifiedUsername = async(token: string)=>{
+    if(!token){
+        return null; 
+    }
+    const isValid = await verifyToken(token); 
+    if(isValid){
+        console.log('is valid')
+        return tokenToUsername(token); 
+    }
+    console.log('is not valid')
+    return null; 
 }
 
 export const authMiddleware = async(req: Request, res: Response, next: NextFunction)=> {

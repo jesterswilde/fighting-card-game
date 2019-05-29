@@ -5,20 +5,10 @@ import { connectSocket, disconnectSocket } from "./socket";
 export const socketReducer = (state: SocketState = { socket: null }, action: ActionType): SocketState => {
     switch (action.type) {
         case SocketActionEnum.CONNECT:
-            return reduceConnect(state); 
+        return {...state, socket: action.socket}; 
         case SocketActionEnum.DISCONNECT:
-            return reduceDisconnect(state); 
+            return {...state, socket: null}
         default:
             return state;
     }
-}
-
-const reduceConnect = (state: SocketState): SocketState=>{
-    const socket = connectSocket(); 
-    return {...state, socket}; 
-}
-
-const reduceDisconnect = (state: SocketState): SocketState=>{
-    disconnectSocket(); 
-    return {...state, socket: null}
 }

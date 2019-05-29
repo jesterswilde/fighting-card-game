@@ -47,6 +47,7 @@ export const makeMechanic = (): Mechanic => {
 
 export const makeTestingGameState = (): GameState => {
     return {
+        usernames: [],
         numPlayers: 2,
         playerStates: [makePlayerState(), makePlayerState()],
         stateDurations: [makeStateDurations(), makeStateDurations()],

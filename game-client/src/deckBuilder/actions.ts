@@ -4,6 +4,7 @@ import { FightingStyleDescription } from "../fightingStyles/interface";
 import { Card } from "../shared/card";
 
 export enum DeckEditorEnum {
+    CHANGE_NAME = 'deckEditChangeName', 
     ADD_STYLE = 'deckEditAddStyle',
     REMOVE_STYLE = 'deckEditRemoveStyle',
     ADD_CARD = 'deckEditAddCard',
@@ -16,6 +17,11 @@ export enum DeckEditorEnum {
     REVERT_DECK = 'deckEditRevertDeck',
     EXTERNALLY_VIEWING = 'deckEditIsExternallyViewing',
     GOT_POSSIBLE_CARDS = 'gotPossibleCards',
+}
+
+export interface ChangeDeckNameAction {
+    type: DeckEditorEnum.CHANGE_NAME,
+    name: string
 }
 
 export interface GotPossibleCardsAction {
@@ -78,5 +84,5 @@ export interface RemoveCardAction {
 
 export type DeckEditorActions = AddCardAction | RemoveCardAction | AddStyleAction |
     RemoveStyleAction | ChoseDeckAction | GotDecksAction | CreateDeckAction | UpdateDeckAction |
-    DeleteDeckAction | RevertDeckAction | ExternallyViewingAction | GotPossibleCardsAction
+    DeleteDeckAction | RevertDeckAction | ExternallyViewingAction | GotPossibleCardsAction | ChangeDeckNameAction
 

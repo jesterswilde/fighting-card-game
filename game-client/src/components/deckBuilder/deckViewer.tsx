@@ -1,9 +1,13 @@
 import { h, Component } from 'preact';
 import { EditingDeck } from '../../deckBuilder/interface';
-import HandCard from '../game/card/handCard';
 import { FightingStyleDescription } from '../../fightingStyles/interface';
 import { dispatchDEToggleCard } from '../../deckBuilder/dispatchEditDeck';
 import StyleList from './styleList';
+import { Card } from '../../shared/card';
+import Revert from './revert';
+import { debounce, bind } from 'decko';
+import { dispatchChangeDeckName } from '../../deckBuilder/dispatch';
+import FullCard from '../cards/fullCard';
 /*
     Deck Name -edit-
     -----------------
@@ -37,54 +41,71 @@ import StyleList from './styleList';
 
 interface ExternalProps {
     deck: EditingDeck
-    allStyles: FightingStyleDescription[]
+    styleDescriptions: FightingStyleDescription[]
+    canUpdate: boolean,
 }
 
 interface Props {
     deck: EditingDeck
     cardsObj: { [key: string]: boolean }
-    allStyles: FightingStyleDescription[]
+    styleDescriptions: FightingStyleDescription[]
+    canUpdate: boolean
 }
 
-
-const checkIfHasCard = (cardName: string, cardsObj: { [key: string]: boolean }) => {
-    return cardsObj[cardName];
+interface State {
+    hoverCard: Card
 }
 
-class DeckViewer extends Component<Props, {}>{
-    render({ deck, cardsObj, allStyles }: Props) {
+class DeckViewer extends Component<Props, State>{
+    state = {
+        hoverCard: null
+    }
+    @debounce(30)
+    handleNameChange(e: Event) {
+        const el = e.target as HTMLInputElement;
+        dispatchChangeDeckName(el.value);
+    }
+    render({ deck, cardsObj, styleDescriptions, canUpdate }: Props, { hoverCard }: State) {
         if (!deck) {
             return <div>
                 Loading...
             </div>
         }
-        const { cards, possibleCards, styles, name } = deck;
-        return <div class='deck-builder'>
-            <input value={name} />
-            <StyleList deck={deck} styles={allStyles} />
+        const { possibleCards, name } = deck;
+        return <div class='deck-builder pad-bottom'>
+            <div class="deck-name section">
+                <label for="deck-name">Deck Name</label>
+                <input id="deck-name" value={name} onChange={this.handleNameChange} />
+            </div>
+            <StyleList deck={deck} allStyles={styleDescriptions} />
             <div class='deck'>
                 {Object.keys(possibleCards).map((style, i) => {
                     const cards = possibleCards[style];
-                    return <div class="card-list style-section" key={style}>
-                        <h3>{style}</h3>
+                    return <div class="cards-section section" key={style}>
+                        <h3 class="style">{style}</h3>
                         <div class="cards">
-                            {cards.map((card) => {
-                                const hasCard = checkIfHasCard(card.name, cardsObj)
-                                return <div
-                                    key={card.name}
-                                    class={'card ' + hasCard ? '' : 'greyed'}
-                                    onClick={() => dispatchDEToggleCard(card.name, hasCard)}
-                                >
-                                    <HandCard {...card} />
-                                </div>
-                            })}
+                            {cards.map((card) => this.RenderCard({ card, cardsObj }))}
                         </div>
                     </div>
                 })}
             </div>
+            {canUpdate && <Revert />}
+        </div>
+    }
+    @bind
+    RenderCard({ card, cardsObj }: { card: Card, cardsObj: { [key: string]: boolean } }) {
+        const hasCard = card ? cardsObj[card.name] : false;
+        return <div
+            key={card.name}
+            class={(hasCard ? '' : 'greyed')}
+            onClick={() => dispatchDEToggleCard(card.name, hasCard)}
+        >
+            <FullCard card={card} />
         </div>
     }
 }
+
+
 
 export default (props: ExternalProps) => {
     const cards = !props.deck ? [] : props.deck.cards;

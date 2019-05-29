@@ -14,6 +14,7 @@ const error_1 = require("../error");
 const config_1 = require("../config");
 const styles_1 = require("../styles");
 const validation_1 = require("./validation");
+const premade_1 = require("./premade");
 exports.makeDeck = (user) => __awaiter(this, void 0, void 0, function* () {
     const deck = new deck_1.DBDeck();
     deck.user = user;
@@ -75,4 +76,13 @@ exports.getPossibleCards = (styles) => {
 exports.getUsersDecks = (user) => __awaiter(this, void 0, void 0, function* () {
     const decks = yield db_1.deckRepo.find({ user: user });
     return decks.map(({ name, id, description }) => ({ name, id, description }));
+});
+exports.getDeckOptions = (username) => __awaiter(this, void 0, void 0, function* () {
+    const standardDecks = premade_1.getStandardDecks();
+    if (!username) {
+        return [...standardDecks];
+    }
+    const user = yield db_1.userRepo.findOne({ where: { username }, relations: ['decks'] });
+    const userDecks = user.decks.map((deck) => ({ id: deck.id, name: deck.name, description: deck.description, isCustom: true }));
+    return [...userDecks, ...standardDecks];
 });

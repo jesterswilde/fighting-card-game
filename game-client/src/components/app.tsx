@@ -23,7 +23,6 @@ interface Props {
 const selector = (state: StoreState): Props => {
     const path = state.path.pathArr as string[] || [];
     const [root, ...remainingPath] = path;
-    console.log('root', state.path.pathArr)
     return {
         showGame: root === 'game',
         showDeckViewer: root === 'decks',
@@ -45,7 +44,7 @@ const App = ({ showDeckViewer, showStyleViewer, showUserViewer,
         {showDeckViewer && <DeckViewer pathPrepend={prepend} path={remainingPath} />}
         {showStyleViewer && <StyleViewer pathPrepend={prepend} path={remainingPath} />}
         {showUserViewer && <User path={remainingPath} />}
-        {showDeckBuilder && <DeckBuilder path={remainingPath} pathPrepend={prepend} />}
+        {showDeckBuilder && <DeckBuilder path={remainingPath} />}
         {!showDeckViewer && ! showStyleViewer && ! showUserViewer && !showDeckBuilder && <Landing />}
     </div>
 }

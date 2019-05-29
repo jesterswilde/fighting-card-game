@@ -14,14 +14,16 @@ const util_1 = require("./util");
 const socket_1 = require("../shared/socket");
 const premade_1 = require("../decks/premade");
 const game_1 = require("./game/game");
+const auth_1 = require("../auth");
+const decks_1 = require("../decks");
 let queue = [];
 exports.default = (io) => {
-    io.on('connection', joinLobby);
+    io.on('connection', configureSocket);
 };
-const joinLobby = (player) => {
+const joinLobby = (player) => __awaiter(this, void 0, void 0, function* () {
     console.log('joining lobby');
-    handleDCDuringLobby(player);
-    player.emit(socket_1.SocketEnum.JOINED_LOBBY);
+    handleDCDuringLobby(player.socket);
+    player.socket.emit(socket_1.SocketEnum.JOINED_LOBBY);
     if (queue.length > 0) {
         console.log('starting game');
         createGame(queue[0], player);
@@ -30,7 +32,17 @@ const joinLobby = (player) => {
     else {
         queue.push(player);
     }
-};
+});
+const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* () {
+    const player = yield makePlayerObject(socket);
+    joinLobby(player);
+});
+const makePlayerObject = (socket) => __awaiter(this, void 0, void 0, function* () {
+    const token = socket.handshake.query.token;
+    const username = yield auth_1.getVerifiedUsername(token);
+    const player = { socket, username };
+    return player;
+});
 const createGame = (player1, player2) => __awaiter(this, void 0, void 0, function* () {
     const players = [player1, player2];
     handleDCDuringGame(players);
@@ -41,37 +53,38 @@ const createGame = (player1, player2) => __awaiter(this, void 0, void 0, functio
     const state = makeGameState(players, decks);
     game_1.playGame(state);
 });
+const handleDCDuringGame = (players) => {
+    players.forEach((playerObj) => {
+        playerObj.socket.removeAllListeners('disconnect');
+        playerObj.socket.on('disconnect', () => {
+            console.log('disconnected during game');
+            players.filter((otherPlayer) => otherPlayer !== playerObj).forEach(joinLobby);
+        });
+    });
+};
 const handleDCDuringLobby = (dcSocket) => {
     dcSocket.removeAllListeners('disconnect');
     dcSocket.on('disconnect', () => {
         console.log('disconnected during lobby');
-        queue = queue.filter((socket) => socket !== dcSocket);
+        queue = queue.filter((playerObject) => playerObject.socket !== dcSocket);
     });
 };
-const handleDCDuringGame = (sockets) => {
-    sockets.forEach((dcSocket) => {
-        dcSocket.removeAllListeners('disconnect');
-        dcSocket.on('disconnect', () => {
-            console.log('disconnected during game');
-            sockets.filter((socket) => socket !== dcSocket).forEach(joinLobby);
-        });
-    });
-};
-const playerPicksDeck = (player) => {
-    return new Promise((res, rej) => {
-        const deckOptions = premade_1.getDeckOptions();
-        player.emit(socket_1.SocketEnum.GOT_DECK_OPTIONS, deckOptions);
-        player.once(socket_1.SocketEnum.PICKED_DECK, (index) => {
+const playerPicksDeck = (player) => __awaiter(this, void 0, void 0, function* () {
+    return new Promise((res, rej) => __awaiter(this, void 0, void 0, function* () {
+        const deckOptions = yield decks_1.getDeckOptions(player.username);
+        player.socket.emit(socket_1.SocketEnum.GOT_DECK_OPTIONS, deckOptions);
+        player.socket.once(socket_1.SocketEnum.PICKED_DECK, (index) => __awaiter(this, void 0, void 0, function* () {
             console.log('got deck choice');
-            const deck = premade_1.getDeck(deckOptions[index].name);
+            const deck = yield premade_1.getDeck(deckOptions[index]);
             res(deck);
-        });
-    });
-};
-const makeGameState = (sockets, decks) => {
+        }));
+    }));
+});
+const makeGameState = (players, decks) => {
     const state = {
         numPlayers: 2,
-        sockets,
+        usernames: players.map(({ username }) => username),
+        sockets: players.map(({ socket }) => socket),
         queue: [],
         decks,
         hands: [[], []],

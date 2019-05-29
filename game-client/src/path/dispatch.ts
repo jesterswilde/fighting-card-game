@@ -31,6 +31,17 @@ export const dispatchToPathArray = (path: string[])=>{
     }
     store.dispatch(action); 
 }
+/*
+
+         Store
+        {State}
+        /     \
+   Dispatch  Get State (returns state)
+      |
+  Reducers(action)
+
+
+ */
 
 window.onpopstate = (ev)=>{
     console.log("popping state"); 

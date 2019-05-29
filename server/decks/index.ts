@@ -1,11 +1,12 @@
 import { DBDeck } from "../db/entities/deck";
 import { DBUser } from "../db/entities/user";
-import { deckRepo } from "../db";
+import { deckRepo, userRepo } from "../db";
 import { ErrorEnum } from "../error";
 import { MAX_STYLES } from "../config";
 import { getFightingStyleByName, getFullFightingStyleByName } from "../styles";
 import { getValidDeck, areCardsInStyles } from "./validation";
-import { EditedDeck, PossibleCards } from "./interface";
+import { EditedDeck, PossibleCards, DeckSelection } from "./interface";
+import { getStandardDecks } from "./premade";
 
 export const makeDeck = async (user: DBUser) => {
     const deck = new DBDeck();
@@ -74,4 +75,14 @@ export const getPossibleCards = (styles: string[]): PossibleCards => {
 export const getUsersDecks = async (user: DBUser) => {
     const decks = await deckRepo.find({user: user})
     return decks.map(({ name, id, description }) => ({ name, id, description }));
+}
+
+export const getDeckOptions = async(username?: string): Promise<DeckSelection[]> => {
+    const standardDecks = getStandardDecks();
+    if(!username){
+        return [...standardDecks]; 
+    }
+    const user = await userRepo.findOne({ where: { username }, relations:['decks'] })
+    const userDecks: DeckSelection[] = user.decks.map((deck)=> ({id: deck.id, name: deck.name, description: deck.description, isCustom: true}))
+    return [...userDecks, ...standardDecks];
 }

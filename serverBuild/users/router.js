@@ -13,7 +13,6 @@ const users_1 = require("./users");
 exports.userRouter = express_1.Router();
 exports.userRouter.post('/create', (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
-        console.log('making ', req.body);
         if (users_1.validateEmail(req.body.email) && users_1.validatePassword(req.body.password)) {
             const token = yield users_1.createUser(req.body.email, req.body.password);
             res.status(202).send(token);

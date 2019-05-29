@@ -6,6 +6,13 @@ export interface DeckDescription {
     description?: string
 }
 
+export interface DeckSelection{
+    name: string
+    description: string
+    isCustom?: boolean
+    id?: number
+}
+
 export interface PossibleCards{
     [style: string]: Card[]
 }

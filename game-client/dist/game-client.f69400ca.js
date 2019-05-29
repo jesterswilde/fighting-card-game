@@ -12211,6 +12211,7 @@ exports.SocketEnum = SocketEnum;
   SocketEnum["SIEZE_INITIATIVE"] = "siezeInitative";
   SocketEnum["INITATIVE_WAGERED"] = "initiativeWagered";
   SocketEnum["INITIATIVE_RESULT"] = "initiativeResult";
+  SocketEnum["AUTHORIZATION"] = "authorization";
 })(SocketEnum || (exports.SocketEnum = SocketEnum = {}));
 },{}],"src/hand/dispatch.ts":[function(require,module,exports) {
 "use strict";
@@ -12619,8 +12620,11 @@ var _dispatch5 = require("../gameDisplay/dispatch");
 
 var _dispatch6 = require("../events/dispatch");
 
+var _store = require("../state/store");
+
 var setupSockets = function setupSockets(socket) {
   console.log('running socket messsages');
+  socket.emit(_socket.SocketEnum.AUTHORIZATION, _store.store.getState().user.token || null);
   socket.on(_socket.SocketEnum.JOINED_LOBBY, function () {
     console.log('joined lobby');
     (0, _dispatch2.dispatchSwitchScreen)(_interface.ScreenEnum.LOOKING_FOR_GAME);
@@ -12668,7 +12672,7 @@ var setupSockets = function setupSockets(socket) {
 };
 
 exports.setupSockets = setupSockets;
-},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","../shared/socket":"src/shared/socket.ts","../lobby/dispatch":"src/lobby/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts","../events/dispatch":"src/events/dispatch.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
+},{"../hand/dispatch":"src/hand/dispatch.ts","../display/dispatch":"src/display/dispatch.ts","../display/interface":"src/display/interface.ts","../game/dispatch":"src/game/dispatch.ts","../shared/socket":"src/shared/socket.ts","../lobby/dispatch":"src/lobby/dispatch.ts","../gameDisplay/dispatch":"src/gameDisplay/dispatch.ts","../events/dispatch":"src/events/dispatch.ts","../state/store":"src/state/store.ts"}],"src/socket/socket.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -12679,6 +12683,8 @@ exports.disconnectSocket = exports.connectSocket = exports.socket = void 0;
 var socketClient = _interopRequireWildcard(require("socket.io-client"));
 
 var _socketMessages = require("./socketMessages");
+
+var _store = require("../state/store");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
@@ -12692,7 +12698,10 @@ var socket;
 exports.socket = socket;
 
 var connectSocket = function connectSocket() {
-  exports.socket = socket = socketClient.connect(url);
+  var token = _store.store.getState().user.token; //Token is in b64. This contains a couple characters (= and +) that are not URI safe. 
+
+
+  exports.socket = socket = socketClient.connect(url + '?token=' + encodeURIComponent(token));
   (0, _socketMessages.setupSockets)(socket);
   return socket;
 };
@@ -12709,7 +12718,7 @@ var disconnectSocket = function disconnectSocket() {
 };
 
 exports.disconnectSocket = disconnectSocket;
-},{"socket.io-client":"node_modules/socket.io-client/lib/index.js","./socketMessages":"src/socket/socketMessages.ts"}],"src/hand/reducer.ts":[function(require,module,exports) {
+},{"socket.io-client":"node_modules/socket.io-client/lib/index.js","./socketMessages":"src/socket/socketMessages.ts","../state/store":"src/state/store.ts"}],"src/hand/reducer.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13255,8 +13264,6 @@ exports.socketReducer = void 0;
 
 var _actions = require("./actions");
 
-var _socket = require("./socket");
-
 var __assign = void 0 && (void 0).__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -13282,10 +13289,14 @@ var socketReducer = function socketReducer(state, action) {
 
   switch (action.type) {
     case _actions.SocketActionEnum.CONNECT:
-      return reduceConnect(state);
+      return __assign({}, state, {
+        socket: action.socket
+      });
 
     case _actions.SocketActionEnum.DISCONNECT:
-      return reduceDisconnect(state);
+      return __assign({}, state, {
+        socket: null
+      });
 
     default:
       return state;
@@ -13293,21 +13304,7 @@ var socketReducer = function socketReducer(state, action) {
 };
 
 exports.socketReducer = socketReducer;
-
-var reduceConnect = function reduceConnect(state) {
-  var socket = (0, _socket.connectSocket)();
-  return __assign({}, state, {
-    socket: socket
-  });
-};
-
-var reduceDisconnect = function reduceDisconnect(state) {
-  (0, _socket.disconnectSocket)();
-  return __assign({}, state, {
-    socket: null
-  });
-};
-},{"./actions":"src/socket/actions.ts","./socket":"src/socket/socket.ts"}],"src/deckViewer/actions.ts":[function(require,module,exports) {
+},{"./actions":"src/socket/actions.ts"}],"src/deckViewer/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13567,6 +13564,7 @@ exports.FightingStyleEnum = FightingStyleEnum;
   FightingStyleEnum["GOT_STYLE"] = "gotFightingStyle";
   FightingStyleEnum["LOADING_STYLE_NAMES"] = "loadingFightingStyleNames";
   FightingStyleEnum["GOT_STYLE_NAMES"] = "gotFightingStyleNames";
+  FightingStyleEnum["VIEWING_FROM_DECK_EDIT"] = "viewingFromDeckEdit";
 })(FightingStyleEnum || (exports.FightingStyleEnum = FightingStyleEnum = {}));
 },{}],"src/fightingStyles/reducer.ts":[function(require,module,exports) {
 "use strict";
@@ -13600,6 +13598,11 @@ var fightingStyleReducer = function fightingStyleReducer(state, action) {
   }
 
   switch (action.type) {
+    case _actions.FightingStyleEnum.VIEWING_FROM_DECK_EDIT:
+      return __assign({}, state, {
+        isEditingDeck: action.isEditingDeck
+      });
+
     case _actions.FightingStyleEnum.GOT_STYLE:
       return __assign({}, state, {
         loadingStyle: false,
@@ -13754,6 +13757,7 @@ var DeckEditorEnum;
 exports.DeckEditorEnum = DeckEditorEnum;
 
 (function (DeckEditorEnum) {
+  DeckEditorEnum["CHANGE_NAME"] = "deckEditChangeName";
   DeckEditorEnum["ADD_STYLE"] = "deckEditAddStyle";
   DeckEditorEnum["REMOVE_STYLE"] = "deckEditRemoveStyle";
   DeckEditorEnum["ADD_CARD"] = "deckEditAddCard";
@@ -13799,10 +13803,19 @@ var deckEditorReducer = function deckEditorReducer(state, action) {
   }
 
   switch (action.type) {
+    case _actions.DeckEditorEnum.CHANGE_NAME:
+      return __assign({}, state, {
+        deck: __assign({}, state.deck, {
+          name: action.name
+        }),
+        canUpdate: true
+      });
+
     case _actions.DeckEditorEnum.CHOSE_DECK:
       return __assign({}, state, {
         deck: action.deck,
-        uneditedDeck: action.deck
+        uneditedDeck: action.deck,
+        canUpdate: false
       });
 
     case _actions.DeckEditorEnum.GOT_DECKS:
@@ -13815,7 +13828,8 @@ var deckEditorReducer = function deckEditorReducer(state, action) {
       return __assign({}, state, {
         deck: __assign({}, state.deck, {
           cards: cards
-        })
+        }),
+        canUpdate: true
       });
 
     case _actions.DeckEditorEnum.REMOVE_CARD:
@@ -13825,7 +13839,8 @@ var deckEditorReducer = function deckEditorReducer(state, action) {
       return __assign({}, state, {
         deck: __assign({}, state.deck, {
           cards: cards
-        })
+        }),
+        canUpdate: true
       });
 
     case _actions.DeckEditorEnum.ADD_STYLE:
@@ -13833,7 +13848,8 @@ var deckEditorReducer = function deckEditorReducer(state, action) {
       return __assign({}, state, {
         deck: __assign({}, state.deck, {
           styles: styles
-        })
+        }),
+        canUpdate: true
       });
 
     case _actions.DeckEditorEnum.REMOVE_STYLE:
@@ -13843,17 +13859,20 @@ var deckEditorReducer = function deckEditorReducer(state, action) {
       return __assign({}, state, {
         deck: __assign({}, state.deck, {
           styles: styles
-        })
+        }),
+        canUpdate: true
       });
 
     case _actions.DeckEditorEnum.UPDATE_DECK:
       return __assign({}, state, {
-        uneditedDeck: __assign({}, state.deck)
+        uneditedDeck: __assign({}, state.deck),
+        canUpdate: false
       });
 
     case _actions.DeckEditorEnum.REVERT_DECK:
       return __assign({}, state, {
-        deck: __assign({}, state.uneditedDeck)
+        deck: __assign({}, state.uneditedDeck),
+        canUpdate: false
       });
 
     case _actions.DeckEditorEnum.DELETE_DECK:
@@ -13881,6 +13900,7 @@ exports.deckEditorReducer = deckEditorReducer;
 
 var makeDefaultState = function makeDefaultState() {
   return {
+    canUpdate: false,
     deck: null,
     allDecks: [],
     savedStyles: {},
@@ -16117,7 +16137,7 @@ var _index = require("../../../images/index");
 
 var _default = function _default(props) {
   return (0, _preact.h)("div", {
-    class: 'inline'
+    class: 'requirement'
   }, (0, _preact.h)(_index.Arrow, {
     player: props.requirement.player,
     shouldFlip: props.shouldFlip
@@ -16301,7 +16321,7 @@ var _index = require("../../../images/index");
 
 var _default = function _default(props) {
   return (0, _preact.h)("div", {
-    class: 'inline'
+    class: 'requirement'
   }, (0, _preact.h)(_index.Arrow, {
     player: props.requirement.player,
     shouldFlip: props.shouldFlip
@@ -18039,9 +18059,13 @@ var _actions = require("./actions");
 
 var _store = require("../state/store");
 
+var _socket = require("./socket");
+
 var dispatchConnectSocket = function dispatchConnectSocket() {
+  var socket = (0, _socket.connectSocket)();
   var action = {
-    type: _actions.SocketActionEnum.CONNECT
+    type: _actions.SocketActionEnum.CONNECT,
+    socket: socket
   };
 
   _store.store.dispatch(action);
@@ -18053,12 +18077,13 @@ var dispatchDisconnectSocket = function dispatchDisconnectSocket() {
   var action = {
     type: _actions.SocketActionEnum.DISCONNECT
   };
+  (0, _socket.disconnectSocket)();
 
   _store.store.dispatch(action);
 };
 
 exports.dispatchDisconnectSocket = dispatchDisconnectSocket;
-},{"./actions":"src/socket/actions.ts","../state/store":"src/state/store.ts"}],"src/components/game.tsx":[function(require,module,exports) {
+},{"./actions":"src/socket/actions.ts","../state/store":"src/state/store.ts","./socket":"src/socket/socket.ts"}],"src/components/game.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18828,6 +18853,18 @@ var dispatchToPathArray = function dispatchToPathArray(path) {
 
   _store.store.dispatch(action);
 };
+/*
+
+         Store
+        {State}
+        /     \
+   Dispatch  Get State (returns state)
+      |
+  Reducers(action)
+
+
+ */
+
 
 exports.dispatchToPathArray = dispatchToPathArray;
 
@@ -19046,13 +19083,15 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchGetFightingStyles = exports.dispatchGetFightingStyleByName = void 0;
+exports.dispatchGetFightingStyles = exports.dispatchGetFightingStyleByName = exports.dispatchFromStyleToDeckEdit = exports.dispatchViewStyleFromDeck = void 0;
 
 var _store = require("../state/store");
 
 var _actions = require("./actions");
 
 var _util = require("../util");
+
+var _dispatch = require("../path/dispatch");
 
 var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P, generator) {
   return new (P || (P = Promise))(function (resolve, reject) {
@@ -19195,6 +19234,31 @@ var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
 
 var _this = void 0;
 
+var dispatchViewStyleFromDeck = function dispatchViewStyleFromDeck(styleName) {
+  (0, _dispatch.dispatchToPathArray)(['styles', styleName]);
+  viewingFromDeckEdit(true);
+};
+
+exports.dispatchViewStyleFromDeck = dispatchViewStyleFromDeck;
+
+var dispatchFromStyleToDeckEdit = function dispatchFromStyleToDeckEdit() {
+  var deckID = _store.store.getState().deckEditor.deck.id;
+
+  (0, _dispatch.dispatchToPathArray)(['builder', deckID.toString()]);
+  viewingFromDeckEdit(false);
+};
+
+exports.dispatchFromStyleToDeckEdit = dispatchFromStyleToDeckEdit;
+
+var viewingFromDeckEdit = function viewingFromDeckEdit(isEditingDeck) {
+  var action = {
+    type: _actions.FightingStyleEnum.VIEWING_FROM_DECK_EDIT,
+    isEditingDeck: isEditingDeck
+  };
+
+  _store.store.dispatch(action);
+};
+
 var dispatchGetFightingStyleByName = function dispatchGetFightingStyleByName(styleName) {
   return __awaiter(_this, void 0, void 0, function () {
     var style, action;
@@ -19336,7 +19400,7 @@ var getFightingStyleDescriptions = function getFightingStyleDescriptions() {
     });
   });
 };
-},{"../state/store":"src/state/store.ts","./actions":"src/fightingStyles/actions.ts","../util":"src/util.ts"}],"src/components/styleViewer/style.tsx":[function(require,module,exports) {
+},{"../state/store":"src/state/store.ts","./actions":"src/fightingStyles/actions.ts","../util":"src/util.ts","../path/dispatch":"src/path/dispatch.ts"}],"src/components/cards/requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19346,42 +19410,333 @@ exports.default = void 0;
 
 var _preact = require("preact");
 
-var _handCard = _interopRequireDefault(require("../game/card/handCard"));
+var _index = require("../../images/index");
+
+var _default = function _default(props) {
+  return (0, _preact.h)("div", {
+    class: 'requirement'
+  }, (0, _preact.h)(_index.Arrow, {
+    player: props.requirement.player,
+    shouldFlip: props.shouldFlip
+  }), " ", (0, _preact.h)(_index.Icon, {
+    name: props.requirement.axis
+  }));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../images/index":"src/images/index.tsx"}],"src/components/cards/Requirement.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _index = require("../../images/index");
+
+var _default = function _default(props) {
+  return (0, _preact.h)("div", {
+    class: 'requirement'
+  }, (0, _preact.h)(_index.Arrow, {
+    player: props.requirement.player,
+    shouldFlip: props.shouldFlip
+  }), " ", (0, _preact.h)(_index.Icon, {
+    name: props.requirement.axis
+  }));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../images/index":"src/images/index.tsx"}],"src/components/cards/effect.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _Requirement = _interopRequireDefault(require("./Requirement"));
+
+var _card = require("../../shared/card");
+
+var _images = require("../../images");
+
+var _mechanicDescriptions = require("../../extras/mechanicDescriptions");
+
+var _reactLightweightTooltip = require("react-lightweight-tooltip");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var __assign = void 0 && (void 0).__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
+var Effect = function Effect(_a) {
+  var effect = _a.effect,
+      shouldFlip = _a.shouldFlip;
+  var _b = effect.mechanicRequirements,
+      reqs = _b === void 0 ? [] : _b,
+      _c = effect.choices,
+      choices = _c === void 0 ? [] : _c,
+      _d = effect.mechanicEffects,
+      effs = _d === void 0 ? [] : _d;
 
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
+  var _e = (0, _card.getMechDisplay)(effect.mechanic),
+      displayEff = _e.eff,
+      displayReq = _e.req,
+      valueString = _e.valueString,
+      displayPick = _e.pick,
+      displayState = _e.state,
+      value = _e.value;
 
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
+  var mechClass = displayEff || displayPick ? 'mechanic' : 'icon-section';
+  return (0, _preact.h)("div", {
+    class: mechClass
+  }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), displayState && (0, _preact.h)(_images.Arrow, {
+    player: effect.player,
+    shouldFlip: shouldFlip
+  }), displayState && (0, _preact.h)(_images.Icon, {
+    name: effect.axis
+  }), (displayState || value || valueString) && effect.amount !== undefined && (0, _preact.h)("b", null, effect.amount), (displayEff || displayReq || displayPick) && (0, _preact.h)("div", {
+    class: "recurse"
+  }, displayReq && (0, _preact.h)("div", {
+    class: "req-parent"
+  }, reqs.map(function (req, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_Requirement.default, {
+      requirement: req,
+      shouldFlip: shouldFlip
+    }));
+  })), displayEff && displayReq && (0, _preact.h)("div", {
+    class: 'h-divider thin'
+  }), displayEff && (0, _preact.h)("div", {
+    class: "eff-parent"
+  }, effs.map(function (eff, i) {
+    return (0, _preact.h)("span", {
+      key: i
+    }, (0, _preact.h)(Effect, {
+      effect: eff,
+      shouldFlip: shouldFlip
+    }));
+  })), displayPick && (0, _preact.h)("div", {
+    class: "pick-one"
+  }, choices.map(function (category, i) {
+    return (0, _preact.h)("div", {
+      class: "choices",
+      key: i
+    }, category.map(function (choice, j) {
+      return (0, _preact.h)("div", {
+        class: "choice",
+        key: j
+      }, (0, _preact.h)(Effect, {
+        effect: choice,
+        shouldFlip: shouldFlip
+      }), " ");
+    }));
+  }))));
 };
+
+var mechWithTooltip = function mechWithTooltip(mech) {
+  var description = (0, _mechanicDescriptions.getMechanicDescription)(mech);
+  return (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
+    content: description
+  }, (0, _preact.h)("div", {
+    class: "ml-1 mr-1"
+  }, (0, _preact.h)("b", null, mech)));
+};
+
+var _default = Effect;
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/cards/Requirement.tsx","../../shared/card":"src/shared/card.js","../../images":"src/images/index.tsx","../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/cards/optional.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _requirement = _interopRequireDefault(require("./requirement"));
+
+var _effect = _interopRequireDefault(require("./effect"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = function _default(props) {
+  var unusuable = !props.canPlay;
+  return (0, _preact.h)("div", {
+    className: "optional mechanic " + (unusuable ? 'unusable' : '')
+  }, (0, _preact.h)("div", null, (0, _preact.h)("b", null, "Optional:")), (0, _preact.h)("div", null, (0, _preact.h)("div", {
+    class: "req-parent"
+  }, props.requirements.map(function (req, i) {
+    return (0, _preact.h)("span", {
+      key: i
+    }, (0, _preact.h)(_requirement.default, {
+      shouldFlip: props.shouldFlip,
+      requirement: req
+    }));
+  })), (0, _preact.h)("div", {
+    class: 'h-divider'
+  }), (0, _preact.h)("div", {
+    class: "eff-parent"
+  }, props.effects.map(function (eff, i) {
+    return (0, _preact.h)("span", {
+      key: i
+    }, (0, _preact.h)(_effect.default, {
+      effect: eff,
+      shouldFlip: props.shouldFlip
+    }));
+  }))));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/cards/requirement.tsx","./effect":"src/components/cards/effect.tsx"}],"src/components/cards/fullCard.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _card = require("../../shared/card");
+
+var _requirement = _interopRequireDefault(require("./requirement"));
+
+var _optional = _interopRequireDefault(require("./optional"));
+
+var _effect = _interopRequireDefault(require("./effect"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var splitDisplays = function splitDisplays(effects) {
+  var icons = [];
+  var mechs = [];
+  effects.forEach(function (eff) {
+    var display = (0, _card.getMechDisplay)(eff.mechanic);
+
+    if (display.eff || display.pick) {
+      mechs.push(eff);
+    } else {
+      icons.push(eff);
+    }
+  });
+  return [icons, mechs];
+};
+
+var _default = function _default(_a) {
+  var card = _a.card,
+      shouldFlip = _a.shouldFlip;
+
+  var _b = splitDisplays(card.effects),
+      icons = _b[0],
+      mechs = _b[1];
+
+  var titleChange = card.name.length > 12 ? " small" : '';
+  var mechSize = mechs.length >= 3 ? ' small' : '';
+  return (0, _preact.h)("div", {
+    class: "full-card"
+  }, (0, _preact.h)("div", {
+    class: "title-bar"
+  }, (0, _preact.h)("div", {
+    class: "title" + titleChange
+  }, " ", card.name), (0, _preact.h)("div", {
+    class: "requirements"
+  }, " ", card.requirements.map(function (req, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_requirement.default, {
+      requirement: req,
+      shouldFlip: shouldFlip
+    }));
+  }))), (0, _preact.h)("div", {
+    class: "effects"
+  }, icons.map(function (eff, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_effect.default, {
+      effect: eff,
+      shouldFlip: shouldFlip
+    }));
+  })), (0, _preact.h)("div", {
+    class: "effects" + mechSize
+  }, card.optional.map(function (opt, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_optional.default, {
+      shouldFlip: shouldFlip,
+      effects: opt.effects,
+      requirements: opt.requirements
+    }));
+  }), mechs.map(function (eff, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_effect.default, {
+      effect: eff,
+      shouldFlip: shouldFlip
+    }));
+  })));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.js","./requirement":"src/components/cards/requirement.tsx","./optional":"src/components/cards/optional.tsx","./effect":"src/components/cards/effect.tsx"}],"src/components/styleViewer/revert.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _dispatch = require("../../fightingStyles/dispatch");
+
+var _default = function _default() {
+  return (0, _preact.h)("div", {
+    class: "revert"
+  }, (0, _preact.h)("button", {
+    class: "btn",
+    onClick: _dispatch.dispatchFromStyleToDeckEdit
+  }, "Return To Deck"));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../fightingStyles/dispatch":"src/fightingStyles/dispatch.ts"}],"src/components/styleViewer/style.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _fullCard = _interopRequireDefault(require("../cards/fullCard"));
+
+var _revert = _interopRequireDefault(require("./revert"));
+
+var _dispatch = require("../../path/dispatch");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = function _default(_a) {
   var isLoading = _a.isLoading,
       _b = _a.cards,
       cards = _b === void 0 ? [] : _b,
+      isEditingDeck = _a.isEditingDeck,
       description = _a.description,
       identity = _a.identity,
       strengths = _a.strengths,
-      name = _a.name,
-      back = _a.back;
+      name = _a.name;
 
   if (isLoading) {
     return (0, _preact.h)("h3", null, "Loading...");
   }
 
   return (0, _preact.h)("div", {
-    class: "card-list"
+    class: "cards-section pad-bottom"
   }, (0, _preact.h)("h3", null, name), (0, _preact.h)("div", {
     class: 'description'
   }, description), (0, _preact.h)("div", {
@@ -19397,15 +19752,17 @@ var _default = function _default(_a) {
 
     return (0, _preact.h)("div", {
       key: card.name + i
-    }, (0, _preact.h)(_handCard.default, __assign({}, card)));
-  })), (0, _preact.h)("button", {
-    onClick: back,
-    class: 'btn btn-primary mt-3 mb-3'
-  }, "Back To Decks"));
+    }, (0, _preact.h)(_fullCard.default, {
+      card: card
+    }));
+  })), !isEditingDeck && (0, _preact.h)("button", {
+    onClick: _dispatch.dispatchPopPath,
+    class: 'btn back-btn'
+  }, "Back To Decks"), isEditingDeck && (0, _preact.h)(_revert.default, null));
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../game/card/handCard":"src/components/game/card/handCard.tsx"}],"src/components/styleViewer/styleNames.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../cards/fullCard":"src/components/cards/fullCard.tsx","./revert":"src/components/styleViewer/revert.tsx","../../path/dispatch":"src/path/dispatch.ts"}],"src/components/styleViewer/styleNames.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19509,6 +19866,7 @@ var __assign = void 0 && (void 0).__assign || function () {
 
 var selector = function selector(state) {
   return {
+    isEditingDeck: state.fightingStyle.isEditingDeck,
     isLoadingStyle: state.fightingStyle.loadingStyle,
     isLoadingStyles: state.fightingStyle.loadingStyleNames,
     styleDescriptions: state.fightingStyle.styleDescriptions,
@@ -19528,7 +19886,7 @@ function (_super) {
       (0, _dispatch2.dispatchGetFightingStyles)();
 
       if (_this.props.path.length > 0) {
-        var styleName = _this.props.path[1];
+        var styleName = _this.props.path[0];
 
         if (styleName) {
           (0, _dispatch2.dispatchGetFightingStyleByName)(styleName);
@@ -19539,8 +19897,8 @@ function (_super) {
     _this.render = function () {
       var _a = _this.props,
           path = _a.path,
-          pathPrepend = _a.pathPrepend,
           style = _a.style,
+          isEditingDeck = _a.isEditingDeck,
           styleDescriptions = _a.styleDescriptions,
           isLoadingStyle = _a.isLoadingStyle,
           isLoadingStyles = _a.isLoadingStyles;
@@ -19548,12 +19906,9 @@ function (_super) {
 
       if (viewingDeck) {
         return (0, _preact.h)(_style.default, __assign({
+          isEditingDeck: isEditingDeck,
           isLoading: isLoadingStyle
-        }, style, {
-          back: function back() {
-            return (0, _dispatch.dispatchToPathArray)(pathPrepend);
-          }
-        }));
+        }, style));
       } else {
         return (0, _preact.h)(_styleNames.default, {
           styles: styleDescriptions,
@@ -19564,7 +19919,7 @@ function (_super) {
     };
 
     _this.chooseStyle = function (name) {
-      (0, _dispatch.dispatchToPathArray)(_this.props.pathPrepend.concat(['deck', name]));
+      (0, _dispatch.dispatchAppendPath)(name);
       (0, _dispatch2.dispatchGetFightingStyleByName)(name);
     };
 
@@ -19611,7 +19966,9 @@ var _dispatch = require("../path/dispatch");
 var _default = function _default() {
   return (0, _preact.h)("div", {
     class: 'landing'
-  }, (0, _preact.h)("h2", null, "Fighting Card Game ", (0, _preact.h)("small", null, "Without a name")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+  }, (0, _preact.h)("h2", null, "Fighting Card Game ", (0, _preact.h)("small", null, "Without a name")), (0, _preact.h)("div", {
+    class: 'section'
+  }, (0, _preact.h)("div", null, (0, _preact.h)("a", {
     class: 'link',
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/game');
@@ -19641,7 +19998,7 @@ var _default = function _default() {
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/builder');
     }
-  }, "Make a Deck")));
+  }, "Make a Deck"))));
 };
 
 exports.default = _default;
@@ -20080,7 +20437,7 @@ function (_super) {
         e.preventDefault();
       }
     }, "Login"), (0, _preact.h)("div", {
-      class: 'mt-2'
+      class: 'mt-2    '
     }, "Don't have an account? Create one instead.", (0, _preact.h)("button", {
       class: "btn",
       onClick: function onClick() {
@@ -20234,10 +20591,12 @@ var _default = function _default(_a) {
   }
 
   if (path[0] === 'login') {
+    //@ts-ignore
     return (0, _preact.h)(_login.default, null);
   }
 
   if (path[0] === 'create') {
+    //@ts-ignore
     return (0, _preact.h)(_create.default, null);
   }
 };
@@ -22734,29 +23093,32 @@ var _isEqual = _interopRequireDefault(require("lodash/isEqual"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var getUpdateDeckObj = function getUpdateDeckObj() {
-  var deckObj = {};
+  var updateDeckObj = {};
 
   var _a = _store.store.getState().deckEditor,
       deck = _a.deck,
       uneditedDeck = _a.uneditedDeck;
 
   if (!(0, _isEqual.default)(deck.cards, uneditedDeck.cards)) {
-    deckObj.cards = deck.cards;
+    updateDeckObj.cards = deck.cards;
   }
 
   if (!(0, _isEqual.default)(deck.styles, uneditedDeck.styles)) {
-    deckObj.styles = deck.styles;
+    updateDeckObj.styles = deck.styles;
   }
 
   if (deck.name !== uneditedDeck.name) {
-    deckObj.name = deck.name;
+    updateDeckObj.name = deck.name;
   }
 
   if (deck.description !== uneditedDeck.description) {
-    deckObj.description = deck.description;
+    updateDeckObj.description = deck.description;
   }
 
-  return deckObj;
+  return {
+    updateDeckObj: updateDeckObj,
+    id: deck.id
+  };
 };
 
 exports.getUpdateDeckObj = getUpdateDeckObj;
@@ -22766,7 +23128,7 @@ exports.getUpdateDeckObj = getUpdateDeckObj;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchDeleteDeck = exports.dispatchChoseDeck = exports.dispatchGetDecks = exports.dispatchUpdateDeck = exports.dispatchCreateDeck = void 0;
+exports.dispatchChangeDeckName = exports.dispatchRevertDeck = exports.dispatchDeleteDeck = exports.dispatchChoseDeck = exports.dispatchGetDecks = exports.dispatchUpdateDeck = exports.dispatchCreateDeck = void 0;
 
 var _util = require("../util");
 
@@ -22983,19 +23345,20 @@ var createDeck = function createDeck() {
   });
 };
 
-var dispatchUpdateDeck = function dispatchUpdateDeck(id) {
+var dispatchUpdateDeck = function dispatchUpdateDeck() {
   return __awaiter(_this, void 0, void 0, function () {
-    var updateDeckObj, success, action;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
+    var _a, updateDeckObj, id, success, action;
+
+    return __generator(this, function (_b) {
+      switch (_b.label) {
         case 0:
-          updateDeckObj = (0, _util2.getUpdateDeckObj)();
+          _a = (0, _util2.getUpdateDeckObj)(), updateDeckObj = _a.updateDeckObj, id = _a.id;
           return [4
           /*yield*/
           , updateDeck(id, updateDeckObj)];
 
         case 1:
-          success = _a.sent();
+          success = _b.sent();
 
           if (success) {
             action = {
@@ -23017,14 +23380,18 @@ exports.dispatchUpdateDeck = dispatchUpdateDeck;
 
 var updateDeck = function updateDeck(id, deck) {
   return __awaiter(_this, void 0, void 0, function () {
-    var fetched;
+    var headers, fetched;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
+          headers = (0, _util.makeAuthHeader)();
+          headers.append('Accept', 'application/json');
+          headers.append('Content-Type', 'application/json');
           return [4
           /*yield*/
           , fetch(_util.HOST_URL + '/decks/' + id, {
             method: "PUT",
+            headers: headers,
             body: JSON.stringify(deck)
           })];
 
@@ -23238,6 +23605,27 @@ var deleteDeck = function deleteDeck(deckID) {
     });
   });
 };
+
+var dispatchRevertDeck = function dispatchRevertDeck() {
+  var action = {
+    type: _actions.DeckEditorEnum.REVERT_DECK
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchRevertDeck = dispatchRevertDeck;
+
+var dispatchChangeDeckName = function dispatchChangeDeckName(name) {
+  var action = {
+    type: _actions.DeckEditorEnum.CHANGE_NAME,
+    name: name
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchChangeDeckName = dispatchChangeDeckName;
 },{"../util":"src/util.ts","./actions":"src/deckBuilder/actions.ts","../state/store":"src/state/store.ts","./util":"src/deckBuilder/util.ts"}],"src/components/deckBuilder/deckList.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -23265,7 +23653,10 @@ var _default = function _default(_a) {
       key: deck.id,
       deck: deck,
       action: function action(chosenDeck) {
-        (0, _dispatch.dispatchAppendPath)(chosenDeck.id.toString());
+        {
+          (0, _dispatch2.dispatchChoseDeck)(chosenDeck.id);
+          (0, _dispatch.dispatchAppendPath)(chosenDeck.id.toString());
+        }
       }
     });
   }), (0, _preact.h)("button", {
@@ -23449,7 +23840,7 @@ var dispatchDERemoveCard = function dispatchDERemoveCard(card) {
 };
 
 var dispatchDEToggleCard = function dispatchDEToggleCard(card, hasCard) {
-  if (hasCard) {
+  if (!hasCard) {
     dispatchDEAddCard(card);
   } else {
     dispatchDERemoveCard(card);
@@ -23553,6 +23944,8 @@ var _decko = require("decko");
 
 var _dispatchEditDeck = require("../../deckBuilder/dispatchEditDeck");
 
+var _dispatch = require("../../fightingStyles/dispatch");
+
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __extends = void 0 && (void 0).__extends || function () {
@@ -23620,15 +24013,30 @@ function (_super) {
     var _this = _super.call(this, props) || this;
 
     _this.state = {
+      showingStyles: false,
       expandedStyles: {}
     };
     return _this;
   }
 
-  StyleList.prototype.expandStyle = function (styleName) {
+  StyleList.prototype.toggleShowStyle = function () {
+    this.setState({
+      showingStyles: !this.state.showingStyles
+    });
+  };
+
+  StyleList.prototype.expandStyle = function (styleName, value) {
     var _a;
 
-    var expanded = !this.state.expandedStyles[styleName];
+    var expanded;
+
+    if (value === undefined) {
+      expanded = !this.state.expandedStyles[styleName];
+    } else {
+      expanded = value;
+      this.state.expandedStyles[styleName] = expanded;
+    }
+
     this.setState({
       expandedStyles: (_a = {}, _a[styleName] = expanded, _a)
     });
@@ -23643,55 +24051,106 @@ function (_super) {
   StyleList.prototype.render = function (_a, _b) {
     var _this = this;
 
-    var styles = _a.styles,
-        chosenStyles = _a.chosenStyles,
+    var unselectedStyles = _a.unselectedStyles,
+        selectedStyles = _a.selectedStyles,
         stylesUsed = _a.stylesUsed;
-    var expandedStyles = _b.expandedStyles;
+    var showingStyles = _b.showingStyles,
+        expandedStyles = _b.expandedStyles;
+    var showing = showingStyles ? "hide" : "show";
     return (0, _preact.h)("div", {
+      class: "style-container"
+    }, (0, _preact.h)("div", {
+      class: "section"
+    }, (0, _preact.h)("h2", null, " Chosen Styles:  ", selectedStyles.length, "/3"), (0, _preact.h)("div", {
       class: "style-list"
-    }, (0, _preact.h)("h3", null, "Styles"), styles.map(function (style) {
-      var isChecked = chosenStyles[style.name];
-      var isDisabled = !isChecked && stylesUsed >= 3;
+    }, selectedStyles.map(function (style) {
       var isExpanded = expandedStyles[style.name];
-      var expandDisplay = isExpanded ? 'v' : '>';
-      return (0, _preact.h)("div", {
-        class: "style-item",
-        key: style.name
-      }, (0, _preact.h)("div", {
-        class: "style-title"
-      }, (0, _preact.h)("div", {
-        class: "expander",
-        onClick: function onClick() {
-          return _this.expandStyle(style.name);
-        }
-      }, " ", expandDisplay, " "), (0, _preact.h)("input", {
-        type: "checkbox",
-        disabled: isDisabled,
-        checked: isChecked,
-        onChange: function onChange(e) {
-          return _this.checkStyle(e, style.name);
-        }
-      }), (0, _preact.h)("div", null, " ", style.name, " ")), isExpanded && (0, _preact.h)("div", {
-        class: "expander"
-      }, " ", style.description));
-    }));
+      return _this.RenderStyle({
+        isExpanded: isExpanded,
+        isChecked: true,
+        style: style
+      });
+    }))), (0, _preact.h)("div", {
+      class: "section"
+    }, (0, _preact.h)("div", {
+      class: "unused-styles"
+    }, (0, _preact.h)("h3", null, "Unused Styles:"), (0, _preact.h)("button", {
+      class: "btn",
+      onClick: this.toggleShowStyle
+    }, showing)), (0, _preact.h)("div", {
+      class: "style-list"
+    }, showingStyles && unselectedStyles.map(function (style) {
+      var isDisabled = stylesUsed >= 3;
+      var isExpanded = expandedStyles[style.name];
+      return _this.RenderStyle({
+        isExpanded: isExpanded,
+        isChecked: false,
+        isDisabled: isDisabled,
+        style: style
+      });
+    }))));
   };
 
-  __decorate([_decko.bind, __metadata("design:type", Function), __metadata("design:paramtypes", [String]), __metadata("design:returntype", void 0)], StyleList.prototype, "expandStyle", null);
+  StyleList.prototype.RenderStyle = function (_a) {
+    var _this = this;
+
+    var isChecked = _a.isChecked,
+        isDisabled = _a.isDisabled,
+        style = _a.style;
+    return (0, _preact.h)("div", {
+      class: "style-item" + (isDisabled ? ' disabled' : '') + (isChecked ? ' active' : ''),
+      key: style.name,
+      onMouseEnter: function onMouseEnter() {
+        return _this.expandStyle(style.name, true);
+      },
+      onMouseLeave: function onMouseLeave() {
+        return _this.expandStyle(style.name, false);
+      },
+      onClick: function onClick() {
+        if (!isDisabled) {
+          (0, _dispatchEditDeck.dispatchDEToggleStyle)(style.name, !isChecked);
+        }
+      }
+    }, (0, _preact.h)("div", {
+      class: "style-title"
+    }, (0, _preact.h)("div", null, " ", style.name, " "), (0, _preact.h)("button", {
+      class: "view-button btn",
+      onClick: function onClick() {
+        return (0, _dispatch.dispatchViewStyleFromDeck)(style.name);
+      }
+    }, "View")), (0, _preact.h)("div", {
+      class: "style-description"
+    }, " ", style.description));
+  };
+
+  __decorate([_decko.bind, __metadata("design:type", Function), __metadata("design:paramtypes", []), __metadata("design:returntype", void 0)], StyleList.prototype, "toggleShowStyle", null);
+
+  __decorate([_decko.bind, __metadata("design:type", Function), __metadata("design:paramtypes", [String, Boolean]), __metadata("design:returntype", void 0)], StyleList.prototype, "expandStyle", null);
 
   return StyleList;
 }(_preact.Component);
 
 var _default = function _default(_a) {
   var deck = _a.deck,
-      styles = _a.styles;
+      _b = _a.allStyles,
+      allStyles = _b === void 0 ? [] : _b;
   var chosenStyles = deck.styles.reduce(function (obj, name) {
     obj[name] = true;
     return obj;
   }, {});
+  var selectedStyles = [];
+  var unselectedStyles = [];
+  allStyles.forEach(function (style) {
+    if (chosenStyles[style.name]) {
+      selectedStyles.push(style);
+    } else {
+      unselectedStyles.push(style);
+    }
+  });
   var props = {
-    styles: styles,
-    chosenStyles: chosenStyles,
+    unselectedStyles: unselectedStyles,
+    selectedStyles: selectedStyles,
+    chosenStylesObj: chosenStyles,
     stylesUsed: deck.styles.length
   }; //@ts-ignore
 
@@ -23699,7 +24158,7 @@ var _default = function _default(_a) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","decko":"node_modules/decko/dist/decko.js","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts"}],"src/components/deckBuilder/deckViewer.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","decko":"node_modules/decko/dist/decko.js","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts","../../fightingStyles/dispatch":"src/fightingStyles/dispatch.ts"}],"src/components/deckBuilder/revert.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23709,13 +24168,46 @@ exports.default = void 0;
 
 var _preact = require("preact");
 
-var _handCard = _interopRequireDefault(require("../game/card/handCard"));
+var _dispatch = require("../../deckBuilder/dispatch");
+
+var _default = function _default() {
+  return (0, _preact.h)("div", {
+    class: "revert"
+  }, (0, _preact.h)("button", {
+    class: "btn-primary btn",
+    onClick: _dispatch.dispatchUpdateDeck
+  }, "Update"), (0, _preact.h)("button", {
+    class: "btn",
+    onClick: _dispatch.dispatchRevertDeck
+  }, "Revert"));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../deckBuilder/dispatch":"src/deckBuilder/dispatch.ts"}],"src/components/deckBuilder/deckViewer.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
 
 var _dispatchEditDeck = require("../../deckBuilder/dispatchEditDeck");
 
 var _styleList = _interopRequireDefault(require("./styleList"));
 
+var _revert = _interopRequireDefault(require("./revert"));
+
+var _decko = require("decko");
+
+var _dispatch = require("../../deckBuilder/dispatch");
+
+var _fullCard = _interopRequireDefault(require("../cards/fullCard"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __extends = void 0 && (void 0).__extends || function () {
   var _extendStatics = function extendStatics(d, b) {
@@ -23759,8 +24251,18 @@ var __assign = void 0 && (void 0).__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-var checkIfHasCard = function checkIfHasCard(cardName, cardsObj) {
-  return cardsObj[cardName];
+var __decorate = void 0 && (void 0).__decorate || function (decorators, target, key, desc) {
+  var c = arguments.length,
+      r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc,
+      d;
+  if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);else for (var i = decorators.length - 1; i >= 0; i--) {
+    if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  }
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var __metadata = void 0 && (void 0).__metadata || function (k, v) {
+  if ((typeof Reflect === "undefined" ? "undefined" : _typeof(Reflect)) === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
 var DeckViewer =
@@ -23769,50 +24271,87 @@ function (_super) {
   __extends(DeckViewer, _super);
 
   function DeckViewer() {
-    return _super !== null && _super.apply(this, arguments) || this;
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+
+    _this.state = {
+      hoverCard: null
+    };
+    return _this;
   }
 
-  DeckViewer.prototype.render = function (_a) {
+  DeckViewer.prototype.handleNameChange = function (e) {
+    var el = e.target;
+    (0, _dispatch.dispatchChangeDeckName)(el.value);
+  };
+
+  DeckViewer.prototype.render = function (_a, _b) {
+    var _this = this;
+
     var deck = _a.deck,
         cardsObj = _a.cardsObj,
-        allStyles = _a.allStyles;
+        styleDescriptions = _a.styleDescriptions,
+        canUpdate = _a.canUpdate;
+    var hoverCard = _b.hoverCard;
 
     if (!deck) {
       return (0, _preact.h)("div", null, "Loading...");
     }
 
-    var cards = deck.cards,
-        possibleCards = deck.possibleCards,
-        styles = deck.styles,
+    var possibleCards = deck.possibleCards,
         name = deck.name;
     return (0, _preact.h)("div", {
-      class: 'deck-builder'
-    }, (0, _preact.h)("input", {
-      value: name
-    }), (0, _preact.h)(_styleList.default, {
+      class: 'deck-builder pad-bottom'
+    }, (0, _preact.h)("div", {
+      class: "deck-name section"
+    }, (0, _preact.h)("label", {
+      for: "deck-name"
+    }, "Deck Name"), (0, _preact.h)("input", {
+      id: "deck-name",
+      value: name,
+      onChange: this.handleNameChange
+    })), (0, _preact.h)(_styleList.default, {
       deck: deck,
-      styles: allStyles
+      allStyles: styleDescriptions
     }), (0, _preact.h)("div", {
       class: 'deck'
     }, Object.keys(possibleCards).map(function (style, i) {
       var cards = possibleCards[style];
       return (0, _preact.h)("div", {
-        class: "card-list style-section",
+        class: "cards-section section",
         key: style
-      }, (0, _preact.h)("h3", null, style), (0, _preact.h)("div", {
+      }, (0, _preact.h)("h3", {
+        class: "style"
+      }, style), (0, _preact.h)("div", {
         class: "cards"
       }, cards.map(function (card) {
-        var hasCard = checkIfHasCard(card.name, cardsObj);
-        return (0, _preact.h)("div", {
-          key: card.name,
-          class: 'card ' + hasCard ? '' : 'greyed',
-          onClick: function onClick() {
-            return (0, _dispatchEditDeck.dispatchDEToggleCard)(card.name, hasCard);
-          }
-        }, (0, _preact.h)(_handCard.default, __assign({}, card)));
+        return _this.RenderCard({
+          card: card,
+          cardsObj: cardsObj
+        });
       })));
-    })));
+    })), canUpdate && (0, _preact.h)(_revert.default, null));
   };
+
+  DeckViewer.prototype.RenderCard = function (_a) {
+    var card = _a.card,
+        cardsObj = _a.cardsObj;
+    var hasCard = card ? cardsObj[card.name] : false;
+    return (0, _preact.h)("div", {
+      key: card.name,
+      class: hasCard ? '' : 'greyed',
+      onClick: function onClick() {
+        return (0, _dispatchEditDeck.dispatchDEToggleCard)(card.name, hasCard);
+      }
+    }, (0, _preact.h)(_fullCard.default, {
+      card: card
+    }));
+  };
+
+  var _a;
+
+  __decorate([(0, _decko.debounce)(30), __metadata("design:type", Function), __metadata("design:paramtypes", [typeof (_a = typeof Event !== "undefined" && Event) === "function" ? _a : Object]), __metadata("design:returntype", void 0)], DeckViewer.prototype, "handleNameChange", null);
+
+  __decorate([_decko.bind, __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], DeckViewer.prototype, "RenderCard", null);
 
   return DeckViewer;
 }(_preact.Component);
@@ -23830,7 +24369,7 @@ var _default = function _default(props) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../game/card/handCard":"src/components/game/card/handCard.tsx","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts","./styleList":"src/components/deckBuilder/styleList.tsx"}],"src/components/deckBuilder/index.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts","./styleList":"src/components/deckBuilder/styleList.tsx","./revert":"src/components/deckBuilder/revert.tsx","decko":"node_modules/decko/dist/decko.js","../../deckBuilder/dispatch":"src/deckBuilder/dispatch.ts","../cards/fullCard":"src/components/cards/fullCard.tsx"}],"src/components/deckBuilder/index.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -23886,7 +24425,8 @@ var selector = function selector(state) {
     styleDecriptions: state.fightingStyle.styleDescriptions,
     decks: state.deckEditor.allDecks,
     isLoadingDecks: !Array.isArray(state.deckEditor.allDecks),
-    deck: state.deckEditor.deck
+    deck: state.deckEditor.deck,
+    canUpdate: state.deckEditor.canUpdate
   };
 };
 
@@ -23918,7 +24458,8 @@ function (_super) {
         path = _a.path,
         styleDecriptions = _a.styleDecriptions,
         deck = _a.deck,
-        isLoggedIn = _a.isLoggedIn;
+        isLoggedIn = _a.isLoggedIn,
+        canUpdate = _a.canUpdate;
     var root = path[0],
         remainingPath = path.slice(1);
 
@@ -23932,7 +24473,8 @@ function (_super) {
 
     if (root) {
       return (0, _preact.h)(_deckViewer.default, {
-        allStyles: styleDecriptions,
+        canUpdate: canUpdate,
+        styleDescriptions: styleDecriptions,
         deck: deck
       });
     }
@@ -23998,7 +24540,6 @@ var selector = function selector(state) {
   var path = state.path.pathArr || [];
   var root = path[0],
       remainingPath = path.slice(1);
-  console.log('root', state.path.pathArr);
   return {
     showGame: root === 'game',
     showDeckViewer: root === 'decks',
@@ -24032,8 +24573,7 @@ var App = function App(_a) {
   }), showUserViewer && (0, _preact.h)(_user.default, {
     path: remainingPath
   }), showDeckBuilder && (0, _preact.h)(_deckBuilder.default, {
-    path: remainingPath,
-    pathPrepend: prepend
+    path: remainingPath
   }), !showDeckViewer && !showStyleViewer && !showUserViewer && !showDeckBuilder && (0, _preact.h)(_landing.default, null));
 };
 
@@ -24092,7 +24632,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57480" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52768" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

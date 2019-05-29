@@ -24,4 +24,5 @@ var SocketEnum;
     SocketEnum["SIEZE_INITIATIVE"] = "siezeInitative";
     SocketEnum["INITATIVE_WAGERED"] = "initiativeWagered";
     SocketEnum["INITIATIVE_RESULT"] = "initiativeResult";
+    SocketEnum["AUTHORIZATION"] = "authorization";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));

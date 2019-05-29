@@ -3,20 +3,23 @@ import { FightingStyleDescription } from '../../fightingStyles/interface';
 import { bind } from 'decko'
 import { EditingDeck } from '../../deckBuilder/interface';
 import { dispatchDEToggleStyle } from '../../deckBuilder/dispatchEditDeck';
+import { dispatchViewStyleFromDeck } from '../../fightingStyles/dispatch';
 
 interface Props {
-    styles: FightingStyleDescription[]
-    chosenStyles: { [style: string]: boolean }
+    unselectedStyles: FightingStyleDescription[]
+    selectedStyles: FightingStyleDescription[]
+    chosenStylesObj: { [style: string]: boolean }
     stylesUsed: number
 }
 
 interface ExternalProps {
     deck: EditingDeck,
-    styles: FightingStyleDescription[]
+    allStyles: FightingStyleDescription[]
 }
 
 interface State {
     expandedStyles: { [name: string]: boolean }
+    showingStyles: boolean
 }
 
 
@@ -24,12 +27,23 @@ class StyleList extends Component<Props, State>{
     constructor(props) {
         super(props);
         this.state = {
+            showingStyles: false,
             expandedStyles: {}
         }
     }
     @bind
-    expandStyle(styleName: string) {
-        const expanded = !this.state.expandedStyles[styleName]
+    toggleShowStyle() {
+        this.setState({ showingStyles: !this.state.showingStyles })
+    }
+    @bind
+    expandStyle(styleName: string, value?: boolean) {
+        let expanded: boolean;
+        if (value === undefined) {
+            expanded = !this.state.expandedStyles[styleName]
+        } else {
+            expanded = value;
+            this.state.expandedStyles[styleName] = expanded;
+        }
         this.setState({ expandedStyles: { [styleName]: expanded } })
     }
     checkStyle(e: Event, style: string) {
@@ -37,36 +51,77 @@ class StyleList extends Component<Props, State>{
         const checked = el.checked
         dispatchDEToggleStyle(style, checked);
     }
-    render({ styles, chosenStyles, stylesUsed }: Props, { expandedStyles }: State) {
-        return <div class="style-list">
-            <h3>Styles</h3>
-            {styles.map((style) => {
-                const isChecked = chosenStyles[style.name];
-                const isDisabled = !isChecked && stylesUsed >= 3;  
-                const isExpanded = expandedStyles[style.name];
-                const expandDisplay = isExpanded ? 'v' : '>';
-                return <div class="style-item" key={style.name}>
-                    <div class="style-title">
-                        <div class="expander" onClick={() => this.expandStyle(style.name)}> {expandDisplay} </div>
-                        <input type="checkbox" disabled={isDisabled} checked={isChecked} onChange={(e) => this.checkStyle(e, style.name)} />
-                        <div> {style.name} </div>
-                    </div>
-                    {isExpanded && <div class="expander"> {style.description}</div>}
+    render({ unselectedStyles, selectedStyles, stylesUsed }: Props, { showingStyles, expandedStyles }: State) {
+        const showing = showingStyles ? "hide" : "show";
+        return <div class="style-container">
+            <div class="section">
+                <h2> Chosen Styles:  {selectedStyles.length}/3</h2>
+                <div class="style-list">
+                    {selectedStyles.map((style) => {
+                        const isExpanded = expandedStyles[style.name];
+                        return this.RenderStyle({ isExpanded, isChecked: true, style })
+                    })}
                 </div>
-            })}
+            </div>
+            <div class="section">
+                <div class="unused-styles">
+                    <h3>Unused Styles:</h3>
+                    <button class="btn" onClick={this.toggleShowStyle}>{showing}</button>
+                </div>
+                <div class="style-list">
+                    {showingStyles &&
+                        unselectedStyles.map((style) => {
+                            const isDisabled = stylesUsed >= 3;
+                            const isExpanded = expandedStyles[style.name];
+                            return this.RenderStyle({ isExpanded, isChecked: false, isDisabled, style })
+                        })}
+                </div>
+            </div>
+        </div>
+    }
+    RenderStyle({ isChecked, isDisabled, style }: { isExpanded: boolean, isChecked: boolean, isDisabled?: boolean, style: FightingStyleDescription }) {
+        return <div
+            class={`style-item${isDisabled ? ' disabled' : ''}${isChecked ? ' active' : ''}`} key={style.name}
+            onMouseEnter={() => this.expandStyle(style.name, true)}
+            onMouseLeave={() => this.expandStyle(style.name, false)}
+            onClick={() => {
+                if (!isDisabled) {
+                    dispatchDEToggleStyle(style.name, !isChecked);
+                }
+            }}
+        >
+            <div class="style-title">
+                <div> {style.name} </div>
+                <button class="view-button btn" onClick={() => dispatchViewStyleFromDeck(style.name)}>
+                    View
+                 </button>
+            </div>
+            <div class="style-description"> {style.description}</div>
         </div>
     }
 }
 
 
-export default ({ deck, styles }: ExternalProps) => {
+
+
+export default ({ deck, allStyles = [] }: ExternalProps) => {
     const chosenStyles = deck.styles.reduce((obj, name) => {
         obj[name] = true;
         return obj;
     }, {})
+    const selectedStyles: FightingStyleDescription[] = [];
+    const unselectedStyles: FightingStyleDescription[] = [];
+    allStyles.forEach((style) => {
+        if (chosenStyles[style.name]) {
+            selectedStyles.push(style);
+        } else {
+            unselectedStyles.push(style);
+        }
+    })
     const props: Props = {
-        styles,
-        chosenStyles,
+        unselectedStyles,
+        selectedStyles,
+        chosenStylesObj: chosenStyles,
         stylesUsed: deck.styles.length
     }
     //@ts-ignore

@@ -19,6 +19,7 @@ exports.createToken = (data) => __awaiter(this, void 0, void 0, function* () {
     return b64 + "." + hash;
 });
 exports.verifyToken = (token) => __awaiter(this, void 0, void 0, function* () {
+    console.log('token', token);
     const [b64, userHash] = token.split('.');
     const hash = yield makeHash(b64, SECRET);
     return hash === userHash;
@@ -56,16 +57,27 @@ const reqToUser = (req) => __awaiter(this, void 0, void 0, function* () {
         throw error_1.ErrorEnum.INVALID_TOKEN;
     }
     const username = tokenToUsername(token);
-    const user = yield db_1.userRepo.findOneOrFail({ username });
+    const user = yield db_1.userRepo.findOne({ username });
     return user;
 });
 const tokenToUsername = (token) => {
     const [b64] = token.split('.');
     const stringified = Buffer.from(b64, 'base64').toString('utf8');
-    console.log(stringified);
     const { username } = JSON.parse(stringified);
     return username;
 };
+exports.getVerifiedUsername = (token) => __awaiter(this, void 0, void 0, function* () {
+    if (!token) {
+        return null;
+    }
+    const isValid = yield exports.verifyToken(token);
+    if (isValid) {
+        console.log('is valid');
+        return tokenToUsername(token);
+    }
+    console.log('is not valid');
+    return null;
+});
 exports.authMiddleware = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
         if (req.headers.authorization) {

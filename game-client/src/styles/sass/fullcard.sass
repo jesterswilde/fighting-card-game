@@ -1,0 +1,90 @@
+.full-card
+    font-family: 'Chivo', sans-serif
+    height: $fullCardHeight
+    width: 350px
+    height: 250px
+    background-color: $cardBg
+    border-radius: 15px
+    box-shadow: 0px 3px 10px -1px rgba(60,20,20,1)
+    b
+        color: #000000
+    .title-bar
+        color: #d1cedb
+        background-color: $medBlack
+        border-radius: 15px 15px 0 0
+        display: flex
+        justify-content: space-between
+        padding: 5px 15px 5px 15px
+        .player-icon,.axis-icon
+            width: $iconSize * 0.6
+            height: $iconSize * 0.6
+        .player-icon
+            filter: invert(1)
+            -webkit-filter: invert(1)
+            opacity: 0.7
+        .requirements
+            display: flex
+            flex-direction: row
+        .requirement
+            margin-right: 5px
+        .title
+            color: $highlight
+            font-size: 1.5rem
+        .title,.small
+            font-size: 1.3rem
+    .optional.mechanic
+        .mechanic
+            height: 2.5rem
+            background-color: darken($richRed, 5)
+        .axis-icon
+            height: $iconSize / 2
+            width: $iconSize / 2
+    .effects.small
+        font-size: 0.7rem
+        .mechanic
+            height: 4rem
+            .axis-icon,.player-icon
+                height: $iconSize * 0.7
+                width: $iconSize * 0.7
+    .effects
+        justify-content: center
+        flex-wrap: wrap
+        display: flex
+        flex-direction: row
+        font-size: 0.9rem
+        >div
+            padding: 5px
+        .mechanic
+            background-color: $richRed
+            display: flex
+            align-items: center
+            flex-direction: row
+            box-shadow: 0px 3px 3px -1px rgba(70,20,20,1)
+            height: 5rem
+            padding: 5px
+            .axis-icon,.player-icon
+                height: $iconSize * 0.8
+                width: $iconSize * 0.8
+        .req-parent, .eff-parent, .optional, .pick-one
+            justify-content: center
+            display: flex
+            flex-direction: row
+    .choices
+        background-color: #d46565
+        margin: 2px
+        padding: 2px
+        display: flex
+        flex-direction: row
+
+
+.placeholder-card
+    font-family: 'Chivo', sans-serif
+    width: 10rem
+    height: 4rem
+    background-color: $cardBg
+    margin: 5px
+    border-radius: 5px
+    box-shadow: 0px 3px 10px -1px rgba(60,20,20,1)
+    cursor: pointer
+.placeholder-card:hover
+    box-shadow: 0px 7px 10px -1px rgba(70,20,20,1)

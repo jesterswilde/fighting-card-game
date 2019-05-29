@@ -3,6 +3,7 @@ import { Socket } from "socket.io";
 import { EventAction } from "./gameEvent";
 
 export interface GameState{
+    usernames: string[]
     sockets: Socket[]
     numPlayers: number
     decks: Card[][]

@@ -18,4 +18,5 @@ export interface FightingStyleState{
     styleDescriptions: FightingStyleDescription[]
     loadingStyle: boolean
     loadingStyleNames: boolean
+    isEditingDeck?: boolean
 }

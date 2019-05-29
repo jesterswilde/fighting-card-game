@@ -19,6 +19,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const premade_1 = require("./decks/premade");
+const decks_1 = require("./decks");
 const Cards_1 = require("./cards/Cards");
 const sortOrder_1 = require("./shared/sortOrder");
 const styles_1 = require("./styles");
@@ -27,9 +28,10 @@ const router_2 = require("./decks/router");
 const router = express_1.Router();
 router.use('/users', router_1.userRouter);
 router.use('/decks', router_2.decksRouter);
-router.get('/deckList', (req, res) => {
-    res.status(200).send(getDeckList());
-});
+router.get('/deckList', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const decks = yield decks_1.getDeckOptions();
+    res.status(200).send(decks);
+}));
 router.get('/deck/:deckName', (req, res) => {
     const { deckName = '' } = req.params;
     if (deckName) {
@@ -87,7 +89,4 @@ router.delete('/card', (req, res) => __awaiter(this, void 0, void 0, function* (
         res.status(400).send();
     }
 }));
-const getDeckList = () => {
-    return premade_1.getDeckOptions();
-};
 exports.default = router;

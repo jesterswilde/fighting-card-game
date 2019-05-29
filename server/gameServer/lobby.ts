@@ -3,21 +3,27 @@ import { GameState, DistanceEnum } from "./interfaces/stateInterface";
 import { STARTING_HEALTH } from "./gameSettings";
 import { makePlayerState, makeModifiedAxis, makeStateDurations, deepCopy } from "./util";
 import { SocketEnum } from "../shared/socket";
-import { getDeckOptions, getDeck } from "../decks/premade";
+import { getDeck } from "../decks/premade";
 import { playGame } from "./game/game";
 import { Card } from "../shared/card";
+import { getVerifiedUsername } from "../auth";
+import { getDeckOptions } from "../decks";
 
 
-let queue: Socket[] = [];
+let queue: PlayerObject[] = [];
 export default (io: SocketIO.Server) => {
-    io.on('connection', joinLobby)
+    io.on('connection', configureSocket)
 }
 
+interface PlayerObject {
+    socket: Socket
+    username: string | null
+}
 
-const joinLobby = (player: Socket) => {
+const joinLobby = async (player: PlayerObject) => {
     console.log('joining lobby');
-    handleDCDuringLobby(player); 
-    player.emit(SocketEnum.JOINED_LOBBY);
+    handleDCDuringLobby(player.socket);
+    player.socket.emit(SocketEnum.JOINED_LOBBY);
     if (queue.length > 0) {
         console.log('starting game');
         createGame(queue[0], player);
@@ -27,9 +33,21 @@ const joinLobby = (player: Socket) => {
     }
 }
 
-const createGame = async (player1: Socket, player2: Socket) => {
+const configureSocket = async (socket: Socket) => {
+    const player = await makePlayerObject(socket);
+    joinLobby(player);
+}
+
+const makePlayerObject = async (socket: Socket) => {
+    const token = socket.handshake.query.token;
+    const username = await getVerifiedUsername(token);
+    const player: PlayerObject = { socket, username };
+    return player;
+}
+
+const createGame = async (player1: PlayerObject, player2: PlayerObject) => {
     const players = [player1, player2];
-    handleDCDuringGame(players); 
+    handleDCDuringGame(players);
     const deckPromises = players.map(playerPicksDeck);
     let decks = await Promise.all<Card[]>(deckPromises);
     decks = decks.map((deck) => deepCopy(deck));
@@ -38,40 +56,42 @@ const createGame = async (player1: Socket, player2: Socket) => {
     playGame(state);
 }
 
-const handleDCDuringLobby = (dcSocket: Socket) => {
-    dcSocket.removeAllListeners('disconnect'); 
-    dcSocket.on('disconnect',()=>{
-        console.log('disconnected during lobby'); 
-        queue = queue.filter((socket) => socket !== dcSocket);
-    })
-}
-
-const handleDCDuringGame = (sockets: Socket[]) => {
-    sockets.forEach((dcSocket)=>{
-        dcSocket.removeAllListeners('disconnect'); 
-        dcSocket.on('disconnect',()=>{
-            console.log('disconnected during game'); 
-            sockets.filter((socket) => socket !== dcSocket).forEach(joinLobby);
+const handleDCDuringGame = (players: PlayerObject[]) => {
+    players.forEach((playerObj) => {
+        playerObj.socket.removeAllListeners('disconnect');
+        playerObj.socket.on('disconnect', () => {
+            console.log('disconnected during game');
+            players.filter((otherPlayer) => otherPlayer !== playerObj).forEach(joinLobby);
         })
     })
 }
 
-const playerPicksDeck = (player: Socket): Promise<Card[]> => {
-    return new Promise((res, rej) => {
-        const deckOptions = getDeckOptions();
-        player.emit(SocketEnum.GOT_DECK_OPTIONS, deckOptions);
-        player.once(SocketEnum.PICKED_DECK, (index) => {
+const handleDCDuringLobby = (dcSocket: Socket) => {
+    dcSocket.removeAllListeners('disconnect');
+    dcSocket.on('disconnect', () => {
+        console.log('disconnected during lobby');
+        queue = queue.filter((playerObject) => playerObject.socket !== dcSocket);
+    })
+}
+
+
+const playerPicksDeck = async (player: PlayerObject): Promise<Card[]> => {
+    return new Promise(async (res, rej) => {
+        const deckOptions = await getDeckOptions(player.username);
+        player.socket.emit(SocketEnum.GOT_DECK_OPTIONS, deckOptions);
+        player.socket.once(SocketEnum.PICKED_DECK, async (index) => {
             console.log('got deck choice')
-            const deck = getDeck(deckOptions[index].name);
+            const deck = await getDeck(deckOptions[index]);
             res(deck);
         })
     })
 }
 
-const makeGameState = (sockets: Socket[], decks: Card[][]) => {
+const makeGameState = (players: PlayerObject[], decks: Card[][]) => {
     const state: GameState = {
         numPlayers: 2,
-        sockets,
+        usernames: players.map(({ username }) => username),
+        sockets: players.map(({ socket }) => socket),
         queue: [],
         decks,
         hands: [[], []],
@@ -88,10 +108,10 @@ const makeGameState = (sockets: Socket[], decks: Card[][]) => {
         predictions: [],
         pendingPredictions: [],
         damaged: [false, false],
-        setup: [0,0],
-        pendingSetup: [0,0],
+        setup: [0, 0],
+        pendingSetup: [0, 0],
         tagModification: [{}, {}],
-        tagsPlayed: [{},{}],
+        tagsPlayed: [{}, {}],
         lockedState: {
             distance: null,
             players: [
