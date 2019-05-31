@@ -35,7 +35,7 @@ export const getDeckForViewer = (name: string) => {
     if (!deckObj) {
         return null;
     }
-    const cards = getDeck(name);
+    const cards = getDeck(deckObj);
     return {
         name: deckObj.name,
         description: deckObj.description || 'No Description',

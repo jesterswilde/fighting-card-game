@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.grappleStyle = {
     name: 'Grappler',
     cards: [
-        'Tester',
         'Neck Break',
         'Circle Opponent',
         'Going For The Pin',

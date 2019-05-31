@@ -13321,130 +13321,7 @@ exports.DeckViewerEnum = DeckViewerEnum;
   DeckViewerEnum["FAILED_TO_GET_DECKLIST"] = "faileToGetDecklist";
   DeckViewerEnum["LOADING_DECK"] = "loadingDeck";
   DeckViewerEnum["LOADING_DECK_LIST"] = "loadingDeckList";
-  DeckViewerEnum["UPDATED_FILTER"] = "updateDeckViewerFilter";
-  DeckViewerEnum["ADDED_FILTER"] = "addDeckViewerFilter";
-  DeckViewerEnum["REMOVED_FILTER"] = "removeDeckViewerFilter";
 })(DeckViewerEnum || (exports.DeckViewerEnum = DeckViewerEnum = {}));
-},{}],"src/shared/card.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PlayerEnum = exports.getMechDisplay = exports.MechanicEnum = exports.AxisEnum = void 0;
-
-var _a;
-
-var AxisEnum;
-exports.AxisEnum = AxisEnum;
-
-(function (AxisEnum) {
-  AxisEnum["DAMAGE"] = "Damage";
-  AxisEnum["PRONE"] = "Prone";
-  AxisEnum["STANDING"] = "Standing";
-  AxisEnum["MOVING"] = "Moving";
-  AxisEnum["STILL"] = "Still";
-  AxisEnum["GRAPPLED"] = "Grappled";
-  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
-  AxisEnum["CLOSE"] = "Close";
-  AxisEnum["NOT_CLOSE"] = "Not Close";
-  AxisEnum["FAR"] = "Far";
-  AxisEnum["NOT_FAR"] = "Not Far";
-  AxisEnum["BALANCED"] = "Balanced";
-  AxisEnum["UNBALANCED"] = "Unbalanced";
-  AxisEnum["ANTICIPATING"] = "Anticipating";
-  AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
-  AxisEnum["CLOSER"] = "Closer";
-  AxisEnum["FURTHER"] = "Further";
-  AxisEnum["BLOODIED"] = "Bloodied";
-  AxisEnum["MOTION"] = "Motion";
-  AxisEnum["DISTANCE"] = "Distance";
-  AxisEnum["POISE"] = "Poise";
-  AxisEnum["LOSE_POISE"] = "Lose Poise";
-  AxisEnum["STANCE"] = "Stance";
-})(AxisEnum || (exports.AxisEnum = AxisEnum = {}));
-
-var MechanicEnum;
-exports.MechanicEnum = MechanicEnum;
-
-(function (MechanicEnum) {
-  MechanicEnum["TELEGRAPH"] = "Telegraph";
-  MechanicEnum["FOCUS"] = "Focus";
-  MechanicEnum["PREDICT"] = "Predict";
-  MechanicEnum["PARRY"] = "Parry";
-  MechanicEnum["BLOCK"] = "Block";
-  MechanicEnum["LOCK"] = "Lock";
-  MechanicEnum["REFLEX"] = "Reflex";
-  MechanicEnum["BUFF"] = "Buff";
-  MechanicEnum["CRIPPLE"] = "Cripple";
-  MechanicEnum["PICK_ONE"] = "Pick One";
-  MechanicEnum["FORCEFUL"] = "Forceful";
-  MechanicEnum["ENHANCE"] = "Enhance";
-  MechanicEnum["CLUTCH"] = "Clutch";
-  MechanicEnum["SETUP"] = "Setup";
-})(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
-
-var getMechDisplay = function getMechDisplay(mech) {
-  var defaultValue = {
-    state: true,
-    value: true
-  };
-
-  if (mech === undefined) {
-    return defaultValue;
-  }
-
-  var comp = MechanicDisplay[mech];
-
-  if (comp) {
-    return comp;
-  }
-
-  return defaultValue;
-};
-
-exports.getMechDisplay = getMechDisplay;
-var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
-  req: true,
-  eff: true
-}, _a[MechanicEnum.FOCUS] = {
-  req: true,
-  eff: true
-}, _a[MechanicEnum.PREDICT] = {
-  eff: true
-}, _a[MechanicEnum.BUFF] = {
-  valueString: true,
-  eff: true
-}, _a[MechanicEnum.ENHANCE] = {
-  valueString: true,
-  eff: true
-}, _a[MechanicEnum.BLOCK] = {
-  value: true
-}, _a[MechanicEnum.PARRY] = {
-  value: true
-}, _a[MechanicEnum.LOCK] = {
-  state: true,
-  value: true
-}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
-  valueString: true
-}, _a[MechanicEnum.PICK_ONE] = {
-  pick: true
-}, _a[MechanicEnum.FORCEFUL] = {
-  value: true,
-  eff: true
-}, _a[MechanicEnum.CLUTCH] = {
-  value: true
-}, _a[MechanicEnum.SETUP] = {
-  value: true
-}, _a);
-var PlayerEnum;
-exports.PlayerEnum = PlayerEnum;
-
-(function (PlayerEnum) {
-  PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
-  PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
-  PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
-})(PlayerEnum || (exports.PlayerEnum = PlayerEnum = {}));
 },{}],"src/deckViewer/reducer.ts":[function(require,module,exports) {
 "use strict";
 
@@ -13454,8 +13331,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.deckViewerReducer = void 0;
 
 var _actions = require("./actions");
-
-var _card = require("../shared/card");
 
 var __assign = void 0 && (void 0).__assign || function () {
   __assign = Object.assign || function (t) {
@@ -13479,8 +13354,7 @@ var deckViewerReducer = function deckViewerReducer(state, action) {
       deck: null,
       deckList: [],
       isLoadingDeckList: false,
-      isLoadingDeck: false,
-      filters: []
+      isLoadingDeck: false
     };
   }
 
@@ -13507,49 +13381,13 @@ var deckViewerReducer = function deckViewerReducer(state, action) {
         isLoadingDeckList: false
       });
 
-    case _actions.DeckViewerEnum.UPDATED_FILTER:
-      return updateFilter(state, action);
-
-    case _actions.DeckViewerEnum.ADDED_FILTER:
-      return addFilter(state, action);
-
-    case _actions.DeckViewerEnum.REMOVED_FILTER:
-      return removeFilter(state, action);
-
     default:
       return state;
   }
 };
 
 exports.deckViewerReducer = deckViewerReducer;
-
-var updateFilter = function updateFilter(state, action) {
-  var filters = state.filters.slice();
-  filters[action.index] = action.filter;
-  return __assign({}, state, {
-    filters: filters
-  });
-};
-
-var addFilter = function addFilter(state, action) {
-  var filters = state.filters.concat([{
-    axis: _card.AxisEnum.CLOSE,
-    player: _card.PlayerEnum.BOTH
-  }]);
-  return __assign({}, state, {
-    filters: filters
-  });
-};
-
-var removeFilter = function removeFilter(state, action) {
-  var filters = state.filters.filter(function (_, i) {
-    return i !== action.index;
-  });
-  return __assign({}, state, {
-    filters: filters
-  });
-};
-},{"./actions":"src/deckViewer/actions.ts","../shared/card":"src/shared/card.ts"}],"src/fightingStyles/actions.ts":[function(require,module,exports) {
+},{"./actions":"src/deckViewer/actions.ts"}],"src/fightingStyles/actions.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13908,7 +13746,220 @@ var makeDefaultState = function makeDefaultState() {
     uneditedDeck: null
   };
 };
-},{"./actions":"src/deckBuilder/actions.ts"}],"src/state/store.ts":[function(require,module,exports) {
+},{"./actions":"src/deckBuilder/actions.ts"}],"src/filters/actions.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FilterEnum = void 0;
+var FilterEnum;
+exports.FilterEnum = FilterEnum;
+
+(function (FilterEnum) {
+  FilterEnum["UPDATED_FILTER"] = "updateDeckViewerFilter";
+  FilterEnum["ADDED_FILTER"] = "addDeckViewerFilter";
+  FilterEnum["REMOVED_FILTER"] = "removeDeckViewerFilter";
+})(FilterEnum || (exports.FilterEnum = FilterEnum = {}));
+},{}],"src/shared/card.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PlayerEnum = exports.getMechDisplay = exports.MechanicEnum = exports.AxisEnum = void 0;
+
+var _a;
+
+var AxisEnum;
+exports.AxisEnum = AxisEnum;
+
+(function (AxisEnum) {
+  AxisEnum["DAMAGE"] = "Damage";
+  AxisEnum["PRONE"] = "Prone";
+  AxisEnum["STANDING"] = "Standing";
+  AxisEnum["MOVING"] = "Moving";
+  AxisEnum["STILL"] = "Still";
+  AxisEnum["GRAPPLED"] = "Grappled";
+  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
+  AxisEnum["CLOSE"] = "Close";
+  AxisEnum["NOT_CLOSE"] = "Not Close";
+  AxisEnum["FAR"] = "Far";
+  AxisEnum["NOT_FAR"] = "Not Far";
+  AxisEnum["BALANCED"] = "Balanced";
+  AxisEnum["UNBALANCED"] = "Unbalanced";
+  AxisEnum["ANTICIPATING"] = "Anticipating";
+  AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
+  AxisEnum["CLOSER"] = "Closer";
+  AxisEnum["FURTHER"] = "Further";
+  AxisEnum["BLOODIED"] = "Bloodied";
+  AxisEnum["MOTION"] = "Motion";
+  AxisEnum["DISTANCE"] = "Distance";
+  AxisEnum["POISE"] = "Poise";
+  AxisEnum["LOSE_POISE"] = "Lose Poise";
+  AxisEnum["STANCE"] = "Stance";
+})(AxisEnum || (exports.AxisEnum = AxisEnum = {}));
+
+var MechanicEnum;
+exports.MechanicEnum = MechanicEnum;
+
+(function (MechanicEnum) {
+  MechanicEnum["TELEGRAPH"] = "Telegraph";
+  MechanicEnum["FOCUS"] = "Focus";
+  MechanicEnum["PREDICT"] = "Predict";
+  MechanicEnum["PARRY"] = "Parry";
+  MechanicEnum["BLOCK"] = "Block";
+  MechanicEnum["LOCK"] = "Lock";
+  MechanicEnum["REFLEX"] = "Reflex";
+  MechanicEnum["BUFF"] = "Buff";
+  MechanicEnum["CRIPPLE"] = "Cripple";
+  MechanicEnum["PICK_ONE"] = "Pick One";
+  MechanicEnum["FORCEFUL"] = "Forceful";
+  MechanicEnum["ENHANCE"] = "Enhance";
+  MechanicEnum["CLUTCH"] = "Clutch";
+  MechanicEnum["SETUP"] = "Setup";
+})(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
+
+var getMechDisplay = function getMechDisplay(mech) {
+  console.log('mech', mech);
+  var defaultValue = {
+    state: true,
+    value: true
+  };
+
+  if (mech === undefined) {
+    return defaultValue;
+  }
+
+  var comp = MechanicDisplay[mech];
+
+  if (comp) {
+    return comp;
+  }
+
+  return defaultValue;
+};
+
+exports.getMechDisplay = getMechDisplay;
+var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.FOCUS] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.PREDICT] = {
+  eff: true
+}, _a[MechanicEnum.BUFF] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.ENHANCE] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.BLOCK] = {
+  value: true
+}, _a[MechanicEnum.PARRY] = {
+  value: true
+}, _a[MechanicEnum.LOCK] = {
+  state: true,
+  value: true
+}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
+  valueString: true
+}, _a[MechanicEnum.PICK_ONE] = {
+  pick: true
+}, _a[MechanicEnum.FORCEFUL] = {
+  value: true,
+  eff: true
+}, _a[MechanicEnum.CLUTCH] = {
+  value: true
+}, _a[MechanicEnum.SETUP] = {
+  value: true
+}, _a);
+var PlayerEnum;
+exports.PlayerEnum = PlayerEnum;
+
+(function (PlayerEnum) {
+  PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
+  PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
+  PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
+})(PlayerEnum || (exports.PlayerEnum = PlayerEnum = {}));
+},{}],"src/filters/reducer.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.filterReducer = void 0;
+
+var _actions = require("./actions");
+
+var _card = require("../shared/card");
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var filterReducer = function filterReducer(state, action) {
+  if (state === void 0) {
+    state = {
+      filters: []
+    };
+  }
+
+  switch (action.type) {
+    case _actions.FilterEnum.UPDATED_FILTER:
+      return updateFilter(state, action);
+
+    case _actions.FilterEnum.ADDED_FILTER:
+      return addFilter(state, action);
+
+    case _actions.FilterEnum.REMOVED_FILTER:
+      return removeFilter(state, action);
+  }
+
+  return state;
+};
+
+exports.filterReducer = filterReducer;
+
+var updateFilter = function updateFilter(state, action) {
+  var filters = state.filters.slice();
+  filters[action.index] = action.filter;
+  return __assign({}, state, {
+    filters: filters
+  });
+};
+
+var addFilter = function addFilter(state, action) {
+  var filters = state.filters.concat([{
+    axis: _card.AxisEnum.CLOSE,
+    player: _card.PlayerEnum.BOTH
+  }]);
+  return __assign({}, state, {
+    filters: filters
+  });
+};
+
+var removeFilter = function removeFilter(state, action) {
+  var filters = state.filters.filter(function (_, i) {
+    return i !== action.index;
+  });
+  return __assign({}, state, {
+    filters: filters
+  });
+};
+},{"./actions":"src/filters/actions.ts","../shared/card":"src/shared/card.ts"}],"src/state/store.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -13944,6 +13995,8 @@ var _reducer11 = require("../user/reducer");
 
 var _reducer12 = require("../deckBuilder/reducer");
 
+var _reducer13 = require("../filters/reducer");
+
 var rootReducer = (0, _redux.combineReducers)({
   game: _reducer.gameReducer,
   hand: _reducer2.handReducer,
@@ -13956,7 +14009,8 @@ var rootReducer = (0, _redux.combineReducers)({
   socket: _reducer8.socketReducer,
   fightingStyle: _reducer10.fightingStyleReducer,
   user: _reducer11.userReducer,
-  deckEditor: _reducer12.deckEditorReducer
+  deckEditor: _reducer12.deckEditorReducer,
+  filter: _reducer13.filterReducer
 });
 var devToolsExtension = window['devToolsExtension'] ? window['devToolsExtension']() : function (f) {
   return f;
@@ -13964,7 +14018,7 @@ var devToolsExtension = window['devToolsExtension'] ? window['devToolsExtension'
 var loadedState = (0, _localStorage.loadState)();
 var store = (0, _redux.createStore)(rootReducer, loadedState, devToolsExtension);
 exports.store = store;
-},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts","../fightingStyles/reducer":"src/fightingStyles/reducer.ts","./localStorage":"src/state/localStorage.ts","../user/reducer":"src/user/reducer.ts","../deckBuilder/reducer":"src/deckBuilder/reducer.ts"}],"src/shared/card.js":[function(require,module,exports) {
+},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts","../fightingStyles/reducer":"src/fightingStyles/reducer.ts","./localStorage":"src/state/localStorage.ts","../user/reducer":"src/user/reducer.ts","../deckBuilder/reducer":"src/deckBuilder/reducer.ts","../filters/reducer":"src/filters/reducer.ts"}],"src/shared/card.js":[function(require,module,exports) {
 "use strict";
 
 exports.__esModule = true;
@@ -14027,6 +14081,7 @@ exports.getMechDisplay = function (mech) {
   }
 
   var comp = MechanicDisplay[mech];
+  if (mech === 'Setup') console.log(comp);
 
   if (comp) {
     return comp;
@@ -18188,7 +18243,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchGetDeckList = exports.dispatchGetDeckWithName = exports.dispatchRemoveDVFilter = exports.dispatchAddDVFilter = exports.dispatchUpdateDVFilter = void 0;
+exports.dispatchGetDeckList = exports.dispatchGetDeckWithName = void 0;
 
 var _actions = require("./actions");
 
@@ -18336,39 +18391,6 @@ var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
 };
 
 var _this = void 0;
-
-var dispatchUpdateDVFilter = function dispatchUpdateDVFilter(filter, index) {
-  var action = {
-    type: _actions.DeckViewerEnum.UPDATED_FILTER,
-    filter: filter,
-    index: index
-  };
-
-  _store.store.dispatch(action);
-};
-
-exports.dispatchUpdateDVFilter = dispatchUpdateDVFilter;
-
-var dispatchAddDVFilter = function dispatchAddDVFilter() {
-  var action = {
-    type: _actions.DeckViewerEnum.ADDED_FILTER
-  };
-
-  _store.store.dispatch(action);
-};
-
-exports.dispatchAddDVFilter = dispatchAddDVFilter;
-
-var dispatchRemoveDVFilter = function dispatchRemoveDVFilter(index) {
-  var action = {
-    type: _actions.DeckViewerEnum.REMOVED_FILTER,
-    index: index
-  };
-
-  _store.store.dispatch(action);
-};
-
-exports.dispatchRemoveDVFilter = dispatchRemoveDVFilter;
 
 var dispatchGetDeckWithName = function dispatchGetDeckWithName(deckName) {
   return __awaiter(_this, void 0, void 0, function () {
@@ -18541,7 +18563,51 @@ var getDeckList = function getDeckList() {
     });
   });
 };
-},{"./actions":"src/deckViewer/actions.ts","../state/store":"src/state/store.ts","../util":"src/util.ts"}],"src/components/deckViewer/filter.tsx":[function(require,module,exports) {
+},{"./actions":"src/deckViewer/actions.ts","../state/store":"src/state/store.ts","../util":"src/util.ts"}],"src/filters/dispatch.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dispatchRemoveFilter = exports.dispatchAddFilter = exports.dispatchUpdateFilter = void 0;
+
+var _actions = require("./actions");
+
+var _store = require("../state/store");
+
+var dispatchUpdateFilter = function dispatchUpdateFilter(filter, index) {
+  var action = {
+    type: _actions.FilterEnum.UPDATED_FILTER,
+    filter: filter,
+    index: index
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchUpdateFilter = dispatchUpdateFilter;
+
+var dispatchAddFilter = function dispatchAddFilter() {
+  var action = {
+    type: _actions.FilterEnum.ADDED_FILTER
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchAddFilter = dispatchAddFilter;
+
+var dispatchRemoveFilter = function dispatchRemoveFilter(index) {
+  var action = {
+    type: _actions.FilterEnum.REMOVED_FILTER,
+    index: index
+  };
+
+  _store.store.dispatch(action);
+};
+
+exports.dispatchRemoveFilter = dispatchRemoveFilter;
+},{"./actions":"src/filters/actions.ts","../state/store":"src/state/store.ts"}],"src/components/filter.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18551,11 +18617,11 @@ exports.default = void 0;
 
 var _preact = require("preact");
 
-var _dispatch = require("../../deckViewer/dispatch");
+var _dispatch = require("../filters/dispatch");
 
-var _card = require("../../shared/card");
+var _card = require("../shared/card");
 
-var _util = require("../../util");
+var _util = require("../util");
 
 var __assign = void 0 && (void 0).__assign || function () {
   __assign = Object.assign || function (t) {
@@ -18575,26 +18641,27 @@ var __assign = void 0 && (void 0).__assign || function () {
 
 var selector = function selector(state) {
   return {
-    filters: state.deckViewer.filters
+    filters: state.filter.filters
   };
 };
 
 var Filter = function Filter(_a) {
   var filters = _a.filters;
   return (0, _preact.h)("div", {
-    class: "card-filter"
-  }, (0, _preact.h)("h3", null, "Filters: ", (0, _preact.h)("button", {
-    class: 'btn btn-primary',
-    onClick: _dispatch.dispatchAddDVFilter
-  }, "+")), filters.map(function (filter, i) {
+    class: "filter-section section"
+  }, (0, _preact.h)("div", {
+    class: "title"
+  }, (0, _preact.h)("h3", null, "Filters:  "), (0, _preact.h)("button", {
+    class: "btn remove justify-end"
+  }, "Clear Filters")), (0, _preact.h)("div", {
+    class: "filters"
+  }, (0, _preact.h)("button", {
+    class: 'btn add',
+    onClick: _dispatch.dispatchAddFilter
+  }, "Add Filter"), filters.map(function (filter, i) {
     return (0, _preact.h)("div", {
       class: "filter"
-    }, (0, _preact.h)("button", {
-      class: 'btn btn-danger',
-      onClick: function onClick() {
-        return (0, _dispatch.dispatchRemoveDVFilter)(i);
-      }
-    }, "-"), (0, _preact.h)("select", {
+    }, (0, _preact.h)("select", {
       onChange: function onChange(e) {
         return handlePlayerChange(e, filter, i);
       },
@@ -18615,13 +18682,18 @@ var Filter = function Filter(_a) {
         value: _card.AxisEnum[key],
         key: key
       }, " ", _card.AxisEnum[key]);
-    })));
-  }));
+    })), (0, _preact.h)("button", {
+      class: 'btn remove',
+      onClick: function onClick() {
+        return (0, _dispatch.dispatchRemoveFilter)(i);
+      }
+    }, "-"));
+  })));
 };
 
 var handleAxisChange = function handleAxisChange(e, filter, index) {
   var target = e.currentTarget;
-  (0, _dispatch.dispatchUpdateDVFilter)(__assign({}, filter, {
+  (0, _dispatch.dispatchUpdateFilter)(__assign({}, filter, {
     axis: target.value
   }), index);
 };
@@ -18629,7 +18701,7 @@ var handleAxisChange = function handleAxisChange(e, filter, index) {
 var handlePlayerChange = function handlePlayerChange(e, filter, index) {
   var target = e.currentTarget;
   var player = Number(target.value);
-  (0, _dispatch.dispatchUpdateDVFilter)(__assign({}, filter, {
+  (0, _dispatch.dispatchUpdateFilter)(__assign({}, filter, {
     player: player
   }), index);
 };
@@ -18637,7 +18709,7 @@ var handlePlayerChange = function handlePlayerChange(e, filter, index) {
 var _default = (0, _util.cleanConnect)(selector, Filter);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../deckViewer/dispatch":"src/deckViewer/dispatch.ts","../../shared/card":"src/shared/card.js","../../util":"src/util.ts"}],"src/deckViewer/filter.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../filters/dispatch":"src/filters/dispatch.ts","../shared/card":"src/shared/card.js","../util":"src/util.ts"}],"src/filters/util.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18749,9 +18821,9 @@ var _preact = require("preact");
 
 var _handCard = _interopRequireDefault(require("../game/card/handCard"));
 
-var _filter = _interopRequireDefault(require("./filter"));
+var _filter = _interopRequireDefault(require("../filter"));
 
-var _filter2 = require("../../deckViewer/filter");
+var _util = require("../../filters/util");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -18790,7 +18862,7 @@ var _default = function _default(_a) {
     class: 'description'
   }, description), (0, _preact.h)(_filter.default, null), (0, _preact.h)("div", {
     class: 'cards'
-  }, (0, _filter2.filterInvalidCards)(cards, filters).map(function (card, i) {
+  }, (0, _util.filterInvalidCards)(cards, filters).map(function (card, i) {
     return (0, _preact.h)("div", {
       key: card.name + i
     }, (0, _preact.h)(_handCard.default, __assign({}, card)));
@@ -18801,7 +18873,7 @@ var _default = function _default(_a) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../game/card/handCard":"src/components/game/card/handCard.tsx","./filter":"src/components/deckViewer/filter.tsx","../../deckViewer/filter":"src/deckViewer/filter.ts"}],"src/path/dispatch.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../game/card/handCard":"src/components/game/card/handCard.tsx","../filter":"src/components/filter.tsx","../../filters/util":"src/filters/util.ts"}],"src/path/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19010,7 +19082,7 @@ var selector = function selector(state) {
     isLoadingDeckList: state.deckViewer.isLoadingDeckList,
     deckList: state.deckViewer.deckList,
     deck: state.deckViewer.deck,
-    filters: state.deckViewer.filters
+    filters: state.filter.filters
   };
 };
 
@@ -19677,7 +19749,9 @@ var _default = function _default(_a) {
       effect: eff,
       shouldFlip: shouldFlip
     }));
-  })));
+  })), (0, _preact.h)("div", {
+    class: 'priority'
+  }, card.priority));
 };
 
 exports.default = _default;
@@ -24205,6 +24279,10 @@ var _dispatch = require("../../deckBuilder/dispatch");
 
 var _fullCard = _interopRequireDefault(require("../cards/fullCard"));
 
+var _filter = _interopRequireDefault(require("../filter"));
+
+var _util = require("../../filters/util");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -24290,7 +24368,8 @@ function (_super) {
     var deck = _a.deck,
         cardsObj = _a.cardsObj,
         styleDescriptions = _a.styleDescriptions,
-        canUpdate = _a.canUpdate;
+        canUpdate = _a.canUpdate,
+        filters = _a.filters;
     var hoverCard = _b.hoverCard;
 
     if (!deck) {
@@ -24312,7 +24391,7 @@ function (_super) {
     })), (0, _preact.h)(_styleList.default, {
       deck: deck,
       allStyles: styleDescriptions
-    }), (0, _preact.h)("div", {
+    }), (0, _preact.h)(_filter.default, null), (0, _preact.h)("div", {
       class: 'deck'
     }, Object.keys(possibleCards).map(function (style, i) {
       var cards = possibleCards[style];
@@ -24323,7 +24402,7 @@ function (_super) {
         class: "style"
       }, style), (0, _preact.h)("div", {
         class: "cards"
-      }, cards.map(function (card) {
+      }, (0, _util.filterInvalidCards)(cards, filters).map(function (card) {
         return _this.RenderCard({
           card: card,
           cardsObj: cardsObj
@@ -24369,7 +24448,7 @@ var _default = function _default(props) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts","./styleList":"src/components/deckBuilder/styleList.tsx","./revert":"src/components/deckBuilder/revert.tsx","decko":"node_modules/decko/dist/decko.js","../../deckBuilder/dispatch":"src/deckBuilder/dispatch.ts","../cards/fullCard":"src/components/cards/fullCard.tsx"}],"src/components/deckBuilder/index.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts","./styleList":"src/components/deckBuilder/styleList.tsx","./revert":"src/components/deckBuilder/revert.tsx","decko":"node_modules/decko/dist/decko.js","../../deckBuilder/dispatch":"src/deckBuilder/dispatch.ts","../cards/fullCard":"src/components/cards/fullCard.tsx","../filter":"src/components/filter.tsx","../../filters/util":"src/filters/util.ts"}],"src/components/deckBuilder/index.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24426,7 +24505,8 @@ var selector = function selector(state) {
     decks: state.deckEditor.allDecks,
     isLoadingDecks: !Array.isArray(state.deckEditor.allDecks),
     deck: state.deckEditor.deck,
-    canUpdate: state.deckEditor.canUpdate
+    canUpdate: state.deckEditor.canUpdate,
+    filters: state.filter.filters
   };
 };
 
@@ -24452,7 +24532,8 @@ function (_super) {
   };
 
   DeckEditor.prototype.render = function (_a) {
-    var isLoadingDecks = _a.isLoadingDecks,
+    var filters = _a.filters,
+        isLoadingDecks = _a.isLoadingDecks,
         _b = _a.decks,
         decks = _b === void 0 ? [] : _b,
         path = _a.path,
@@ -24473,6 +24554,7 @@ function (_super) {
 
     if (root) {
       return (0, _preact.h)(_deckViewer.default, {
+        filters: filters,
         canUpdate: canUpdate,
         styleDescriptions: styleDecriptions,
         deck: deck
@@ -24632,7 +24714,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52768" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50966" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

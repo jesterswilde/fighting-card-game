@@ -39,7 +39,7 @@ exports.getDeckForViewer = (name) => {
     if (!deckObj) {
         return null;
     }
-    const cards = exports.getDeck(name);
+    const cards = exports.getDeck(deckObj);
     return {
         name: deckObj.name,
         description: deckObj.description || 'No Description',

@@ -48,6 +48,7 @@ exports.getMechDisplay = function (mech) {
         return defaultValue;
     }
     var comp = MechanicDisplay[mech];
+    if(mech === 'Setup') console.log(comp); 
     if (comp) {
         return comp;
     }

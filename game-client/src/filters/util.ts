@@ -2,6 +2,7 @@ import { Card, AxisEnum, PlayerEnum } from '../shared/card'
 import { DeckViewerFilter } from './interface';
 
 
+
 interface InvalidStates {
     [key: string]: boolean
 }

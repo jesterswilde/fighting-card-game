@@ -3,7 +3,6 @@ import { FightingStyle } from "./interfaces";
 export const grappleStyle: FightingStyle = {
     name: 'Grappler',
     cards: [
-        'Tester',
         'Neck Break',
         'Circle Opponent',
         'Going For The Pin',

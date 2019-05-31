@@ -8,7 +8,7 @@ export interface DeckDescription {
 
 export interface DeckSelection{
     name: string
-    description: string
+    description?: string
     isCustom?: boolean
     id?: number
 }

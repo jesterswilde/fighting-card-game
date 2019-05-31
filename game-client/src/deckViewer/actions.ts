@@ -1,4 +1,4 @@
-import { Deck, DeckDescription, DeckViewerFilter } from "./interface";
+import { Deck, DeckDescription } from "./interface";
 
 export enum DeckViewerEnum {
     GOT_DECK = "gotDeck",
@@ -7,24 +7,6 @@ export enum DeckViewerEnum {
     FAILED_TO_GET_DECKLIST = "faileToGetDecklist",
     LOADING_DECK = 'loadingDeck', 
     LOADING_DECK_LIST = 'loadingDeckList',
-    UPDATED_FILTER = 'updateDeckViewerFilter',
-    ADDED_FILTER = 'addDeckViewerFilter',
-    REMOVED_FILTER = 'removeDeckViewerFilter',
-}
-
-export interface UpdateDVFilterAction{
-    type: DeckViewerEnum.UPDATED_FILTER,
-    filter: DeckViewerFilter,
-    index: number
-}
-
-export interface AddDVFilterAction {
-    type: DeckViewerEnum.ADDED_FILTER,
-}
-
-export interface RemoveDVFilterAction{
-    type: DeckViewerEnum.REMOVED_FILTER,
-    index: number
 }
 
 export interface LoadingDeckAction{
@@ -54,4 +36,4 @@ export interface GotDeckListAction {
 }
 
 export type DeckViewerActions = GotDeckActioin | GotDeckListAction | FailedToGetDeckAction | FailedToGetDeckListAction | 
-LoadingDeckAction | LoadingDeckListAction | UpdateDVFilterAction | AddDVFilterAction | RemoveDVFilterAction; 
+LoadingDeckAction | LoadingDeckListAction; 

@@ -1,5 +1,4 @@
 import { UserState } from "../user/interface";
-import { foo } from "./store";
 
 export const saveLogin = (user: UserState)=>{
     try{

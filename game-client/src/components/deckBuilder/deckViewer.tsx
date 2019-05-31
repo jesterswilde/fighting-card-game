@@ -8,6 +8,9 @@ import Revert from './revert';
 import { debounce, bind } from 'decko';
 import { dispatchChangeDeckName } from '../../deckBuilder/dispatch';
 import FullCard from '../cards/fullCard';
+import Filter from '../filter';
+import { DeckViewerFilter } from '../../filters/interface';
+import { filterInvalidCards } from '../../filters/util';
 /*
     Deck Name -edit-
     -----------------
@@ -43,6 +46,7 @@ interface ExternalProps {
     deck: EditingDeck
     styleDescriptions: FightingStyleDescription[]
     canUpdate: boolean,
+    filters: DeckViewerFilter[]
 }
 
 interface Props {
@@ -50,6 +54,7 @@ interface Props {
     cardsObj: { [key: string]: boolean }
     styleDescriptions: FightingStyleDescription[]
     canUpdate: boolean
+    filters: DeckViewerFilter[]
 }
 
 interface State {
@@ -65,7 +70,7 @@ class DeckViewer extends Component<Props, State>{
         const el = e.target as HTMLInputElement;
         dispatchChangeDeckName(el.value);
     }
-    render({ deck, cardsObj, styleDescriptions, canUpdate }: Props, { hoverCard }: State) {
+    render({ deck, cardsObj, styleDescriptions, canUpdate, filters }: Props, { hoverCard }: State) {
         if (!deck) {
             return <div>
                 Loading...
@@ -78,13 +83,15 @@ class DeckViewer extends Component<Props, State>{
                 <input id="deck-name" value={name} onChange={this.handleNameChange} />
             </div>
             <StyleList deck={deck} allStyles={styleDescriptions} />
+            <Filter />
             <div class='deck'>
                 {Object.keys(possibleCards).map((style, i) => {
                     const cards = possibleCards[style];
                     return <div class="cards-section section" key={style}>
                         <h3 class="style">{style}</h3>
                         <div class="cards">
-                            {cards.map((card) => this.RenderCard({ card, cardsObj }))}
+                            {filterInvalidCards(cards, filters)
+                                .map((card) => this.RenderCard({ card, cardsObj }))}
                         </div>
                     </div>
                 })}

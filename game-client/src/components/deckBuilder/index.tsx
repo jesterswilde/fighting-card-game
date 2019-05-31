@@ -8,6 +8,7 @@ import { EditingDeck } from '../../deckBuilder/interface';
 import { connect } from 'preact-redux';
 import { dispatchToPathString } from '../../path/dispatch';
 import { dispatchGetDecks, dispatchChoseDeck } from '../../deckBuilder/dispatch';
+import { DeckViewerFilter } from '../../filters/interface';
 
 interface SelectorProps {
     styleDecriptions: FightingStyleDescription[]
@@ -16,6 +17,7 @@ interface SelectorProps {
     deck: EditingDeck,
     isLoggedIn: boolean,
     canUpdate: boolean,
+    filters: DeckViewerFilter[]
 }
 
 interface ExternalProps {
@@ -33,6 +35,7 @@ const selector = (state: StoreState): SelectorProps => {
         isLoadingDecks: !Array.isArray(state.deckEditor.allDecks),
         deck: state.deckEditor.deck,
         canUpdate: state.deckEditor.canUpdate,
+        filters: state.filter.filters
     }
 }
 
@@ -46,7 +49,7 @@ class DeckEditor extends Component<Props, {}>{
         dispatchGetFightingStyles()
         dispatchGetDecks();
     }
-    render({ isLoadingDecks, decks = [], path, styleDecriptions, deck, isLoggedIn, canUpdate }) {
+    render({ filters, isLoadingDecks, decks = [], path, styleDecriptions, deck, isLoggedIn, canUpdate }) {
         const [root, ...remainingPath] = path;
         if (!isLoggedIn) {
             <MustLogIn />
@@ -55,7 +58,7 @@ class DeckEditor extends Component<Props, {}>{
             return <div>Loading ...</div>
         }
         if (root) {
-            return <DeckViewer canUpdate={canUpdate} styleDescriptions={styleDecriptions} deck={deck} />
+            return <DeckViewer filters={filters} canUpdate={canUpdate} styleDescriptions={styleDecriptions} deck={deck} />
         }
         return <DeckList decks={decks} />
     }

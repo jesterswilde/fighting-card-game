@@ -23,6 +23,8 @@ import { UserState } from '../user/interface';
 import { loadState } from './localStorage';
 import { userReducer } from '../user/reducer';
 import { deckEditorReducer } from '../deckBuilder/reducer';
+import { FilterState } from '../filters/interface';
+import { filterReducer } from '../filters/reducer';
 
 export interface StoreState {
     game: GameState
@@ -37,6 +39,7 @@ export interface StoreState {
     fightingStyle: FightingStyleState,
     user: UserState,
     deckEditor: DeckEditState,
+    filter: FilterState
 }
 
 const rootReducer = combineReducers({
@@ -52,6 +55,7 @@ const rootReducer = combineReducers({
     fightingStyle: fightingStyleReducer,
     user: userReducer,
     deckEditor: deckEditorReducer,
+    filter: filterReducer
 })
 
 const devToolsExtension: StoreEnhancer = window['devToolsExtension'] ?

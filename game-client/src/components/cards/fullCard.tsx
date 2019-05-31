@@ -41,6 +41,10 @@ export default ({ card, shouldFlip }: Props) => {
             {card.optional.map((opt, i) => <div key={i}><Optional shouldFlip={shouldFlip} effects={opt.effects} requirements={opt.requirements} /></div>)}
             {mechs.map((eff, i) => <div key={i}><Effect effect={eff} shouldFlip={shouldFlip} /></div>)}
         </div>
+        <div class='priority'>
+            {card.priority}
+        </div>
+
     </div>
 }
 

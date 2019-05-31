@@ -1,31 +1,7 @@
-import { GotDeckActioin, DeckViewerEnum, FailedToGetDeckAction, GotDeckListAction, LoadingDeckAction, UpdateDVFilterAction, AddDVFilterAction, RemoveDVFilterAction } from './actions';
+import { GotDeckActioin, DeckViewerEnum, FailedToGetDeckAction, GotDeckListAction } from './actions';
 import { store } from '../state/store';
-import { Deck, DeckViewerFilter } from './interface';
+import { Deck } from './interface';
 import { HOST_URL } from '../util';
-
-export const dispatchUpdateDVFilter = (filter: DeckViewerFilter, index: number)=>{
-    const action: UpdateDVFilterAction = {
-        type: DeckViewerEnum.UPDATED_FILTER,
-        filter,
-        index
-    }
-    store.dispatch(action); 
-}
-
-export const dispatchAddDVFilter = ()=>{
-    const action: AddDVFilterAction = {
-        type: DeckViewerEnum.ADDED_FILTER
-    }
-    store.dispatch(action); 
-}
-
-export const dispatchRemoveDVFilter = (index: number)=>{
-    const action: RemoveDVFilterAction = {
-        type: DeckViewerEnum.REMOVED_FILTER,
-        index
-    }
-    store.dispatch(action); 
-}
 
 export const dispatchGetDeckWithName = async (deckName: string) => {
     const deck = await getDeckWithName(deckName);

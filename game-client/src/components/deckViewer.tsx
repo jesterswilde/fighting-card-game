@@ -1,11 +1,12 @@
 import {h, Component} from 'preact'; 
-import { DeckDescription, Deck, DeckViewerFilter } from '../deckViewer/interface';
+import { DeckDescription, Deck } from '../deckViewer/interface';
 import { StoreState } from '../state/store';
 import {dispatchGetDeckList, dispatchGetDeckWithName} from '../deckViewer/dispatch'
 import Cards from './deckViewer/cards'
 import { dispatchToPathArray } from '../path/dispatch';
 import { connect } from 'preact-redux';
 import DeckList from './deckViewer/deckList';
+import { DeckViewerFilter } from '../filters/interface';
 
 interface SelectorProps{
     deckList: DeckDescription[],
@@ -29,7 +30,7 @@ const selector = (state: StoreState): SelectorProps=>{
         isLoadingDeckList: state.deckViewer.isLoadingDeckList,
         deckList: state.deckViewer.deckList,
         deck: state.deckViewer.deck,
-        filters: state.deckViewer.filters
+        filters: state.filter.filters
     }
 }
 

@@ -1,9 +1,9 @@
 import { h } from 'preact';
 import { Deck } from '../../deckViewer/interface';
 import HandCard from '../game/card/handCard';
-import Filter from './filter';
-import { DeckViewerFilter } from '../../deckViewer/interface'
-import { filterInvalidCards } from '../../deckViewer/filter';
+import Filter from '../filter';
+import { filterInvalidCards } from '../../filters/util';
+import { DeckViewerFilter } from '../../filters/interface';
 
 interface Props extends Deck {
     back: () => void
