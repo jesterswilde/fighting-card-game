@@ -6,5 +6,7 @@ exports.deathFromAboveStyle = {
         'Death From Above',
         'Find The Joint',
         'Grand Setup',
+        'The Boot',
+        'Face Smash'
     ]
 };

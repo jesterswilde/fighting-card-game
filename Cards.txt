@@ -6558,5 +6558,127 @@
     "name": "Grand Setup",
     "tagObjs": [],
     "tags": []
+  },
+  "The Boot": {
+    "name": "The Boot",
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": "1",
+            "axis": "Lose Poise",
+            "player": 0
+          }
+        ],
+        "requirements": [
+          {
+            "id": 44,
+            "axis": "Prone",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "amount": "4",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "amount": "2",
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": "3",
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "tagObjs": [],
+    "priority": 6,
+    "tags": []
+  },
+  "Face Smash": {
+    "name": "Face Smash",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "effects": [
+      {
+        "amount": "8",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": "1",
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": "1",
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "8",
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": "2",
+            "axis": "Lose Poise",
+            "player": 1
+          },
+          {
+            "amount": "3",
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "amount": "4",
+        "mechanic": "Forceful"
+      }
+    ],
+    "tagObjs": [],
+    "priority": 4,
+    "tags": []
   }
 }

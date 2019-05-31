@@ -6,5 +6,7 @@ export const deathFromAboveStyle: FightingStyle = {
         'Death From Above',
         'Find The Joint',
         'Grand Setup',
+        'The Boot',
+        'Face Smash'
     ]
 }
