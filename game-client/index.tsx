@@ -8,13 +8,14 @@ declare const module: any
 
 let Prov = Provider as unknown as (store: any)=> JSX.Element
 
-if (module.hot) {
-    module.hot.accept();
-}
-document.addEventListener('DOMContentLoaded', ()=>{
-    const rootNode = document.getElementById('root')
 
+const renderApp = ()=>{
+    const rootNode = document.getElementById('root')
+    
     render(<Prov store={store}>
         <App /> 
     </Prov>, rootNode, rootNode.lastChild as Element); 
-})
+}
+
+document.addEventListener('DOMContentLoaded', renderApp); 
+module.hot.accept(renderApp);

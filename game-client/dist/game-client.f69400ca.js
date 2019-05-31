@@ -14018,115 +14018,7 @@ var devToolsExtension = window['devToolsExtension'] ? window['devToolsExtension'
 var loadedState = (0, _localStorage.loadState)();
 var store = (0, _redux.createStore)(rootReducer, loadedState, devToolsExtension);
 exports.store = store;
-},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts","../fightingStyles/reducer":"src/fightingStyles/reducer.ts","./localStorage":"src/state/localStorage.ts","../user/reducer":"src/user/reducer.ts","../deckBuilder/reducer":"src/deckBuilder/reducer.ts","../filters/reducer":"src/filters/reducer.ts"}],"src/shared/card.js":[function(require,module,exports) {
-"use strict";
-
-exports.__esModule = true;
-
-var _a;
-
-var AxisEnum;
-
-(function (AxisEnum) {
-  AxisEnum["DAMAGE"] = "Damage";
-  AxisEnum["PRONE"] = "Prone";
-  AxisEnum["STANDING"] = "Standing";
-  AxisEnum["MOVING"] = "Moving";
-  AxisEnum["STILL"] = "Still";
-  AxisEnum["GRAPPLED"] = "Grappled";
-  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
-  AxisEnum["CLOSE"] = "Close";
-  AxisEnum["NOT_CLOSE"] = "Not Close";
-  AxisEnum["FAR"] = "Far";
-  AxisEnum["NOT_FAR"] = "Not Far";
-  AxisEnum["BALANCED"] = "Balanced";
-  AxisEnum["UNBALANCED"] = "Unbalanced";
-  AxisEnum["ANTICIPATING"] = "Anticipating";
-  AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
-  AxisEnum["CLOSER"] = "Closer";
-  AxisEnum["FURTHER"] = "Further";
-  AxisEnum["BLOODIED"] = "Bloodied";
-  AxisEnum["MOTION"] = "Motion";
-  AxisEnum["DISTANCE"] = "Distance";
-  AxisEnum["POISE"] = "Poise";
-  AxisEnum["LOSE_POISE"] = "Lose Poise";
-  AxisEnum["STANCE"] = "Stance";
-})(AxisEnum = exports.AxisEnum || (exports.AxisEnum = {}));
-
-var MechanicEnum;
-
-(function (MechanicEnum) {
-  MechanicEnum["TELEGRAPH"] = "Telegraph";
-  MechanicEnum["FOCUS"] = "Focus";
-  MechanicEnum["PREDICT"] = "Predict";
-  MechanicEnum["PARRY"] = "Parry";
-  MechanicEnum["BLOCK"] = "Block";
-  MechanicEnum["LOCK"] = "Lock";
-  MechanicEnum["REFLEX"] = "Reflex";
-  MechanicEnum["BUFF"] = "Buff";
-  MechanicEnum["CRIPPLE"] = "Cripple";
-  MechanicEnum["PICK_ONE"] = "Pick One";
-  MechanicEnum["FORCEFUL"] = "Forceful";
-  MechanicEnum["ENHANCE"] = "Enhance";
-})(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
-
-exports.getMechDisplay = function (mech) {
-  var defaultValue = {
-    state: true,
-    value: true
-  };
-
-  if (mech === undefined) {
-    return defaultValue;
-  }
-
-  var comp = MechanicDisplay[mech];
-  if (mech === 'Setup') console.log(comp);
-
-  if (comp) {
-    return comp;
-  }
-
-  return defaultValue;
-};
-
-var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
-  req: true,
-  eff: true
-}, _a[MechanicEnum.FOCUS] = {
-  req: true,
-  eff: true
-}, _a[MechanicEnum.PREDICT] = {
-  eff: true
-}, _a[MechanicEnum.BUFF] = {
-  valueString: true,
-  eff: true
-}, _a[MechanicEnum.ENHANCE] = {
-  valueString: true,
-  eff: true
-}, _a[MechanicEnum.BLOCK] = {
-  value: true
-}, _a[MechanicEnum.PARRY] = {
-  value: true
-}, _a[MechanicEnum.LOCK] = {
-  state: true,
-  value: true
-}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
-  valueString: true
-}, _a[MechanicEnum.PICK_ONE] = {
-  pick: true
-}, _a[MechanicEnum.FORCEFUL] = {
-  value: true,
-  eff: true
-}, _a);
-var PlayerEnum;
-
-(function (PlayerEnum) {
-  PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
-  PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
-  PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
-})(PlayerEnum = exports.PlayerEnum || (exports.PlayerEnum = {}));
-},{}],"src/images/grapple.png":[function(require,module,exports) {
+},{"redux":"node_modules/redux/es/redux.js","../game/reducer":"src/game/reducer.ts","../hand/reducer":"src/hand/reducer.ts","../display/reducer":"src/display/reducer.ts","../lobby/reducer":"src/lobby/reducer.ts","../gameDisplay/reducer":"src/gameDisplay/reducer.ts","../events/reducer":"src/events/reducer.ts","../path/reducer":"src/path/reducer.ts","../socket/reducer":"src/socket/reducer.ts","../deckViewer/reducer":"src/deckViewer/reducer.ts","../fightingStyles/reducer":"src/fightingStyles/reducer.ts","./localStorage":"src/state/localStorage.ts","../user/reducer":"src/user/reducer.ts","../deckBuilder/reducer":"src/deckBuilder/reducer.ts","../filters/reducer":"src/filters/reducer.ts"}],"src/images/grapple.png":[function(require,module,exports) {
 module.exports = "/grapple.b390bafe.png";
 },{}],"src/images/close.png":[function(require,module,exports) {
 module.exports = "/close.9d2dba97.png";
@@ -16178,7 +16070,7 @@ var Icon = function Icon(props) {
 };
 
 exports.Icon = Icon;
-},{"preact":"node_modules/preact/dist/preact.mjs","../shared/card":"src/shared/card.js","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./bloodied.png":"src/images/bloodied.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./not_anticipating.png":"src/images/not_anticipating.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../shared/card":"src/shared/card.ts","./grapple.png":"src/images/grapple.png","./close.png":"src/images/close.png","./far.png":"src/images/far.png","./moving.png":"src/images/moving.png","./not_close.png":"src/images/not_close.png","./not_grapple.png":"src/images/not_grapple.png","./not_far.png":"src/images/not_far.png","./bloodied.png":"src/images/bloodied.png","./still.png":"src/images/still.png","./standing.png":"src/images/standing.png","./prone.png":"src/images/prone.png","./balanced.png":"src/images/balanced.png","./not_anticipating.png":"src/images/not_anticipating.png","./anticipating.png":"src/images/anticipating.png","./unbalanced.png":"src/images/unbalanced.png","./upArrow.png":"src/images/upArrow.png","./downArrow.png":"src/images/downArrow.png","./bothArrow.png":"src/images/bothArrow.png","./damage.png":"src/images/damage.png","./further.png":"src/images/further.png","./closer.png":"src/images/closer.png","./poise.png":"src/images/poise.png","./losePoise.png":"src/images/losePoise.png","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js","../util":"src/util.ts"}],"src/components/game/card/Requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16320,7 +16212,7 @@ var mechWithTooltip = function mechWithTooltip(mech) {
 
 var _default = Effect;
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../shared/card":"src/shared/card.js","../../../images":"src/images/index.tsx","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/game/card/Requirement.tsx","../../../shared/card":"src/shared/card.ts","../../../images":"src/images/index.tsx","../../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/queueCard.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16832,7 +16724,7 @@ var _default = function _default(_a) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.js","./effect":"src/components/game/card/effect.tsx","./requirement":"src/components/game/card/requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/hand.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.ts","./effect":"src/components/game/card/effect.tsx","./requirement":"src/components/game/card/requirement.tsx","./optional":"src/components/game/card/optional.tsx"}],"src/components/game/hand.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17099,7 +16991,7 @@ var _default = function _default(state) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../images":"src/images/index.tsx","../../../shared/card":"src/shared/card.js"}],"src/components/game/stateMachine/statesPieces.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../images":"src/images/index.tsx","../../../shared/card":"src/shared/card.ts"}],"src/components/game/stateMachine/statesPieces.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17225,7 +17117,7 @@ var Distance = function Distance(_a) {
 };
 
 exports.Distance = Distance;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.js","../../../util":"src/util.ts","../../../game/interface":"src/game/interface.ts","../../../images":"src/images/index.tsx"}],"src/components/game/stateMachine/playerStates.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../../shared/card":"src/shared/card.ts","../../../util":"src/util.ts","../../../game/interface":"src/game/interface.ts","../../../images":"src/images/index.tsx"}],"src/components/game/stateMachine/playerStates.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17494,7 +17386,7 @@ var makeUse = function makeUse(mechanic) {
 var _default = (0, _util.cleanConnect)(selector, forceful);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.js","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.ts","./card/handCard":"src/components/game/card/handCard.tsx","../../util":"src/util.ts","../../game/dispatch":"src/game/dispatch.ts"}],"src/extras/gameOverMessages.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -18709,7 +18601,7 @@ var handlePlayerChange = function handlePlayerChange(e, filter, index) {
 var _default = (0, _util.cleanConnect)(selector, Filter);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../filters/dispatch":"src/filters/dispatch.ts","../shared/card":"src/shared/card.js","../util":"src/util.ts"}],"src/filters/util.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../filters/dispatch":"src/filters/dispatch.ts","../shared/card":"src/shared/card.ts","../util":"src/util.ts"}],"src/filters/util.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19619,7 +19511,7 @@ var mechWithTooltip = function mechWithTooltip(mech) {
 
 var _default = Effect;
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/cards/Requirement.tsx","../../shared/card":"src/shared/card.js","../../images":"src/images/index.tsx","../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/cards/optional.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/cards/Requirement.tsx","../../shared/card":"src/shared/card.ts","../../images":"src/images/index.tsx","../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/cards/optional.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19755,7 +19647,7 @@ var _default = function _default(_a) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.js","./requirement":"src/components/cards/requirement.tsx","./optional":"src/components/cards/optional.tsx","./effect":"src/components/cards/effect.tsx"}],"src/components/styleViewer/revert.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.ts","./requirement":"src/components/cards/requirement.tsx","./optional":"src/components/cards/optional.tsx","./effect":"src/components/cards/effect.tsx"}],"src/components/styleViewer/revert.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24677,16 +24569,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Prov = _preactRedux.Provider;
 
-if (module.hot) {
-  module.hot.accept();
-}
-
-document.addEventListener('DOMContentLoaded', function () {
+var renderApp = function renderApp() {
   var rootNode = document.getElementById('root');
   (0, _preact.render)((0, _preact.h)(Prov, {
     store: _store.store
   }, (0, _preact.h)(_app.default, null)), rootNode, rootNode.lastChild);
-});
+};
+
+document.addEventListener('DOMContentLoaded', renderApp);
+module.hot.accept(renderApp);
 },{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./src/state/store":"src/state/store.ts","./src/components/app":"src/components/app.tsx"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -24714,7 +24605,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50966" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62481" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
