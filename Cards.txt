@@ -6440,55 +6440,6 @@
     "tagObjs": [],
     "tags": []
   },
-  "Find The Joint": {
-    "priority": 3,
-    "requirements": [
-      {
-        "axis": "Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ],
-    "optional": [],
-    "effects": [
-      {
-        "amount": "5",
-        "axis": "Damage",
-        "player": 1
-      },
-      {
-        "axis": "Grappled",
-        "player": 2
-      },
-      {
-        "amount": 1,
-        "axis": "Lose Poise",
-        "player": 1
-      },
-      {
-        "mechanicEffects": [
-          {
-            "amount": "7",
-            "axis": "Damage",
-            "player": 1
-          },
-          {
-            "amount": "2",
-            "axis": "Lose Poise",
-            "player": 1
-          }
-        ],
-        "amount": 2,
-        "mechanic": "Forceful"
-      }
-    ],
-    "name": "Find The Joint",
-    "tagObjs": [],
-    "tags": []
-  },
   "Grand Setup": {
     "priority": 9,
     "requirements": [
@@ -6679,6 +6630,109 @@
     ],
     "tagObjs": [],
     "priority": 4,
+    "tags": []
+  },
+  "Find The Joint": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "5",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "amount": 1,
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "7",
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": "2",
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "amount": 2,
+        "mechanic": "Forceful"
+      }
+    ],
+    "name": "Find The Joint",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Ready, Steady": {
+    "priority": 5,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "choices": [
+          [
+            {
+              "amount": "2",
+              "axis": "Poise",
+              "player": 0
+            }
+          ],
+          [
+            {
+              "amount": "8",
+              "player": null,
+              "mechanic": "Block"
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "name": "Ready, Steady",
+    "tagObjs": [],
     "tags": []
   }
 }
