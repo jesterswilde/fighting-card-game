@@ -6,5 +6,8 @@ exports.toolsOfTheTradeStyle = {
         "Bolas",
         "Drop Caltrops",
         "Knife Throw",
+        "Grenade",
+        "Smoke Bomb",
+        "Firecrackers",
     ]
 };

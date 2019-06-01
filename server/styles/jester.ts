@@ -7,5 +7,9 @@ export const jesterStyle: FightingStyle = {
         "Cower",
         "Hardcore Parkour",
         "Maniacal Laughter",
+        "Set-Up",
+        "Punchline",
+        "Tumble",
+        "Squirm",
     ]
 }

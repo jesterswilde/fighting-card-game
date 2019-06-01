@@ -11,6 +11,7 @@ export const dispatchCreateDeck = async () => {
         deck
     }
     store.dispatch(action);
+    dispatchGetDecks(); 
 }
 
 const createDeck = async () => {

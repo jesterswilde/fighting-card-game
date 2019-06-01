@@ -130,61 +130,6 @@
     "tagObjs": [],
     "tags": []
   },
-  "Bolas": {
-    "priority": 8,
-    "requirements": [
-      {
-        "axis": "Far",
-        "player": 2
-      },
-      {
-        "axis": "Moving",
-        "player": 1
-      }
-    ],
-    "optional": [
-      {
-        "effects": [
-          {
-            "amount": 4,
-            "axis": "Damage",
-            "player": 1
-          },
-          {
-            "amount": 1,
-            "axis": "Prone",
-            "player": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Balanced",
-            "player": 0,
-            "id": 100
-          },
-          {
-            "axis": "Standing",
-            "player": 1,
-            "id": 101
-          }
-        ]
-      }
-    ],
-    "effects": [
-      {
-        "amount": 6,
-        "axis": "Damage",
-        "player": 1
-      },
-      {
-        "axis": "Still",
-        "player": 1
-      }
-    ],
-    "name": "Bolas",
-    "tagObjs": [],
-    "tags": []
-  },
   "Break The Wheel": {
     "priority": 9,
     "requirements": [
@@ -607,41 +552,6 @@
       }
     ],
     "name": "Disengage",
-    "tagObjs": [],
-    "tags": []
-  },
-  "Drop Caltrops": {
-    "priority": 3,
-    "requirements": [
-      {
-        "axis": "Moving",
-        "player": 0
-      }
-    ],
-    "optional": [],
-    "effects": [
-      {
-        "axis": "Still",
-        "player": 0
-      },
-      {
-        "mechanicRequirements": [
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "amount": 5,
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "mechanic": "Focus"
-      }
-    ],
-    "name": "Drop Caltrops",
     "tagObjs": [],
     "tags": []
   },
@@ -2304,36 +2214,6 @@
     "tagObjs": [],
     "tags": []
   },
-  "Throw Net": {
-    "priority": 7,
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      }
-    ],
-    "optional": [],
-    "effects": [
-      {
-        "amount": 3,
-        "axis": "Lose Poise",
-        "player": 1
-      },
-      {
-        "amount": 3,
-        "axis": "Prone",
-        "player": 1
-      },
-      {
-        "amount": 3,
-        "axis": "Moving",
-        "player": 1
-      }
-    ],
-    "name": "Throw Net",
-    "tagObjs": [],
-    "tags": []
-  },
   "Throw Person": {
     "priority": 6,
     "requirements": [
@@ -2382,62 +2262,6 @@
     "name": "Throw Person",
     "tagObjs": [],
     "tags": []
-  },
-  "Tie The Noose": {
-    "requirements": [
-      {
-        "axis": "Not Far",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      }
-    ],
-    "optional": [
-      {
-        "effects": [
-          {
-            "amount": 5,
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "requirements": [
-          {
-            "axis": "Unbalanced",
-            "player": 1,
-            "id": 973
-          }
-        ]
-      }
-    ],
-    "effects": [
-      {
-        "mechanicRequirements": [
-          {
-            "axis": "Far",
-            "player": 2
-          },
-          {
-            "axis": "Moving",
-            "player": 1
-          }
-        ],
-        "mechanicEffects": [
-          {
-            "amount": 11,
-            "axis": "Damage",
-            "player": 1
-          }
-        ],
-        "mechanic": "Telegraph"
-      }
-    ],
-    "name": "Tie The Noose",
-    "tagObjs": [],
-    "tags": [],
-    "priority": 5
   },
   "To The Ground": {
     "priority": 7,
@@ -6733,6 +6557,436 @@
     ],
     "name": "Ready, Steady",
     "tagObjs": [],
+    "tags": []
+  },
+  "Punchline": {
+    "name": "Punchline",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Anticipating",
+        "player": 0
+      },
+      {
+        "axis": "Unbalanced",
+        "player": 1
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "amount": "16",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": "3",
+        "axis": "Lose Poise",
+        "player": 2
+      },
+      {
+        "amount": "4",
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "amount": "Pysche",
+        "mechanic": "Cripple"
+      }
+    ],
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Tumble": {
+    "name": "Tumble",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "amount": "3",
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "choices": [
+          [
+            {
+              "axis": "Closer",
+              "player": 2
+            }
+          ],
+          [
+            {
+              "axis": "Further",
+              "player": 2
+            }
+          ]
+        ],
+        "mechanic": "Pick One"
+      }
+    ],
+    "tagObjs": [],
+    "priority": 4,
+    "tags": []
+  },
+  "Squirm": {
+    "name": "Squirm",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": "2",
+        "axis": "Lose Poise",
+        "player": 2
+      },
+      {
+        "axis": "Moving",
+        "player": 0,
+        "amount": 2
+      }
+    ],
+    "tagObjs": [],
+    "priority": 9,
+    "tags": []
+  },
+  "Set-Up": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Bloodied",
+        "player": 0
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "2",
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 2
+      },
+      {
+        "amount": "6",
+        "player": null,
+        "mechanic": "Block"
+      },
+      {
+        "mechanicEffects": [
+          {
+            "amount": "3",
+            "axis": "Poise",
+            "player": 0
+          },
+          {
+            "amount": "2",
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        "mechanic": "Predict"
+      }
+    ],
+    "name": "Set-Up",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Throw Net": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "3",
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Prone",
+        "player": 1
+      },
+      {
+        "amount": 3,
+        "axis": "Moving",
+        "player": 1
+      }
+    ],
+    "name": "Throw Net",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Tie The Noose": {
+    "priority": 5,
+    "requirements": [
+      {
+        "axis": "Not Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Unbalanced",
+            "player": 1,
+            "id": 973
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Far",
+            "player": 2
+          },
+          {
+            "axis": "Moving",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 11,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Telegraph"
+      }
+    ],
+    "name": "Tie The Noose",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Drop Caltrops": {
+    "priority": 3,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "axis": "Further",
+            "player": 2
+          }
+        ],
+        "requirements": [
+          {
+            "id": 48,
+            "axis": "Balanced",
+            "player": 0
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "mechanicRequirements": [
+          {
+            "axis": "Moving",
+            "player": 1
+          }
+        ],
+        "mechanicEffects": [
+          {
+            "amount": 5,
+            "axis": "Damage",
+            "player": 1
+          }
+        ],
+        "mechanic": "Focus"
+      }
+    ],
+    "name": "Drop Caltrops",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Bolas": {
+    "priority": 8,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Moving",
+        "player": 1
+      }
+    ],
+    "optional": [
+      {
+        "effects": [
+          {
+            "amount": 4,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 1,
+            "axis": "Prone",
+            "player": 1
+          }
+        ],
+        "requirements": [
+          {
+            "axis": "Balanced",
+            "player": 0,
+            "id": 100
+          },
+          {
+            "axis": "Standing",
+            "player": 1,
+            "id": 101
+          }
+        ]
+      }
+    ],
+    "effects": [
+      {
+        "amount": 6,
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "name": "Bolas",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Firecrackers": {
+    "name": "Firecrackers",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Not Anticipating",
+        "player": 1
+      },
+      {
+        "axis": "Still",
+        "player": 1
+      }
+    ],
+    "effects": [
+      {
+        "amount": "2",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "amount": "2",
+        "axis": "Lose Poise",
+        "player": 1
+      },
+      {
+        "axis": "Standing",
+        "player": 1
+      },
+      {
+        "amount": "2",
+        "axis": "Moving",
+        "player": 1
+      }
+    ],
+    "tagObjs": [],
+    "priority": 7,
     "tags": []
   }
 }

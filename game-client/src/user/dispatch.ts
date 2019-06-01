@@ -1,6 +1,7 @@
 import { UserLoginAction, UserActionEnum, UserLogoutAction } from "./actions";
 import { store } from "../state/store";
 import { HOST_URL } from "../util";
+import { dispatchToPathArray } from "../path/dispatch";
 
 export const loginWithEmail = async (email: string, password: string) => {
     const fetched = await fetch(HOST_URL + '/users/login', {

@@ -23264,6 +23264,7 @@ var dispatchCreateDeck = function dispatchCreateDeck() {
 
           _store.store.dispatch(action);
 
+          dispatchGetDecks();
           return [2
           /*return*/
           ];

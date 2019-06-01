@@ -6,6 +6,8 @@ export const toolsOfTheTradeStyle: FightingStyle = {
         "Bolas",
         "Drop Caltrops",
         "Knife Throw",
-
+        "Grenade",
+        "Smoke Bomb",
+        "Firecrackers",
     ]
 }

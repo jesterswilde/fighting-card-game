@@ -7,5 +7,9 @@ exports.jesterStyle = {
         "Cower",
         "Hardcore Parkour",
         "Maniacal Laughter",
+        "Set-Up",
+        "Punchline",
+        "Tumble",
+        "Squirm",
     ]
 };

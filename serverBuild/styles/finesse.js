@@ -9,7 +9,7 @@ exports.finesseStyle = {
         'Exploit Weakness',
         'Got Your Back',
         'Clever Reposition',
-        'Coup De Gras',
+        'Coup de Gras',
         'Targeted Strike',
         'Parry, Riposte',
     ]
