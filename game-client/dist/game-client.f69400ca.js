@@ -12701,7 +12701,9 @@ var connectSocket = function connectSocket() {
   var token = _store.store.getState().user.token; //Token is in b64. This contains a couple characters (= and +) that are not URI safe. 
 
 
-  exports.socket = socket = socketClient.connect(url + '?token=' + encodeURIComponent(token));
+  exports.socket = socket = socketClient.connect(url, {
+    query: '?token=' + encodeURIComponent(token)
+  });
   (0, _socketMessages.setupSockets)(socket);
   return socket;
 };
