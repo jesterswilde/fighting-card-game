@@ -3368,7 +3368,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":"node_modules/ms/index.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
+},{"ms":"node_modules/ms/index.js"}],"../../../.config/yarn/global/node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -3742,7 +3742,7 @@ function localstorage() {
     return window.localStorage;
   } catch (e) {}
 }
-},{"./debug":"node_modules/socket.io-client/node_modules/debug/src/debug.js","process":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js"}],"node_modules/socket.io-client/lib/url.js":[function(require,module,exports) {
+},{"./debug":"node_modules/socket.io-client/node_modules/debug/src/debug.js","process":"../../../.config/yarn/global/node_modules/process/browser.js"}],"node_modules/socket.io-client/lib/url.js":[function(require,module,exports) {
 
 /**
  * Module dependencies.
@@ -4210,7 +4210,7 @@ function localstorage() {
     return window.localStorage;
   } catch (e) {}
 }
-},{"./debug":"node_modules/socket.io-parser/node_modules/debug/src/debug.js","process":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js"}],"node_modules/component-emitter/index.js":[function(require,module,exports) {
+},{"./debug":"node_modules/socket.io-parser/node_modules/debug/src/debug.js","process":"../../../.config/yarn/global/node_modules/process/browser.js"}],"node_modules/component-emitter/index.js":[function(require,module,exports) {
 
 /**
  * Expose `Emitter`.
@@ -4382,7 +4382,7 @@ module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/base64-js/index.js":[function(require,module,exports) {
+},{}],"../../../.config/yarn/global/node_modules/base64-js/index.js":[function(require,module,exports) {
 'use strict'
 
 exports.byteLength = byteLength
@@ -4535,7 +4535,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/ieee754/index.js":[function(require,module,exports) {
+},{}],"../../../.config/yarn/global/node_modules/ieee754/index.js":[function(require,module,exports) {
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -4621,14 +4621,14 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/isarray/index.js":[function(require,module,exports) {
+},{}],"../../../.config/yarn/global/node_modules/isarray/index.js":[function(require,module,exports) {
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js":[function(require,module,exports) {
+},{}],"../../../.config/yarn/global/node_modules/buffer/index.js":[function(require,module,exports) {
 
 var global = arguments[3];
 /*!
@@ -6421,7 +6421,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/base64-js/index.js","ieee754":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/ieee754/index.js","isarray":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/isarray/index.js","buffer":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js"}],"node_modules/socket.io-parser/is-buffer.js":[function(require,module,exports) {
+},{"base64-js":"../../../.config/yarn/global/node_modules/base64-js/index.js","ieee754":"../../../.config/yarn/global/node_modules/ieee754/index.js","isarray":"../../../.config/yarn/global/node_modules/isarray/index.js","buffer":"../../../.config/yarn/global/node_modules/buffer/index.js"}],"node_modules/socket.io-parser/is-buffer.js":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
 
 module.exports = isBuf;
@@ -6444,7 +6444,7 @@ function isBuf(obj) {
           (withNativeArrayBuffer && (obj instanceof ArrayBuffer || isView(obj)));
 }
 
-},{"buffer":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js"}],"node_modules/socket.io-parser/binary.js":[function(require,module,exports) {
+},{"buffer":"../../../.config/yarn/global/node_modules/buffer/index.js"}],"node_modules/socket.io-parser/binary.js":[function(require,module,exports) {
 /*global Blob,File*/
 
 /**
@@ -7157,7 +7157,7 @@ function hasBinary (obj) {
   return false;
 }
 
-},{"isarray":"node_modules/has-binary2/node_modules/isarray/index.js","buffer":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js"}],"node_modules/arraybuffer.slice/index.js":[function(require,module,exports) {
+},{"isarray":"node_modules/has-binary2/node_modules/isarray/index.js","buffer":"../../../.config/yarn/global/node_modules/buffer/index.js"}],"node_modules/arraybuffer.slice/index.js":[function(require,module,exports) {
 /**
  * An abstraction for slicing an arraybuffer even when
  * ArrayBuffer.prototype.slice is not supported
@@ -8884,7 +8884,7 @@ function localstorage() {
     return window.localStorage;
   } catch (e) {}
 }
-},{"./debug":"node_modules/engine.io-client/node_modules/debug/src/debug.js","process":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/process/browser.js"}],"node_modules/engine.io-client/lib/transports/polling.js":[function(require,module,exports) {
+},{"./debug":"node_modules/engine.io-client/node_modules/debug/src/debug.js","process":"../../../.config/yarn/global/node_modules/process/browser.js"}],"node_modules/engine.io-client/lib/transports/polling.js":[function(require,module,exports) {
 /**
  * Module dependencies.
  */
@@ -9790,7 +9790,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
   }
 };
 
-},{"./polling":"node_modules/engine.io-client/lib/transports/polling.js","component-inherit":"node_modules/component-inherit/index.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
+},{"./polling":"node_modules/engine.io-client/lib/transports/polling.js","component-inherit":"node_modules/component-inherit/index.js"}],"../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
 
 },{}],"node_modules/engine.io-client/lib/transports/websocket.js":[function(require,module,exports) {
 var Buffer = require("buffer").Buffer;
@@ -10088,7 +10088,7 @@ WS.prototype.check = function () {
   return !!WebSocketImpl && !('__initialize' in WebSocketImpl && this.name === WS.prototype.name);
 };
 
-},{"../transport":"node_modules/engine.io-client/lib/transport.js","engine.io-parser":"node_modules/engine.io-parser/lib/browser.js","parseqs":"node_modules/parseqs/index.js","component-inherit":"node_modules/component-inherit/index.js","yeast":"node_modules/yeast/index.js","debug":"node_modules/engine.io-client/node_modules/debug/src/browser.js","ws":"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/_empty.js","buffer":"../../AppData/Roaming/npm/node_modules/parcel-bundler/node_modules/buffer/index.js"}],"node_modules/engine.io-client/lib/transports/index.js":[function(require,module,exports) {
+},{"../transport":"node_modules/engine.io-client/lib/transport.js","engine.io-parser":"node_modules/engine.io-parser/lib/browser.js","parseqs":"node_modules/parseqs/index.js","component-inherit":"node_modules/component-inherit/index.js","yeast":"node_modules/yeast/index.js","debug":"node_modules/engine.io-client/node_modules/debug/src/browser.js","ws":"../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/_empty.js","buffer":"../../../.config/yarn/global/node_modules/buffer/index.js"}],"node_modules/engine.io-client/lib/transports/index.js":[function(require,module,exports) {
 /**
  * Module dependencies
  */
@@ -19738,6 +19738,8 @@ exports.default = void 0;
 
 var _preact = require("preact");
 
+var description = (0, _preact.h)("div", null, (0, _preact.h)("p", null, "Decks are built out of these styles, three per deck."), (0, _preact.h)("p", null, "Once you've chosen the styles for a deck, you choose which cards make the cut."), (0, _preact.h)("p", null, "One card can make a huge difference!"));
+
 var _default = function _default(_a) {
   var _b = _a.styles,
       styles = _b === void 0 ? [] : _b,
@@ -19745,14 +19747,14 @@ var _default = function _default(_a) {
       chooseStyle = _a.chooseStyle;
 
   if (isLoading) {
-    return (0, _preact.h)("div", null, "Loading Deck list...");
+    return (0, _preact.h)("div", null, description, "Loading Deck list...");
   }
 
   return (0, _preact.h)("div", {
     class: 'container mt-3'
   }, (0, _preact.h)("h1", {
     class: 'mb-3 mt-3'
-  }, "Choose Deck"), styles.map(function (style, i) {
+  }, "Styles"), description, styles.map(function (style, i) {
     return (0, _preact.h)("div", {
       key: style.name,
       class: "mb-3 ml-2 deck-choice",
@@ -19944,27 +19946,17 @@ var _default = function _default() {
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/decks');
     }
-  }, "View Decks")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+  }, "Starter Decks")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
     class: 'link',
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/styles');
     }
-  }, "View Styles")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
-    class: "link",
-    onClick: function onClick() {
-      return (0, _dispatch.dispatchToPathString)('/user/login');
-    }
-  }, "Login")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
-    class: "link",
-    onClick: function onClick() {
-      return (0, _dispatch.dispatchToPathString)('/user/create');
-    }
-  }, "Create Account")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+  }, "Fighting Styles")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
     class: "link",
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/builder');
     }
-  }, "Make a Deck"))));
+  }, "Deck uilder"))));
 };
 
 exports.default = _default;
@@ -24579,7 +24571,7 @@ var renderApp = function renderApp() {
 
 document.addEventListener('DOMContentLoaded', renderApp);
 module.hot.accept(renderApp);
-},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./src/state/store":"src/state/store.ts","./src/components/app":"src/components/app.tsx"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","preact-redux":"node_modules/preact-redux/dist/preact-redux.esm.js","./src/state/store":"src/state/store.ts","./src/components/app":"src/components/app.tsx"}],"../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -24606,7 +24598,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62481" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58373" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
@@ -24748,5 +24740,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.tsx"], null)
+},{}]},{},["../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.tsx"], null)
 //# sourceMappingURL=/game-client.f69400ca.map
