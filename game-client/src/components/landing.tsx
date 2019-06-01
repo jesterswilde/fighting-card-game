@@ -15,7 +15,7 @@ export default () => {
                 <a class='link' onClick={() => to('/styles')}>Fighting Styles</a>
             </div>
             <div>
-                <a class="link" onClick={() => to('/builder')}>Deck uilder</a>
+                <a class="link" onClick={() => to('/builder')}>Deck Builder</a>
             </div>
         </div>
     </div>
