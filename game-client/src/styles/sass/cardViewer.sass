@@ -1,33 +1,23 @@
+$padding: 16px
+$margin: $padding
+
+@mixin card-responsive-padding-right($number)
+    padding-right: $padding
+    &:nth-child(#{$number})
+      padding-right: 0
+
+@mixin style-responsive-margin-right($number)
+    margin-right: $margin
+    &:nth-child(#{$number})
+        margin-right: 0
+
 .deck-name
-    margin: 15px
+    margin: $margin
     font-size: 2rem
     display: flex
     flex-direction: row
-    justify-content: center
     label
-        margin-right: 10px
-
-.cards-section
-    background-color: $sectionBg
-    padding:20px
-    overflow: hidden
-    min-height: $fullCardHeight
-    display: flex
-    flex-direction: column
-    align-content: center
-    .greyed>div
-        opacity: 0.6
-    .style
-        align-self: flex-start
-    .cards
-        flex-wrap: wrap
-        display: flex
-        flex-direction: row
-        justify-content: space-around
-        >div
-            padding-bottom: 10px
-            cursor: pointer
-            margin: 2px
+        margin-right: $margin
 
 .btn.back-btn
     align-self: center
@@ -44,6 +34,8 @@
     width: 20vw
     height: 5vw
 
+.style-container .section
+    padding-bottom: 0
 
 .style-list
     display: flex
@@ -63,8 +55,8 @@
         cursor: pointer
         border-radius: 10px
         padding: 10px
-        width: 300px
-        margin: 10px
+        margin-bottom: $margin
+        width: $full-card-width
     .style-title
         justify-content: space-between
         padding: 10px
@@ -81,8 +73,7 @@
 .unused-styles
     display: flex
     flex-direction: row
-    margin-top: 10px
-    margin-bottom: 5px
+    margin-bottom: $margin
     button
         margin-left: 10px
         background-color: #dac5ad
@@ -108,5 +99,53 @@
     background-color: $sectionBg
     -moz-box-shadow: 1px 2px 5px -1px rgba(0,0,0,0.75)
     box-shadow: 1px 2px 5px -1px rgba(0,0,0,0.75)
-    padding: 10px
-    margin: 20px
+    padding: 16px
+    margin: 20px auto
+
+.cards-section
+    background-color: $sectionBg
+    padding-bottom: 0
+    overflow: hidden
+    min-height: $fullCardHeight
+    display: flex
+    flex-direction: column
+    align-content: center
+    .greyed>div
+        opacity: 0.6
+    .style
+        align-self: flex-start
+    .cards
+        flex-wrap: wrap
+        display: flex
+        flex-direction: row
+        justify-content: flex-start
+        > div
+            padding-bottom: $padding
+            padding-right: $padding
+            cursor: pointer
+
+@media (min-width: 1200px)
+    .section
+        width: $full-card-width * 3 + $padding * 4
+    .cards-section .cards > div
+        @include card-responsive-padding-right(3n)
+    .style-list .style-item
+        @include style-responsive-margin-right(3n)
+
+@media (max-width: 1200px)
+    .section
+        width: $full-card-width * 2 + $padding * 3
+    .cards-section .cards > div
+        @include card-responsive-padding-right(2n)
+    .style-list .style-item
+        @include style-responsive-margin-right(2n)
+
+@media (max-width: 800px)
+    .deck-name
+        flex-direction: column
+    .section
+        width: $full-card-width + $padding * 2
+    .cards-section .cards > div
+        padding-right: 0
+    .style-list .style-item
+        margin-right: 0
