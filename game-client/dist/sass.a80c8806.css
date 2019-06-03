@@ -9703,7 +9703,7 @@ h3 {
   background-color: #909090;
 }
 .container-distance .inactive div {
-  background-color: #828282;
+  background-color: transparent;
 }
 
 .state-piece-container {
@@ -9755,7 +9755,7 @@ h3 {
   background-color: #909090;
 }
 .state-piece-container .state-piece.inactive div {
-  background-color: #828282;
+  background-color: transparent;
 }
 
 .event-modal .event-background {
@@ -9969,41 +9969,13 @@ h3 {
 }
 
 .deck-name {
-  margin: 15px;
+  margin: 16px;
   font-size: 2rem;
   display: flex;
   flex-direction: row;
-  justify-content: center;
 }
 .deck-name label {
-  margin-right: 10px;
-}
-
-.cards-section {
-  background-color: #897361;
-  padding: 20px;
-  overflow: hidden;
-  min-height: 30rem;
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-}
-.cards-section .greyed > div {
-  opacity: 0.6;
-}
-.cards-section .style {
-  align-self: flex-start;
-}
-.cards-section .cards {
-  flex-wrap: wrap;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-.cards-section .cards > div {
-  padding-bottom: 10px;
-  cursor: pointer;
-  margin: 2px;
+  margin-right: 16px;
 }
 
 .btn.back-btn {
@@ -10022,6 +9994,10 @@ h3 {
   cursor: pointer;
   width: 20vw;
   height: 5vw;
+}
+
+.style-container .section {
+  padding-bottom: 0;
 }
 
 .style-list {
@@ -10045,8 +10021,8 @@ h3 {
   cursor: pointer;
   border-radius: 10px;
   padding: 10px;
-  width: 300px;
-  margin: 10px;
+  margin-bottom: 16px;
+  width: 350px;
 }
 .style-list .style-title {
   justify-content: space-between;
@@ -10067,8 +10043,7 @@ h3 {
 .unused-styles {
   display: flex;
   flex-direction: row;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 16px;
 }
 .unused-styles button {
   margin-left: 10px;
@@ -10102,10 +10077,92 @@ h3 {
   background-color: #897361;
   -moz-box-shadow: 1px 2px 5px -1px rgba(0, 0, 0, 0.75);
   box-shadow: 1px 2px 5px -1px rgba(0, 0, 0, 0.75);
-  padding: 10px;
-  margin: 20px;
+  padding: 16px;
+  margin: 20px auto;
 }
 
+.cards-section {
+  background-color: #897361;
+  padding-bottom: 0;
+  overflow: hidden;
+  min-height: 30rem;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+.cards-section .greyed > div {
+  opacity: 0.6;
+}
+.cards-section .style {
+  align-self: flex-start;
+}
+.cards-section .cards {
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.cards-section .cards > div {
+  padding-bottom: 16px;
+  padding-right: 16px;
+  cursor: pointer;
+}
+
+@media (min-width: 1200px) {
+  .section {
+    width: 1114px;
+  }
+
+  .cards-section .cards > div {
+    padding-right: 16px;
+  }
+  .cards-section .cards > div:nth-child(3n) {
+    padding-right: 0;
+  }
+
+  .style-list .style-item {
+    margin-right: 16px;
+  }
+  .style-list .style-item:nth-child(3n) {
+    margin-right: 0;
+  }
+}
+@media (max-width: 1200px) {
+  .section {
+    width: 748px;
+  }
+
+  .cards-section .cards > div {
+    padding-right: 16px;
+  }
+  .cards-section .cards > div:nth-child(2n) {
+    padding-right: 0;
+  }
+
+  .style-list .style-item {
+    margin-right: 16px;
+  }
+  .style-list .style-item:nth-child(2n) {
+    margin-right: 0;
+  }
+}
+@media (max-width: 800px) {
+  .deck-name {
+    flex-direction: column;
+  }
+
+  .section {
+    width: 382px;
+  }
+
+  .cards-section .cards > div {
+    padding-right: 0;
+  }
+
+  .style-list .style-item {
+    margin-right: 0;
+  }
+}
 .navbar {
   background-color: #2e2e2e;
   display: flex;
