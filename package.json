@@ -34,7 +34,6 @@
   },
   "scripts": {
     "test": "jest",
-    "start": "node ./serverBuild/index.js",
-    "build": "parcel build ./game-client/index.html"
+    "start": "node ./serverBuild/index.js"
   }
 }

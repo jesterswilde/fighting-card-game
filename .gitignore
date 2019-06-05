@@ -81,5 +81,3 @@ typings/
 .dynamodb/
 
 backup.txt
-
-game-client/dist
