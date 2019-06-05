@@ -35,17 +35,6 @@ class StyleList extends Component<Props, State>{
     toggleShowStyle() {
         this.setState({ showingStyles: !this.state.showingStyles })
     }
-    @bind
-    expandStyle(styleName: string, value?: boolean) {
-        let expanded: boolean;
-        if (value === undefined) {
-            expanded = !this.state.expandedStyles[styleName]
-        } else {
-            expanded = value;
-            this.state.expandedStyles[styleName] = expanded;
-        }
-        this.setState({ expandedStyles: { [styleName]: expanded } })
-    }
     checkStyle(e: Event, style: string) {
         const el = e.target as HTMLInputElement;
         const checked = el.checked
@@ -82,8 +71,6 @@ class StyleList extends Component<Props, State>{
     RenderStyle({ isChecked, isDisabled, style }: { isExpanded: boolean, isChecked: boolean, isDisabled?: boolean, style: FightingStyleDescription }) {
         return <div
             class={`style-item${isDisabled ? ' disabled' : ''}${isChecked ? ' active' : ''}`} key={style.name}
-            onMouseEnter={() => this.expandStyle(style.name, true)}
-            onMouseLeave={() => this.expandStyle(style.name, false)}
             onClick={() => {
                 if (!isDisabled) {
                     dispatchDEToggleStyle(style.name, !isChecked);
@@ -92,7 +79,10 @@ class StyleList extends Component<Props, State>{
         >
             <div class="style-title">
                 <div> {style.name} </div>
-                <button class="view-button btn" onClick={() => dispatchViewStyleFromDeck(style.name)}>
+                <button class="view-button btn" onClick={(e) => {
+                    e.stopPropagation();
+                    dispatchViewStyleFromDeck(style.name);
+                }}>
                     View
                  </button>
             </div>

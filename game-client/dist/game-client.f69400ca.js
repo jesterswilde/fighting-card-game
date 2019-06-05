@@ -23988,23 +23988,6 @@ function (_super) {
     });
   };
 
-  StyleList.prototype.expandStyle = function (styleName, value) {
-    var _a;
-
-    var expanded;
-
-    if (value === undefined) {
-      expanded = !this.state.expandedStyles[styleName];
-    } else {
-      expanded = value;
-      this.state.expandedStyles[styleName] = expanded;
-    }
-
-    this.setState({
-      expandedStyles: (_a = {}, _a[styleName] = expanded, _a)
-    });
-  };
-
   StyleList.prototype.checkStyle = function (e, style) {
     var el = e.target;
     var checked = el.checked;
@@ -24055,20 +24038,12 @@ function (_super) {
   };
 
   StyleList.prototype.RenderStyle = function (_a) {
-    var _this = this;
-
     var isChecked = _a.isChecked,
         isDisabled = _a.isDisabled,
         style = _a.style;
     return (0, _preact.h)("div", {
       class: "style-item" + (isDisabled ? ' disabled' : '') + (isChecked ? ' active' : ''),
       key: style.name,
-      onMouseEnter: function onMouseEnter() {
-        return _this.expandStyle(style.name, true);
-      },
-      onMouseLeave: function onMouseLeave() {
-        return _this.expandStyle(style.name, false);
-      },
       onClick: function onClick() {
         if (!isDisabled) {
           (0, _dispatchEditDeck.dispatchDEToggleStyle)(style.name, !isChecked);
@@ -24078,8 +24053,9 @@ function (_super) {
       class: "style-title"
     }, (0, _preact.h)("div", null, " ", style.name, " "), (0, _preact.h)("button", {
       class: "view-button btn",
-      onClick: function onClick() {
-        return (0, _dispatch.dispatchViewStyleFromDeck)(style.name);
+      onClick: function onClick(e) {
+        e.stopPropagation();
+        (0, _dispatch.dispatchViewStyleFromDeck)(style.name);
       }
     }, "View")), (0, _preact.h)("div", {
       class: "style-description"
@@ -24087,8 +24063,6 @@ function (_super) {
   };
 
   __decorate([_decko.bind, __metadata("design:type", Function), __metadata("design:paramtypes", []), __metadata("design:returntype", void 0)], StyleList.prototype, "toggleShowStyle", null);
-
-  __decorate([_decko.bind, __metadata("design:type", Function), __metadata("design:paramtypes", [String, Boolean]), __metadata("design:returntype", void 0)], StyleList.prototype, "expandStyle", null);
 
   return StyleList;
 }(_preact.Component);
