@@ -19742,6 +19742,8 @@ exports.default = void 0;
 
 var _preact = require("preact");
 
+var description = (0, _preact.h)("div", null, (0, _preact.h)("p", null, "Decks are built out of these styles, three per deck."), (0, _preact.h)("p", null, "Once you've chosen the styles for a deck, you choose which cards make the cut."), (0, _preact.h)("p", null, "One card can make a huge difference!"));
+
 var _default = function _default(_a) {
   var _b = _a.styles,
       styles = _b === void 0 ? [] : _b,
@@ -19749,14 +19751,14 @@ var _default = function _default(_a) {
       chooseStyle = _a.chooseStyle;
 
   if (isLoading) {
-    return (0, _preact.h)("div", null, "Loading Deck list...");
+    return (0, _preact.h)("div", null, description, "Loading Deck list...");
   }
 
   return (0, _preact.h)("div", {
     class: 'container mt-3'
   }, (0, _preact.h)("h1", {
     class: 'mb-3 mt-3'
-  }, "Choose Deck"), styles.map(function (style, i) {
+  }, "Styles"), description, styles.map(function (style, i) {
     return (0, _preact.h)("div", {
       key: style.name,
       class: "mb-3 ml-2 deck-choice",
@@ -19948,27 +19950,17 @@ var _default = function _default() {
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/decks');
     }
-  }, "View Decks")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+  }, "Starter Decks")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
     class: 'link',
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/styles');
     }
-  }, "View Styles")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
-    class: "link",
-    onClick: function onClick() {
-      return (0, _dispatch.dispatchToPathString)('/user/login');
-    }
-  }, "Login")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
-    class: "link",
-    onClick: function onClick() {
-      return (0, _dispatch.dispatchToPathString)('/user/create');
-    }
-  }, "Create Account")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
+  }, "Fighting Styles")), (0, _preact.h)("div", null, (0, _preact.h)("a", {
     class: "link",
     onClick: function onClick() {
       return (0, _dispatch.dispatchToPathString)('/builder');
     }
-  }, "Make a Deck"))));
+  }, "Deck Builder"))));
 };
 
 exports.default = _default;
@@ -24610,7 +24602,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62481" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62067" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
