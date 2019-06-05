@@ -4,6 +4,9 @@
   "main": "./serverBuild/index.js",
   "author": "Corey Wolff",
   "license": "MIT",
+  "engines": {
+    "node": "10.3.0"
+  },
   "dependencies": {
     "@types/body-parser": "^1.17.0",
     "@types/cors": "^2.8.4",
