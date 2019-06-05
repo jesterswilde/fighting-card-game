@@ -12703,7 +12703,7 @@ var connectSocket = function connectSocket() {
 
   exports.socket = socket = socketClient.connect(url, {
     query: {
-      token: encodeURIComponent(token)
+      token: token
     }
   });
   (0, _socketMessages.setupSockets)(socket);

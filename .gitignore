@@ -81,3 +81,5 @@ typings/
 .dynamodb/
 
 backup.txt
+
+/dist
