@@ -1,5 +1,3 @@
-When making a deck, cards from removed styles still get sent. 
-
 Custom decks not showing up sometimes in deck choice. 
 
 Update landing page

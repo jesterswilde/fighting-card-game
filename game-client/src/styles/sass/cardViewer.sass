@@ -149,3 +149,15 @@ $margin: $padding
         padding-right: 0
     .style-list .style-item
         margin-right: 0
+
+.deck-builder-list
+    .deck-item
+        display: flex
+        flex-direction: row
+    .delete
+        background-color: $danger
+        font-weight: bold
+    .delete:hover
+        background-color: lighten($danger, 10)
+.deck-item
+    margin-bottom: 15px

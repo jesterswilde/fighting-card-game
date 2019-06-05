@@ -51,6 +51,7 @@ const updateDeck = async (id: number, deck: UpdateDeckObj) => {
     return false;
 }
 
+
 export const dispatchGetDecks = async () => {
     const decks = await fetchDecks();
     const action: GotDecksAction = {
@@ -100,6 +101,7 @@ export const dispatchDeleteDeck = async (deckID: number) => {
         }
         store.dispatch(action);
     }
+    dispatchGetDecks();
 }
 
 const deleteDeck = async (deckID: number) => {
