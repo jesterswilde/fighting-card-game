@@ -12702,7 +12702,9 @@ var connectSocket = function connectSocket() {
 
 
   exports.socket = socket = socketClient.connect(url, {
-    query: '?token=' + encodeURIComponent(token)
+    query: {
+      token: encodeURIComponent(token)
+    }
   });
   (0, _socketMessages.setupSockets)(socket);
   return socket;

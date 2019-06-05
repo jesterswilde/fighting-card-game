@@ -66,6 +66,7 @@ const tokenToUsername = (token: string) => {
 }
 
 export const getVerifiedUsername = async(token: string)=>{
+    console.log("Token!: ", token); 
     if(!token){
         return null; 
     }

@@ -14,7 +14,7 @@ export const connectSocket = () => {
     const token = store.getState().user.token;
     //Token is in b64. This contains a couple characters (= and +) that are not URI safe. 
     socket = socketClient.connect(url, {
-        query: '?token=' + encodeURIComponent(token)
+        query: { token: encodeURIComponent(token) }
     });
     setupSockets(socket);
     return socket;

@@ -67,6 +67,7 @@ const tokenToUsername = (token) => {
     return username;
 };
 exports.getVerifiedUsername = (token) => __awaiter(this, void 0, void 0, function* () {
+    console.log("Token!: ", token);
     if (!token) {
         return null;
     }

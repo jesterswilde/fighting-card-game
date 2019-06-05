@@ -1,12 +1,24 @@
+When making a deck, cards from removed styles still get sent. 
+
+Custom decks not showing up sometimes in deck choice. 
+
+Clicking on view, for a style in deck builder also counts as clicking on the style. 
+
+Move whether all styles are expanded to redux state
+
+If the deck does not already have 3 styles, expand styles by default
+
+Update landing page
+
+
+
+//NOTES
+
 When you reflex, you should be told what card you reflexed into if there are any choices to be made.
 
 Game board should change as people get more and more damaged. 
 
 (evaluate next time you play) Glowing effect could be punched up. 
-
-Lobby improvement - reconnect
-
-Telegraph bug
 
 Clear up cards (anatomy of the card isn't clear immediately) 
 

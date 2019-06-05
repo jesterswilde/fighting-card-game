@@ -5449,52 +5449,6 @@
       }
     ]
   },
-  "Gut 'Em": {
-    "name": "Gut 'Em",
-    "optional": [],
-    "requirements": [
-      {
-        "axis": "Not Grappled",
-        "player": 2
-      },
-      {
-        "axis": "Balanced",
-        "player": 0
-      },
-      {
-        "axis": "Standing",
-        "player": 0
-      },
-      {
-        "axis": "Prone",
-        "player": 1
-      }
-    ],
-    "effects": [
-      {
-        "amount": "16",
-        "axis": "Damage",
-        "player": 1
-      },
-      {
-        "axis": "Closer",
-        "player": 2
-      },
-      {
-        "axis": "Prone",
-        "player": 0,
-        "amount": 2
-      },
-      {
-        "axis": "Moving",
-        "player": 0,
-        "amount": 2
-      }
-    ],
-    "tagObjs": [],
-    "tags": [],
-    "priority": 5
-  },
   "Vicious Mockery": {
     "priority": 5,
     "requirements": [
@@ -6987,6 +6941,52 @@
     ],
     "tagObjs": [],
     "priority": 7,
+    "tags": []
+  },
+  "Gut 'Em": {
+    "priority": 5,
+    "requirements": [
+      {
+        "axis": "Not Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      },
+      {
+        "axis": "Prone",
+        "player": 1
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "amount": "13",
+        "axis": "Damage",
+        "player": 1
+      },
+      {
+        "axis": "Closer",
+        "player": 2
+      },
+      {
+        "amount": 2,
+        "axis": "Prone",
+        "player": 0
+      },
+      {
+        "amount": 2,
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "name": "Gut 'Em",
+    "tagObjs": [],
     "tags": []
   }
 }
