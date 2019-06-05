@@ -17,7 +17,8 @@ interface SelectorProps {
     deck: EditingDeck,
     isLoggedIn: boolean,
     canUpdate: boolean,
-    filters: DeckViewerFilter[]
+    filters: DeckViewerFilter[],
+    showingUnusedStyles: boolean,
 }
 
 interface ExternalProps {
@@ -35,7 +36,8 @@ const selector = (state: StoreState): SelectorProps => {
         isLoadingDecks: !Array.isArray(state.deckEditor.allDecks),
         deck: state.deckEditor.deck,
         canUpdate: state.deckEditor.canUpdate,
-        filters: state.filter.filters
+        filters: state.filter.filters,
+        showingUnusedStyles: state.deckEditor.showingUnusedStyles
     }
 }
 
@@ -49,7 +51,7 @@ class DeckEditor extends Component<Props, {}>{
         dispatchGetFightingStyles()
         dispatchGetDecks();
     }
-    render({ filters, isLoadingDecks, decks = [], path, styleDecriptions, deck, isLoggedIn, canUpdate }) {
+    render({ filters, isLoadingDecks, showingUnusedStyles, decks = [], path, styleDecriptions, deck, isLoggedIn, canUpdate }) {
         const [root, ...remainingPath] = path;
         if (!isLoggedIn) {
             <MustLogIn />
@@ -58,7 +60,7 @@ class DeckEditor extends Component<Props, {}>{
             return <div>Loading ...</div>
         }
         if (root) {
-            return <DeckViewer filters={filters} canUpdate={canUpdate} styleDescriptions={styleDecriptions} deck={deck} />
+            return <DeckViewer showingUnusedStyles={showingUnusedStyles} filters={filters} canUpdate={canUpdate} styleDescriptions={styleDecriptions} deck={deck} />
         }
         return <DeckList decks={decks} />
     }

@@ -1,5 +1,5 @@
 import { HOST_URL, makeAuthHeader } from "../util";
-import { GotDecksAction, DeckEditorEnum, ChoseDeckAction, CreateDeckAction, UpdateDeckAction, DeleteDeckAction, RevertDeckAction, ChangeDeckNameAction } from "./actions";
+import { GotDecksAction, DeckEditorEnum, ChoseDeckAction, CreateDeckAction, UpdateDeckAction, DeleteDeckAction, RevertDeckAction, ChangeDeckNameAction, ShowingUnusedStylesAction } from "./actions";
 import { store } from "../state/store";
 import { EditingDeck, UpdateDeckObj } from "./interface";
 import { getUpdateDeckObj } from "./util";
@@ -126,4 +126,12 @@ export const dispatchChangeDeckName = (name: string)=>{
         name
     };
     store.dispatch(action); 
+}
+
+export const dispatchShowingUnusedStyles = (showing: boolean)=>{
+    const action: ShowingUnusedStylesAction = {
+        type: DeckEditorEnum.SHOWING_UNUSED_STYLES,
+        showing
+    }
+    store.dispatch(action);
 }

@@ -1,74 +1,62 @@
 import { h, Component } from 'preact';
 import { FightingStyleDescription } from '../../fightingStyles/interface';
-import { bind } from 'decko'
 import { EditingDeck } from '../../deckBuilder/interface';
 import { dispatchDEToggleStyle } from '../../deckBuilder/dispatchEditDeck';
 import { dispatchViewStyleFromDeck } from '../../fightingStyles/dispatch';
+import { dispatchShowingUnusedStyles } from '../../deckBuilder/dispatch';
 
 interface Props {
     unselectedStyles: FightingStyleDescription[]
     selectedStyles: FightingStyleDescription[]
     chosenStylesObj: { [style: string]: boolean }
-    stylesUsed: number
+    stylesUsed: number,
+    showingUnusedStyles: boolean,
 }
 
 interface ExternalProps {
     deck: EditingDeck,
-    allStyles: FightingStyleDescription[]
-}
-
-interface State {
-    expandedStyles: { [name: string]: boolean }
-    showingStyles: boolean
+    allStyles: FightingStyleDescription[],
+    showingUnusedStyles: boolean
 }
 
 
-class StyleList extends Component<Props, State>{
+
+class StyleList extends Component<Props>{
     constructor(props) {
         super(props);
-        this.state = {
-            showingStyles: false,
-            expandedStyles: {}
-        }
-    }
-    @bind
-    toggleShowStyle() {
-        this.setState({ showingStyles: !this.state.showingStyles })
     }
     checkStyle(e: Event, style: string) {
         const el = e.target as HTMLInputElement;
         const checked = el.checked
         dispatchDEToggleStyle(style, checked);
     }
-    render({ unselectedStyles, selectedStyles, stylesUsed }: Props, { showingStyles, expandedStyles }: State) {
-        const showing = showingStyles ? "hide" : "show";
+    render({ showingUnusedStyles, unselectedStyles, selectedStyles, stylesUsed }: Props) {
+        const showing = showingUnusedStyles ? "hide" : "show";
         return <div class="style-container">
             <div class="section">
                 <h2> Chosen Styles:  {selectedStyles.length}/3</h2>
                 <div class="style-list">
                     {selectedStyles.map((style) => {
-                        const isExpanded = expandedStyles[style.name];
-                        return this.RenderStyle({ isExpanded, isChecked: true, style })
+                        return this.RenderStyle({isChecked: true, style })
                     })}
                 </div>
             </div>
             <div class="section">
                 <div class="unused-styles">
                     <h3>Unused Styles:</h3>
-                    <button class="btn" onClick={this.toggleShowStyle}>{showing}</button>
+                    <button class="btn" onClick={() => dispatchShowingUnusedStyles(!showingUnusedStyles)}>{showing}</button>
                 </div>
                 <div class="style-list">
-                    {showingStyles &&
+                    {showingUnusedStyles &&
                         unselectedStyles.map((style) => {
                             const isDisabled = stylesUsed >= 3;
-                            const isExpanded = expandedStyles[style.name];
-                            return this.RenderStyle({ isExpanded, isChecked: false, isDisabled, style })
+                            return this.RenderStyle({ isChecked: false, isDisabled, style })
                         })}
                 </div>
             </div>
         </div>
     }
-    RenderStyle({ isChecked, isDisabled, style }: { isExpanded: boolean, isChecked: boolean, isDisabled?: boolean, style: FightingStyleDescription }) {
+    RenderStyle({ isChecked, isDisabled, style }: {isChecked: boolean, isDisabled?: boolean, style: FightingStyleDescription }) {
         return <div
             class={`style-item${isDisabled ? ' disabled' : ''}${isChecked ? ' active' : ''}`} key={style.name}
             onClick={() => {
@@ -94,7 +82,7 @@ class StyleList extends Component<Props, State>{
 
 
 
-export default ({ deck, allStyles = [] }: ExternalProps) => {
+export default ({ deck, allStyles = [], showingUnusedStyles }: ExternalProps) => {
     const chosenStyles = deck.styles.reduce((obj, name) => {
         obj[name] = true;
         return obj;
@@ -112,7 +100,8 @@ export default ({ deck, allStyles = [] }: ExternalProps) => {
         unselectedStyles,
         selectedStyles,
         chosenStylesObj: chosenStyles,
-        stylesUsed: deck.styles.length
+        stylesUsed: deck.styles.length,
+        showingUnusedStyles
     }
     //@ts-ignore
     return <StyleList {...props} />

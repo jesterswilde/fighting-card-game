@@ -27,6 +27,7 @@ export interface DeckEditState {
     allStyleDesc: FightingStyleDescription[]
     savedStyles: FullStyleObj
     canUpdate: boolean
+    showingUnusedStyles: boolean
 }
 
 export interface FullStyleObj {

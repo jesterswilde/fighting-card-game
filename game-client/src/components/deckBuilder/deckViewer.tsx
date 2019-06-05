@@ -46,7 +46,8 @@ interface ExternalProps {
     deck: EditingDeck
     styleDescriptions: FightingStyleDescription[]
     canUpdate: boolean,
-    filters: DeckViewerFilter[]
+    filters: DeckViewerFilter[],
+    showingUnusedStyles: boolean
 }
 
 interface Props {
@@ -55,6 +56,7 @@ interface Props {
     styleDescriptions: FightingStyleDescription[]
     canUpdate: boolean
     filters: DeckViewerFilter[]
+    showingUnusedStyles: boolean
 }
 
 interface State {
@@ -70,7 +72,7 @@ class DeckViewer extends Component<Props, State>{
         const el = e.target as HTMLInputElement;
         dispatchChangeDeckName(el.value);
     }
-    render({ deck, cardsObj, styleDescriptions, canUpdate, filters }: Props, { hoverCard }: State) {
+    render({ showingUnusedStyles, deck, cardsObj, styleDescriptions, canUpdate, filters }: Props, { hoverCard }: State) {
         if (!deck) {
             return <div>
                 Loading...
@@ -82,7 +84,7 @@ class DeckViewer extends Component<Props, State>{
                 <label for="deck-name">Deck Name</label>
                 <input id="deck-name" value={name} onChange={this.handleNameChange} />
             </div>
-            <StyleList deck={deck} allStyles={styleDescriptions} />
+            <StyleList showingUnusedStyles={showingUnusedStyles} deck={deck} allStyles={styleDescriptions} />
             <Filter />
             <div class='deck'>
                 {Object.keys(possibleCards).map((style, i) => {

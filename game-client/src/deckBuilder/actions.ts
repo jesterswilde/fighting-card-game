@@ -17,6 +17,12 @@ export enum DeckEditorEnum {
     REVERT_DECK = 'deckEditRevertDeck',
     EXTERNALLY_VIEWING = 'deckEditIsExternallyViewing',
     GOT_POSSIBLE_CARDS = 'gotPossibleCards',
+    SHOWING_UNUSED_STYLES = 'showingUnusedStyles',
+}
+
+export interface ShowingUnusedStylesAction{
+    type: DeckEditorEnum.SHOWING_UNUSED_STYLES
+    showing: boolean
 }
 
 export interface ChangeDeckNameAction {
@@ -84,5 +90,6 @@ export interface RemoveCardAction {
 
 export type DeckEditorActions = AddCardAction | RemoveCardAction | AddStyleAction |
     RemoveStyleAction | ChoseDeckAction | GotDecksAction | CreateDeckAction | UpdateDeckAction |
-    DeleteDeckAction | RevertDeckAction | ExternallyViewingAction | GotPossibleCardsAction | ChangeDeckNameAction
+    DeleteDeckAction | RevertDeckAction | ExternallyViewingAction | GotPossibleCardsAction | ChangeDeckNameAction |
+    ShowingUnusedStylesAction
 

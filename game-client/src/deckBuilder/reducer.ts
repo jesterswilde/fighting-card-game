@@ -7,7 +7,8 @@ export const deckEditorReducer = (state: DeckEditState = makeDefaultState(), act
         case DeckEditorEnum.CHANGE_NAME:
             return { ...state, deck: { ...state.deck, name: action.name }, canUpdate: true }
         case DeckEditorEnum.CHOSE_DECK:
-            return { ...state, deck: action.deck, uneditedDeck: action.deck, canUpdate: false }
+            var showing = action.deck.styles.length < 3;
+            return { ...state, deck: action.deck, uneditedDeck: action.deck, canUpdate: false, showingUnusedStyles: showing }
         case DeckEditorEnum.GOT_DECKS:
             return { ...state, allDecks: action.decks }
         case DeckEditorEnum.ADD_CARD:
@@ -31,6 +32,8 @@ export const deckEditorReducer = (state: DeckEditState = makeDefaultState(), act
             return { ...state, allDecks }
         case DeckEditorEnum.GOT_POSSIBLE_CARDS:
             return { ...state, deck: { ...state.deck, possibleCards: action.possibleCards } }
+        case DeckEditorEnum.SHOWING_UNUSED_STYLES:
+            return { ...state, showingUnusedStyles: action.showing }
         default:
             return state;
     }
@@ -44,5 +47,6 @@ const makeDefaultState = (): DeckEditState => {
         savedStyles: {},
         allStyleDesc: [],
         uneditedDeck: null,
+        showingUnusedStyles: false,
     }
 }
