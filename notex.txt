@@ -2,12 +2,6 @@ When making a deck, cards from removed styles still get sent.
 
 Custom decks not showing up sometimes in deck choice. 
 
-Clicking on view, for a style in deck builder also counts as clicking on the style. 
-
-Move whether all styles are expanded to redux state
-
-If the deck does not already have 3 styles, expand styles by default
-
 Update landing page
 
 
