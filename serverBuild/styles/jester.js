@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.jesterStyle = {
     name: 'Jester',
+    description: "Ahhahahahah hahahahaah heee he hee!",
     cards: [
         "Vicious Mockery",
         "Cower",

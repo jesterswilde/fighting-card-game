@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cheapShotStyle = {
     name: "Cheap Shot",
-    description: "Full of dirty tricks and debilitating attacks.",
+    description: "Full of dirty tricks and debilitating attacks. Focuses on standing over a hobbled opponent",
     strengths: "Stadning over a prone and unbalanced opponent.",
     cards: [
         "Throat Jab",

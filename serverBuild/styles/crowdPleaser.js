@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.crowdPleaserStyle = {
     name: 'Crowd Pleaser',
-    description: 'Focuses on moving, bloodied, and reflex',
+    description: 'A flair for the dramatic. Focuses on moving, bloodied, and reflex',
     cards: [
         'Spinning Slash',
         'Tendon Slash',

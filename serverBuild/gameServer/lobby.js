@@ -38,7 +38,6 @@ const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* ()
 });
 const makePlayerObject = (socket) => __awaiter(this, void 0, void 0, function* () {
     const token = socket.handshake.query.token;
-    console.log("Handshake!: ", socket.handshake.query);
     const username = yield auth_1.getVerifiedUsername(token);
     const player = { socket, username };
     return player;

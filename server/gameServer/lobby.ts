@@ -40,7 +40,6 @@ const configureSocket = async (socket: Socket) => {
 
 const makePlayerObject = async (socket: Socket) => {
     const token = socket.handshake.query.token;
-    console.log("Handshake!: ", socket.handshake.query); 
     const username = await getVerifiedUsername(token);
     const player: PlayerObject = { socket, username };
     return player;

@@ -2,7 +2,7 @@ import { FightingStyle } from "./interfaces";
 
 export const crowdPleaserStyle: FightingStyle = {
     name: 'Crowd Pleaser',
-    description: 'Focuses on moving, bloodied, and reflex',
+    description: 'A flair for the dramatic. Focuses on moving, bloodied, and reflex',
     cards: [
         'Spinning Slash',
         'Tendon Slash',
