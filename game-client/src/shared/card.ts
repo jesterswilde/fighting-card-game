@@ -112,7 +112,6 @@ export interface DisplayComponents{
 }
 
 export const getMechDisplay = (mech?: MechanicEnum): DisplayComponents=>{
-    console.log('mech',mech);
     const defaultValue: DisplayComponents = {state: true, value: true};
     if(mech === undefined){
         return defaultValue; 

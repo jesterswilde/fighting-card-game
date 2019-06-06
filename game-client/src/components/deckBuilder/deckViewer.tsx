@@ -57,6 +57,8 @@ interface Props {
     canUpdate: boolean
     filters: DeckViewerFilter[]
     showingUnusedStyles: boolean
+    totalCards: number
+    maxCards: number
 }
 
 interface State {
@@ -72,7 +74,7 @@ class DeckViewer extends Component<Props, State>{
         const el = e.target as HTMLInputElement;
         dispatchChangeDeckName(el.value);
     }
-    render({ showingUnusedStyles, deck, cardsObj, styleDescriptions, canUpdate, filters }: Props, { hoverCard }: State) {
+    render({ totalCards, maxCards, showingUnusedStyles, deck, styleDescriptions, canUpdate, filters }: Props, { hoverCard }: State) {
         if (!deck) {
             return <div>
                 Loading...
@@ -84,21 +86,39 @@ class DeckViewer extends Component<Props, State>{
                 <label for="deck-name">Deck Name</label>
                 <input id="deck-name" value={name} onChange={this.handleNameChange} />
             </div>
-            <StyleList showingUnusedStyles={showingUnusedStyles} deck={deck} allStyles={styleDescriptions} />
+            <StyleList totalCards={totalCards} maxCards={maxCards} showingUnusedStyles={showingUnusedStyles} deck={deck} allStyles={styleDescriptions} />
             <Filter />
             <div class='deck'>
                 {Object.keys(possibleCards).map((style, i) => {
-                    const cards = possibleCards[style];
-                    return <div class="cards-section section" key={style}>
-                        <h3 class="style">{style}</h3>
-                        <div class="cards">
-                            {filterInvalidCards(cards, filters)
-                                .map((card) => this.RenderCard({ card, cardsObj }))}
-                        </div>
-                    </div>
+                    return this.RenderStyle(style); 
                 })}
             </div>
             {canUpdate && <Revert />}
+        </div>
+    }
+    @bind
+    RenderStyle(style: string) {
+        const { possibleCards, cards } = this.props.deck;
+        const styleCards = possibleCards[style];
+        const maxCards = styleCards.length; 
+        const cardsObj = styleCards.reduce((obj, card) => {
+            obj[card.name] = true;
+            return obj
+        }, {})
+        const usedCards = cards.reduce((count, name) => {
+            if (cardsObj[name]) {
+                return count + 1;
+            } return count;
+        }, 0)
+        return <div class="cards-section section" key={style}>
+            <div class="split-title">
+                <h3 class="style">{style}</h3>
+                <h4>Cards: {usedCards}/{maxCards}</h4>
+            </div>
+            <div class="cards">
+                {filterInvalidCards(styleCards, this.props.filters)
+                    .map((card) => this.RenderCard({ card, cardsObj: this.props.cardsObj }))}
+            </div>
         </div>
     }
     @bind
@@ -122,7 +142,17 @@ export default (props: ExternalProps) => {
         obj[name] = true;
         return obj;
     }, {});
+    let totalCards: number;
+    let maxCards: number
+    if (props.deck) {
+        totalCards = props.deck.cards.length;
+        const possibleCards = props.deck.possibleCards;
+        maxCards = Object.keys(possibleCards).reduce((max, style) => possibleCards[style].length + max, 0);
+    } else {
+        totalCards = 0;
+        maxCards = 0;
+    }
     //@ts-ignore
-    return <DeckViewer {...props} cardsObj={cardsObj} />
+    return <DeckViewer {...props} cardsObj={cardsObj} totalCards={totalCards} maxCards={maxCards} />
 
 }

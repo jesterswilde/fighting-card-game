@@ -1,4 +1,4 @@
-import { Card, StatePiece, AxisEnum, MechanicEnum, PlayerEnum, RequirementEffect, Mechanic } from "../../../shared/card";
+import { Card, StatePiece, AxisEnum, RequirementEffect, Mechanic } from "../../../shared/card";
 import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum } from "../../interfaces/stateInterface";
 import { BLOODIED_HP } from "../../gameSettings";
 import { playerEnumToPlayerArray } from "../../util";

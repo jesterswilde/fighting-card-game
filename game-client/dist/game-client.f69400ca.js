@@ -13834,7 +13834,6 @@ exports.MechanicEnum = MechanicEnum;
 })(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
 
 var getMechDisplay = function getMechDisplay(mech) {
-  console.log('mech', mech);
   var defaultValue = {
     state: true,
     value: true
@@ -24010,7 +24009,9 @@ function (_super) {
   StyleList.prototype.render = function (_a) {
     var _this = this;
 
-    var showingUnusedStyles = _a.showingUnusedStyles,
+    var maxCards = _a.maxCards,
+        totalCards = _a.totalCards,
+        showingUnusedStyles = _a.showingUnusedStyles,
         unselectedStyles = _a.unselectedStyles,
         selectedStyles = _a.selectedStyles,
         stylesUsed = _a.stylesUsed;
@@ -24019,7 +24020,9 @@ function (_super) {
       class: "style-container"
     }, (0, _preact.h)("div", {
       class: "section"
-    }, (0, _preact.h)("h2", null, " Chosen Styles:  ", selectedStyles.length, "/3"), (0, _preact.h)("div", {
+    }, (0, _preact.h)("div", {
+      class: "split-title"
+    }, (0, _preact.h)("h2", null, " Chosen Styles:  ", selectedStyles.length, "/3"), (0, _preact.h)("h4", null, "Cards: ", totalCards, "/", maxCards)), (0, _preact.h)("div", {
       class: "style-list"
     }, selectedStyles.map(function (style) {
       return _this.RenderStyle({
@@ -24076,7 +24079,9 @@ function (_super) {
 }(_preact.Component);
 
 var _default = function _default(_a) {
-  var deck = _a.deck,
+  var maxCards = _a.maxCards,
+      totalCards = _a.totalCards,
+      deck = _a.deck,
       _b = _a.allStyles,
       allStyles = _b === void 0 ? [] : _b,
       showingUnusedStyles = _a.showingUnusedStyles;
@@ -24098,7 +24103,9 @@ var _default = function _default(_a) {
     selectedStyles: selectedStyles,
     chosenStylesObj: chosenStyles,
     stylesUsed: deck.styles.length,
-    showingUnusedStyles: showingUnusedStyles
+    showingUnusedStyles: showingUnusedStyles,
+    maxCards: maxCards,
+    totalCards: totalCards
   }; //@ts-ignore
 
   return (0, _preact.h)(StyleList, __assign({}, props));
@@ -24244,9 +24251,10 @@ function (_super) {
   DeckViewer.prototype.render = function (_a, _b) {
     var _this = this;
 
-    var showingUnusedStyles = _a.showingUnusedStyles,
+    var totalCards = _a.totalCards,
+        maxCards = _a.maxCards,
+        showingUnusedStyles = _a.showingUnusedStyles,
         deck = _a.deck,
-        cardsObj = _a.cardsObj,
         styleDescriptions = _a.styleDescriptions,
         canUpdate = _a.canUpdate,
         filters = _a.filters;
@@ -24269,27 +24277,52 @@ function (_super) {
       value: name,
       onChange: this.handleNameChange
     })), (0, _preact.h)(_styleList.default, {
+      totalCards: totalCards,
+      maxCards: maxCards,
       showingUnusedStyles: showingUnusedStyles,
       deck: deck,
       allStyles: styleDescriptions
     }), (0, _preact.h)(_filter.default, null), (0, _preact.h)("div", {
       class: 'deck'
     }, Object.keys(possibleCards).map(function (style, i) {
-      var cards = possibleCards[style];
-      return (0, _preact.h)("div", {
-        class: "cards-section section",
-        key: style
-      }, (0, _preact.h)("h3", {
-        class: "style"
-      }, style), (0, _preact.h)("div", {
-        class: "cards"
-      }, (0, _util.filterInvalidCards)(cards, filters).map(function (card) {
-        return _this.RenderCard({
-          card: card,
-          cardsObj: cardsObj
-        });
-      })));
+      return _this.RenderStyle(style);
     })), canUpdate && (0, _preact.h)(_revert.default, null));
+  };
+
+  DeckViewer.prototype.RenderStyle = function (style) {
+    var _this = this;
+
+    var _a = this.props.deck,
+        possibleCards = _a.possibleCards,
+        cards = _a.cards;
+    var styleCards = possibleCards[style];
+    var maxCards = styleCards.length;
+    var cardsObj = styleCards.reduce(function (obj, card) {
+      obj[card.name] = true;
+      return obj;
+    }, {});
+    var usedCards = cards.reduce(function (count, name) {
+      if (cardsObj[name]) {
+        return count + 1;
+      }
+
+      return count;
+    }, 0);
+    return (0, _preact.h)("div", {
+      class: "cards-section section",
+      key: style
+    }, (0, _preact.h)("div", {
+      class: "split-title"
+    }, (0, _preact.h)("h3", {
+      class: "style"
+    }, style), (0, _preact.h)("h4", null, "Cards: ", usedCards, "/", maxCards)), (0, _preact.h)("div", {
+      class: "cards"
+    }, (0, _util.filterInvalidCards)(styleCards, this.props.filters).map(function (card) {
+      return _this.RenderCard({
+        card: card,
+        cardsObj: _this.props.cardsObj
+      });
+    })));
   };
 
   DeckViewer.prototype.RenderCard = function (_a) {
@@ -24311,6 +24344,8 @@ function (_super) {
 
   __decorate([(0, _decko.debounce)(30), __metadata("design:type", Function), __metadata("design:paramtypes", [typeof (_a = typeof Event !== "undefined" && Event) === "function" ? _a : Object]), __metadata("design:returntype", void 0)], DeckViewer.prototype, "handleNameChange", null);
 
+  __decorate([_decko.bind, __metadata("design:type", Function), __metadata("design:paramtypes", [String]), __metadata("design:returntype", void 0)], DeckViewer.prototype, "RenderStyle", null);
+
   __decorate([_decko.bind, __metadata("design:type", Function), __metadata("design:paramtypes", [Object]), __metadata("design:returntype", void 0)], DeckViewer.prototype, "RenderCard", null);
 
   return DeckViewer;
@@ -24321,10 +24356,26 @@ var _default = function _default(props) {
   var cardsObj = cards.reduce(function (obj, name) {
     obj[name] = true;
     return obj;
-  }, {}); //@ts-ignore
+  }, {});
+  var totalCards;
+  var maxCards;
+
+  if (props.deck) {
+    totalCards = props.deck.cards.length;
+    var possibleCards_1 = props.deck.possibleCards;
+    maxCards = Object.keys(possibleCards_1).reduce(function (max, style) {
+      return possibleCards_1[style].length + max;
+    }, 0);
+  } else {
+    totalCards = 0;
+    maxCards = 0;
+  } //@ts-ignore
+
 
   return (0, _preact.h)(DeckViewer, __assign({}, props, {
-    cardsObj: cardsObj
+    cardsObj: cardsObj,
+    totalCards: totalCards,
+    maxCards: maxCards
   }));
 };
 
