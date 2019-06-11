@@ -42,7 +42,7 @@ const getFightingStyle = async(styleName: string)=>{
     return null; 
 }
 
-export const dispatchGetFightingStyles = async()=>{
+export const getFightingStyles = async()=>{
     //If you already have the styles, don't re-fetch them
     const currentStyles = store.getState().fightingStyle.styleDescriptions 
     if(currentStyles && currentStyles.length > 0){

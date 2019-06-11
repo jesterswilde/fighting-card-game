@@ -1,13 +1,13 @@
 import { h, Component } from 'preact';
 import { StoreState } from '../../state/store';
 import { FightingStyleDescription } from '../../fightingStyles/interface';
-import { dispatchGetFightingStyles } from '../../fightingStyles/dispatch';import { DeckDescription } from '../../deckViewer/interface';
+import { getFightingStyles } from '../../fightingStyles/dispatch';import { DeckDescription } from '../../deckViewer/interface';
 import DeckList from './deckList';
 import DeckViewer from './deckViewer';
 import { EditingDeck } from '../../deckBuilder/interface';
 import { connect } from 'preact-redux';
 import { dispatchToPathString } from '../../path/dispatch';
-import { dispatchGetDecks, dispatchChoseDeck } from '../../deckBuilder/dispatch';
+import { dispatchChoseDeck } from '../../deckBuilder/dispatch';
 import { DeckViewerFilter } from '../../filters/interface';
 
 interface SelectorProps {
@@ -48,8 +48,7 @@ class DeckEditor extends Component<Props, {}>{
         if(deckID && shouldLoadDeck){
             dispatchChoseDeck(Number(deckID));
         } 
-        dispatchGetFightingStyles()
-        dispatchGetDecks();
+        getFightingStyles()
     }
     render({ filters, isLoadingDecks, showingUnusedStyles, decks = [], path, styleDecriptions, deck, isLoggedIn, canUpdate }) {
         const [root, ...remainingPath] = path;
@@ -78,4 +77,4 @@ const MustLogIn = () => {
     </div>
 }
 
-export default connect(selector)(DeckEditor) as unknown as (props: ExternalProps) => JSX.Element; 
+export default connect(selector)(DeckEditor)

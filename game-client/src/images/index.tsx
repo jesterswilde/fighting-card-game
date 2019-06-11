@@ -54,6 +54,7 @@ const iconRouter: { [name: string]: string } = {
     [AxisEnum.NOT_CLOSE]: notClose,
     [AxisEnum.NOT_FAR]: notFar,
     [AxisEnum.BLOODIED]: bloodied,
+    [AxisEnum.FRESH]: bloodied,
 }
 
 const classRouter: { [name: string]: string } = {
@@ -77,6 +78,7 @@ const classRouter: { [name: string]: string } = {
     [AxisEnum.LOSE_POISE]: 'balance',
     [AxisEnum.DAMAGE]: 'damage',
     [AxisEnum.BLOODIED]: 'damage',
+    [AxisEnum.FRESH]: 'invert-damage'
 }
 
 export const Arrow = ({ player, shouldFlip }: { player: PlayerEnum, shouldFlip?: boolean }) => {

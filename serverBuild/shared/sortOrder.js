@@ -11,6 +11,7 @@ exports.getSortOrder = (mechanic) => {
 exports.SORT_ORDER = {
     [card_1.AxisEnum.DAMAGE]: 0,
     [card_1.AxisEnum.BLOODIED]: 1,
+    [card_1.AxisEnum.FRESH]: 1,
     [card_1.AxisEnum.DISTANCE]: 2,
     [card_1.AxisEnum.GRAPPLED]: 2,
     [card_1.AxisEnum.CLOSE]: 2,

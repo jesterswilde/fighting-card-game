@@ -12,6 +12,7 @@ export const SORT_ORDER = {
     [AxisEnum.DAMAGE]: 0,
 
     [AxisEnum.BLOODIED]: 1,
+    [AxisEnum.FRESH]: 1,
 
     [AxisEnum.DISTANCE]: 2,
     [AxisEnum.GRAPPLED]: 2,

@@ -61,20 +61,14 @@ interface Props {
     maxCards: number
 }
 
-interface State {
-    hoverCard: Card
-}
 
-class DeckViewer extends Component<Props, State>{
-    state = {
-        hoverCard: null
-    }
+class DeckViewer extends Component<Props>{
     @debounce(30)
     handleNameChange(e: Event) {
         const el = e.target as HTMLInputElement;
         dispatchChangeDeckName(el.value);
     }
-    render({ totalCards, maxCards, showingUnusedStyles, deck, styleDescriptions, canUpdate, filters }: Props, { hoverCard }: State) {
+    render({ totalCards, maxCards, showingUnusedStyles, deck, styleDescriptions, canUpdate }: Props) {
         if (!deck) {
             return <div>
                 Loading...
@@ -152,7 +146,6 @@ export default (props: ExternalProps) => {
         totalCards = 0;
         maxCards = 0;
     }
-    //@ts-ignore
     return <DeckViewer {...props} cardsObj={cardsObj} totalCards={totalCards} maxCards={maxCards} />
 
 }

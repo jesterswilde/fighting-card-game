@@ -27481,6 +27481,7 @@ exports.AxisEnum = AxisEnum;
   AxisEnum["CLOSER"] = "Closer";
   AxisEnum["FURTHER"] = "Further";
   AxisEnum["BLOODIED"] = "Bloodied";
+  AxisEnum["FRESH"] = "Fresh";
   AxisEnum["MOTION"] = "Motion";
   AxisEnum["DISTANCE"] = "Distance";
   AxisEnum["POISE"] = "Poise";
@@ -27575,7 +27576,7 @@ exports.PlayerEnum = PlayerEnum;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getID = exports.filterIfHas = exports.playerRouter = exports.liveURL = exports.hostURL = void 0;
+exports.toMechEnum = exports.getID = exports.filterIfHas = exports.playerRouter = exports.liveURL = exports.hostURL = void 0;
 
 var _card = require("./shared/card");
 
@@ -27612,6 +27613,25 @@ var getID = function getID() {
 };
 
 exports.getID = getID;
+var mechEnumObj = Object.keys(_card.MechanicEnum).reduce(function (obj, key) {
+  var value = _card.MechanicEnum[key];
+  obj[value] = true;
+  return obj;
+}, {});
+
+var toMechEnum = function toMechEnum(value) {
+  if (value === undefined) {
+    return undefined;
+  }
+
+  if (mechEnumObj[value]) {
+    return value;
+  }
+
+  return undefined;
+};
+
+exports.toMechEnum = toMechEnum;
 },{"./shared/card":"src/shared/card.ts"}],"src/statePiece/actions.ts":[function(require,module,exports) {
 "use strict";
 
@@ -49103,7 +49123,114 @@ var _default = function _default(_a) {
 };
 
 exports.default = _default;
-},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../shared/card":"src/shared/card.ts","../../statePiece/dispatch":"src/statePiece/dispatch.ts"}],"src/components/maker/effect.tsx":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../shared/card":"src/shared/card.ts","../../statePiece/dispatch":"src/statePiece/dispatch.ts"}],"src/shared/card.js":[function(require,module,exports) {
+"use strict";
+
+exports.__esModule = true;
+
+var _a;
+
+var AxisEnum;
+
+(function (AxisEnum) {
+  AxisEnum["DAMAGE"] = "Damage";
+  AxisEnum["PRONE"] = "Prone";
+  AxisEnum["STANDING"] = "Standing";
+  AxisEnum["MOVING"] = "Moving";
+  AxisEnum["STILL"] = "Still";
+  AxisEnum["GRAPPLED"] = "Grappled";
+  AxisEnum["NOT_GRAPPLED"] = "Not Grappled";
+  AxisEnum["CLOSE"] = "Close";
+  AxisEnum["NOT_CLOSE"] = "Not Close";
+  AxisEnum["FAR"] = "Far";
+  AxisEnum["NOT_FAR"] = "Not Far";
+  AxisEnum["BALANCED"] = "Balanced";
+  AxisEnum["UNBALANCED"] = "Unbalanced";
+  AxisEnum["ANTICIPATING"] = "Anticipating";
+  AxisEnum["NOT_ANTICIPATING"] = "Not Anticipating";
+  AxisEnum["CLOSER"] = "Closer";
+  AxisEnum["FURTHER"] = "Further";
+  AxisEnum["BLOODIED"] = "Bloodied";
+  AxisEnum["MOTION"] = "Motion";
+  AxisEnum["DISTANCE"] = "Distance";
+  AxisEnum["POISE"] = "Poise";
+  AxisEnum["LOSE_POISE"] = "Lose Poise";
+  AxisEnum["STANCE"] = "Stance";
+})(AxisEnum = exports.AxisEnum || (exports.AxisEnum = {}));
+
+var MechanicEnum;
+
+(function (MechanicEnum) {
+  MechanicEnum["TELEGRAPH"] = "Telegraph";
+  MechanicEnum["FOCUS"] = "Focus";
+  MechanicEnum["PREDICT"] = "Predict";
+  MechanicEnum["PARRY"] = "Parry";
+  MechanicEnum["BLOCK"] = "Block";
+  MechanicEnum["LOCK"] = "Lock";
+  MechanicEnum["REFLEX"] = "Reflex";
+  MechanicEnum["BUFF"] = "Buff";
+  MechanicEnum["CRIPPLE"] = "Cripple";
+  MechanicEnum["PICK_ONE"] = "Pick One";
+  MechanicEnum["FORCEFUL"] = "Forceful";
+  MechanicEnum["ENHANCE"] = "Enhance";
+})(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
+
+exports.getMechDisplay = function (mech) {
+  var defaultValue = {
+    state: true,
+    value: true
+  };
+
+  if (mech === undefined) {
+    return defaultValue;
+  }
+
+  var comp = MechanicDisplay[mech];
+
+  if (comp) {
+    return comp;
+  }
+
+  return defaultValue;
+};
+
+var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.FOCUS] = {
+  req: true,
+  eff: true
+}, _a[MechanicEnum.PREDICT] = {
+  eff: true
+}, _a[MechanicEnum.BUFF] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.ENHANCE] = {
+  valueString: true,
+  eff: true
+}, _a[MechanicEnum.BLOCK] = {
+  value: true
+}, _a[MechanicEnum.PARRY] = {
+  value: true
+}, _a[MechanicEnum.LOCK] = {
+  state: true,
+  value: true
+}, _a[MechanicEnum.REFLEX] = {}, _a[MechanicEnum.CRIPPLE] = {
+  valueString: true
+}, _a[MechanicEnum.PICK_ONE] = {
+  pick: true
+}, _a[MechanicEnum.FORCEFUL] = {
+  value: true,
+  eff: true
+}, _a);
+var PlayerEnum;
+
+(function (PlayerEnum) {
+  PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
+  PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
+  PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
+})(PlayerEnum = exports.PlayerEnum || (exports.PlayerEnum = {}));
+},{}],"src/components/maker/effect.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49124,6 +49251,8 @@ var _dispatch = require("../../mechanic/dispatch");
 var _requirement = _interopRequireDefault(require("./requirement"));
 
 var _dispatch2 = require("../../statePiece/dispatch");
+
+var _utils = require("../../utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49158,8 +49287,9 @@ var Effect = function Effect(_a) {
     id: "mechanics",
     onChange: function onChange(_a) {
       var target = _a.target;
-      return (0, _json.mechFromJSON)(tslib_1.__assign({}, mech, {
-        mechanic: target.value
+      var mechanic = (0, _utils.toMechEnum)(target.value);
+      (0, _json.mechFromJSON)(tslib_1.__assign({}, mech, {
+        mechanic: mechanic
       }));
     },
     value: mechanic
@@ -49302,7 +49432,7 @@ var Effect = function Effect(_a) {
 
 var _default = Effect;
 exports.default = _default;
-},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../shared/card":"src/shared/card.ts","../../mechanic/json":"src/mechanic/json.ts","../../mechanic/dispatch":"src/mechanic/dispatch.ts","./requirement":"src/components/maker/requirement.tsx","../../statePiece/dispatch":"src/statePiece/dispatch.ts"}],"src/components/maker/optional.tsx":[function(require,module,exports) {
+},{"tslib":"node_modules/tslib/tslib.es6.js","react":"node_modules/react/index.js","../../shared/card":"src/shared/card.js","../../mechanic/json":"src/mechanic/json.ts","../../mechanic/dispatch":"src/mechanic/dispatch.ts","./requirement":"src/components/maker/requirement.tsx","../../statePiece/dispatch":"src/statePiece/dispatch.ts","../../utils":"src/utils.ts"}],"src/components/maker/optional.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49726,7 +49856,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56363" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64791" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

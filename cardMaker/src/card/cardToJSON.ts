@@ -35,7 +35,7 @@ export const cardToJSON = (state: StoreState): CardJSON => {
 
 
 export const updateCard = () => {
-    const card = cardToServerJSON(store.getState()); 
+    const card = cardToServerJSON(store.getState());
     fetch(hostURL + 'card', {
         body: JSON.stringify(card),
         headers: {
@@ -122,6 +122,6 @@ export const cardToServerJSON = (state: StoreState): CardJSON => {
         return omit(opt, 'id');
     });
     card.effects = card.effects.map(omitIdFromEff);
-    card.tags = card.tags.map((tag)=> omit(tag, 'id')); 
+    card.tags = card.tags.map((tag) => omit(tag, 'id'));
     return card;
 }

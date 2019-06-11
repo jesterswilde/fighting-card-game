@@ -61,7 +61,8 @@ const updateDeckCards = (deck, cards) => {
 };
 exports.getFullDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
     const deck = yield validation_1.getValidDeck(user, deckID);
-    const possibleCards = exports.getPossibleCards(deck.styles);
+    const stylesPlusGeneric = [...deck.styles, 'Generic'];
+    const possibleCards = exports.getPossibleCards(stylesPlusGeneric);
     return deck.sendToUser(possibleCards);
 });
 //Styles give a pool of possible cards they could put in their deck. This gets those. 

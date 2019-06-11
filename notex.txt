@@ -1,12 +1,23 @@
-Custom decks not showing up sometimes in deck choice. 
+Deck builder page needs a back button
+
+Maybe still an issue? - Custom decks not showing up sometimes in deck choice. 
 
 Update landing page
 
+When you reflex, you should be told what card you reflexed into if there are any choices to be made.
 
+Reflexing into panic is blank, should say 'Panic' or 'Flail'
+
+Styles should have more gap cards (1 or 2)
+
+There should be a generic pool of cards that all decks have access to with weak gap cards. 
+
+Message deck size at the bottom where it says update. 
+
+Find orphaned cards and put them in styles
 
 //NOTES
 
-When you reflex, you should be told what card you reflexed into if there are any choices to be made.
 
 Game board should change as people get more and more damaged. 
 

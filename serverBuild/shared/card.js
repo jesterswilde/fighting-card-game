@@ -20,6 +20,7 @@ var AxisEnum;
     AxisEnum["CLOSER"] = "Closer";
     AxisEnum["FURTHER"] = "Further";
     AxisEnum["BLOODIED"] = "Bloodied";
+    AxisEnum["FRESH"] = "Fresh";
     AxisEnum["MOTION"] = "Motion";
     AxisEnum["DISTANCE"] = "Distance";
     AxisEnum["POISE"] = "Poise";

@@ -11,6 +11,7 @@ export interface FightingStyle {
 export interface FightingStyleDescription{
     name: string
     description?: string
+    isGeneric?: boolean
 }
 
 export interface FightingStyleState{

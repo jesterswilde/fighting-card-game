@@ -1,17 +1,22 @@
 import { AxisEnum, MechanicEnum, Card, StatePiece, Mechanic } from "./card";
 
-export const getSortOrder = (mechanic: MechanicEnum | AxisEnum) => {
+export const getSortOrder = (mechanic: MechanicEnum | AxisEnum | undefined) => {
+    const DEFAULT_ORDER = 100; 
+    if(mechanic === undefined){
+        return DEFAULT_ORDER; 
+    }
     const order = SORT_ORDER[mechanic];
     if(order !== undefined){
         return order; 
     }
-    return 100; 
+    return DEFAULT_ORDER; 
 }
 
 export const SORT_ORDER = {
     [AxisEnum.DAMAGE]: 0,
 
     [AxisEnum.BLOODIED]: 1,
+    [AxisEnum.FRESH]: 1,
 
     [AxisEnum.DISTANCE]: 2,
     [AxisEnum.GRAPPLED]: 2,

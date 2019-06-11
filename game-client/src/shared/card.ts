@@ -77,6 +77,7 @@ export enum AxisEnum{
     CLOSER = "Closer",
     FURTHER = "Further",
     BLOODIED = "Bloodied",
+    FRESH = 'Fresh',
     MOTION = "Motion",
     DISTANCE = "Distance",
     POISE = "Poise",

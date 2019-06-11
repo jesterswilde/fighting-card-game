@@ -97,6 +97,9 @@ export default ({ maxCards, totalCards, deck, allStyles = [], showingUnusedStyle
     const selectedStyles: FightingStyleDescription[] = [];
     const unselectedStyles: FightingStyleDescription[] = [];
     allStyles.forEach((style) => {
+        if(style.isGeneric){
+            return; 
+        }
         if (chosenStyles[style.name]) {
             selectedStyles.push(style);
         } else {

@@ -1,4 +1,4 @@
-import { PlayerEnum } from './shared/card';
+import { PlayerEnum, MechanicEnum } from './shared/card';
 
 export let hostURL = "http://localhost:8080/api/"
 export let liveURL = "http://localhost:8080/api/"
@@ -24,4 +24,20 @@ export const filterIfHas = <T>(arr: T[] | undefined, value:T): T[]=>{
 let id = 0; 
 export const getID = ()=>{
     return id++; 
+}
+
+const mechEnumObj = Object.keys(MechanicEnum).reduce((obj, key)=>{
+    const value = MechanicEnum[key];
+    obj[value] = true; 
+    return obj;  
+}, {})
+
+export const toMechEnum = (value : string | undefined)=>{
+    if(value === undefined){
+        return undefined; 
+    }
+    if(mechEnumObj[value]){
+        return value as MechanicEnum; 
+    }
+    return undefined; 
 }

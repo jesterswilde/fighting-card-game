@@ -15,6 +15,7 @@ const retiarius_1 = require("./retiarius");
 const seeingRed_1 = require("./seeingRed");
 const toolsOfTheTrade_1 = require("./toolsOfTheTrade");
 const unstoppable_1 = require("./unstoppable");
+const generic_1 = require("./generic");
 const allStyles = [
     grappler_1.grappleStyle,
     cheapShot_1.cheapShotStyle,
@@ -29,14 +30,15 @@ const allStyles = [
     retiarius_1.retiariusStyle,
     seeingRed_1.seeingRedStyle,
     toolsOfTheTrade_1.toolsOfTheTradeStyle,
-    unstoppable_1.unstoppableStyle
+    unstoppable_1.unstoppableStyle,
+    generic_1.genericStyle
 ];
 const fightingStylesObj = {};
 allStyles.forEach((style) => {
     fightingStylesObj[style.name] = style;
 });
 exports.getFightingStyles = () => {
-    return allStyles.map(({ name, description }) => ({ name, description }));
+    return allStyles.map(({ name, description, isGeneric }) => ({ name, description, isGeneric }));
 };
 exports.getFightingStyleByName = (styleName) => {
     const style = fightingStylesObj[styleName];

@@ -5,6 +5,7 @@ import { mechFromJSON, mechCreateEff, mechCreateReq, mechAddToChoice } from '../
 import { dispatchDeletedMech, dispatchMechCreatedChoiceCategory, dispatchMechDeletedChoice } from '../../mechanic/dispatch';
 import Requirement from './requirement';
 import { dispatchDeleteStatePiece } from '../../statePiece/dispatch';
+import { toMechEnum } from '../../utils';
 
 interface Props {
     effect: MechanicJSON
@@ -15,7 +16,10 @@ const Effect = ({ effect: mech }: Props) => {
     const { value: displayValue, valueString: displayValueString, req: displayReq, eff: displayEff, pick: displayPick, state: displayState } = getMechDisplay(mechanic);
     
     return <div className="inline form-inline">
-        <select className="form-control" id="mechanics" onChange={({ target }) => mechFromJSON({ ...mech, mechanic: target.value as MechanicEnum })} value={mechanic}>
+        <select className="form-control" id="mechanics" onChange={({ target }) => {
+            const mechanic = toMechEnum(target.value); 
+            mechFromJSON({ ...mech, mechanic })
+        }} value={mechanic}>
             <option value={undefined}> No Mechanic </option>
             {Object.keys(MechanicEnum).map((key) => <option value={MechanicEnum[key]} key={key}> {MechanicEnum[key]} </option>)}
         </select>

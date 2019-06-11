@@ -9621,6 +9621,10 @@ h3 {
     background-color: #d2a3a2;
   }
 }
+.invert-damage {
+  background-color: #08e3e3;
+}
+
 .damage {
   background-color: #f71c1c;
 }

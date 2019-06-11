@@ -3,7 +3,7 @@ import { StoreState } from '../state/store';
 import { dispatchToPathArray, dispatchAppendPath } from '../path/dispatch';
 import { connect } from 'preact-redux';
 import { FightingStyle, FightingStyleDescription } from '../fightingStyles/interface';
-import {dispatchGetFightingStyleByName, dispatchGetFightingStyles} from '../fightingStyles/dispatch'
+import {dispatchGetFightingStyleByName, getFightingStyles} from '../fightingStyles/dispatch'
 import Style from "./styleViewer/style"; 
 import StyleNames from './styleViewer/styleNames'
 
@@ -36,7 +36,7 @@ const selector = (state: StoreState): SelectorProps=>{
 
 class StyleViewer extends Component<Props>{
     componentDidMount = ()=>{
-        dispatchGetFightingStyles(); 
+        getFightingStyles(); 
         if(this.props.path.length > 0){
             const styleName = this.props.path[0];
             if(styleName){

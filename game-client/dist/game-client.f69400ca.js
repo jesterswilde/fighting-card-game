@@ -16026,8 +16026,8 @@ var _a, _b, _c; /// <reference path='./index.d.tsx'/>
 
 
 var playerRouter = (_a = {}, _a[_card.PlayerEnum.PLAYER] = _downArrow.default, _a[_card.PlayerEnum.OPPONENT] = _upArrow.default, _a[_card.PlayerEnum.BOTH] = _bothArrow.default, _a);
-var iconRouter = (_b = {}, _b[_card.AxisEnum.GRAPPLED] = _grapple.default, _b[_card.AxisEnum.CLOSE] = _close.default, _b[_card.AxisEnum.FAR] = _far.default, _b[_card.AxisEnum.MOVING] = _moving.default, _b[_card.AxisEnum.STILL] = _still.default, _b[_card.AxisEnum.STANDING] = _standing.default, _b[_card.AxisEnum.PRONE] = _prone.default, _b[_card.AxisEnum.BALANCED] = _balanced.default, _b[_card.AxisEnum.ANTICIPATING] = _anticipating.default, _b[_card.AxisEnum.UNBALANCED] = _unbalanced.default, _b[_card.AxisEnum.NOT_ANTICIPATING] = _not_anticipating.default, _b[_card.AxisEnum.DAMAGE] = _damage.default, _b[_card.AxisEnum.CLOSER] = _closer.default, _b[_card.AxisEnum.FURTHER] = _further.default, _b[_card.AxisEnum.POISE] = _poise.default, _b[_card.AxisEnum.LOSE_POISE] = _losePoise.default, _b[_card.AxisEnum.NOT_GRAPPLED] = _not_grapple.default, _b[_card.AxisEnum.NOT_CLOSE] = _not_close.default, _b[_card.AxisEnum.NOT_FAR] = _not_far.default, _b[_card.AxisEnum.BLOODIED] = _bloodied.default, _b);
-var classRouter = (_c = {}, _c[_card.AxisEnum.GRAPPLED] = 'distance', _c[_card.AxisEnum.CLOSE] = 'distance', _c[_card.AxisEnum.FAR] = 'distance', _c[_card.AxisEnum.CLOSER] = 'distance', _c[_card.AxisEnum.FURTHER] = 'distance', _c[_card.AxisEnum.NOT_GRAPPLED] = 'distance', _c[_card.AxisEnum.NOT_CLOSE] = 'distance', _c[_card.AxisEnum.NOT_FAR] = 'distance', _c[_card.AxisEnum.MOVING] = 'motion', _c[_card.AxisEnum.STILL] = 'motion', _c[_card.AxisEnum.STANDING] = 'standing', _c[_card.AxisEnum.PRONE] = 'standing', _c[_card.AxisEnum.BALANCED] = 'balance', _c[_card.AxisEnum.ANTICIPATING] = 'balance', _c[_card.AxisEnum.NOT_ANTICIPATING] = 'balance', _c[_card.AxisEnum.UNBALANCED] = 'balance', _c[_card.AxisEnum.POISE] = 'balance', _c[_card.AxisEnum.LOSE_POISE] = 'balance', _c[_card.AxisEnum.DAMAGE] = 'damage', _c[_card.AxisEnum.BLOODIED] = 'damage', _c);
+var iconRouter = (_b = {}, _b[_card.AxisEnum.GRAPPLED] = _grapple.default, _b[_card.AxisEnum.CLOSE] = _close.default, _b[_card.AxisEnum.FAR] = _far.default, _b[_card.AxisEnum.MOVING] = _moving.default, _b[_card.AxisEnum.STILL] = _still.default, _b[_card.AxisEnum.STANDING] = _standing.default, _b[_card.AxisEnum.PRONE] = _prone.default, _b[_card.AxisEnum.BALANCED] = _balanced.default, _b[_card.AxisEnum.ANTICIPATING] = _anticipating.default, _b[_card.AxisEnum.UNBALANCED] = _unbalanced.default, _b[_card.AxisEnum.NOT_ANTICIPATING] = _not_anticipating.default, _b[_card.AxisEnum.DAMAGE] = _damage.default, _b[_card.AxisEnum.CLOSER] = _closer.default, _b[_card.AxisEnum.FURTHER] = _further.default, _b[_card.AxisEnum.POISE] = _poise.default, _b[_card.AxisEnum.LOSE_POISE] = _losePoise.default, _b[_card.AxisEnum.NOT_GRAPPLED] = _not_grapple.default, _b[_card.AxisEnum.NOT_CLOSE] = _not_close.default, _b[_card.AxisEnum.NOT_FAR] = _not_far.default, _b[_card.AxisEnum.BLOODIED] = _bloodied.default, _b[_card.AxisEnum.FRESH] = _bloodied.default, _b);
+var classRouter = (_c = {}, _c[_card.AxisEnum.GRAPPLED] = 'distance', _c[_card.AxisEnum.CLOSE] = 'distance', _c[_card.AxisEnum.FAR] = 'distance', _c[_card.AxisEnum.CLOSER] = 'distance', _c[_card.AxisEnum.FURTHER] = 'distance', _c[_card.AxisEnum.NOT_GRAPPLED] = 'distance', _c[_card.AxisEnum.NOT_CLOSE] = 'distance', _c[_card.AxisEnum.NOT_FAR] = 'distance', _c[_card.AxisEnum.MOVING] = 'motion', _c[_card.AxisEnum.STILL] = 'motion', _c[_card.AxisEnum.STANDING] = 'standing', _c[_card.AxisEnum.PRONE] = 'standing', _c[_card.AxisEnum.BALANCED] = 'balance', _c[_card.AxisEnum.ANTICIPATING] = 'balance', _c[_card.AxisEnum.NOT_ANTICIPATING] = 'balance', _c[_card.AxisEnum.UNBALANCED] = 'balance', _c[_card.AxisEnum.POISE] = 'balance', _c[_card.AxisEnum.LOSE_POISE] = 'balance', _c[_card.AxisEnum.DAMAGE] = 'damage', _c[_card.AxisEnum.BLOODIED] = 'damage', _c[_card.AxisEnum.FRESH] = 'invert-damage', _c);
 
 var Arrow = function Arrow(_a) {
   var player = _a.player,
@@ -19061,7 +19061,7 @@ exports.default = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dispatchGetFightingStyles = exports.dispatchGetFightingStyleByName = exports.dispatchFromStyleToDeckEdit = exports.dispatchViewStyleFromDeck = void 0;
+exports.getFightingStyles = exports.dispatchGetFightingStyleByName = exports.dispatchFromStyleToDeckEdit = exports.dispatchViewStyleFromDeck = void 0;
 
 var _store = require("../state/store");
 
@@ -19304,7 +19304,7 @@ var getFightingStyle = function getFightingStyle(styleName) {
   });
 };
 
-var dispatchGetFightingStyles = function dispatchGetFightingStyles() {
+var getFightingStyles = function getFightingStyles() {
   return __awaiter(_this, void 0, void 0, function () {
     var currentStyles, styleDescriptions, action;
     return __generator(this, function (_a) {
@@ -19343,7 +19343,7 @@ var dispatchGetFightingStyles = function dispatchGetFightingStyles() {
   });
 };
 
-exports.dispatchGetFightingStyles = dispatchGetFightingStyles;
+exports.getFightingStyles = getFightingStyles;
 
 var getFightingStyleDescriptions = function getFightingStyleDescriptions() {
   return __awaiter(_this, void 0, void 0, function () {
@@ -19865,7 +19865,7 @@ function (_super) {
     var _this = _super !== null && _super.apply(this, arguments) || this;
 
     _this.componentDidMount = function () {
-      (0, _dispatch2.dispatchGetFightingStyles)();
+      (0, _dispatch2.getFightingStyles)();
 
       if (_this.props.path.length > 0) {
         var styleName = _this.props.path[0];
@@ -23646,34 +23646,77 @@ var _deckItem = _interopRequireDefault(require("../deckViewer/deckItem"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = function _default(_a) {
-  var decks = _a.decks;
-  return (0, _preact.h)("div", {
-    class: "main deck-builder-list"
-  }, (0, _preact.h)("h2", null, "Decks"), decks.map(function (deck) {
-    return (0, _preact.h)("div", {
-      class: 'deck-item'
-    }, (0, _preact.h)(_deckItem.default, {
-      key: deck.id,
-      deck: deck,
-      action: function action(chosenDeck) {
-        {
-          (0, _dispatch2.dispatchChoseDeck)(chosenDeck.id);
-          (0, _dispatch.dispatchAppendPath)(chosenDeck.id.toString());
-        }
+var __extends = void 0 && (void 0).__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
       }
-    }), (0, _preact.h)("button", {
-      class: 'btn delete',
-      onClick: function onClick() {
-        return (0, _dispatch2.dispatchDeleteDeck)(deck.id);
-      }
-    }, "Delete"));
-  }), (0, _preact.h)("button", {
-    class: "make-button",
-    onClick: _dispatch2.dispatchCreateDeck
-  }, "New Deck"));
-};
+    };
 
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var DeckList =
+/** @class */
+function (_super) {
+  __extends(DeckList, _super);
+
+  function DeckList() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  DeckList.prototype.componentDidMount = function () {
+    (0, _dispatch2.dispatchGetDecks)();
+  };
+
+  DeckList.prototype.render = function (_a) {
+    var decks = _a.decks;
+    return (0, _preact.h)("div", {
+      class: "main deck-builder-list"
+    }, (0, _preact.h)("h2", null, "Decks"), decks.map(function (deck) {
+      return (0, _preact.h)("div", {
+        key: deck.id,
+        class: 'deck-item'
+      }, (0, _preact.h)(_deckItem.default, {
+        deck: deck,
+        action: function action(chosenDeck) {
+          {
+            (0, _dispatch2.dispatchChoseDeck)(chosenDeck.id);
+            (0, _dispatch.dispatchAppendPath)(chosenDeck.id.toString());
+          }
+        }
+      }), (0, _preact.h)("button", {
+        class: 'btn delete',
+        onClick: function onClick() {
+          return (0, _dispatch2.dispatchDeleteDeck)(deck.id);
+        }
+      }, "Delete"));
+    }), (0, _preact.h)("button", {
+      class: "make-button",
+      onClick: _dispatch2.dispatchCreateDeck
+    }, "New Deck"));
+  };
+
+  return DeckList;
+}(_preact.Component);
+
+var _default = DeckList;
 exports.default = _default;
 },{"preact":"node_modules/preact/dist/preact.mjs","../../path/dispatch":"src/path/dispatch.ts","../../deckBuilder/dispatch":"src/deckBuilder/dispatch.ts","../deckViewer/deckItem":"src/components/deckViewer/deckItem.tsx"}],"src/deckBuilder/dispatchEditDeck.ts":[function(require,module,exports) {
 "use strict";
@@ -24092,6 +24135,10 @@ var _default = function _default(_a) {
   var selectedStyles = [];
   var unselectedStyles = [];
   allStyles.forEach(function (style) {
+    if (style.isGeneric) {
+      return;
+    }
+
     if (chosenStyles[style.name]) {
       selectedStyles.push(style);
     } else {
@@ -24235,12 +24282,7 @@ function (_super) {
   __extends(DeckViewer, _super);
 
   function DeckViewer() {
-    var _this = _super !== null && _super.apply(this, arguments) || this;
-
-    _this.state = {
-      hoverCard: null
-    };
-    return _this;
+    return _super !== null && _super.apply(this, arguments) || this;
   }
 
   DeckViewer.prototype.handleNameChange = function (e) {
@@ -24248,7 +24290,7 @@ function (_super) {
     (0, _dispatch.dispatchChangeDeckName)(el.value);
   };
 
-  DeckViewer.prototype.render = function (_a, _b) {
+  DeckViewer.prototype.render = function (_a) {
     var _this = this;
 
     var totalCards = _a.totalCards,
@@ -24256,9 +24298,7 @@ function (_super) {
         showingUnusedStyles = _a.showingUnusedStyles,
         deck = _a.deck,
         styleDescriptions = _a.styleDescriptions,
-        canUpdate = _a.canUpdate,
-        filters = _a.filters;
-    var hoverCard = _b.hoverCard;
+        canUpdate = _a.canUpdate;
 
     if (!deck) {
       return (0, _preact.h)("div", null, "Loading...");
@@ -24369,8 +24409,7 @@ var _default = function _default(props) {
   } else {
     totalCards = 0;
     maxCards = 0;
-  } //@ts-ignore
-
+  }
 
   return (0, _preact.h)(DeckViewer, __assign({}, props, {
     cardsObj: cardsObj,
@@ -24460,8 +24499,7 @@ function (_super) {
       (0, _dispatch3.dispatchChoseDeck)(Number(deckID));
     }
 
-    (0, _dispatch.dispatchGetFightingStyles)();
-    (0, _dispatch3.dispatchGetDecks)();
+    (0, _dispatch.getFightingStyles)();
   };
 
   DeckEditor.prototype.render = function (_a) {

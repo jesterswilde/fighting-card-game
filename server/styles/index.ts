@@ -14,6 +14,7 @@ import { retiariusStyle } from './retiarius';
 import { seeingRedStyle } from './seeingRed';
 import { toolsOfTheTradeStyle } from './toolsOfTheTrade';
 import { unstoppableStyle } from './unstoppable';
+import { genericStyle } from './generic';
 
 const allStyles: FightingStyle[] = [
     grappleStyle,
@@ -29,29 +30,30 @@ const allStyles: FightingStyle[] = [
     retiariusStyle,
     seeingRedStyle,
     toolsOfTheTradeStyle,
-    unstoppableStyle
+    unstoppableStyle,
+    genericStyle
 ]
 
 const fightingStylesObj = {};
 
-allStyles.forEach((style)=>{
-    fightingStylesObj[style.name] = style; 
+allStyles.forEach((style) => {
+    fightingStylesObj[style.name] = style;
 })
 
 export const getFightingStyles = () => {
-    return allStyles.map(({ name, description }) => ({ name, description }));
+    return allStyles.map(({ name, description, isGeneric }) => ({ name, description, isGeneric }));
 }
 
 export const getFightingStyleByName = (styleName: string): FightingStyle | null => {
-    const style = fightingStylesObj[styleName]; 
+    const style = fightingStylesObj[styleName];
     if (style) {
-        return style; 
+        return style;
     }
     return null;
 }
 
 export const getFullFightingStyleByName = (styleName: string): FullFightingStyle => {
-    const style = fightingStylesObj[styleName]; 
+    const style = fightingStylesObj[styleName];
     if (style) {
         return {
             ...style,

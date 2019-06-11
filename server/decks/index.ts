@@ -58,7 +58,8 @@ const updateDeckCards = (deck: DBDeck, cards: string[]) => {
 
 export const getFullDeck = async (user: DBUser, deckID: number) => {
     const deck = await getValidDeck(user, deckID);
-    const possibleCards = getPossibleCards(deck.styles);
+    const stylesPlusGeneric = [...deck.styles, 'Generic'];
+    const possibleCards = getPossibleCards(stylesPlusGeneric);
     return deck.sendToUser(possibleCards)
 }
 

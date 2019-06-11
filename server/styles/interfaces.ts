@@ -7,6 +7,7 @@ export interface FightingStyle {
     identity?: string
     strengths?: string
     mainMechanics?: string
+    isGeneric?: boolean
 }
 
 export interface FullFightingStyle{

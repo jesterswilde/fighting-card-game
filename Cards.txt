@@ -6988,5 +6988,232 @@
     "name": "Gut 'Em",
     "tagObjs": [],
     "tags": []
+  },
+  "Back Up": {
+    "priority": 5,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 2
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "amount": "2",
+        "player": null,
+        "mechanic": "Block"
+      }
+    ],
+    "name": "Back Up",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Break Grab": {
+    "priority": 7,
+    "requirements": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "axis": "Balanced",
+        "player": 0
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Close",
+        "player": 2
+      }
+    ],
+    "name": "Break Grab",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Stand Up": {
+    "name": "Stand Up",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Prone",
+        "player": 0
+      },
+      {
+        "axis": "Still",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "amount": "1",
+        "axis": "Poise",
+        "player": 0
+      },
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Go To Ground": {
+    "name": "Go To Ground",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Standing",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "amount": "4",
+        "axis": "Prone",
+        "player": 0
+      }
+    ],
+    "tagObjs": [],
+    "priority": 8,
+    "tags": []
+  },
+  "Stop": {
+    "name": "Stop",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Moving",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Still",
+        "player": 0
+      },
+      {
+        "amount": "1",
+        "player": null,
+        "mechanic": "Parry"
+      }
+    ],
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Move": {
+    "name": "Move",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Still",
+        "player": 2
+      }
+    ],
+    "effects": [
+      {
+        "axis": "Moving",
+        "player": 0,
+        "amount": 2
+      },
+      {
+        "amount": "3",
+        "mechanic": "Block"
+      }
+    ],
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Compose": {
+    "name": "Compose",
+    "optional": [],
+    "requirements": [
+      {
+        "axis": "Fresh",
+        "player": 0
+      },
+      {
+        "axis": "Not Anticipating",
+        "player": 0
+      }
+    ],
+    "effects": [
+      {
+        "amount": "2",
+        "axis": "Poise",
+        "player": 0
+      }
+    ],
+    "tagObjs": [],
+    "tags": [],
+    "priority": 5
+  },
+  "Advance": {
+    "priority": 5,
+    "requirements": [
+      {
+        "axis": "Far",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 2
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "amount": "1",
+        "axis": "Poise",
+        "player": 0
+      }
+    ],
+    "name": "Advance",
+    "tagObjs": [],
+    "tags": []
+  },
+  "Grab": {
+    "priority": 5,
+    "requirements": [
+      {
+        "axis": "Close",
+        "player": 2
+      },
+      {
+        "axis": "Standing",
+        "player": 2
+      }
+    ],
+    "optional": [],
+    "effects": [
+      {
+        "axis": "Grappled",
+        "player": 2
+      },
+      {
+        "amount": "1",
+        "axis": "Lose Poise",
+        "player": 1
+      }
+    ],
+    "name": "Grab",
+    "tagObjs": [],
+    "tags": []
   }
 }
