@@ -15,6 +15,8 @@ const retiarius_1 = require("./retiarius");
 const seeingRed_1 = require("./seeingRed");
 const toolsOfTheTrade_1 = require("./toolsOfTheTrade");
 const unstoppable_1 = require("./unstoppable");
+const newKid_1 = require("./newKid");
+const monk_1 = require("./monk");
 const generic_1 = require("./generic");
 const util_1 = require("../gameServer/util");
 const allStyles = [
@@ -32,6 +34,8 @@ const allStyles = [
     seeingRed_1.seeingRedStyle,
     toolsOfTheTrade_1.toolsOfTheTradeStyle,
     unstoppable_1.unstoppableStyle,
+    newKid_1.newKidStyle,
+    monk_1.monkStyle,
     generic_1.genericStyle
 ];
 const fightingStylesObj = {};

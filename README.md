@@ -3,7 +3,7 @@
     * Install nodemon for server
     
 ## Running it
-    * Run nodemon from root to start server. Note you will want to run tsc watch if you modify server code.
+    * Run nodemon from root to start server. Note you will want to run tsc --watch if you modify server code.
     * Run `parcel index.html` from game-client folder to run local version of the game
     * Run `parcel index.html` from cardMaker folder to run card maker
    

@@ -14,6 +14,8 @@ import { retiariusStyle } from './retiarius';
 import { seeingRedStyle } from './seeingRed';
 import { toolsOfTheTradeStyle } from './toolsOfTheTrade';
 import { unstoppableStyle } from './unstoppable';
+import { newKidStyle } from './newKid';
+import { monkStyle } from './monk';
 import { genericStyle } from './generic';
 import { deepCopy } from '../gameServer/util';
 
@@ -32,6 +34,8 @@ const allStyles: FightingStyle[] = [
     seeingRedStyle,
     toolsOfTheTradeStyle,
     unstoppableStyle,
+    newKidStyle,
+    monkStyle,
     genericStyle
 ]
 
