@@ -15,6 +15,7 @@ import { seeingRedStyle } from './seeingRed';
 import { toolsOfTheTradeStyle } from './toolsOfTheTrade';
 import { unstoppableStyle } from './unstoppable';
 import { genericStyle } from './generic';
+import { deepCopy } from '../gameServer/util';
 
 const allStyles: FightingStyle[] = [
     grappleStyle,
@@ -39,6 +40,10 @@ const fightingStylesObj = {};
 allStyles.forEach((style) => {
     fightingStylesObj[style.name] = style;
 })
+
+export const getAllFightingStylesArr = ()=>{
+    return deepCopy(allStyles); 
+}
 
 export const getFightingStyles = () => {
     return allStyles.map(({ name, description, isGeneric }) => ({ name, description, isGeneric }));

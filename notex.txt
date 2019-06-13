@@ -10,8 +10,6 @@ Reflexing into panic is blank, should say 'Panic' or 'Flail'
 
 Styles should have more gap cards (1 or 2)
 
-There should be a generic pool of cards that all decks have access to with weak gap cards. 
-
 Message deck size at the bottom where it says update. 
 
 Find orphaned cards and put them in styles

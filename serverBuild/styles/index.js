@@ -16,6 +16,7 @@ const seeingRed_1 = require("./seeingRed");
 const toolsOfTheTrade_1 = require("./toolsOfTheTrade");
 const unstoppable_1 = require("./unstoppable");
 const generic_1 = require("./generic");
+const util_1 = require("../gameServer/util");
 const allStyles = [
     grappler_1.grappleStyle,
     cheapShot_1.cheapShotStyle,
@@ -37,6 +38,9 @@ const fightingStylesObj = {};
 allStyles.forEach((style) => {
     fightingStylesObj[style.name] = style;
 });
+exports.getAllFightingStylesArr = () => {
+    return util_1.deepCopy(allStyles);
+};
 exports.getFightingStyles = () => {
     return allStyles.map(({ name, description, isGeneric }) => ({ name, description, isGeneric }));
 };
