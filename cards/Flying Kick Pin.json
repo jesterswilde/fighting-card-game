@@ -57,6 +57,15 @@
     }
   ],
   "name": "Flying Kick Pin",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Kick",
+      "id": 56
+    }
+  ],
+  "tags": [
+    {
+      "value": "Kick"
+    }
+  ]
 }

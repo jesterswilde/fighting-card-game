@@ -42,6 +42,15 @@
     }
   ],
   "name": "Precise Kick",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Kick",
+      "id": 44
+    }
+  ],
+  "tags": [
+    {
+      "value": "Kick"
+    }
+  ]
 }

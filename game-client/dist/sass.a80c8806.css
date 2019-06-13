@@ -10361,9 +10361,12 @@ h3 {
   background-color: #d7b488;
   justify-content: space-between;
 }
-.game-card .title .priority {
-  margin-right: 0;
+.game-card .title .bottom {
   justify-self: end;
+  display: flex;
+  justify-content: space-between;
+}
+.game-card .title .priority {
   background-color: #b99d75;
   font-weight: bold;
   font-size: 1rem;
@@ -10662,6 +10665,14 @@ h3 {
   padding: 2px;
   display: flex;
   flex-direction: row;
+}
+.full-card .tags {
+  margin: 5px;
+  padding: 1px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: #b33b2c;
 }
 .full-card .priority {
   background-color: #b33b2c;

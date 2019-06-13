@@ -1,4 +1,5 @@
 {
+  "priority": 5,
   "requirements": [
     {
       "axis": "Close",
@@ -13,7 +14,29 @@
       "player": 0
     }
   ],
-  "optional": [],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "7",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 16,
+          "axis": "Bloodied",
+          "player": 1
+        },
+        {
+          "id": 15,
+          "axis": "Unbalanced",
+          "player": 1
+        }
+      ]
+    }
+  ],
   "effects": [
     {
       "amount": "15",
@@ -32,7 +55,15 @@
     }
   ],
   "name": "Bolo Punch",
-  "tagObjs": [],
-  "tags": [],
-  "priority": 5
+  "tagObjs": [
+    {
+      "value": "Punch",
+      "id": 18
+    }
+  ],
+  "tags": [
+    {
+      "value": "Punch"
+    }
+  ]
 }

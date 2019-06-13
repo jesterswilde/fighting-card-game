@@ -28,7 +28,8 @@ const splitDisplays = (effects: Mechanic[]) => {
 export default ({ card, shouldFlip }: Props) => {
     const [icons, mechs] = splitDisplays(card.effects);
     const titleChange = card.name.length > 12 ? " small" : '';
-    const mechSize = mechs.length >= 3 ? ' small' : ''; 
+    const mechSize = mechs.length >= 3 ? ' small' : '';
+    const tags = card.tags || [];
     return <div class="full-card">
         <div class="title-bar">
             <div class={"title" + titleChange}> {card.name}</div>
@@ -40,6 +41,9 @@ export default ({ card, shouldFlip }: Props) => {
         <div class={"effects" + mechSize}>
             {card.optional.map((opt, i) => <div key={i}><Optional shouldFlip={shouldFlip} effects={opt.effects} requirements={opt.requirements} /></div>)}
             {mechs.map((eff, i) => <div key={i}><Effect effect={eff} shouldFlip={shouldFlip} /></div>)}
+        </div>
+        <div class="tags">
+            {tags.map((tag) => <div>{tag.value}</div>)}
         </div>
         <div class='priority'>
             {card.priority}

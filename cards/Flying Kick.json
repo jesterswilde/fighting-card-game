@@ -43,6 +43,15 @@
     }
   ],
   "name": "Flying Kick",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Kick",
+      "id": 35
+    }
+  ],
+  "tags": [
+    {
+      "value": "Kick"
+    }
+  ]
 }

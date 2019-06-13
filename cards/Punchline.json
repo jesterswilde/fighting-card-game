@@ -1,6 +1,5 @@
 {
-  "name": "Punchline",
-  "optional": [],
+  "priority": 5,
   "requirements": [
     {
       "axis": "Anticipating",
@@ -15,6 +14,7 @@
       "player": 0
     }
   ],
+  "optional": [],
   "effects": [
     {
       "amount": "16",
@@ -36,7 +36,16 @@
       "mechanic": "Cripple"
     }
   ],
-  "tagObjs": [],
-  "tags": [],
-  "priority": 5
+  "name": "Punchline",
+  "tagObjs": [
+    {
+      "value": "Punch",
+      "id": 26
+    }
+  ],
+  "tags": [
+    {
+      "value": "Punch"
+    }
+  ]
 }

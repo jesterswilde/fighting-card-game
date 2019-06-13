@@ -40,6 +40,15 @@
     }
   ],
   "name": "Haymaker",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Punch",
+      "id": 18
+    }
+  ],
+  "tags": [
+    {
+      "value": "Punch"
+    }
+  ]
 }

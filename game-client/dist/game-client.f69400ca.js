@@ -19615,6 +19615,7 @@ var _default = function _default(_a) {
 
   var titleChange = card.name.length > 12 ? " small" : '';
   var mechSize = mechs.length >= 3 ? ' small' : '';
+  var tags = card.tags || [];
   return (0, _preact.h)("div", {
     class: "full-card"
   }, (0, _preact.h)("div", {
@@ -19656,6 +19657,10 @@ var _default = function _default(_a) {
       effect: eff,
       shouldFlip: shouldFlip
     }));
+  })), (0, _preact.h)("div", {
+    class: "tags"
+  }, tags.map(function (tag) {
+    return (0, _preact.h)("div", null, tag.value);
   })), (0, _preact.h)("div", {
     class: 'priority'
   }, card.priority));
@@ -24687,7 +24692,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49905" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49977" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

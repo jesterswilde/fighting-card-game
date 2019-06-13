@@ -69,6 +69,15 @@
     }
   ],
   "name": "Punch, Counterpunch",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Punch",
+      "id": 30
+    }
+  ],
+  "tags": [
+    {
+      "value": "Punch"
+    }
+  ]
 }

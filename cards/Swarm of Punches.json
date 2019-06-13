@@ -39,9 +39,9 @@
       "player": 2
     },
     {
+      "amount": 2,
       "axis": "Moving",
-      "player": 2,
-      "amount": 2
+      "player": 2
     },
     {
       "mechanicEffects": [
@@ -56,6 +56,15 @@
     }
   ],
   "name": "Swarm of Punches",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Punch",
+      "id": 9
+    }
+  ],
+  "tags": [
+    {
+      "value": "Punch"
+    }
+  ]
 }
