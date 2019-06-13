@@ -10,5 +10,10 @@ exports.cheapShotStyle = {
         "Going For The High Ground",
         "Rip From Socket",
         "Spring Trap",
+        "Makeshift Weapon",
+        "Crush",
+        "Bite",
+        "Bolo Punch",
+        "Throw Rock"
     ]
 };
