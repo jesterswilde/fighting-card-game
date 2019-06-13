@@ -1,0 +1,66 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 2
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 4,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": 3,
+          "axis": "Prone",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Unbalanced",
+          "player": 1,
+          "id": 396
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 4,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Closer",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 6,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": 2,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Flying Slash",
+  "tagObjs": [],
+  "tags": []
+}

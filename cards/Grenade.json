@@ -1,0 +1,67 @@
+{
+  "priority": 9,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "4",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 158,
+          "axis": "Bloodied",
+          "player": 1
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "amount": "4",
+          "axis": "Damage",
+          "player": 0
+        }
+      ],
+      "requirements": [
+        {
+          "id": 160,
+          "axis": "Close",
+          "player": 2
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": "8",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 2
+    },
+    {
+      "amount": "1",
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "name": "Grenade",
+  "tagObjs": [],
+  "tags": []
+}

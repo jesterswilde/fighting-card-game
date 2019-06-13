@@ -1,0 +1,62 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Prone",
+          "player": 1
+        },
+        {
+          "axis": "Standing",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 12,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Telegraph"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 3,
+          "mechanic": "Block"
+        }
+      ],
+      "amount": 1,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Going For The High Ground",
+  "tagObjs": [],
+  "tags": []
+}

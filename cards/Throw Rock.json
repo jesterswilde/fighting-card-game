@@ -1,0 +1,47 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 965
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 4,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 3,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Throw Rock",
+  "tagObjs": [],
+  "tags": []
+}

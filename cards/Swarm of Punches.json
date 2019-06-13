@@ -1,0 +1,61 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "axis": "Close",
+          "player": 2
+        }
+      ],
+      "requirements": [
+        {
+          "id": 47,
+          "axis": "Far",
+          "player": 2
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": "6",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "1",
+      "axis": "Lose Poise",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 2,
+      "amount": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "5",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": "2",
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Swarm of Punches",
+  "tagObjs": [],
+  "tags": []
+}

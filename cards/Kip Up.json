@@ -1,0 +1,28 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": 5,
+      "mechanic": "Block"
+    }
+  ],
+  "name": "Kip Up",
+  "tagObjs": [],
+  "tags": []
+}

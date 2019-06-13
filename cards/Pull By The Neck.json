@@ -1,0 +1,66 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": 1,
+          "id": 750
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Closer",
+      "player": 2
+    },
+    {
+      "amount": 3,
+      "axis": "Moving",
+      "player": 1
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Unbalanced",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 6,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": 2,
+          "axis": "Prone",
+          "player": 1
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Pull By The Neck",
+  "tagObjs": [],
+  "tags": []
+}

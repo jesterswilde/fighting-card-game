@@ -1,0 +1,59 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 1
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 4,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": 1,
+          "axis": "Prone",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Balanced",
+          "player": 0,
+          "id": 100
+        },
+        {
+          "axis": "Standing",
+          "player": 1,
+          "id": 101
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 6,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "name": "Bolas",
+  "tagObjs": [],
+  "tags": []
+}

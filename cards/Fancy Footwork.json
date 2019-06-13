@@ -1,0 +1,49 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": 1,
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "amount": 3,
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Moving",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 3,
+          "mechanic": "Parry"
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Fancy Footwork",
+  "tagObjs": [],
+  "tags": []
+}

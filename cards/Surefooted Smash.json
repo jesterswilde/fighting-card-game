@@ -1,0 +1,43 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 6,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Closer",
+      "player": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 2,
+          "axis": "Poise",
+          "player": 0
+        },
+        {
+          "amount": 2,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Surefooted Smash",
+  "tagObjs": [],
+  "tags": []
+}

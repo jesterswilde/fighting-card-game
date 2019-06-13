@@ -1,0 +1,44 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "3",
+          "mechanic": "Block"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Balanced",
+          "player": 0,
+          "id": 796
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 3,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "4",
+      "mechanic": "Block"
+    }
+  ],
+  "name": "Ride The Ropes",
+  "tagObjs": [],
+  "tags": []
+}

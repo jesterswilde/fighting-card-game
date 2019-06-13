@@ -1,0 +1,45 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "Leg",
+          "mechanic": "Cripple"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Unbalanced",
+          "player": 1,
+          "id": 937
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 4,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 2,
+      "axis": "Prone",
+      "player": 1
+    }
+  ],
+  "name": "Tendon Slash",
+  "tagObjs": [],
+  "tags": []
+}

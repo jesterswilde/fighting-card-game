@@ -1,0 +1,28 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 2
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": "1",
+      "axis": "Poise",
+      "player": 0
+    }
+  ],
+  "name": "Advance",
+  "tagObjs": [],
+  "tags": []
+}

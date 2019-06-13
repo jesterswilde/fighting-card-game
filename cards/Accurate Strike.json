@@ -1,0 +1,51 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 0
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "4",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "8",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    },
+    {
+      "amount": "5",
+      "mechanic": "Parry"
+    }
+  ],
+  "name": "Accurate Strike",
+  "tagObjs": [
+    {
+      "value": "Kidney Shot",
+      "id": 60
+    }
+  ],
+  "tags": [
+    {
+      "value": "Kidney Shot"
+    }
+  ]
+}

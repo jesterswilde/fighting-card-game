@@ -1,0 +1,49 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 1,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": 3,
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "amount": "8",
+      "mechanic": "Block"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Got Your Back",
+  "tagObjs": [],
+  "tags": []
+}

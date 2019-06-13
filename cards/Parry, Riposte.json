@@ -1,0 +1,67 @@
+{
+  "name": "Parry, Riposte",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "3",
+          "mechanic": "Parry"
+        }
+      ],
+      "requirements": [
+        {
+          "id": 49,
+          "axis": "Anticipating",
+          "player": 0
+        },
+        {
+          "id": 48,
+          "axis": "Moving",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0,
+      "amount": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "12",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    },
+    {
+      "amount": "6",
+      "mechanic": "Parry"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 6,
+  "tags": []
+}

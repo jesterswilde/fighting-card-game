@@ -1,0 +1,58 @@
+{
+  "name": "Breathing Technique",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 2
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Poise",
+      "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "3",
+      "mechanic": "Block"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Close",
+          "player": 2
+        },
+        {
+          "axis": "Anticipating",
+          "player": 1
+        },
+        {
+          "axis": "Moving",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 8,
+  "tags": []
+}

@@ -1,0 +1,43 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 1,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": 6,
+      "mechanic": "Block"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Moving",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 5,
+          "mechanic": "Block"
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Feint",
+  "tagObjs": [],
+  "tags": []
+}

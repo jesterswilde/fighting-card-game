@@ -1,0 +1,74 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 2,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": 1,
+          "id": 540
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 6,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 3,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "axis": "Far",
+          "player": 2
+        },
+        {
+          "amount": 3,
+          "axis": "Moving",
+          "player": 1
+        }
+      ],
+      "amount": 2,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Human Ladder",
+  "tagObjs": [],
+  "tags": []
+}

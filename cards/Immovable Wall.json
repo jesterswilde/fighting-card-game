@@ -1,0 +1,41 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 1
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 8,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 2,
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 2
+    },
+    {
+      "amount": 8,
+      "mechanic": "Block"
+    }
+  ],
+  "name": "Immovable Wall",
+  "tagObjs": [],
+  "tags": []
+}

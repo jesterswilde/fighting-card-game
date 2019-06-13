@@ -12,8 +12,7 @@ export const cheapShotStyle: FightingStyle = {
         "Spring Trap",
         "Makeshift Weapon",
         "Crush",
-        "Bite",
-        "Bolo Punch"
+        "Bite", 
         "Throw Rock"
     ]
 }

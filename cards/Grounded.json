@@ -1,0 +1,72 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "choices": [
+        [
+          {
+            "amount": 2,
+            "axis": "Poise",
+            "player": 0
+          },
+          {
+            "mechanicRequirements": [
+              {
+                "axis": "Prone",
+                "player": 0,
+                "id": 488
+              }
+            ],
+            "mechanicEffects": [
+              {
+                "amount": 4,
+                "mechanic": "Block",
+                "id": 489
+              }
+            ],
+            "mechanic": "Focus"
+          }
+        ],
+        [
+          {
+            "mechanicRequirements": [
+              {
+                "axis": "Prone",
+                "player": 0,
+                "id": 491
+              }
+            ],
+            "mechanicEffects": [
+              {
+                "amount": 6,
+                "mechanic": "Block",
+                "id": 492
+              }
+            ],
+            "mechanic": "Focus"
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "name": "Grounded",
+  "tagObjs": [],
+  "tags": []
+}

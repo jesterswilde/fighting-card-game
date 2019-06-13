@@ -1,0 +1,58 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Balanced",
+          "player": 0
+        },
+        {
+          "axis": "Moving",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 4,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Focus"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Balanced",
+          "player": 0
+        },
+        {
+          "axis": "Still",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 4,
+          "mechanic": "Block"
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Inertia",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,38 @@
+{
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "15",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "3",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 1
+    }
+  ],
+  "name": "Bolo Punch",
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

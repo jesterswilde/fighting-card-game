@@ -1,0 +1,38 @@
+{
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 3,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Damage",
+          "player": 0
+        },
+        {
+          "axis": "Balanced",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Goad",
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

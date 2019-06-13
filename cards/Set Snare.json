@@ -1,0 +1,65 @@
+{
+  "name": "Set Snare",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Far",
+          "player": 1
+        },
+        {
+          "axis": "Not Anticipating",
+          "player": 1
+        },
+        {
+          "axis": "Moving",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "3",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "4",
+          "axis": "Lose Poise",
+          "player": 1
+        },
+        {
+          "axis": "Prone",
+          "player": 1,
+          "amount": 2
+        },
+        {
+          "axis": "Still",
+          "player": 1
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 6,
+  "tags": []
+}

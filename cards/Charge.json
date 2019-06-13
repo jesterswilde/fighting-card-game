@@ -1,0 +1,38 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": "1",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "amount": 2,
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "name": "Charge",
+  "tagObjs": [],
+  "tags": []
+}

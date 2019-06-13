@@ -1,0 +1,56 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 8,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 881
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 6,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 4,
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 2,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Spinning Slash",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,40 @@
+{
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "Leg",
+          "mechanic": "Cripple"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 858
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 7,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "name": "Smash Kneecap",
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Compose",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": 0
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Poise",
+      "player": 0
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

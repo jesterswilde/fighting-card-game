@@ -1,0 +1,70 @@
+{
+  "priority": 2,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 2
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 7,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": 3,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 697
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 13,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 13,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": 6,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Neck Break",
+  "tagObjs": [],
+  "tags": []
+}

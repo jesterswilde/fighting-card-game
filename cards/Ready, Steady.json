@@ -1,0 +1,50 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "choices": [
+        [
+          {
+            "amount": "2",
+            "axis": "Poise",
+            "player": 0
+          }
+        ],
+        [
+          {
+            "amount": "8",
+            "player": null,
+            "mechanic": "Block"
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "name": "Ready, Steady",
+  "tagObjs": [],
+  "tags": []
+}

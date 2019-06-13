@@ -1,0 +1,43 @@
+{
+  "name": "Maniacal Laughter",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "4",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "axis": "Prone",
+      "player": 0,
+      "amount": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "Psyche",
+          "mechanic": "Cripple"
+        }
+      ],
+      "amount": "3",
+      "mechanic": "Forceful"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

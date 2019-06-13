@@ -1,0 +1,50 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 2
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 2,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 865
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 6,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": 2,
+      "axis": "Lose Poise",
+      "player": 1
+    }
+  ],
+  "name": "Smash the Bridge",
+  "tagObjs": [],
+  "tags": []
+}

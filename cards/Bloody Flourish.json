@@ -1,0 +1,45 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Anticipating",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 4,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Unbalanced",
+          "player": 1,
+          "id": 81
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 3,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 2,
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanic": "Reflex"
+    }
+  ],
+  "name": "Bloody Flourish",
+  "tagObjs": [],
+  "tags": []
+}

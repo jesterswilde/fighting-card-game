@@ -1,0 +1,55 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "amount": 2,
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "5",
+          "mechanic": "Parry"
+        },
+        {
+          "amount": "Pysche",
+          "mechanic": "Cripple"
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Vicious Mockery",
+  "tagObjs": [
+    {
+      "value": "Performance",
+      "id": 52
+    }
+  ],
+  "tags": [
+    {
+      "value": "Performance"
+    }
+  ]
+}

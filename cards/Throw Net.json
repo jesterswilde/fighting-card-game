@@ -1,0 +1,38 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "amount": 3,
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "amount": 3,
+      "axis": "Moving",
+      "player": 1
+    }
+  ],
+  "name": "Throw Net",
+  "tagObjs": [],
+  "tags": []
+}

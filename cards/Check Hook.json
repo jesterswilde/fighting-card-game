@@ -1,0 +1,67 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 0
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "axis": "Standing",
+          "player": 0
+        }
+      ],
+      "requirements": [
+        {
+          "id": 32,
+          "axis": "Standing",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": "4",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "1",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": "6",
+      "mechanic": "Block"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "8",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "6",
+          "mechanic": "Parry"
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Check Hook",
+  "tagObjs": [],
+  "tags": []
+}

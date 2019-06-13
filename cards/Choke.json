@@ -1,0 +1,39 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Unbalanced",
+      "player": 1
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Grappled",
+          "player": 2
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 7,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Choke",
+  "tagObjs": [],
+  "tags": []
+}

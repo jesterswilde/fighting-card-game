@@ -1,0 +1,53 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Close",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 3,
+          "mechanic": "Parry"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 10
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": 1,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": 2,
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "name": "To The Pocket",
+  "tagObjs": [],
+  "tags": []
+}

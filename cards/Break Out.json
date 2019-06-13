@@ -1,0 +1,51 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "amount": "1",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "choices": [
+        [
+          {
+            "amount": "2",
+            "axis": "Poise",
+            "player": 0
+          }
+        ],
+        [
+          {
+            "amount": "6",
+            "mechanic": "Block"
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "name": "Break Out",
+  "tagObjs": [],
+  "tags": []
+}

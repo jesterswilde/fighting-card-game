@@ -1,0 +1,61 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 1,
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Balanced",
+          "player": 0,
+          "id": 568
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": 4,
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Still",
+          "player": 0
+        },
+        {
+          "axis": "Moving",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 10,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Incoming!",
+  "tagObjs": [],
+  "tags": []
+}

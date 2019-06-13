@@ -1,0 +1,33 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 4,
+          "axis": "Prone",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Leg Grab",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,74 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "axis": "Standing",
+          "player": 0
+        },
+        {
+          "amount": "5",
+          "mechanic": "Block"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 762
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "amount": "5",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": 1,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Damage",
+          "player": 0,
+          "id": 765
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 1,
+      "axis": "Lose Poise",
+      "player": 1
+    }
+  ],
+  "name": "Punch, Counterpunch",
+  "tagObjs": [],
+  "tags": []
+}

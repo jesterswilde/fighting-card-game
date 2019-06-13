@@ -1,0 +1,55 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Unbalanced",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "3",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 12,
+          "axis": "Anticipating",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": "12",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Closer",
+      "player": 2
+    },
+    {
+      "amount": 2,
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Moving",
+      "player": 0,
+      "amount": 2
+    }
+  ],
+  "name": "Drive Down",
+  "tagObjs": [],
+  "tags": []
+}

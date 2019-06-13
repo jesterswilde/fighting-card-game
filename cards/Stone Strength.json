@@ -1,0 +1,32 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 3,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": 8,
+      "mechanic": "Block"
+    }
+  ],
+  "name": "Stone Strength",
+  "tagObjs": [],
+  "tags": []
+}

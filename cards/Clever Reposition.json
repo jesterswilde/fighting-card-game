@@ -1,0 +1,42 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": 2,
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": 2,
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "amount": 4,
+      "mechanic": "Parry"
+    }
+  ],
+  "name": "Clever Reposition",
+  "tagObjs": [],
+  "tags": []
+}

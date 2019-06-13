@@ -1,0 +1,38 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 5,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 9,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Spring Trap",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,44 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 2,
+          "axis": "Lose Poise",
+          "player": 0
+        },
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 998
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 3,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": "3",
+      "mechanic": "Parry"
+    }
+  ],
+  "name": "Wind Up",
+  "tagObjs": [],
+  "tags": []
+}

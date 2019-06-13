@@ -1,0 +1,20 @@
+{
+  "name": "Go To Ground",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "4",
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "tagObjs": [],
+  "priority": 8,
+  "tags": []
+}

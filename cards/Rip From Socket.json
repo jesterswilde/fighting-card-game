@@ -1,0 +1,39 @@
+{
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 7,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 3,
+          "axis": "Prone",
+          "player": 1
+        }
+      ],
+      "amount": 1,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Rip From Socket",
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

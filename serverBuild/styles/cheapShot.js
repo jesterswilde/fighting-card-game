@@ -13,7 +13,6 @@ exports.cheapShotStyle = {
         "Makeshift Weapon",
         "Crush",
         "Bite",
-        "Bolo Punch",
         "Throw Rock"
     ]
 };

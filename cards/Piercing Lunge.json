@@ -1,0 +1,60 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 10,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Closer",
+      "player": 0
+    },
+    {
+      "amount": 3,
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 8,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "axis": "Still",
+          "player": 1
+        }
+      ],
+      "player": null,
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Piercing Lunge",
+  "tagObjs": [],
+  "tags": []
+}

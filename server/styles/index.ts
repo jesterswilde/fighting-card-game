@@ -16,6 +16,8 @@ import { toolsOfTheTradeStyle } from './toolsOfTheTrade';
 import { unstoppableStyle } from './unstoppable';
 import { newKidStyle } from './newKid';
 import { monkStyle } from './monk';
+import { ropeADopeStyle } from './ropeADope';
+import { workTheBodyStyle } from './workTheBody';
 import { genericStyle } from './generic';
 import { deepCopy } from '../gameServer/util';
 
@@ -36,6 +38,8 @@ const allStyles: FightingStyle[] = [
     unstoppableStyle,
     newKidStyle,
     monkStyle,
+    ropeADopeStyle,
+    workTheBodyStyle,
     genericStyle
 ]
 
@@ -45,8 +49,8 @@ allStyles.forEach((style) => {
     fightingStylesObj[style.name] = style;
 })
 
-export const getAllFightingStylesArr = ()=>{
-    return deepCopy(allStyles); 
+export const getAllFightingStylesArr = () => {
+    return deepCopy(allStyles);
 }
 
 export const getFightingStyles = () => {

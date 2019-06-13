@@ -1,0 +1,24 @@
+{
+  "name": "Move",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Still",
+      "player": 2
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Moving",
+      "player": 0,
+      "amount": 2
+    },
+    {
+      "amount": "3",
+      "mechanic": "Block"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

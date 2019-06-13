@@ -1,0 +1,65 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "amount": "3",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "amount": "1",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "3",
+          "axis": "Prone",
+          "player": 1
+        },
+        {
+          "amount": "3",
+          "mechanic": "Clutch"
+        }
+      ],
+      "amount": "2",
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Pinning Shot",
+  "tagObjs": [
+    {
+      "value": "Shot",
+      "id": 55
+    }
+  ],
+  "tags": [
+    {
+      "value": "Shot"
+    }
+  ]
+}

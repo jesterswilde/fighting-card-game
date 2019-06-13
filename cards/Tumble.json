@@ -1,0 +1,49 @@
+{
+  "name": "Tumble",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "choices": [
+        [
+          {
+            "axis": "Closer",
+            "player": 2
+          }
+        ],
+        [
+          {
+            "axis": "Further",
+            "player": 2
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 4,
+  "tags": []
+}

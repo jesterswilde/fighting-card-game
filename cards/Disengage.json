@@ -1,0 +1,49 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "5",
+          "mechanic": "Block"
+        }
+      ],
+      "requirements": [
+        {
+          "id": 71,
+          "axis": "Anticipating",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "amount": "3",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0,
+      "amount": 2
+    }
+  ],
+  "name": "Disengage",
+  "tagObjs": [],
+  "tags": []
+}

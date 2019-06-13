@@ -1,0 +1,53 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "amount": 1,
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "7",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "2",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "amount": 2,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Find The Joint",
+  "tagObjs": [],
+  "tags": []
+}

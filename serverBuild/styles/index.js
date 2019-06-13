@@ -17,6 +17,8 @@ const toolsOfTheTrade_1 = require("./toolsOfTheTrade");
 const unstoppable_1 = require("./unstoppable");
 const newKid_1 = require("./newKid");
 const monk_1 = require("./monk");
+const ropeADope_1 = require("./ropeADope");
+const workTheBody_1 = require("./workTheBody");
 const generic_1 = require("./generic");
 const util_1 = require("../gameServer/util");
 const allStyles = [
@@ -36,6 +38,8 @@ const allStyles = [
     unstoppable_1.unstoppableStyle,
     newKid_1.newKidStyle,
     monk_1.monkStyle,
+    ropeADope_1.ropeADopeStyle,
+    workTheBody_1.workTheBodyStyle,
     generic_1.genericStyle
 ];
 const fightingStylesObj = {};

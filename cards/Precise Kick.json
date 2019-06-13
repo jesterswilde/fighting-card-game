@@ -1,0 +1,47 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "7",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 7,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "Chest",
+          "mechanic": "Cripple"
+        }
+      ],
+      "amount": 4,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Precise Kick",
+  "tagObjs": [],
+  "tags": []
+}

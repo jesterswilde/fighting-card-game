@@ -1,0 +1,28 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Closer",
+      "player": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "amount": 3,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Lunge",
+  "tagObjs": [],
+  "tags": []
+}

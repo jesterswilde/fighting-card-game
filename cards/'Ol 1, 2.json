@@ -1,0 +1,48 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 1
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 4
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 6,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 3,
+      "axis": "Prone",
+      "player": 1
+    }
+  ],
+  "name": "'Ol 1, 2",
+  "tagObjs": [],
+  "tags": []
+}

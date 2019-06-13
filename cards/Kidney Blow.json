@@ -1,0 +1,48 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 0
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "3",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": "Kidney Shot",
+      "mechanic": "Enhance"
+    }
+  ],
+  "name": "Kidney Blow",
+  "tagObjs": [
+    {
+      "value": "Kidney Shot",
+      "id": 20
+    }
+  ],
+  "tags": [
+    {
+      "value": "Kidney Shot"
+    }
+  ]
+}

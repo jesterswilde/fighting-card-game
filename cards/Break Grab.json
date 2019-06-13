@@ -1,0 +1,23 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    }
+  ],
+  "name": "Break Grab",
+  "tagObjs": [],
+  "tags": []
+}

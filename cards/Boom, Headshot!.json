@@ -1,0 +1,62 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Unbalanced",
+      "player": 1
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "1",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "35",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "axis": "Far",
+          "player": 2
+        },
+        {
+          "amount": "2",
+          "axis": "Moving",
+          "player": 0
+        }
+      ],
+      "amount": "2",
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Boom, Headshot!",
+  "tagObjs": [
+    {
+      "value": "Shot",
+      "id": 65
+    }
+  ],
+  "tags": [
+    {
+      "value": "Shot"
+    }
+  ]
+}

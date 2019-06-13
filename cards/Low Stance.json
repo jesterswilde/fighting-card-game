@@ -1,0 +1,41 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "choices": [
+        [
+          {
+            "amount": 2,
+            "axis": "Poise",
+            "player": 0
+          },
+          {
+            "amount": 3,
+            "mechanic": "Block"
+          }
+        ],
+        [
+          {
+            "amount": 8,
+            "mechanic": "Block"
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "name": "Low Stance",
+  "tagObjs": [],
+  "tags": []
+}

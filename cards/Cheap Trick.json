@@ -1,0 +1,41 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": 2,
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Unbalanced",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Cheap Trick",
+  "tagObjs": [],
+  "tags": []
+}

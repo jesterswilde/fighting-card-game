@@ -1,0 +1,55 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "axis": "Further",
+          "player": 2
+        }
+      ],
+      "requirements": [
+        {
+          "id": 48,
+          "axis": "Balanced",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Moving",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Drop Caltrops",
+  "tagObjs": [],
+  "tags": []
+}

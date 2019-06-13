@@ -1,0 +1,33 @@
+{
+  "name": "Squirm",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Lose Poise",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0,
+      "amount": 2
+    }
+  ],
+  "tagObjs": [],
+  "priority": 9,
+  "tags": []
+}

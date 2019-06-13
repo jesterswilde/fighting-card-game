@@ -1,0 +1,29 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": "5",
+      "axis": "Prone",
+      "player": 0
+    },
+    {
+      "amount": 6,
+      "mechanic": "Block"
+    }
+  ],
+  "name": "Hit The Floor",
+  "tagObjs": [],
+  "tags": []
+}

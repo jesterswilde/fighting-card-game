@@ -1,0 +1,60 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 0
+        },
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Bloodied",
+          "player": 0,
+          "id": 301
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 8,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 2,
+      "axis": "Lose Poise",
+      "player": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 6,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": 2,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Desperate Swing",
+  "tagObjs": [],
+  "tags": []
+}

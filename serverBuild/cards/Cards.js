@@ -11,33 +11,51 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path = require("path");
 exports.allCards = {};
-// onDBReady(async(connection)=>{
-//     let cardsObj = {}; 
-//     const cardsArr = await cardRepo.find(); 
-//     cardsArr.forEach(({card})=>{
-//         cardsObj[card.name] = card
-//     })
-//     cards = cardsObj; 
-// })
-const readCardsFile = () => __awaiter(this, void 0, void 0, function* () {
-    yield fs_1.readFile(path.join(__dirname, '..', '..', 'Cards.txt'), { encoding: 'utf8' }, (err, data) => {
-        if (err) {
-            console.error(err);
-        }
-        else {
-            exports.allCards = JSON.parse(data);
-        }
-    });
+exports.makeCardsObj = () => __awaiter(this, void 0, void 0, function* () {
+    return new Promise((res, rej) => __awaiter(this, void 0, void 0, function* () {
+        const cardNames = yield getCardNames();
+        const cardPromises = cardNames.map((cardName) => readCardFile(cardName));
+        const cards = yield Promise.all(cardPromises);
+        const cardObj = cards.reduce((obj, card) => {
+            obj[card.name] = card;
+            return obj;
+        }, {});
+        res(cardObj);
+    }));
 });
-readCardsFile();
-// export const removeCard = async(name: string)=>{
-//     delete cards[name]; 
-//     cardRepo.delete({name})
-// }
+const getCardNames = () => {
+    return new Promise((res, rej) => {
+        fs_1.readdir(path.join(__dirname, '..', '..', 'cards'), (err, cardNames) => {
+            if (err) {
+                console.error("Couldn't read folder for cards");
+                rej(err);
+                return;
+            }
+            else {
+                res(cardNames);
+            }
+        });
+    });
+};
+const readCardFile = (fileName) => {
+    return new Promise((res, rej) => {
+        fs_1.readFile(path.join(__dirname, '..', '..', 'cards', fileName), { encoding: 'utf8' }, (err, cardData) => {
+            if (err) {
+                rej(err);
+            }
+            else {
+                const card = JSON.parse(cardData);
+                res(card);
+            }
+        });
+    });
+};
+//INITIALIZE CARDS OBJ; 
+exports.makeCardsObj().then((cardsObj) => exports.allCards = cardsObj);
 exports.removeCard = (name) => __awaiter(this, void 0, void 0, function* () {
     delete exports.allCards[name];
     return new Promise((res, rej) => {
-        fs_1.writeFile(path.join(__dirname, '..', '..', 'Cards.txt'), JSON.stringify(exports.allCards), (err) => {
+        fs_1.unlink(path.join(__dirname, '..', '..', 'cards', name), (err) => {
             if (err) {
                 rej(err);
             }
@@ -47,20 +65,13 @@ exports.removeCard = (name) => __awaiter(this, void 0, void 0, function* () {
         });
     });
 });
-// export const addCard = (card: Card) =>{
-//     cards[card.name] = card; 
-//     cardRepo.save({name: card.name, card});
-// }
-// export const stringifiedCards = ()=>{
-//     JSON.stringify(cards, null, 2);
-// }
 exports.addCard = (cardObj, index) => __awaiter(this, void 0, void 0, function* () {
     if (index !== null) {
         delete exports.allCards[cardObj.name];
     }
     return new Promise((res, rej) => {
         exports.allCards[cardObj.name] = cardObj;
-        fs_1.writeFile(path.join(__dirname, '..', '..', 'Cards.txt'), JSON.stringify(exports.allCards, null, 2), (err) => {
+        fs_1.writeFile(path.join(__dirname, '..', '..', 'cards', cardObj.name + ".json"), JSON.stringify(cardObj, null, 2), (err) => {
             if (err) {
                 rej(err);
             }

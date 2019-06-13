@@ -1,0 +1,35 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 5,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 6,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": 3,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Knife Throw",
+  "tagObjs": [],
+  "tags": []
+}

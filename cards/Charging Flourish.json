@@ -1,0 +1,62 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "mechanicEffects": [
+            {
+              "mechanic": "Reflex"
+            }
+          ],
+          "amount": 3,
+          "mechanic": "Forceful"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 230
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 4,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Closer",
+      "player": 2
+    },
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "name": "Charging Flourish",
+  "tagObjs": [],
+  "tags": []
+}

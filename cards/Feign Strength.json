@@ -1,0 +1,34 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 3,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": 4,
+      "mechanic": "Block"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 3,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Feign Strength",
+  "tagObjs": [],
+  "tags": []
+}

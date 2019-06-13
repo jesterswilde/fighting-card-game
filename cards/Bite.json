@@ -1,0 +1,62 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Standing",
+          "player": 2,
+          "id": 63
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "amount": 3,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Standing",
+          "player": 1,
+          "id": 66
+        },
+        {
+          "axis": "Prone",
+          "player": 0,
+          "id": 67
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 5,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Grappled",
+      "player": 2
+    }
+  ],
+  "name": "Bite",
+  "tagObjs": [],
+  "tags": []
+}

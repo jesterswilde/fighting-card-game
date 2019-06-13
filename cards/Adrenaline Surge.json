@@ -1,0 +1,54 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Balanced",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "3",
+          "axis": "Lose Poise",
+          "player": 0
+        },
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "mechanic": "Focus"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Moving",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "1",
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Adrenaline Surge",
+  "tagObjs": [],
+  "tags": []
+}

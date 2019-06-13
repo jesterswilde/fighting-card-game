@@ -1,0 +1,24 @@
+{
+  "name": "Stop",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "1",
+      "player": null,
+      "mechanic": "Parry"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

@@ -1,0 +1,69 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "4",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "axis": "Further",
+          "player": 2
+        },
+        {
+          "amount": "1",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 81,
+          "axis": "Anticipating",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": "7",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "1",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "amount": "3",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 2
+    }
+  ],
+  "name": "Hurl",
+  "tagObjs": [],
+  "tags": []
+}

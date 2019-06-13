@@ -1,0 +1,46 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "1",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": "3",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "choices": [
+        [
+          {
+            "axis": "Further",
+            "player": 2
+          }
+        ],
+        [
+          {
+            "axis": "Closer",
+            "player": 2
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "name": "Rolling Leap",
+  "tagObjs": [],
+  "tags": []
+}

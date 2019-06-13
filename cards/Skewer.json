@@ -1,0 +1,51 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Prone",
+      "player": 1
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 6,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": 1,
+          "id": 852
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 5,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "amount": 3,
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "name": "Skewer",
+  "tagObjs": [],
+  "tags": []
+}

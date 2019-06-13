@@ -1,0 +1,42 @@
+{
+  "priority": 2,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Unbalanced",
+      "player": 1
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 7,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": 2,
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "name": "Opportunist",
+  "tagObjs": [],
+  "tags": []
+}

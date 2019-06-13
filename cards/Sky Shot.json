@@ -1,0 +1,70 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "amount": "1",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Not Grappled",
+          "player": 2
+        },
+        {
+          "axis": "Not Anticipating",
+          "player": 1
+        },
+        {
+          "axis": "Prone",
+          "player": 1
+        },
+        {
+          "axis": "Still",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "15",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "2",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Sky Shot",
+  "tagObjs": [
+    {
+      "value": "Shot",
+      "id": 34
+    }
+  ],
+  "tags": [
+    {
+      "value": "Shot"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "amount": "3",
+      "mechanic": "Parry"
+    },
+    {
+      "choices": [
+        [
+          {
+            "mechanicRequirements": [
+              {
+                "id": 22,
+                "axis": "Moving",
+                "player": 0
+              }
+            ],
+            "mechanicEffects": [
+              {
+                "amount": "1",
+                "axis": "Poise",
+                "player": 0,
+                "id": 23
+              }
+            ],
+            "mechanic": "Focus"
+          }
+        ],
+        [
+          {
+            "mechanicRequirements": [
+              {
+                "id": 24,
+                "axis": "Far",
+                "player": 2
+              }
+            ],
+            "mechanicEffects": [
+              {
+                "amount": "3",
+                "mechanic": "Parry",
+                "id": 25
+              }
+            ],
+            "mechanic": "Focus"
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "name": "Hardcore Parkour",
+  "tagObjs": [
+    {
+      "value": "Performance",
+      "id": 44
+    }
+  ],
+  "tags": [
+    {
+      "value": "Performance"
+    }
+  ]
+}

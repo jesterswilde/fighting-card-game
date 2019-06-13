@@ -1,0 +1,70 @@
+{
+  "priority": 9,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "amount": 3,
+      "axis": "Moving",
+      "player": 1
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Grappled",
+          "player": 2
+        },
+        {
+          "axis": "Prone",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "mechanic": "Telegraph"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 3,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "axis": "Far",
+          "player": 2
+        },
+        {
+          "amount": 2,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "amount": 2,
+      "mechanic": "Forceful"
+    },
+    {
+      "amount": "3",
+      "mechanic": "Setup"
+    }
+  ],
+  "name": "Grand Setup",
+  "tagObjs": [],
+  "tags": []
+}

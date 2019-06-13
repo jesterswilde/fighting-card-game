@@ -1,0 +1,59 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": 2,
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "amount": 7,
+      "mechanic": "Block"
+    },
+    {
+      "choices": [
+        [
+          {
+            "axis": "Closer",
+            "player": 2
+          }
+        ],
+        [
+          {
+            "axis": "Further",
+            "player": 2
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 5,
+          "mechanic": "Block"
+        }
+      ],
+      "amount": 2,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Guarded Maneuvers",
+  "tagObjs": [],
+  "tags": []
+}

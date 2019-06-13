@@ -1,0 +1,46 @@
+{
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "mechanicEffects": [
+        {
+          "amount": 3,
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "mechanic": "Predict"
+    },
+    {
+      "choices": [
+        [
+          {
+            "axis": "Further",
+            "player": 2
+          }
+        ],
+        [
+          {
+            "axis": "Still",
+            "player": 0
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "name": "Reposition",
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

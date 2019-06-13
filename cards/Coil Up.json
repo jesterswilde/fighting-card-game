@@ -1,0 +1,42 @@
+{
+  "requirements": [
+    {
+      "axis": "Not Close",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 3,
+      "mechanic": "Block"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Close",
+          "player": 2
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Coil Up",
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

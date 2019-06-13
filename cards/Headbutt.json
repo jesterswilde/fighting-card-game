@@ -1,0 +1,69 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "axis": "Close",
+          "player": 2
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Far",
+          "player": 1,
+          "id": 514
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 517
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 6,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": 3,
+      "axis": "Moving",
+      "player": 1
+    }
+  ],
+  "name": "Headbutt",
+  "tagObjs": [],
+  "tags": []
+}

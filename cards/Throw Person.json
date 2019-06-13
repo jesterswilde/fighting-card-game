@@ -1,0 +1,49 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 4,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 3,
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "amount": 2,
+      "axis": "Moving",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 2,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "axis": "Far",
+          "player": 2
+        }
+      ],
+      "amount": 2,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Throw Person",
+  "tagObjs": [],
+  "tags": []
+}

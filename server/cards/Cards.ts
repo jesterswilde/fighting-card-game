@@ -1,55 +1,62 @@
 import { Card } from '../shared/card';
-import { writeFile, readFile } from 'fs';
-import * as path from 'path'; 
+import { writeFile, readFile, readdir, unlink } from 'fs';
+import * as path from 'path';
 
 export let allCards: { [name: string]: Card } = {};
 
-// onDBReady(async(connection)=>{
-//     let cardsObj = {}; 
-//     const cardsArr = await cardRepo.find(); 
-//     cardsArr.forEach(({card})=>{
-//         cardsObj[card.name] = card
-//     })
-//     cards = cardsObj; 
-// })
-
-const readCardsFile = async() => {
-    await readFile(path.join(__dirname,'..','..','Cards.txt'), { encoding: 'utf8' }, (err, data) => {
-        if (err) {
-            console.error(err);
-        } else {
-            allCards = JSON.parse(data); 
-        }
+export const makeCardsObj = async (): Promise<{ [name: string]: Card }> => {
+    return new Promise(async (res, rej) => {
+        const cardNames = await getCardNames();
+        const cardPromises = cardNames.map((cardName) => readCardFile(cardName))
+        const cards = await Promise.all(cardPromises);
+        const cardObj = cards.reduce((obj, card) => {
+            obj[card.name] = card;
+            return obj;
+        }, {})
+        res(cardObj);
+    })
+}
+const getCardNames = (): Promise<string[]> => {
+    return new Promise((res, rej) => {
+        readdir(path.join(__dirname, '..', '..', 'cards'), (err, cardNames) => {
+            if (err) {
+                console.error("Couldn't read folder for cards");
+                rej(err);
+                return;
+            } else {
+                res(cardNames);
+            }
+        })
+    })
+}
+const readCardFile = (fileName: string): Promise<Card> => {
+    return new Promise((res, rej) => {
+        readFile(path.join(__dirname, '..', '..', 'cards', fileName), { encoding: 'utf8' }, (err, cardData) => {
+            if (err) {
+                rej(err);
+            } else {
+                const card: Card = JSON.parse(cardData);
+                res(card);
+            }
+        });
     });
 }
-readCardsFile(); 
 
-// export const removeCard = async(name: string)=>{
-//     delete cards[name]; 
-//     cardRepo.delete({name})
-// }
+//INITIALIZE CARDS OBJ; 
+makeCardsObj().then((cardsObj)=> allCards = cardsObj); 
 
-export const removeCard = async(name: string)=>{
-    delete allCards[name]; 
+export const removeCard = async (name: string) => {
+    delete allCards[name];
     return new Promise((res, rej) => {
-        writeFile(path.join(__dirname,'..','..','Cards.txt'), JSON.stringify(allCards), (err) => {
+        unlink(path.join(__dirname, '..', '..', 'cards', name), (err) => {
             if (err) {
                 rej(err);
             } else {
                 res();
             }
         });
-    })
+    });
 }
-
-// export const addCard = (card: Card) =>{
-//     cards[card.name] = card; 
-//     cardRepo.save({name: card.name, card});
-// }
-
-// export const stringifiedCards = ()=>{
-//     JSON.stringify(cards, null, 2);
-// }
 
 export const addCard = async (cardObj: Card, index: string | null) => {
     if (index !== null) {
@@ -57,7 +64,7 @@ export const addCard = async (cardObj: Card, index: string | null) => {
     }
     return new Promise((res, rej) => {
         allCards[cardObj.name] = cardObj;
-        writeFile(path.join(__dirname,'..','..','Cards.txt'), JSON.stringify(allCards, null, 2), (err) => {
+        writeFile(path.join(__dirname, '..', '..', 'cards', cardObj.name + ".json"), JSON.stringify(cardObj, null, 2), (err) => {
             if (err) {
                 rej(err);
             } else {
@@ -68,10 +75,10 @@ export const addCard = async (cardObj: Card, index: string | null) => {
 }
 
 
-export const downloadCards = ()=>{
-    writeFile(path.join(__dirname, '..', '..', 'backup.txt'), JSON.stringify(allCards, null, 2), (err)=>{
-        if(err){
-            console.error(err); 
+export const downloadCards = () => {
+    writeFile(path.join(__dirname, '..', '..', 'backup.txt'), JSON.stringify(allCards, null, 2), (err) => {
+        if (err) {
+            console.error(err);
         }
     })
 }

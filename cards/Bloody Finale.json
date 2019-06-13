@@ -1,0 +1,56 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": 1
+    },
+    {
+      "axis": "Unbalanced",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 10,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 10,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": 8,
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Bloody Finale",
+  "tagObjs": [],
+  "tags": []
+}

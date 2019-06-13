@@ -1,0 +1,42 @@
+{
+  "name": "Firecrackers",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 1
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

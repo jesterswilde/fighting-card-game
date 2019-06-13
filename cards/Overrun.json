@@ -1,0 +1,50 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "8",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": "4",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "name": "Overrun",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,55 @@
+{
+  "name": "Makeshift Weapon",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": 2
+    },
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "3",
+      "mechanic": "Parry"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Not Grappled",
+          "player": 2
+        },
+        {
+          "axis": "Balanced",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "3",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "2",
+          "mechanic": "Parry"
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 4,
+  "tags": []
+}

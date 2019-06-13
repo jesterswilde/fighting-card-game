@@ -1,0 +1,48 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 1
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0,
+          "id": 983
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 8,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 3,
+      "axis": "Prone",
+      "player": 1
+    }
+  ],
+  "name": "To The Ground",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,75 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "3",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 47,
+          "axis": "Anticipating",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": "6",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "1",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "amount": 2,
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "5",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": "2",
+      "mechanic": "Forceful"
+    }
+  ],
+  "name": "Work The Body",
+  "tagObjs": [
+    {
+      "value": "Kidney Shot",
+      "id": 36
+    }
+  ],
+  "tags": [
+    {
+      "value": "Kidney Shot"
+    }
+  ]
+}

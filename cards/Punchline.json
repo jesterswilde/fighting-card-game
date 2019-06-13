@@ -1,0 +1,42 @@
+{
+  "name": "Punchline",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Unbalanced",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "16",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "3",
+      "axis": "Lose Poise",
+      "player": 2
+    },
+    {
+      "amount": "4",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "amount": "Pysche",
+      "mechanic": "Cripple"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

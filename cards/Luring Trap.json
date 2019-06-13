@@ -1,0 +1,44 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Unbalanced",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 7,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": 3,
+          "axis": "Prone",
+          "player": 1
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Luring Trap",
+  "tagObjs": [],
+  "tags": []
+}

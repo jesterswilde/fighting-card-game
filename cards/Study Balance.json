@@ -1,0 +1,46 @@
+{
+  "priority": 2,
+  "requirements": [
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 3,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 3,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "mechanic": "Predict"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Prone",
+          "player": 2
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 7,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Study Balance",
+  "tagObjs": [],
+  "tags": []
+}

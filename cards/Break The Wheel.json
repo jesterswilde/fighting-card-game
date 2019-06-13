@@ -1,0 +1,56 @@
+{
+  "priority": 9,
+  "requirements": [
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 5,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 1,
+      "axis": "Prone",
+      "player": 0
+    },
+    {
+      "choices": [
+        [
+          {
+            "amount": "Leg",
+            "mechanic": "Cripple"
+          }
+        ],
+        [
+          {
+            "amount": 4,
+            "axis": "Damage",
+            "player": 1
+          },
+          {
+            "amount": 3,
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "name": "Break The Wheel",
+  "tagObjs": [],
+  "tags": []
+}

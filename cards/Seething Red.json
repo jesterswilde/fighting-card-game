@@ -1,0 +1,59 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": 0
+    },
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 4,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 1,
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Damage",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": 2,
+          "axis": "Lose Poise",
+          "player": 0
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Seething Red",
+  "tagObjs": [],
+  "tags": []
+}

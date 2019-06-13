@@ -1,0 +1,62 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "3",
+          "mechanic": "Block"
+        }
+      ],
+      "requirements": [
+        {
+          "id": 59,
+          "axis": "Anticipating",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Grappled",
+      "player": 0
+    },
+    {
+      "amount": "2",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "choices": [
+        [
+          {
+            "amount": "1",
+            "axis": "Lose Poise",
+            "player": 1
+          }
+        ],
+        [
+          {
+            "amount": "3",
+            "mechanic": "Block"
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "name": "Clinch",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,36 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": 2
+    },
+    {
+      "axis": "Not Far",
+      "player": 2
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": "4",
+      "axis": "Poise",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 2
+    },
+    {
+      "amount": "5",
+      "mechanic": "Block"
+    }
+  ],
+  "name": "Saved By The Bell",
+  "tagObjs": [],
+  "tags": []
+}

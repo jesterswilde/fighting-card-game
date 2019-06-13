@@ -1,0 +1,40 @@
+{
+  "priority": 1,
+  "requirements": [
+    {
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 4,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 4,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "1000 Cuts",
+  "tagObjs": [],
+  "tags": []
+}

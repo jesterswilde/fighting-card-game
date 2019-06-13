@@ -1,0 +1,73 @@
+{
+  "priority": 2,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Anticipating",
+          "player": 0
+        },
+        {
+          "axis": "Unbalanced",
+          "player": 1
+        },
+        {
+          "axis": "Prone",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "25",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "2",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "mechanic": "Telegraph"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Grappled",
+          "player": 2
+        },
+        {
+          "axis": "Balanced",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "5",
+          "axis": "Damage",
+          "player": 0
+        },
+        {
+          "amount": "2",
+          "axis": "Lose Poise",
+          "player": 0
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Insidious Plan",
+  "tagObjs": [],
+  "tags": []
+}

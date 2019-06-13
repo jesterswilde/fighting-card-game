@@ -1,0 +1,33 @@
+{
+  "priority": 9,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": 7,
+      "player": 0,
+      "mechanic": "Block"
+    }
+  ],
+  "name": "Defensive Crawl",
+  "tagObjs": [],
+  "tags": []
+}

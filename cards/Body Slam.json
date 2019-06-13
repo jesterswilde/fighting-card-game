@@ -1,0 +1,70 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 5,
+          "axis": "Damage",
+          "player": 2
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Unbalanced",
+          "player": 0,
+          "id": 90
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "amount": 3,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": 1,
+          "id": 93
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 7,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": 3,
+      "axis": "Prone",
+      "player": 2
+    }
+  ],
+  "name": "Body Slam",
+  "tagObjs": [],
+  "tags": []
+}

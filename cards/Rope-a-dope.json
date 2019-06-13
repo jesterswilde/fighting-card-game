@@ -1,0 +1,60 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 1,
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Still",
+          "player": 0,
+          "id": 2
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": "6",
+      "mechanic": "Block"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Damage",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 1,
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Rope-a-dope",
+  "tagObjs": [],
+  "tags": []
+}

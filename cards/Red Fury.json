@@ -1,0 +1,61 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": 0
+    },
+    {
+      "axis": "Not Far",
+      "player": 2
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 4,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": 2,
+          "axis": "Lose Poise",
+          "player": 0
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Bloodied",
+          "player": 0,
+          "id": 780
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": 6,
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": 2,
+      "axis": "Lose Poise",
+      "player": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": 1,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Red Fury",
+  "tagObjs": [],
+  "tags": []
+}

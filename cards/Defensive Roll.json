@@ -1,0 +1,44 @@
+{
+  "priority": 9,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": 7,
+          "mechanic": "Block"
+        }
+      ],
+      "requirements": [
+        {
+          "axis": "Balanced",
+          "player": 0,
+          "id": 294
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    }
+  ],
+  "name": "Defensive Roll",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,48 @@
+{
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Prone",
+          "player": 1
+        },
+        {
+          "axis": "Moving",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 10,
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Ready Trident",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,28 @@
+{
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 2
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "player": null,
+      "mechanic": "Block"
+    }
+  ],
+  "name": "Back Up",
+  "tagObjs": [],
+  "tags": []
+}

@@ -1,0 +1,56 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": 2,
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Balanced",
+          "player": 0
+        },
+        {
+          "axis": "Moving",
+          "player": 0
+        },
+        {
+          "axis": "Still",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": 7,
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": 7,
+          "mechanic": "Block"
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "name": "Mounting Force",
+  "tagObjs": [],
+  "tags": []
+}
