@@ -1,6 +1,6 @@
-import { FightingStyle } from "./interfaces";
-
-export const ropeADopeStyle: FightingStyle = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ropeADopeStyle = {
     name: "Rope-a-Dope",
     cards: [
         'Rope-a-dope',
@@ -9,4 +9,4 @@ export const ropeADopeStyle: FightingStyle = {
         'Bolo Punch',
         'Wind Up',
     ]
-}
+};
