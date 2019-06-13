@@ -13,5 +13,6 @@ exports.finesseStyle = {
         'Coup de Gras',
         'Targeted Strike',
         'Parry, Riposte',
+        'Accurate Strike',
     ]
 };

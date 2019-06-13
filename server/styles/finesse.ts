@@ -13,5 +13,6 @@ export const finesseStyle: FightingStyle = {
         'Coup de Gras',
         'Targeted Strike',
         'Parry, Riposte',
+        'Accurate Strike',
     ]
 }
