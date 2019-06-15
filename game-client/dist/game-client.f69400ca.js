@@ -19722,7 +19722,7 @@ var _default = function _default(_a) {
   }
 
   return (0, _preact.h)("div", {
-    class: "cards-section pad-bottom"
+    class: "style-viewer cards-section pad-bottom"
   }, (0, _preact.h)("h3", null, name), (0, _preact.h)("div", {
     class: 'description'
   }, description), (0, _preact.h)("div", {

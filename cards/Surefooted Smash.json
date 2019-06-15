@@ -38,6 +38,15 @@
     }
   ],
   "name": "Surefooted Smash",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Smash",
+      "id": 20
+    }
+  ],
+  "tags": [
+    {
+      "value": "Smash"
+    }
+  ]
 }

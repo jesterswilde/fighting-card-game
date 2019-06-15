@@ -8,23 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const card_1 = require("../../../shared/card");
 const socket_1 = require("../../../shared/socket");
 const util_1 = require("../../util");
-const readiedEffects_1 = require("../readiedEffects");
 const playCard_1 = require("./playCard");
 const events_1 = require("../events");
+const predict_1 = require("../mechanics/predict");
+const pickOne_1 = require("../mechanics/pickOne");
+const forceful_1 = require("../mechanics/forceful");
+const enhance_1 = require("../mechanics/enhance");
 exports.playersMakeChoices = (state) => {
     const promiseArr = state.sockets.map((_, player) => playerMakesChoices(player, state));
     return Promise.all(promiseArr);
 };
 const playerMakesChoices = (player, state) => __awaiter(this, void 0, void 0, function* () {
-    yield playerMakesPredictions(player, state);
+    yield predict_1.playerMakesPredictions(player, state);
     yield playerPicksCard(player, state);
     events_1.storePlayedCardEvent(player, state);
     playCard_1.getPlayerMechanicsReady(player, state);
-    yield playerPicksOne(player, state);
-    yield playerChoosesForce(player, state);
+    yield pickOne_1.playerPicksOne(player, state);
+    yield forceful_1.playerChoosesForce(player, state);
 });
 const playerPicksCard = (player, state) => __awaiter(this, void 0, void 0, function* () {
     if (state.hands[player] === undefined || state.hands[player].length === 0) {
@@ -44,81 +46,9 @@ exports.pickCard = (player, cardNumber, state) => {
     const { hands, decks } = state;
     const card = hands[player][cardNumber];
     const unusedCards = hands[player].filter((_, i) => i !== cardNumber);
+    unusedCards.forEach(enhance_1.removeEnhancements);
     decks[player].push(...unusedCards);
     hands[player] = [];
     card.opponent = util_1.getOpponent(player);
     state.pickedCards[player] = card;
-};
-const playerPicksOne = (player, state, { _waitForPlayerToChoose = waitForPlayerToChoose } = {}) => __awaiter(this, void 0, void 0, function* () {
-    const { sockets } = state;
-    const playerEffects = state.readiedEffects[player] || [];
-    const pickedEffects = [];
-    const unusedEffs = [];
-    for (let i = 0; i < playerEffects.length; i++) {
-        const { mechanic: effect, card, isEventOnly } = playerEffects[i];
-        if (effect.mechanic === card_1.MechanicEnum.PICK_ONE && !isEventOnly) {
-            const socket = sockets[player];
-            const choice = yield _waitForPlayerToChoose(effect.choices, socket);
-            const picked = effect.choices[choice];
-            pickedEffects.push({ mechanic: effect, card, isEventOnly: true });
-            pickedEffects.push(...readiedEffects_1.mechanicsToReadiedEffects(picked, card, state));
-            unusedEffs.push(false);
-        }
-        else {
-            unusedEffs.push(true);
-        }
-    }
-    state.readiedEffects[player] = playerEffects.filter((_, i) => unusedEffs[i]);
-    state.readiedEffects[player].push(...pickedEffects);
-});
-const waitForPlayerToChoose = (choices, player) => {
-    return new Promise((res, rej) => {
-        player.emit(socket_1.SocketEnum.SHOULD_PICK_ONE, choices);
-        player.once(socket_1.SocketEnum.PICKED_ONE, (choice) => {
-            res(choice);
-        });
-    });
-};
-const playerMakesPredictions = (player, state, { _getPredictions = getPredictions } = {}) => __awaiter(this, void 0, void 0, function* () {
-    const { predictions, sockets } = state;
-    const prediction = predictions[player];
-    const socket = sockets[player];
-    if (!prediction)
-        return;
-    prediction.prediction = yield _getPredictions(state, socket);
-});
-const getPredictions = (state, socket) => {
-    return new Promise((res, rej) => {
-        socket.emit(socket_1.SocketEnum.SHOULD_PREDICT);
-        socket.once(socket_1.SocketEnum.MADE_PREDICTION, (prediction) => {
-            res(prediction);
-        });
-    });
-};
-const playerChoosesForce = (player, state) => __awaiter(this, void 0, void 0, function* () {
-    const { readiedEffects = [] } = state;
-    let playerEffects = readiedEffects[player] || [];
-    let [allForcefulArr, unused] = util_1.splitArray(playerEffects, ({ mechanic }) => mechanic.mechanic === card_1.MechanicEnum.FORCEFUL);
-    const validForcefulArr = allForcefulArr.filter(({ mechanic }) => state.playerStates[player].poise >= mechanic.amount);
-    const readiedArr = [];
-    for (let i = 0; i < validForcefulArr.length; i++) {
-        const { card: { name: cardName }, mechanic, card } = validForcefulArr[i];
-        const socket = state.sockets[player];
-        const choseToPlay = yield getForcefulChoice(socket, mechanic, cardName);
-        if (choseToPlay) {
-            state.playerStates[player].poise -= typeof mechanic.amount === 'number' ? mechanic.amount : 0;
-            readiedArr.push({ mechanic, card, isEventOnly: true });
-            const readied = readiedEffects_1.mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state);
-            readiedArr.push(...readied);
-        }
-    }
-    state.readiedEffects[player] = [...unused, ...readiedArr];
-});
-const getForcefulChoice = (socket, mechanic, cardName) => {
-    return new Promise((res, rej) => {
-        socket.emit(socket_1.SocketEnum.GOT_FORCEFUL_CHOICE, { mechanic, cardName });
-        socket.once(socket_1.SocketEnum.PICKED_FORCEFUL, (useForecful) => {
-            res(useForecful);
-        });
-    });
 };

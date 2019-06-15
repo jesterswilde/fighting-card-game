@@ -50,6 +50,15 @@
     }
   ],
   "name": "Ankle Smash",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Smash",
+      "id": 51
+    }
+  ],
+  "tags": [
+    {
+      "value": "Smash"
+    }
+  ]
 }

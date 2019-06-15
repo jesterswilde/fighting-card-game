@@ -1,4 +1,5 @@
 {
+  "priority": 5,
   "requirements": [
     {
       "axis": "Grappled",
@@ -34,7 +35,15 @@
     }
   ],
   "name": "Smash Kneecap",
-  "tagObjs": [],
-  "tags": [],
-  "priority": 5
+  "tagObjs": [
+    {
+      "value": "Smash",
+      "id": 57
+    }
+  ],
+  "tags": [
+    {
+      "value": "Smash"
+    }
+  ]
 }

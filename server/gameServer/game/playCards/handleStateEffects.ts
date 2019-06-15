@@ -3,7 +3,7 @@ import { getSortOrder } from "../../../shared/sortOrder";
 import { reduceStateChangeReaEff } from "./effectHappens";
 import { splitArray } from "../../util";
 import { AxisEnum } from "../../../shared/card";
-import { calculatePriority } from "../checkMechanics/priority";
+import { calculatePriority } from "../mechanics/priority";
 
 interface OrderPlayerObj {
     [order: number]: {

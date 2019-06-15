@@ -44,6 +44,10 @@
         }
       ],
       "mechanic": "Predict"
+    },
+    {
+      "amount": "4",
+      "mechanic": "Setup"
     }
   ],
   "name": "Set-Up",

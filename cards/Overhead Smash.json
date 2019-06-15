@@ -1,0 +1,51 @@
+{
+  "name": "Overhead Smash",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "12",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "Smash",
+      "id": 149
+    }
+  ],
+  "priority": 3,
+  "tags": [
+    {
+      "value": "Smash"
+    }
+  ]
+}

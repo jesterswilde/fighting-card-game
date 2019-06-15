@@ -4,6 +4,10 @@
     {
       "axis": "Prone",
       "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
     }
   ],
   "optional": [],

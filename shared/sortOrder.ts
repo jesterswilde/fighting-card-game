@@ -42,6 +42,8 @@ export const SORT_ORDER = {
     [MechanicEnum.BLOCK]: 10,
     [MechanicEnum.PARRY]: 11,
     [MechanicEnum.CLUTCH]: 12,
+    [MechanicEnum.FLUID]: 13,
+    [MechanicEnum.RIGID]: 13,
 
     [MechanicEnum.REFLEX]: 20,
     [MechanicEnum.CRIPPLE]: 21,

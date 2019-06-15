@@ -36,6 +36,8 @@ export interface GameState{
     turnNumber: number
     winner?: number
     cardUID: number
+    handSizeMod?: number
+    nextHandSizeMod?: number
 }
 
 export interface TagModification{

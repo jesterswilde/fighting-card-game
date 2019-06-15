@@ -1,6 +1,5 @@
 {
-  "name": "Face Smash",
-  "optional": [],
+  "priority": 4,
   "requirements": [
     {
       "axis": "Grappled",
@@ -19,6 +18,7 @@
       "player": 1
     }
   ],
+  "optional": [],
   "effects": [
     {
       "amount": "8",
@@ -57,7 +57,16 @@
       "mechanic": "Forceful"
     }
   ],
-  "tagObjs": [],
-  "priority": 4,
-  "tags": []
+  "name": "Face Smash",
+  "tagObjs": [
+    {
+      "value": "Smash",
+      "id": 171
+    }
+  ],
+  "tags": [
+    {
+      "value": "Smash"
+    }
+  ]
 }

@@ -27507,6 +27507,8 @@ exports.MechanicEnum = MechanicEnum;
   MechanicEnum["ENHANCE"] = "Enhance";
   MechanicEnum["CLUTCH"] = "Clutch";
   MechanicEnum["SETUP"] = "Setup";
+  MechanicEnum["RIGID"] = "Rigid";
+  MechanicEnum["FLUID"] = "Fluid";
 })(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
 
 var getMechDisplay = function getMechDisplay(mech) {
@@ -27561,6 +27563,10 @@ var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
   value: true
 }, _a[MechanicEnum.SETUP] = {
   value: true
+}, _a[MechanicEnum.FLUID] = {
+  state: true
+}, _a[MechanicEnum.RIGID] = {
+  state: true
 }, _a);
 var PlayerEnum;
 exports.PlayerEnum = PlayerEnum;

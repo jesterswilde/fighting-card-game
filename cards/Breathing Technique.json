@@ -1,6 +1,5 @@
 {
-  "name": "Breathing Technique",
-  "optional": [],
+  "priority": 8,
   "requirements": [
     {
       "axis": "Far",
@@ -15,6 +14,7 @@
       "player": 2
     }
   ],
+  "optional": [],
   "effects": [
     {
       "amount": "2",
@@ -37,7 +37,7 @@
         },
         {
           "axis": "Anticipating",
-          "player": 1
+          "player": 0
         },
         {
           "axis": "Moving",
@@ -52,7 +52,7 @@
       "mechanic": "Telegraph"
     }
   ],
+  "name": "Breathing Technique",
   "tagObjs": [],
-  "priority": 8,
   "tags": []
 }

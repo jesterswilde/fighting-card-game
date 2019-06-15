@@ -13,12 +13,11 @@ const errors_1 = require("../../errors");
 const requirements_1 = require("./requirements");
 const readiedEffects_1 = require("../readiedEffects");
 const playerInput_1 = require("./playerInput");
-const predictions_1 = require("./predictions");
+const predict_1 = require("../mechanics/predict");
 exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
         yield playerInput_1.playersMakeChoices(state);
-        countTags(state);
-        predictions_1.markAxisChanges(state);
+        predict_1.markAxisChanges(state); //This is for predictions
         exports.incrementQueue(state);
         exports.addCardsToQueue(state);
         cardHappens_1.cardHappens(state);
@@ -34,16 +33,6 @@ exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
         }
     }
 });
-const countTags = (state) => {
-    state.pickedCards.forEach((card) => {
-        if (card && card.tags) {
-            card.tags.forEach(({ value: tag }, player) => {
-                state.tagsPlayed[player][tag] = state.tagsPlayed[player][tag] || 0;
-                state.tagsPlayed[player][tag]++;
-            });
-        }
-    });
-};
 exports.getPlayerMechanicsReady = (playedBy, state) => {
     const card = state.pickedCards[playedBy];
     if (card === undefined || card === null) {

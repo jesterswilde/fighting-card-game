@@ -16,7 +16,7 @@ export default ({ isLoading, cards = [], isEditingDeck, description, identity, s
             Loading...
         </h3>
     }
-    return <div class="cards-section pad-bottom">
+    return <div class="style-viewer cards-section pad-bottom">
         <h3>{name}</h3>
         <div class='description'>{description}</div>
         <div class='identity'>{identity}</div>

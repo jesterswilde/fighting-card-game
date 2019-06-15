@@ -20,6 +20,7 @@ const monk_1 = require("./monk");
 const ropeADope_1 = require("./ropeADope");
 const workTheBody_1 = require("./workTheBody");
 const generic_1 = require("./generic");
+const barbarian_1 = require("./barbarian");
 const util_1 = require("../gameServer/util");
 const allStyles = [
     grappler_1.grappleStyle,
@@ -40,6 +41,7 @@ const allStyles = [
     monk_1.monkStyle,
     ropeADope_1.ropeADopeStyle,
     workTheBody_1.workTheBodyStyle,
+    barbarian_1.barbarianStyle,
     generic_1.genericStyle
 ];
 const fightingStylesObj = {};

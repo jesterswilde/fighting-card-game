@@ -36,13 +36,20 @@
   "name": "Kidney Blow",
   "tagObjs": [
     {
-      "value": "Kidney Shot, Punch",
-      "id": 63
+      "value": "Kidney Shot",
+      "id": 97
+    },
+    {
+      "value": "Punch",
+      "id": 98
     }
   ],
   "tags": [
     {
-      "value": "Kidney Shot, Punch"
+      "value": "Kidney Shot"
+    },
+    {
+      "value": "Punch"
     }
   ]
 }

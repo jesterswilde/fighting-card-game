@@ -45,6 +45,15 @@
     }
   ],
   "name": "Smash the Bridge",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Smash",
+      "id": 28
+    }
+  ],
+  "tags": [
+    {
+      "value": "Smash"
+    }
+  ]
 }

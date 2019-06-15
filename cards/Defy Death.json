@@ -1,0 +1,40 @@
+{
+  "name": "Defy Death",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Damage",
+      "player": 0
+    },
+    {
+      "axis": "Bloodied",
+      "player": 0
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "4",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": "10",
+      "mechanic": "Block"
+    },
+    {
+      "amount": "7",
+      "mechanic": "Parry"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

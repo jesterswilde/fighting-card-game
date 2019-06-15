@@ -36,6 +36,8 @@ exports.SORT_ORDER = {
     [card_1.MechanicEnum.BLOCK]: 10,
     [card_1.MechanicEnum.PARRY]: 11,
     [card_1.MechanicEnum.CLUTCH]: 12,
+    [card_1.MechanicEnum.FLUID]: 13,
+    [card_1.MechanicEnum.RIGID]: 13,
     [card_1.MechanicEnum.REFLEX]: 20,
     [card_1.MechanicEnum.CRIPPLE]: 21,
     [card_1.MechanicEnum.ENHANCE]: 22,

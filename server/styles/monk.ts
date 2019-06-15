@@ -5,14 +5,13 @@ export const monkStyle: FightingStyle = {
     description: "This some zen shit",
     cards: [
         'Zen State',
-        'Tumble',
         'Study Balance',
-        'Stop',
         'Kip Up',
-        'Human Ladder',
         'Grounded',
-        'Ground Grab',
         'Breathing Technique',
         'Backflip',
+        'Break The Wheel',
+        'Smash the Bridge',
+        'Coil Up',
     ]
 }

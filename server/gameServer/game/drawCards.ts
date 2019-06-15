@@ -5,6 +5,7 @@ import { Card, Enhancement } from "../../shared/card";
 import { HAND_SIZE } from "../gameSettings";
 import { canPlayCard, canUseOptional } from "./playCards/requirements";
 import { getOpponent } from "../util";
+import { addEnhancement } from "./mechanics/enhance";
 
 export const givePlayersCards = (state: GameState, { _sendHand = sendHand } = {}) => {
     try {
@@ -29,10 +30,11 @@ const drawHands = (state: GameState)=>{
     state.hands = hands; 
 }
 
-export const drawCards = (player:number, state: GameState, handSize = HAND_SIZE) => {
+export const drawCards = (player:number, state: GameState, defaultHandSize = HAND_SIZE) => {
     shuffleDeck(player, state); 
     const deck = state.decks[player];
     let handIndexes: number[] = [];
+    const handSize = defaultHandSize + state.handSizeMod || 0; 
     for (let i = 0; i < deck.length; i++) {
         if (canPlayCard(deck[i], state)) {
             handIndexes.push(i);
@@ -43,7 +45,6 @@ export const drawCards = (player:number, state: GameState, handSize = HAND_SIZE)
     }
     const hand = handIndexes.map((i) => {
         const card = deck[i];
-        if(card.isFaceUp) console.log(card); 
         addEnhancement(card, state); 
         deck[i] = undefined;
         return card;
@@ -65,15 +66,6 @@ const markOptional = (state: GameState) => {
     })
 }
 
-export const addEnhancement = (card: Card, state: GameState) => {
-    const tags = card.tags || [];
-    const modObj = state.tagModification[card.player]
-    card.enhancements = tags.reduce((enhArr: Enhancement[], {value:tag})=>{
-        const mechanics = modObj[tag] || [];
-        enhArr.push({tag, mechanics});
-        return enhArr;
-    },[])
-}
 
 const addPanicCard = (state: GameState) => {
     state.hands.forEach((hand, player)=>{

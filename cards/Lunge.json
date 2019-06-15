@@ -13,6 +13,10 @@
       "player": 2
     },
     {
+      "amount": "3",
+      "mechanic": "Block"
+    },
+    {
       "mechanicEffects": [
         {
           "mechanic": "Reflex"

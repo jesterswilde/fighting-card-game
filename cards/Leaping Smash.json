@@ -67,6 +67,15 @@
     }
   ],
   "name": "Leaping Smash",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Smash",
+      "id": 12
+    }
+  ],
+  "tags": [
+    {
+      "value": "Smash"
+    }
+  ]
 }

@@ -19,6 +19,7 @@ import { monkStyle } from './monk';
 import { ropeADopeStyle } from './ropeADope';
 import { workTheBodyStyle } from './workTheBody';
 import { genericStyle } from './generic';
+import {barbarianStyle} from './barbarian'; 
 import { deepCopy } from '../gameServer/util';
 
 const allStyles: FightingStyle[] = [
@@ -40,6 +41,7 @@ const allStyles: FightingStyle[] = [
     monkStyle,
     ropeADopeStyle,
     workTheBodyStyle,
+    barbarianStyle,
     genericStyle
 ]
 

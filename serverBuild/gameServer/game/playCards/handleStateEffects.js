@@ -5,7 +5,7 @@ const sortOrder_1 = require("../../../shared/sortOrder");
 const effectHappens_1 = require("./effectHappens");
 const util_1 = require("../../util");
 const card_1 = require("../../../shared/card");
-const priority_1 = require("../checkMechanics/priority");
+const priority_1 = require("../mechanics/priority");
 exports.applyStateEffects = (state) => {
     let stateReaEffs = getStateReaEffs(state);
     markConflicts(stateReaEffs, state);

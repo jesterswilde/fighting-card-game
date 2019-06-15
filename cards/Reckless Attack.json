@@ -1,0 +1,42 @@
+{
+  "name": "Reckless Attack",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": 0
+    },
+    {
+      "axis": "Close",
+      "player": 0
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "20",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "15",
+      "axis": "Damage",
+      "player": 0
+    },
+    {
+      "amount": "3",
+      "axis": "Moving",
+      "player": 1
+    }
+  ],
+  "tagObjs": [],
+  "priority": 4,
+  "tags": []
+}

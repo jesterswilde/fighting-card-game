@@ -3,16 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const card_1 = require("../../shared/card");
 const gameEvent_1 = require("../interfaces/gameEvent");
 const socket_1 = require("../../shared/socket");
-const predictions_1 = require("./playCards/predictions");
-const priority_1 = require("./checkMechanics/priority");
-exports.addReflexEffects = (players, state) => {
-    let lastEvent = state.events[state.events.length - 1];
-    players.forEach((cardName, playedBy) => {
-        if (cardName && Array.isArray(lastEvent.events) && lastEvent.events[playedBy] && Array.isArray(lastEvent.events[playedBy].events)) {
-            lastEvent.events[playedBy].events.push({ type: gameEvent_1.EventTypeEnum.MECHANIC, mechanicName: card_1.MechanicEnum.REFLEX, cardName, playedBy });
-        }
-    });
-};
+const priority_1 = require("./mechanics/priority");
 exports.storeEffectsForEvents = (state) => {
     state.pendingEvents = [...state.readiedEffects];
 };
@@ -54,21 +45,8 @@ const reaEfftoEvent = (reaEff) => {
         return { type: gameEvent_1.EventTypeEnum.ADDED_MECHANIC, mechanicName: mech.mechanic, playedBy: card.player };
     }
 };
-// export const stateReaEffEvent = (reaEffs: ReadiedEffect, state: GameState) => {
-//     state.events.push({ type: EventTypeEnum.EFFECT, playedBy: reaEffs.card.player, effect: reaEffs.mechanic, happenedTo: reaEffs.happensTo });
-// }
 exports.addGameOverEvent = (winner, state) => {
     state.events.push({ type: gameEvent_1.EventTypeEnum.GAME_OVER, winner });
-};
-exports.addRevealPredictionEvent = (predEvents, state) => {
-    const hasEvents = predEvents.some((a) => a !== undefined && a !== null);
-    if (hasEvents) {
-        const playerEvents = predEvents.map((predEvent, player) => {
-            const correctGuesses = predictions_1.getCorrectGuessArray(predEvent.targetPlayer, state);
-            return { type: gameEvent_1.EventTypeEnum.REVEAL_PREDICTION, correct: predEvent.didHappen, prediction: predEvent.prediction, correctGuesses };
-        });
-        state.events.push({ type: gameEvent_1.EventTypeEnum.PREDICTION_SECTION, events: playerEvents });
-    }
 };
 exports.sendEvents = (state) => {
     state.sockets.forEach((socket) => {

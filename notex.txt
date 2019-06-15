@@ -12,8 +12,7 @@ Styles should have more gap cards (1 or 2)
 
 Message deck size at the bottom where it says update. 
 
-Find orphaned cards and put them in styles
-
+When a new deck is made, it should go to the deck builder page of that newly made deck. 
 //NOTES
 
 

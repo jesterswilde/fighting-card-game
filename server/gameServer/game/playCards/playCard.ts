@@ -5,13 +5,12 @@ import { canUseOptional } from "./requirements";
 import { Mechanic, Card } from "../../../shared/card";
 import { mechanicsToReadiedEffects } from "../readiedEffects";
 import { playersMakeChoices } from "./playerInput";
-import { markAxisChanges } from "./predictions";
+import { markAxisChanges } from "../mechanics/predict";
 
 export const playCards = async (state: GameState) => {
     try {
         await playersMakeChoices(state);
-        countTags(state);
-        markAxisChanges(state);
+        markAxisChanges(state); //This is for predictions
         incrementQueue(state);
         addCardsToQueue(state);
         cardHappens(state);
@@ -24,18 +23,6 @@ export const playCards = async (state: GameState) => {
             throw err;
         }
     }
-}
-
-
-const countTags = (state: GameState)=>{
-    state.pickedCards.forEach((card)=>{
-        if(card && card.tags){
-            card.tags.forEach(({value: tag}, player)=>{
-                state.tagsPlayed[player][tag] = state.tagsPlayed[player][tag] || 0; 
-                state.tagsPlayed[player][tag]++; 
-            })
-        }
-    })
 }
 
 export const getPlayerMechanicsReady = (playedBy: number, state: GameState)=>{

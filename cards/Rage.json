@@ -1,8 +1,8 @@
 {
-  "priority": 2,
+  "priority": 5,
   "requirements": [
     {
-      "axis": "Fresh",
+      "axis": "Damage",
       "player": 0
     },
     {
@@ -13,38 +13,48 @@
   "optional": [],
   "effects": [
     {
-      "amount": "2",
+      "amount": "1",
       "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Still",
       "player": 0
     },
     {
       "mechanicEffects": [
         {
-          "amount": 3,
+          "amount": "2",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "1",
           "axis": "Lose Poise",
           "player": 1
         }
       ],
-      "mechanic": "Predict"
+      "amount": "Smash",
+      "mechanic": "Enhance"
     },
     {
       "mechanicRequirements": [
         {
-          "axis": "Prone",
-          "player": 2
+          "axis": "Damage",
+          "player": 0
         }
       ],
       "mechanicEffects": [
         {
-          "amount": 7,
-          "axis": "Damage",
-          "player": 1
+          "amount": "3",
+          "player": null,
+          "mechanic": "Block"
         }
       ],
-      "mechanic": "Telegraph"
+      "mechanic": "Focus"
     }
   ],
-  "name": "Study Balance",
+  "name": "Rage",
   "tagObjs": [],
   "tags": []
 }

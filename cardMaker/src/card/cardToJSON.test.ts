@@ -76,7 +76,7 @@ describe("card utils", () => {
                     amount: "Leg"
                 }]
             }],
-            tags: [{ id: 6, value: "tag" }]
+            tags: [{ id: 6, value: "tag" }, {id: 32, value: "foo"}]
         }
 
         const state: StoreState = {
@@ -87,7 +87,7 @@ describe("card utils", () => {
                     optional: [0, 1],
                     requirements: [2, 3],
                     effects: [4, 5],
-                    tagObjs: [{ id: 6, value: "tag" }]
+                    tagObjs: [{ id: 6, value: "tag" }, {id: 32, value: "foo"}]
                 }
             },
             optional: {

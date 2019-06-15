@@ -5,6 +5,7 @@ const errors_1 = require("../errors");
 const gameSettings_1 = require("../gameSettings");
 const requirements_1 = require("./playCards/requirements");
 const util_1 = require("../util");
+const enhance_1 = require("./mechanics/enhance");
 exports.givePlayersCards = (state, { _sendHand = socket_1.sendHand } = {}) => {
     try {
         drawHands(state);
@@ -28,10 +29,11 @@ const drawHands = (state) => {
     });
     state.hands = hands;
 };
-exports.drawCards = (player, state, handSize = gameSettings_1.HAND_SIZE) => {
+exports.drawCards = (player, state, defaultHandSize = gameSettings_1.HAND_SIZE) => {
     exports.shuffleDeck(player, state);
     const deck = state.decks[player];
     let handIndexes = [];
+    const handSize = defaultHandSize + state.handSizeMod || 0;
     for (let i = 0; i < deck.length; i++) {
         if (requirements_1.canPlayCard(deck[i], state)) {
             handIndexes.push(i);
@@ -42,9 +44,7 @@ exports.drawCards = (player, state, handSize = gameSettings_1.HAND_SIZE) => {
     }
     const hand = handIndexes.map((i) => {
         const card = deck[i];
-        if (card.isFaceUp)
-            console.log(card);
-        exports.addEnhancement(card, state);
+        enhance_1.addEnhancement(card, state);
         deck[i] = undefined;
         return card;
     });
@@ -62,15 +62,6 @@ const markOptional = (state) => {
             });
         });
     });
-};
-exports.addEnhancement = (card, state) => {
-    const tags = card.tags || [];
-    const modObj = state.tagModification[card.player];
-    card.enhancements = tags.reduce((enhArr, { value: tag }) => {
-        const mechanics = modObj[tag] || [];
-        enhArr.push({ tag, mechanics });
-        return enhArr;
-    }, []);
 };
 const addPanicCard = (state) => {
     state.hands.forEach((hand, player) => {

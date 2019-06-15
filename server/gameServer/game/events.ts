@@ -2,23 +2,12 @@ import { MechanicEnum } from "../../shared/card";
 import { GameState, ReadiedEffect, PredictionEvent } from "../interfaces/stateInterface";
 import { EventTypeEnum, EventAction } from "../interfaces/gameEvent";
 import { SocketEnum } from "../../shared/socket";
-import { getCorrectGuessArray } from "./playCards/predictions";
-import { calculatePriority } from "./checkMechanics/priority";
+import { calculatePriority } from "./mechanics/priority";
 
-
-export const addReflexEffects = (players: string[], state: GameState) => {
-    let lastEvent = state.events[state.events.length - 1];
-    players.forEach((cardName, playedBy)=>{ //cannot read property events of undefined (lastEvent is null at some point for some reason)
-        if(cardName && Array.isArray(lastEvent.events) && lastEvent.events[playedBy] && Array.isArray(lastEvent.events[playedBy].events)){
-            lastEvent.events[playedBy].events.push({ type: EventTypeEnum.MECHANIC, mechanicName: MechanicEnum.REFLEX, cardName, playedBy })
-        }
-    })
-}
 
 export const storeEffectsForEvents = (state: GameState) => {
     state.pendingEvents = [...state.readiedEffects];
 }
-
 
 export const processEffectEvents = (state: GameState) => {
     const events: EventAction[] = state.pendingEvents.map((playerReaEff, player) => {
@@ -28,7 +17,6 @@ export const processEffectEvents = (state: GameState) => {
     state.events.push({ type: EventTypeEnum.EVENT_SECTION, events });
     state.pendingEvents = undefined;
 }
-
 
 export const storePlayedCardEvent = (player: number, state: GameState) => {
     const card = state.pickedCards[player];
@@ -62,26 +50,9 @@ const reaEfftoEvent = (reaEff: ReadiedEffect): EventAction => {
     }
 }
 
-// export const stateReaEffEvent = (reaEffs: ReadiedEffect, state: GameState) => {
-//     state.events.push({ type: EventTypeEnum.EFFECT, playedBy: reaEffs.card.player, effect: reaEffs.mechanic, happenedTo: reaEffs.happensTo });
-// }
-
 export const addGameOverEvent = (winner: number, state: GameState) => {
     state.events.push({ type: EventTypeEnum.GAME_OVER, winner })
 }
-
-
-export const addRevealPredictionEvent = (predEvents: PredictionEvent[], state: GameState) => {
-    const hasEvents = predEvents.some((a)=> a !== undefined && a !== null); 
-    if(hasEvents){
-        const playerEvents: EventAction[] = predEvents.map((predEvent, player)=>{
-            const correctGuesses = getCorrectGuessArray(predEvent.targetPlayer, state); 
-            return { type: EventTypeEnum.REVEAL_PREDICTION, correct: predEvent.didHappen, prediction: predEvent.prediction, correctGuesses}
-        })
-        state.events.push({type: EventTypeEnum.PREDICTION_SECTION, events: playerEvents});
-    }
-}
-
 
 export const sendEvents = (state: GameState) => {
     state.sockets.forEach((socket) => {

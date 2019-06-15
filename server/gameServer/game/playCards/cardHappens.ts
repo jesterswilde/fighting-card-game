@@ -2,15 +2,15 @@ import { reduceMechanics, reduceStateChangeReaEff } from "./effectHappens";
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { ControlEnum } from "../../errors";
 import { storeEffectsForEvents, processEffectEvents, processPlayedCardEvents } from "../events";
-import { checkTelegraph } from "../checkMechanics/telegraph";
-import { checkReflex } from "../checkMechanics/reflex";
-import { checkFocus } from "../checkMechanics/focus";
+import { checkTelegraph } from "../mechanics/telegraph";
+import { checkReflex } from "../mechanics/reflex";
+import { checkFocus } from "../mechanics/focus";
 import { applyStateEffects } from "./handleStateEffects";
 import { collectBlockAndDamage, applyCollectedDamage } from "./collectDamage";
-import { checkPredictions } from "./predictions";
 import { splitArray } from "../../util";
 import { AxisEnum } from "../../../shared/card";
-import { applyClutch } from "../checkMechanics/priority";
+import { applyClutch } from "../mechanics/clutch";
+import { checkPredictions } from "../mechanics/predict";
 
 export const cardHappens = (state: GameState) => {
     try {
