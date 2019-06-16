@@ -30,6 +30,15 @@
     }
   ],
   "name": "Knife Throw",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "blade",
+      "id": 159
+    }
+  ],
+  "tags": [
+    {
+      "value": "blade"
+    }
+  ]
 }

@@ -41,6 +41,15 @@
     }
   ],
   "name": "Gut 'Em",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "blade",
+      "id": 185
+    }
+  ],
+  "tags": [
+    {
+      "value": "blade"
+    }
+  ]
 }
