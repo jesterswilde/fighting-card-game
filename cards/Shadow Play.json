@@ -1,0 +1,44 @@
+{
+  "name": "Shadow Play",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 1
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "12",
+      "mechanic": "Parry"
+    },
+    {
+      "amount": "4",
+      "mechanic": "Setup"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 9,
+  "tags": []
+}

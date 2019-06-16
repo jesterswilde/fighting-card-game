@@ -1,0 +1,41 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": "1",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": "4",
+      "player": 0,
+      "mechanic": "Parry"
+    }
+  ],
+  "name": "Roll Away",
+  "tagObjs": [],
+  "tags": []
+}

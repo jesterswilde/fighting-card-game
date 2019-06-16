@@ -1,0 +1,62 @@
+{
+  "name": "Shiv",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "3",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 12,
+          "axis": "Still",
+          "player": 1
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": 0
+    },
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "blade",
+      "id": 17
+    }
+  ],
+  "priority": 7,
+  "tags": [
+    {
+      "value": "blade"
+    }
+  ]
+}

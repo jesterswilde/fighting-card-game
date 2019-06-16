@@ -1,0 +1,48 @@
+{
+  "name": "Apply Poison",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": 0
+    },
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "4",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "2",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "amount": "blade",
+      "mechanic": "Enhance"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 6,
+  "tags": []
+}

@@ -1,0 +1,57 @@
+{
+  "name": "Stab",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Prone",
+      "player": 1,
+      "amount": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "2",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": "blade",
+      "mechanic": "Enhance"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "blade",
+      "id": 52
+    }
+  ],
+  "priority": 4,
+  "tags": [
+    {
+      "value": "blade"
+    }
+  ]
+}

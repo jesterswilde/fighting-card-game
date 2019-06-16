@@ -1,0 +1,57 @@
+{
+  "name": "Flying Blade",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "5",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "3",
+          "axis": "Moving",
+          "player": 1
+        }
+      ],
+      "amount": "3",
+      "mechanic": "Forceful"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "blade",
+      "id": 66
+    }
+  ],
+  "tags": [
+    {
+      "value": "blade"
+    }
+  ],
+  "priority": 5
+}
