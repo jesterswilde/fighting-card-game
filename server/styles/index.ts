@@ -40,6 +40,7 @@ const allStyles: FightingStyle[] = [
     unstoppableStyle,
     newKidStyle,
     monkStyle,
+    rogueStyle,
     ropeADopeStyle,
     workTheBodyStyle,
     barbarianStyle,
