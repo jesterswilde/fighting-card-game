@@ -1,13 +1,12 @@
 {
-  "name": "Hogtie",
-  "optional": [],
+  "priority": 5,
   "requirements": [
     {
       "axis": "Bloodied",
       "player": 1
     },
     {
-      "axis": "Not Far",
+      "axis": "Grappled",
       "player": 2
     },
     {
@@ -19,6 +18,7 @@
       "player": 2
     }
   ],
+  "optional": [],
   "effects": [
     {
       "axis": "Grappled",
@@ -60,7 +60,7 @@
       "mechanic": "Forceful"
     }
   ],
+  "name": "Hogtie",
   "tagObjs": [],
-  "priority": 5,
   "tags": []
 }

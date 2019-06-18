@@ -1,0 +1,34 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": 1
+    },
+    {
+      "axis": "Far",
+      "player": 2
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "mechanic": "Rigid"
+    },
+    {
+      "amount": "3",
+      "mechanic": "Setup"
+    }
+  ],
+  "name": "Close In",
+  "tagObjs": [],
+  "tags": []
+}

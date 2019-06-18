@@ -24,6 +24,7 @@ export const playGame = async (state: GameState) => {
 }
 
 const startGame = (state: GameState) => {
+    console.log("Game starting", state); 
     assignPlayerToDecks(state);
     sendState(state);
     state.sockets.forEach((socket, i) => {

@@ -1,8 +1,17 @@
 {
+  "priority": 5,
   "requirements": [
     {
       "axis": "Not Far",
       "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
     }
   ],
   "optional": [],
@@ -33,6 +42,5 @@
   ],
   "name": "Goad",
   "tagObjs": [],
-  "tags": [],
-  "priority": 5
+  "tags": []
 }

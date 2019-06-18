@@ -1,0 +1,56 @@
+{
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 1
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "mechanic": "Rigid"
+        }
+      ],
+      "requirements": [
+        {
+          "id": 5,
+          "axis": "Bloodied",
+          "player": 1
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "amount": "1",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "name": "Stalk",
+  "tagObjs": [],
+  "tags": []
+}

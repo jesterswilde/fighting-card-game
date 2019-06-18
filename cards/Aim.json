@@ -1,50 +1,34 @@
 {
-  "name": "Aim",
-  "optional": [],
+  "priority": 4,
   "requirements": [
     {
       "axis": "Far",
       "player": 2
-    }
-  ],
-  "effects": [
+    },
     {
-      "amount": "3",
-      "axis": "Poise",
+      "axis": "Balanced",
       "player": 0
     },
     {
-      "amount": "1",
-      "axis": "Poise",
-      "player": 1
-    },
-    {
-      "mechanicRequirements": [
-        {
-          "axis": "Damage",
-          "player": 1
-        },
-        {
-          "axis": "Far",
-          "player": 2
-        }
-      ],
-      "mechanicEffects": [
-        {
-          "amount": "8",
-          "axis": "Damage",
-          "player": 1
-        },
-        {
-          "amount": "1",
-          "axis": "Lose Poise",
-          "player": 1
-        }
-      ],
-      "mechanic": "Telegraph"
+      "axis": "Standing",
+      "player": 0
     }
   ],
+  "optional": [],
+  "effects": [
+    {
+      "mechanicEffects": [
+        {
+          "amount": "6",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": "Shot",
+      "mechanic": "Enhance"
+    }
+  ],
+  "name": "Aim",
   "tagObjs": [],
-  "priority": 4,
   "tags": []
 }

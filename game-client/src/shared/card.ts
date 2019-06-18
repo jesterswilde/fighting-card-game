@@ -141,8 +141,8 @@ const MechanicDisplay: {[mech: string]: DisplayComponents} = {
     [MechanicEnum.FORCEFUL]: {value: true, eff: true},
     [MechanicEnum.CLUTCH]: {value: true},
     [MechanicEnum.SETUP]: {value: true},
-    [MechanicEnum.FLUID]: {state: true},
-    [MechanicEnum.RIGID]: {state: true},
+    [MechanicEnum.FLUID]: {state: true, value: true},
+    [MechanicEnum.RIGID]: {state: true, value: true},
 }
 
 

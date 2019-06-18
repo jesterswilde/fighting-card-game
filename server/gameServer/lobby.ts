@@ -108,6 +108,8 @@ const makeGameState = (players: PlayerObject[]) => {
         pendingSetup: [0, 0],
         tagModification: [{}, {}],
         tagsPlayed: [{}, {}],
+        handSizeMod: 0,
+        nextHandSizeMod: 0,
         lockedState: {
             distance: null,
             players: [

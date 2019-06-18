@@ -33,6 +33,7 @@ exports.playGame = (state) => __awaiter(this, void 0, void 0, function* () {
     }
 });
 const startGame = (state) => {
+    console.log("Game starting", state);
     assignPlayerToDecks(state);
     socket_2.sendState(state);
     state.sockets.forEach((socket, i) => {

@@ -11,5 +11,8 @@ exports.hunterStyle = {
         "Boom, Headshot!",
         "Gut 'Em",
         "Hogtie",
+        "Stalk",
+        "Close In",
+        "Trip",
     ]
 };

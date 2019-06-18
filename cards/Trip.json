@@ -1,0 +1,42 @@
+{
+  "name": "Trip",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 2
+    }
+  ],
+  "effects": [
+    {
+      "amount": "7",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "1",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

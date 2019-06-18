@@ -11,5 +11,8 @@ export const hunterStyle: FightingStyle = {
         "Boom, Headshot!",
         "Gut 'Em",
         "Hogtie",
+        "Stalk",
+        "Close In",
+        "Trip",
     ]
 }
