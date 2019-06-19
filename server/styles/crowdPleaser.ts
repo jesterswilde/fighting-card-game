@@ -13,5 +13,6 @@ export const crowdPleaserStyle: FightingStyle = {
         'Charging Flourish',
         'Goad',
         'Feint',
+        'Reflexive Retreat',
     ]
 }

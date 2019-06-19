@@ -13,33 +13,35 @@ interface Props {
 
 const Effect = ({ effect: mech }: Props) => {
     const { mechanic, amount, id, mechanicRequirements: reqs = [], mechanicEffects: effs = [], choices = [], player, axis } = mech;
-    const { value: displayValue, valueString: displayValueString, req: displayReq, eff: displayEff, pick: displayPick, state: displayState } = getMechDisplay(mechanic);
-    
+    const { axis: displayAxis, player: displayPlayer, value: displayValue, valueString: displayValueString, req: displayReq, eff: displayEff, pick: displayPick, state: displayState } = getMechDisplay(mechanic);
+    console.log(mechanic, getMechDisplay(mechanic))
     return <div className="inline form-inline">
         <select className="form-control" id="mechanics" onChange={({ target }) => {
-            const mechanic = toMechEnum(target.value); 
+            const mechanic = toMechEnum(target.value);
             mechFromJSON({ ...mech, mechanic })
         }} value={mechanic}>
             <option value={undefined}> No Mechanic </option>
             {Object.keys(MechanicEnum).map((key) => <option value={MechanicEnum[key]} key={key}> {MechanicEnum[key]} </option>)}
         </select>
-        {displayState && <>
+        {(displayState || displayPlayer) && <>
             <select className="form-control" id="affects" onChange={({ target }) => mechFromJSON({ ...mech, player: Number(target.value) })} value={player}>
                 <option value={undefined}> No Player </option>
                 <option value={PlayerEnum.OPPONENT}> ↑ </option>
                 <option value={PlayerEnum.PLAYER}> ↓ </option>
                 <option value={PlayerEnum.BOTH}> ↕ </option>
             </select>
+        </>}
+        {(displayState || displayAxis) && <>
             <select className="form-control" id="axis" onChange={({ target }) => mechFromJSON({ ...mech, axis: target.value as AxisEnum })} value={axis}>
                 <option value={undefined}> No Axis </option>
                 {Object.keys(AxisEnum).map((key) => <option value={AxisEnum[key]} key={key}> {AxisEnum[key]}</option>)}
             </select>
         </>}
         {displayValue && <>
-            <input type="number" value={amount} onChange={({target}) => mechFromJSON({ ...mech, amount: target.value })} />
+            <input type="number" value={amount} onChange={({ target }) => mechFromJSON({ ...mech, amount: target.value })} />
         </>}
         {displayValueString && <>
-            <input type="text" value={amount} onChange={({target}) => mechFromJSON({ ...mech, amount: target.value })} />
+            <input type="text" value={amount} onChange={({ target }) => mechFromJSON({ ...mech, amount: target.value })} />
         </>}
         {displayReq && <>
             <div>

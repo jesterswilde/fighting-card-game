@@ -13,5 +13,6 @@ exports.crowdPleaserStyle = {
         'Charging Flourish',
         'Goad',
         'Feint',
+        'Reflexive Retreat',
     ]
 };

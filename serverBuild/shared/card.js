@@ -72,8 +72,8 @@ const MechanicDisplay = {
     [MechanicEnum.FORCEFUL]: { value: true, eff: true },
     [MechanicEnum.CLUTCH]: { value: true },
     [MechanicEnum.SETUP]: { value: true },
-    [MechanicEnum.FLUID]: { state: true, value: true },
-    [MechanicEnum.RIGID]: { state: true, value: true },
+    [MechanicEnum.FLUID]: { player: true, value: true },
+    [MechanicEnum.RIGID]: { player: true, value: true },
 };
 var PlayerEnum;
 (function (PlayerEnum) {

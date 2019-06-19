@@ -2,7 +2,11 @@
   "priority": 6,
   "requirements": [
     {
-      "axis": "Moving",
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
       "player": 0
     }
   ],
@@ -14,8 +18,13 @@
       "player": 0
     },
     {
+      "axis": "Moving",
+      "player": 0,
+      "amount": 2
+    },
+    {
       "axis": "Still",
-      "player": 0
+      "player": 1
     },
     {
       "amount": 6,
@@ -24,7 +33,7 @@
     {
       "mechanicRequirements": [
         {
-          "axis": "Moving",
+          "axis": "Still",
           "player": 0
         }
       ],

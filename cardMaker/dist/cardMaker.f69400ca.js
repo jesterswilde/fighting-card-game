@@ -27564,9 +27564,11 @@ var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
 }, _a[MechanicEnum.SETUP] = {
   value: true
 }, _a[MechanicEnum.FLUID] = {
-  state: true
+  player: true,
+  value: true
 }, _a[MechanicEnum.RIGID] = {
-  state: true
+  player: true,
+  value: true
 }, _a);
 var PlayerEnum;
 exports.PlayerEnum = PlayerEnum;
@@ -49172,6 +49174,8 @@ var Effect = function Effect(_a) {
       axis = mech.axis;
 
   var _e = (0, _card.getMechDisplay)(mechanic),
+      displayAxis = _e.axis,
+      displayPlayer = _e.player,
       displayValue = _e.value,
       displayValueString = _e.valueString,
       displayReq = _e.req,
@@ -49179,6 +49183,7 @@ var Effect = function Effect(_a) {
       displayPick = _e.pick,
       displayState = _e.state;
 
+  console.log(mechanic, (0, _card.getMechDisplay)(mechanic));
   return React.createElement("div", {
     className: "inline form-inline"
   }, React.createElement("select", {
@@ -49199,7 +49204,7 @@ var Effect = function Effect(_a) {
       value: _card.MechanicEnum[key],
       key: key
     }, " ", _card.MechanicEnum[key], " ");
-  })), displayState && React.createElement(React.Fragment, null, React.createElement("select", {
+  })), (displayState || displayPlayer) && React.createElement(React.Fragment, null, React.createElement("select", {
     className: "form-control",
     id: "affects",
     onChange: function onChange(_a) {
@@ -49217,7 +49222,7 @@ var Effect = function Effect(_a) {
     value: _card.PlayerEnum.PLAYER
   }, " \u2193 "), React.createElement("option", {
     value: _card.PlayerEnum.BOTH
-  }, " \u2195 ")), React.createElement("select", {
+  }, " \u2195 "))), (displayState || displayAxis) && React.createElement(React.Fragment, null, React.createElement("select", {
     className: "form-control",
     id: "axis",
     onChange: function onChange(_a) {
@@ -49755,7 +49760,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50090" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58336" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

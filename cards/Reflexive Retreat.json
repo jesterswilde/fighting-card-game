@@ -1,0 +1,41 @@
+{
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": "5",
+      "player": null,
+      "mechanic": "Parry"
+    },
+    {
+      "amount": "2",
+      "player": 0,
+      "mechanic": "Rigid"
+    },
+    {
+      "amount": "3",
+      "mechanic": "Setup"
+    }
+  ],
+  "name": "Reflexive Retreat",
+  "tagObjs": [],
+  "tags": []
+}

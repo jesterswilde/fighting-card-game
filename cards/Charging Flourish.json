@@ -2,6 +2,10 @@
   "priority": 4,
   "requirements": [
     {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
       "axis": "Balanced",
       "player": 0
     },
@@ -18,20 +22,19 @@
     {
       "effects": [
         {
-          "mechanicEffects": [
-            {
-              "mechanic": "Reflex"
-            }
-          ],
-          "amount": 3,
-          "mechanic": "Forceful"
+          "amount": "2",
+          "axis": "Lose Poise",
+          "player": 0
+        },
+        {
+          "mechanic": "Reflex"
         }
       ],
       "requirements": [
         {
+          "id": 62,
           "axis": "Anticipating",
-          "player": 0,
-          "id": 230
+          "player": 0
         }
       ]
     }

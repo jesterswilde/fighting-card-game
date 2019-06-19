@@ -6,8 +6,16 @@
       "player": 0
     },
     {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
       "axis": "Moving",
-      "player": 2
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
     }
   ],
   "optional": [

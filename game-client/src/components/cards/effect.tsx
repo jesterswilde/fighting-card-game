@@ -13,12 +13,13 @@ interface Props {
 
 const Effect = ({ effect, shouldFlip }: Props) => {
     const {mechanicRequirements: reqs = [], choices = [], mechanicEffects: effs = []} = effect; 
-    const { eff: displayEff, req: displayReq, valueString, pick: displayPick, state: displayState, value } = getMechDisplay(effect.mechanic);
+    const { player: displayPlayer, axis: displayAxis, eff: displayEff, req: displayReq, valueString, pick: displayPick, state: displayState, value } = getMechDisplay(effect.mechanic);
     const mechClass = (displayEff || displayPick) ? 'mechanic' : 'icon-section'
+    if(effect.mechanic === "Rigid")console.log(effect.mechanic, getMechDisplay(effect.mechanic))
     return <div class={mechClass}>
         {effect.mechanic !== undefined && mechWithTooltip(effect.mechanic)}
-        {displayState && <Arrow player={effect.player} shouldFlip={shouldFlip} />}
-        {displayState && <Icon name={effect.axis} />}
+        {(displayState || displayPlayer) && <Arrow player={effect.player} shouldFlip={shouldFlip} />}
+        {(displayState || displayAxis) && <Icon name={effect.axis} />}
         {(displayState || value || valueString) && effect.amount !== undefined && <b>{effect.amount}</b>}
         {(displayEff || displayReq || displayPick) &&
             <div class="recurse">

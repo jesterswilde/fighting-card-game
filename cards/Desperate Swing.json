@@ -6,7 +6,11 @@
       "player": 2
     },
     {
-      "axis": "Balanced",
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
       "player": 0
     }
   ],

@@ -15,6 +15,8 @@ const descObj: {[mech: string]: string} = {
     [MechanicEnum.ENHANCE]: 'All future cards with this tag, will be enhanced by this effect',
     [MechanicEnum.CLUTCH]: 'Increases the cards Priority by X (this turn only)',
     [MechanicEnum.SETUP]: 'Increases the priority of the card played next turn by X (that turn only)',
+    [MechanicEnum.RIGID]: 'Decreases hand size by X, next turn only',
+    [MechanicEnum.FLUID]: 'Increases hand size by X, next turn only.'
 }
 
 export const getMechanicDescription = (mech: MechanicEnum)=>{

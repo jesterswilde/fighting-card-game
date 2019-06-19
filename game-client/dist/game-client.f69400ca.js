@@ -13832,6 +13832,8 @@ exports.MechanicEnum = MechanicEnum;
   MechanicEnum["ENHANCE"] = "Enhance";
   MechanicEnum["CLUTCH"] = "Clutch";
   MechanicEnum["SETUP"] = "Setup";
+  MechanicEnum["RIGID"] = "Rigid";
+  MechanicEnum["FLUID"] = "Fluid";
 })(MechanicEnum || (exports.MechanicEnum = MechanicEnum = {}));
 
 var getMechDisplay = function getMechDisplay(mech) {
@@ -13885,6 +13887,12 @@ var MechanicDisplay = (_a = {}, _a[MechanicEnum.TELEGRAPH] = {
 }, _a[MechanicEnum.CLUTCH] = {
   value: true
 }, _a[MechanicEnum.SETUP] = {
+  value: true
+}, _a[MechanicEnum.FLUID] = {
+  player: true,
+  value: true
+}, _a[MechanicEnum.RIGID] = {
+  player: true,
   value: true
 }, _a);
 var PlayerEnum;
@@ -16119,7 +16127,7 @@ var _card = require("../shared/card");
 
 var _a;
 
-var descObj = (_a = {}, _a[_card.MechanicEnum.BLOCK] = 'Reduces damage by X amount next turn', _a[_card.MechanicEnum.PARRY] = 'Reduces damage by X amount this turn', _a[_card.MechanicEnum.BUFF] = 'Permanently buffs card for future uses', _a[_card.MechanicEnum.CRIPPLE] = 'Permanently adds a terrible card to your opponent\'s deck', _a[_card.MechanicEnum.FOCUS] = 'While on the queue, at the end of your turn, if the condition is met, the effect happens', _a[_card.MechanicEnum.FORCEFUL] = 'Allows you to spend X Poise to get the effect', _a[_card.MechanicEnum.LOCK] = 'That state cannot change for X turns', _a[_card.MechanicEnum.PICK_ONE] = 'You choose which one of the listed effects will happen', _a[_card.MechanicEnum.PREDICT] = 'Guess what the opponent will change with their next card, if correct, you get the effect', _a[_card.MechanicEnum.REFLEX] = 'Plays a random, valid, card from your deck', _a[_card.MechanicEnum.TELEGRAPH] = 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens', _a[_card.MechanicEnum.ENHANCE] = 'All future cards with this tag, will be enhanced by this effect', _a[_card.MechanicEnum.CLUTCH] = 'Increases the cards Priority by X (this turn only)', _a[_card.MechanicEnum.SETUP] = 'Increases the priority of the card played next turn by X (that turn only)', _a);
+var descObj = (_a = {}, _a[_card.MechanicEnum.BLOCK] = 'Reduces damage by X amount next turn', _a[_card.MechanicEnum.PARRY] = 'Reduces damage by X amount this turn', _a[_card.MechanicEnum.BUFF] = 'Permanently buffs card for future uses', _a[_card.MechanicEnum.CRIPPLE] = 'Permanently adds a terrible card to your opponent\'s deck', _a[_card.MechanicEnum.FOCUS] = 'While on the queue, at the end of your turn, if the condition is met, the effect happens', _a[_card.MechanicEnum.FORCEFUL] = 'Allows you to spend X Poise to get the effect', _a[_card.MechanicEnum.LOCK] = 'That state cannot change for X turns', _a[_card.MechanicEnum.PICK_ONE] = 'You choose which one of the listed effects will happen', _a[_card.MechanicEnum.PREDICT] = 'Guess what the opponent will change with their next card, if correct, you get the effect', _a[_card.MechanicEnum.REFLEX] = 'Plays a random, valid, card from your deck', _a[_card.MechanicEnum.TELEGRAPH] = 'If the condition is met at the end of a turn (besides the turn this is played), the effect happens', _a[_card.MechanicEnum.ENHANCE] = 'All future cards with this tag, will be enhanced by this effect', _a[_card.MechanicEnum.CLUTCH] = 'Increases the cards Priority by X (this turn only)', _a[_card.MechanicEnum.SETUP] = 'Increases the priority of the card played next turn by X (that turn only)', _a[_card.MechanicEnum.RIGID] = 'Decreases hand size by X, next turn only', _a[_card.MechanicEnum.FLUID] = 'Increases hand size by X, next turn only.', _a);
 
 var getMechanicDescription = function getMechanicDescription(mech) {
   return descObj[mech] || null;
@@ -19460,6 +19468,8 @@ var Effect = function Effect(_a) {
       effs = _d === void 0 ? [] : _d;
 
   var _e = (0, _card.getMechDisplay)(effect.mechanic),
+      displayPlayer = _e.player,
+      displayAxis = _e.axis,
       displayEff = _e.eff,
       displayReq = _e.req,
       valueString = _e.valueString,
@@ -19468,12 +19478,13 @@ var Effect = function Effect(_a) {
       value = _e.value;
 
   var mechClass = displayEff || displayPick ? 'mechanic' : 'icon-section';
+  if (effect.mechanic === "Rigid") console.log(effect.mechanic, (0, _card.getMechDisplay)(effect.mechanic));
   return (0, _preact.h)("div", {
     class: mechClass
-  }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), displayState && (0, _preact.h)(_images.Arrow, {
+  }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), (displayState || displayPlayer) && (0, _preact.h)(_images.Arrow, {
     player: effect.player,
     shouldFlip: shouldFlip
-  }), displayState && (0, _preact.h)(_images.Icon, {
+  }), (displayState || displayAxis) && (0, _preact.h)(_images.Icon, {
     name: effect.axis
   }), (displayState || value || valueString) && effect.amount !== undefined && (0, _preact.h)("b", null, effect.amount), (displayEff || displayReq || displayPick) && (0, _preact.h)("div", {
     class: "recurse"
@@ -24692,7 +24703,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49977" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58663" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

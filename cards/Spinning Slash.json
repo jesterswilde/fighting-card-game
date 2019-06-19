@@ -2,11 +2,15 @@
   "priority": 4,
   "requirements": [
     {
-      "axis": "Not Far",
+      "axis": "Close",
       "player": 2
     },
     {
       "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
       "player": 0
     }
   ],
