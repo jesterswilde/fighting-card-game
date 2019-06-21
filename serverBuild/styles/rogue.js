@@ -15,5 +15,6 @@ exports.rogueStyle = {
         'Shadow Play',
         'Shiv',
         'Stab',
+        'Sneak Attack',
     ]
 };
