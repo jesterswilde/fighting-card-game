@@ -1,6 +1,5 @@
 {
-  "name": "Shadow Play",
-  "optional": [],
+  "priority": 9,
   "requirements": [
     {
       "axis": "Close",
@@ -19,9 +18,10 @@
       "player": 0
     }
   ],
+  "optional": [],
   "effects": [
     {
-      "amount": "3",
+      "amount": "2",
       "axis": "Lose Poise",
       "player": 1
     },
@@ -30,7 +30,7 @@
       "player": 0
     },
     {
-      "amount": "12",
+      "amount": "7",
       "mechanic": "Parry"
     },
     {
@@ -38,7 +38,7 @@
       "mechanic": "Setup"
     }
   ],
+  "name": "Shadow Play",
   "tagObjs": [],
-  "priority": 9,
   "tags": []
 }

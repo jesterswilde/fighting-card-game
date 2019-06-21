@@ -1,6 +1,5 @@
 {
-  "name": "Apply Poison",
-  "optional": [],
+  "priority": 6,
   "requirements": [
     {
       "axis": "Fresh",
@@ -15,25 +14,22 @@
       "player": 0
     }
   ],
+  "optional": [],
   "effects": [
     {
-      "amount": "3",
+      "amount": "2",
       "axis": "Poise",
-      "player": 0
-    },
-    {
-      "axis": "Still",
       "player": 0
     },
     {
       "mechanicEffects": [
         {
-          "amount": "4",
+          "amount": "2",
           "axis": "Damage",
           "player": 1
         },
         {
-          "amount": "2",
+          "amount": "1",
           "axis": "Lose Poise",
           "player": 1
         }
@@ -42,7 +38,7 @@
       "mechanic": "Enhance"
     }
   ],
+  "name": "Apply Poison",
   "tagObjs": [],
-  "priority": 6,
   "tags": []
 }

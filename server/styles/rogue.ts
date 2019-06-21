@@ -15,5 +15,6 @@ export const rogueStyle: FightingStyle = {
         'Shadow Play',
         'Shiv',
         'Stab',
+        'Sneak Attack',
     ]
 }
