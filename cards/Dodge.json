@@ -1,0 +1,44 @@
+{
+  "name": "Dodge",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": 0
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0,
+      "amount": 2
+    },
+    {
+      "amount": "6",
+      "mechanic": "Parry"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "mechanic": "Reflex"
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

@@ -1,0 +1,66 @@
+{
+  "name": "Garrot",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": 1
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 2
+    }
+  ],
+  "effects": [
+    {
+      "amount": "10",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 2,
+      "amount": 2
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Grappled",
+          "player": 2
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "5",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "2",
+          "axis": "Lose Poise",
+          "player": 2
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 6,
+  "tags": []
+}

@@ -16,6 +16,7 @@ import { toolsOfTheTradeStyle } from './toolsOfTheTrade';
 import { unstoppableStyle } from './unstoppable';
 import { newKidStyle } from './newKid';
 import { monkStyle } from './monk';
+import { rogueStyle } from './rogue';
 import { ropeADopeStyle } from './ropeADope';
 import { workTheBodyStyle } from './workTheBody';
 import { genericStyle } from './generic';
@@ -39,6 +40,7 @@ const allStyles: FightingStyle[] = [
     unstoppableStyle,
     newKidStyle,
     monkStyle,
+    rogueStyle,
     ropeADopeStyle,
     workTheBodyStyle,
     barbarianStyle,

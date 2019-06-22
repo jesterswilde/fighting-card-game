@@ -35,6 +35,15 @@
     }
   ],
   "name": "1000 Cuts",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "blade",
+      "id": 153
+    }
+  ],
+  "tags": [
+    {
+      "value": "blade"
+    }
+  ]
 }
