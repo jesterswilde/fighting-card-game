@@ -1,6 +1,15 @@
 {
-  "priority": 3,
+  "name": "Flying Blade",
+  "optional": [],
   "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
     {
       "axis": "Standing",
       "player": 0
@@ -10,35 +19,39 @@
       "player": 1
     }
   ],
-  "optional": [],
   "effects": [
     {
-      "amount": 5,
+      "amount": "5",
       "axis": "Damage",
       "player": 1
     },
     {
       "mechanicEffects": [
         {
-          "amount": 6,
+          "amount": "5",
           "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "3",
+          "axis": "Moving",
           "player": 1
         }
       ],
-      "amount": 3,
+      "amount": "3",
       "mechanic": "Forceful"
     }
   ],
-  "name": "Knife Throw",
   "tagObjs": [
     {
       "value": "blade",
-      "id": 159
+      "id": 66
     }
   ],
   "tags": [
     {
       "value": "blade"
     }
-  ]
+  ],
+  "priority": 5
 }
