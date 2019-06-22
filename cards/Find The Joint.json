@@ -8,12 +8,38 @@
     {
       "axis": "Balanced",
       "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 1
     }
   ],
-  "optional": [],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "6",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "1",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 19,
+          "axis": "Still",
+          "player": 1
+        }
+      ]
+    }
+  ],
   "effects": [
     {
-      "amount": "5",
+      "amount": "6",
       "axis": "Damage",
       "player": 1
     },
@@ -29,22 +55,6 @@
     {
       "axis": "Still",
       "player": 1
-    },
-    {
-      "mechanicEffects": [
-        {
-          "amount": "7",
-          "axis": "Damage",
-          "player": 1
-        },
-        {
-          "amount": "2",
-          "axis": "Lose Poise",
-          "player": 1
-        }
-      ],
-      "amount": 2,
-      "mechanic": "Forceful"
     }
   ],
   "name": "Find The Joint",

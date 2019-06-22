@@ -14,8 +14,8 @@ const socket_2 = require("./socket");
 const playCard_1 = require("./playCards/playCard");
 const startTurn_1 = require("./startTurn");
 const endTurn_1 = require("./endTurn");
-const events_1 = require("./events");
 const util_1 = require("../util");
+const endGame_1 = require("./endGame");
 exports.playGame = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
         startGame(state);
@@ -25,7 +25,7 @@ exports.playGame = (state) => __awaiter(this, void 0, void 0, function* () {
     }
     catch (err) {
         if (err === errors_1.ControlEnum.GAME_OVER) {
-            endGame(state);
+            endGame_1.endGame(state);
         }
         else {
             console.error(err);
@@ -39,11 +39,6 @@ const startGame = (state) => {
     state.sockets.forEach((socket, i) => {
         socket.emit(socket_1.SocketEnum.START_GAME, { player: i });
     });
-};
-const endGame = (state) => {
-    events_1.addGameOverEvent(state.winner, state);
-    socket_2.sendState(state);
-    events_1.sendEvents(state);
 };
 exports.playTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     socket_2.sendState(state);

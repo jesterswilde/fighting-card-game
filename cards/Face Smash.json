@@ -31,7 +31,7 @@
       "player": 1
     },
     {
-      "amount": "1",
+      "amount": "2",
       "axis": "Prone",
       "player": 1
     },
@@ -43,13 +43,13 @@
           "player": 1
         },
         {
-          "amount": "2",
+          "amount": "1",
           "axis": "Lose Poise",
           "player": 1
         },
         {
           "amount": "3",
-          "axis": "Prone",
+          "axis": "Still",
           "player": 1
         }
       ],
@@ -61,7 +61,7 @@
   "tagObjs": [
     {
       "value": "Smash",
-      "id": 171
+      "id": 33
     }
   ],
   "tags": [

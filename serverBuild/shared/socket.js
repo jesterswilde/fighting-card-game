@@ -21,8 +21,13 @@ var SocketEnum;
     SocketEnum["OPPONENT_PICKED_CARDS"] = "opponentPickedCards";
     SocketEnum["OPPONENT_IS_MAKING_CHOICES"] = "opponentIsMakingChoices";
     SocketEnum["OPPONENT_MADE_CHOICE"] = "opponentMadeChoice";
-    SocketEnum["SIEZE_INITIATIVE"] = "siezeInitative";
-    SocketEnum["INITATIVE_WAGERED"] = "initiativeWagered";
-    SocketEnum["INITIATIVE_RESULT"] = "initiativeResult";
     SocketEnum["AUTHORIZATION"] = "authorization";
+    SocketEnum["GAME_OVER"] = "gameOver";
+    SocketEnum["END_GAME_CHOICE"] = "endGameChoice";
+    SocketEnum["OPPONENT_LEFT"] = "opponentLeft";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
+var GameOverEnum;
+(function (GameOverEnum) {
+    GameOverEnum["FIND_NEW_OPP_WITH_SAME_DECK"] = "findOppWithSameDeck";
+    GameOverEnum["FIND_NEW_OPP_WITH_NEW_DECK"] = "findNewOppWithNewDeck";
+})(GameOverEnum = exports.GameOverEnum || (exports.GameOverEnum = {}));

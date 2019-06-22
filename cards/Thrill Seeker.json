@@ -1,0 +1,62 @@
+{
+  "name": "Thrill Seeker",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "1",
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "amount": "Leap",
+      "mechanic": "Enhance"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Far",
+          "player": 2
+        },
+        {
+          "axis": "Standing",
+          "player": 0
+        },
+        {
+          "axis": "Prone",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "2",
+          "axis": "Poise",
+          "player": 0
+        },
+        {
+          "player": null,
+          "mechanic": "Reflex"
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 4,
+  "tags": []
+}

@@ -10,5 +10,6 @@ export const deathFromAboveStyle: FightingStyle = {
         'The Boot',
         'Face Smash',
         'Ready, Steady',
+        'Thrill Seeker',
     ]
 }

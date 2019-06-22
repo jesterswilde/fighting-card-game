@@ -7,6 +7,7 @@ import { startTurn } from "./startTurn";
 import { endTurn } from "./endTurn";
 import { addGameOverEvent, sendEvents } from "./events";
 import { getOpponent } from "../util";
+import { endGame } from "./endGame";
 
 export const playGame = async (state: GameState) => {
     try {
@@ -32,11 +33,6 @@ const startGame = (state: GameState) => {
     })
 }
 
-const endGame = (state: GameState) => {
-    addGameOverEvent(state.winner, state); 
-    sendState(state); 
-    sendEvents(state); 
-}
 
 export const playTurn = async (state: GameState) => {
     sendState(state); 

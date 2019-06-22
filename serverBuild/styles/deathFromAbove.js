@@ -10,5 +10,6 @@ exports.deathFromAboveStyle = {
         'The Boot',
         'Face Smash',
         'Ready, Steady',
+        'Thrill Seeker',
     ]
 };

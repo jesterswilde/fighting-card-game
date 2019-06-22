@@ -38,6 +38,15 @@
     }
   ],
   "name": "Death From Above",
-  "tagObjs": [],
-  "tags": []
+  "tagObjs": [
+    {
+      "value": "Leap",
+      "id": 62
+    }
+  ],
+  "tags": [
+    {
+      "value": "Leap"
+    }
+  ]
 }

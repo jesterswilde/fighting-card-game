@@ -19,8 +19,14 @@ export enum SocketEnum{
     OPPONENT_PICKED_CARDS = 'opponentPickedCards',
     OPPONENT_IS_MAKING_CHOICES = 'opponentIsMakingChoices',
     OPPONENT_MADE_CHOICE = 'opponentMadeChoice',
-    SIEZE_INITIATIVE = 'siezeInitative',
-    INITATIVE_WAGERED = 'initiativeWagered',
-    INITIATIVE_RESULT = 'initiativeResult',
     AUTHORIZATION = 'authorization',
+    GAME_OVER = 'gameOver',
+    END_GAME_CHOICE = 'endGameChoice',
+    OPPONENT_LEFT = 'opponentLeft',
+}
+
+export enum GameOverEnum {
+    FIND_NEW_OPP_WITH_SAME_DECK = 'findOppWithSameDeck',
+    FIND_NEW_OPP_WITH_NEW_DECK = 'findNewOppWithNewDeck',
+
 }
