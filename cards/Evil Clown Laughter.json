@@ -1,0 +1,65 @@
+{
+  "name": "Evil Clown Laughter",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "5",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 55,
+          "axis": "Unbalanced",
+          "player": 1
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "2",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "amount": "spooky",
+      "mechanic": "Enhance"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "spooky",
+      "id": 51
+    }
+  ],
+  "priority": 6,
+  "tags": [
+    {
+      "value": "spooky"
+    }
+  ]
+}

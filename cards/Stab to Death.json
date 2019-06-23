@@ -1,0 +1,74 @@
+{
+  "name": "Stab to Death",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0,
+      "amount": 2
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Close",
+          "player": 2
+        },
+        {
+          "axis": "Standing",
+          "player": 0
+        },
+        {
+          "axis": "Moving",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "5",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "spooky",
+      "id": 134
+    }
+  ],
+  "priority": 6,
+  "tags": [
+    {
+      "value": "spooky"
+    }
+  ]
+}

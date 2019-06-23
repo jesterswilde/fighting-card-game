@@ -1,0 +1,58 @@
+{
+  "name": "Horror-Core Mosh Pit",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Poise",
+      "player": 2
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Balanced",
+          "player": 2
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "axis": "Moving",
+          "player": 2,
+          "amount": 2
+        },
+        {
+          "amount": "3",
+          "player": 2,
+          "mechanic": "Block"
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "spooky",
+      "id": 86
+    }
+  ],
+  "priority": 4,
+  "tags": [
+    {
+      "value": "spooky"
+    }
+  ]
+}

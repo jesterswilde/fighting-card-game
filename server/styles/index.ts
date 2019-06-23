@@ -17,6 +17,7 @@ import { unstoppableStyle } from './unstoppable';
 import { newKidStyle } from './newKid';
 import { monkStyle } from './monk';
 import { rogueStyle } from './rogue';
+import { juggaloStyle } from './juggalo';
 import { ropeADopeStyle } from './ropeADope';
 import { workTheBodyStyle } from './workTheBody';
 import { genericStyle } from './generic';
@@ -41,6 +42,7 @@ const allStyles: FightingStyle[] = [
     newKidStyle,
     monkStyle,
     rogueStyle,
+    juggaloStyle,
     ropeADopeStyle,
     workTheBodyStyle,
     barbarianStyle,

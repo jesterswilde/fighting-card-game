@@ -1,0 +1,55 @@
+{
+  "name": "Psycho Babble",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "6",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 64,
+          "axis": "Anticipating",
+          "player": 0
+        },
+        {
+          "id": 62,
+          "axis": "Standing",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Lose Poise",
+      "player": 1
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "spooky",
+      "id": 66
+    }
+  ],
+  "tags": [
+    {
+      "value": "spooky"
+    }
+  ],
+  "priority": 5
+}

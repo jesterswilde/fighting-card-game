@@ -1,0 +1,46 @@
+{
+  "name": "Boombox Blast",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "1",
+          "axis": "Poise",
+          "player": 0
+        },
+        {
+          "amount": "3",
+          "player": null,
+          "mechanic": "Block"
+        }
+      ],
+      "requirements": [
+        {
+          "id": 100,
+          "axis": "Moving",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 2
+    }
+  ],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

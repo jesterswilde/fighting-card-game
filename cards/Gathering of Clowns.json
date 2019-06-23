@@ -1,0 +1,61 @@
+{
+  "name": "Gathering of Clowns",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Close",
+          "player": 2
+        },
+        {
+          "axis": "Moving",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "2",
+          "axis": "Poise",
+          "player": 2
+        }
+      ],
+      "mechanic": "Focus"
+    },
+    {
+      "amount": "2",
+      "mechanic": "Setup"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "spooky",
+      "id": 114
+    }
+  ],
+  "tags": [
+    {
+      "value": "spooky"
+    }
+  ],
+  "priority": 5
+}

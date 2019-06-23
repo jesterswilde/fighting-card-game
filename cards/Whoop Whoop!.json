@@ -1,0 +1,69 @@
+{
+  "name": "Whoop Whoop!",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "2",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 44,
+          "axis": "Close",
+          "player": 2
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "4",
+      "mechanic": "Block"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "1",
+          "axis": "Poise",
+          "player": 0
+        },
+        {
+          "axis": "Moving",
+          "player": 0,
+          "amount": 2
+        }
+      ],
+      "amount": "spooky",
+      "mechanic": "Enhance"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "spooky",
+      "id": 38
+    }
+  ],
+  "priority": 7,
+  "tags": [
+    {
+      "value": "spooky"
+    }
+  ]
+}

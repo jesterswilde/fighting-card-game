@@ -1,0 +1,66 @@
+{
+  "name": "Face Paint",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "2",
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "requirements": [
+        {
+          "id": 7,
+          "axis": "Close",
+          "player": 2
+        },
+        {
+          "id": 10,
+          "axis": "Moving",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "mechanicEffects": [
+        {
+          "amount": "1",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "amount": "spooky",
+      "mechanic": "Enhance"
+    },
+    {
+      "amount": "2",
+      "player": 0,
+      "mechanic": "Setup"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "spooky",
+      "id": 11
+    }
+  ],
+  "priority": 6,
+  "tags": [
+    {
+      "value": "spooky"
+    }
+  ]
+}

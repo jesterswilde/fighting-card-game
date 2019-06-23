@@ -1,0 +1,45 @@
+{
+  "name": "Spray Faygo",
+  "optional": [
+    {
+      "effects": [
+        {
+          "axis": "Standing",
+          "player": 0
+        }
+      ],
+      "requirements": [
+        {
+          "id": 92,
+          "axis": "Balanced",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Moving",
+      "player": 2,
+      "amount": 2
+    },
+    {
+      "amount": "4",
+      "player": 2,
+      "mechanic": "Block"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

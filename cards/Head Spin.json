@@ -1,0 +1,40 @@
+{
+  "name": "Head Spin",
+  "optional": [
+    {
+      "effects": [
+        {
+          "axis": "Standing",
+          "player": 0
+        }
+      ],
+      "requirements": [
+        {
+          "id": 33,
+          "axis": "Prone",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": "3",
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "tagObjs": [],
+  "priority": 5,
+  "tags": []
+}

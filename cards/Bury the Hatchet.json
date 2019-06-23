@@ -1,0 +1,54 @@
+{
+  "name": "Bury the Hatchet",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "10",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 75,
+          "axis": "Not Anticipating",
+          "player": 1
+        },
+        {
+          "id": 74,
+          "axis": "Still",
+          "player": 1
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "15",
+      "axis": "Damage",
+      "player": 1
+    }
+  ],
+  "tagObjs": [],
+  "priority": 8,
+  "tags": []
+}
