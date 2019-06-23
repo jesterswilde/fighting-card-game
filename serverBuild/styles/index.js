@@ -18,6 +18,7 @@ const unstoppable_1 = require("./unstoppable");
 const newKid_1 = require("./newKid");
 const monk_1 = require("./monk");
 const rogue_1 = require("./rogue");
+const juggalo_1 = require("./juggalo");
 const ropeADope_1 = require("./ropeADope");
 const workTheBody_1 = require("./workTheBody");
 const generic_1 = require("./generic");
@@ -41,6 +42,7 @@ const allStyles = [
     newKid_1.newKidStyle,
     monk_1.monkStyle,
     rogue_1.rogueStyle,
+    juggalo_1.juggaloStyle,
     ropeADope_1.ropeADopeStyle,
     workTheBody_1.workTheBodyStyle,
     barbarian_1.barbarianStyle,
