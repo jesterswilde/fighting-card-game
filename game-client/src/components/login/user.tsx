@@ -13,11 +13,9 @@ export default ({path}: Props)=>{
         </h2>
     }
     if(path[0] === 'login'){
-        //@ts-ignore
         return <Login />
     }
     if(path[0] === 'create'){
-        //@ts-ignore
         return <Create />
     }
 }

@@ -27,7 +27,7 @@
       "requirements": [
         {
           "axis": "Bloodied",
-          "player": 0,
+          "player": 1,
           "id": 780
         }
       ]

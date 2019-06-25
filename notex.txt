@@ -1,3 +1,9 @@
+Lower damage on smash kneecap by 1
+Lower damage on sweep the legs by 2
+Lower damage on surefooted smash by 1
+Weaken Opportunist or increase reqs. 
+Check and see if Fresh is bugged.
+
 Deck builder page needs a back button
 
 Maybe still an issue? - Custom decks not showing up sometimes in deck choice. 

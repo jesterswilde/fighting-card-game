@@ -10570,6 +10570,13 @@ h3 {
   justify-items: center;
   align-items: center;
   margin-top: 20px;
+  color: white;
+}
+.login .error {
+  background-color: #b33b2c;
+  margin: 5px 0 5px 0;
+  padding: 5px;
+  text-align: center;
 }
 .login .form {
   width: 50%;

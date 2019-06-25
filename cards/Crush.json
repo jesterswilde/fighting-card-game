@@ -1,6 +1,5 @@
 {
-  "name": "Crush",
-  "optional": [],
+  "priority": 6,
   "requirements": [
     {
       "axis": "Close",
@@ -23,9 +22,10 @@
       "player": 1
     }
   ],
+  "optional": [],
   "effects": [
     {
-      "amount": "1",
+      "amount": "",
       "axis": "Grappled",
       "player": 2
     },
@@ -35,15 +35,11 @@
       "player": 1
     },
     {
-      "amount": "3",
-      "mechanic": "Block"
-    },
-    {
-      "amount": "3",
-      "mechanic": "Enhance"
+      "amount": "4",
+      "mechanic": "Setup"
     }
   ],
+  "name": "Crush",
   "tagObjs": [],
-  "priority": 6,
   "tags": []
 }

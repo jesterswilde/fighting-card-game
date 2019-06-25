@@ -5,6 +5,7 @@ import {createUserWithEmail} from '../../user/dispatch';
 interface LoginState{
     email: string
     password: string
+    error?: string
 }
 
 class Login extends Component<{}, LoginState>{
@@ -12,10 +13,12 @@ class Login extends Component<{}, LoginState>{
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            error: '',
         }
     }
     render(){
+       
         return <div class="login">
         <div class="title">Create Account: </div>
         <form class="form">
@@ -37,17 +40,21 @@ class Login extends Component<{}, LoginState>{
             />
             <button 
                 class="btn btn-primary mt-4"
-                onClick={(e)=>{
-                    createUserWithEmail(this.state.email, this.state.password)
+                onClick={async(e)=>{
                     e.preventDefault(); 
+                    const error = await createUserWithEmail(this.state.email, this.state.password)
+                    if(error){
+                        this.setState({error}); 
+                    }
                 }}
             > 
                 Create Account 
             </button>
+            {this.state.error && <div class="error">Error: {this.state.error}</div>}
             <div class='mt-2'>
                 Already have an account?
             <button 
-                class="btn"
+                class="btn btn-sml btn-primary"
                 onClick={()=> to('/user/login')}
             > Login </button> 
             </div>

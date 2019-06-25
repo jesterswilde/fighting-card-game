@@ -18,8 +18,11 @@ export const loginWithEmail = async (email: string, password: string) => {
         const stringified = atob(baseToken)
         console.log(stringified); 
         const { username }: { username: string } = JSON.parse(stringified);
-        console.log(token, username);
         dispatchUserLogin(username, token);
+        dispatchToPathArray([]); 
+    }else{
+        const errorMessage = await fetched.text(); 
+        return errorMessage;
     }
 }
 
@@ -37,8 +40,11 @@ export const createUserWithEmail = async (email: string, password: string) => {
         const [baseToken] = token.split('.');
         const stringified = atob(baseToken)
         const { username }: { username: string } = JSON.parse(stringified);
-        console.log(token, username);
         dispatchUserLogin(username, token);
+        dispatchToPathArray([]); 
+    }else{
+        const errorMessage = await fetched.text(); 
+        return errorMessage;
     }
 }
 

@@ -2,6 +2,10 @@
   "priority": 7,
   "requirements": [
     {
+      "axis": "Close",
+      "player": 2
+    },
+    {
       "axis": "Unbalanced",
       "player": 1
     },
@@ -14,7 +18,7 @@
     {
       "effects": [
         {
-          "amount": "3",
+          "amount": "9",
           "axis": "Damage",
           "player": 1
         }
@@ -30,7 +34,7 @@
   ],
   "effects": [
     {
-      "amount": "12",
+      "amount": "6",
       "axis": "Damage",
       "player": 1
     },
@@ -44,9 +48,9 @@
       "player": 1
     },
     {
+      "amount": 2,
       "axis": "Moving",
-      "player": 0,
-      "amount": 2
+      "player": 0
     }
   ],
   "name": "Drive Down",

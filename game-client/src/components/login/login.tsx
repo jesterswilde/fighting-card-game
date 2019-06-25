@@ -5,6 +5,7 @@ import { loginWithEmail } from '../../user/dispatch';
 interface State {
     email: string
     password: string
+    error?: string
 }
 
 export default class Login extends Component<{}, State>{
@@ -12,10 +13,12 @@ export default class Login extends Component<{}, State>{
         super();
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            error: '',
         }
     }
     render() {
+        console.log(this.state); 
         return <div class="login">
             <div class="title">Login: </div>
             <form class="form">
@@ -37,17 +40,21 @@ export default class Login extends Component<{}, State>{
                 />
                 <button
                     class="btn btn-primary mt-4"
-                    onClick={(e) => {
-                        loginWithEmail(this.state.email, this.state.password)
+                    onClick={async(e) => {
                         e.preventDefault();
+                        const error = await loginWithEmail(this.state.email, this.state.password)
+                        if(error){
+                            this.setState({error})
+                        }
                     }}
                 >
                     Login
             </button>
+            {this.state.error && <div class="error">Error: {this.state.error}</div>}
                 <div class='mt-2    '>
                     Don't have an account? Create one instead.
                 <button
-                        class="btn"
+                        class="btn btn-sml btn-primary"
                         onClick={() => to('/user/create')}
                     >
                         Create Account

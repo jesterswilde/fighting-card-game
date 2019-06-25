@@ -6,10 +6,6 @@
       "player": 2
     },
     {
-      "axis": "Balanced",
-      "player": 0
-    },
-    {
       "axis": "Standing",
       "player": 0
     },
@@ -21,7 +17,7 @@
   "optional": [],
   "effects": [
     {
-      "amount": 10,
+      "amount": "8",
       "axis": "Damage",
       "player": 1
     },
