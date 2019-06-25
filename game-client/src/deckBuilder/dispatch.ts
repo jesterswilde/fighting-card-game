@@ -1,17 +1,19 @@
 import { HOST_URL, makeAuthHeader } from "../util";
 import { GotDecksAction, DeckEditorEnum, ChoseDeckAction, CreateDeckAction, UpdateDeckAction, DeleteDeckAction, RevertDeckAction, ChangeDeckNameAction, ShowingUnusedStylesAction } from "./actions";
 import { store } from "../state/store";
-import { EditingDeck, UpdateDeckObj } from "./interface";
+import { EditingDeck, UpdateDeckObj, PossibleCards } from "./interface";
 import { getUpdateDeckObj } from "./util";
+import { dispatchAppendPath } from "../path/dispatch";
 
 export const dispatchCreateDeck = async () => {
-    const deck = await createDeck();
-    const action: CreateDeckAction = {
-        type: DeckEditorEnum.CREATE_DECK,
-        deck
+    const {deck, possibleCards} = await createDeck();
+    const action: ChoseDeckAction = {
+        type: DeckEditorEnum.CHOSE_DECK,
+        deck,
+        possibleCards
     }
     store.dispatch(action);
-    dispatchGetDecks(); 
+    dispatchAppendPath(String(deck.id)); 
 }
 
 const createDeck = async () => {
@@ -20,8 +22,8 @@ const createDeck = async () => {
         method: 'POST'
     })
     if (fetched.ok) {
-        const deck: EditingDeck = await fetched.json();
-        return deck;
+        const results: {deck: EditingDeck, possibleCards: PossibleCards} = await fetched.json();
+        return results;
     }
 }
 
@@ -73,10 +75,11 @@ const fetchDecks = async () => {
 }
 
 export const dispatchChoseDeck = async (deckID: number) => {
-    const deck = await getDeckByID(deckID);
+    const {deck, possibleCards} = await getDeckByID(deckID);
     const action: ChoseDeckAction = {
         type: DeckEditorEnum.CHOSE_DECK,
-        deck
+        deck,
+        possibleCards
     }
     store.dispatch(action);
 }
@@ -87,8 +90,8 @@ const getDeckByID = async (deckID: number) => {
         method: "GET",
     })
     if (fetched.ok) {
-        const deck = await fetched.json();
-        return deck;
+        const results: {deck: EditingDeck, possibleCards: PossibleCards} = await fetched.json();
+        return results;
     }
 }
 

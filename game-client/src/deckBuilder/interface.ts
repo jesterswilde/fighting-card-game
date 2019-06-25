@@ -6,9 +6,6 @@ export interface EditingDeck {
     id: number,
     name: string,
     cards: string[],
-    possibleCards: {
-        [style: string]: Card[]
-    },
     description: string,
     styles: string[]
 }
@@ -28,6 +25,11 @@ export interface DeckEditState {
     savedStyles: FullStyleObj
     canUpdate: boolean
     showingUnusedStyles: boolean
+    possibleCards: PossibleCards
+}
+
+export interface PossibleCards{
+    [style: string]: Card[]
 }
 
 export interface FullStyleObj {

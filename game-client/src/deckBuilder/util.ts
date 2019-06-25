@@ -4,7 +4,7 @@ import isEqual from 'lodash/isEqual'
 
 export const getUpdateDeckObj = (): { updateDeckObj: UpdateDeckObj, id: number } => {
     const updateDeckObj: UpdateDeckObj = {};
-    const { deckEditor: { deck, uneditedDeck } } = store.getState();
+    const { deckEditor: { deck, uneditedDeck, possibleCards } } = store.getState();
     const cardsChanged = !isEqual(deck.cards, uneditedDeck.cards)
     const stylesChanged = !isEqual(deck.styles, uneditedDeck.styles)
     if (stylesChanged) {
@@ -12,8 +12,8 @@ export const getUpdateDeckObj = (): { updateDeckObj: UpdateDeckObj, id: number }
     }
     if (stylesChanged || cardsChanged) {
         updateDeckObj.cards = deck.cards.filter((cardName) => {
-            for (const style in deck.possibleCards) {
-                const cards = deck.possibleCards[style];
+            for (const style in possibleCards) {
+                const cards = possibleCards[style];
                 const hasCard = cards.some(({ name }) => name === cardName);
                 if (hasCard) {
                     return true;
@@ -29,4 +29,14 @@ export const getUpdateDeckObj = (): { updateDeckObj: UpdateDeckObj, id: number }
         updateDeckObj.description = deck.description;
     }
     return { updateDeckObj, id: deck.id };
+}
+
+export const getStylesToRequest = (styles: string[])=>{
+    const possibleCards = store.getState().deckEditor.possibleCards;
+    const shouldAddGeneric = possibleCards['Generic'] === undefined; 
+    const stylesToRequest = styles.filter((style)=> possibleCards[style] === undefined);
+    if(shouldAddGeneric){
+        stylesToRequest.push("Generic"); 
+    }
+    return stylesToRequest; 
 }

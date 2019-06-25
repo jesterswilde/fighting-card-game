@@ -13656,7 +13656,11 @@ var deckEditorReducer = function deckEditorReducer(state, action) {
 
     case _actions.DeckEditorEnum.CHOSE_DECK:
       var showing = action.deck.styles.length < 3;
+
+      var possibleCards = __assign({}, state.possibleCards, action.possibleCards);
+
       return __assign({}, state, {
+        possibleCards: possibleCards,
         deck: action.deck,
         uneditedDeck: action.deck,
         canUpdate: false,
@@ -13730,10 +13734,10 @@ var deckEditorReducer = function deckEditorReducer(state, action) {
       });
 
     case _actions.DeckEditorEnum.GOT_POSSIBLE_CARDS:
+      var possibleCards = __assign({}, state.possibleCards, action.possibleCards);
+
       return __assign({}, state, {
-        deck: __assign({}, state.deck, {
-          possibleCards: action.possibleCards
-        })
+        possibleCards: possibleCards
       });
 
     case _actions.DeckEditorEnum.SHOWING_UNUSED_STYLES:
@@ -13756,7 +13760,8 @@ var makeDefaultState = function makeDefaultState() {
     savedStyles: {},
     allStyleDesc: [],
     uneditedDeck: null,
-    showingUnusedStyles: false
+    showingUnusedStyles: false,
+    possibleCards: {}
   };
 };
 },{"./actions":"src/deckBuilder/actions.ts"}],"src/filters/actions.ts":[function(require,module,exports) {
@@ -23430,7 +23435,7 @@ module.exports = isEqual;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUpdateDeckObj = void 0;
+exports.getStylesToRequest = exports.getUpdateDeckObj = void 0;
 
 var _store = require("../state/store");
 
@@ -23443,7 +23448,8 @@ var getUpdateDeckObj = function getUpdateDeckObj() {
 
   var _a = _store.store.getState().deckEditor,
       deck = _a.deck,
-      uneditedDeck = _a.uneditedDeck;
+      uneditedDeck = _a.uneditedDeck,
+      possibleCards = _a.possibleCards;
 
   var cardsChanged = !(0, _isEqual.default)(deck.cards, uneditedDeck.cards);
   var stylesChanged = !(0, _isEqual.default)(deck.styles, uneditedDeck.styles);
@@ -23454,8 +23460,8 @@ var getUpdateDeckObj = function getUpdateDeckObj() {
 
   if (stylesChanged || cardsChanged) {
     updateDeckObj.cards = deck.cards.filter(function (cardName) {
-      for (var style in deck.possibleCards) {
-        var cards = deck.possibleCards[style];
+      for (var style in possibleCards) {
+        var cards = possibleCards[style];
         var hasCard = cards.some(function (_a) {
           var name = _a.name;
           return name === cardName;
@@ -23485,6 +23491,23 @@ var getUpdateDeckObj = function getUpdateDeckObj() {
 };
 
 exports.getUpdateDeckObj = getUpdateDeckObj;
+
+var getStylesToRequest = function getStylesToRequest(styles) {
+  var possibleCards = _store.store.getState().deckEditor.possibleCards;
+
+  var shouldAddGeneric = possibleCards['Generic'] === undefined;
+  var stylesToRequest = styles.filter(function (style) {
+    return possibleCards[style] === undefined;
+  });
+
+  if (shouldAddGeneric) {
+    stylesToRequest.push("Generic");
+  }
+
+  return stylesToRequest;
+};
+
+exports.getStylesToRequest = getStylesToRequest;
 },{"../state/store":"src/state/store.ts","lodash/isEqual":"node_modules/lodash/isEqual.js"}],"src/deckBuilder/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
@@ -23500,6 +23523,8 @@ var _actions = require("./actions");
 var _store = require("../state/store");
 
 var _util2 = require("./util");
+
+var _dispatch = require("../path/dispatch");
 
 var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P, generator) {
   return new (P || (P = Promise))(function (resolve, reject) {
@@ -23644,24 +23669,26 @@ var _this = void 0;
 
 var dispatchCreateDeck = function dispatchCreateDeck() {
   return __awaiter(_this, void 0, void 0, function () {
-    var deck, action;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
+    var _a, deck, possibleCards, action;
+
+    return __generator(this, function (_b) {
+      switch (_b.label) {
         case 0:
           return [4
           /*yield*/
           , createDeck()];
 
         case 1:
-          deck = _a.sent();
+          _a = _b.sent(), deck = _a.deck, possibleCards = _a.possibleCards;
           action = {
-            type: _actions.DeckEditorEnum.CREATE_DECK,
-            deck: deck
+            type: _actions.DeckEditorEnum.CHOSE_DECK,
+            deck: deck,
+            possibleCards: possibleCards
           };
 
           _store.store.dispatch(action);
 
-          dispatchGetDecks();
+          (0, _dispatch.dispatchAppendPath)(String(deck.id));
           return [2
           /*return*/
           ];
@@ -23674,7 +23701,7 @@ exports.dispatchCreateDeck = dispatchCreateDeck;
 
 var createDeck = function createDeck() {
   return __awaiter(_this, void 0, void 0, function () {
-    var fetched, deck;
+    var fetched, results;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -23695,10 +23722,10 @@ var createDeck = function createDeck() {
           , fetched.json()];
 
         case 2:
-          deck = _a.sent();
+          results = _a.sent();
           return [2
           /*return*/
-          , deck];
+          , results];
 
         case 3:
           return [2
@@ -23844,19 +23871,21 @@ var fetchDecks = function fetchDecks() {
 
 var dispatchChoseDeck = function dispatchChoseDeck(deckID) {
   return __awaiter(_this, void 0, void 0, function () {
-    var deck, action;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
+    var _a, deck, possibleCards, action;
+
+    return __generator(this, function (_b) {
+      switch (_b.label) {
         case 0:
           return [4
           /*yield*/
           , getDeckByID(deckID)];
 
         case 1:
-          deck = _a.sent();
+          _a = _b.sent(), deck = _a.deck, possibleCards = _a.possibleCards;
           action = {
             type: _actions.DeckEditorEnum.CHOSE_DECK,
-            deck: deck
+            deck: deck,
+            possibleCards: possibleCards
           };
 
           _store.store.dispatch(action);
@@ -23873,7 +23902,7 @@ exports.dispatchChoseDeck = dispatchChoseDeck;
 
 var getDeckByID = function getDeckByID(deckID) {
   return __awaiter(_this, void 0, void 0, function () {
-    var fetched, deck;
+    var fetched, results;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -23894,10 +23923,10 @@ var getDeckByID = function getDeckByID(deckID) {
           , fetched.json()];
 
         case 2:
-          deck = _a.sent();
+          results = _a.sent();
           return [2
           /*return*/
-          , deck];
+          , results];
 
         case 3:
           return [2
@@ -24002,7 +24031,7 @@ var dispatchShowingUnusedStyles = function dispatchShowingUnusedStyles(showing) 
 };
 
 exports.dispatchShowingUnusedStyles = dispatchShowingUnusedStyles;
-},{"../util":"src/util.ts","./actions":"src/deckBuilder/actions.ts","../state/store":"src/state/store.ts","./util":"src/deckBuilder/util.ts"}],"src/components/deckBuilder/deckList.tsx":[function(require,module,exports) {
+},{"../util":"src/util.ts","./actions":"src/deckBuilder/actions.ts","../state/store":"src/state/store.ts","./util":"src/deckBuilder/util.ts","../path/dispatch":"src/path/dispatch.ts"}],"src/components/deckBuilder/deckList.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24105,6 +24134,8 @@ var _actions = require("./actions");
 var _store = require("../state/store");
 
 var _util = require("../util");
+
+var _util2 = require("./util");
 
 var __awaiter = void 0 && (void 0).__awaiter || function (thisArg, _arguments, P, generator) {
   return new (P || (P = Promise))(function (resolve, reject) {
@@ -24311,14 +24342,18 @@ exports.dispatchDEToggleStyle = dispatchDEToggleStyle;
 
 var getPossibleCards = function getPossibleCards() {
   return __awaiter(_this, void 0, void 0, function () {
-    var styles, fetched, possibleCards, action;
+    var styles, unfetchedStyles, fetched, possibleCards, action;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
           styles = _store.store.getState().deckEditor.deck.styles;
+          unfetchedStyles = (0, _util2.getStylesToRequest)(styles);
+          if (!(unfetchedStyles.length > 0)) return [3
+          /*break*/
+          , 3];
           return [4
           /*yield*/
-          , fetch(_util.HOST_URL + '/decks/possibleCards?styles=' + styles.join(','), {
+          , fetch(_util.HOST_URL + '/decks/possibleCards?styles=' + unfetchedStyles.join(','), {
             method: "GET"
           })];
 
@@ -24350,7 +24385,7 @@ var getPossibleCards = function getPossibleCards() {
     });
   });
 };
-},{"./actions":"src/deckBuilder/actions.ts","../state/store":"src/state/store.ts","../util":"src/util.ts"}],"src/components/deckBuilder/styleList.tsx":[function(require,module,exports) {
+},{"./actions":"src/deckBuilder/actions.ts","../state/store":"src/state/store.ts","../util":"src/util.ts","./util":"src/deckBuilder/util.ts"}],"src/components/deckBuilder/styleList.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -24678,8 +24713,7 @@ function (_super) {
       return (0, _preact.h)("div", null, "Loading...");
     }
 
-    var possibleCards = deck.possibleCards,
-        name = deck.name;
+    var name = deck.name;
     return (0, _preact.h)("div", {
       class: 'deck-builder pad-bottom'
     }, (0, _preact.h)("div", {
@@ -24698,18 +24732,22 @@ function (_super) {
       allStyles: styleDescriptions
     }), (0, _preact.h)(_filter.default, null), (0, _preact.h)("div", {
       class: 'deck'
-    }, Object.keys(possibleCards).map(function (style, i) {
+    }, deck.styles.map(function (style, i) {
       return _this.RenderStyle(style);
-    })), canUpdate && (0, _preact.h)(_revert.default, null));
+    }), this.RenderStyle('Generic')), canUpdate && (0, _preact.h)(_revert.default, null));
   };
 
   DeckViewer.prototype.RenderStyle = function (style) {
     var _this = this;
 
-    var _a = this.props.deck,
-        possibleCards = _a.possibleCards,
-        cards = _a.cards;
+    var possibleCards = this.props.possibleCards;
+    var cards = this.props.deck.cards;
     var styleCards = possibleCards[style];
+
+    if (!styleCards) {
+      return (0, _preact.h)("div", null, " Loading Style...");
+    }
+
     var maxCards = styleCards.length;
     var cardsObj = styleCards.reduce(function (obj, card) {
       obj[card.name] = true;
@@ -24775,8 +24813,8 @@ var _default = function _default(props) {
   var maxCards;
 
   if (props.deck) {
+    var possibleCards_1 = props.possibleCards;
     totalCards = props.deck.cards.length;
-    var possibleCards_1 = props.deck.possibleCards;
     maxCards = Object.keys(possibleCards_1).reduce(function (max, style) {
       return possibleCards_1[style].length + max;
     }, 0);
@@ -24845,6 +24883,7 @@ var __extends = void 0 && (void 0).__extends || function () {
 
 var selector = function selector(state) {
   return {
+    possibleCards: state.deckEditor.possibleCards,
     isLoggedIn: Boolean(state.user.token),
     styleDecriptions: state.fightingStyle.styleDescriptions,
     decks: state.deckEditor.allDecks,
@@ -24877,7 +24916,8 @@ function (_super) {
   };
 
   DeckEditor.prototype.render = function (_a) {
-    var filters = _a.filters,
+    var possibleCards = _a.possibleCards,
+        filters = _a.filters,
         isLoadingDecks = _a.isLoadingDecks,
         showingUnusedStyles = _a.showingUnusedStyles,
         _b = _a.decks,
@@ -24900,6 +24940,7 @@ function (_super) {
 
     if (root) {
       return (0, _preact.h)(_deckViewer.default, {
+        possibleCards: possibleCards,
         showingUnusedStyles: showingUnusedStyles,
         filters: filters,
         canUpdate: canUpdate,

@@ -7,7 +7,7 @@ import { getFightingStyleByName } from "../styles";
 
 //All styles offer a pool of cards. This makes sure that any card they submit is valid. 
 export const areCardsInStyles = (styleNames: string[], cards: string[]) => {
-    const stylesObj = styleNames.map((name) => getFightingStyleByName(name))
+    const stylesObj = [...styleNames, 'Generic'].map((name) => getFightingStyleByName(name))
         .filter((style) => style !== null)
         .reduce((styleObj, style) => {
             style.cards.forEach((cardName) => {

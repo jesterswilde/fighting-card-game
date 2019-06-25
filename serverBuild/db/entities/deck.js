@@ -13,13 +13,15 @@ const typeorm_1 = require("typeorm");
 const user_1 = require("./user");
 let DBDeck = class DBDeck {
     constructor() {
-        this.sendToUser = (possibleCards) => {
+        this.sendToUser = (possibleCards = {}) => {
             return {
-                name: this.name,
-                cards: this.cards,
-                possibleCards,
-                styles: this.styles,
-                id: this.id
+                deck: {
+                    name: this.name,
+                    cards: this.cards,
+                    styles: this.styles,
+                    id: this.id
+                },
+                possibleCards
             };
         };
         this.toDeckDescription = () => {

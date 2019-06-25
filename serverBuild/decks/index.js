@@ -19,7 +19,8 @@ exports.makeDeck = (user) => __awaiter(this, void 0, void 0, function* () {
     const deck = new deck_1.DBDeck();
     deck.user = user;
     yield db_1.deckRepo.save(deck);
-    return deck.sendToUser();
+    const possibleCards = exports.getPossibleCards(['Generic']);
+    return deck.sendToUser(possibleCards);
 });
 exports.deleteDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
     const deck = yield validation_1.getValidDeck(user, deckID);
@@ -61,12 +62,11 @@ const updateDeckCards = (deck, cards) => {
 };
 exports.getFullDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
     const deck = yield validation_1.getValidDeck(user, deckID);
-    const stylesPlusGeneric = [...deck.styles, 'Generic'];
-    const possibleCards = exports.getPossibleCards(stylesPlusGeneric);
+    const possibleCards = exports.getPossibleCards([...deck.styles, 'Generic']);
     return deck.sendToUser(possibleCards);
 });
 //Styles give a pool of possible cards they could put in their deck. This gets those. 
-exports.getPossibleCards = (styles) => {
+exports.getPossibleCards = (styles = []) => {
     const possibleCards = styles.map(styles_1.getFullFightingStyleByName)
         .reduce((cardsObj, { cards, name }) => {
         cardsObj[name] = cards;

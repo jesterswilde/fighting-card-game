@@ -12,7 +12,8 @@ export const makeDeck = async (user: DBUser) => {
     const deck = new DBDeck();
     deck.user = user;
     await deckRepo.save(deck);
-    return deck.sendToUser();
+    const possibleCards = getPossibleCards(['Generic'])
+    return deck.sendToUser(possibleCards);
 }
 
 export const deleteDeck = async (user: DBUser, deckID: number) => {
@@ -58,13 +59,12 @@ const updateDeckCards = (deck: DBDeck, cards: string[]) => {
 
 export const getFullDeck = async (user: DBUser, deckID: number) => {
     const deck = await getValidDeck(user, deckID);
-    const stylesPlusGeneric = [...deck.styles, 'Generic'];
-    const possibleCards = getPossibleCards(stylesPlusGeneric);
+    const possibleCards = getPossibleCards([...deck.styles, 'Generic']);
     return deck.sendToUser(possibleCards)
 }
 
 //Styles give a pool of possible cards they could put in their deck. This gets those. 
-export const getPossibleCards = (styles: string[]): PossibleCards => {
+export const getPossibleCards = (styles: string[] = []): PossibleCards => {
     const possibleCards = styles.map(getFullFightingStyleByName)
         .reduce((cardsObj, { cards, name }) => {
             cardsObj[name] = cards;

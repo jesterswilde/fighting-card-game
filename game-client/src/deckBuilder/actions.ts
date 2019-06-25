@@ -1,5 +1,5 @@
 import { DeckDescription } from "../deckViewer/interface";
-import { EditingDeck } from "./interface";
+import { EditingDeck, PossibleCards } from "./interface";
 import { FightingStyleDescription } from "../fightingStyles/interface";
 import { Card } from "../shared/card";
 
@@ -32,7 +32,7 @@ export interface ChangeDeckNameAction {
 
 export interface GotPossibleCardsAction {
     type: DeckEditorEnum.GOT_POSSIBLE_CARDS,
-    possibleCards: { [style: string]: Card[] }
+    possibleCards: PossibleCards
 }
 
 export interface ExternallyViewingAction {
@@ -66,6 +66,7 @@ export interface GotDecksAction {
 export interface ChoseDeckAction {
     type: DeckEditorEnum.CHOSE_DECK
     deck: EditingDeck
+    possibleCards: PossibleCards
 }
 
 export interface AddStyleAction {

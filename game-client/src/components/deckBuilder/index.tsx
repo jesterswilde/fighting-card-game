@@ -4,7 +4,7 @@ import { FightingStyleDescription } from '../../fightingStyles/interface';
 import { getFightingStyles } from '../../fightingStyles/dispatch';import { DeckDescription } from '../../deckViewer/interface';
 import DeckList from './deckList';
 import DeckViewer from './deckViewer';
-import { EditingDeck } from '../../deckBuilder/interface';
+import { EditingDeck, PossibleCards } from '../../deckBuilder/interface';
 import { connect } from 'preact-redux';
 import { dispatchToPathString } from '../../path/dispatch';
 import { dispatchChoseDeck } from '../../deckBuilder/dispatch';
@@ -19,6 +19,7 @@ interface SelectorProps {
     canUpdate: boolean,
     filters: DeckViewerFilter[],
     showingUnusedStyles: boolean,
+    possibleCards: PossibleCards
 }
 
 interface ExternalProps {
@@ -30,6 +31,7 @@ interface Props extends ExternalProps, SelectorProps { }
 
 const selector = (state: StoreState): SelectorProps => {
     return {
+        possibleCards: state.deckEditor.possibleCards,
         isLoggedIn: Boolean(state.user.token),
         styleDecriptions: state.fightingStyle.styleDescriptions,
         decks: state.deckEditor.allDecks,
@@ -50,7 +52,7 @@ class DeckEditor extends Component<Props, {}>{
         } 
         getFightingStyles()
     }
-    render({ filters, isLoadingDecks, showingUnusedStyles, decks = [], path, styleDecriptions, deck, isLoggedIn, canUpdate }) {
+    render({ possibleCards, filters, isLoadingDecks, showingUnusedStyles, decks = [], path, styleDecriptions, deck, isLoggedIn, canUpdate }) {
         const [root, ...remainingPath] = path;
         if (!isLoggedIn) {
             <MustLogIn />
@@ -59,7 +61,7 @@ class DeckEditor extends Component<Props, {}>{
             return <div>Loading ...</div>
         }
         if (root) {
-            return <DeckViewer showingUnusedStyles={showingUnusedStyles} filters={filters} canUpdate={canUpdate} styleDescriptions={styleDecriptions} deck={deck} />
+            return <DeckViewer possibleCards={possibleCards} showingUnusedStyles={showingUnusedStyles} filters={filters} canUpdate={canUpdate} styleDescriptions={styleDecriptions} deck={deck} />
         }
         return <DeckList decks={decks} />
     }

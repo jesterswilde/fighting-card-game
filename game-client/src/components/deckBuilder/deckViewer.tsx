@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { EditingDeck } from '../../deckBuilder/interface';
+import { EditingDeck, PossibleCards } from '../../deckBuilder/interface';
 import { FightingStyleDescription } from '../../fightingStyles/interface';
 import { dispatchDEToggleCard } from '../../deckBuilder/dispatchEditDeck';
 import StyleList from './styleList';
@@ -44,6 +44,7 @@ import { filterInvalidCards } from '../../filters/util';
 
 interface ExternalProps {
     deck: EditingDeck
+    possibleCards: PossibleCards
     styleDescriptions: FightingStyleDescription[]
     canUpdate: boolean,
     filters: DeckViewerFilter[],
@@ -52,6 +53,7 @@ interface ExternalProps {
 
 interface Props {
     deck: EditingDeck
+    possibleCards: PossibleCards
     cardsObj: { [key: string]: boolean }
     styleDescriptions: FightingStyleDescription[]
     canUpdate: boolean
@@ -74,7 +76,7 @@ class DeckViewer extends Component<Props>{
                 Loading...
             </div>
         }
-        const { possibleCards, name } = deck;
+        const { name } = deck;
         return <div class='deck-builder pad-bottom'>
             <div class="deck-name section">
                 <label for="deck-name">Deck Name</label>
@@ -83,18 +85,23 @@ class DeckViewer extends Component<Props>{
             <StyleList totalCards={totalCards} maxCards={maxCards} showingUnusedStyles={showingUnusedStyles} deck={deck} allStyles={styleDescriptions} />
             <Filter />
             <div class='deck'>
-                {Object.keys(possibleCards).map((style, i) => {
-                    return this.RenderStyle(style); 
+                {deck.styles.map((style, i) => {
+                    return this.RenderStyle(style);
                 })}
+                {this.RenderStyle('Generic')}
             </div>
             {canUpdate && <Revert />}
         </div>
     }
     @bind
     RenderStyle(style: string) {
-        const { possibleCards, cards } = this.props.deck;
+        const { possibleCards } = this.props;
+        const { cards } = this.props.deck;
         const styleCards = possibleCards[style];
-        const maxCards = styleCards.length; 
+        if(!styleCards){
+            return <div> Loading Style...</div>
+        }
+        const maxCards = styleCards.length;
         const cardsObj = styleCards.reduce((obj, card) => {
             obj[card.name] = true;
             return obj
@@ -139,8 +146,8 @@ export default (props: ExternalProps) => {
     let totalCards: number;
     let maxCards: number
     if (props.deck) {
+        const possibleCards = props.possibleCards;
         totalCards = props.deck.cards.length;
-        const possibleCards = props.deck.possibleCards;
         maxCards = Object.keys(possibleCards).reduce((max, style) => possibleCards[style].length + max, 0);
     } else {
         totalCards = 0;

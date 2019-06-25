@@ -14,7 +14,7 @@ const error_1 = require("../error");
 const styles_1 = require("../styles");
 //All styles offer a pool of cards. This makes sure that any card they submit is valid. 
 exports.areCardsInStyles = (styleNames, cards) => {
-    const stylesObj = styleNames.map((name) => styles_1.getFightingStyleByName(name))
+    const stylesObj = [...styleNames, 'Generic'].map((name) => styles_1.getFightingStyleByName(name))
         .filter((style) => style !== null)
         .reduce((styleObj, style) => {
         style.cards.forEach((cardName) => {

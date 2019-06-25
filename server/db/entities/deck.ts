@@ -22,16 +22,18 @@ export class DBDeck {
     @ManyToOne(type => DBUser, user => user.decks)
     user: DBUser
 
-    sendToUser = (possibleCards?: PossibleCards) => {
+    sendToUser = (possibleCards: PossibleCards = {}) => {
         return {
-            name: this.name,
-            cards: this.cards,
-            possibleCards,
-            styles: this.styles,
-            id: this.id
+            deck: {
+                name: this.name,
+                cards: this.cards,
+                styles: this.styles,
+                id: this.id
+            },
+            possibleCards
         }
     }
-    toDeckDescription = (): DeckDescription=>{
+    toDeckDescription = (): DeckDescription => {
         return {
             name: this.name,
             deckList: this.cards,
