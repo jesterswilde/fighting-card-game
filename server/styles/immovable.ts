@@ -9,7 +9,7 @@ export const immovableStyle: FightingStyle = {
         'Stone Strength',
         'Headbutt',
         'Immovable Wall',
-        'Ankle Smash',
         'Low Stance',
+        'Root'
     ]
 }

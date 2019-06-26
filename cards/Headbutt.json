@@ -2,8 +2,8 @@
   "priority": 4,
   "requirements": [
     {
-      "axis": "Balanced",
-      "player": 0
+      "axis": "Grappled",
+      "player": 2
     },
     {
       "axis": "Moving",
@@ -18,24 +18,13 @@
     {
       "effects": [
         {
-          "axis": "Close",
-          "player": 2
-        }
-      ],
-      "requirements": [
-        {
-          "axis": "Far",
-          "player": 1,
-          "id": 514
-        }
-      ]
-    },
-    {
-      "effects": [
-        {
-          "amount": 5,
+          "amount": "7",
           "axis": "Damage",
           "player": 1
+        },
+        {
+          "axis": "Close",
+          "player": 2
         }
       ],
       "requirements": [
@@ -49,7 +38,7 @@
   ],
   "effects": [
     {
-      "amount": 6,
+      "amount": "5",
       "axis": "Damage",
       "player": 1
     },

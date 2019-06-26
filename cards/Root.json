@@ -1,0 +1,32 @@
+{
+  "name": "Root",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "10",
+      "mechanic": "Block"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 10,
+  "tags": []
+}

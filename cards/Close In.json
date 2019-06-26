@@ -21,7 +21,9 @@
       "player": 0
     },
     {
-      "mechanic": "Rigid"
+      "mechanic": "Rigid",
+      "player": 1,
+      "amount": 1
     },
     {
       "amount": "3",

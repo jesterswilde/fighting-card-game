@@ -9,7 +9,7 @@ exports.immovableStyle = {
         'Stone Strength',
         'Headbutt',
         'Immovable Wall',
-        'Ankle Smash',
         'Low Stance',
+        'Root'
     ]
 };

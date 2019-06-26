@@ -16,12 +16,16 @@
     {
       "axis": "Moving",
       "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
     }
   ],
   "optional": [],
   "effects": [
     {
-      "amount": 9,
+      "amount": "12",
       "axis": "Damage",
       "player": 1
     },
@@ -53,7 +57,7 @@
   "tagObjs": [
     {
       "value": "Smash",
-      "id": 51
+      "id": 211
     }
   ],
   "tags": [
