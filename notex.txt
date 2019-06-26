@@ -1,12 +1,7 @@
-Lower damage on smash kneecap by 1
-Lower damage on sweep the legs by 2
-Lower damage on surefooted smash by 1
 Weaken Opportunist or increase reqs. 
 Check and see if Fresh is bugged.
 
 Deck builder page needs a back button
-
-Maybe still an issue? - Custom decks not showing up sometimes in deck choice. 
 
 Update landing page
 
@@ -18,7 +13,6 @@ Styles should have more gap cards (1 or 2)
 
 Message deck size at the bottom where it says update. 
 
-When a new deck is made, it should go to the deck builder page of that newly made deck. 
 //NOTES
 
 

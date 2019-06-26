@@ -30,12 +30,12 @@
   ],
   "effects": [
     {
-      "amount": 7,
+      "amount": "5",
       "axis": "Damage",
       "player": 1
     },
     {
-      "amount": 3,
+      "amount": "2",
       "axis": "Prone",
       "player": 2
     }

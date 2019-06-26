@@ -11,5 +11,8 @@ exports.deathFromAboveStyle = {
         'Face Smash',
         'Ready, Steady',
         'Thrill Seeker',
+        'Elbow Drop',
+        'Kick Away',
+        'Leaping Clothesline'
     ]
 };

@@ -24625,6 +24625,8 @@ var _filter = _interopRequireDefault(require("../filter"));
 
 var _util = require("../../filters/util");
 
+var _dispatch2 = require("../../path/dispatch");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -24734,7 +24736,10 @@ function (_super) {
       class: 'deck'
     }, deck.styles.map(function (style, i) {
       return _this.RenderStyle(style);
-    }), this.RenderStyle('Generic')), canUpdate && (0, _preact.h)(_revert.default, null));
+    }), this.RenderStyle('Generic')), !canUpdate && (0, _preact.h)("button", {
+      onClick: _dispatch2.dispatchPopPath,
+      class: 'btn back-btn'
+    }, "Back To Decks"), "}", canUpdate && (0, _preact.h)(_revert.default, null));
   };
 
   DeckViewer.prototype.RenderStyle = function (style) {
@@ -24831,7 +24836,7 @@ var _default = function _default(props) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts","./styleList":"src/components/deckBuilder/styleList.tsx","./revert":"src/components/deckBuilder/revert.tsx","decko":"node_modules/decko/dist/decko.js","../../deckBuilder/dispatch":"src/deckBuilder/dispatch.ts","../cards/fullCard":"src/components/cards/fullCard.tsx","../filter":"src/components/filter.tsx","../../filters/util":"src/filters/util.ts"}],"src/components/deckBuilder/index.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts","./styleList":"src/components/deckBuilder/styleList.tsx","./revert":"src/components/deckBuilder/revert.tsx","decko":"node_modules/decko/dist/decko.js","../../deckBuilder/dispatch":"src/deckBuilder/dispatch.ts","../cards/fullCard":"src/components/cards/fullCard.tsx","../filter":"src/components/filter.tsx","../../filters/util":"src/filters/util.ts","../../path/dispatch":"src/path/dispatch.ts"}],"src/components/deckBuilder/index.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

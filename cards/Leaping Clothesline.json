@@ -1,0 +1,67 @@
+{
+  "name": "Leaping Clothesline",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "9",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "amount": "3",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "3",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "4",
+          "mechanic": "Clutch"
+        },
+        {
+          "amount": "1",
+          "player": 1,
+          "mechanic": "Rigid"
+        }
+      ],
+      "amount": "3",
+      "mechanic": "Forceful"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "Leap",
+      "id": 185
+    }
+  ],
+  "priority": 4,
+  "tags": [
+    {
+      "value": "Leap"
+    }
+  ]
+}

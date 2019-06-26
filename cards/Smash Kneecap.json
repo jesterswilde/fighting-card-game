@@ -25,7 +25,7 @@
   ],
   "effects": [
     {
-      "amount": 7,
+      "amount": "6",
       "axis": "Damage",
       "player": 1
     },
@@ -38,7 +38,7 @@
   "tagObjs": [
     {
       "value": "Smash",
-      "id": 57
+      "id": 145
     }
   ],
   "tags": [

@@ -11,6 +11,7 @@ import FullCard from '../cards/fullCard';
 import Filter from '../filter';
 import { DeckViewerFilter } from '../../filters/interface';
 import { filterInvalidCards } from '../../filters/util';
+import { dispatchPopPath } from '../../path/dispatch';
 /*
     Deck Name -edit-
     -----------------
@@ -90,6 +91,7 @@ class DeckViewer extends Component<Props>{
                 })}
                 {this.RenderStyle('Generic')}
             </div>
+            {!canUpdate && <button onClick={dispatchPopPath} class='btn back-btn'>Back To Decks</button>}}
             {canUpdate && <Revert />}
         </div>
     }

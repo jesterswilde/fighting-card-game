@@ -1,0 +1,41 @@
+{
+  "name": "Elbow Drop",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "10",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Prone",
+      "player": 1,
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

@@ -1,0 +1,36 @@
+{
+  "name": "Kick Away",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 2
+    }
+  ],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "tagObjs": [],
+  "priority": 8,
+  "tags": []
+}

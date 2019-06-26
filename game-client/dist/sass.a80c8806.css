@@ -10199,6 +10199,11 @@ h3 {
   justify-content: space-around;
 }
 
+.deck-builder {
+  display: flex;
+  flex-direction: column;
+}
+
 .navbar {
   background-color: #2e2e2e;
   display: flex;

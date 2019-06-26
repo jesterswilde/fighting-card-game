@@ -1,24 +1,28 @@
 {
-  "priority": 2,
+  "priority": 4,
   "requirements": [
     {
-      "axis": "Not Far",
-      "player": 2
+      "axis": "Unbalanced",
+      "player": 1
     },
     {
-      "axis": "Unbalanced",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "axis": "Still",
       "player": 1
     }
   ],
   "optional": [],
   "effects": [
     {
-      "amount": 7,
-      "axis": "Damage",
+      "amount": "2",
+      "axis": "Lose Poise",
       "player": 1
     },
     {
-      "amount": 2,
+      "amount": "2",
       "axis": "Poise",
       "player": 0
     },
