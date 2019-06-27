@@ -14,7 +14,7 @@ import { userRepo, deckRepo } from '../../db';
 
 
 
-const testDeck = ['crippleTest', 'setupTest', 'clutchTest']
+const testDeck = ['IsFresh','IsFresh','IsFresh']
 
 export const decks: DeckDescription[] = [
     grappleDeck,

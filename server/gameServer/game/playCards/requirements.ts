@@ -62,6 +62,6 @@ const playerAxis: { [axis: string]: (check: number[], state: GameState) => boole
     [AxisEnum.ANTICIPATING]: (check: number[], state: GameState) => check.every((i) => hasPoise(PoiseEnum.ANTICIPATING, i, state)),
     [AxisEnum.UNBALANCED]: (check: number[], state: GameState) => check.every((i) => hasPoise(PoiseEnum.UNBALANCED, i, state)),
     [AxisEnum.BLOODIED]: (check: number[], state: GameState) => check.every((i) => state.health[i] <= BLOODIED_HP),
-
+    [AxisEnum.FRESH]: (check: number[], state: GameState) => check.every((i) => state.health[i] > BLOODIED_HP), 
     [AxisEnum.DAMAGE]: (check: number[], state: GameState) => check.every((i) => state.damaged[i]),
 }

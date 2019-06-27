@@ -61,5 +61,6 @@ const playerAxis = {
     [card_1.AxisEnum.ANTICIPATING]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.ANTICIPATING, i, state)),
     [card_1.AxisEnum.UNBALANCED]: (check, state) => check.every((i) => poise_1.hasPoise(stateInterface_1.PoiseEnum.UNBALANCED, i, state)),
     [card_1.AxisEnum.BLOODIED]: (check, state) => check.every((i) => state.health[i] <= gameSettings_1.BLOODIED_HP),
+    [card_1.AxisEnum.FRESH]: (check, state) => check.every((i) => state.health[i] > gameSettings_1.BLOODIED_HP),
     [card_1.AxisEnum.DAMAGE]: (check, state) => check.every((i) => state.damaged[i]),
 };

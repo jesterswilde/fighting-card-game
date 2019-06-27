@@ -23,7 +23,16 @@ const workTheBody_1 = require("./workTheBody");
 const generic_1 = require("./generic");
 const barbarian_1 = require("./barbarian");
 const util_1 = require("../gameServer/util");
+const testStyle = {
+    name: "test",
+    cards: [
+        "IsFresh",
+        "IsFresh",
+        "IsFresh"
+    ]
+};
 const allStyles = [
+    testStyle,
     grappler_1.grappleStyle,
     cheapShot_1.cheapShotStyle,
     crowdPleaser_1.crowdPleaserStyle,

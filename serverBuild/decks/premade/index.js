@@ -20,7 +20,7 @@ const deckBoxer_1 = require("./deckBoxer");
 const deckJester_1 = require("./deckJester");
 const deckHunter_1 = require("./deckHunter");
 const db_1 = require("../../db");
-const testDeck = ['crippleTest', 'setupTest', 'clutchTest'];
+const testDeck = ['IsFresh', 'IsFresh', 'IsFresh'];
 exports.decks = [
     deckGrapple_1.grappleDeck,
     deckHighGround_1.highGroundDeck,
