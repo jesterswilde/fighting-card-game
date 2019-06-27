@@ -10,6 +10,7 @@ exports.immovableStyle = {
         'Headbutt',
         'Immovable Wall',
         'Low Stance',
-        'Root'
+        'Root',
+        'Toss End Over End'
     ]
 };

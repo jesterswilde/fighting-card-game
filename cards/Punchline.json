@@ -6,11 +6,15 @@
       "player": 0
     },
     {
-      "axis": "Unbalanced",
+      "axis": "Not Anticipating",
       "player": 1
     },
     {
       "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
       "player": 0
     }
   ],
@@ -40,7 +44,7 @@
   "tagObjs": [
     {
       "value": "Punch",
-      "id": 26
+      "id": 299
     }
   ],
   "tags": [

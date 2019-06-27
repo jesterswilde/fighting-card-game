@@ -9,5 +9,6 @@ export const mastermindStyle: FightingStyle = {
         'Holographic Copies',
         'Luring Trap',
         'Nailed!',
+        'Exactly As Planned',
     ]
 }

@@ -1,0 +1,44 @@
+{
+  "name": "Worm Away",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "4",
+          "mechanic": "Parry"
+        }
+      ],
+      "requirements": [
+        {
+          "id": 306,
+          "axis": "Moving",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

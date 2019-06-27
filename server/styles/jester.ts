@@ -12,5 +12,6 @@ export const jesterStyle: FightingStyle = {
         "Punchline",
         "Tumble",
         "Squirm",
+        "Worm Away",
     ]
 }

@@ -12,5 +12,6 @@ exports.jesterStyle = {
         "Punchline",
         "Tumble",
         "Squirm",
+        "Worm Away",
     ]
 };

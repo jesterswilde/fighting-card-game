@@ -9,5 +9,6 @@ exports.mastermindStyle = {
         'Holographic Copies',
         'Luring Trap',
         'Nailed!',
+        'Exactly As Planned',
     ]
 };

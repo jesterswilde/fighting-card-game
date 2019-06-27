@@ -1,0 +1,53 @@
+{
+  "name": "Exactly As Planned",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": 1
+    },
+    {
+      "axis": "Bloodied",
+      "player": 0
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "amount": "14",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": "3",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "amount": "8",
+      "mechanic": "Parry"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 6,
+  "tags": []
+}

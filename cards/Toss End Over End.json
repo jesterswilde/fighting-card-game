@@ -1,0 +1,57 @@
+{
+  "name": "Toss End Over End",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "amount": "4",
+      "axis": "Moving",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "axis": "Far",
+          "player": 2
+        },
+        {
+          "amount": "Leg",
+          "player": null,
+          "mechanic": "Cripple"
+        }
+      ],
+      "amount": "3",
+      "mechanic": "Forceful"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 6,
+  "tags": []
+}

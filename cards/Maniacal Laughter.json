@@ -1,7 +1,10 @@
 {
-  "name": "Maniacal Laughter",
-  "optional": [],
+  "priority": 7,
   "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
     {
       "axis": "Balanced",
       "player": 0
@@ -11,10 +14,11 @@
       "player": 0
     },
     {
-      "axis": "Still",
+      "axis": "Moving",
       "player": 0
     }
   ],
+  "optional": [],
   "effects": [
     {
       "amount": "4",
@@ -22,9 +26,13 @@
       "player": 1
     },
     {
+      "amount": 2,
       "axis": "Prone",
-      "player": 0,
-      "amount": 2
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
     },
     {
       "mechanicEffects": [
@@ -37,7 +45,7 @@
       "mechanic": "Forceful"
     }
   ],
+  "name": "Maniacal Laughter",
   "tagObjs": [],
-  "priority": 7,
   "tags": []
 }
