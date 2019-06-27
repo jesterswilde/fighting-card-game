@@ -47,9 +47,13 @@ const assignPlayerToDecks = (state: GameState) => {
     for (let player = 0; player < state.decks.length; player++) {
         const deck = state.decks[player];
         for (let i = 0; i < deck.length; i++) {
-            deck[i].player = player;
-            deck[i].opponent = getOpponent(player); 
-            deck[i].id = state.cardUID++; 
+            if(typeof deck[i] !== 'object'){
+                console.log("Missing card", deck[i]);
+            }else{
+                deck[i].player = player;
+                deck[i].opponent = getOpponent(player); 
+                deck[i].id = state.cardUID++; 
+            }
         }
     }
 }

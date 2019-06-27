@@ -11,16 +11,7 @@ export const getUpdateDeckObj = (): { updateDeckObj: UpdateDeckObj, id: number }
         updateDeckObj.styles = deck.styles;
     }
     if (stylesChanged || cardsChanged) {
-        updateDeckObj.cards = deck.cards.filter((cardName) => {
-            for (const style in possibleCards) {
-                const cards = possibleCards[style];
-                const hasCard = cards.some(({ name }) => name === cardName);
-                if (hasCard) {
-                    return true;
-                }
-            }
-            return false;
-        });
+        updateDeckObj.cards = filterOutOfStyleCards(deck.styles, deck.cards); 
     }
     if (deck.name !== uneditedDeck.name) {
         updateDeckObj.name = deck.name;
@@ -29,6 +20,15 @@ export const getUpdateDeckObj = (): { updateDeckObj: UpdateDeckObj, id: number }
         updateDeckObj.description = deck.description;
     }
     return { updateDeckObj, id: deck.id };
+}
+
+const filterOutOfStyleCards = (styles: string[], cards: string[])=>{
+    const possibleCards = store.getState().deckEditor.possibleCards;
+    const cardsObj = styles.reduce((obj, style)=>{
+        possibleCards[style].forEach(({name})=> obj[name] = true); 
+        return obj;
+    },{})
+    return cards.filter((cardName)=> cardsObj[cardName]); 
 }
 
 export const getStylesToRequest = (styles: string[])=>{

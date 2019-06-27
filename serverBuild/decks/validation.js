@@ -25,6 +25,11 @@ exports.areCardsInStyles = (styleNames, cards) => {
         });
         return styleObj;
     }, {});
+    cards.forEach((cardName) => {
+        if (!stylesObj[cardName]) {
+            console.log(cardName);
+        }
+    });
     return cards.every((cardName) => stylesObj[cardName] !== undefined && stylesObj[cardName] !== null);
 };
 //Just make sure the user owns the deck

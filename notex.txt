@@ -1,7 +1,4 @@
 Weaken Opportunist or increase reqs. 
-Check and see if Fresh is bugged.
-
-Deck builder page needs a back button
 
 Update landing page
 

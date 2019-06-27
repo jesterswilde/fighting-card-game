@@ -23459,21 +23459,7 @@ var getUpdateDeckObj = function getUpdateDeckObj() {
   }
 
   if (stylesChanged || cardsChanged) {
-    updateDeckObj.cards = deck.cards.filter(function (cardName) {
-      for (var style in possibleCards) {
-        var cards = possibleCards[style];
-        var hasCard = cards.some(function (_a) {
-          var name = _a.name;
-          return name === cardName;
-        });
-
-        if (hasCard) {
-          return true;
-        }
-      }
-
-      return false;
-    });
+    updateDeckObj.cards = filterOutOfStyleCards(deck.styles, deck.cards);
   }
 
   if (deck.name !== uneditedDeck.name) {
@@ -23491,6 +23477,21 @@ var getUpdateDeckObj = function getUpdateDeckObj() {
 };
 
 exports.getUpdateDeckObj = getUpdateDeckObj;
+
+var filterOutOfStyleCards = function filterOutOfStyleCards(styles, cards) {
+  var possibleCards = _store.store.getState().deckEditor.possibleCards;
+
+  var cardsObj = styles.reduce(function (obj, style) {
+    possibleCards[style].forEach(function (_a) {
+      var name = _a.name;
+      return obj[name] = true;
+    });
+    return obj;
+  }, {});
+  return cards.filter(function (cardName) {
+    return cardsObj[cardName];
+  });
+};
 
 var getStylesToRequest = function getStylesToRequest(styles) {
   var possibleCards = _store.store.getState().deckEditor.possibleCards;

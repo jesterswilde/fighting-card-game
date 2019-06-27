@@ -18,6 +18,11 @@ export const areCardsInStyles = (styleNames: string[], cards: string[]) => {
             });
             return styleObj;
         }, {})
+        cards.forEach((cardName)=>{
+            if(!stylesObj[cardName]){
+                console.log(cardName)
+            }
+        })
     return cards.every((cardName) => stylesObj[cardName] !== undefined && stylesObj[cardName] !== null);
 }
 
