@@ -1,32 +1,34 @@
 {
-  "priority": 4,
+  "priority": 7,
   "requirements": [
     {
       "axis": "Not Far",
       "player": 2
     },
     {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
       "axis": "Still",
-      "player": 1
+      "player": 0
     }
   ],
   "optional": [],
   "effects": [
     {
-      "amount": 10,
+      "amount": "5",
       "axis": "Damage",
       "player": 1
     },
     {
-      "amount": 3,
-      "axis": "Lose Poise",
+      "axis": "Still",
       "player": 1
     },
     {
-      "amount": 1,
-      "axis": "Still",
+      "amount": "2",
       "player": 1,
-      "mechanic": "Lock"
+      "mechanic": "Rigid"
     }
   ],
   "name": "Nailed!",

@@ -21,7 +21,7 @@ exports.reduceMechanics = (readiedMechanics, state) => {
             reducer(mech, card, card.player, card.opponent, state);
         }
         else {
-            throw "Tried to reduce effect here";
+            console.error("There is no reducer for this mechanic.", mech, card);
         }
     });
 };
