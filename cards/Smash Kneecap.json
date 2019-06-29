@@ -4,11 +4,20 @@
     {
       "axis": "Grappled",
       "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 0
     }
   ],
   "optional": [
     {
       "effects": [
+        {
+          "amount": "5",
+          "axis": "Damage",
+          "player": 1
+        },
         {
           "amount": "Leg",
           "mechanic": "Cripple"
@@ -25,7 +34,7 @@
   ],
   "effects": [
     {
-      "amount": "6",
+      "amount": "5",
       "axis": "Damage",
       "player": 1
     },
@@ -38,7 +47,7 @@
   "tagObjs": [
     {
       "value": "Smash",
-      "id": 145
+      "id": 343
     }
   ],
   "tags": [

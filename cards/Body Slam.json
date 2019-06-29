@@ -62,6 +62,10 @@
       "amount": 3,
       "axis": "Prone",
       "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 2
     }
   ],
   "name": "Body Slam",

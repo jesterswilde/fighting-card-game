@@ -8,6 +8,10 @@
     {
       "axis": "Standing",
       "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
     }
   ],
   "optional": [
@@ -26,6 +30,26 @@
           "id": 921
         }
       ]
+    },
+    {
+      "effects": [
+        {
+          "amount": "3",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "3",
+          "mechanic": "Clutch"
+        }
+      ],
+      "requirements": [
+        {
+          "id": 353,
+          "axis": "Prone",
+          "player": 0
+        }
+      ]
     }
   ],
   "effects": [
@@ -37,7 +61,7 @@
     {
       "amount": "2",
       "axis": "Prone",
-      "player": 2
+      "player": 1
     }
   ],
   "name": "Sweep The Legs",

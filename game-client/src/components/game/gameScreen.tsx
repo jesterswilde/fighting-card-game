@@ -36,8 +36,8 @@ const game = ({ game, screen, opponent, shouldDisplayEvents }: Props) => {
     }
     return <div class="game">
         <div class="opponent-section">
-            <OppHand />
             <PlayerState {...game} identity={opponent} />
+            <OppHand />
         </div>
         {shouldDisplayEvents && <Events />}
         <div class="board-section">

@@ -7,11 +7,11 @@
     },
     {
       "axis": "Moving",
-      "player": 0
+      "player": 1
     },
     {
       "axis": "Still",
-      "player": 1
+      "player": 0
     }
   ],
   "optional": [],

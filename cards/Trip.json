@@ -1,6 +1,5 @@
 {
-  "name": "Trip",
-  "optional": [],
+  "priority": 5,
   "requirements": [
     {
       "axis": "Close",
@@ -15,9 +14,10 @@
       "player": 2
     }
   ],
+  "optional": [],
   "effects": [
     {
-      "amount": "7",
+      "amount": "8",
       "axis": "Damage",
       "player": 1
     },
@@ -36,7 +36,7 @@
       "player": 1
     }
   ],
+  "name": "Trip",
   "tagObjs": [],
-  "tags": [],
-  "priority": 5
+  "tags": []
 }

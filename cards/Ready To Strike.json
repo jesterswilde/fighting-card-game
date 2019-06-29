@@ -1,0 +1,32 @@
+{
+  "name": "Ready To Strike",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "3",
+      "mechanic": "Parry"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

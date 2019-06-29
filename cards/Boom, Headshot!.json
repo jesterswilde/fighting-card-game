@@ -10,8 +10,12 @@
       "player": 0
     },
     {
-      "axis": "Unbalanced",
+      "axis": "Not Anticipating",
       "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 2
     }
   ],
   "optional": [],
@@ -30,28 +34,13 @@
         }
       ],
       "mechanic": "Predict"
-    },
-    {
-      "mechanicEffects": [
-        {
-          "axis": "Far",
-          "player": 2
-        },
-        {
-          "amount": "2",
-          "axis": "Moving",
-          "player": 0
-        }
-      ],
-      "amount": "2",
-      "mechanic": "Forceful"
     }
   ],
   "name": "Boom, Headshot!",
   "tagObjs": [
     {
       "value": "Shot",
-      "id": 65
+      "id": 413
     }
   ],
   "tags": [

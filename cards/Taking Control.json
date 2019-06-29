@@ -1,5 +1,6 @@
 {
-  "priority": 4,
+  "name": "Taking Control",
+  "optional": [],
   "requirements": [
     {
       "axis": "Far",
@@ -7,52 +8,45 @@
     },
     {
       "axis": "Balanced",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
       "player": 0
     }
   ],
-  "optional": [],
   "effects": [
     {
-      "axis": "Far",
+      "axis": "Close",
       "player": 2
     },
     {
       "amount": "1",
-      "axis": "Poise",
+      "axis": "Lose Poise",
       "player": 0
     },
     {
-      "amount": "1",
-      "player": 0,
-      "mechanic": "Fluid"
+      "amount": "7",
+      "mechanic": "Block"
     },
     {
       "mechanicRequirements": [
-        {
-          "axis": "Not Grappled",
-          "player": 2
-        },
-        {
-          "axis": "Not Anticipating",
-          "player": 1
-        },
         {
           "axis": "Prone",
           "player": 1
         },
         {
           "axis": "Still",
+          "player": 0
+        },
+        {
+          "axis": "Moving",
           "player": 1
         }
       ],
       "mechanicEffects": [
         {
-          "amount": "15",
-          "axis": "Damage",
-          "player": 1
-        },
-        {
-          "amount": "2",
+          "amount": "5",
           "axis": "Lose Poise",
           "player": 1
         }
@@ -60,16 +54,7 @@
       "mechanic": "Telegraph"
     }
   ],
-  "name": "Sky Shot",
-  "tagObjs": [
-    {
-      "value": "Shot",
-      "id": 448
-    }
-  ],
-  "tags": [
-    {
-      "value": "Shot"
-    }
-  ]
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
 }

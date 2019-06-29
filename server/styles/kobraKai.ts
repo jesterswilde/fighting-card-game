@@ -10,5 +10,9 @@ export const kobraKaiStyle: FightingStyle = {
         "Opportunist",
         "Surefooted Smash",
         "Body Slam",
+        "Ready To Strike",
+        "Finish Them",
+        "Break Their Form",
+        "Taking Control"
     ],
 }

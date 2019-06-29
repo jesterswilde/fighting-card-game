@@ -12,6 +12,10 @@
     {
       "axis": "Standing",
       "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
     }
   ],
   "optional": [],

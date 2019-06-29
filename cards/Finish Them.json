@@ -1,0 +1,63 @@
+{
+  "name": "Finish Them",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "7",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 402,
+          "axis": "Bloodied",
+          "player": 1
+        },
+        {
+          "id": 401,
+          "axis": "Unbalanced",
+          "player": 1
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "amount": "15",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "2",
+      "player": 1,
+      "mechanic": "Rigid"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

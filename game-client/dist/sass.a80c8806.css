@@ -10489,14 +10489,14 @@ h3 {
   flex: 2;
 }
 
-.card-container {
+.card-container.player {
   position: absolute;
   transform: scale(0.5) translateX(-500px) translateY(-100px);
 }
-.card-container .full-card {
+.card-container.player .full-card {
   transition: transform 0.3s ease-out;
 }
-.card-container .full-card:hover {
+.card-container.player .full-card:hover {
   transform: scale(2) translateY(-125px) translateX(-100px);
 }
 

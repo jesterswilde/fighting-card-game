@@ -18,9 +18,9 @@
     {
       "effects": [
         {
-          "mechanic": "Rigid",
+          "amount": 1,
           "player": 1,
-          "amount": 1
+          "mechanic": "Rigid"
         }
       ],
       "requirements": [
@@ -38,7 +38,7 @@
       "player": 2
     },
     {
-      "amount": "1",
+      "amount": "2",
       "axis": "Poise",
       "player": 0
     },

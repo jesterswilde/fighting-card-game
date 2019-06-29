@@ -16971,7 +16971,7 @@ var Hand = function Hand(_a) {
   var hand = _a.hand,
       showFullCard = _a.showFullCard;
   return (0, _preact.h)("div", {
-    class: 'card-container'
+    class: 'card-container player'
   }, hand.map(function (card, i) {
     var key = card === undefined ? 'blank' : card.name;
     return (0, _preact.h)("div", {
@@ -18196,9 +18196,9 @@ var game = function game(_a) {
     class: "game"
   }, (0, _preact.h)("div", {
     class: "opponent-section"
-  }, (0, _preact.h)(_oppHand.default, null), (0, _preact.h)(_playerStates.default, __assign({}, game, {
+  }, (0, _preact.h)(_playerStates.default, __assign({}, game, {
     identity: opponent
-  }))), shouldDisplayEvents && (0, _preact.h)(_events.default, null), (0, _preact.h)("div", {
+  })), (0, _preact.h)(_oppHand.default, null)), shouldDisplayEvents && (0, _preact.h)(_events.default, null), (0, _preact.h)("div", {
     class: "board-section"
   }, (0, _preact.h)(_predictions.default, __assign({}, game)), (0, _preact.h)(_board.default, {
     player: player,
