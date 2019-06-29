@@ -1,0 +1,80 @@
+{
+  "name": "Gloat",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": 0
+    },
+    {
+      "axis": "Unbalanced",
+      "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Fresh",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "1",
+          "axis": "Poise",
+          "player": 0
+        },
+        {
+          "amount": "2",
+          "mechanic": "Parry"
+        }
+      ],
+      "mechanic": "Focus"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Bloodied",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "5",
+          "axis": "Lose Poise",
+          "player": 0
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "Performance",
+      "id": 525
+    }
+  ],
+  "priority": 6,
+  "tags": [
+    {
+      "value": "Performance"
+    }
+  ]
+}

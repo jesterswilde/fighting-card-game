@@ -8,6 +8,10 @@
     {
       "axis": "Prone",
       "player": 1
+    },
+    {
+      "axis": "Standing",
+      "player": 0
     }
   ],
   "optional": [
@@ -30,7 +34,7 @@
   ],
   "effects": [
     {
-      "amount": 5,
+      "amount": "5",
       "axis": "Damage",
       "player": 1
     },

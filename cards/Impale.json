@@ -1,0 +1,40 @@
+{
+  "name": "Impale",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Unbalanced",
+      "player": 1
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "axis": "Moving",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "amount": "15",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

@@ -11,7 +11,7 @@ const immovable_1 = require("./immovable");
 const jester_1 = require("./jester");
 const kobraKai_1 = require("./kobraKai");
 const mastermind_1 = require("./mastermind");
-const retiarius_1 = require("./retiarius");
+const netAndTrident_1 = require("./netAndTrident");
 const seeingRed_1 = require("./seeingRed");
 const toolsOfTheTrade_1 = require("./toolsOfTheTrade");
 const unstoppable_1 = require("./unstoppable");
@@ -34,7 +34,7 @@ const allStyles = [
     jester_1.jesterStyle,
     kobraKai_1.kobraKaiStyle,
     mastermind_1.mastermindStyle,
-    retiarius_1.retiariusStyle,
+    netAndTrident_1.netAndTridentStyle,
     seeingRed_1.seeingRedStyle,
     toolsOfTheTrade_1.toolsOfTheTradeStyle,
     unstoppable_1.unstoppableStyle,

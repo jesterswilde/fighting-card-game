@@ -1,6 +1,6 @@
-import { FightingStyle } from "./interfaces";
-
-export const retiariusStyle: FightingStyle = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.netAndTridentStyle = {
     name: 'Retiarius',
     description: 'Net and Trident, likes to drag the opponent down on the ground',
     cards: [
@@ -9,5 +9,10 @@ export const retiariusStyle: FightingStyle = {
         'Skewer',
         'Tie The Noose',
         'Pull By The Neck',
+        'Trip And Drag',
+        'Gloat',
+        'Impale',
+        'Dust Off',
+        'Dazzling Display'
     ]
-}
+};

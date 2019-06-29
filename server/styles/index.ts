@@ -10,7 +10,7 @@ import { immovableStyle } from './immovable';
 import { jesterStyle } from './jester';
 import { kobraKaiStyle } from './kobraKai';
 import { mastermindStyle } from './mastermind';
-import { retiariusStyle } from './retiarius';
+import { netAndTridentStyle } from './netAndTrident';
 import { seeingRedStyle } from './seeingRed';
 import { toolsOfTheTradeStyle } from './toolsOfTheTrade';
 import { unstoppableStyle } from './unstoppable';
@@ -35,7 +35,7 @@ const allStyles: FightingStyle[] = [
     jesterStyle,
     kobraKaiStyle,
     mastermindStyle,
-    retiariusStyle,
+    netAndTridentStyle,
     seeingRedStyle,
     toolsOfTheTradeStyle,
     unstoppableStyle,

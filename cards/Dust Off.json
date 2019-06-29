@@ -1,0 +1,44 @@
+{
+  "name": "Dust Off",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Prone",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "3",
+      "mechanic": "Block"
+    },
+    {
+      "choices": [
+        [
+          {
+            "axis": "Further",
+            "player": 2
+          }
+        ],
+        [
+          {
+            "amount": "3",
+            "mechanic": "Block"
+          }
+        ]
+      ],
+      "mechanic": "Pick One"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

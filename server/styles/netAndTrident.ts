@@ -1,6 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.retiariusStyle = {
+import { FightingStyle } from "./interfaces";
+
+export const netAndTridentStyle: FightingStyle = {
     name: 'Retiarius',
     description: 'Net and Trident, likes to drag the opponent down on the ground',
     cards: [
@@ -15,4 +15,4 @@ exports.retiariusStyle = {
         'Dust Off',
         'Dazzling Display'
     ]
-};
+}
