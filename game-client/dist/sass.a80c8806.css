@@ -10469,8 +10469,7 @@ h3 {
 }
 .game .player-section, .game .opponent-section {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap-reverse;
+  flex-direction: row-reverse;
   margin: 1rem;
 }
 .game .player-section .state-machine, .game .opponent-section .state-machine {
@@ -10484,6 +10483,21 @@ h3 {
 }
 .game .opponent-section {
   align-items: end;
+}
+
+.card-container-parent {
+  flex: 2;
+}
+
+.card-container {
+  position: absolute;
+  transform: scale(0.5) translateX(-500px) translateY(-100px);
+}
+.card-container .full-card {
+  transition: transform 0.3s ease-out;
+}
+.card-container .full-card:hover {
+  transform: scale(2) translateY(-125px) translateX(-100px);
 }
 
 .predictions {

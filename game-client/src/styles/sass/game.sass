@@ -11,8 +11,7 @@
         justify-content: space-between
     .player-section, .opponent-section
         display: flex
-        flex-direction: row
-        flex-wrap: wrap-reverse
+        flex-direction: row-reverse
         margin: 1rem
         .state-machine
             flex: 3
@@ -22,3 +21,12 @@
         align-items: flex-start
     .opponent-section
         align-items: end
+.card-container-parent
+    flex:2
+.card-container
+    position: absolute
+    transform: scale(0.5) translateX(-500px) translateY(-100px)
+    .full-card
+        transition: transform 0.3s ease-out
+    .full-card:hover
+        transform: scale(2.0) translateY(-125px) translateX(-100px)

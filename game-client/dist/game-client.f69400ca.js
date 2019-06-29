@@ -16549,7 +16549,7 @@ var _default = function _default(state) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx","../../game/dispatch":"src/game/dispatch.ts","./card/fullQueueCard":"src/components/game/card/fullQueueCard.tsx","../../events/dispatch":"src/events/dispatch.ts"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/queueCard":"src/components/game/card/queueCard.tsx","../../game/dispatch":"src/game/dispatch.ts","./card/fullQueueCard":"src/components/game/card/fullQueueCard.tsx","../../events/dispatch":"src/events/dispatch.ts"}],"src/components/cards/requirement.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16559,122 +16559,288 @@ exports.default = void 0;
 
 var _preact = require("preact");
 
-var _optional = _interopRequireDefault(require("./optional"));
+var _index = require("../../images/index");
 
-var _effect = _interopRequireDefault(require("./effect"));
+var _default = function _default(props) {
+  return (0, _preact.h)("div", {
+    class: 'requirement'
+  }, (0, _preact.h)(_index.Arrow, {
+    player: props.requirement.player,
+    shouldFlip: props.shouldFlip
+  }), " ", (0, _preact.h)(_index.Icon, {
+    name: props.requirement.axis
+  }));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../images/index":"src/images/index.tsx"}],"src/components/cards/Requirement.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _index = require("../../images/index");
+
+var _default = function _default(props) {
+  return (0, _preact.h)("div", {
+    class: 'requirement'
+  }, (0, _preact.h)(_index.Arrow, {
+    player: props.requirement.player,
+    shouldFlip: props.shouldFlip
+  }), " ", (0, _preact.h)(_index.Icon, {
+    name: props.requirement.axis
+  }));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../images/index":"src/images/index.tsx"}],"src/components/cards/effect.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
 
 var _Requirement = _interopRequireDefault(require("./Requirement"));
 
-var _util = require("../../../util");
+var _card = require("../../shared/card");
+
+var _images = require("../../images");
+
+var _mechanicDescriptions = require("../../extras/mechanicDescriptions");
 
 var _reactLightweightTooltip = require("react-lightweight-tooltip");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var __assign = void 0 && (void 0).__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
+var Effect = function Effect(_a) {
+  var effect = _a.effect,
+      shouldFlip = _a.shouldFlip;
+  var _b = effect.mechanicRequirements,
+      reqs = _b === void 0 ? [] : _b,
+      _c = effect.choices,
+      choices = _c === void 0 ? [] : _c,
+      _d = effect.mechanicEffects,
+      effs = _d === void 0 ? [] : _d;
 
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
+  var _e = (0, _card.getMechDisplay)(effect.mechanic),
+      displayPlayer = _e.player,
+      displayAxis = _e.axis,
+      displayEff = _e.eff,
+      displayReq = _e.req,
+      valueString = _e.valueString,
+      displayPick = _e.pick,
+      displayState = _e.state,
+      value = _e.value;
 
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-var HandCard = function HandCard(card) {
-  var name = card.name,
-      optional = card.optional,
-      effects = card.effects,
-      requirements = card.requirements,
-      _a = card.tags,
-      tags = _a === void 0 ? [] : _a,
-      priority = card.priority,
-      shouldFlip = card.shouldFlip;
-
-  var _b = (0, _util.splitEffects)(effects),
-      effOnly = _b.effects,
-      mechanics = _b.mechanics;
-
+  var mechClass = displayEff || displayPick ? 'mechanic' : 'icon-section';
+  if (effect.mechanic === "Rigid") console.log(effect.mechanic, (0, _card.getMechDisplay)(effect.mechanic));
   return (0, _preact.h)("div", {
-    class: 'game-card text-center'
-  }, (0, _preact.h)("div", {
-    class: 'title'
-  }, (0, _preact.h)("div", null), (0, _preact.h)("div", null, name), " ", (0, _preact.h)("div", {
-    class: "priority"
-  }, renderPriority(priority)), " "), (0, _preact.h)("div", {
-    class: 'card-section req'
-  }, requirements.map(function (req, i) {
+    class: mechClass
+  }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), (displayState || displayPlayer) && (0, _preact.h)(_images.Arrow, {
+    player: effect.player,
+    shouldFlip: shouldFlip
+  }), (displayState || displayAxis) && (0, _preact.h)(_images.Icon, {
+    name: effect.axis
+  }), (displayState || value || valueString) && effect.amount !== undefined && (0, _preact.h)("b", null, effect.amount), (displayEff || displayReq || displayPick) && (0, _preact.h)("div", {
+    class: "recurse"
+  }, displayReq && (0, _preact.h)("div", {
+    class: "req-parent"
+  }, reqs.map(function (req, i) {
     return (0, _preact.h)("div", {
       key: i
     }, (0, _preact.h)(_Requirement.default, {
-      shouldFlip: shouldFlip,
-      requirement: req
+      requirement: req,
+      shouldFlip: shouldFlip
     }));
-  })), (0, _preact.h)("div", {
-    class: "tags"
-  }, tags.map(function (_a, i) {
-    var value = _a.value;
-    return (0, _preact.h)("div", {
+  })), displayEff && displayReq && (0, _preact.h)("div", {
+    class: 'h-divider thin'
+  }), displayEff && (0, _preact.h)("div", {
+    class: "eff-parent"
+  }, effs.map(function (eff, i) {
+    return (0, _preact.h)("span", {
       key: i
-    }, value);
-  })), (0, _preact.h)("div", {
-    class: 'card-section '
-  }, optional.map(function (opt, i) {
-    return (0, _preact.h)("div", {
-      key: i
-    }, " ", (0, _preact.h)(_optional.default, __assign({}, opt, {
-      shouldFlip: shouldFlip,
-      greyUnusable: true
-    })), " ");
-  })), (0, _preact.h)("div", {
-    class: 'card-section effect'
-  }, (0, _preact.h)("div", null, effOnly.map(function (effect, i) {
-    return (0, _preact.h)("div", {
-      key: i
-    }, (0, _preact.h)(_effect.default, {
-      shouldFlip: shouldFlip,
-      effect: effect
+    }, (0, _preact.h)(Effect, {
+      effect: eff,
+      shouldFlip: shouldFlip
     }));
-  })), (0, _preact.h)("div", null, mechanics.map(function (effect, i) {
+  })), displayPick && (0, _preact.h)("div", {
+    class: "pick-one"
+  }, choices.map(function (category, i) {
     return (0, _preact.h)("div", {
+      class: "choices",
       key: i
-    }, (0, _preact.h)(_effect.default, {
-      shouldFlip: shouldFlip,
-      effect: effect
+    }, category.map(function (choice, j) {
+      return (0, _preact.h)("div", {
+        class: "choice",
+        key: j
+      }, (0, _preact.h)(Effect, {
+        effect: choice,
+        shouldFlip: shouldFlip
+      }), " ");
     }));
   }))));
 };
 
-var renderPriority = function renderPriority(priority) {
+var mechWithTooltip = function mechWithTooltip(mech) {
+  var description = (0, _mechanicDescriptions.getMechanicDescription)(mech);
   return (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
-    content: "Priority: When 2 cards say conflicting things, the one with the higher number wins",
-    styles: priorityStyle
-  }, priority);
+    content: description
+  }, (0, _preact.h)("div", {
+    class: "ml-1 mr-1"
+  }, (0, _preact.h)("b", null, mech)));
 };
 
-var priorityStyle = {
-  wrapper: {
-    cursor: 'default'
-  },
-  tooltip: {
-    minWidth: '80px',
-    whiteSpace: "nowrap"
-  },
-  arrow: {},
-  gap: {},
-  content: {
-    zIndex: 100
-  }
-};
-var _default = HandCard;
+var _default = Effect;
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx","../../../util":"src/util.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/cards/Requirement.tsx","../../shared/card":"src/shared/card.ts","../../images":"src/images/index.tsx","../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/cards/optional.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _requirement = _interopRequireDefault(require("./requirement"));
+
+var _effect = _interopRequireDefault(require("./effect"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = function _default(props) {
+  var unusuable = !props.canPlay;
+  return (0, _preact.h)("div", {
+    className: "optional mechanic " + (unusuable ? 'unusable' : '')
+  }, (0, _preact.h)("div", null, (0, _preact.h)("b", null, "Optional:")), (0, _preact.h)("div", null, (0, _preact.h)("div", {
+    class: "req-parent"
+  }, props.requirements.map(function (req, i) {
+    return (0, _preact.h)("span", {
+      key: i
+    }, (0, _preact.h)(_requirement.default, {
+      shouldFlip: props.shouldFlip,
+      requirement: req
+    }));
+  })), (0, _preact.h)("div", {
+    class: 'h-divider'
+  }), (0, _preact.h)("div", {
+    class: "eff-parent"
+  }, props.effects.map(function (eff, i) {
+    return (0, _preact.h)("span", {
+      key: i
+    }, (0, _preact.h)(_effect.default, {
+      effect: eff,
+      shouldFlip: props.shouldFlip
+    }));
+  }))));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/cards/requirement.tsx","./effect":"src/components/cards/effect.tsx"}],"src/components/cards/fullCard.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _card = require("../../shared/card");
+
+var _requirement = _interopRequireDefault(require("./requirement"));
+
+var _optional = _interopRequireDefault(require("./optional"));
+
+var _effect = _interopRequireDefault(require("./effect"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var splitDisplays = function splitDisplays(effects) {
+  var icons = [];
+  var mechs = [];
+  effects.forEach(function (eff) {
+    var display = (0, _card.getMechDisplay)(eff.mechanic);
+
+    if (display.eff || display.pick) {
+      mechs.push(eff);
+    } else {
+      icons.push(eff);
+    }
+  });
+  return [icons, mechs];
+};
+
+var _default = function _default(_a) {
+  var card = _a.card,
+      shouldFlip = _a.shouldFlip;
+
+  var _b = splitDisplays(card.effects),
+      icons = _b[0],
+      mechs = _b[1];
+
+  var titleChange = card.name.length > 12 ? " small" : '';
+  var mechSize = mechs.length >= 3 ? ' small' : '';
+  var tags = card.tags || [];
+  return (0, _preact.h)("div", {
+    class: "full-card"
+  }, (0, _preact.h)("div", {
+    class: "title-bar"
+  }, (0, _preact.h)("div", {
+    class: "title" + titleChange
+  }, " ", card.name), (0, _preact.h)("div", {
+    class: "requirements"
+  }, " ", card.requirements.map(function (req, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_requirement.default, {
+      requirement: req,
+      shouldFlip: shouldFlip
+    }));
+  }))), (0, _preact.h)("div", {
+    class: "effects"
+  }, icons.map(function (eff, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_effect.default, {
+      effect: eff,
+      shouldFlip: shouldFlip
+    }));
+  })), (0, _preact.h)("div", {
+    class: "effects" + mechSize
+  }, card.optional.map(function (opt, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_optional.default, {
+      shouldFlip: shouldFlip,
+      effects: opt.effects,
+      requirements: opt.requirements
+    }));
+  }), mechs.map(function (eff, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_effect.default, {
+      effect: eff,
+      shouldFlip: shouldFlip
+    }));
+  })), (0, _preact.h)("div", {
+    class: "tags"
+  }, tags.map(function (tag) {
+    return (0, _preact.h)("div", null, tag.value);
+  })), (0, _preact.h)("div", {
+    class: 'priority'
+  }, card.priority));
+};
+
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.ts","./requirement":"src/components/cards/requirement.tsx","./optional":"src/components/cards/optional.tsx","./effect":"src/components/cards/effect.tsx"}],"src/components/game/card/viewer.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16762,7 +16928,7 @@ var _preact = require("preact");
 
 var _dispatch = require("../../hand/dispatch");
 
-var _handCard = _interopRequireDefault(require("./card/handCard"));
+var _fullCard = _interopRequireDefault(require("../cards/fullCard"));
 
 var _viewer = _interopRequireDefault(require("./card/viewer"));
 
@@ -16804,7 +16970,7 @@ var selector = function selector(state) {
 var Hand = function Hand(_a) {
   var hand = _a.hand,
       showFullCard = _a.showFullCard;
-  return (0, _preact.h)("div", null, (0, _preact.h)("div", {
+  return (0, _preact.h)("div", {
     class: 'card-container'
   }, hand.map(function (card, i) {
     var key = card === undefined ? 'blank' : card.name;
@@ -16814,14 +16980,16 @@ var Hand = function Hand(_a) {
       onClick: function onClick() {
         return (0, _dispatch.dispatchPickedCard)(i);
       }
-    }, showFullCard && (0, _preact.h)(_viewer.default, __assign({}, card)), showFullCard || (0, _preact.h)(_handCard.default, __assign({}, card)));
-  })));
+    }, showFullCard && (0, _preact.h)(_viewer.default, __assign({}, card)), showFullCard || (0, _preact.h)(_fullCard.default, {
+      card: card
+    }));
+  }));
 };
 
 var _default = (0, _util.cleanConnect)(selector, Hand);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","./card/handCard":"src/components/game/card/handCard.tsx","./card/viewer":"src/components/game/card/viewer.tsx","../../util":"src/util.ts"}],"src/components/game/predictChoices.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../hand/dispatch":"src/hand/dispatch.ts","../cards/fullCard":"src/components/cards/fullCard.tsx","./card/viewer":"src/components/game/card/viewer.tsx","../../util":"src/util.ts"}],"src/components/game/predictChoices.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17263,7 +17431,132 @@ var _default = function _default(props) {
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./card/effect":"src/components/game/card/effect.tsx"}],"src/components/game/pickOne.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","./card/effect":"src/components/game/card/effect.tsx"}],"src/components/game/card/handCard.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _preact = require("preact");
+
+var _optional = _interopRequireDefault(require("./optional"));
+
+var _effect = _interopRequireDefault(require("./effect"));
+
+var _Requirement = _interopRequireDefault(require("./Requirement"));
+
+var _util = require("../../../util");
+
+var _reactLightweightTooltip = require("react-lightweight-tooltip");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var HandCard = function HandCard(card) {
+  var name = card.name,
+      optional = card.optional,
+      effects = card.effects,
+      requirements = card.requirements,
+      _a = card.tags,
+      tags = _a === void 0 ? [] : _a,
+      priority = card.priority,
+      shouldFlip = card.shouldFlip;
+
+  var _b = (0, _util.splitEffects)(effects),
+      effOnly = _b.effects,
+      mechanics = _b.mechanics;
+
+  return (0, _preact.h)("div", {
+    class: 'game-card text-center'
+  }, (0, _preact.h)("div", {
+    class: 'title'
+  }, (0, _preact.h)("div", null), (0, _preact.h)("div", null, name), " ", (0, _preact.h)("div", {
+    class: "priority"
+  }, renderPriority(priority)), " "), (0, _preact.h)("div", {
+    class: 'card-section req'
+  }, requirements.map(function (req, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_Requirement.default, {
+      shouldFlip: shouldFlip,
+      requirement: req
+    }));
+  })), (0, _preact.h)("div", {
+    class: "tags"
+  }, tags.map(function (_a, i) {
+    var value = _a.value;
+    return (0, _preact.h)("div", {
+      key: i
+    }, value);
+  })), (0, _preact.h)("div", {
+    class: 'card-section '
+  }, optional.map(function (opt, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, " ", (0, _preact.h)(_optional.default, __assign({}, opt, {
+      shouldFlip: shouldFlip,
+      greyUnusable: true
+    })), " ");
+  })), (0, _preact.h)("div", {
+    class: 'card-section effect'
+  }, (0, _preact.h)("div", null, effOnly.map(function (effect, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_effect.default, {
+      shouldFlip: shouldFlip,
+      effect: effect
+    }));
+  })), (0, _preact.h)("div", null, mechanics.map(function (effect, i) {
+    return (0, _preact.h)("div", {
+      key: i
+    }, (0, _preact.h)(_effect.default, {
+      shouldFlip: shouldFlip,
+      effect: effect
+    }));
+  }))));
+};
+
+var renderPriority = function renderPriority(priority) {
+  return (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
+    content: "Priority: When 2 cards say conflicting things, the one with the higher number wins",
+    styles: priorityStyle
+  }, priority);
+};
+
+var priorityStyle = {
+  wrapper: {
+    cursor: 'default'
+  },
+  tooltip: {
+    minWidth: '80px',
+    whiteSpace: "nowrap"
+  },
+  arrow: {},
+  gap: {},
+  content: {
+    zIndex: 100
+  }
+};
+var _default = HandCard;
+exports.default = _default;
+},{"preact":"node_modules/preact/dist/preact.mjs","./optional":"src/components/game/card/optional.tsx","./effect":"src/components/game/card/effect.tsx","./Requirement":"src/components/game/card/Requirement.tsx","../../../util":"src/util.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/game/pickOne.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17778,25 +18071,9 @@ var _preact = require("preact");
 
 var _util = require("../../util");
 
-var _handCard = _interopRequireDefault(require("./card/handCard"));
+var _fullCard = _interopRequireDefault(require("../cards/fullCard"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var __assign = void 0 && (void 0).__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
 
 var selector = function selector(state) {
   var opponent = state.game.player === 0 ? 1 : 0;
@@ -17825,16 +18102,17 @@ var oppCards = function oppCards(_a) {
       });
     }
 
-    return (0, _preact.h)(_handCard.default, __assign({
-      shouldFlip: true
-    }, card));
+    return (0, _preact.h)(_fullCard.default, {
+      shouldFlip: true,
+      card: card
+    });
   }));
 };
 
 var _default = (0, _util.cleanConnect)(selector, oppCards);
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../util":"src/util.ts","./card/handCard":"src/components/game/card/handCard.tsx"}],"src/components/game/gameScreen.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../util":"src/util.ts","../cards/fullCard":"src/components/cards/fullCard.tsx"}],"src/components/game/gameScreen.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17928,11 +18206,13 @@ var game = function game(_a) {
     queue: queue
   }), (0, _preact.h)(_statesPieces.Distance, __assign({}, game))), (0, _preact.h)("div", {
     className: "player-section"
-  }, (0, _preact.h)(_playerStates.default, __assign({}, game, {
-    identity: player
-  })), (0, _preact.h)(PlayerHand, {
+  }, (0, _preact.h)("div", {
+    class: "card-container-parent"
+  }, (0, _preact.h)(PlayerHand, {
     screen: screen
-  })));
+  })), (0, _preact.h)(_playerStates.default, __assign({}, game, {
+    identity: player
+  }))));
 };
 
 var PlayerHand = function PlayerHand(_a) {
@@ -19392,298 +19672,7 @@ var getFightingStyleDescriptions = function getFightingStyleDescriptions() {
     });
   });
 };
-},{"../state/store":"src/state/store.ts","./actions":"src/fightingStyles/actions.ts","../util":"src/util.ts","../path/dispatch":"src/path/dispatch.ts"}],"src/components/cards/requirement.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _preact = require("preact");
-
-var _index = require("../../images/index");
-
-var _default = function _default(props) {
-  return (0, _preact.h)("div", {
-    class: 'requirement'
-  }, (0, _preact.h)(_index.Arrow, {
-    player: props.requirement.player,
-    shouldFlip: props.shouldFlip
-  }), " ", (0, _preact.h)(_index.Icon, {
-    name: props.requirement.axis
-  }));
-};
-
-exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../images/index":"src/images/index.tsx"}],"src/components/cards/Requirement.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _preact = require("preact");
-
-var _index = require("../../images/index");
-
-var _default = function _default(props) {
-  return (0, _preact.h)("div", {
-    class: 'requirement'
-  }, (0, _preact.h)(_index.Arrow, {
-    player: props.requirement.player,
-    shouldFlip: props.shouldFlip
-  }), " ", (0, _preact.h)(_index.Icon, {
-    name: props.requirement.axis
-  }));
-};
-
-exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../images/index":"src/images/index.tsx"}],"src/components/cards/effect.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _preact = require("preact");
-
-var _Requirement = _interopRequireDefault(require("./Requirement"));
-
-var _card = require("../../shared/card");
-
-var _images = require("../../images");
-
-var _mechanicDescriptions = require("../../extras/mechanicDescriptions");
-
-var _reactLightweightTooltip = require("react-lightweight-tooltip");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Effect = function Effect(_a) {
-  var effect = _a.effect,
-      shouldFlip = _a.shouldFlip;
-  var _b = effect.mechanicRequirements,
-      reqs = _b === void 0 ? [] : _b,
-      _c = effect.choices,
-      choices = _c === void 0 ? [] : _c,
-      _d = effect.mechanicEffects,
-      effs = _d === void 0 ? [] : _d;
-
-  var _e = (0, _card.getMechDisplay)(effect.mechanic),
-      displayPlayer = _e.player,
-      displayAxis = _e.axis,
-      displayEff = _e.eff,
-      displayReq = _e.req,
-      valueString = _e.valueString,
-      displayPick = _e.pick,
-      displayState = _e.state,
-      value = _e.value;
-
-  var mechClass = displayEff || displayPick ? 'mechanic' : 'icon-section';
-  if (effect.mechanic === "Rigid") console.log(effect.mechanic, (0, _card.getMechDisplay)(effect.mechanic));
-  return (0, _preact.h)("div", {
-    class: mechClass
-  }, effect.mechanic !== undefined && mechWithTooltip(effect.mechanic), (displayState || displayPlayer) && (0, _preact.h)(_images.Arrow, {
-    player: effect.player,
-    shouldFlip: shouldFlip
-  }), (displayState || displayAxis) && (0, _preact.h)(_images.Icon, {
-    name: effect.axis
-  }), (displayState || value || valueString) && effect.amount !== undefined && (0, _preact.h)("b", null, effect.amount), (displayEff || displayReq || displayPick) && (0, _preact.h)("div", {
-    class: "recurse"
-  }, displayReq && (0, _preact.h)("div", {
-    class: "req-parent"
-  }, reqs.map(function (req, i) {
-    return (0, _preact.h)("div", {
-      key: i
-    }, (0, _preact.h)(_Requirement.default, {
-      requirement: req,
-      shouldFlip: shouldFlip
-    }));
-  })), displayEff && displayReq && (0, _preact.h)("div", {
-    class: 'h-divider thin'
-  }), displayEff && (0, _preact.h)("div", {
-    class: "eff-parent"
-  }, effs.map(function (eff, i) {
-    return (0, _preact.h)("span", {
-      key: i
-    }, (0, _preact.h)(Effect, {
-      effect: eff,
-      shouldFlip: shouldFlip
-    }));
-  })), displayPick && (0, _preact.h)("div", {
-    class: "pick-one"
-  }, choices.map(function (category, i) {
-    return (0, _preact.h)("div", {
-      class: "choices",
-      key: i
-    }, category.map(function (choice, j) {
-      return (0, _preact.h)("div", {
-        class: "choice",
-        key: j
-      }, (0, _preact.h)(Effect, {
-        effect: choice,
-        shouldFlip: shouldFlip
-      }), " ");
-    }));
-  }))));
-};
-
-var mechWithTooltip = function mechWithTooltip(mech) {
-  var description = (0, _mechanicDescriptions.getMechanicDescription)(mech);
-  return (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
-    content: description
-  }, (0, _preact.h)("div", {
-    class: "ml-1 mr-1"
-  }, (0, _preact.h)("b", null, mech)));
-};
-
-var _default = Effect;
-exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./Requirement":"src/components/cards/Requirement.tsx","../../shared/card":"src/shared/card.ts","../../images":"src/images/index.tsx","../../extras/mechanicDescriptions":"src/extras/mechanicDescriptions.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/cards/optional.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _preact = require("preact");
-
-var _requirement = _interopRequireDefault(require("./requirement"));
-
-var _effect = _interopRequireDefault(require("./effect"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var _default = function _default(props) {
-  var unusuable = !props.canPlay;
-  return (0, _preact.h)("div", {
-    className: "optional mechanic " + (unusuable ? 'unusable' : '')
-  }, (0, _preact.h)("div", null, (0, _preact.h)("b", null, "Optional:")), (0, _preact.h)("div", null, (0, _preact.h)("div", {
-    class: "req-parent"
-  }, props.requirements.map(function (req, i) {
-    return (0, _preact.h)("span", {
-      key: i
-    }, (0, _preact.h)(_requirement.default, {
-      shouldFlip: props.shouldFlip,
-      requirement: req
-    }));
-  })), (0, _preact.h)("div", {
-    class: 'h-divider'
-  }), (0, _preact.h)("div", {
-    class: "eff-parent"
-  }, props.effects.map(function (eff, i) {
-    return (0, _preact.h)("span", {
-      key: i
-    }, (0, _preact.h)(_effect.default, {
-      effect: eff,
-      shouldFlip: props.shouldFlip
-    }));
-  }))));
-};
-
-exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","./requirement":"src/components/cards/requirement.tsx","./effect":"src/components/cards/effect.tsx"}],"src/components/cards/fullCard.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _preact = require("preact");
-
-var _card = require("../../shared/card");
-
-var _requirement = _interopRequireDefault(require("./requirement"));
-
-var _optional = _interopRequireDefault(require("./optional"));
-
-var _effect = _interopRequireDefault(require("./effect"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var splitDisplays = function splitDisplays(effects) {
-  var icons = [];
-  var mechs = [];
-  effects.forEach(function (eff) {
-    var display = (0, _card.getMechDisplay)(eff.mechanic);
-
-    if (display.eff || display.pick) {
-      mechs.push(eff);
-    } else {
-      icons.push(eff);
-    }
-  });
-  return [icons, mechs];
-};
-
-var _default = function _default(_a) {
-  var card = _a.card,
-      shouldFlip = _a.shouldFlip;
-
-  var _b = splitDisplays(card.effects),
-      icons = _b[0],
-      mechs = _b[1];
-
-  var titleChange = card.name.length > 12 ? " small" : '';
-  var mechSize = mechs.length >= 3 ? ' small' : '';
-  var tags = card.tags || [];
-  return (0, _preact.h)("div", {
-    class: "full-card"
-  }, (0, _preact.h)("div", {
-    class: "title-bar"
-  }, (0, _preact.h)("div", {
-    class: "title" + titleChange
-  }, " ", card.name), (0, _preact.h)("div", {
-    class: "requirements"
-  }, " ", card.requirements.map(function (req, i) {
-    return (0, _preact.h)("div", {
-      key: i
-    }, (0, _preact.h)(_requirement.default, {
-      requirement: req,
-      shouldFlip: shouldFlip
-    }));
-  }))), (0, _preact.h)("div", {
-    class: "effects"
-  }, icons.map(function (eff, i) {
-    return (0, _preact.h)("div", {
-      key: i
-    }, (0, _preact.h)(_effect.default, {
-      effect: eff,
-      shouldFlip: shouldFlip
-    }));
-  })), (0, _preact.h)("div", {
-    class: "effects" + mechSize
-  }, card.optional.map(function (opt, i) {
-    return (0, _preact.h)("div", {
-      key: i
-    }, (0, _preact.h)(_optional.default, {
-      shouldFlip: shouldFlip,
-      effects: opt.effects,
-      requirements: opt.requirements
-    }));
-  }), mechs.map(function (eff, i) {
-    return (0, _preact.h)("div", {
-      key: i
-    }, (0, _preact.h)(_effect.default, {
-      effect: eff,
-      shouldFlip: shouldFlip
-    }));
-  })), (0, _preact.h)("div", {
-    class: "tags"
-  }, tags.map(function (tag) {
-    return (0, _preact.h)("div", null, tag.value);
-  })), (0, _preact.h)("div", {
-    class: 'priority'
-  }, card.priority));
-};
-
-exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../shared/card":"src/shared/card.ts","./requirement":"src/components/cards/requirement.tsx","./optional":"src/components/cards/optional.tsx","./effect":"src/components/cards/effect.tsx"}],"src/components/styleViewer/revert.tsx":[function(require,module,exports) {
+},{"../state/store":"src/state/store.ts","./actions":"src/fightingStyles/actions.ts","../util":"src/util.ts","../path/dispatch":"src/path/dispatch.ts"}],"src/components/styleViewer/revert.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

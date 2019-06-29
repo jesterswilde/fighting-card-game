@@ -2,7 +2,7 @@ import { h } from 'preact';
 import { StoreState } from '../../state/store';
 import { cleanConnect, nRange } from '../../util';
 import { Card } from '../../shared/card';
-import HandCard from './card/handCard';
+import HandCard from '../cards/fullCard'
 
 interface Props {
     cards: Card[]
@@ -23,7 +23,7 @@ const oppCards = ({ cards }: Props) => {
             if (card === null) {
                 return <div key={i} class="game-card"/>
             }
-            return <HandCard shouldFlip={true} {...card}/>
+            return <HandCard shouldFlip={true} card={card}/>
         })}
     </div>
 }

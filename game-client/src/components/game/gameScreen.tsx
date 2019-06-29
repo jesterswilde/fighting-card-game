@@ -46,8 +46,11 @@ const game = ({ game, screen, opponent, shouldDisplayEvents }: Props) => {
             <Distance {...game} />
         </div>
         <div className="player-section">
+            <div class="card-container-parent">
+                <PlayerHand screen={screen} />
+            </div>
             <PlayerState {...game} identity={player} />
-            <PlayerHand screen={screen} />
+
         </div>
     </div>
 }

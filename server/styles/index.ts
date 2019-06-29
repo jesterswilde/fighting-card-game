@@ -23,17 +23,8 @@ import { genericStyle } from './generic';
 import {barbarianStyle} from './barbarian'; 
 import { deepCopy } from '../gameServer/util';
 
-const testStyle: FightingStyle = {
-    name: "test",
-    cards: [
-        "IsFresh",
-        "IsFresh",
-        "IsFresh"
-    ]
-}
 
 const allStyles: FightingStyle[] = [
-    testStyle,
     grappleStyle,
     cheapShotStyle,
     crowdPleaserStyle,

@@ -1,7 +1,7 @@
 import { h } from 'preact';
 import { Card } from '../../shared/card';
 import { dispatchPickedCard } from '../../hand/dispatch'
-import HandCard from './card/handCard'
+import HandCard from '../cards/fullCard'
 import Viewer from './card/viewer';
 import { StoreState } from '../../state/store';
 import { cleanConnect } from '../../util';
@@ -25,8 +25,7 @@ const selector = (state: StoreState): Props => {
 }
 
 const Hand = ({ hand, showFullCard }: Props) => {
-    return <div>
-        <div class='card-container'>
+    return <div class='card-container'>
             {hand.map((card, i) => {
                 const key = card === undefined ? 'blank' : card.name;
                 return <div
@@ -35,11 +34,10 @@ const Hand = ({ hand, showFullCard }: Props) => {
                     onClick={() => dispatchPickedCard(i)}
                 >
                     {showFullCard && <Viewer {...card} />}
-                    {showFullCard || <HandCard {...card} />}
+                    {showFullCard || <HandCard card={card} />}
                 </div>
             })}
         </div>
-    </div>
 }
 
 export default cleanConnect(selector, Hand); 
