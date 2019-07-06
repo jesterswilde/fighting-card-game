@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.netAndTridentStyle = {
-    name: 'Retiarius',
-    description: 'Net and Trident, likes to drag the opponent down on the ground',
+    name: 'Net And Trident',
+    description: 'Drag your oppnent to the ground and skewer them. Spill their blodd on the sand',
     cards: [
         'Throw Net',
         'Ready Trident',

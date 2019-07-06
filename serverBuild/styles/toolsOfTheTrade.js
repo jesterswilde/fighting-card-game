@@ -10,5 +10,6 @@ exports.toolsOfTheTradeStyle = {
         "Grenade",
         "Smoke Bomb",
         "Firecrackers",
+        "Crank",
     ]
 };

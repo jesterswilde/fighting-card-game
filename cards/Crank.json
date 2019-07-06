@@ -1,0 +1,50 @@
+{
+  "name": "Crank",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Not Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "5",
+      "axis": "Damage",
+      "player": 0
+    },
+    {
+      "amount": "2",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Moving",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "1",
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

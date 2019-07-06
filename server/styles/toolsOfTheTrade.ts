@@ -10,5 +10,6 @@ export const toolsOfTheTradeStyle: FightingStyle = {
         "Grenade",
         "Smoke Bomb",
         "Firecrackers",
+        "Crank",
     ]
 }

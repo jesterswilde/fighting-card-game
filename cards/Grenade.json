@@ -8,6 +8,10 @@
     {
       "axis": "Balanced",
       "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
     }
   ],
   "optional": [
