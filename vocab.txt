@@ -1,0 +1,11 @@
+Axis: Standing / Prone (per player)   Distance  Moving / Still   Balanced / Unbalanced
+State: The combination of all Axis
+Description: The theme / fiction of a style
+Identity: How to understand the style, from a mechanics standpoints. 
+    Grappler - has a very strong state and a finisher in that state that all cards try to get to
+    Death From Above - Has many requirement and big telegraphs that it can pull of easily (but also be thwarted if the opponent chooses to fight on those axis)
+Power Level: The overall strength of a given card. Can change based on context or be stand alone. 
+Specificty: The required states that a card can be played in inside the possibility space. Generally a more specific card is more powerful.
+Strong / Weak State: Most styles have states they want to be in. The closer you are to this state, the stronger a card can be.  The closer to a weak state, the weaker the card should be.  
+Mechanic Affinity: Styles should have 1 or 2 mechanics that they take advantage of and fits with their identity.
+Floating Power: Cards have an average strength based on specificity and relation to strong state. Styles can have a few cards that go above average power. 

@@ -4,6 +4,7 @@ import { EditingDeck } from '../../deckBuilder/interface';
 import { dispatchDEToggleStyle } from '../../deckBuilder/dispatchEditDeck';
 import { dispatchViewStyleFromDeck } from '../../fightingStyles/dispatch';
 import { dispatchShowingUnusedStyles } from '../../deckBuilder/dispatch';
+import { Tooltip, TooltipStyles } from 'react-lightweight-tooltip';
 
 interface Props {
     unselectedStyles: FightingStyleDescription[]
@@ -63,26 +64,41 @@ class StyleList extends Component<Props>{
             </div>
         </div>
     }
-    RenderStyle({ isChecked, isDisabled, style }: { isChecked: boolean, isDisabled?: boolean, style: FightingStyleDescription }) {
-        return <div
-            class={`style-item${isDisabled ? ' disabled' : ''}${isChecked ? ' active' : ''}`} key={style.name}
-            onClick={() => {
-                if (!isDisabled) {
-                    dispatchDEToggleStyle(style.name, !isChecked);
-                }
-            }}
-        >
-            <div class="style-title">
-                <div> {style.name} </div>
-                <button class="view-button btn" onClick={(e) => {
-                    e.stopPropagation();
-                    dispatchViewStyleFromDeck(style.name);
-                }}>
-                    View
-                 </button>
+    RenderTooltip(style: FightingStyleDescription){
+        console.log('rendering style', style); 
+        if(!style.identity && !style.strengths && !style.mainMechanics){
+            return <div>
+                No style information yet. 
             </div>
-            <div class="style-description"> {style.description}</div>
+        }
+        return <div>
+            {style.identity && <div class="mb-2">Identity: {style.identity}</div>}
+            {style.strengths && <div class="mb-2">Strong State: {style.strengths}</div>}
+            {style.mainMechanics && <div class="mb-2">Main Mechanics: {style.mainMechanics.reduce((str, mech)=> str +' '+ mech ,'')}</div>}
         </div>
+    }
+    RenderStyle({ isChecked, isDisabled, style }: { isChecked: boolean, isDisabled?: boolean, style: FightingStyleDescription }) {
+        return <Tooltip content={this.RenderTooltip(style)}>
+            <div
+                class={`style-item${isDisabled ? ' disabled' : ''}${isChecked ? ' active' : ''}`} key={style.name}
+                onClick={() => {
+                    if (!isDisabled) {
+                        dispatchDEToggleStyle(style.name, !isChecked);
+                    }
+                }}
+            >
+                <div class="style-title">
+                    <div> {style.name} </div>
+                    <button class="view-button btn" onClick={(e) => {
+                        e.stopPropagation();
+                        dispatchViewStyleFromDeck(style.name);
+                    }}>
+                        View
+                 </button>
+                </div>
+                <div class="style-description"> {style.description}</div>
+            </div>
+        </Tooltip>
     }
 }
 
@@ -97,8 +113,8 @@ export default ({ maxCards, totalCards, deck, allStyles = [], showingUnusedStyle
     const selectedStyles: FightingStyleDescription[] = [];
     const unselectedStyles: FightingStyleDescription[] = [];
     allStyles.forEach((style) => {
-        if(style.isGeneric){
-            return; 
+        if (style.isGeneric) {
+            return;
         }
         if (chosenStyles[style.name]) {
             selectedStyles.push(style);
@@ -115,6 +131,5 @@ export default ({ maxCards, totalCards, deck, allStyles = [], showingUnusedStyle
         maxCards,
         totalCards,
     }
-    //@ts-ignore
     return <StyleList {...props} />
 }

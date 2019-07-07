@@ -7,10 +7,14 @@ export interface FightingStyle {
     identity?: string
     strengths?: string
 }
-
-export interface FightingStyleDescription{
+export interface FightingStyleDescription {
     name: string
+    cards?: string[]
     description?: string
+    identity?: string
+    strengths?: string
+    floatingPower?: string[]
+    mainMechanics?: string[]
     isGeneric?: boolean
 }
 

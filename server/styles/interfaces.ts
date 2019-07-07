@@ -6,7 +6,8 @@ export interface FightingStyle {
     description?: string
     identity?: string
     strengths?: string
-    mainMechanics?: string
+    floatingPower?: string[]
+    mainMechanics?: string[]
     isGeneric?: boolean
 }
 

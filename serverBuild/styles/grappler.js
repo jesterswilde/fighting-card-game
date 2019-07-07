@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.grappleStyle = {
     name: 'Grappler',
+    identity: "The face hunter of styles. It has it's plan (play neck break) and it's sticking to it",
     cards: [
         'Neck Break',
         'Circle Opponent',

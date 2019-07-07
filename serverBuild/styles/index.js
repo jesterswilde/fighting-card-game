@@ -54,7 +54,7 @@ exports.getAllFightingStylesArr = () => {
     return util_1.deepCopy(allStyles);
 };
 exports.getFightingStyles = () => {
-    return allStyles.map(({ name, description, isGeneric }) => ({ name, description, isGeneric }));
+    return allStyles.map(({ name, description, isGeneric, strengths, identity, mainMechanics }) => ({ name, description, isGeneric, strengths, mainMechanics, identity }));
 };
 exports.getFightingStyleByName = (styleName) => {
     const style = fightingStylesObj[styleName];

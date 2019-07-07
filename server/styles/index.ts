@@ -59,7 +59,7 @@ export const getAllFightingStylesArr = () => {
 }
 
 export const getFightingStyles = () => {
-    return allStyles.map(({ name, description, isGeneric }) => ({ name, description, isGeneric }));
+    return allStyles.map(({ name, description, isGeneric, strengths, identity, mainMechanics }) => ({ name, description, isGeneric, strengths, mainMechanics, identity }));
 }
 
 export const getFightingStyleByName = (styleName: string): FightingStyle | null => {

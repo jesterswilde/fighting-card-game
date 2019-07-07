@@ -12184,7 +12184,7 @@ exports.Socket = require('./socket');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SocketEnum = void 0;
+exports.GameOverEnum = exports.SocketEnum = void 0;
 var SocketEnum;
 exports.SocketEnum = SocketEnum;
 
@@ -12208,11 +12208,19 @@ exports.SocketEnum = SocketEnum;
   SocketEnum["OPPONENT_PICKED_CARDS"] = "opponentPickedCards";
   SocketEnum["OPPONENT_IS_MAKING_CHOICES"] = "opponentIsMakingChoices";
   SocketEnum["OPPONENT_MADE_CHOICE"] = "opponentMadeChoice";
-  SocketEnum["SIEZE_INITIATIVE"] = "siezeInitative";
-  SocketEnum["INITATIVE_WAGERED"] = "initiativeWagered";
-  SocketEnum["INITIATIVE_RESULT"] = "initiativeResult";
   SocketEnum["AUTHORIZATION"] = "authorization";
+  SocketEnum["GAME_OVER"] = "gameOver";
+  SocketEnum["END_GAME_CHOICE"] = "endGameChoice";
+  SocketEnum["OPPONENT_LEFT"] = "opponentLeft";
 })(SocketEnum || (exports.SocketEnum = SocketEnum = {}));
+
+var GameOverEnum;
+exports.GameOverEnum = GameOverEnum;
+
+(function (GameOverEnum) {
+  GameOverEnum["FIND_NEW_OPP_WITH_SAME_DECK"] = "findOppWithSameDeck";
+  GameOverEnum["FIND_NEW_OPP_WITH_NEW_DECK"] = "findNewOppWithNewDeck";
+})(GameOverEnum || (exports.GameOverEnum = GameOverEnum = {}));
 },{}],"src/hand/dispatch.ts":[function(require,module,exports) {
 "use strict";
 
@@ -24391,6 +24399,8 @@ var _dispatch = require("../../fightingStyles/dispatch");
 
 var _dispatch2 = require("../../deckBuilder/dispatch");
 
+var _reactLightweightTooltip = require("react-lightweight-tooltip");
+
 var __extends = void 0 && (void 0).__extends || function () {
   var _extendStatics = function extendStatics(d, b) {
     _extendStatics = Object.setPrototypeOf || {
@@ -24492,11 +24502,31 @@ function (_super) {
     }))));
   };
 
+  StyleList.prototype.RenderTooltip = function (style) {
+    console.log('rendering style', style);
+
+    if (!style.identity && !style.strengths && !style.mainMechanics) {
+      return (0, _preact.h)("div", null, "No style information yet.");
+    }
+
+    return (0, _preact.h)("div", null, style.identity && (0, _preact.h)("div", {
+      class: "mb-2"
+    }, "Identity: ", style.identity), style.strengths && (0, _preact.h)("div", {
+      class: "mb-2"
+    }, "Strong State: ", style.strengths), style.mainMechanics && (0, _preact.h)("div", {
+      class: "mb-2"
+    }, "Main Mechanics: ", style.mainMechanics.reduce(function (str, mech) {
+      return str + ' ' + mech;
+    }, '')));
+  };
+
   StyleList.prototype.RenderStyle = function (_a) {
     var isChecked = _a.isChecked,
         isDisabled = _a.isDisabled,
         style = _a.style;
-    return (0, _preact.h)("div", {
+    return (0, _preact.h)(_reactLightweightTooltip.Tooltip, {
+      content: this.RenderTooltip(style)
+    }, (0, _preact.h)("div", {
       class: "style-item" + (isDisabled ? ' disabled' : '') + (isChecked ? ' active' : ''),
       key: style.name,
       onClick: function onClick() {
@@ -24514,7 +24544,7 @@ function (_super) {
       }
     }, "View")), (0, _preact.h)("div", {
       class: "style-description"
-    }, " ", style.description));
+    }, " ", style.description)));
   };
 
   return StyleList;
@@ -24552,13 +24582,12 @@ var _default = function _default(_a) {
     showingUnusedStyles: showingUnusedStyles,
     maxCards: maxCards,
     totalCards: totalCards
-  }; //@ts-ignore
-
+  };
   return (0, _preact.h)(StyleList, __assign({}, props));
 };
 
 exports.default = _default;
-},{"preact":"node_modules/preact/dist/preact.mjs","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts","../../fightingStyles/dispatch":"src/fightingStyles/dispatch.ts","../../deckBuilder/dispatch":"src/deckBuilder/dispatch.ts"}],"src/components/deckBuilder/revert.tsx":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.mjs","../../deckBuilder/dispatchEditDeck":"src/deckBuilder/dispatchEditDeck.ts","../../fightingStyles/dispatch":"src/fightingStyles/dispatch.ts","../../deckBuilder/dispatch":"src/deckBuilder/dispatch.ts","react-lightweight-tooltip":"node_modules/react-lightweight-tooltip/dist-modules/index.js"}],"src/components/deckBuilder/revert.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25096,7 +25125,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58663" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64522" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
