@@ -1,0 +1,42 @@
+{
+  "name": "Poison Dart",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "3",
+          "axis": "Lose Poise",
+          "player": 1
+        },
+        {
+          "amount": "3",
+          "player": 1,
+          "mechanic": "Rigid"
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 3,
+  "tags": []
+}

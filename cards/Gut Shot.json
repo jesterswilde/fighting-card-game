@@ -1,0 +1,47 @@
+{
+  "name": "Gut Shot",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "amount": "12",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "1",
+      "axis": "Lose Poise",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Prone",
+      "player": 1
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "Kidney Shot",
+      "id": 71
+    }
+  ],
+  "priority": 2,
+  "tags": [
+    {
+      "value": "Kidney Shot"
+    }
+  ]
+}

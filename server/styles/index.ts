@@ -14,7 +14,7 @@ import { netAndTridentStyle } from './netAndTrident';
 import { seeingRedStyle } from './seeingRed';
 import { toolsOfTheTradeStyle } from './toolsOfTheTrade';
 import { unstoppableStyle } from './unstoppable';
-import { newKidStyle } from './newKid';
+import { AllInStyle } from './allIn';
 import { monkStyle } from './monk';
 import { rogueStyle } from './rogue';
 import { ropeADopeStyle } from './ropeADope';
@@ -39,7 +39,7 @@ const allStyles: FightingStyle[] = [
     seeingRedStyle,
     toolsOfTheTradeStyle,
     unstoppableStyle,
-    newKidStyle,
+    AllInStyle,
     monkStyle,
     rogueStyle,
     ropeADopeStyle,

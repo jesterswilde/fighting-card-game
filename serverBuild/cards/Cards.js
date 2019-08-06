@@ -14,7 +14,7 @@ exports.allCards = {};
 exports.makeCardsObj = () => __awaiter(this, void 0, void 0, function* () {
     return new Promise((res, rej) => __awaiter(this, void 0, void 0, function* () {
         const cardNames = yield getCardNames();
-        const cardPromises = cardNames.map((cardName) => readCardFile(cardName));
+        const cardPromises = cardNames.map(cardName => readCardFile(cardName));
         const cards = yield Promise.all(cardPromises);
         const cardObj = cards.reduce((obj, card) => {
             obj[card.name] = card;
@@ -25,7 +25,7 @@ exports.makeCardsObj = () => __awaiter(this, void 0, void 0, function* () {
 });
 const getCardNames = () => {
     return new Promise((res, rej) => {
-        fs_1.readdir(path.join(__dirname, '..', '..', 'cards'), (err, cardNames) => {
+        fs_1.readdir(path.join(__dirname, "..", "..", "cards"), (err, cardNames) => {
             if (err) {
                 console.error("Couldn't read folder for cards");
                 rej(err);
@@ -39,7 +39,7 @@ const getCardNames = () => {
 };
 const readCardFile = (fileName) => {
     return new Promise((res, rej) => {
-        fs_1.readFile(path.join(__dirname, '..', '..', 'cards', fileName), { encoding: 'utf8' }, (err, cardData) => {
+        fs_1.readFile(path.join(__dirname, "..", "..", "cards", fileName), { encoding: "utf8" }, (err, cardData) => {
             if (err) {
                 rej(err);
             }
@@ -50,12 +50,12 @@ const readCardFile = (fileName) => {
         });
     });
 };
-//INITIALIZE CARDS OBJ; 
-exports.makeCardsObj().then((cardsObj) => exports.allCards = cardsObj);
+//INITIALIZE CARDS OBJ;
+exports.makeCardsObj().then(cardsObj => (exports.allCards = cardsObj));
 exports.removeCard = (name) => __awaiter(this, void 0, void 0, function* () {
     delete exports.allCards[name];
     return new Promise((res, rej) => {
-        fs_1.unlink(path.join(__dirname, '..', '..', 'cards', name), (err) => {
+        fs_1.unlink(path.join(__dirname, "..", "..", "cards", name + ".json"), err => {
             if (err) {
                 rej(err);
             }
@@ -71,7 +71,7 @@ exports.addCard = (cardObj, index) => __awaiter(this, void 0, void 0, function* 
     }
     return new Promise((res, rej) => {
         exports.allCards[cardObj.name] = cardObj;
-        fs_1.writeFile(path.join(__dirname, '..', '..', 'cards', cardObj.name + ".json"), JSON.stringify(cardObj, null, 2), (err) => {
+        fs_1.writeFile(path.join(__dirname, "..", "..", "cards", cardObj.name + ".json"), JSON.stringify(cardObj, null, 2), err => {
             if (err) {
                 rej(err);
             }
@@ -82,7 +82,7 @@ exports.addCard = (cardObj, index) => __awaiter(this, void 0, void 0, function* 
     });
 });
 exports.downloadCards = () => {
-    fs_1.writeFile(path.join(__dirname, '..', '..', 'backup.txt'), JSON.stringify(exports.allCards, null, 2), (err) => {
+    fs_1.writeFile(path.join(__dirname, "..", "..", "backup.txt"), JSON.stringify(exports.allCards, null, 2), err => {
         if (err) {
             console.error(err);
         }

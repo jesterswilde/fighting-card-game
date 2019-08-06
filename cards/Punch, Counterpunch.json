@@ -23,7 +23,7 @@
         },
         {
           "amount": "5",
-          "mechanic": "Block"
+          "mechanic": "Parry"
         }
       ],
       "requirements": [
@@ -66,13 +66,18 @@
       "amount": 1,
       "axis": "Lose Poise",
       "player": 1
+    },
+    {
+      "amount": "2",
+      "axis": "Moving",
+      "player": 0
     }
   ],
   "name": "Punch, Counterpunch",
   "tagObjs": [
     {
       "value": "Punch",
-      "id": 30
+      "id": 18
     }
   ],
   "tags": [

@@ -2,16 +2,20 @@
   "priority": 4,
   "requirements": [
     {
+      "axis": "Close",
+      "player": 2
+    },
+    {
       "axis": "Unbalanced",
       "player": 1
     },
     {
-      "axis": "Moving",
-      "player": 1
+      "axis": "Balanced",
+      "player": 0
     },
     {
       "axis": "Still",
-      "player": 0
+      "player": 2
     }
   ],
   "optional": [],

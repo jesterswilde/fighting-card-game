@@ -1,6 +1,5 @@
 {
-  "name": "Crank",
-  "optional": [],
+  "priority": 5,
   "requirements": [
     {
       "axis": "Not Anticipating",
@@ -11,6 +10,7 @@
       "player": 0
     }
   ],
+  "optional": [],
   "effects": [
     {
       "amount": "5",
@@ -39,12 +39,17 @@
           "amount": "1",
           "axis": "Poise",
           "player": 0
+        },
+        {
+          "amount": "1",
+          "player": 0,
+          "mechanic": "Fluid"
         }
       ],
       "mechanic": "Focus"
     }
   ],
+  "name": "Crank",
   "tagObjs": [],
-  "tags": [],
-  "priority": 5
+  "tags": []
 }
