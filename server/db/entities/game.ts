@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOn
 import { DBUser } from "./user";
 import { PossibleCards, DeckDescription } from "../../decks/interface";
 
-@Entity()
+@Entity({name: 'Game'})
 export class DBGame {
     @PrimaryGeneratedColumn()
     id: number

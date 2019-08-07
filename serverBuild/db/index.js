@@ -4,6 +4,7 @@ const typeorm_1 = require("typeorm");
 const urLReader = require("pg-connection-string");
 const deck_1 = require("./entities/deck");
 const user_1 = require("./entities/user");
+const feedback_1 = require("./entities/feedback");
 let dbMethods = [];
 let dbConnection;
 exports.onDBReady = (cb) => {
@@ -15,16 +16,13 @@ exports.onDBReady = (cb) => {
     }
 };
 let connectionObj = {
-    type: 'postgres',
-    host: 'localhost',
-    username: 'postgres',
-    password: '',
-    database: 'fight',
+    type: "postgres",
+    host: "localhost",
+    username: "postgres",
+    password: "",
+    database: "fight",
     synchronize: true,
-    entities: [
-        deck_1.DBDeck,
-        user_1.DBUser,
-    ]
+    entities: [deck_1.DBDeck, user_1.DBUser]
 };
 if (process.env.DATABASE_URL) {
     const dbURL = urLReader.parse(process.env.DATABASE_URL);
@@ -33,15 +31,16 @@ if (process.env.DATABASE_URL) {
         username: dbURL.user,
         password: dbURL.password,
         host: dbURL.host,
-        port: dbURL.port,
+        port: Number(dbURL.port),
         extras: { ssl: true }
     });
 }
-typeorm_1.createConnection(connectionObj).then((connection) => {
+typeorm_1.createConnection(connectionObj).then(connection => {
     exports.deckRepo = connection.getRepository(deck_1.DBDeck);
     exports.userRepo = connection.getRepository(user_1.DBUser);
+    exports.feedbackRepo = connection.getRepository(feedback_1.DBFeedback);
     dbConnection = connection;
-    dbMethods.forEach((cb) => cb(connection));
+    dbMethods.forEach(cb => cb(connection));
     dbMethods = undefined;
     console.log("conencted to db");
 });
