@@ -1,0 +1,33 @@
+{
+  "name": "Psych Up!",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "1",
+      "player": 0,
+      "mechanic": "Fluid"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

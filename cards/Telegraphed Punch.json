@@ -1,0 +1,61 @@
+{
+  "name": "Telegraphed Punch",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Close",
+          "player": 2
+        },
+        {
+          "axis": "Not Anticipating",
+          "player": 1
+        },
+        {
+          "axis": "Still",
+          "player": 2
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "20",
+          "axis": "Damage",
+          "player": 1
+        },
+        {
+          "amount": "2",
+          "player": 1,
+          "mechanic": "Rigid"
+        }
+      ],
+      "mechanic": "Telegraph"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

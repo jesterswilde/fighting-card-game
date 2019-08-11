@@ -1,10 +1,10 @@
 When you have an option (like forceful) it shifts the stat block up. 
 
-Cards in your hand need a higher Z value than cards in the queue
-
 For some screen sizes, the game doesn't show up in one view. 
 
 Generic cards might not be showing up in decks. 
+
+Ground grab still has lock mechanic
 
 Say how many cards you have total at the bottom, near save. So they don't have to scroll to find that info. 
 

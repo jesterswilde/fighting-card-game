@@ -1,27 +1,37 @@
-import { Entity, Column, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany
+} from "typeorm";
 import { DBDeck } from "./deck";
+import { DBFeedback } from "./feedback";
 
-@Entity()
-export class DBUser{
-    @PrimaryGeneratedColumn()
-    id: number
+@Entity({ name: "User" })
+export class DBUser {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({unique: true})
-    username: string
-    
-    @Column({unique: true})
-    email: string
+  @Column({ unique: true })
+  username: string;
 
-    @Column()
-    password: string
-    
-    @Column()
-    salt: string
+  @Column({ unique: true })
+  email: string;
 
-    @OneToMany(type => DBDeck, deck => deck.user)
-    decks: DBDeck[]
+  @Column()
+  password: string;
 
-    serialize = ()=>{
-        return {username: this.username}
-    }
+  @Column()
+  salt: string;
+
+  @OneToMany(type => DBDeck, deck => deck.user)
+  decks: DBDeck[];
+
+  @OneToMany(type => DBFeedback, fb => fb.user)
+  feedbacks: DBFeedback[];
+
+  serialize = () => {
+    return { username: this.username };
+  };
 }

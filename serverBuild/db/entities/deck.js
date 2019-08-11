@@ -58,6 +58,6 @@ __decorate([
     __metadata("design:type", user_1.DBUser)
 ], DBDeck.prototype, "user", void 0);
 DBDeck = __decorate([
-    typeorm_1.Entity()
+    typeorm_1.Entity({ name: 'Deck' })
 ], DBDeck);
 exports.DBDeck = DBDeck;

@@ -1,0 +1,40 @@
+{
+  "name": "Full Guard",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 2
+    }
+  ],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "15",
+      "mechanic": "Block"
+    },
+    {
+      "amount": "5",
+      "mechanic": "Parry"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

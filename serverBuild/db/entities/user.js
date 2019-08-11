@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const deck_1 = require("./deck");
+const feedback_1 = require("./feedback");
 let DBUser = class DBUser {
     constructor() {
         this.serialize = () => {
@@ -42,7 +43,11 @@ __decorate([
     typeorm_1.OneToMany(type => deck_1.DBDeck, deck => deck.user),
     __metadata("design:type", Array)
 ], DBUser.prototype, "decks", void 0);
+__decorate([
+    typeorm_1.OneToMany(type => feedback_1.DBFeedback, fb => fb.user),
+    __metadata("design:type", Array)
+], DBUser.prototype, "feedbacks", void 0);
 DBUser = __decorate([
-    typeorm_1.Entity()
+    typeorm_1.Entity({ name: "User" })
 ], DBUser);
 exports.DBUser = DBUser;

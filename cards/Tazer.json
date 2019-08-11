@@ -1,0 +1,49 @@
+{
+  "name": "Tazer",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Prone",
+      "player": 1,
+      "amount": 2
+    },
+    {
+      "amount": "1",
+      "player": 1,
+      "mechanic": "Rigid"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Grappled",
+          "player": 2
+        },
+        {
+          "axis": "Still",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "1",
+          "player": 1,
+          "mechanic": "Rigid"
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

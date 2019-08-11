@@ -2,7 +2,7 @@
   "priority": 3,
   "requirements": [
     {
-      "axis": "Not Grappled",
+      "axis": "Far",
       "player": 2
     },
     {
@@ -43,7 +43,7 @@
   "tagObjs": [
     {
       "value": "Punch",
-      "id": 18
+      "id": 47
     }
   ],
   "tags": [

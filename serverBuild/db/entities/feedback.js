@@ -10,17 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-let DBGame = class DBGame {
+const user_1 = require("./user");
+let DBFeedback = class DBFeedback {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
-], DBGame.prototype, "id", void 0);
+], DBFeedback.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column({ default: "ONE_VS_ONE" }),
+    typeorm_1.ManyToOne(type => user_1.DBUser, user => user.feedbacks),
+    __metadata("design:type", user_1.DBUser)
+], DBFeedback.prototype, "user", void 0);
+__decorate([
+    typeorm_1.Column("text"),
     __metadata("design:type", String)
-], DBGame.prototype, "format", void 0);
-DBGame = __decorate([
-    typeorm_1.Entity({ name: 'Game' })
-], DBGame);
-exports.DBGame = DBGame;
+], DBFeedback.prototype, "feedback", void 0);
+__decorate([
+    typeorm_1.CreateDateColumn(),
+    __metadata("design:type", Number)
+], DBFeedback.prototype, "date", void 0);
+DBFeedback = __decorate([
+    typeorm_1.Entity({ name: "Feedback" })
+], DBFeedback);
+exports.DBFeedback = DBFeedback;

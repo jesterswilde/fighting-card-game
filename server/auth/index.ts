@@ -58,7 +58,7 @@ const reqToUser = async (req: Request) => {
     return user;
 }
 
-const tokenToUsername = (token: string) => {
+const tokenToUsername = (token: string): string => {
     const [b64] = token.split('.');
     const stringified = Buffer.from(b64, 'base64').toString('utf8');
     const { username } = JSON.parse(stringified);

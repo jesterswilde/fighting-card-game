@@ -1,0 +1,41 @@
+{
+  "name": "Flash Bang!",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 2
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "amount": "2",
+      "axis": "Lose Poise",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    },
+    {
+      "amount": "4",
+      "player": null,
+      "mechanic": "Setup"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

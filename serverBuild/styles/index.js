@@ -15,7 +15,7 @@ const netAndTrident_1 = require("./netAndTrident");
 const seeingRed_1 = require("./seeingRed");
 const toolsOfTheTrade_1 = require("./toolsOfTheTrade");
 const unstoppable_1 = require("./unstoppable");
-const newKid_1 = require("./newKid");
+const allIn_1 = require("./allIn");
 const monk_1 = require("./monk");
 const rogue_1 = require("./rogue");
 const ropeADope_1 = require("./ropeADope");
@@ -38,7 +38,7 @@ const allStyles = [
     seeingRed_1.seeingRedStyle,
     toolsOfTheTrade_1.toolsOfTheTradeStyle,
     unstoppable_1.unstoppableStyle,
-    newKid_1.newKidStyle,
+    allIn_1.AllInStyle,
     monk_1.monkStyle,
     rogue_1.rogueStyle,
     ropeADope_1.ropeADopeStyle,

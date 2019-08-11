@@ -1,6 +1,15 @@
 {
-  "priority": 6,
+  "name": "Float Feetwork",
+  "optional": [],
   "requirements": [
+    {
+      "axis": "Fresh",
+      "player": 0
+    },
+    {
+      "axis": "Far",
+      "player": 2
+    },
     {
       "axis": "Balanced",
       "player": 0
@@ -10,29 +19,7 @@
       "player": 0
     }
   ],
-  "optional": [
-    {
-      "effects": [
-        {
-          "amount": 1,
-          "axis": "Poise",
-          "player": 0
-        }
-      ],
-      "requirements": [
-        {
-          "axis": "Moving",
-          "player": 0,
-          "id": 2
-        }
-      ]
-    }
-  ],
   "effects": [
-    {
-      "axis": "Standing",
-      "player": 0
-    },
     {
       "amount": "6",
       "mechanic": "Block"
@@ -40,13 +27,13 @@
     {
       "mechanicRequirements": [
         {
-          "axis": "Damage",
+          "axis": "Moving",
           "player": 0
         }
       ],
       "mechanicEffects": [
         {
-          "amount": 1,
+          "amount": "1",
           "axis": "Lose Poise",
           "player": 1
         }
@@ -54,7 +41,7 @@
       "mechanic": "Focus"
     }
   ],
-  "name": "Rope-a-dope",
   "tagObjs": [],
+  "priority": 4,
   "tags": []
 }
