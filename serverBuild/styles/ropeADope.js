@@ -8,5 +8,6 @@ exports.ropeADopeStyle = {
         'Break Out',
         'Bolo Punch',
         'Wind Up',
+        'Saved By The Bell',
     ]
 };

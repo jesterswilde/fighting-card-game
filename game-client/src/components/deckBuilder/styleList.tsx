@@ -65,7 +65,6 @@ class StyleList extends Component<Props>{
         </div>
     }
     RenderTooltip(style: FightingStyleDescription){
-        console.log('rendering style', style); 
         if(!style.identity && !style.strengths && !style.mainMechanics){
             return <div>
                 No style information yet. 

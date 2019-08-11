@@ -24503,8 +24503,6 @@ function (_super) {
   };
 
   StyleList.prototype.RenderTooltip = function (style) {
-    console.log('rendering style', style);
-
     if (!style.identity && !style.strengths && !style.mainMechanics) {
       return (0, _preact.h)("div", null, "No style information yet.");
     }
@@ -25125,7 +25123,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64522" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57663" + '/');
 
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);

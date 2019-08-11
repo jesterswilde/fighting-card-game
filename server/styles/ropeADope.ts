@@ -8,5 +8,6 @@ export const ropeADopeStyle: FightingStyle = {
         'Break Out',
         'Bolo Punch',
         'Wind Up',
+        'Saved By The Bell',
     ]
 }

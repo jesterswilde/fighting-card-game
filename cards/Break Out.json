@@ -1,5 +1,5 @@
 {
-  "priority": 8,
+  "priority": 6,
   "requirements": [
     {
       "axis": "Not Far",
@@ -17,11 +17,6 @@
       "player": 2
     },
     {
-      "amount": "1",
-      "axis": "Poise",
-      "player": 0
-    },
-    {
       "amount": "2",
       "axis": "Moving",
       "player": 0
@@ -37,7 +32,7 @@
         ],
         [
           {
-            "amount": "6",
+            "amount": "8",
             "mechanic": "Block"
           }
         ]
