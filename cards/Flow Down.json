@@ -1,0 +1,54 @@
+{
+  "name": "Flow Down",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "4",
+          "mechanic": "Parry"
+        }
+      ],
+      "requirements": [
+        {
+          "id": 96,
+          "axis": "Anticipating",
+          "player": 1
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Prone",
+      "player": 0,
+      "amount": 2
+    },
+    {
+      "amount": "4",
+      "axis": "Moving",
+      "player": 0
+    },
+    {
+      "amount": "8",
+      "mechanic": "Block"
+    },
+    {
+      "amount": "2",
+      "player": 0,
+      "mechanic": "Fluid"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

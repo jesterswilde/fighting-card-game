@@ -1,0 +1,50 @@
+{
+  "name": "Eel Kick",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "7",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 1
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "Chest",
+          "mechanic": "Cripple"
+        }
+      ],
+      "mechanic": "Predict"
+    }
+  ],
+  "tagObjs": [
+    {
+      "value": "Kick",
+      "id": 121
+    }
+  ],
+  "tags": [
+    {
+      "value": "Kick"
+    }
+  ],
+  "priority": 5
+}

@@ -1,0 +1,50 @@
+{
+  "name": "Howling Charge",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0,
+      "amount": 2
+    },
+    {
+      "amount": "7",
+      "mechanic": "Block"
+    },
+    {
+      "mechanicEffects": [
+        {
+          "amount": "Pysche",
+          "mechanic": "Cripple"
+        }
+      ],
+      "amount": "3",
+      "mechanic": "Forceful"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 7,
+  "tags": []
+}

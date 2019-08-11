@@ -31,7 +31,7 @@ let connectionObj: ConnectionOptions = {
   password: "",
   database: "fight",
   synchronize: true,
-  entities: [DBDeck, DBUser]
+  entities: [DBDeck, DBUser, DBFeedback]
 };
 
 if (process.env.DATABASE_URL) {

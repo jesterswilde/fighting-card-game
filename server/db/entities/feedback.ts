@@ -13,7 +13,7 @@ export class DBFeedback {
   id: number;
 
   @ManyToOne(type => DBUser, user => user.feedbacks)
-  user: DBUser | null;
+  user: DBUser;
 
   @Column("text")
   feedback: string;

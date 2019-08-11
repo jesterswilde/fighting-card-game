@@ -1,0 +1,55 @@
+{
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 0
+    }
+  ],
+  "optional": [],
+  "effects": [
+    {
+      "amount": "4",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Moving",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "2",
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "mechanic": "Focus"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Prone",
+          "player": 0
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "4",
+          "mechanic": "Parry"
+        }
+      ],
+      "mechanic": "Focus"
+    }
+  ],
+  "name": "Swig Whiskey",
+  "tagObjs": [],
+  "tags": []
+}

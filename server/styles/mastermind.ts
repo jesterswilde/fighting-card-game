@@ -11,6 +11,8 @@ export const mastermindStyle: FightingStyle = {
     "Luring Trap",
     "Nailed!",
     "Exactly As Planned",
-    "Calculated"
+    "Calculated",
+    "Clever Ruse",
+    "Analyze Opponent"
   ]
 };

@@ -1,0 +1,72 @@
+{
+  "name": "Pull Of Wine",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Lose Poise",
+      "player": 0
+    },
+    {
+      "amount": "4",
+      "mechanic": "Parry"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Still",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "mechanicEffects": [
+            {
+              "amount": "1",
+              "axis": "Damage",
+              "player": 1,
+              "id": 165
+            }
+          ],
+          "amount": "Kick",
+          "mechanic": "Enhance"
+        }
+      ],
+      "mechanic": "Focus"
+    },
+    {
+      "mechanicRequirements": [
+        {
+          "axis": "Standing",
+          "player": 1
+        }
+      ],
+      "mechanicEffects": [
+        {
+          "amount": "1",
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "player": null,
+      "mechanic": "Focus"
+    }
+  ],
+  "tagObjs": [],
+  "tags": [],
+  "priority": 5
+}

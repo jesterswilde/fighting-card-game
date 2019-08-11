@@ -1,0 +1,35 @@
+{
+  "name": "Clever Ruse",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": 2
+    },
+    {
+      "axis": "Anticipating",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "amount": "4",
+      "mechanic": "Parry"
+    },
+    {
+      "amount": "3",
+      "mechanic": "Setup"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 8,
+  "tags": []
+}

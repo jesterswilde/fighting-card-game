@@ -22,7 +22,7 @@ let connectionObj = {
     password: "",
     database: "fight",
     synchronize: true,
-    entities: [deck_1.DBDeck, user_1.DBUser]
+    entities: [deck_1.DBDeck, user_1.DBUser, feedback_1.DBFeedback]
 };
 if (process.env.DATABASE_URL) {
     const dbURL = urLReader.parse(process.env.DATABASE_URL);

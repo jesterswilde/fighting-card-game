@@ -1,0 +1,80 @@
+{
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": 2
+    },
+    {
+      "axis": "Prone",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 1
+    }
+  ],
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "2",
+          "axis": "Lose Poise",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 89,
+          "axis": "Still",
+          "player": 1
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "amount": "6",
+          "axis": "Damage",
+          "player": 1
+        }
+      ],
+      "requirements": [
+        {
+          "id": 92,
+          "axis": "Moving",
+          "player": 0
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "amount": "11",
+      "axis": "Damage",
+      "player": 1
+    },
+    {
+      "amount": "3",
+      "axis": "Prone",
+      "player": 1
+    },
+    {
+      "amount": "3",
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "name": "Whip Kick",
+  "tagObjs": [
+    {
+      "value": "Kick",
+      "id": 132
+    }
+  ],
+  "tags": [
+    {
+      "value": "Kick"
+    }
+  ]
+}

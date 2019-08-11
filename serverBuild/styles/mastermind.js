@@ -11,6 +11,8 @@ exports.mastermindStyle = {
         "Luring Trap",
         "Nailed!",
         "Exactly As Planned",
-        "Calculated"
+        "Calculated",
+        "Clever Ruse",
+        "Analyze Opponent"
     ]
 };

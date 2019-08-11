@@ -1,0 +1,50 @@
+{
+  "name": "Calm",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": 0
+    },
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "3",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "amount": "1",
+      "axis": "Poise",
+      "player": 1
+    },
+    {
+      "axis": "Still",
+      "player": 0
+    },
+    {
+      "amount": "5",
+      "mechanic": "Parry"
+    },
+    {
+      "amount": "1",
+      "player": 2,
+      "mechanic": "Fluid"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 6,
+  "tags": []
+}

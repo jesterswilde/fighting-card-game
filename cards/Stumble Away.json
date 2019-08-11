@@ -1,0 +1,31 @@
+{
+  "name": "Stumble Away",
+  "optional": [],
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": 2
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": 2
+    },
+    {
+      "amount": "4",
+      "mechanic": "Parry"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 8,
+  "tags": []
+}

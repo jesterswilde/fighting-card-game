@@ -1,0 +1,57 @@
+{
+  "name": "Analyze Opponent",
+  "optional": [
+    {
+      "effects": [
+        {
+          "amount": "2",
+          "axis": "Poise",
+          "player": 0
+        }
+      ],
+      "requirements": [
+        {
+          "id": 45,
+          "axis": "Anticipating",
+          "player": 1
+        }
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": 2
+    },
+    {
+      "axis": "Far",
+      "player": 2
+    },
+    {
+      "axis": "Balanced",
+      "player": 2
+    },
+    {
+      "axis": "Moving",
+      "player": 0
+    }
+  ],
+  "effects": [
+    {
+      "amount": "2",
+      "axis": "Poise",
+      "player": 0
+    },
+    {
+      "axis": "Standing",
+      "player": 0
+    },
+    {
+      "amount": "10",
+      "mechanic": "Block"
+    }
+  ],
+  "tagObjs": [],
+  "priority": 4,
+  "tags": []
+}

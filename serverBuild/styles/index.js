@@ -23,6 +23,7 @@ const workTheBody_1 = require("./workTheBody");
 const generic_1 = require("./generic");
 const barbarian_1 = require("./barbarian");
 const util_1 = require("../gameServer/util");
+const drunkenMaster_1 = require("./drunkenMaster");
 const allStyles = [
     grappler_1.grappleStyle,
     cheapShot_1.cheapShotStyle,
@@ -38,6 +39,7 @@ const allStyles = [
     seeingRed_1.seeingRedStyle,
     toolsOfTheTrade_1.toolsOfTheTradeStyle,
     unstoppable_1.unstoppableStyle,
+    drunkenMaster_1.drunkenStyle,
     allIn_1.AllInStyle,
     monk_1.monkStyle,
     rogue_1.rogueStyle,
@@ -47,14 +49,21 @@ const allStyles = [
     generic_1.genericStyle
 ];
 const fightingStylesObj = {};
-allStyles.forEach((style) => {
+allStyles.forEach(style => {
     fightingStylesObj[style.name] = style;
 });
 exports.getAllFightingStylesArr = () => {
     return util_1.deepCopy(allStyles);
 };
 exports.getFightingStyles = () => {
-    return allStyles.map(({ name, description, isGeneric, strengths, identity, mainMechanics }) => ({ name, description, isGeneric, strengths, mainMechanics, identity }));
+    return allStyles.map(({ name, description, isGeneric, strengths, identity, mainMechanics }) => ({
+        name,
+        description,
+        isGeneric,
+        strengths,
+        mainMechanics,
+        identity
+    }));
 };
 exports.getFightingStyleByName = (styleName) => {
     const style = fightingStylesObj[styleName];
@@ -66,7 +75,7 @@ exports.getFightingStyleByName = (styleName) => {
 exports.getFullFightingStyleByName = (styleName) => {
     const style = fightingStylesObj[styleName];
     if (style) {
-        return Object.assign({}, style, { cards: style.cards.map((cardName) => Cards_1.allCards[cardName] ? Cards_1.allCards[cardName] : null) });
+        return Object.assign({}, style, { cards: style.cards.map(cardName => Cards_1.allCards[cardName] ? Cards_1.allCards[cardName] : null) });
     }
     return null;
 };
