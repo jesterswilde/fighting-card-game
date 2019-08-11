@@ -10689,6 +10689,10 @@ h3 {
   height: 5rem;
   padding: 5px;
 }
+.full-card .effects .mechanic .mechanic {
+  height: 3rem;
+  padding: 2px;
+}
 .full-card .effects .mechanic .axis-icon, .full-card .effects .mechanic .player-icon {
   height: 20px;
   width: 20px;
