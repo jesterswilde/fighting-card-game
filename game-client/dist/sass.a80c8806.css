@@ -10257,6 +10257,7 @@ h3 {
 }
 
 .queue-card {
+  position: absolute;
   cursor: pointer;
   width: 200px;
   font-weight: bold;
@@ -10491,10 +10492,14 @@ h3 {
 
 .card-container.player {
   position: absolute;
+  z-index: 100;
   transform: scale(0.5) translateX(-500px) translateY(-100px);
 }
 .card-container.player .full-card {
   transition: transform 0.3s ease-out;
+}
+.card-container.player .full-card > div {
+  transform-style: flat;
 }
 .card-container.player .full-card:hover {
   transform: scale(2) translateY(-125px) translateX(-100px);

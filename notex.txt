@@ -1,3 +1,13 @@
+When you have an option (like forceful) it shifts the stat block up. 
+
+For some screen sizes, the game doesn't show up in one view. 
+
+Generic cards might not be showing up in decks. 
+
+Ground grab still has lock mechanic
+
+Say how many cards you have total at the bottom, near save. So they don't have to scroll to find that info. 
+
 Thrill Seeker wants to describe large telegraphs (big effect and mulitple requirements) and challenge the opponent to fight me on them. "Change one of these axis next turn or face the consequences." 
 
 Weaken Opportunist or increase reqs. 
