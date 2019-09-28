@@ -24,6 +24,14 @@ Styles should have more gap cards (1 or 2)
 
 Message deck size at the bottom where it says update. 
 
+Ryan Playtest ---
+Needs tutorial. 
+
+It is not clear that 'deck size' is max size. 
+
+Look into unselecting card bug. (During deck creation)
+
+
 //NOTES
 
 
