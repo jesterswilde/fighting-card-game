@@ -10257,7 +10257,6 @@ h3 {
 }
 
 .queue-card {
-  position: absolute;
   cursor: pointer;
   width: 200px;
   font-weight: bold;
@@ -10268,6 +10267,15 @@ h3 {
   box-shadow: 1px 4px 11px -1px rgba(0, 0, 0, 0.75);
   background-color: #6d78a0;
   padding: 0 5px 5px 5px;
+}
+.queue-card .req-parent, .queue-card .effect-parent {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.queue-card .axis-icon, .queue-card .player-icon {
+  width: 18.75px;
+  height: 18.75px;
 }
 .queue-card .card-section {
   margin: 0.2rem;
@@ -10467,6 +10475,15 @@ h3 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+.game .queue {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.game .queue-turn {
+  display: flex;
+  flex-direction: column;
 }
 .game .player-section, .game .opponent-section {
   display: flex;

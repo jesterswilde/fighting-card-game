@@ -16494,10 +16494,8 @@ var board = function board(props) {
       queue = _a === void 0 ? [] : _a,
       player = props.player;
   return (0, _preact.h)("div", {
-    class: 'board'
-  }, (0, _preact.h)("div", {
-    class: 'card-container'
-  }, renderBoard(queue, player)));
+    class: "queue"
+  }, renderBoard(queue, player));
 };
 
 var cardNames = function cardNames(cards) {
@@ -16507,7 +16505,7 @@ var cardNames = function cardNames(cards) {
 
   return cards.reduce(function (total, current) {
     return total + "-" + current.id;
-  }, '');
+  }, "");
 };
 
 var cardPlayerKey = function cardPlayerKey(cardsByPlayer) {
@@ -16517,7 +16515,7 @@ var cardPlayerKey = function cardPlayerKey(cardsByPlayer) {
 
   return cardsByPlayer.reduce(function (total, cards) {
     return total + cardNames(cards);
-  }, '');
+  }, "");
 };
 
 var renderBoard = function renderBoard(queue, identity) {
@@ -16532,17 +16530,18 @@ var renderBoard = function renderBoard(queue, identity) {
 
     var key = cardPlayerKey(cardByPlayer);
     return (0, _preact.h)("div", {
-      key: key
+      key: key,
+      class: "queue-turn"
     }, (0, _preact.h)("div", {
-      class: 'history-btn'
+      class: "history-btn"
     }, (0, _preact.h)("button", {
       onClick: function onClick() {
         return (0, _dispatch2.dispatchDisplayEventHistory)(i);
       }
     }, "H")), cardByPlayer.map(function (cards, j) {
       return cards.map(function (card, k) {
-        var opponent = card.player !== identity ? 'opponent' : '';
-        var shouldAnimate = card.telegraphs && card.telegraphs.length > 0 || card.focuses && card.focuses.length > 0 ? 'has-effects' : '';
+        var opponent = card.player !== identity ? "opponent" : "";
+        var shouldAnimate = card.telegraphs && card.telegraphs.length > 0 || card.focuses && card.focuses.length > 0 ? "has-effects" : "";
         return (0, _preact.h)("div", {
           key: card.id
         }, (0, _preact.h)("div", {
@@ -16551,11 +16550,11 @@ var renderBoard = function renderBoard(queue, identity) {
             return (0, _dispatch.dispatchSwitchCardDisplayMode)(i, j, k);
           }
         }, (0, _preact.h)("div", {
-          class: card.showFullCard ? '' : 'collapsed'
+          class: card.showFullCard ? "" : "collapsed"
         }, (0, _preact.h)(_fullQueueCard.default, __assign({}, card, {
           identity: identity
         }))), (0, _preact.h)("div", {
-          class: (card.showFullCard ? 'collapsed' : '') + ' ongoing'
+          class: (card.showFullCard ? "collapsed" : "") + " ongoing"
         }, (0, _preact.h)(_queueCard.default, __assign({}, card, {
           identity: identity
         })))));

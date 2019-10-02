@@ -14,8 +14,6 @@ Weaken Opportunist or increase reqs.
 
 Unify tag capitlization 
 
-Update landing page
-
 When you reflex, you should be told what card you reflexed into if there are any choices to be made.
 
 Reflexing into panic is blank, should say 'Panic' or 'Flail'
@@ -30,6 +28,8 @@ Needs tutorial.
 It is not clear that 'deck size' is max size. 
 
 Look into unselecting card bug. (During deck creation)
+
+Sometimes decks don't show up, and then you can't play because deck is undefined. 
 
 
 //NOTES
