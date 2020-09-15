@@ -1,8 +1,13 @@
 import { Card } from "../shared/card";
 import { writeFile, readFile, readdir, unlink } from "fs";
 import * as path from "path";
+import { deepCopy } from "../gameServer/util";
 
 export let allCards: { [name: string]: Card } = {};
+
+export const deckListToCards = (deckList: string[])=>{
+  return deckList.map(cardName =>  deepCopy(allCards[cardName]))
+}
 
 export const makeCardsObj = async (): Promise<{ [name: string]: Card }> => {
   return new Promise(async (res, rej) => {

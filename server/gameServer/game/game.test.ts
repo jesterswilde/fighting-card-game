@@ -1,9 +1,10 @@
+/*
 import { makeBlankCard, makeTestingGameState, deepCopy } from "../util";
 import { Card, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "../../shared/card";
 import { GameState, StandingEnum, PoiseEnum, DistanceEnum, MotionEnum, PredictionEnum, ModifiedAxis, PredictionState } from "../interfaces/stateInterface";
 import { STARTING_HEALTH, HAND_SIZE } from "../gameSettings";
 import { ControlEnum } from "../errors";
-import { reduceMechanics } from "./playCards/effectHappens";
+import { handleReadiedMechanics } from "./playCards/effectHappens";
 import { givePlayersCards, pickCard } from "./startTurn";
 import { incrementQueue, addCardToQueue, getMechanicsReady, makePredictions, markAxisChanges, playerPicksOne } from "./playCards/playCard";
 import { applyMechanics, removeStoredEffects, checkForVictor, checkPredictions, checkFocus, checkTelegraph, checkReflex } from "./playCards/cardHappens";
@@ -580,7 +581,7 @@ xdescribe('game', () => {
             state.parry = [0, 2];
             state.health = [10, 10];
 
-            reduceMechanics(card.effects, card, 0, 1, state);
+            handleReadiedMechanics(card.effects, card, 0, 1, state);
 
             expect(state.health[1]).toEqual(9);
             expect(state.parry[1]).toEqual(0);
@@ -596,7 +597,7 @@ xdescribe('game', () => {
             state.parry = [2, 4];
             state.health = [10, 10];
 
-            reduceMechanics(card.effects, card, 0, 1, state);
+            handleReadiedMechanics(card.effects, card, 0, 1, state);
 
             expect(state.health[1]).toEqual(10);
             expect(state.parry[1]).toEqual(1);
@@ -612,7 +613,7 @@ xdescribe('game', () => {
                 { axis: AxisEnum.UNBALANCED, player: PlayerEnum.BOTH }
             ]
 
-            reduceMechanics(card.effects, card, 0, 1, state);
+            handleReadiedMechanics(card.effects, card, 0, 1, state);
 
             expect(state.distance).toEqual(DistanceEnum.CLOSE);
             expect(state.playerStates[0].poise).toEqual(PoiseEnum.BALANCED);
@@ -650,7 +651,7 @@ xdescribe('game', () => {
             const card = makeBlankCard(); 
             card.effects = [effect1, effect2, buffEff]; 
     
-            reduceMechanics([buffEff], card, 0, 1, state); 
+            handleReadiedMechanics([buffEff], card, 0, 1, state); 
     
             expect(effect1.amount).toEqual(3); 
         })
@@ -660,13 +661,13 @@ xdescribe('game', () => {
             const card = makeBlankCard(); 
             card.effects = [effect2, buffEff]; 
     
-            reduceMechanics([buffEff], card, 0, 1, state); 
+            handleReadiedMechanics([buffEff], card, 0, 1, state); 
     
             expect(card.effects[2]).toEqual({axis: AxisEnum.DAMAGE, player: PlayerEnum.BOTH, amount: 2}); 
         })
     })
 })
-
+*/
 /*
     Game Start - get decks
     Game Loop

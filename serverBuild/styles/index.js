@@ -1,29 +1,28 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const grappler_1 = require("./grappler");
-const Cards_1 = require("../cards/Cards");
-const cheapShot_1 = require("./cheapShot");
-const crowdPleaser_1 = require("./crowdPleaser");
-const deathFromAbove_1 = require("./deathFromAbove");
-const finesse_1 = require("./finesse");
-const hunter_1 = require("./hunter");
-const immovable_1 = require("./immovable");
-const jester_1 = require("./jester");
-const kobraKai_1 = require("./kobraKai");
-const mastermind_1 = require("./mastermind");
-const netAndTrident_1 = require("./netAndTrident");
-const seeingRed_1 = require("./seeingRed");
-const toolsOfTheTrade_1 = require("./toolsOfTheTrade");
-const unstoppable_1 = require("./unstoppable");
-const allIn_1 = require("./allIn");
-const monk_1 = require("./monk");
-const rogue_1 = require("./rogue");
-const ropeADope_1 = require("./ropeADope");
-const workTheBody_1 = require("./workTheBody");
-const generic_1 = require("./generic");
-const barbarian_1 = require("./barbarian");
+const grappler_1 = require("./styles/grappler");
+const cheapShot_1 = require("./styles/cheapShot");
+const crowdPleaser_1 = require("./styles/crowdPleaser");
+const deathFromAbove_1 = require("./styles/deathFromAbove");
+const finesse_1 = require("./styles/finesse");
+const hunter_1 = require("./styles/hunter");
+const immovable_1 = require("./styles/immovable");
+const jester_1 = require("./styles/jester");
+const kobraKai_1 = require("./styles/kobraKai");
+const mastermind_1 = require("./styles/mastermind");
+const netAndTrident_1 = require("./styles/netAndTrident");
+const seeingRed_1 = require("./styles/seeingRed");
+const toolsOfTheTrade_1 = require("./styles/toolsOfTheTrade");
+const unstoppable_1 = require("./styles/unstoppable");
+const allIn_1 = require("./styles/allIn");
+const monk_1 = require("./styles/monk");
+const rogue_1 = require("./styles/rogue");
+const ropeADope_1 = require("./styles/ropeADope");
+const workTheBody_1 = require("./styles/workTheBody");
+const generic_1 = require("./styles/generic");
+const barbarian_1 = require("./styles/barbarian");
 const util_1 = require("../gameServer/util");
-const drunkenMaster_1 = require("./drunkenMaster");
+const drunkenMaster_1 = require("./styles/drunkenMaster");
 const allStyles = [
     grappler_1.grappleStyle,
     cheapShot_1.cheapShotStyle,
@@ -56,8 +55,9 @@ exports.getAllFightingStylesArr = () => {
     return util_1.deepCopy(allStyles);
 };
 exports.getFightingStyles = () => {
-    return allStyles.map(({ name, description, isGeneric, strengths, identity, mainMechanics }) => ({
+    return allStyles.map(({ name, description, isGeneric, strengths, identity, mainMechanics, cards }) => ({
         name,
+        cards,
         description,
         isGeneric,
         strengths,
@@ -69,13 +69,6 @@ exports.getFightingStyleByName = (styleName) => {
     const style = fightingStylesObj[styleName];
     if (style) {
         return style;
-    }
-    return null;
-};
-exports.getFullFightingStyleByName = (styleName) => {
-    const style = fightingStylesObj[styleName];
-    if (style) {
-        return Object.assign({}, style, { cards: style.cards.map(cardName => Cards_1.allCards[cardName] ? Cards_1.allCards[cardName] : null) });
     }
     return null;
 };

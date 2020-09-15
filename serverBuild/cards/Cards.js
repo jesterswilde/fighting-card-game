@@ -10,7 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path = require("path");
+const util_1 = require("../gameServer/util");
 exports.allCards = {};
+exports.deckListToCards = (deckList) => {
+    return deckList.map(cardName => util_1.deepCopy(exports.allCards[cardName]));
+};
 exports.makeCardsObj = () => __awaiter(this, void 0, void 0, function* () {
     return new Promise((res, rej) => __awaiter(this, void 0, void 0, function* () {
         const cardNames = yield getCardNames();

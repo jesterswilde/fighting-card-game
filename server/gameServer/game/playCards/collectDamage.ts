@@ -1,7 +1,7 @@
 import { GameState, ReadiedEffect, HappensEnum } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
 import { AxisEnum, MechanicEnum } from "../../../shared/card";
-import { reduceStateChangeReaEff } from "./effectHappens";
+import { handleReadiedEffects } from "./effectHappens";
 import { collectParry } from "../mechanics/parry";
 import { collectBlock } from "../mechanics/block";
 
@@ -14,9 +14,9 @@ export const collectBlockAndDamage = (state: GameState) => {
 
 export const collectDamage = (state: GameState) => {
     state.readiedEffects = state.readiedEffects.map((playerEff, player) => {
-        const [damageEffectsPlayer, otherEffects] = splitArray(playerEff, (reaEff) => reaEff.mechanic.axis === AxisEnum.DAMAGE);
-        state.damageEffects[player] = state.damageEffects[player] || [];
-        state.damageEffects[player].push(...damageEffectsPlayer);
+        const [damageEffectsPlayer, otherEffects] = splitArray(playerEff, ({effect}) => effect.axis === AxisEnum.DAMAGE);
+        state.readiedDamageEffects[player] = state.readiedDamageEffects[player] || [];
+        state.readiedDamageEffects[player].push(...damageEffectsPlayer);
         markDamaged(damageEffectsPlayer, state);
         return otherEffects;
     })
@@ -33,9 +33,9 @@ const markDamaged = (damageEffects: ReadiedEffect[], state: GameState)=>{
 }
 
 export const applyCollectedDamage = (state: GameState)=>{
-    state.damageEffects.forEach((playerReaEffs)=>{
+    state.readiedDamageEffects.forEach((playerReaEffs)=>{
         playerReaEffs.forEach((reaEff)=> console.log('damage', reaEff)); 
-        playerReaEffs.forEach((reaEff)=> reduceStateChangeReaEff(reaEff, state)); 
+        playerReaEffs.forEach((reaEff)=> handleReadiedEffects(reaEff, state)); 
     })
-    state.damageEffects = []; 
+    state.readiedDamageEffects = []; 
 }

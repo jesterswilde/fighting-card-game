@@ -15,7 +15,10 @@ process.on("uncaughtException", function (err) {
 const port = process.env.PORT || 8080;
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server, {
+    pingInterval: 10000,
+    pingTimeout: 60000,
+});
 lobby_1.default(io);
 app.use(bodyParser.json());
 app.use(cors());

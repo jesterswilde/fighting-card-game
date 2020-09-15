@@ -1,26 +1,39 @@
-import { Mechanic, Card, Enhancement } from "../../../shared/card";
+import { Card, Enhancement, Effect, Mechanic } from "../../../shared/card";
 import { GameState } from "../../interfaces/stateInterface";
-import { consolidateMechanics } from "../../util";
+import { deepCopy } from "../../util";
+
 
 //permanently buffs all cards with a tag. 
 
-export const reduceEnhance = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
-    const alterObj = state.tagModification[player];
-    const enhanceArr = [...(alterObj[mechanic.amount] || []), ...(mechanic.mechanicEffects || [])];
-    alterObj[mechanic.amount] = consolidateMechanics(enhanceArr);
+export const getEnhancementsFromCard = (card:Card) =>{
+    if(!card.enhancements)
+        return [];
+    const effects: Effect[] = []; 
+    card.enhancements.forEach(enhance => effects.push(...deepCopy(enhance.effects)));
+    return effects; 
 }
 
-
-export const addEnhancement = (card: Card, state: GameState) => {
+const addEnhancementToCard = (card: Card, state: GameState) => {
     const tags = card.tags || [];
     const modObj = state.tagModification[card.player]
-    card.enhancements = tags.reduce((enhArr: Enhancement[], {value:tag})=>{
-        const mechanics = modObj[tag] || [];
-        enhArr.push({tag, mechanics});
+    card.enhancements = tags.reduce((enhArr: Enhancement[], tag)=>{
+        const effects = modObj[tag] || [];
+        enhArr.push({tag, effects});
         return enhArr;
     },[])
+}
+export const addEnhacementsToHands = (state: GameState)=>{
+    state.hands.forEach(hand =>{
+        hand.forEach(card => addEnhancementToCard(card, state));
+    })
 }
 
 export const removeEnhancements = (card: Card)=>{
     card.enhancements = null; 
+}
+
+export const handleEnhancementMechanic = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState)=>{
+    const tagObj = state.tagModification[player]; 
+    tagObj[mechanic.enhancedTag] = tagObj[mechanic.enhancedTag] || []; 
+    tagObj[mechanic.enhancedTag].push(...deepCopy(mechanic.effects));
 }

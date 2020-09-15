@@ -1,37 +1,34 @@
-import { GameState, ReadiedEffect, HappensEnum } from "../../interfaces/stateInterface";
-import { MechanicEnum, Mechanic, Card } from "../../../shared/card";
+import { GameState, ReadiedEffect, HappensEnum, ReadiedMechanic } from "../../interfaces/stateInterface";
+import { MechanicEnum, Mechanic, Card, Effect, AxisEnum } from "../../../shared/card";
 import { globalAxis, playerAxis } from "./axis";
-import { reduceBlock } from "../mechanics/block";
-import { reduceBuff } from "../mechanics/buff";
-import { reduceCripple } from "../mechanics/cripple";
-import { reduceFocus } from "../mechanics/focus";
-import { reducePredict } from "../mechanics/predict";
-import { reduceReflex } from "../mechanics/reflex";
-import { reduceTelegraph } from "../mechanics/telegraph";
-import { reduceEnhance } from "../mechanics/enhance";
-import { reduceSetup } from "../mechanics/setup";
+import { buffCard } from "../mechanics/buff";
+import { addCrippleCardToOpponentsDeck } from "../mechanics/cripple";
+import { putFocusesOntoQueueCard } from "../mechanics/focus";
+import { movePredictionsToPending } from "../mechanics/predict";
+import { markShouldReflexOnQueueCard } from "../mechanics/reflex";
+import { putTelegraphsOntoQueueCard } from "../mechanics/telegraph";
+import { handleEnhancementMechanic } from "../mechanics/enhance";
+import { handleFluid, handleRigid } from "../mechanics/rigidFluid";
 
-export const reduceMechanics = (readiedMechanics: ReadiedEffect[], state: GameState) => {
-    readiedMechanics.forEach(({ mechanic: mech, card, isEventOnly }) => {
-        const reducer = mechanicRouter[mech.mechanic];
-        if (isEventOnly) return;
-        if (reducer !== undefined) {
-            reducer(mech, card, card.player, card.opponent, state);
+export const handleReadiedMechanics = (readiedMechanics: ReadiedMechanic[], state: GameState) => {
+    readiedMechanics.forEach(({ mechanic: mech, card }) => {
+        const handler = mechanicRouter[mech.mechanic];
+        if (handler !== undefined) {
+            handler(mech, card, card.player, card.opponent, state);
         } else {
             console.error("There is no reducer for this mechanic.", mech, card); 
-            
         }
     });
 }
 
-export const reduceStateChangeReaEff = (reaEff: ReadiedEffect, state: GameState) => {
+export const handleReadiedEffects = (reaEff: ReadiedEffect, state: GameState) => {
     const whoToCheck = reaEff.happensTo.map((value, i) => value === HappensEnum.HAPPENS ? i : null)
         .filter((value) => value !== null);
-    reduceStateChange(reaEff.mechanic, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck);
+    handleStateChange(reaEff.effect, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck);
 }
 
-const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState, appliesTo: number[]) => {
-    const applyGlobal = globalAxis[mechanic.axis];
+const handleStateChange = (effect: Effect, card: Card, player: number, opponent: number, state: GameState, appliesTo: number[]) => {
+    const applyGlobal = globalAxis[effect.axis];
     if (appliesTo.length === 0) {
         return;
     }
@@ -39,26 +36,30 @@ const reduceStateChange = (mechanic: Mechanic, card: Card, player: number, oppon
         applyGlobal(state);
     }
     let amount: number | null;
-    if (mechanic.amount !== undefined && mechanic.amount !== null) {
-        amount = Number(mechanic.amount)
+    if (effect.amount !== undefined && effect.amount !== null) {
+        amount = Number(effect.amount)
     } else {
         amount = null;
     }
-    const applyPlayerState = playerAxis[mechanic.axis];
+    const applyPlayerState = playerAxis[effect.axis];
     if (applyPlayerState !== undefined && (amount === undefined || !isNaN(amount))) {
         applyPlayerState(appliesTo, amount, state);
     }
 }
 
+//Cards that don't require player choice end up here. Forceful and Pick one get handled earlier
 const mechanicRouter: { [name: string]: (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => void } = {
-    [MechanicEnum.BLOCK]: reduceBlock,
-    [MechanicEnum.BUFF]: reduceBuff,
-    [MechanicEnum.CRIPPLE]: reduceCripple,
-    [MechanicEnum.FOCUS]: reduceFocus,
-    [MechanicEnum.PREDICT]: reducePredict,
-    [MechanicEnum.REFLEX]: reduceReflex,
-    [MechanicEnum.TELEGRAPH]: reduceTelegraph,
-    [MechanicEnum.ENHANCE]: reduceEnhance,
-    [MechanicEnum.SETUP]: reduceSetup,
+    [MechanicEnum.FOCUS]: putFocusesOntoQueueCard,
+    [MechanicEnum.PREDICT]: movePredictionsToPending,
+    [MechanicEnum.TELEGRAPH]: putTelegraphsOntoQueueCard,
+    [MechanicEnum.ENHANCE]: handleEnhancementMechanic,
+}
+
+const effectRouter: { [name: string]: (effect: Effect, card: Card, player: number, opponent: number, state: GameState) => void } = {
+    [AxisEnum.BUFF]: buffCard,
+    [AxisEnum.CRIPPLE]: addCrippleCardToOpponentsDeck,
+    [AxisEnum.REFLEX]: markShouldReflexOnQueueCard,
+    [AxisEnum.FLUID]: handleFluid,
+    [AxisEnum.RIGID]: handleRigid
 }
 

@@ -1,25 +1,9 @@
 import { Card } from "../shared/card";
 
-export interface DeckDescription {
+export interface Deck{
+    id?: number,
     name: string,
-    deckList: string[]
-    description?: string
-}
-
-export interface DeckSelection{
-    name: string
-    description?: string
-    isCustom?: boolean
-    id?: number
-}
-
-export interface PossibleCards{
-    [style: string]: Card[]
-}
-
-export interface EditedDeck {
-    name?: string,
+    styles: string[],
     description?: string,
-    cards?: string[],
-    styles?: string[], 
+    deckList: string[] 
 }

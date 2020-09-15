@@ -14,35 +14,39 @@ const error_1 = require("../error");
 const config_1 = require("../config");
 const styles_1 = require("../styles");
 const validation_1 = require("./validation");
-const premade_1 = require("./premade");
-exports.makeDeck = (user) => __awaiter(this, void 0, void 0, function* () {
-    const deck = new deck_1.DBDeck();
-    deck.user = user;
-    yield db_1.deckRepo.save(deck);
-    const possibleCards = exports.getPossibleCards(['Generic']);
-    return deck.sendToUser(possibleCards);
+exports.makeDeck = (user, deckToMake = null) => __awaiter(this, void 0, void 0, function* () {
+    const dbDeck = new deck_1.DBDeck();
+    dbDeck.user = user;
+    if (deckToMake) {
+        dbDeck.cards = deckToMake.deckList;
+        dbDeck.description = deckToMake.description;
+        dbDeck.name = deckToMake.name;
+        dbDeck.styles = deckToMake.styles;
+    }
+    yield db_1.deckRepo.save(dbDeck);
+    return dbDeck.toDeck();
 });
 exports.deleteDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
     const deck = yield validation_1.getValidDeck(user, deckID);
     db_1.deckRepo.delete(deck);
 });
 exports.updateDeck = (user, deckID, deckUpdates) => __awaiter(this, void 0, void 0, function* () {
-    const deck = yield validation_1.getValidDeck(user, deckID);
+    const dbDeck = yield validation_1.getValidDeck(user, deckID);
     if (deckUpdates.styles) {
-        updateDeckStyles(deck, deckUpdates.styles);
+        updateDeckStyles(dbDeck, deckUpdates.styles);
     }
-    if (deckUpdates.cards) {
-        updateDeckCards(deck, deckUpdates.cards);
+    if (deckUpdates.deckList) {
+        updateDeckCards(dbDeck, deckUpdates.deckList);
     }
     if (deckUpdates.name) {
-        deck.name = deckUpdates.name;
+        dbDeck.name = deckUpdates.name;
     }
     if (deckUpdates.description) {
-        deck.description = deckUpdates.description;
+        dbDeck.description = deckUpdates.description;
     }
-    yield db_1.deckRepo.save(deck);
+    yield db_1.deckRepo.save(dbDeck);
 });
-const updateDeckStyles = (deck, styles) => __awaiter(this, void 0, void 0, function* () {
+const updateDeckStyles = (dbDeck, styles) => __awaiter(this, void 0, void 0, function* () {
     const validStyles = styles
         .map(styles_1.getFightingStyleByName)
         .filter((style) => style !== null)
@@ -50,40 +54,27 @@ const updateDeckStyles = (deck, styles) => __awaiter(this, void 0, void 0, funct
     if (validStyles.length > config_1.MAX_STYLES) {
         throw error_1.ErrorEnum.TOO_MANY_STYLES;
     }
-    deck.styles = validStyles;
+    dbDeck.styles = validStyles;
 });
-const updateDeckCards = (deck, cards) => {
-    if (validation_1.areCardsInStyles(deck.styles, cards)) {
-        deck.cards = cards;
+const updateDeckCards = (dbDeck, cards) => {
+    if (validation_1.areCardsInStyles(dbDeck.styles, cards)) {
+        dbDeck.cards = cards;
     }
     else {
         throw error_1.ErrorEnum.CARDS_ARENT_IN_STYLES;
     }
 };
-exports.getFullDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
+exports.getUsersDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {
     const deck = yield validation_1.getValidDeck(user, deckID);
-    const possibleCards = exports.getPossibleCards([...deck.styles, 'Generic']);
-    return deck.sendToUser(possibleCards);
+    const unityDeck = {
+        name: deck.name,
+        deckList: deck.cards,
+        styles: deck.styles,
+        description: deck.description,
+    };
+    return unityDeck;
 });
-//Styles give a pool of possible cards they could put in their deck. This gets those. 
-exports.getPossibleCards = (styles = []) => {
-    const possibleCards = styles.map(styles_1.getFullFightingStyleByName)
-        .reduce((cardsObj, { cards, name }) => {
-        cardsObj[name] = cards;
-        return cardsObj;
-    }, {});
-    return possibleCards;
-};
 exports.getUsersDecks = (user) => __awaiter(this, void 0, void 0, function* () {
     const decks = yield db_1.deckRepo.find({ user: user });
-    return decks.map(({ name, id, description }) => ({ name, id, description }));
-});
-exports.getDeckOptions = (username) => __awaiter(this, void 0, void 0, function* () {
-    const standardDecks = premade_1.getStandardDecks();
-    if (!username) {
-        return [...standardDecks];
-    }
-    const user = yield db_1.userRepo.findOne({ where: { username }, relations: ['decks'] });
-    const userDecks = user.decks.map((deck) => ({ id: deck.id, name: deck.name, description: deck.description, isCustom: true }));
-    return [...userDecks, ...standardDecks];
+    return decks.map(({ name, id, description, styles }) => ({ name, id, description, styles }));
 });

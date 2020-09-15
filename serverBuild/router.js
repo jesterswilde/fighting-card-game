@@ -18,60 +18,29 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const premade_1 = require("./decks/premade");
-const decks_1 = require("./decks");
 const Cards_1 = require("./cards/Cards");
 const sortOrder_1 = require("./shared/sortOrder");
 const styles_1 = require("./styles");
 const router_1 = require("./users/router");
 const router_2 = require("./decks/router");
+const isProduction = process.env.PRODUCTION == "production";
 const router = express_1.Router();
-router.use('/users', router_1.userRouter);
-router.use('/decks', router_2.decksRouter);
-router.get('/deckList', (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const decks = yield decks_1.getDeckOptions();
-    res.status(200).send(decks);
-}));
-router.get('/deck/:deckName', (req, res) => {
-    const { deckName = '' } = req.params;
-    if (deckName) {
-        const deck = premade_1.getDeckForViewer(deckName);
-        if (deck) {
-            res.status(200).send(deck);
-            return;
-        }
-    }
-    res.status(404).send();
-});
-router.post('/card', (req, res) => {
-    const _a = req.body, { index } = _a, card = __rest(_a, ["index"]);
-    sortOrder_1.sortCard(card);
-    Cards_1.addCard(card, card.index);
-    res.status(201).send();
-});
-router.get('/cards', (req, res) => {
+router.use("/users", router_1.userRouter);
+router.use("/decks", router_2.decksRouter);
+router.get("/cards", (req, res) => {
     const cardList = Object.keys(Cards_1.allCards);
     res.status(200).send(cardList);
 });
-router.get('/card/:name', (req, res) => {
+router.get("/card/:name", (req, res) => {
     const card = Cards_1.allCards[req.params.name];
     res.status(200).send(card || null);
 });
-router.get('/styles', (req, res) => {
+router.get("/styles", (req, res) => {
     res.status(200).send(styles_1.getFightingStyles());
 });
-// router.get('/updatedb', () => {
-//     const dbCards: DBCard[] = [];
-//     for (const cardName in allCards) {
-//         const card = allCards[cardName];
-//         const dbCard = new DBCard(card);
-//         dbCards.push(dbCard);
-//     }
-//     cardRepo.save(dbCards);
-// })
-router.get('/styles/:style', (req, res) => {
+router.get("/styles/:style", (req, res) => {
     const styleName = req.params.style;
-    const style = styles_1.getFullFightingStyleByName(styleName);
+    const style = styles_1.getFightingStyleByName(styleName);
     if (style) {
         res.status(200).send(style);
     }
@@ -79,7 +48,17 @@ router.get('/styles/:style', (req, res) => {
         res.status(418).send();
     }
 });
-router.delete('/card', (req, res) => __awaiter(this, void 0, void 0, function* () {
+router.post("/card", (req, res) => {
+    if (isProduction)
+        res.status(401).send();
+    const _a = req.body, { index } = _a, card = __rest(_a, ["index"]);
+    sortOrder_1.sortCard(card);
+    Cards_1.addCard(card, card.index);
+    res.status(201).send();
+});
+router.delete("/card", (req, res) => __awaiter(this, void 0, void 0, function* () {
+    if (isProduction)
+        res.status(401).send();
     try {
         yield Cards_1.removeCard(req.body.name);
         res.status(200).send();

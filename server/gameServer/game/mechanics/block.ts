@@ -1,4 +1,4 @@
-import { Mechanic, Card, MechanicEnum } from "../../../shared/card";
+import { Card, MechanicEnum, Effect, AxisEnum } from "../../../shared/card";
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
 
@@ -8,24 +8,15 @@ import { splitArray } from "../../util";
     At the start of each turn, block from the previous turn is converted to parry. 
 */
 
-export const reduceBlock = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
-    const { block } = state;
-    block[player] = block[player] || 0;
-    if (typeof mechanic.amount === 'number') {
-        block[player] += mechanic.amount;
-    }
-    console.log('block was played', state.block);
-}
-
 export const collectBlock = (state: GameState) => {
     const blockArrs: ReadiedEffect[][] = []; 
     state.readiedEffects = state.readiedEffects.map((playerEff, index)=>{
-        const [hasBlock, unused] = splitArray(playerEff, (reaEff) => reaEff.mechanic.mechanic === MechanicEnum.BLOCK);
+        const [hasBlock, unused] = splitArray(playerEff, ({effect}) => effect.axis === AxisEnum.BLOCK);
         blockArrs[index] = hasBlock;
         return unused;
     })
     const block = blockArrs.map((arr) => {
-        return arr.reduce((total, { mechanic: { amount = 0 } }) => total + Number(amount), 0);
+        return arr.reduce((total, { effect: { amount = 0 } }) => total + Number(amount), 0);
     });
     block.forEach((amount, index)=> state.block[index] += amount); 
 }

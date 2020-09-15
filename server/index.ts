@@ -8,7 +8,7 @@ import lobby from "./gameServer/lobby";
 import apiRouter from "./router";
 import "./db/index";
 
-process.on("uncaughtException", function(err) {
+process.on("uncaughtException", function (err) {
   console.log(err);
 });
 
@@ -16,12 +16,14 @@ const port = process.env.PORT || 8080;
 const app = express();
 const server = http.createServer(app);
 
-const io = socketIO(server);
+const io = socketIO(server, {
+  pingInterval: 10000,
+  pingTimeout: 60000,
+});
 lobby(io);
 
 app.use(bodyParser.json());
 app.use(cors());
-
 app.use("/api", apiRouter);
 
 app.use(express.static(path.join(__dirname, "..", "game-client", "dist")));

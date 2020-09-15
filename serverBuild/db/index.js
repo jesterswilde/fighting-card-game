@@ -19,7 +19,7 @@ let connectionObj = {
     type: "postgres",
     host: "localhost",
     username: "postgres",
-    password: "",
+    password: "password",
     database: "fight",
     synchronize: true,
     entities: [deck_1.DBDeck, user_1.DBUser, feedback_1.DBFeedback]

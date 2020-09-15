@@ -1,4 +1,4 @@
-import { Mechanic, Card } from "../../../shared/card";
+import { Mechanic, Card, Effect } from "../../../shared/card";
 import { GameState } from "../../interfaces/stateInterface";
 import { getCardByName } from "../playCards/getCards";
 
@@ -8,15 +8,13 @@ import { getCardByName } from "../playCards/getCards";
     This is cuz I'm lazy and I didn't want to have an extra section on the card that said the name that will get printed, and a seperate section that had the name of the card
 */
 
-export const reduceCripple = async (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState, { _getCardByName = getCardByName } = {}) => {
+export const addCrippleCardToOpponentsDeck = async (effect: Effect, card: Card, player: number, opponent: number, state: GameState, { _getCardByName = getCardByName } = {}) => {
     console.log("reducing cripple", player, opponent)
     const { decks } = state;
-    const { amount: cardName } = mechanic;
-    const deck = decks[opponent];
-    if (typeof cardName === 'string') {
-        const card = _getCardByName(cardName);
-        card.player = opponent;
-        card.opponent = player;
-        deck.push(card);
-    }
+    let crippleKey = effect.detail; 
+    crippleKey = crippleKey.split(" ")[1]; //just turned "Cripple Leg" into leg which is the lookup key
+    const crippleCard = _getCardByName(crippleKey);
+    card.player = opponent;
+    card.opponent = player;
+    decks[opponent].push(crippleCard);
 }

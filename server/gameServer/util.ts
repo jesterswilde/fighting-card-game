@@ -1,6 +1,6 @@
 import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, ModifiedAxis } from "./interfaces/stateInterface";
 import { STARTING_POISE } from "./gameSettings";
-import { Card, StatePiece, AxisEnum, PlayerEnum, Mechanic, MechanicEnum } from "../shared/card";
+import { Card, AxisEnum, PlayerEnum, Mechanic, MechanicEnum, Effect } from "../shared/card";
 
 export const getOpponent = (player: number): number => {
     return player === 1 ? 0 : 1;
@@ -24,7 +24,7 @@ export const makeBlankCard = (): Card => {
         requirements: [],
         effects: [],
         name: 'blankCard',
-        optional: [],
+        mechanics: []
     }
 }
 
@@ -36,18 +36,17 @@ export const makeRequirement = (): StatePiece => {
     };
 }
 
-export const makeMechanic = (): Mechanic => {
+export const makeEffect = (): Effect => {
     return {
         axis: AxisEnum.FAR,
         player: PlayerEnum.OPPONENT,
-        mechanic: null,
         amount: 0
     }
 }
 
 export const makeTestingGameState = (): GameState => {
     return {
-        usernames: [],
+        agents: [],
         numPlayers: 2,
         playerStates: [makePlayerState(), makePlayerState()],
         stateDurations: [makeStateDurations(), makeStateDurations()],
@@ -63,9 +62,8 @@ export const makeTestingGameState = (): GameState => {
         tagsPlayed: [{},{}],
         health: [],
         readiedEffects: [],
-        damageEffects: [],
+        readiedDamageEffects: [],
         modifiedAxis: [makeModifiedAxis(),makeModifiedAxis()],
-        sockets: [],
         events: [],
         setup: [0,0],
         pendingSetup: [0,0],
@@ -73,20 +71,6 @@ export const makeTestingGameState = (): GameState => {
         cardUID: 0,
         predictions: [],
         pendingPredictions: [],
-        lockedState: {
-            distance: null,
-            players: [
-                {
-                    poise: null,
-                    motion: null,
-                    stance: null
-                }, {
-                    poise: null,
-                    motion: null,
-                    stance: null
-                }
-            ]
-        }
     }
 }
 

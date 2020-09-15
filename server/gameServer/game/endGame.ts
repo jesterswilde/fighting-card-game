@@ -1,26 +1,15 @@
 import { GameState } from "../interfaces/stateInterface";
-import { addGameOverEvent, sendEvents } from "./events";
-import { sendState } from "./socket";
-import { SocketEnum, GameOverEnum } from "../../shared/socket";
+import { gameOverEvent, sendEvents } from "./events";
+import { sendState } from "./send";
 
 export const endGame = (state: GameState) => {
-    addGameOverEvent(state.winner, state); 
+    gameOverEvent(state); 
     sendState(state); 
     sendEvents(state); 
+    sendGameOver(state); 
 }
 
 const sendGameOver = async(state: GameState)=>{
-    state.sockets.forEach((socket)=>{
-        socket.emit(SocketEnum.GAME_OVER);
-        socket.once(SocketEnum.END_GAME_CHOICE, (choice: GameOverEnum)=>{
-            switch(choice){
-                case GameOverEnum.FIND_NEW_OPP_WITH_NEW_DECK:
-                    
-                    break;
-                case GameOverEnum.FIND_NEW_OPP_WITH_SAME_DECK:
-                    break;
-            }
-        })
-    })
+    state.agents.forEach(agent => agent.gameOver()); 
 }
 

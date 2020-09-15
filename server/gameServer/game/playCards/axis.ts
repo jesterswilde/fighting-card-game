@@ -33,35 +33,27 @@ export const playerAxis: { [axis: string]: (players: number[], amount: number, s
         playerStates[i].poise -= amount;
     }),
     [AxisEnum.STANDING]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
-        const { stateDurations, playerStates, lockedState } = state;
-        if (!lockedState.players[i].stance) {
-            stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== StandingEnum.STANDING);
-            playerStates[i].standing = StandingEnum.STANDING
-        }
+        const { stateDurations, playerStates } = state;
+        stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== StandingEnum.STANDING);
+        playerStates[i].standing = StandingEnum.STANDING
     }),
     [AxisEnum.PRONE]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
-        const { stateDurations, playerStates, lockedState } = state;
-        if (!lockedState.players[i].stance) {
-            stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== StandingEnum.PRONE)
-            state.playerStates[i].standing = StandingEnum.PRONE
-        }
+        const { stateDurations, playerStates } = state;
+        stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== StandingEnum.PRONE)
+        state.playerStates[i].standing = StandingEnum.PRONE
     }),
     [AxisEnum.STILL]: (players: number[], amount: number, state: GameState) => {
+        const { stateDurations, playerStates } = state;
         players.forEach((i) => {
-            const { stateDurations, playerStates, lockedState } = state;
-            if (!lockedState.players[i].motion) {
-                stateDurations[i].motion = getMaxAmount(stateDurations[i].motion, amount, playerStates[i].motion !== MotionEnum.STILL)
-                state.playerStates[i].motion = MotionEnum.STILL
-            }
+            stateDurations[i].motion = getMaxAmount(stateDurations[i].motion, amount, playerStates[i].motion !== MotionEnum.STILL)
+            state.playerStates[i].motion = MotionEnum.STILL
         })
     },
     [AxisEnum.MOVING]: (players: number[], amount: number, state: GameState) => {
-        const { stateDurations, playerStates, lockedState } = state;
+        const { stateDurations, playerStates } = state;
         players.forEach((i) => {
-            if (!lockedState.players[i].motion) {
-                stateDurations[i].motion = getMaxAmount(stateDurations[i].motion, amount, playerStates[i].motion !== MotionEnum.MOVING)
-                state.playerStates[i].motion = MotionEnum.MOVING;
-            }
+            stateDurations[i].motion = getMaxAmount(stateDurations[i].motion, amount, playerStates[i].motion !== MotionEnum.MOVING)
+            state.playerStates[i].motion = MotionEnum.MOVING;
         })
     },
     [AxisEnum.DAMAGE]: (players: number[], amount: number, state: GameState) => {

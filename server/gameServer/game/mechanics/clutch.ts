@@ -1,6 +1,6 @@
 import { GameState } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
-import { MechanicEnum } from "../../../shared/card";
+import { MechanicEnum, AxisEnum } from "../../../shared/card";
 
 /*
     Clutch increases the priority of a card.
@@ -10,10 +10,10 @@ import { MechanicEnum } from "../../../shared/card";
 
 export const applyClutch = (state: GameState) => {
     state.readiedEffects = state.readiedEffects.map((playerReaffs, player) => {
-        const [clutchArr, unusedArr] = splitArray(playerReaffs, ({ mechanic }) => mechanic.mechanic === MechanicEnum.CLUTCH)
-        clutchArr.forEach(({ mechanic, card }) => {
+        const [clutchArr, unusedArr] = splitArray(playerReaffs, ({ effect }) => effect.axis === AxisEnum.CLUTCH)
+        clutchArr.forEach(({ effect, card }) => {
             const clutch = card.clutch ? card.clutch : 0;
-            card.clutch = clutch + Number(mechanic.amount);
+            card.clutch = clutch + Number(effect.amount);
         })
         return unusedArr;
     });

@@ -2,28 +2,26 @@ import { deckRepo } from "../db";
 import { DBUser } from "../db/entities/user";
 import { allCards } from "../cards/Cards";
 import { ErrorEnum } from "../error";
-import { getFightingStyleByName } from "../styles";
+import { getFightingStyleByName, getAllFightingStylesArr } from "../styles";
+import { sortCard } from "../shared/sortOrder";
 
+
+let styleByCard: {[cardName: string]: string} = null;
+const sortCardsByStyle=()=>{
+    styleByCard = {}; 
+    getAllFightingStylesArr().forEach(style =>{
+        style.cards.forEach(cardName =>{
+            styleByCard[cardName] = style.name 
+        })
+    })
+}
 
 //All styles offer a pool of cards. This makes sure that any card they submit is valid. 
 export const areCardsInStyles = (styleNames: string[], cards: string[]) => {
-    const stylesObj = [...styleNames, 'Generic'].map((name) => getFightingStyleByName(name))
-        .filter((style) => style !== null)
-        .reduce((styleObj, style) => {
-            style.cards.forEach((cardName) => {
-                const card = allCards[cardName];
-                if (card) {
-                    styleObj[cardName] = card;
-                }
-            });
-            return styleObj;
-        }, {})
-        cards.forEach((cardName)=>{
-            if(!stylesObj[cardName]){
-                console.log(cardName)
-            }
-        })
-    return cards.every((cardName) => stylesObj[cardName] !== undefined && stylesObj[cardName] !== null);
+    if(styleByCard == null)
+        sortCardsByStyle(); 
+    const stylesSet = new Set([...styleNames, 'Generic'])
+    return cards.every((cardName) => stylesSet.has(styleByCard[cardName]));
 }
 
 //Just make sure the user owns the deck

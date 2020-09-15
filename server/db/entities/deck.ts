@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from "typeorm";
 import { DBUser } from "./user";
-import { PossibleCards, DeckDescription } from "../../decks/interface";
+import { Deck } from "../../decks/interface";
 
 @Entity({name: 'Deck'})
 export class DBDeck {
@@ -21,22 +21,12 @@ export class DBDeck {
 
     @ManyToOne(type => DBUser, user => user.decks)
     user: DBUser
-
-    sendToUser = (possibleCards: PossibleCards = {}) => {
+    toDeck = (): Deck => {
         return {
-            deck: {
-                name: this.name,
-                cards: this.cards,
-                styles: this.styles,
-                id: this.id
-            },
-            possibleCards
-        }
-    }
-    toDeckDescription = (): DeckDescription => {
-        return {
+            id: this.id,
             name: this.name,
             deckList: this.cards,
+            styles: this.styles,
             description: this.description
         }
     }

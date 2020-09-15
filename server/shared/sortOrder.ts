@@ -1,4 +1,4 @@
-import { AxisEnum, MechanicEnum, Card, StatePiece, Mechanic } from "./card";
+import { AxisEnum, MechanicEnum, Mechanic } from "./card";
 
 export const getSortOrder = (mechanic: MechanicEnum | AxisEnum) => {
     const order = SORT_ORDER[mechanic];
@@ -39,24 +39,23 @@ export const SORT_ORDER = {
     [AxisEnum.STILL]: 5,
     [AxisEnum.MOVING]: 5,
 
-    [MechanicEnum.BLOCK]: 10,
-    [MechanicEnum.PARRY]: 11,
-    [MechanicEnum.CLUTCH]: 12,
-    [MechanicEnum.FLUID]: 13,
-    [MechanicEnum.RIGID]: 13,
+    [AxisEnum.BLOCK]: 10,
+    [AxisEnum.PARRY]: 11,
+    [AxisEnum.CLUTCH]: 12,
+    [AxisEnum.FLUID]: 13,
+    [AxisEnum.RIGID]: 13,
 
-    [MechanicEnum.REFLEX]: 20,
-    [MechanicEnum.CRIPPLE]: 21,
+    [AxisEnum.REFLEX]: 20,
+    [AxisEnum.CRIPPLE]: 21,
     [MechanicEnum.ENHANCE]: 22,
     [MechanicEnum.PREDICT]: 23,
-    [MechanicEnum.LOCK]: 24,
 
     [MechanicEnum.PICK_ONE]: 30,
 
     [MechanicEnum.FOCUS]: 31,
     [MechanicEnum.TELEGRAPH]: 32,
 }
-
+/*
 export const sortCard = (card: Card) => {
     if(card.priority === undefined){
         card.priority = 5; 
@@ -67,8 +66,8 @@ export const sortCard = (card: Card) => {
         sortRequirements(opt.requirements);
         sortEffects(opt.effects);
     })
-}
-
+}*/
+/*
 const sortRequirements = (reqs: StatePiece[]) => {
     reqs.sort((a, b) => getSortOrder(a.axis) - getSortOrder(b.axis))
 }
@@ -105,3 +104,5 @@ const sortEffects = (effs: Mechanic[]) => {
         }
     })
 }
+
+*/

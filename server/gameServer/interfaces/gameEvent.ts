@@ -1,31 +1,37 @@
-import { Mechanic } from "../../shared/card";
+import { Effect } from "../../shared/card";
 import { PredictionEnum, HappensEnum } from "./stateInterface";
 
-export enum EventTypeEnum{
-    CARD_NAME,
-    EFFECT,
-    MECHANIC, 
-    ADDED_MECHANIC,
-    REVEAL_PREDICTION,
-    GAME_OVER,
-    MULTIPLE,
-    EVENT_SECTION,
-    CARD_NAME_SECTION,
-    PREDICTION_SECTION,
+export enum EventType {
+  PLAYED_CARD = "PlayedCard",
+  MECHANIC = "MechanicActivation",
+  REVEAL_PREDICTION = "RevealPrediction",
+  GAME_OVER = "GameOver",
+  REFLEX = "Reflex"
 }
 
-export interface EventAction{
-    type: EventTypeEnum,
-    events?: EventAction[]
-    effect?: Mechanic,
-    cardName?: string,
-    priority?: number,
-    mechanicName?: string,
-    playedBy?: number,
-    correct?: boolean,
-    prediction?: PredictionEnum,
-    correctGuesses?: PredictionEnum[],
-    winner?: number,
-    happenedTo?: HappensEnum[]
+export interface EventAction {
+  type: EventType;
+  mechanic?: string;
+  effects?: EventEffect[];
+  card?: CardEvent;
+  reflexingCard?: string; 
+  prediction?: PredictionEvent;
+  winner?: number;
 }
 
+export interface CardEvent{
+  cardName: string,
+  priority: number
+}
+
+export interface PredictionEvent {
+  prediction: PredictionEnum;
+  player: number;
+  targetPlayer: number;
+  didHappen: boolean;
+  correctGuesses: PredictionEnum[]
+}
+export interface EventEffect{
+  effect: Effect;
+  happensTo: HappensEnum[]
+}

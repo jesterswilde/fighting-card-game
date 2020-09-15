@@ -9,28 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("../db");
-const Cards_1 = require("../cards/Cards");
 const error_1 = require("../error");
 const styles_1 = require("../styles");
+let styleByCard = null;
+const sortCardsByStyle = () => {
+    styleByCard = {};
+    styles_1.getAllFightingStylesArr().forEach(style => {
+        style.cards.forEach(cardName => {
+            styleByCard[cardName] = style.name;
+        });
+    });
+};
 //All styles offer a pool of cards. This makes sure that any card they submit is valid. 
 exports.areCardsInStyles = (styleNames, cards) => {
-    const stylesObj = [...styleNames, 'Generic'].map((name) => styles_1.getFightingStyleByName(name))
-        .filter((style) => style !== null)
-        .reduce((styleObj, style) => {
-        style.cards.forEach((cardName) => {
-            const card = Cards_1.allCards[cardName];
-            if (card) {
-                styleObj[cardName] = card;
-            }
-        });
-        return styleObj;
-    }, {});
-    cards.forEach((cardName) => {
-        if (!stylesObj[cardName]) {
-            console.log(cardName);
-        }
-    });
-    return cards.every((cardName) => stylesObj[cardName] !== undefined && stylesObj[cardName] !== null);
+    if (styleByCard == null)
+        sortCardsByStyle();
+    const stylesSet = new Set([...styleNames, 'Generic']);
+    return cards.every((cardName) => stylesSet.has(styleByCard[cardName]));
 };
 //Just make sure the user owns the deck
 exports.getValidDeck = (user, deckID) => __awaiter(this, void 0, void 0, function* () {

@@ -2,7 +2,7 @@ import { GameState, PoiseEnum, MotionEnum, StandingEnum } from "../interfaces/st
 import { QUEUE_LENGTH } from "../gameSettings";
 import { makeModifiedAxis } from "../util";
 import { sendEvents } from "./events";
-import { sendState } from "./socket";
+import { sendState } from "./send";
 import { forEachCardInQueue } from "./queue";
 
 export const endTurn = async (state: GameState) => {

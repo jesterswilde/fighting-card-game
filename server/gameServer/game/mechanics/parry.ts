@@ -1,6 +1,6 @@
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
-import { MechanicEnum } from "../../../shared/card";
+import { AxisEnum } from "../../../shared/card";
 
 /*
     reduces incoming damage by N amount
@@ -8,13 +8,13 @@ import { MechanicEnum } from "../../../shared/card";
 
 export const collectParry = (state: GameState) => {
     const parryArrs: ReadiedEffect[][] = [];
-    state.readiedEffects = state.readiedEffects.map((playerEff, index) => {
-        const [hasParry, unused] = splitArray(playerEff, (reaEff) => reaEff.mechanic.mechanic === MechanicEnum.PARRY);
-        parryArrs[index] = hasParry;
+    state.readiedEffects = state.readiedEffects.map((readiedEffect, playerIndex) => {
+        const [parryEffects, unused] = splitArray(readiedEffect, (reaEff) => reaEff.effect.axis === AxisEnum.PARRY);
+        parryArrs[playerIndex] = parryEffects;
         return unused;
     })
     const parry = parryArrs.map((arr) => {
-        return arr.reduce((total, { mechanic: { amount = 0 } }) => total + Number(amount), 0);
+        return arr.reduce((total, { effect: { amount = 0 } }) => total + Number(amount), 0);
     });
     parry.forEach((amount, index)=> state.parry[index] += amount); 
 }

@@ -13,20 +13,18 @@ const _1 = require(".");
 const auth_1 = require("../auth");
 const error_1 = require("../error");
 exports.decksRouter = express_1.Router();
-//This gets full versions of all cards given a set of styles. 
-exports.decksRouter.get('/possibleCards', (req, res) => {
-    const { styles } = req.query;
-    if (styles) {
-        const stylesArray = styles.split(',');
-        const possibleCards = _1.getPossibleCards(stylesArray);
-        res.status(200).send(possibleCards);
-    }
-    else {
-        res.status(200).send([]);
-    }
-});
-//Should return an abridges version of all your decks. Names, maybe description, styles in use. Possibly card names, not full cards. 
-exports.decksRouter.get('/', auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+/*
+    All unity operations require a user to be signed in, may not be great.
+
+    get /decks -> {name, id, description, styles[]}[] - Get all decks by user
+    get /deck/:id -> DeckDescription - Get specific deck by user
+    DOESN'T SEND ID BUT SHOULD!  post /deck -> id - Makes a new deck by user
+    put /deck/:id -> null - updates deck with id by user
+    delete /deck/:id -> null - deletes a deck with id by user
+*/
+//Should return an abridged version of all your decks. Names, maybe description, styles in use. Possibly card names, not full cards.
+exports.decksRouter.get("/", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+    console.log("Got deck request from: " + req.user);
     try {
         const decks = yield _1.getUsersDecks(req.user);
         res.status(200).send(decks);
@@ -36,11 +34,11 @@ exports.decksRouter.get('/', auth_1.authMiddleware, (req, res) => __awaiter(this
         res.status(500).send();
     }
 }));
-//Returns all info a given deck. Currently sends full cards plus possible cards. 
-//This is an area to optimize later. 
-exports.decksRouter.get('/:id', auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+//Returns all info a given deck. Currently sends full cards plus possible cards.
+//This is an area to optimize later.
+exports.decksRouter.get("/:id", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
-        const deck = yield _1.getFullDeck(req.user, req.params.id);
+        const deck = yield _1.getUsersDeck(req.user, req.params.id);
         res.status(200).send(deck);
     }
     catch (err) {
@@ -54,7 +52,7 @@ exports.decksRouter.get('/:id', auth_1.authMiddleware, (req, res) => __awaiter(t
     }
 }));
 //Makes a new deck
-exports.decksRouter.post('/new', auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.decksRouter.post("/new", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
         const deck = yield _1.makeDeck(req.user);
         res.status(200).send(deck);
@@ -65,13 +63,14 @@ exports.decksRouter.post('/new', auth_1.authMiddleware, (req, res) => __awaiter(
     }
 }));
 //Updates a deck
-exports.decksRouter.put('/:id', auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.decksRouter.put("/:id", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
         yield _1.updateDeck(req.user, req.params.id, req.body);
         res.status(200).send();
     }
     catch (err) {
-        if (err === error_1.ErrorEnum.CARDS_ARENT_IN_STYLES || err === error_1.ErrorEnum.TOO_MANY_STYLES) {
+        if (err === error_1.ErrorEnum.CARDS_ARENT_IN_STYLES ||
+            err === error_1.ErrorEnum.TOO_MANY_STYLES) {
             res.status(400).send(err);
         }
         else {
@@ -81,7 +80,7 @@ exports.decksRouter.put('/:id', auth_1.authMiddleware, (req, res) => __awaiter(t
     }
 }));
 //Deletes a deck
-exports.decksRouter.delete('/:id', auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.decksRouter.delete("/:id", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
     try {
         yield _1.deleteDeck(req.user, req.params.id);
         res.status(200).send();

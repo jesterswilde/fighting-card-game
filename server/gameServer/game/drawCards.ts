@@ -1,16 +1,18 @@
 import { GameState } from "../interfaces/stateInterface";
-import { sendHand } from "./socket";
+import { sendHand } from "./send";
 import { ErrorEnum } from "../errors";
-import { Card, Enhancement } from "../../shared/card";
+import { Card, Enhancement, MechanicEnum } from "../../shared/card";
 import { HAND_SIZE } from "../gameSettings";
-import { canPlayCard, canUseOptional } from "./playCards/requirements";
+import { canPlayCard } from "./playCards/requirements";
 import { getOpponent } from "../util";
-import { addEnhancement } from "./mechanics/enhance";
+import { addEnhacementsToHands } from "./mechanics/enhance";
+import { markCritical } from "./mechanics/critical";
 
 export const givePlayersCards = (state: GameState, { _sendHand = sendHand } = {}) => {
     try {
         drawHands(state); 
-        markOptional(state);
+        markCritical(state);
+        addEnhacementsToHands(state); 
         addPanicCard(state);
         _sendHand(state);
     } catch (err) {
@@ -34,7 +36,7 @@ export const drawCards = (player:number, state: GameState, defaultHandSize = HAN
     shuffleDeck(player, state); 
     const deck = state.decks[player];
     let handIndexes: number[] = [];
-    const handSize = defaultHandSize + state.handSizeMod || 0; 
+    const handSize = defaultHandSize + state.handSizeMod[player] || 0; 
     for (let i = 0; i < deck.length; i++) {
         if (canPlayCard(deck[i], state)) {
             handIndexes.push(i);
@@ -45,7 +47,6 @@ export const drawCards = (player:number, state: GameState, defaultHandSize = HAN
     }
     const hand = handIndexes.map((i) => {
         const card = deck[i];
-        addEnhancement(card, state); 
         deck[i] = undefined;
         return card;
     })
@@ -53,18 +54,7 @@ export const drawCards = (player:number, state: GameState, defaultHandSize = HAN
     return hand;
 }
 
-const markOptional = (state: GameState) => {
-    state.hands.forEach((hand)=>{
-        hand.forEach(({ optional = [], opponent, player }) => {
-            if (opponent === undefined) {
-                opponent = player === 0 ? 1 : 0;
-            }
-            optional.forEach((opt) => {
-                opt.canPlay = canUseOptional(opt, player, opponent, state);
-            })
-        })
-    })
-}
+
 
 
 const addPanicCard = (state: GameState) => {
@@ -73,10 +63,10 @@ const addPanicCard = (state: GameState) => {
             const card: Card = {
                 name: 'Panic',
                 effects: [],
+                mechanics: [],
                 requirements: [],
                 player,
                 opponent: getOpponent(player),
-                optional: [],
                 id: state.cardUID++
             }
             state.hands[player].push(card);

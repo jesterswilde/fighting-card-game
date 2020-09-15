@@ -13,30 +13,30 @@ export const getCardByName = (name: string): Card => {
 const crippledObj: { [name: string]: Card } = {
     "Everything": {
         name: "Crippled Everything",
+        mechanics: [],
         requirements: [],
         effects: [{ axis: AxisEnum.DAMAGE, player: PlayerEnum.PLAYER, amount: 3000 }],
-        optional: [],
         isFaceUp: true
     },
     "Psyche": {
         name: "Crippled Psyche",
         requirements: [{ axis: AxisEnum.UNBALANCED, player: PlayerEnum.PLAYER }],
         effects: [{axis: AxisEnum.PRONE, player: PlayerEnum.PLAYER}, {axis: AxisEnum.DAMAGE, player: PlayerEnum.PLAYER, amount: 6}],
-        optional: [],
+        mechanics: [],
         isFaceUp: true
     },
     "Leg": {
         name: "Crippled Leg",
         requirements: [{ axis: AxisEnum.MOVING, player: PlayerEnum.PLAYER }],
         effects: [{ axis: AxisEnum.PRONE, player: PlayerEnum.PLAYER }, { axis: AxisEnum.DAMAGE, player: PlayerEnum.PLAYER, amount: 3 }],
-        optional: [],
+        mechanics: [],
         isFaceUp: true
     },
     "Chest": {
         name: "Crippled Chest",
         requirements: [{ axis: AxisEnum.STANDING, player: PlayerEnum.PLAYER }],
         effects: [{ axis: AxisEnum.DAMAGE, player: PlayerEnum.PLAYER, amount: 10 }],
-        optional: [],
+        mechanics: [],
         isFaceUp: true
     }
 }

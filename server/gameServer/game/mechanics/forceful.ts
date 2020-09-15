@@ -1,9 +1,7 @@
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
-import { MechanicEnum, Mechanic } from "../../../shared/card";
-import { mechanicsToReadiedEffects } from "../readiedEffects";
-import { Socket } from "socket.io";
-import { SocketEnum } from "../../../shared/socket";
+import { MechanicEnum, Mechanic, Card } from "../../../shared/card";
+import { readyEffects } from "../readiedEffects";
 
 /*
     Give up N poise, to gain an effect. 
@@ -11,31 +9,31 @@ import { SocketEnum } from "../../../shared/socket";
 */
 
 export const playerChoosesForce = async (player: number, state: GameState) => {
-    const { readiedEffects = [] } = state;
-    let playerEffects = readiedEffects[player] || [];
-    let [allForcefulArr, unused] = splitArray(playerEffects, ({ mechanic }) => mechanic.mechanic === MechanicEnum.FORCEFUL);
-    const validForcefulArr = allForcefulArr.filter(({ mechanic }) => state.playerStates[player].poise >= mechanic.amount);
-    const readiedArr: ReadiedEffect[] = []
-    for (let i = 0; i < validForcefulArr.length; i++) {
-        const { card: { name: cardName }, mechanic, card } = validForcefulArr[i];
-        const socket = state.sockets[player];
-        const choseToPlay = await getForcefulChoice(socket, mechanic, cardName);
-        if (choseToPlay) {
-            state.playerStates[player].poise -= typeof mechanic.amount === 'number' ? mechanic.amount : 0;
-            readiedArr.push({ mechanic, card, isEventOnly: true })
-            const readied = mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state);
-            readiedArr.push(...readied);
-        }
+  const { readiedMechanics = [] } = state;
+  let readiedMechs = readiedMechanics[player] || [];
+  let [forcefulMechs, unused] = splitArray(
+    readiedMechs,
+    ({ mechanic }) => mechanic.mechanic === MechanicEnum.FORCEFUL
+  );
+  const validForcefulArr = forcefulMechs.filter(
+    ({ mechanic }) => state.playerStates[player].poise >= mechanic.amount
+  );
+  let readiedEffs: ReadiedEffect[] = [];
+  for (let i = 0; i < validForcefulArr.length; i++) {
+    const {card: { name: cardName }, mechanic, card,} = validForcefulArr[i];
+    const choseToPlay = await state.agents[player].getUsedForceful(cardName, mechanic.index);
+    if (choseToPlay) {
+      state.playerStates[player].poise -= mechanic.amount;
+      DisplayForcefulEvent(card, mechanic, state);
+      readiedEffs.push(...readyEffects(mechanic.effects, card, state));
     }
-    state.readiedEffects[player] = [...unused, ...readiedArr];
-}
+  }
+  state.readiedEffects[player].push(...readiedEffs); 
+  state.readiedMechanics[player] = [...unused];
+};
 
-const getForcefulChoice = (socket: Socket, mechanic: Mechanic, cardName: string): Promise<boolean> => {
-    return new Promise((res, rej) => {
-        socket.emit(SocketEnum.GOT_FORCEFUL_CHOICE, { mechanic, cardName });
-        socket.once(SocketEnum.PICKED_FORCEFUL, (useForecful: boolean) => {
-            res(useForecful);
-        })
-    })
-}
-
+const DisplayForcefulEvent = (
+  card: Card,
+  mechanic: Mechanic,
+  state: GameState
+) => {};

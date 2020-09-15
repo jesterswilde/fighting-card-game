@@ -1,28 +1,27 @@
-import { grappleStyle } from "./grappler";
+import { grappleStyle } from "./styles/grappler";
 import { FightingStyle, FullFightingStyle } from "./interfaces";
-import { allCards } from "../cards/Cards";
-import { cheapShotStyle } from "./cheapShot";
-import { crowdPleaserStyle } from "./crowdPleaser";
-import { deathFromAboveStyle } from "./deathFromAbove";
-import { finesseStyle } from "./finesse";
-import { hunterStyle } from "./hunter";
-import { immovableStyle } from "./immovable";
-import { jesterStyle } from "./jester";
-import { kobraKaiStyle } from "./kobraKai";
-import { mastermindStyle } from "./mastermind";
-import { netAndTridentStyle } from "./netAndTrident";
-import { seeingRedStyle } from "./seeingRed";
-import { toolsOfTheTradeStyle } from "./toolsOfTheTrade";
-import { unstoppableStyle } from "./unstoppable";
-import { AllInStyle } from "./allIn";
-import { monkStyle } from "./monk";
-import { rogueStyle } from "./rogue";
-import { ropeADopeStyle } from "./ropeADope";
-import { workTheBodyStyle } from "./workTheBody";
-import { genericStyle } from "./generic";
-import { barbarianStyle } from "./barbarian";
+import { cheapShotStyle } from "./styles/cheapShot";
+import { crowdPleaserStyle } from "./styles/crowdPleaser";
+import { deathFromAboveStyle } from "./styles/deathFromAbove";
+import { finesseStyle } from "./styles/finesse";
+import { hunterStyle } from "./styles/hunter";
+import { immovableStyle } from "./styles/immovable";
+import { jesterStyle } from "./styles/jester";
+import { kobraKaiStyle } from "./styles/kobraKai";
+import { mastermindStyle } from "./styles/mastermind";
+import { netAndTridentStyle } from "./styles/netAndTrident";
+import { seeingRedStyle } from "./styles/seeingRed";
+import { toolsOfTheTradeStyle } from "./styles/toolsOfTheTrade";
+import { unstoppableStyle } from "./styles/unstoppable";
+import { AllInStyle } from "./styles/allIn";
+import { monkStyle } from "./styles/monk";
+import { rogueStyle } from "./styles/rogue";
+import { ropeADopeStyle } from "./styles/ropeADope";
+import { workTheBodyStyle } from "./styles/workTheBody";
+import { genericStyle } from "./styles/generic";
+import { barbarianStyle } from "./styles/barbarian";
 import { deepCopy } from "../gameServer/util";
-import { drunkenStyle } from "./drunkenMaster";
+import { drunkenStyle } from "./styles/drunkenMaster";
 
 const allStyles: FightingStyle[] = [
   grappleStyle,
@@ -49,7 +48,7 @@ const allStyles: FightingStyle[] = [
   genericStyle
 ];
 
-const fightingStylesObj = {};
+const fightingStylesObj: {[name: string]: FightingStyle} = {};
 
 allStyles.forEach(style => {
   fightingStylesObj[style.name] = style;
@@ -61,8 +60,9 @@ export const getAllFightingStylesArr = () => {
 
 export const getFightingStyles = () => {
   return allStyles.map(
-    ({ name, description, isGeneric, strengths, identity, mainMechanics }) => ({
+    ({ name, description, isGeneric, strengths, identity, mainMechanics, cards }) => ({
       name,
+      cards,
       description,
       isGeneric,
       strengths,
@@ -78,21 +78,6 @@ export const getFightingStyleByName = (
   const style = fightingStylesObj[styleName];
   if (style) {
     return style;
-  }
-  return null;
-};
-
-export const getFullFightingStyleByName = (
-  styleName: string
-): FullFightingStyle => {
-  const style = fightingStylesObj[styleName];
-  if (style) {
-    return {
-      ...style,
-      cards: style.cards.map(cardName =>
-        allCards[cardName] ? allCards[cardName] : null
-      )
-    };
   }
   return null;
 };

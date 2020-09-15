@@ -1,5 +1,5 @@
 import { GameState } from "../interfaces/stateInterface";
-import { sendState } from "./socket";
+import { sendState } from "./send";
 import { ANTICIPATING_POISE } from "../gameSettings";
 import { givePlayersCards } from "./drawCards";
 import { convertBlockToParry } from "./mechanics/block";
@@ -12,12 +12,12 @@ export const startTurn = async (state: GameState) => {
     moveHandSizeMod(state); 
     givePlayersCards(state);
     sendState(state);
-    convertBlockToParry(state); 
+    convertBlockToParry(state); //This happens after so that the player will see the upcoming block
 }
 
 const moveHandSizeMod = (state: GameState)=>{
     state.handSizeMod = state.nextHandSizeMod; 
-    state.nextHandSizeMod = 0; 
+    state.nextHandSizeMod = [0,0]; 
 }
 
 const movePendingPredictions = (state: GameState)=>{

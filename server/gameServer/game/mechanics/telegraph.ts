@@ -1,7 +1,7 @@
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { forEachCardInQueue } from "../queue";
 import { mechReqsMet } from "../playCards/requirements";
-import { mechanicsToReadiedEffects, addReadiedToState } from "../readiedEffects";
+import { readyEffects } from "../readiedEffects";
 import { ControlEnum } from "../../errors";
 import { Card, Mechanic } from "../../../shared/card";
 import { splitArray } from "../../util";
@@ -13,7 +13,7 @@ import { splitArray } from "../../util";
     Telgraphs also get removed when the card is culled from the queue. 
 */
 
-export const reduceTelegraph = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
+export const putTelegraphsOntoQueueCard = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState) => {
     card.telegraphs = card.telegraphs || [];
     card.telegraphs.push(mechanic);
 }
@@ -28,7 +28,7 @@ export const checkTelegraph = (state: GameState) => {
         }
     })
     if (readied.length > 0) {
-        addReadiedToState(readied, state);
+        readied.forEach(reaEff => state.readiedEffects[reaEff.card.player].push(reaEff))
         throw ControlEnum.NEW_EFFECTS;
     }
 }
@@ -38,8 +38,7 @@ const filterTelegraphs = (card: Card, state: GameState) => {
     let telegraphs = card.telegraphs || [];
     const [happenningTelegraphs, remainingTelegraphs] = splitArray(telegraphs, (mech) => mechReqsMet(mech, card.opponent, card.player, state))
     happenningTelegraphs.forEach((mech) => {
-        const mechEffs = mechanicsToReadiedEffects(mech.mechanicEffects, card, state);
-        readied.push({ mechanic: mech, card, isEventOnly: true, isHappening: true })
+        const mechEffs = readyEffects(mech.effects, card, state);
         readied.push(...mechEffs)
     })
     card.telegraphs = remainingTelegraphs;

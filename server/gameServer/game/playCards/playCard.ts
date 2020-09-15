@@ -1,15 +1,21 @@
 import { cardHappens } from "./cardHappens";
 import { ControlEnum } from "../../errors";
-import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
-import { canUseOptional } from "./requirements";
-import { Mechanic, Card } from "../../../shared/card";
-import { mechanicsToReadiedEffects } from "../readiedEffects";
-import { playersMakeChoices } from "./playerInput";
+import { GameState } from "../../interfaces/stateInterface";
+import { Card, MechanicEnum } from "../../../shared/card";
+import { readyEffects, readyMechanics } from "../readiedEffects";
+import { playersPredictAndPickCards, playersMakeCardChoices } from "./playerInput";
 import { markAxisChanges } from "../mechanics/predict";
+import { getEnhancementsFromCard } from "../mechanics/enhance";
+import { splitArray } from "../../util";
+import { canUseCritical } from "../mechanics/critical";
+import { newCardEvent } from "../events";
 
 export const playCards = async (state: GameState) => {
     try {
-        await playersMakeChoices(state);
+        await playersPredictAndPickCards(state);
+        readyEffectsAndMechanics(state);
+        await playersMakeCardChoices(state); 
+        newCardEvent(state); //Processes readed effects and mechs
         markAxisChanges(state); //This is for predictions
         incrementQueue(state);
         addCardsToQueue(state);
@@ -25,40 +31,21 @@ export const playCards = async (state: GameState) => {
     }
 }
 
-export const getPlayerMechanicsReady = (playedBy: number, state: GameState)=>{
+export const readyEffectsAndMechanics = (state: GameState)=>{
+    state.agents.forEach((_, i)=> readyPlayerEffectsAndMechanics(state, i));
+}
+
+export const readyPlayerEffectsAndMechanics = (state: GameState, playedBy: number)=>{
     const card = state.pickedCards[playedBy]; 
     if(card === undefined || card === null){
         return; 
     }
-    const { optional = [], effects = [], enhancements = [], player, opponent } = card;
-        const validOptEff: Mechanic[] = optional.filter((reqEff) => canUseOptional(reqEff, player, opponent, state))
-            .reduce((effsArr, reqEffs) => {
-                effsArr.push(...reqEffs.effects);
-                return effsArr;
-            }, [])
-        const enhanceEffs = enhancements.reduce((effs: Mechanic[], { mechanics = [] }) => {
-            effs.push(...mechanics);
-            return effs;
-        }, [])
-        const allEffects: Mechanic[] = [...effects, ...validOptEff, ...enhanceEffs];
-        state.readiedEffects[playedBy] = [...state.readiedEffects[playedBy], ...mechanicsToReadiedEffects(allEffects, card, state)];
-}
-
-export const getMechanicsReady = (state: GameState) => {
-    state.pickedCards.forEach((card, playedBy) => {
-        const { optional = [], effects = [], enhancements = [], player, opponent } = card;
-        const validOptEff: Mechanic[] = optional.filter((reqEff) => canUseOptional(reqEff, player, opponent, state))
-            .reduce((effsArr, reqEffs) => {
-                effsArr.push(...reqEffs.effects);
-                return effsArr;
-            }, [])
-        const enhanceEffs = enhancements.reduce((effs: Mechanic[], { mechanics = [] }) => {
-            effs.push(...mechanics);
-            return effs;
-        }, [])
-        const allEffects: Mechanic[] = [...effects, ...validOptEff, ...enhanceEffs];
-        state.readiedEffects[playedBy] = mechanicsToReadiedEffects(allEffects, card, state);
-    })
+    const { effects = [], mechanics = [], enhancements = [], player, opponent } = card;
+        let [criticals, nonCritMechs] = splitArray(mechanics, (mech)=> mech.mechanic === MechanicEnum.CRITICAL)
+        criticals = criticals.filter(mech => canUseCritical(mech, playedBy, opponent, state))
+        const enhanceEffects = getEnhancementsFromCard(card); 
+        state.readiedMechanics[playedBy]= [...state.readiedMechanics[playedBy], ...readyMechanics(criticals, card), ...readyMechanics(nonCritMechs, card)]; 
+        state.readiedEffects[playedBy] = [...state.readiedEffects[playedBy], ...readyEffects(effects, card, state), ...readyEffects(enhanceEffects, card, state)];
 }
 
 

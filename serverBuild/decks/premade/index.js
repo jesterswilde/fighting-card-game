@@ -20,7 +20,7 @@ const deckBoxer_1 = require("./deckBoxer");
 const deckJester_1 = require("./deckJester");
 const deckHunter_1 = require("./deckHunter");
 const db_1 = require("../../db");
-const testDeck = ['IsFresh', 'IsFresh', 'IsFresh'];
+const testDeck = ["IsFresh", "IsFresh", "IsFresh"];
 exports.decks = [
     deckGrapple_1.grappleDeck,
     deckHighGround_1.highGroundDeck,
@@ -32,35 +32,43 @@ exports.decks = [
     deckJester_1.jesterDeck,
     deckBoxer_1.boxerDeck,
     deckASDF_1.ASDFdeck,
-    { name: 'test', deckList: testDeck, description: "Test deck, don't click this" },
+    {
+        name: "test",
+        deckList: testDeck,
+        description: "Test deck, don't click this",
+    },
 ];
-exports.getDeckForViewer = (name) => {
+exports.getDeckForViewer = (name) => __awaiter(this, void 0, void 0, function* () {
     const deckObj = exports.decks.find((deck) => deck.name === name);
     if (!deckObj) {
         return null;
     }
-    const cards = exports.getDeck(deckObj);
+    const cards = yield exports.getDeck(deckObj);
+    console.log("cards", cards, "Deck Obj", deckObj);
     return {
         name: deckObj.name,
-        description: deckObj.description || 'No Description',
-        cards
+        description: deckObj.description || "No Description",
+        cards,
     };
-};
+});
 exports.getStandardDecks = () => {
-    return exports.decks.map((deck) => ({ name: deck.name, description: deck.description }));
+    return exports.decks.map((deck) => ({
+        name: deck.name,
+        description: deck.description,
+    }));
 };
 exports.getDeck = (deckSelection) => __awaiter(this, void 0, void 0, function* () {
     const deck = yield getDeckDescription(deckSelection);
     return filterDeck(deck);
 });
-const getDeckDescription = ({ name, id, isCustom }) => __awaiter(this, void 0, void 0, function* () {
+const getDeckDescription = ({ name, id, isCustom, }) => __awaiter(this, void 0, void 0, function* () {
     let deck;
     if (isCustom) {
         const deckDB = yield db_1.deckRepo.findOne({ id });
         if (!deckDB) {
             return null;
         }
-        deck = deckDB.toDeckDescription();
+        deck = deckDB.toDeck();
     }
     else {
         deck = exports.decks.find((deck) => deck.name === name);
@@ -71,13 +79,15 @@ const getDeckDescription = ({ name, id, isCustom }) => __awaiter(this, void 0, v
     return deck;
 });
 const filterDeck = (deck) => {
-    const filteredDeck = deck.deckList.map((name) => {
+    const filteredDeck = deck.deckList
+        .map((name) => {
         const card = Cards_1.allCards[name];
         if (!card) {
             console.log("error, card not found", name);
             return null;
         }
         return card;
-    }).filter((card) => card !== null);
+    })
+        .filter((card) => card !== null);
     return filteredDeck;
 };

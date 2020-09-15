@@ -26,15 +26,17 @@ exports.reducePredict = (mechanic, card, player, opponent, state) => {
 };
 exports.didPredictionHappen = (prediction, player, state) => {
     switch (prediction.prediction) {
-        case (stateInterface_1.PredictionEnum.DISTANCE):
+        case stateInterface_1.PredictionEnum.DISTANCE:
             return state.modifiedAxis[player].distance;
-        case (stateInterface_1.PredictionEnum.MOTION):
+        case stateInterface_1.PredictionEnum.MOTION:
             return state.modifiedAxis[player].motion;
-        case (stateInterface_1.PredictionEnum.STANDING):
+        case stateInterface_1.PredictionEnum.STANDING:
             return state.modifiedAxis[player].standing;
-        case (stateInterface_1.PredictionEnum.NONE):
-            return !state.modifiedAxis[player].balance && !state.modifiedAxis[player].distance
-                && !state.modifiedAxis[player].motion && !state.modifiedAxis[player].standing;
+        case stateInterface_1.PredictionEnum.NONE:
+            return (!state.modifiedAxis[player].balance &&
+                !state.modifiedAxis[player].distance &&
+                !state.modifiedAxis[player].motion &&
+                !state.modifiedAxis[player].standing);
     }
     return false;
 };
@@ -47,7 +49,12 @@ exports.checkPredictions = (state) => {
             stateChanged = true;
             readiedEffects_1.addReadiedToState(pred.readiedEffects, state);
         }
-        return { didHappen, prediction: pred.prediction, player, targetPlayer: pred.targetPlayer };
+        return {
+            didHappen,
+            prediction: pred.prediction,
+            player,
+            targetPlayer: pred.targetPlayer
+        };
     });
     exports.addRevealPredictionEvent(predEvents, state);
     state.predictions = [];
@@ -98,13 +105,21 @@ exports.getCorrectGuessArray = (targetPlayer, state) => {
     return correctGuesses;
 };
 exports.addRevealPredictionEvent = (predEvents, state) => {
-    const hasEvents = predEvents.some((a) => a !== undefined && a !== null);
+    const hasEvents = predEvents.some(a => a !== undefined && a !== null);
     if (hasEvents) {
         const playerEvents = predEvents.map((predEvent, player) => {
             const correctGuesses = exports.getCorrectGuessArray(predEvent.targetPlayer, state);
-            return { type: gameEvent_1.EventTypeEnum.REVEAL_PREDICTION, correct: predEvent.didHappen, prediction: predEvent.prediction, correctGuesses };
+            return {
+                eventType: gameEvent_1.EventTypeEnum.REVEAL_PREDICTION,
+                correct: predEvent.didHappen,
+                prediction: predEvent.prediction,
+                correctGuesses
+            };
         });
-        state.events.push({ type: gameEvent_1.EventTypeEnum.PREDICTION_SECTION, events: playerEvents });
+        state.events.push({
+            eventType: gameEvent_1.EventTypeEnum.PREDICTION_SECTION,
+            gameEvents: playerEvents
+        });
     }
 };
 //SOCKET SECTION

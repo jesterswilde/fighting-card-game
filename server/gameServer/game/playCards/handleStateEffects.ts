@@ -1,6 +1,6 @@
 import { ReadiedEffect, GameState, HappensEnum, DistanceEnum } from "../../interfaces/stateInterface";
 import { getSortOrder } from "../../../shared/sortOrder";
-import { reduceStateChangeReaEff } from "./effectHappens";
+import { handleReadiedEffects } from "./effectHappens";
 import { splitArray } from "../../util";
 import { AxisEnum } from "../../../shared/card";
 import { calculatePriority } from "../mechanics/priority";
@@ -16,7 +16,7 @@ export const applyStateEffects = (state: GameState) => {
     markConflicts(stateReaEffs, state);
     stateReaEffs.forEach((playerEffs) => {
         playerEffs.forEach((reaEff) => {
-            reduceStateChangeReaEff(reaEff, state)
+            handleReadiedEffects(reaEff, state)
         })
     });
 }
@@ -24,20 +24,26 @@ export const applyStateEffects = (state: GameState) => {
 const getStateReaEffs = (state: GameState) => {
     const stateReaEffs: ReadiedEffect[][] = [];
     state.readiedEffects = state.readiedEffects.map((playerEffect, index) => {
-        const [stateEffects, unused] = splitArray(playerEffect, (reaEff) => reaEff.mechanic.mechanic === undefined)
+        const [stateEffects, unused] = splitArray(playerEffect, ({effect: {axis}}) => isStateAxis(axis))
         stateReaEffs[index] = stateEffects;
         return unused;
     })
     return stateReaEffs;
 }
 
+const stateAxisSet = new Set([AxisEnum.MOVING, AxisEnum.STILL, AxisEnum.PRONE, AxisEnum.STANCE, AxisEnum.GRAPPLED, AxisEnum.CLOSE, AxisEnum.FAR, AxisEnum.FURTHER, AxisEnum.CLOSER])
+
+const isStateAxis = (axis: AxisEnum)=>{
+    return stateAxisSet.has(axis); 
+}
+
 const markConflicts = (stateReaEffs: ReadiedEffect[][], state: GameState) => {
     const orderedPlayerObj: OrderPlayerObj = {};
     stateReaEffs.forEach((playerEffs, player) => {
-        [...playerEffs].reverse().forEach((reaEff) => { //reverse so later ones happen first
+        [...playerEffs].forEach((reaEff) => { 
             reaEff.happensTo.forEach((happensEnum, targetPlayer) => {
                 if (happensEnum === HappensEnum.HAPPENS) {
-                    const order = getSortOrder(reaEff.mechanic.axis);
+                    const order = getSortOrder(reaEff.effect.axis);
                     orderedPlayerObj[order] = orderedPlayerObj[order] || {};
                     const alreadyAffected = orderedPlayerObj[order][targetPlayer];
                     if (alreadyAffected === undefined) { //Nothing has affected this before
@@ -55,7 +61,7 @@ const markConflicts = (stateReaEffs: ReadiedEffect[][], state: GameState) => {
 }
 
 const handleConflict = (reaEffA: ReadiedEffect, reaEffB: ReadiedEffect, targetPlayer: number, state: GameState) => {
-    if (checkEquality(reaEffA.mechanic.axis, reaEffB.mechanic.axis, state)) return;
+    if (checkEquality(reaEffA.effect.axis, reaEffB.effect.axis, state)) return;
     const priorityA = calculatePriority(reaEffA.card, reaEffA.card.player, state); 
     const priorityB = calculatePriority(reaEffB.card, reaEffB.card.player, state); 
     if (priorityA > priorityB) {
@@ -66,6 +72,7 @@ const handleConflict = (reaEffA: ReadiedEffect, reaEffB: ReadiedEffect, targetPl
         reaEffA.happensTo[targetPlayer] = HappensEnum.BLOCKED;
         return reaEffB;
     }
+    //They are equal, so block 'em both
     reaEffA.happensTo[targetPlayer] = HappensEnum.BLOCKED;
     reaEffB.happensTo[targetPlayer] = HappensEnum.BLOCKED;
     return reaEffA;

@@ -1,40 +1,24 @@
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
-import { MechanicEnum, Mechanic } from "../../../shared/card";
-import { mechanicsToReadiedEffects } from "../readiedEffects";
-import { Socket } from "socket.io";
-import { SocketEnum } from "../../../shared/socket";
+import { MechanicEnum, Mechanic, Effect } from "../../../shared/card";
+import { readyEffects } from "../readiedEffects";
+import { splitArray } from "../../util";
 
 /*
     A player is given a few choices by a card, and get to pick only one. 
 */
 
-export const playerPicksOne = async (player: number, state: GameState, { _waitForPlayerToChoose = waitForPlayerToChoose } = {}) => {
-    const { sockets } = state;
-    const playerEffects = state.readiedEffects[player] || [];
-    const pickedEffects: ReadiedEffect[] = [];
-    const unusedEffs: boolean[] = [];
-    for (let i = 0; i < playerEffects.length; i++) {
-        const { mechanic: effect, card, isEventOnly } = playerEffects[i]
-        if (effect.mechanic === MechanicEnum.PICK_ONE && !isEventOnly) {
-            const socket = sockets[player];
-            const choice = await _waitForPlayerToChoose(effect.choices, socket);
-            const picked = effect.choices[choice];
-            pickedEffects.push({ mechanic: effect, card, isEventOnly: true })
-            pickedEffects.push(...mechanicsToReadiedEffects(picked, card, state));
-            unusedEffs.push(false);
-        } else {
-            unusedEffs.push(true);
-        }
+export const playerPicksOne = async (player: number, state: GameState) => {
+    const { agents } = state;
+    const card = state.pickedCards[player];
+    const [pickedOne, unused] = splitArray(state.readiedMechanics[player], (reaMech => reaMech.mechanic.mechanic === MechanicEnum.PICK_ONE))
+    const pickedEffects: Effect[] = []; 
+    for (let i = 0; i < pickedOne.length; i++) {
+        const { mechanic, card, } = pickedOne[i]
+            const choice = await agents[player].getPickOneChoice(card.name, mechanic.index);
+            const picked = mechanic.choices[choice];
+            pickedEffects.push(...picked)
     }
-    state.readiedEffects[player] = playerEffects.filter((_, i) => unusedEffs[i]);
-    state.readiedEffects[player].push(...pickedEffects);
+    state.readiedMechanics[player] = unused; 
+    state.readiedEffects[player] = [...state.readiedEffects[player], ...readyEffects(pickedEffects, card, state)];
 }
 
-const waitForPlayerToChoose = (choices: Mechanic[][], player: Socket): Promise<number> => {
-    return new Promise((res, rej) => {
-        player.emit(SocketEnum.SHOULD_PICK_ONE, choices);
-        player.once(SocketEnum.PICKED_ONE, (choice: number) => {
-            res(choice);
-        })
-    })
-}

@@ -1,7 +1,7 @@
-import { Card, StatePiece, AxisEnum, RequirementEffect, Mechanic } from "../../../shared/card";
+import { Card, AxisEnum, Mechanic, Requirement, MechanicEnum } from "../../../shared/card";
 import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum } from "../../interfaces/stateInterface";
 import { BLOODIED_HP } from "../../gameSettings";
-import { playerEnumToPlayerArray } from "../../util";
+import { playerEnumToPlayerArray, getOpponent } from "../../util";
 import { ErrorEnum } from "../../errors";
 import { hasPoise } from "../poise";
 
@@ -9,22 +9,18 @@ export const canPlayCard = (card: Card, state: GameState): boolean => {
     if(card === undefined){
         throw ErrorEnum.NO_CARD
     }
-    const opponent = card.player === 1 ? 0 : 1; 
+    const opponent = getOpponent(card.player) 
     return card.requirements.every((req) => meetsRequirements(req, state, card.player, opponent));
 }
-export const canUseOptional = (reqs: RequirementEffect, player: number, opponent: number, state: GameState): boolean => {
-    return reqs.requirements.every((req) => {
-        return meetsRequirements(req, state, player, opponent)
-    });
-}
+
 export const mechReqsMet = (mech: Mechanic, opponent: number, player: number, state: GameState): boolean =>{
-    const reqs = mech.mechanicRequirements || []; 
+    const reqs = mech.requirements || []; 
     return reqs.every((req)=>{
         return meetsRequirements(req, state, player, opponent); 
     })
 }
 
-export const meetsRequirements = (req: StatePiece, state: GameState, player: number, opponent: number): boolean => {
+export const meetsRequirements = (req: Requirement, state: GameState, player: number, opponent: number): boolean => {
     try{
         const checkGlobal = globalAxis[req.axis];
         if (checkGlobal !== undefined) {
