@@ -1,0 +1,46 @@
+{
+  "name": "Find The Joint",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 6
+    },
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "effects": []
+    }
+  ],
+  "tags": []
+}

@@ -14,15 +14,13 @@ const getCards_1 = require("../playCards/getCards");
     Cripple currently uses a special lookup object. This can be found under the getCardByName function (../playCards/getCard)
     This is cuz I'm lazy and I didn't want to have an extra section on the card that said the name that will get printed, and a seperate section that had the name of the card
 */
-exports.reduceCripple = (mechanic, card, player, opponent, state, { _getCardByName = getCards_1.getCardByName } = {}) => __awaiter(this, void 0, void 0, function* () {
+exports.addCrippleCardToOpponentsDeck = (effect, card, player, opponent, state, { _getCardByName = getCards_1.getCardByName } = {}) => __awaiter(this, void 0, void 0, function* () {
     console.log("reducing cripple", player, opponent);
     const { decks } = state;
-    const { amount: cardName } = mechanic;
-    const deck = decks[opponent];
-    if (typeof cardName === 'string') {
-        const card = _getCardByName(cardName);
-        card.player = opponent;
-        card.opponent = player;
-        deck.push(card);
-    }
+    let crippleKey = effect.detail;
+    crippleKey = crippleKey.split(" ")[1]; //just turned "Cripple Leg" into leg which is the lookup key
+    const crippleCard = _getCardByName(crippleKey);
+    card.player = opponent;
+    card.opponent = player;
+    decks[opponent].push(crippleCard);
 });

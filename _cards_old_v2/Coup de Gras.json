@@ -1,0 +1,53 @@
+{
+  "name": "Coup de Gras",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": "Them"
+    },
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Unbalanced",
+      "player": "Them"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 17
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 4
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

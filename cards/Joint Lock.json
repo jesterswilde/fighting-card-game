@@ -1,0 +1,41 @@
+{
+  "name": "Joint Lock",
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 6
+    },
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 2
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

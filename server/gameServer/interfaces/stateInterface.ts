@@ -1,5 +1,4 @@
 import { Card, Mechanic, AxisEnum, PlayerEnum, Effect } from "../../shared/card";
-import { Socket } from "socket.io";
 import { EventAction } from "./gameEvent";
 import { Agent } from "../../agent";
 
@@ -47,7 +46,7 @@ export interface QueueCard{
 export interface HandCard{
   name: string
   activeCritical?: number[]
-  appendedEffects: Mechanic
+  appendedEffects?: Effect[]
 }
 
 export interface UnityGameState{

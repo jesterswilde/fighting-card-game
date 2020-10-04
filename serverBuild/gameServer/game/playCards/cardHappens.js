@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const effectHappens_1 = require("./effectHappens");
 const errors_1 = require("../../errors");
-const events_1 = require("../events");
 const telegraph_1 = require("../mechanics/telegraph");
 const reflex_1 = require("../mechanics/reflex");
 const focus_1 = require("../mechanics/focus");
@@ -14,19 +13,16 @@ const clutch_1 = require("../mechanics/clutch");
 const predict_1 = require("../mechanics/predict");
 exports.cardHappens = (state) => {
     try {
-        events_1.storeEffectsForEvents(state);
         collectDamage_1.collectBlockAndDamage(state);
         clutch_1.applyClutch(state);
         exports.applyPoise(state);
         handleStateEffects_1.applyStateEffects(state);
         exports.applyMechanics(state);
-        events_1.processPlayedCardEvents(state);
-        events_1.processEffectEvents(state);
-        exports.removeStoredEffects(state);
+        exports.clearReadiedEffectsAndMechanics(state);
         predict_1.checkPredictions(state);
-        reflex_1.checkReflex(state);
         telegraph_1.checkTelegraph(state);
         focus_1.checkFocus(state);
+        reflex_1.checkReflex(state);
         collectDamage_1.applyCollectedDamage(state);
         exports.checkForVictor(state);
     }
@@ -41,12 +37,13 @@ exports.cardHappens = (state) => {
     }
 };
 exports.applyMechanics = (state) => {
-    state.readiedEffects.forEach((playerEffects) => {
-        effectHappens_1.reduceMechanics(playerEffects, state);
+    state.readiedMechanics.forEach((reaMech) => {
+        effectHappens_1.handleReadiedMechanics(reaMech, state);
     });
 };
-exports.removeStoredEffects = (state) => {
+exports.clearReadiedEffectsAndMechanics = (state) => {
     state.readiedEffects = state.readiedEffects.map(() => []);
+    state.readiedMechanics = state.readiedMechanics.map(() => []);
 };
 exports.checkForVictor = (state) => {
     const { health } = state;
@@ -65,9 +62,9 @@ exports.checkForVictor = (state) => {
 };
 exports.applyPoise = (state) => {
     state.readiedEffects = state.readiedEffects.map((playerReaEffs, player) => {
-        const [poiseArr, unusedArr] = util_1.splitArray(playerReaEffs, ({ mechanic }) => mechanic.axis === card_1.AxisEnum.POISE || mechanic.axis === card_1.AxisEnum.LOSE_POISE);
+        const [poiseArr, unusedArr] = util_1.splitArray(playerReaEffs, ({ effect }) => effect.axis === card_1.AxisEnum.POISE || effect.axis === card_1.AxisEnum.LOSE_POISE);
         poiseArr.forEach((reaEff) => {
-            effectHappens_1.reduceStateChangeReaEff(reaEff, state);
+            effectHappens_1.handleReadiedEffects(reaEff, state);
         });
         return unusedArr;
     });

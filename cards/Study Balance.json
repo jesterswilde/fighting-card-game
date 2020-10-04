@@ -1,0 +1,52 @@
+{
+  "name": "Study Balance",
+  "priority": 2,
+  "requirements": [
+    {
+      "axis": "Still",
+      "player": "Me"
+    },
+    {
+      "axis": "Fresh",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Prone",
+          "player": "Both"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 7
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

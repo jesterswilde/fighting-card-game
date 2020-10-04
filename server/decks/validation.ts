@@ -1,9 +1,8 @@
 import { deckRepo } from "../db";
 import { DBUser } from "../db/entities/user";
-import { allCards } from "../cards/Cards";
 import { ErrorEnum } from "../error";
-import { getFightingStyleByName, getAllFightingStylesArr } from "../styles";
-import { sortCard } from "../shared/sortOrder";
+import { getAllFightingStylesArr } from "../styles";
+
 
 
 let styleByCard: {[cardName: string]: string} = null;

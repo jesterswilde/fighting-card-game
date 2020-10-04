@@ -1,0 +1,43 @@
+{
+  "name": "Crush",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Anticipating",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 5
+    },
+    {
+      "axis": "Setup",
+      "amount": 4
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

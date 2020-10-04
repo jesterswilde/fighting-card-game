@@ -1,0 +1,59 @@
+{
+  "name": "Circle Opponent",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Grappled",
+          "player": "Both"
+        },
+        {
+          "axis": "Balanced",
+          "player": "Me"
+        },
+        {
+          "axis": "Prone",
+          "player": "Both"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 18
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

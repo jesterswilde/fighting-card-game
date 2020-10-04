@@ -1,0 +1,60 @@
+{
+  "name": "Throat Jab",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 6
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 6
+        },
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

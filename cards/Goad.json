@@ -1,0 +1,47 @@
+{
+  "name": "Goad",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 3
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Damage",
+          "player": "Me"
+        },
+        {
+          "axis": "Balanced",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Reflex"
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

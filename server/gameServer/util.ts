@@ -1,6 +1,6 @@
 import { GameState, PlayerState, DistanceEnum, StandingEnum, MotionEnum, ModifiedAxis } from "./interfaces/stateInterface";
 import { STARTING_POISE } from "./gameSettings";
-import { Card, AxisEnum, PlayerEnum, Mechanic, MechanicEnum, Effect } from "../shared/card";
+import { Card, AxisEnum, PlayerEnum, Mechanic, MechanicEnum, Effect, Requirement } from "../shared/card";
 
 export const getOpponent = (player: number): number => {
     return player === 1 ? 0 : 1;
@@ -28,11 +28,10 @@ export const makeBlankCard = (): Card => {
     }
 }
 
-export const makeRequirement = (): StatePiece => {
+export const makeRequirement = (): Requirement => {
     return {
         axis: AxisEnum.CLOSE,
         player: PlayerEnum.BOTH,
-        amount: 0,
     };
 }
 
@@ -43,7 +42,7 @@ export const makeEffect = (): Effect => {
         amount: 0
     }
 }
-
+/*
 export const makeTestingGameState = (): GameState => {
     return {
         agents: [],
@@ -72,7 +71,7 @@ export const makeTestingGameState = (): GameState => {
         predictions: [],
         pendingPredictions: [],
     }
-}
+}*/
 
 export const makeModifiedAxis = (): ModifiedAxis => {
     return {
@@ -131,17 +130,4 @@ export const uniqByReverse = <T>(arr: T[], by: (value: T) => string | number): T
         }
     }
     return reverseArr.reverse();
-}
-
-export const consolidateMechanics = (mechs: Mechanic[]): Mechanic[] => {
-    return deepCopy(mechs).reduce((arr: Mechanic[], mech) => {
-        const matchingMech = arr.find((testMech) => testMech.axis === mech.axis && testMech.player === mech.player &&
-            ((testMech.mechanic === MechanicEnum.BLOCK && mech.mechanic === MechanicEnum.BLOCK) || (testMech.mechanic === undefined && mech.mechanic === undefined)));
-        if (matchingMech !== undefined && typeof matchingMech.amount === 'number' && typeof mech.amount === 'number') {
-            matchingMech.amount += mech.amount;
-        } else {
-            arr.push(mech);
-        }
-        return arr;
-    }, [])
 }

@@ -1,0 +1,64 @@
+{
+  "name": "Going For The High Ground",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Them"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Prone",
+          "player": "Them"
+        },
+        {
+          "axis": "Standing",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 12
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Forceful",
+      "amount": 1,
+      "effects": [
+        {
+          "axis": "Block",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

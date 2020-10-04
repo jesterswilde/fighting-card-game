@@ -7,13 +7,13 @@ const card_1 = require("../../../shared/card");
 */
 exports.collectParry = (state) => {
     const parryArrs = [];
-    state.readiedEffects = state.readiedEffects.map((playerEff, index) => {
-        const [hasParry, unused] = util_1.splitArray(playerEff, (reaEff) => reaEff.mechanic.mechanic === card_1.MechanicEnum.PARRY);
-        parryArrs[index] = hasParry;
+    state.readiedEffects = state.readiedEffects.map((readiedEffect, playerIndex) => {
+        const [parryEffects, unused] = util_1.splitArray(readiedEffect, (reaEff) => reaEff.effect.axis === card_1.AxisEnum.PARRY);
+        parryArrs[playerIndex] = parryEffects;
         return unused;
     });
     const parry = parryArrs.map((arr) => {
-        return arr.reduce((total, { mechanic: { amount = 0 } }) => total + Number(amount), 0);
+        return arr.reduce((total, { effect: { amount = 0 } }) => total + Number(amount), 0);
     });
     parry.forEach((amount, index) => state.parry[index] += amount);
 };

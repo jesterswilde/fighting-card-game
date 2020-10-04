@@ -23,27 +23,6 @@ export const sendState = (state: GameState) => {
     state.agents.forEach(agent =>{
         agent.sendState(state) 
     })
-    /*
-    const sendState = {
-        playerStates: state.playerStates,
-        stateDurations: state.stateDurations,
-        block: state.block,
-        queue: state.queue,
-        distance: state.distance,
-        health: state.health,
-        damaged: state.damaged,
-        predictions: state.predictions.map((pred) => stripCardForPred(pred)),
-        turnNumber: state.turnNumber
-    }
-    state.agents.forEach((agent, player) => {
-        const stateToSend = deepCopy(sendState);
-        if (stateToSend.predictions[player]) {
-            stateToSend.predictions[player].prediction = null;
-        }
-        agent.sendState(stateToSend); 
-    })
-    */
-
 }
 /*
 const stripCardForPred = (pred: PredictionState) => {

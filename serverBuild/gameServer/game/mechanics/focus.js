@@ -10,7 +10,7 @@ const queue_1 = require("../queue");
     If the requirement is met, the effect happens.
     Active focus lives on the card, it is removed when the card is put into the queue.
 */
-exports.reduceFocus = (mechanic, card, player, opponent, state) => {
+exports.putFocusesOntoQueueCard = (mechanic, card, player, opponent, state) => {
     card.focuses = card.focuses || [];
     card.focuses.push(mechanic);
 };
@@ -23,21 +23,21 @@ exports.checkFocus = (state) => {
     const readied = [];
     queue_1.forEachCardInQueue(state, (card) => {
         if (card.focuses) {
-            const focusEffects = getReadiedFromCard(card, state);
+            const focusEffects = readyFocusEffects(card, state);
             readied.push(...focusEffects);
         }
     });
     if (readied.length > 0) {
-        readiedEffects_1.addReadiedToState(readied, state);
+        readied.forEach(reaEff => state.readiedEffects[reaEff.card.player].push(reaEff));
         modifiedState = true;
         throw errors_1.ControlEnum.NEW_EFFECTS;
     }
 };
-const getReadiedFromCard = (card, state) => {
+const readyFocusEffects = (card, state) => {
     return card.focuses
         .filter((mech) => requirements_1.mechReqsMet(mech, card.opponent, card.player, state))
         .reduce((readied, mech) => {
-        const readiedEff = readiedEffects_1.mechanicsToReadiedEffects(mech.mechanicEffects, card, state);
+        const readiedEff = readiedEffects_1.readyEffects(mech.effects, card, state);
         readied.push(...readiedEff);
         return readied;
     }, []);

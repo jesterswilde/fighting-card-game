@@ -5,9 +5,9 @@ import { EventAction } from "../gameServer/interfaces/gameEvent";
 export interface AgentBase {
     username: string,
     deck?: Card[],
-    startGame: (playerIndex: number)=> void,
+    startGame: (index: number)=> void,
     gameOver: ()=>void,
-    sendState: (gameState: GameState)=> void,
+    sendState: (state: GameState)=> void,
     sendHand: (cards: Card[][])=> void,
     sendEvents: (events: EventAction[][])=> void,
     getCardChoice: ()=>Promise<number>,

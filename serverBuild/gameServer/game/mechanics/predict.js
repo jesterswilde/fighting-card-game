@@ -12,16 +12,15 @@ const card_1 = require("../../../shared/card");
 const stateInterface_1 = require("../../interfaces/stateInterface");
 const readiedEffects_1 = require("../readiedEffects");
 const errors_1 = require("../../errors");
-const gameEvent_1 = require("../../interfaces/gameEvent");
-const socket_1 = require("../../../shared/socket");
+const events_1 = require("../events");
 /*
     Predictions are made on the turn after you play the card with prediction, but before the new card is playd.
     Card with prediction played > Results > Make prediction > Next card
     Predictions live on gamestate
 */
-exports.reducePredict = (mechanic, card, player, opponent, state) => {
+exports.movePredictionsToPending = (mechanic, card, player, opponent, state) => {
     state.pendingPredictions[card.player] = state.pendingPredictions[card.player] || { readiedEffects: [], targetPlayer: opponent };
-    const reaEffs = readiedEffects_1.mechanicsToReadiedEffects(mechanic.mechanicEffects, card, state);
+    const reaEffs = readiedEffects_1.readyEffects(mechanic.effects, card, state);
     state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
 };
 exports.didPredictionHappen = (prediction, player, state) => {
@@ -38,7 +37,6 @@ exports.didPredictionHappen = (prediction, player, state) => {
                 !state.modifiedAxis[player].motion &&
                 !state.modifiedAxis[player].standing);
     }
-    return false;
 };
 exports.checkPredictions = (state) => {
     const { predictions } = state;
@@ -47,25 +45,26 @@ exports.checkPredictions = (state) => {
         const didHappen = exports.didPredictionHappen(pred, pred.targetPlayer, state);
         if (didHappen) {
             stateChanged = true;
-            readiedEffects_1.addReadiedToState(pred.readiedEffects, state);
+            state.readiedEffects[player].push(...pred.readiedEffects);
         }
         return {
             didHappen,
             prediction: pred.prediction,
             player,
-            targetPlayer: pred.targetPlayer
+            targetPlayer: pred.targetPlayer,
+            correctGuesses: exports.getCorrectGuessArray(pred.targetPlayer, state)
         };
     });
-    exports.addRevealPredictionEvent(predEvents, state);
-    state.predictions = [];
+    if (predictions.some(pred => pred !== null || pred !== undefined))
+        events_1.predictionRevealEvent(predEvents, state);
     if (stateChanged) {
         throw errors_1.ControlEnum.NEW_EFFECTS;
     }
 };
-const markAxisChange = (mechanic, card, state) => {
+const markAxisChange = (effect, card, state) => {
     const { player } = card;
     const axisObj = state.modifiedAxis[player];
-    switch (mechanic.axis) {
+    switch (effect.axis) {
         case card_1.AxisEnum.MOVING:
         case card_1.AxisEnum.STILL:
             axisObj.motion = true;
@@ -86,8 +85,8 @@ const markAxisChange = (mechanic, card, state) => {
 exports.markAxisChanges = (state) => {
     if (state.readiedEffects) {
         state.readiedEffects.forEach((playerEffect = []) => {
-            playerEffect.forEach(({ mechanic, card }) => {
-                markAxisChange(mechanic, card, state);
+            playerEffect.forEach(({ effect, card }) => {
+                markAxisChange(effect, card, state);
             });
         });
     }
@@ -104,38 +103,10 @@ exports.getCorrectGuessArray = (targetPlayer, state) => {
         correctGuesses.push(stateInterface_1.PredictionEnum.NONE);
     return correctGuesses;
 };
-exports.addRevealPredictionEvent = (predEvents, state) => {
-    const hasEvents = predEvents.some(a => a !== undefined && a !== null);
-    if (hasEvents) {
-        const playerEvents = predEvents.map((predEvent, player) => {
-            const correctGuesses = exports.getCorrectGuessArray(predEvent.targetPlayer, state);
-            return {
-                eventType: gameEvent_1.EventTypeEnum.REVEAL_PREDICTION,
-                correct: predEvent.didHappen,
-                prediction: predEvent.prediction,
-                correctGuesses
-            };
-        });
-        state.events.push({
-            eventType: gameEvent_1.EventTypeEnum.PREDICTION_SECTION,
-            gameEvents: playerEvents
-        });
-    }
-};
 //SOCKET SECTION
-exports.playerMakesPredictions = (player, state, { _getPredictions = getPredictions } = {}) => __awaiter(this, void 0, void 0, function* () {
-    const { predictions, sockets } = state;
-    const prediction = predictions[player];
-    const socket = sockets[player];
-    if (!prediction)
-        return;
-    prediction.prediction = yield _getPredictions(state, socket);
+exports.playerMakesPredictions = (player, state) => __awaiter(this, void 0, void 0, function* () {
+    const { predictions, agents } = state;
+    const predictionObj = predictions[player];
+    if (predictionObj)
+        predictionObj.prediction = yield agents[player].getPrediction();
 });
-const getPredictions = (state, socket) => {
-    return new Promise((res, rej) => {
-        socket.emit(socket_1.SocketEnum.SHOULD_PREDICT);
-        socket.once(socket_1.SocketEnum.MADE_PREDICTION, (prediction) => {
-            res(prediction);
-        });
-    });
-};

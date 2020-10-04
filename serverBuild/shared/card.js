@@ -26,25 +26,25 @@ var AxisEnum;
     AxisEnum["POISE"] = "Poise";
     AxisEnum["LOSE_POISE"] = "Lose Poise";
     AxisEnum["STANCE"] = "Stance";
+    AxisEnum["PARRY"] = "Parry";
+    AxisEnum["BLOCK"] = "Block";
+    AxisEnum["REFLEX"] = "Reflex";
+    AxisEnum["CLUTCH"] = "Clutch";
+    AxisEnum["SETUP"] = "Setup";
+    AxisEnum["RIGID"] = "Rigid";
+    AxisEnum["FLUID"] = "Fluid";
+    AxisEnum["CRIPPLE"] = "Cripple";
+    AxisEnum["BUFF"] = "Buff";
 })(AxisEnum = exports.AxisEnum || (exports.AxisEnum = {}));
 var MechanicEnum;
 (function (MechanicEnum) {
     MechanicEnum["TELEGRAPH"] = "Telegraph";
     MechanicEnum["FOCUS"] = "Focus";
     MechanicEnum["PREDICT"] = "Predict";
-    MechanicEnum["PARRY"] = "Parry";
-    MechanicEnum["BLOCK"] = "Block";
-    MechanicEnum["LOCK"] = "Lock";
-    MechanicEnum["REFLEX"] = "Reflex";
-    MechanicEnum["BUFF"] = "Buff";
-    MechanicEnum["CRIPPLE"] = "Cripple";
     MechanicEnum["PICK_ONE"] = "Pick One";
     MechanicEnum["FORCEFUL"] = "Forceful";
     MechanicEnum["ENHANCE"] = "Enhance";
-    MechanicEnum["CLUTCH"] = "Clutch";
-    MechanicEnum["SETUP"] = "Setup";
-    MechanicEnum["RIGID"] = "Rigid";
-    MechanicEnum["FLUID"] = "Fluid";
+    MechanicEnum["CRITICAL"] = "Critical";
 })(MechanicEnum = exports.MechanicEnum || (exports.MechanicEnum = {}));
 exports.getMechDisplay = (mech) => {
     const defaultValue = { state: true, value: true };
@@ -61,19 +61,9 @@ const MechanicDisplay = {
     [MechanicEnum.TELEGRAPH]: { req: true, eff: true },
     [MechanicEnum.FOCUS]: { req: true, eff: true },
     [MechanicEnum.PREDICT]: { eff: true },
-    [MechanicEnum.BUFF]: { valueString: true, eff: true },
     [MechanicEnum.ENHANCE]: { valueString: true, eff: true },
-    [MechanicEnum.BLOCK]: { value: true },
-    [MechanicEnum.PARRY]: { value: true },
-    [MechanicEnum.LOCK]: { state: true, value: true },
-    [MechanicEnum.REFLEX]: {},
-    [MechanicEnum.CRIPPLE]: { valueString: true },
     [MechanicEnum.PICK_ONE]: { pick: true },
     [MechanicEnum.FORCEFUL]: { value: true, eff: true },
-    [MechanicEnum.CLUTCH]: { value: true },
-    [MechanicEnum.SETUP]: { value: true },
-    [MechanicEnum.FLUID]: { player: true, value: true },
-    [MechanicEnum.RIGID]: { player: true, value: true },
 };
 var PlayerEnum;
 (function (PlayerEnum) {

@@ -1,0 +1,57 @@
+{
+  "name": "Grand Setup",
+  "priority": 9,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": "Both"
+    },
+    {
+      "axis": "Moving",
+      "player": "Them",
+      "amount": 3
+    },
+    {
+      "axis": "Setup",
+      "amount": 4
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Grappled",
+          "player": "Both"
+        },
+        {
+          "axis": "Prone",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Reflex"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Forceful",
+      "amount": 2,
+      "effects": []
+    }
+  ],
+  "tags": []
+}

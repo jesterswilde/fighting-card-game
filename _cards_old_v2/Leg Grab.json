@@ -1,0 +1,34 @@
+{
+  "name": "Leg Grab",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Close",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Prone",
+          "player": "Them",
+          "amount": 4
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

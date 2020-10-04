@@ -1,5 +1,6 @@
-import { makeTestingGameState, makeBlankCard } from "../../util";
-import { StatePiece, AxisEnum, PlayerEnum, Card } from "../../../shared/card";
+/*
+import { makeBlankCard } from "../../util";
+import { AxisEnum, PlayerEnum, Card } from "../../../shared/card";
 import { meetsRequirements, canPlayCard } from "./requirements";
 import { GameState, DistanceEnum } from "../../interfaces/stateInterface";
 
@@ -58,3 +59,5 @@ describe('Requirements', () => {
         })
     })
 })
+
+*/

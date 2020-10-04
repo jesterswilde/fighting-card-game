@@ -9,18 +9,59 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const errors_1 = require("../errors");
-const socket_1 = require("../../shared/socket");
-const socket_2 = require("./socket");
+const send_1 = require("./send");
 const playCard_1 = require("./playCards/playCard");
 const startTurn_1 = require("./startTurn");
 const endTurn_1 = require("./endTurn");
 const util_1 = require("../util");
 const endGame_1 = require("./endGame");
+/*
+    Game Start - get decks
+    Game Loop
+        Turn
+            Shuffle
+            Make Predicitons //Await
+            Draw Cards //Send
+                Add Enhancements
+                Add Buffs
+                Modify hand size based on Fluid / Rigid
+            Pick Card //Await  --Reflex Jumps to here
+            Make Choices //Await
+            Return Unpicked Cards
+            Collect Effects and Mechanics
+            Card Happens
+                Gather Effects
+                        Omit Criticals with unmet reqs
+                        Store Mechanics On Card (Predict, Telegraph, Focus)
+                        Mark Axis for predictions
+                Move Cards Up in Queue
+                Picked Card is put onto Queue //Send X
+                Apply Effects  --Telegaph and Focus jump to here
+                    Apply effects
+                    Remove Stored Effects
+                    Victory?
+                        End Game //Send
+                    Check Predictions
+                        Apply Effects
+                    Telegraph?
+                        Apply Effects
+                    Focus?
+                        Apply Effects
+                    Reflex?
+                        Shuffle
+                        Card Happens
+            Remove Old Cards From Queue?
+            Turn End
+                Decrement Counters
+*/
 exports.playGame = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
         startGame(state);
+        console.log("Game has started");
         while (true) {
+            console.log("Entering Play Turn");
             yield exports.playTurn(state);
+            console.log("Exiting play turn");
         }
     }
     catch (err) {
@@ -35,13 +76,15 @@ exports.playGame = (state) => __awaiter(this, void 0, void 0, function* () {
 const startGame = (state) => {
     console.log("Game starting", state);
     assignPlayerToDecks(state);
-    socket_2.sendState(state);
-    state.sockets.forEach((socket, i) => {
-        socket.emit(socket_1.SocketEnum.START_GAME, { player: i });
+    console.log("Assigned players");
+    send_1.sendState(state);
+    console.log("Sent state");
+    state.agents.forEach((agent, i) => {
+        agent.startGame(i);
     });
 };
 exports.playTurn = (state) => __awaiter(this, void 0, void 0, function* () {
-    socket_2.sendState(state);
+    send_1.sendState(state);
     yield startTurn_1.startTurn(state);
     yield playCard_1.playCards(state);
     endTurn_1.endTurn(state);
@@ -50,7 +93,7 @@ const assignPlayerToDecks = (state) => {
     for (let player = 0; player < state.decks.length; player++) {
         const deck = state.decks[player];
         for (let i = 0; i < deck.length; i++) {
-            if (typeof deck[i] !== 'object') {
+            if (typeof deck[i] !== "object") {
                 console.log("Missing card", deck[i]);
             }
             else {

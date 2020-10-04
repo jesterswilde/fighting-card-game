@@ -1,0 +1,39 @@
+{
+  "name": "Spring Trap",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Prone",
+      "player": "Me"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 5
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "requirements": [
+        {
+          "axis": "Damage",
+          "player": "Them"
+        }
+      ],
+      "effects": []
+    }
+  ],
+  "tags": []
+}

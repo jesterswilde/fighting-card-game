@@ -10,16 +10,11 @@ exports.canPlayCard = (card, state) => {
     if (card === undefined) {
         throw errors_1.ErrorEnum.NO_CARD;
     }
-    const opponent = card.player === 1 ? 0 : 1;
+    const opponent = util_1.getOpponent(card.player);
     return card.requirements.every((req) => exports.meetsRequirements(req, state, card.player, opponent));
 };
-exports.canUseOptional = (reqs, player, opponent, state) => {
-    return reqs.requirements.every((req) => {
-        return exports.meetsRequirements(req, state, player, opponent);
-    });
-};
 exports.mechReqsMet = (mech, opponent, player, state) => {
-    const reqs = mech.mechanicRequirements || [];
+    const reqs = mech.requirements || [];
     return reqs.every((req) => {
         return exports.meetsRequirements(req, state, player, opponent);
     });

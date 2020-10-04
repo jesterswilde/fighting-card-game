@@ -10,13 +10,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const cardHappens_1 = require("./cardHappens");
 const errors_1 = require("../../errors");
-const requirements_1 = require("./requirements");
+const card_1 = require("../../../shared/card");
 const readiedEffects_1 = require("../readiedEffects");
 const playerInput_1 = require("./playerInput");
 const predict_1 = require("../mechanics/predict");
+const enhance_1 = require("../mechanics/enhance");
+const util_1 = require("../../util");
+const critical_1 = require("../mechanics/critical");
+const events_1 = require("../events");
 exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
-        yield playerInput_1.playersMakeChoices(state);
+        yield playerInput_1.playersPredictAndPickCards(state);
+        exports.readyEffectsAndMechanics(state);
+        yield playerInput_1.playersMakeCardChoices(state);
+        events_1.newCardEvent(state); //Processes readed effects and mechs
         predict_1.markAxisChanges(state); //This is for predictions
         exports.incrementQueue(state);
         exports.addCardsToQueue(state);
@@ -33,39 +40,20 @@ exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
         }
     }
 });
-exports.getPlayerMechanicsReady = (playedBy, state) => {
+exports.readyEffectsAndMechanics = (state) => {
+    state.agents.forEach((_, i) => exports.readyPlayerEffectsAndMechanics(state, i));
+};
+exports.readyPlayerEffectsAndMechanics = (state, playedBy) => {
     const card = state.pickedCards[playedBy];
     if (card === undefined || card === null) {
         return;
     }
-    const { optional = [], effects = [], enhancements = [], player, opponent } = card;
-    const validOptEff = optional.filter((reqEff) => requirements_1.canUseOptional(reqEff, player, opponent, state))
-        .reduce((effsArr, reqEffs) => {
-        effsArr.push(...reqEffs.effects);
-        return effsArr;
-    }, []);
-    const enhanceEffs = enhancements.reduce((effs, { mechanics = [] }) => {
-        effs.push(...mechanics);
-        return effs;
-    }, []);
-    const allEffects = [...effects, ...validOptEff, ...enhanceEffs];
-    state.readiedEffects[playedBy] = [...state.readiedEffects[playedBy], ...readiedEffects_1.mechanicsToReadiedEffects(allEffects, card, state)];
-};
-exports.getMechanicsReady = (state) => {
-    state.pickedCards.forEach((card, playedBy) => {
-        const { optional = [], effects = [], enhancements = [], player, opponent } = card;
-        const validOptEff = optional.filter((reqEff) => requirements_1.canUseOptional(reqEff, player, opponent, state))
-            .reduce((effsArr, reqEffs) => {
-            effsArr.push(...reqEffs.effects);
-            return effsArr;
-        }, []);
-        const enhanceEffs = enhancements.reduce((effs, { mechanics = [] }) => {
-            effs.push(...mechanics);
-            return effs;
-        }, []);
-        const allEffects = [...effects, ...validOptEff, ...enhanceEffs];
-        state.readiedEffects[playedBy] = readiedEffects_1.mechanicsToReadiedEffects(allEffects, card, state);
-    });
+    const { effects = [], mechanics = [], enhancements = [], player, opponent } = card;
+    let [criticals, nonCritMechs] = util_1.splitArray(mechanics, (mech) => mech.mechanic === card_1.MechanicEnum.CRITICAL);
+    criticals = criticals.filter(mech => critical_1.canUseCritical(mech, playedBy, opponent, state));
+    const enhanceEffects = enhance_1.getEnhancementsFromCard(card);
+    state.readiedMechanics[playedBy] = [...state.readiedMechanics[playedBy], ...readiedEffects_1.readyMechanics(criticals, card), ...readiedEffects_1.readyMechanics(nonCritMechs, card)];
+    state.readiedEffects[playedBy] = [...state.readiedEffects[playedBy], ...readiedEffects_1.readyEffects(effects, card, state), ...readiedEffects_1.readyEffects(enhanceEffects, card, state)];
 };
 exports.incrementQueue = (state) => {
     const { queue } = state;

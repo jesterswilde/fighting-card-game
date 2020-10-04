@@ -13,9 +13,9 @@ exports.collectBlockAndDamage = (state) => {
 };
 exports.collectDamage = (state) => {
     state.readiedEffects = state.readiedEffects.map((playerEff, player) => {
-        const [damageEffectsPlayer, otherEffects] = util_1.splitArray(playerEff, (reaEff) => reaEff.mechanic.axis === card_1.AxisEnum.DAMAGE);
-        state.damageEffects[player] = state.damageEffects[player] || [];
-        state.damageEffects[player].push(...damageEffectsPlayer);
+        const [damageEffectsPlayer, otherEffects] = util_1.splitArray(playerEff, ({ effect }) => effect.axis === card_1.AxisEnum.DAMAGE);
+        state.readiedDamageEffects[player] = state.readiedDamageEffects[player] || [];
+        state.readiedDamageEffects[player].push(...damageEffectsPlayer);
         markDamaged(damageEffectsPlayer, state);
         return otherEffects;
     });
@@ -30,9 +30,9 @@ const markDamaged = (damageEffects, state) => {
     });
 };
 exports.applyCollectedDamage = (state) => {
-    state.damageEffects.forEach((playerReaEffs) => {
+    state.readiedDamageEffects.forEach((playerReaEffs) => {
         playerReaEffs.forEach((reaEff) => console.log('damage', reaEff));
-        playerReaEffs.forEach((reaEff) => effectHappens_1.reduceStateChangeReaEff(reaEff, state));
+        playerReaEffs.forEach((reaEff) => effectHappens_1.handleReadiedEffects(reaEff, state));
     });
-    state.damageEffects = [];
+    state.readiedDamageEffects = [];
 };

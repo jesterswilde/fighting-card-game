@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { addCard, allCards, removeCard, downloadCards } from "./cards/Cards";
-import { sortCard } from "./shared/sortOrder";
 import { getFightingStyles, getFightingStyleByName } from "./styles";
 import { userRouter } from "./users/router";
 import { decksRouter } from "./decks/router";
@@ -34,25 +33,5 @@ router.get("/styles/:style", (req, res) => {
   }
 });
 
-
-router.post("/card", (req, res) => {
-  if(isProduction)
-    res.status(401).send();
-  const { index, ...card } = req.body;
-  sortCard(card);
-  addCard(card, card.index);
-  res.status(201).send();
-});
-router.delete("/card", async (req, res) => {
-  if(isProduction)
-    res.status(401).send();
-  try {
-    await removeCard(req.body.name);
-    res.status(200).send();
-  } catch (err) {
-    console.error(err);
-    res.status(400).send();
-  }
-});
 
 export default router;

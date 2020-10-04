@@ -1,0 +1,67 @@
+{
+  "name": "Parry, Riposte",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Parry",
+      "amount": 6
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 12
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Me"
+        },
+        {
+          "axis": "Moving",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Parry",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

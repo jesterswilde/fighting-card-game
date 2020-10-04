@@ -1,15 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const socket_1 = require("./socket");
+const send_1 = require("./send");
 const errors_1 = require("../errors");
 const gameSettings_1 = require("../gameSettings");
 const requirements_1 = require("./playCards/requirements");
 const util_1 = require("../util");
 const enhance_1 = require("./mechanics/enhance");
-exports.givePlayersCards = (state, { _sendHand = socket_1.sendHand } = {}) => {
+const critical_1 = require("./mechanics/critical");
+exports.givePlayersCards = (state, { _sendHand = send_1.sendHand } = {}) => {
     try {
         drawHands(state);
-        markOptional(state);
+        critical_1.markCritical(state);
+        enhance_1.addEnhacementsToHands(state);
         addPanicCard(state);
         _sendHand(state);
     }
@@ -33,7 +35,7 @@ exports.drawCards = (player, state, defaultHandSize = gameSettings_1.HAND_SIZE) 
     exports.shuffleDeck(player, state);
     const deck = state.decks[player];
     let handIndexes = [];
-    const handSize = defaultHandSize + state.handSizeMod || 0;
+    const handSize = defaultHandSize + state.handSizeMod[player] || 0;
     for (let i = 0; i < deck.length; i++) {
         if (requirements_1.canPlayCard(deck[i], state)) {
             handIndexes.push(i);
@@ -44,24 +46,11 @@ exports.drawCards = (player, state, defaultHandSize = gameSettings_1.HAND_SIZE) 
     }
     const hand = handIndexes.map((i) => {
         const card = deck[i];
-        enhance_1.addEnhancement(card, state);
         deck[i] = undefined;
         return card;
     });
     state.decks[player] = state.decks[player].filter((card) => card !== undefined);
     return hand;
-};
-const markOptional = (state) => {
-    state.hands.forEach((hand) => {
-        hand.forEach(({ optional = [], opponent, player }) => {
-            if (opponent === undefined) {
-                opponent = player === 0 ? 1 : 0;
-            }
-            optional.forEach((opt) => {
-                opt.canPlay = requirements_1.canUseOptional(opt, player, opponent, state);
-            });
-        });
-    });
 };
 const addPanicCard = (state) => {
     state.hands.forEach((hand, player) => {
@@ -69,10 +58,10 @@ const addPanicCard = (state) => {
             const card = {
                 name: 'Panic',
                 effects: [],
+                mechanics: [],
                 requirements: [],
                 player,
                 opponent: util_1.getOpponent(player),
-                optional: [],
                 id: state.cardUID++
             };
             state.hands[player].push(card);

@@ -1,0 +1,41 @@
+{
+  "name": "Death From Above",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 7
+    },
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Both",
+      "amount": 3
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

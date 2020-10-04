@@ -25,68 +25,52 @@ exports.makeBlankCard = () => {
         requirements: [],
         effects: [],
         name: 'blankCard',
-        optional: [],
+        mechanics: []
     };
 };
 exports.makeRequirement = () => {
     return {
         axis: card_1.AxisEnum.CLOSE,
         player: card_1.PlayerEnum.BOTH,
-        amount: 0,
     };
 };
-exports.makeMechanic = () => {
+exports.makeEffect = () => {
     return {
         axis: card_1.AxisEnum.FAR,
         player: card_1.PlayerEnum.OPPONENT,
-        mechanic: null,
         amount: 0
     };
 };
-exports.makeTestingGameState = () => {
+/*
+export const makeTestingGameState = (): GameState => {
     return {
-        usernames: [],
+        agents: [],
         numPlayers: 2,
-        playerStates: [exports.makePlayerState(), exports.makePlayerState()],
-        stateDurations: [exports.makeStateDurations(), exports.makeStateDurations()],
+        playerStates: [makePlayerState(), makePlayerState()],
+        stateDurations: [makeStateDurations(), makeStateDurations()],
         parry: [0, 0],
         block: [0, 0],
         queue: [[], []],
         pickedCards: [],
-        distance: stateInterface_1.DistanceEnum.FAR,
+        distance: DistanceEnum.FAR,
         decks: [],
         damaged: [],
         hands: [],
         tagModification: [{}, {}],
-        tagsPlayed: [{}, {}],
+        tagsPlayed: [{},{}],
         health: [],
         readiedEffects: [],
-        damageEffects: [],
-        modifiedAxis: [exports.makeModifiedAxis(), exports.makeModifiedAxis()],
-        sockets: [],
+        readiedDamageEffects: [],
+        modifiedAxis: [makeModifiedAxis(),makeModifiedAxis()],
         events: [],
-        setup: [0, 0],
-        pendingSetup: [0, 0],
+        setup: [0,0],
+        pendingSetup: [0,0],
         turnNumber: 0,
         cardUID: 0,
         predictions: [],
         pendingPredictions: [],
-        lockedState: {
-            distance: null,
-            players: [
-                {
-                    poise: null,
-                    motion: null,
-                    stance: null
-                }, {
-                    poise: null,
-                    motion: null,
-                    stance: null
-                }
-            ]
-        }
-    };
-};
+    }
+}*/
 exports.makeModifiedAxis = () => {
     return {
         balance: false,
@@ -139,17 +123,4 @@ exports.uniqByReverse = (arr, by) => {
         }
     }
     return reverseArr.reverse();
-};
-exports.consolidateMechanics = (mechs) => {
-    return exports.deepCopy(mechs).reduce((arr, mech) => {
-        const matchingMech = arr.find((testMech) => testMech.axis === mech.axis && testMech.player === mech.player &&
-            ((testMech.mechanic === card_1.MechanicEnum.BLOCK && mech.mechanic === card_1.MechanicEnum.BLOCK) || (testMech.mechanic === undefined && mech.mechanic === undefined)));
-        if (matchingMech !== undefined && typeof matchingMech.amount === 'number' && typeof mech.amount === 'number') {
-            matchingMech.amount += mech.amount;
-        }
-        else {
-            arr.push(mech);
-        }
-        return arr;
-    }, []);
 };

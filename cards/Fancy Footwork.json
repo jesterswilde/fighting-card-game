@@ -1,0 +1,52 @@
+{
+  "name": "Fancy Footwork",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 3
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Parry",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Blade"
+  ]
+}

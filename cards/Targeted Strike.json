@@ -1,0 +1,82 @@
+{
+  "name": "Targeted Strike",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 1
+    },
+    {
+      "axis": "Parry",
+      "amount": 2
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Close",
+          "player": "Both"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Close",
+          "player": "Both"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Pick One",
+      "choices": [
+        [
+          {
+            "axis": "Damage",
+            "player": "Them",
+            "amount": 7
+          }
+        ],
+        [
+          {
+            "axis": "Lose Poise",
+            "player": "Them",
+            "amount": 3
+          },
+          {
+            "axis": "Prone",
+            "player": "Them",
+            "amount": 2
+          }
+        ]
+      ]
+    }
+  ],
+  "tags": []
+}

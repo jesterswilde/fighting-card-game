@@ -1,0 +1,62 @@
+{
+  "name": "Bite",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 5
+    },
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Standing",
+          "player": "Me"
+        },
+        {
+          "axis": "Prone",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 3
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Standing",
+          "player": "Both"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 5
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

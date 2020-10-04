@@ -1,13 +1,11 @@
-import { GameState} from "../interfaces/stateInterface";
+import { GameState } from "../interfaces/stateInterface";
 import { ControlEnum } from "../errors";
-import { SocketEnum } from "../../shared/socket";
 import { sendState } from "./send";
 import { playCards } from "./playCards/playCard";
 import { startTurn } from "./startTurn";
 import { endTurn } from "./endTurn";
 import { getOpponent } from "../util";
 import { endGame } from "./endGame";
-
 
 /*
     Game Start - get decks
@@ -50,50 +48,52 @@ import { endGame } from "./endGame";
 */
 
 export const playGame = async (state: GameState) => {
-    try {
-        startGame(state);
-        while (true) {
-            await playTurn(state)
-        }
-    } catch (err) {
-        if (err === ControlEnum.GAME_OVER) {
-            endGame(state);
-        } else {
-            console.error(err)
-        }
+  try {
+    startGame(state);
+    console.log("Game has started");
+    while (true) {
+      console.log("Entering Play Turn");
+      await playTurn(state);
+      console.log("Exiting play turn");
     }
-}
+  } catch (err) {
+    if (err === ControlEnum.GAME_OVER) {
+      endGame(state);
+    } else {
+      console.error(err);
+    }
+  }
+};
 
 const startGame = (state: GameState) => {
-    console.log("Game starting", state); 
-    assignPlayerToDecks(state);
-    sendState(state);
-    state.agents.forEach((agent, i) => {
-        agent.startGame(i)
-    })
-}
-
+  console.log("Game starting", state);
+  assignPlayerToDecks(state);
+  console.log("Assigned players");
+  sendState(state);
+  console.log("Sent state");
+  state.agents.forEach((agent, i) => {
+    agent.startGame(i);
+  });
+};
 
 export const playTurn = async (state: GameState) => {
-    sendState(state); 
-    await startTurn(state);
-    await playCards(state);
-    endTurn(state);
-}
-
-
+  sendState(state);
+  await startTurn(state);
+  await playCards(state);
+  endTurn(state);
+};
 
 const assignPlayerToDecks = (state: GameState) => {
-    for (let player = 0; player < state.decks.length; player++) {
-        const deck = state.decks[player];
-        for (let i = 0; i < deck.length; i++) {
-            if(typeof deck[i] !== 'object'){
-                console.log("Missing card", deck[i]);
-            }else{
-                deck[i].player = player;
-                deck[i].opponent = getOpponent(player); 
-                deck[i].id = state.cardUID++; 
-            }
-        }
+  for (let player = 0; player < state.decks.length; player++) {
+    const deck = state.decks[player];
+    for (let i = 0; i < deck.length; i++) {
+      if (typeof deck[i] !== "object") {
+        console.log("Missing card", deck[i]);
+      } else {
+        deck[i].player = player;
+        deck[i].opponent = getOpponent(player);
+        deck[i].id = state.cardUID++;
+      }
     }
-}
+  }
+};

@@ -1,0 +1,48 @@
+{
+  "name": "To The Ground",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Prone",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Them"
+    },
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 8
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 3
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Reflex"
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

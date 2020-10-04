@@ -1,0 +1,54 @@
+{
+  "name": "Feint",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 1
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Block",
+      "amount": 6
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Still",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Block",
+          "amount": 5
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

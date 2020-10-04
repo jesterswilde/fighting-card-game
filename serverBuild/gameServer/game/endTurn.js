@@ -12,13 +12,13 @@ const stateInterface_1 = require("../interfaces/stateInterface");
 const gameSettings_1 = require("../gameSettings");
 const util_1 = require("../util");
 const events_1 = require("./events");
-const socket_1 = require("./socket");
+const send_1 = require("./send");
 const queue_1 = require("./queue");
 exports.endTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     exports.cullQueue(state);
     decrementCounters(state);
     clearTurnData(state);
-    socket_1.sendState(state);
+    send_1.sendState(state);
     events_1.sendEvents(state);
     capPoise(state);
     console.log('turn ended');

@@ -1,15 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var EventTypeEnum;
-(function (EventTypeEnum) {
-    EventTypeEnum[EventTypeEnum["CARD_NAME"] = 0] = "CARD_NAME";
-    EventTypeEnum[EventTypeEnum["EFFECT"] = 1] = "EFFECT";
-    EventTypeEnum[EventTypeEnum["MECHANIC"] = 2] = "MECHANIC";
-    EventTypeEnum[EventTypeEnum["ADDED_MECHANIC"] = 3] = "ADDED_MECHANIC";
-    EventTypeEnum[EventTypeEnum["REVEAL_PREDICTION"] = 4] = "REVEAL_PREDICTION";
-    EventTypeEnum[EventTypeEnum["GAME_OVER"] = 5] = "GAME_OVER";
-    EventTypeEnum[EventTypeEnum["MULTIPLE"] = 6] = "MULTIPLE";
-    EventTypeEnum[EventTypeEnum["EVENT_SECTION"] = 7] = "EVENT_SECTION";
-    EventTypeEnum[EventTypeEnum["CARD_NAME_SECTION"] = 8] = "CARD_NAME_SECTION";
-    EventTypeEnum[EventTypeEnum["PREDICTION_SECTION"] = 9] = "PREDICTION_SECTION";
-})(EventTypeEnum = exports.EventTypeEnum || (exports.EventTypeEnum = {}));
+var EventType;
+(function (EventType) {
+    EventType["PLAYED_CARD"] = "PlayedCard";
+    EventType["MECHANIC"] = "MechanicActivation";
+    EventType["REVEAL_PREDICTION"] = "RevealPrediction";
+    EventType["GAME_OVER"] = "GameOver";
+    EventType["REFLEX"] = "Reflex";
+})(EventType = exports.EventType || (exports.EventType = {}));

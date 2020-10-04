@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const socket_1 = require("./socket");
+const send_1 = require("./send");
 const gameSettings_1 = require("../gameSettings");
 const drawCards_1 = require("./drawCards");
 const block_1 = require("./mechanics/block");
@@ -19,12 +19,12 @@ exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     exports.moveSetup(state);
     moveHandSizeMod(state);
     drawCards_1.givePlayersCards(state);
-    socket_1.sendState(state);
-    block_1.convertBlockToParry(state);
+    send_1.sendState(state);
+    block_1.convertBlockToParry(state); //This happens after so that the player will see the upcoming block
 });
 const moveHandSizeMod = (state) => {
     state.handSizeMod = state.nextHandSizeMod;
-    state.nextHandSizeMod = 0;
+    state.nextHandSizeMod = [0, 0];
 };
 const movePendingPredictions = (state) => {
     state.predictions = state.pendingPredictions;

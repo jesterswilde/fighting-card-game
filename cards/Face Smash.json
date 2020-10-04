@@ -1,0 +1,66 @@
+{
+  "name": "Face Smash",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 8
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Forceful",
+      "amount": 4,
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 8
+        },
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 1
+        },
+        {
+          "axis": "Still",
+          "player": "Them",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Smash"
+  ]
+}

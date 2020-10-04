@@ -10,37 +10,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const card_1 = require("../../../shared/card");
 const readiedEffects_1 = require("../readiedEffects");
-const socket_1 = require("../../../shared/socket");
+const util_1 = require("../../util");
 /*
     A player is given a few choices by a card, and get to pick only one.
 */
-exports.playerPicksOne = (player, state, { _waitForPlayerToChoose = waitForPlayerToChoose } = {}) => __awaiter(this, void 0, void 0, function* () {
-    const { sockets } = state;
-    const playerEffects = state.readiedEffects[player] || [];
+exports.playerPicksOne = (player, state) => __awaiter(this, void 0, void 0, function* () {
+    const { agents } = state;
+    const card = state.pickedCards[player];
+    const [pickedOne, unused] = util_1.splitArray(state.readiedMechanics[player], (reaMech => reaMech.mechanic.mechanic === card_1.MechanicEnum.PICK_ONE));
     const pickedEffects = [];
-    const unusedEffs = [];
-    for (let i = 0; i < playerEffects.length; i++) {
-        const { mechanic: effect, card, isEventOnly } = playerEffects[i];
-        if (effect.mechanic === card_1.MechanicEnum.PICK_ONE && !isEventOnly) {
-            const socket = sockets[player];
-            const choice = yield _waitForPlayerToChoose(effect.choices, socket);
-            const picked = effect.choices[choice];
-            pickedEffects.push({ mechanic: effect, card, isEventOnly: true });
-            pickedEffects.push(...readiedEffects_1.mechanicsToReadiedEffects(picked, card, state));
-            unusedEffs.push(false);
-        }
-        else {
-            unusedEffs.push(true);
-        }
+    for (let i = 0; i < pickedOne.length; i++) {
+        const { mechanic, card, } = pickedOne[i];
+        const choice = yield agents[player].getPickOneChoice(card.name, mechanic.index);
+        const picked = mechanic.choices[choice];
+        pickedEffects.push(...picked);
     }
-    state.readiedEffects[player] = playerEffects.filter((_, i) => unusedEffs[i]);
-    state.readiedEffects[player].push(...pickedEffects);
+    state.readiedMechanics[player] = unused;
+    state.readiedEffects[player] = [...state.readiedEffects[player], ...readiedEffects_1.readyEffects(pickedEffects, card, state)];
 });
-const waitForPlayerToChoose = (choices, player) => {
-    return new Promise((res, rej) => {
-        player.emit(socket_1.SocketEnum.SHOULD_PICK_ONE, choices);
-        player.once(socket_1.SocketEnum.PICKED_ONE, (choice) => {
-            res(choice);
-        });
-    });
-};

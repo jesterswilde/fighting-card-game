@@ -11,7 +11,7 @@ const util_1 = require("../../util");
     Telegraphs can only happen once, so they get removed once triggered.
     Telgraphs also get removed when the card is culled from the queue.
 */
-exports.reduceTelegraph = (mechanic, card, player, opponent, state) => {
+exports.putTelegraphsOntoQueueCard = (mechanic, card, player, opponent, state) => {
     card.telegraphs = card.telegraphs || [];
     card.telegraphs.push(mechanic);
 };
@@ -25,7 +25,7 @@ exports.checkTelegraph = (state) => {
         }
     });
     if (readied.length > 0) {
-        readiedEffects_1.addReadiedToState(readied, state);
+        readied.forEach(reaEff => state.readiedEffects[reaEff.card.player].push(reaEff));
         throw errors_1.ControlEnum.NEW_EFFECTS;
     }
 };
@@ -34,8 +34,7 @@ const filterTelegraphs = (card, state) => {
     let telegraphs = card.telegraphs || [];
     const [happenningTelegraphs, remainingTelegraphs] = util_1.splitArray(telegraphs, (mech) => requirements_1.mechReqsMet(mech, card.opponent, card.player, state));
     happenningTelegraphs.forEach((mech) => {
-        const mechEffs = readiedEffects_1.mechanicsToReadiedEffects(mech.mechanicEffects, card, state);
-        readied.push({ mechanic: mech, card, isEventOnly: true, isHappening: true });
+        const mechEffs = readiedEffects_1.readyEffects(mech.effects, card, state);
         readied.push(...mechEffs);
     });
     card.telegraphs = remainingTelegraphs;

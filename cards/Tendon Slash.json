@@ -1,0 +1,49 @@
+{
+  "name": "Tendon Slash",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Still",
+      "player": "Them"
+    },
+    {
+      "axis": "Prone",
+      "player": "Me"
+    },
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 4
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Unbalanced",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Cripple",
+          "detail": "Cripple Leg"
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

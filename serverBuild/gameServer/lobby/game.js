@@ -10,8 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const disconnect_1 = require("./disconnect");
 const game_1 = require("../game/game");
-exports.createGame = (player1, player2) => __awaiter(this, void 0, void 0, function* () {
-    const players = [player1, player2];
+const stateInterface_1 = require("../interfaces/stateInterface");
+const gameSettings_1 = require("../gameSettings");
+const util_1 = require("../util");
+exports.createGame = (players) => __awaiter(this, void 0, void 0, function* () {
     disconnect_1.handleDCDuringGame(players);
     const state = makeGameState(players);
     game_1.playGame(state);
@@ -24,15 +26,16 @@ const makeGameState = (agents) => {
         decks: agents.map(({ deck }) => deck),
         hands: [[], []],
         pickedCards: [],
-        health: [STARTING_HEALTH, STARTING_HEALTH],
+        health: [gameSettings_1.STARTING_HEALTH, gameSettings_1.STARTING_HEALTH],
         parry: [0, 0],
         block: [0, 0],
-        playerStates: [makePlayerState(), makePlayerState()],
-        distance: DistanceEnum.FAR,
-        stateDurations: [makeStateDurations(), makeStateDurations()],
+        playerStates: [util_1.makePlayerState(), util_1.makePlayerState()],
+        distance: stateInterface_1.DistanceEnum.FAR,
+        stateDurations: [util_1.makeStateDurations(), util_1.makeStateDurations()],
         readiedEffects: [[], []],
-        damageEffects: [[], []],
-        modifiedAxis: [makeModifiedAxis(), makeModifiedAxis()],
+        readiedMechanics: [[], []],
+        readiedDamageEffects: [[], []],
+        modifiedAxis: [util_1.makeModifiedAxis(), util_1.makeModifiedAxis()],
         predictions: [],
         pendingPredictions: [],
         damaged: [false, false],
@@ -40,11 +43,12 @@ const makeGameState = (agents) => {
         pendingSetup: [0, 0],
         tagModification: [{}, {}],
         tagsPlayed: [{}, {}],
-        handSizeMod: 0,
-        nextHandSizeMod: 0,
+        handSizeMod: [0, 0],
+        nextHandSizeMod: [0, 0],
         turnNumber: 0,
         cardUID: 0,
         events: [],
+        currentEvent: null
     };
     return state;
 };

@@ -9,10 +9,10 @@ const card_1 = require("../../../shared/card");
 */
 exports.applyClutch = (state) => {
     state.readiedEffects = state.readiedEffects.map((playerReaffs, player) => {
-        const [clutchArr, unusedArr] = util_1.splitArray(playerReaffs, ({ mechanic }) => mechanic.mechanic === card_1.MechanicEnum.CLUTCH);
-        clutchArr.forEach(({ mechanic, card }) => {
+        const [clutchArr, unusedArr] = util_1.splitArray(playerReaffs, ({ effect }) => effect.axis === card_1.AxisEnum.CLUTCH);
+        clutchArr.forEach(({ effect, card }) => {
             const clutch = card.clutch ? card.clutch : 0;
-            card.clutch = clutch + Number(mechanic.amount);
+            card.clutch = clutch + Number(effect.amount);
         });
         return unusedArr;
     });
