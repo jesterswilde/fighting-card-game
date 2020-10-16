@@ -1,60 +1,67 @@
 import { AxisEnum, MechanicEnum, Mechanic } from "./card";
 
-export const getSortOrder = (mechanic: MechanicEnum | AxisEnum) => {
-    const order = SORT_ORDER[mechanic];
-    if(order !== undefined){
-        return order; 
-    }
-    return 100; 
+export const getAxisGroup = (mechanic: MechanicEnum | AxisEnum) => {
+  const order = SORT_ORDER[mechanic];
+  if (order !== undefined) {
+    return order;
+  }
+  return 100;
+};
+export enum SortAxisEnum {
+  DAMAGE = 0,
+  FRESH_OR_BLOODIED = 1,
+  DISTANCE = 2,
+  BALANCE = 3,
+  STANDING = 4,
+  MOTION = 5,
 }
-
 export const SORT_ORDER = {
-    [AxisEnum.DAMAGE]: 0,
+  [AxisEnum.DAMAGE]: SortAxisEnum.DAMAGE,
 
-    [AxisEnum.BLOODIED]: 1,
-    [AxisEnum.FRESH]: 1,
+  [AxisEnum.BLOODIED]: SortAxisEnum.FRESH_OR_BLOODIED,
+  [AxisEnum.FRESH]: SortAxisEnum.FRESH_OR_BLOODIED,
 
-    [AxisEnum.DISTANCE]: 2,
-    [AxisEnum.GRAPPLED]: 2,
-    [AxisEnum.CLOSE]: 2,
-    [AxisEnum.FAR]: 2,
-    [AxisEnum.FURTHER]: 2,
-    [AxisEnum.CLOSER]: 2,
-    [AxisEnum.NOT_GRAPPLED]: 2,
-    [AxisEnum.NOT_CLOSE]: 2,
-    [AxisEnum.NOT_FAR]: 2,
+  [AxisEnum.DISTANCE]: SortAxisEnum.DISTANCE,
+  [AxisEnum.GRAPPLED]: SortAxisEnum.DISTANCE,
+  [AxisEnum.CLOSE]: SortAxisEnum.DISTANCE,
+  [AxisEnum.FAR]: SortAxisEnum.DISTANCE,
+  [AxisEnum.FURTHER]: SortAxisEnum.DISTANCE,
+  [AxisEnum.CLOSER]: SortAxisEnum.DISTANCE,
+  [AxisEnum.NOT_GRAPPLED]: SortAxisEnum.DISTANCE,
+  [AxisEnum.NOT_CLOSE]: SortAxisEnum.DISTANCE,
+  [AxisEnum.NOT_FAR]: SortAxisEnum.DISTANCE,
 
-    [AxisEnum.POISE]: 3,
-    [AxisEnum.LOSE_POISE]: 3,
-    [AxisEnum.UNBALANCED]: 3,
-    [AxisEnum.BALANCED]: 3,
-    [AxisEnum.ANTICIPATING]: 3,
-    [AxisEnum.NOT_ANTICIPATING]: 3,
+  [AxisEnum.POISE]: SortAxisEnum.BALANCE,
+  [AxisEnum.LOSE_POISE]: SortAxisEnum.BALANCE,
+  [AxisEnum.UNBALANCED]: SortAxisEnum.BALANCE,
+  [AxisEnum.BALANCED]: SortAxisEnum.BALANCE,
+  [AxisEnum.ANTICIPATING]: SortAxisEnum.BALANCE,
+  [AxisEnum.NOT_ANTICIPATING]: SortAxisEnum.BALANCE,
 
-    [AxisEnum.STANCE]: 4,
-    [AxisEnum.STANDING]: 4,
-    [AxisEnum.PRONE]: 4,
+  [AxisEnum.STANCE]: SortAxisEnum.STANDING,
+  [AxisEnum.STANDING]: SortAxisEnum.STANDING,
+  [AxisEnum.PRONE]: SortAxisEnum.STANDING,
 
-    [AxisEnum.MOTION]: 5,
-    [AxisEnum.STILL]: 5,
-    [AxisEnum.MOVING]: 5,
+  [AxisEnum.MOTION]: SortAxisEnum.MOTION,
+  [AxisEnum.STILL]: SortAxisEnum.MOTION,
+  [AxisEnum.MOVING]: SortAxisEnum.MOTION,
 
-    [AxisEnum.BLOCK]: 10,
-    [AxisEnum.PARRY]: 11,
-    [AxisEnum.CLUTCH]: 12,
-    [AxisEnum.FLUID]: 13,
-    [AxisEnum.RIGID]: 13,
+  [AxisEnum.BLOCK]: 10,
+  [AxisEnum.PARRY]: 11,
+  [AxisEnum.CLUTCH]: 12,
+  [AxisEnum.FLUID]: 13,
+  [AxisEnum.RIGID]: 13,
 
-    [AxisEnum.REFLEX]: 20,
-    [AxisEnum.CRIPPLE]: 21,
-    [MechanicEnum.ENHANCE]: 22,
-    [MechanicEnum.PREDICT]: 23,
+  [AxisEnum.REFLEX]: 20,
+  [AxisEnum.CRIPPLE]: 21,
+  [MechanicEnum.ENHANCE]: 22,
+  [MechanicEnum.PREDICT]: 23,
 
-    [MechanicEnum.PICK_ONE]: 30,
+  [MechanicEnum.PICK_ONE]: 30,
 
-    [MechanicEnum.FOCUS]: 31,
-    [MechanicEnum.TELEGRAPH]: 32,
-}
+  [MechanicEnum.FOCUS]: 31,
+  [MechanicEnum.TELEGRAPH]: 32,
+};
 /*
 export const sortCard = (card: Card) => {
     if(card.priority === undefined){

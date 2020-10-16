@@ -1,4 +1,4 @@
-import { Effect } from "../../shared/card";
+import { AxisEnum, Effect, PlayerEnum } from "../../shared/card";
 import { PredictionEnum, HappensEnum } from "./stateInterface";
 
 export enum EventType {
@@ -13,6 +13,16 @@ export interface EventAction {
   type: EventType;
   mechanic?: string;
   effects?: EventEffect[];
+  card?: CardEvent;
+  reflexingCard?: string; 
+  prediction?: PredictionEvent;
+  winner?: number;
+}
+
+export interface FrontendEvent{
+  type: EventType;
+  mechanic?: string;
+  effects?: FrontEndEffect[];
   card?: CardEvent;
   reflexingCard?: string; 
   prediction?: PredictionEvent;
@@ -34,4 +44,11 @@ export interface PredictionEvent {
 export interface EventEffect{
   effect: Effect;
   happensTo: HappensEnum[]
+}
+
+export interface FrontEndEffect{
+  axis: AxisEnum
+  amount?: number
+  player?: PlayerEnum
+  isBlocked: boolean
 }

@@ -1,13 +1,14 @@
 import { AgentBase, AgentType } from "./interface";
 import {
   PredictionEnum,
-  GameState,
   QueueCard,
+  HandCard,
 } from "../gameServer/interfaces/stateInterface";
 import { SocketEnum, GameOverEnum } from "../shared/socket";
 import { deckListToCards } from "../cards/Cards";
 import { PlayerObject } from "../gameServer/lobby/interface";
 import { Card } from "../shared/card";
+import { eventsToFrontend } from "./helpers/events";
 
 export interface HumanAgent extends AgentBase {
   type: AgentType.HUMAN;
@@ -37,7 +38,7 @@ export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
       });
     },
     sendHand: (cards) => {
-      player.socket.emit(SocketEnum.GOT_CARDS, cards);
+      player.socket.emit(SocketEnum.GOT_CARDS, processHandCard(cards));
     },
     sendState: (state) => {
       player.socket.emit(SocketEnum.GOT_STATE, {
@@ -54,7 +55,7 @@ export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
       });
     },
     sendEvents: (events) => {
-      player.socket.emit(SocketEnum.GOT_EVENTS, events);
+      player.socket.emit(SocketEnum.GOT_EVENTS, eventsToFrontend(events));
     },
     getPickOneChoice: (cardName, mechIndex) => {
       return new Promise<number>((res, rej) => {
@@ -67,6 +68,7 @@ export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
     getPrediction: () => {
       return new Promise<PredictionEnum>((res, rej) => {
         player.socket.emit(SocketEnum.SHOULD_PREDICT);
+        console.log("Asked for prediction"); 
         player.socket.once(
           SocketEnum.MADE_PREDICTION,
           (prediction: PredictionEnum) => {
@@ -90,28 +92,43 @@ export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
       });
     },
     getCardChoice: () => {
-      return new Promise<number>((res, rej) => {});
+      return new Promise<number>((res, rej) => {
+        player.socket.once(SocketEnum.PICKED_CARD, (num) => res(num));
+      });
     },
     opponentMadeCardChoice: () => {},
   };
 };
 
-const processQueueCards = (queue: Card[][][]): QueueCard[][][] => {
-  return queue.map(turn =>{
-    return turn.map(playerCards =>{
-      return playerCards.map(cardToQueueCard)
-    })  
-  })
+const processHandCard = (bothHands: Card[][]): HandCard[][] => {
+  return bothHands.map((hand) => {
+    return hand.map((card) => {
+      if (!card) return null;
+      const handCard: HandCard = {
+        name: card.name,
+      };
+      //IMPLEMENT MAKRING CRITICALS && ADDING ENCHANCEMENTS AND BUFFS, THEY SHOUDL BE HANDLED IN THE MECHANICS FILE
+      return handCard;
+    });
+  });
 };
 
-const cardToQueueCard = (card: Card): QueueCard=>{
+const processQueueCards = (queue: Card[][][]): QueueCard[][][] => {
+  return queue.map((turn) => {
+    return turn.map((playerCards) => {
+      return playerCards.map(cardToQueueCard);
+    });
+  });
+};
+
+const cardToQueueCard = (card: Card): QueueCard => {
   const queueCard: QueueCard = {
-    name: card.name
-  }
-  const activeMechanics: number[] = []
-  if(card.telegraphs && card.telegraphs.length > 0)
-    activeMechanics.push(...card.telegraphs.map(mech => mech.index))
-  if(card.focuses && card.focuses.length > 0)
-    activeMechanics.push(...card.focuses.map(mech => mech.index))
+    name: card.name,
+  };
+  const activeMechanics: number[] = [];
+  if (card.telegraphs && card.telegraphs.length > 0)
+    activeMechanics.push(...card.telegraphs.map((mech) => mech.index));
+  if (card.focuses && card.focuses.length > 0)
+    activeMechanics.push(...card.focuses.map((mech) => mech.index));
   return queueCard;
-}
+};

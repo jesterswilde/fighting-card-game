@@ -4,9 +4,7 @@ import {
   PredictionState,
   PredictionEnum,
 } from "../../interfaces/stateInterface";
-import {
-  readyEffects,
-} from "../readiedEffects";
+import { readyEffects } from "../readiedEffects";
 import { ControlEnum } from "../../errors";
 import { PredictionEvent } from "../../interfaces/gameEvent";
 import { predictionRevealEvent } from "../events";
@@ -27,11 +25,7 @@ export const movePredictionsToPending = (
   state.pendingPredictions[card.player] = state.pendingPredictions[
     card.player
   ] || { readiedEffects: [], targetPlayer: opponent };
-  const reaEffs = readyEffects(
-    mechanic.effects,
-    card,
-    state
-  );
+  const reaEffs = readyEffects(mechanic.effects, card, state);
   state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
 };
 
@@ -61,21 +55,21 @@ export const checkPredictions = (state: GameState) => {
   const { predictions } = state;
   let stateChanged = false;
   const predEvents: PredictionEvent[] = predictions.map((pred, player) => {
-      const didHappen = didPredictionHappen(pred, pred.targetPlayer, state);
-      if (didHappen) {
-        stateChanged = true;
-        state.readiedEffects[player].push(...pred.readiedEffects);
-      }
-      return {
-        didHappen,
-        prediction: pred.prediction,
-        player,
-        targetPlayer: pred.targetPlayer,
-        correctGuesses: getCorrectGuessArray(pred.targetPlayer, state)
-      };
+    const didHappen = didPredictionHappen(pred, pred.targetPlayer, state);
+    if (didHappen) {
+      stateChanged = true;
+      state.readiedEffects[player].push(...pred.readiedEffects);
+    }
+    return {
+      didHappen,
+      prediction: pred.prediction,
+      player,
+      targetPlayer: pred.targetPlayer,
+      correctGuesses: getCorrectGuessArray(pred.targetPlayer, state),
+    };
   });
-  if(predictions.some(pred => pred !== null || pred !== undefined))
-    predictionRevealEvent(predEvents, state)
+  if (predictions.some((pred) => pred !== null || pred !== undefined))
+    predictionRevealEvent(predEvents, state);
   if (stateChanged) {
     throw ControlEnum.NEW_EFFECTS;
   }
@@ -129,9 +123,14 @@ export const getCorrectGuessArray = (
 };
 
 //SOCKET SECTION
-export const playerMakesPredictions = async (player: number, state:  GameState)=>{
+export const playerMakesPredictions = async (
+  player: number,
+  state: GameState
+) => {
   const { predictions, agents } = state;
   const predictionObj = predictions[player];
-  if (predictionObj) 
-    predictionObj.prediction = await  agents[player].getPrediction();
+  if (predictionObj) {
+    console.log("Waiting for prediction of player", player);
+    predictionObj.prediction = await agents[player].getPrediction();
+  }
 };

@@ -67,7 +67,7 @@ const MechanicDisplay = {
 };
 var PlayerEnum;
 (function (PlayerEnum) {
-    PlayerEnum[PlayerEnum["PLAYER"] = 0] = "PLAYER";
-    PlayerEnum[PlayerEnum["OPPONENT"] = 1] = "OPPONENT";
-    PlayerEnum[PlayerEnum["BOTH"] = 2] = "BOTH";
+    PlayerEnum["PLAYER"] = "Me";
+    PlayerEnum["OPPONENT"] = "Them";
+    PlayerEnum["BOTH"] = "Both";
 })(PlayerEnum = exports.PlayerEnum || (exports.PlayerEnum = {}));

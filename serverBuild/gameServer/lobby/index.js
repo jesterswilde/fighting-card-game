@@ -14,6 +14,9 @@ const validation_1 = require("../../decks/validation");
 const error_1 = require("../../error");
 const disconnect_1 = require("./disconnect");
 const queue_1 = require("./queue");
+const game_1 = require("./game");
+const human_1 = require("../../agent/human");
+const random_1 = require("../../agent/random");
 exports.default = (io) => {
     io.on("connection", configureSocket);
 };
@@ -22,7 +25,8 @@ const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* ()
         socket.emit(null);
         const player = yield makePlayerObject(socket);
         yield playerChoosesDeck(player);
-        joinLobby(player);
+        // joinLobby(player); //NEED SWITCH STATEMENT HERE,
+        playAgainstAI(player);
     }
     catch (err) {
         if ((err = error_1.ErrorEnum.CARDS_ARENT_IN_STYLES)) {
@@ -52,6 +56,9 @@ const playerChoosesDeck = (player) => __awaiter(this, void 0, void 0, function* 
             }
         });
     });
+});
+const playAgainstAI = (player) => __awaiter(this, void 0, void 0, function* () {
+    game_1.createGame([human_1.makeHumanAgent(player), random_1.makeRandomAgent()]);
 });
 const joinLobby = (player) => __awaiter(this, void 0, void 0, function* () {
     disconnect_1.handleDCDuringLobby(player);

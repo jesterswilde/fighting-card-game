@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const interface_1 = require("./interface");
 const socket_1 = require("../shared/socket");
 const Cards_1 = require("../cards/Cards");
+const events_1 = require("./helpers/events");
 exports.makeHumanAgent = (player) => {
     let index = -1;
     return {
@@ -26,7 +27,7 @@ exports.makeHumanAgent = (player) => {
             });
         },
         sendHand: (cards) => {
-            player.socket.emit(socket_1.SocketEnum.GOT_CARDS, cards);
+            player.socket.emit(socket_1.SocketEnum.GOT_CARDS, processHandCard(cards));
         },
         sendState: (state) => {
             player.socket.emit(socket_1.SocketEnum.GOT_STATE, {
@@ -43,7 +44,7 @@ exports.makeHumanAgent = (player) => {
             });
         },
         sendEvents: (events) => {
-            player.socket.emit(socket_1.SocketEnum.GOT_EVENTS, events);
+            player.socket.emit(socket_1.SocketEnum.GOT_EVENTS, events_1.eventsToFrontend(events));
         },
         getPickOneChoice: (cardName, mechIndex) => {
             return new Promise((res, rej) => {
@@ -56,6 +57,7 @@ exports.makeHumanAgent = (player) => {
         getPrediction: () => {
             return new Promise((res, rej) => {
                 player.socket.emit(socket_1.SocketEnum.SHOULD_PREDICT);
+                console.log("Asked for prediction");
                 player.socket.once(socket_1.SocketEnum.MADE_PREDICTION, (prediction) => {
                     res(prediction);
                 });
@@ -73,11 +75,41 @@ exports.makeHumanAgent = (player) => {
             });
         },
         getCardChoice: () => {
-            return new Promise((res, rej) => { });
+            return new Promise((res, rej) => {
+                player.socket.once(socket_1.SocketEnum.PICKED_CARD, (num) => res(num));
+            });
         },
         opponentMadeCardChoice: () => { },
     };
 };
+const processHandCard = (bothHands) => {
+    return bothHands.map((hand) => {
+        return hand.map((card) => {
+            if (!card)
+                return null;
+            const handCard = {
+                name: card.name,
+            };
+            //IMPLEMENT MAKRING CRITICALS && ADDING ENCHANCEMENTS AND BUFFS, THEY SHOUDL BE HANDLED IN THE MECHANICS FILE
+            return handCard;
+        });
+    });
+};
 const processQueueCards = (queue) => {
-    return [];
+    return queue.map((turn) => {
+        return turn.map((playerCards) => {
+            return playerCards.map(cardToQueueCard);
+        });
+    });
+};
+const cardToQueueCard = (card) => {
+    const queueCard = {
+        name: card.name,
+    };
+    const activeMechanics = [];
+    if (card.telegraphs && card.telegraphs.length > 0)
+        activeMechanics.push(...card.telegraphs.map((mech) => mech.index));
+    if (card.focuses && card.focuses.length > 0)
+        activeMechanics.push(...card.focuses.map((mech) => mech.index));
+    return queueCard;
 };

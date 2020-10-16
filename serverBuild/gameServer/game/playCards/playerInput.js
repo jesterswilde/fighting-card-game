@@ -13,19 +13,19 @@ const predict_1 = require("../mechanics/predict");
 const pickOne_1 = require("../mechanics/pickOne");
 const forceful_1 = require("../mechanics/forceful");
 const enhance_1 = require("../mechanics/enhance");
-exports.playersPredictAndPickCards = (state) => {
-    const promiseArr = state.agents.map((_, player) => playerPredictsAndPicksCard(player, state));
+exports.playersPickCards = (state) => {
+    const promiseArr = state.agents.map((_, player) => playerChoosesCard(player, state));
     return Promise.all(promiseArr);
 };
-const playerPredictsAndPicksCard = (player, state) => __awaiter(this, void 0, void 0, function* () {
-    yield predict_1.playerMakesPredictions(player, state);
-    yield playerChoosesCard(player, state);
-});
+exports.playersMakePredictions = (state) => {
+    const promiseArr = state.agents.map((_, player) => predict_1.playerMakesPredictions(player, state));
+    return Promise.all(promiseArr);
+};
 exports.playersMakeCardChoices = (state) => {
-    const promiseArr = state.agents.map((_, player) => playerMakeCardChoices(player, state));
+    const promiseArr = state.agents.map((_, player) => playerMakesCardChoices(player, state));
     return Promise.all(promiseArr);
 };
-const playerMakeCardChoices = (player, state) => __awaiter(this, void 0, void 0, function* () {
+const playerMakesCardChoices = (player, state) => __awaiter(this, void 0, void 0, function* () {
     yield pickOne_1.playerPicksOne(player, state);
     yield forceful_1.playerChoosesForce(player, state);
 });

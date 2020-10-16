@@ -1,7 +1,7 @@
 import { GameState } from "../interfaces/stateInterface";
 import { ControlEnum } from "../errors";
 import { sendState } from "./send";
-import { playCards } from "./playCards/playCard";
+import { playCards } from "./playCard";
 import { startTurn } from "./startTurn";
 import { endTurn } from "./endTurn";
 import { getOpponent } from "../util";
@@ -69,8 +69,6 @@ const startGame = (state: GameState) => {
   console.log("Game starting", state);
   assignPlayerToDecks(state);
   console.log("Assigned players");
-  sendState(state);
-  console.log("Sent state");
   state.agents.forEach((agent, i) => {
     agent.startGame(i);
   });
@@ -80,6 +78,7 @@ export const playTurn = async (state: GameState) => {
   sendState(state);
   await startTurn(state);
   await playCards(state);
+  console.log("Effects at end of turn", state.currentEvent[0].effects);
   endTurn(state);
 };
 

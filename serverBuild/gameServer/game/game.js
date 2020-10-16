@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const errors_1 = require("../errors");
 const send_1 = require("./send");
-const playCard_1 = require("./playCards/playCard");
+const playCard_1 = require("./playCard");
 const startTurn_1 = require("./startTurn");
 const endTurn_1 = require("./endTurn");
 const util_1 = require("../util");
@@ -77,8 +77,6 @@ const startGame = (state) => {
     console.log("Game starting", state);
     assignPlayerToDecks(state);
     console.log("Assigned players");
-    send_1.sendState(state);
-    console.log("Sent state");
     state.agents.forEach((agent, i) => {
         agent.startGame(i);
     });
@@ -87,6 +85,7 @@ exports.playTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     send_1.sendState(state);
     yield startTurn_1.startTurn(state);
     yield playCard_1.playCards(state);
+    console.log("Effects at end of turn", state.currentEvent[0].effects);
     endTurn_1.endTurn(state);
 });
 const assignPlayerToDecks = (state) => {

@@ -52,10 +52,10 @@ exports.checkPredictions = (state) => {
             prediction: pred.prediction,
             player,
             targetPlayer: pred.targetPlayer,
-            correctGuesses: exports.getCorrectGuessArray(pred.targetPlayer, state)
+            correctGuesses: exports.getCorrectGuessArray(pred.targetPlayer, state),
         };
     });
-    if (predictions.some(pred => pred !== null || pred !== undefined))
+    if (predictions.some((pred) => pred !== null || pred !== undefined))
         events_1.predictionRevealEvent(predEvents, state);
     if (stateChanged) {
         throw errors_1.ControlEnum.NEW_EFFECTS;
@@ -107,6 +107,8 @@ exports.getCorrectGuessArray = (targetPlayer, state) => {
 exports.playerMakesPredictions = (player, state) => __awaiter(this, void 0, void 0, function* () {
     const { predictions, agents } = state;
     const predictionObj = predictions[player];
-    if (predictionObj)
+    if (predictionObj) {
+        console.log("Waiting for prediction of player", player);
         predictionObj.prediction = yield agents[player].getPrediction();
+    }
 });

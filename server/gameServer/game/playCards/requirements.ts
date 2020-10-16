@@ -3,7 +3,7 @@ import { GameState, DistanceEnum, StandingEnum, MotionEnum, PoiseEnum } from "..
 import { BLOODIED_HP } from "../../gameSettings";
 import { playerEnumToPlayerArray, getOpponent } from "../../util";
 import { ErrorEnum } from "../../errors";
-import { hasPoise } from "../poise";
+import { hasPoise } from "../mechanics/poise";
 
 export const canPlayCard = (card: Card, state: GameState): boolean => {
     if(card === undefined){

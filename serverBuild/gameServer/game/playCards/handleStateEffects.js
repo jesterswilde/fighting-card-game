@@ -24,27 +24,39 @@ const getStateReaEffs = (state) => {
     });
     return stateReaEffs;
 };
-const stateAxisSet = new Set([card_1.AxisEnum.MOVING, card_1.AxisEnum.STILL, card_1.AxisEnum.PRONE, card_1.AxisEnum.STANCE, card_1.AxisEnum.GRAPPLED, card_1.AxisEnum.CLOSE, card_1.AxisEnum.FAR, card_1.AxisEnum.FURTHER, card_1.AxisEnum.CLOSER]);
+const stateAxisSet = new Set([
+    card_1.AxisEnum.MOVING,
+    card_1.AxisEnum.STILL,
+    card_1.AxisEnum.PRONE,
+    card_1.AxisEnum.STANCE,
+    card_1.AxisEnum.GRAPPLED,
+    card_1.AxisEnum.CLOSE,
+    card_1.AxisEnum.FAR,
+    card_1.AxisEnum.FURTHER,
+    card_1.AxisEnum.CLOSER,
+]);
 const isStateAxis = (axis) => {
     return stateAxisSet.has(axis);
 };
 const markConflicts = (stateReaEffs, state) => {
-    const orderedPlayerObj = {};
+    const axisGroupPlayerObj = {};
     stateReaEffs.forEach((playerEffs, player) => {
-        [...playerEffs].forEach((reaEff) => {
+        playerEffs.forEach((reaEff) => {
             reaEff.happensTo.forEach((happensEnum, targetPlayer) => {
                 if (happensEnum === stateInterface_1.HappensEnum.HAPPENS) {
-                    const order = sortOrder_1.getSortOrder(reaEff.effect.axis);
-                    orderedPlayerObj[order] = orderedPlayerObj[order] || {};
-                    const alreadyAffected = orderedPlayerObj[order][targetPlayer];
-                    if (alreadyAffected === undefined) { //Nothing has affected this before
-                        orderedPlayerObj[order][targetPlayer] = reaEff;
+                    const axisGroup = sortOrder_1.getAxisGroup(reaEff.effect.axis);
+                    axisGroupPlayerObj[axisGroup] = axisGroupPlayerObj[axisGroup] || {};
+                    const alreadyAffected = axisGroupPlayerObj[axisGroup][targetPlayer];
+                    if (alreadyAffected === undefined) {
+                        //Nothing has affected this before
+                        axisGroupPlayerObj[axisGroup][targetPlayer] = reaEff;
                     }
-                    else if (alreadyAffected.card.player === reaEff.card.player) { //This is affected by an earlier mechanic on the same card
+                    else if (alreadyAffected.card.player === reaEff.card.player) {
+                        //This is affected by an earlier mechanic on the same card
                         reaEff.happensTo[targetPlayer] = stateInterface_1.HappensEnum.BLOCKED;
                     }
                     else {
-                        orderedPlayerObj[order][targetPlayer] = handleConflict(alreadyAffected, reaEff, targetPlayer, state);
+                        axisGroupPlayerObj[axisGroup][targetPlayer] = handleConflict(alreadyAffected, reaEff, targetPlayer, state);
                     }
                 }
             });

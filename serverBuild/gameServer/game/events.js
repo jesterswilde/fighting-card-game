@@ -6,7 +6,7 @@ exports.newCardEvent = (state) => {
     state.pickedCards.forEach((card, i) => {
         state.currentEvent[i].card = {
             cardName: card.name,
-            priority: card.priority
+            priority: card.priority,
         };
     });
 };
@@ -26,25 +26,31 @@ exports.predictionRevealEvent = (predictions, state) => {
 };
 exports.gameOverEvent = (state) => {
     startNewEvent(gameEvent_1.EventType.GAME_OVER, state);
-    state.currentEvent.forEach(e => e.winner = state.winner);
+    state.currentEvent.forEach((e) => (e.winner = state.winner));
 };
 const startNewEvent = (header, state) => {
     if (state.currentEvent)
         state.events.push(state.currentEvent);
-    state.currentEvent = state.agents.map(_ => ({
-        type: header
+    state.currentEvent = state.agents.map((_) => ({
+        type: header,
     }));
 };
 exports.makeEventsFromReadied = (state) => {
     state.readiedEffects.forEach((reaEffArr, index) => {
         var events = reaEffArr
-            .filter(reaEff => {
+            .filter((reaEff) => {
             const result = !reaEff.eventsHaveProcessed;
             reaEff.eventsHaveProcessed = true;
             return result;
         })
             .map(({ effect, happensTo }) => ({ effect, happensTo }));
-        state.currentEvent[index].effects = [...state.currentEvent[index].effects, ...events];
+        if (!state.currentEvent[index])
+            throw new Error("No current event");
+        state.currentEvent[index].effects = state.currentEvent[index].effects || [];
+        state.currentEvent[index].effects = [
+            ...state.currentEvent[index].effects,
+            ...events,
+        ];
     });
 };
 exports.sendEvents = (state) => {
@@ -52,5 +58,5 @@ exports.sendEvents = (state) => {
         state.events.push(state.currentEvent);
         state.currentEvent = null;
     }
-    state.agents.forEach(agent => agent.sendEvents(state.events));
+    state.agents.forEach((agent) => agent.sendEvents(state.events));
 };

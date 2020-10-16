@@ -1,8 +1,8 @@
 import { GameState } from "../interfaces/stateInterface";
-import { sendState } from "./send";
 import { ANTICIPATING_POISE } from "../gameSettings";
 import { givePlayersCards } from "./drawCards";
 import { convertBlockToParry } from "./mechanics/block";
+import { playersChooseCardToPlay } from "./send";
 
 export const startTurn = async (state: GameState) => {
     console.log('starting turn'); 
@@ -10,8 +10,9 @@ export const startTurn = async (state: GameState) => {
     movePendingPredictions(state);
     moveSetup(state); 
     moveHandSizeMod(state); 
-    givePlayersCards(state);
-    sendState(state);
+    // givePlayersCards(state);
+    // await playersChooseCardToPlay(state); 
+    console.log("Players chose cards"); 
     convertBlockToParry(state); //This happens after so that the player will see the upcoming block
 }
 

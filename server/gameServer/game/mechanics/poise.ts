@@ -1,5 +1,5 @@
-import { PoiseEnum, GameState } from "../interfaces/stateInterface";
-import { UNBALANCED_POISE, ANTICIPATING_POISE } from "../gameSettings";
+import { PoiseEnum, GameState } from "../../interfaces/stateInterface";
+import { UNBALANCED_POISE, ANTICIPATING_POISE } from "../../gameSettings";
 
 export const hasPoise = (poiseEnum: PoiseEnum, player: number, state: GameState)=>{
     const {poise} = state.playerStates[player]

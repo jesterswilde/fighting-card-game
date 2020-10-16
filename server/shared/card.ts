@@ -14,7 +14,7 @@ export interface Mechanic {
   requirements?: Requirement[];
   effects?: Effect[];
   amount?: number;
-  canPlay?: boolean; 
+  canPlay?: boolean;
   choices?: Effect[][];
   enhancedTag?: string;
 }
@@ -37,7 +37,8 @@ export interface Card {
   id?: number;
   priority?: number;
   clutch?: number;
-  buffed?: number
+  buffed?: number;
+  isTemporary?: boolean;
 }
 
 export interface Enhancement {
@@ -124,7 +125,7 @@ const MechanicDisplay: { [mech: string]: DisplayComponents } = {
 };
 
 export enum PlayerEnum {
-  PLAYER,
-  OPPONENT,
-  BOTH,
+  PLAYER = "Me",
+  OPPONENT = "Them",
+  BOTH = "Both",
 }

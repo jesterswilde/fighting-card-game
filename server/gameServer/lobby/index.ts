@@ -15,14 +15,13 @@ export default (io: SocketIO.Server) => {
   io.on("connection", configureSocket);
 };
 
-
 const configureSocket = async (socket: Socket) => {
   try {
     socket.emit(null);
     const player = await makePlayerObject(socket);
     await playerChoosesDeck(player);
     // joinLobby(player); //NEED SWITCH STATEMENT HERE,
-    playAgainstAI(player); 
+    playAgainstAI(player);
   } catch (err) {
     if ((err = ErrorEnum.CARDS_ARENT_IN_STYLES)) {
       console.log(`Error in lobby ${err}`);
@@ -39,7 +38,6 @@ const makePlayerObject = async (socket: Socket) => {
   return player;
 };
 
-
 //This is unity version, now that decks are stored locally.
 const playerChoosesDeck = async (player: PlayerObject) => {
   return new Promise((res, rej) => {
@@ -55,12 +53,12 @@ const playerChoosesDeck = async (player: PlayerObject) => {
   });
 };
 
-const playAgainstAI = async(player: PlayerObject)=>{
-  createGame([makeHumanAgent(player), makeRandomAgent()])
-}
+const playAgainstAI = async (player: PlayerObject) => {
+  createGame([makeHumanAgent(player), makeRandomAgent()]);
+};
 
 const joinLobby = async (player: PlayerObject) => {
   handleDCDuringLobby(player);
   player.socket.emit(SocketEnum.JOINED_LOBBY);
-  addToLobbyQueue(player); 
+  addToLobbyQueue(player);
 };

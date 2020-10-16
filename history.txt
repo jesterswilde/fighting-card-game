@@ -1,0 +1,36 @@
+paper prototype in shanghai
+    -Maybe state being a git commit tree was too programmer-ee
+digital mechanics in a paper prototype
+
+web version, javascript all the way down
+    -react redux for front end
+        -arbitrary, deeply nested gameobjects YIKES
+
+Card maker
+ -important to be able to make cards quickly and view them. 
+    -Where is the line for good dev ops
+
+Working and making a game is hard
+
+What the fuck should a card look like?  It's the central piece and a blocker. 
+
+Unity port will be easy, said the naive game developer
+    -Unity runs on the main thread and doesn't capture errors thrown elsewhere
+    -Socket IO doesn't run as cleanly
+    -Packaging the node server, but why did I do this?
+
+I hate UI
+    -Attempts at deeply nested UI
+    -My own worldspace layout system
+    -Attempts to have the cards be dynamically generated visuals 
+
+What to do when you stop loving your project
+    -Many other projects in between. 
+        -Rust Game engine for time traversal
+        -AI stuff
+        -Computer vision for a security protocol 
+        -Eldritch diner
+        -1 bit crypt
+        
+Blender is not 3DS Max, but it does seem to have come a long way. 
+Shaders for profit.

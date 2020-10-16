@@ -8,19 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cardHappens_1 = require("./cardHappens");
-const errors_1 = require("../../errors");
-const card_1 = require("../../../shared/card");
-const readiedEffects_1 = require("../readiedEffects");
-const playerInput_1 = require("./playerInput");
-const predict_1 = require("../mechanics/predict");
-const enhance_1 = require("../mechanics/enhance");
-const util_1 = require("../../util");
-const critical_1 = require("../mechanics/critical");
-const events_1 = require("../events");
+const cardHappens_1 = require("./playCards/cardHappens");
+const errors_1 = require("../errors");
+const card_1 = require("../../shared/card");
+const readiedEffects_1 = require("./readiedEffects");
+const playerInput_1 = require("./playCards/playerInput");
+const predict_1 = require("./mechanics/predict");
+const enhance_1 = require("./mechanics/enhance");
+const util_1 = require("../util");
+const critical_1 = require("./mechanics/critical");
+const events_1 = require("./events");
+const drawCards_1 = require("./drawCards");
 exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
-        yield playerInput_1.playersPredictAndPickCards(state);
+        yield playerInput_1.playersMakePredictions(state);
+        console.log("Players predicted");
+        drawCards_1.givePlayersCards(state);
+        yield playerInput_1.playersPickCards(state);
+        console.log("Players picked cards");
         exports.readyEffectsAndMechanics(state);
         events_1.newCardEvent(state); //Processes readed effects and mechs
         events_1.makeEventsFromReadied(state);

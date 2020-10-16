@@ -1,30 +1,29 @@
 import { GameState } from "../../interfaces/stateInterface";
-import { SocketEnum } from "../../../shared/socket";
 import { getOpponent } from "../../util";
-import { readyPlayerEffectsAndMechanics } from "./playCard";
 import { playerMakesPredictions } from "../mechanics/predict";
 import { playerPicksOne } from "../mechanics/pickOne";
 import { playerChoosesForce } from "../mechanics/forceful";
 import { removeEnhancements } from "../mechanics/enhance";
 
 
-export const playersPredictAndPickCards = (state: GameState) => {
-    const promiseArr = state.agents.map((_, player) => playerPredictsAndPicksCard(player, state));
+export const playersPickCards = (state: GameState) => {
+    const promiseArr = state.agents.map((_, player) => playerChoosesCard(player, state));
     return Promise.all(promiseArr);
 }
 
-const playerPredictsAndPicksCard = async (player: number, state: GameState) => {
-    await playerMakesPredictions(player, state);
-    await playerChoosesCard(player, state);
+export const playersMakePredictions = (state:GameState)=>{
+    const promiseArr = state.agents.map((_, player) => playerMakesPredictions(player, state));
+    return Promise.all(promiseArr);
 }
 
 export const playersMakeCardChoices = (state: GameState)=>{
-    const promiseArr = state.agents.map((_, player) => playerMakeCardChoices(player, state));
-    return Promise.all(promiseArr);
+    const promiseArr = state.agents.map((_,player)=> playerMakesCardChoices(player, state)); 
+    return Promise.all(promiseArr); 
 }
-const playerMakeCardChoices = async(player: number, state: GameState)=>{
-    await playerPicksOne(player, state);
-    await playerChoosesForce(player, state);
+
+const playerMakesCardChoices = async(player: number, state:GameState)=>{
+    await playerPicksOne(player, state); 
+    await playerChoosesForce(player, state); 
 }
 
 

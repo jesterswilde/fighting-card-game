@@ -5,7 +5,7 @@ const stateInterface_1 = require("../../interfaces/stateInterface");
 const gameSettings_1 = require("../../gameSettings");
 const util_1 = require("../../util");
 const errors_1 = require("../../errors");
-const poise_1 = require("../poise");
+const poise_1 = require("../mechanics/poise");
 exports.canPlayCard = (card, state) => {
     if (card === undefined) {
         throw errors_1.ErrorEnum.NO_CARD;

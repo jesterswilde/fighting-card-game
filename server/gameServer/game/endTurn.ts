@@ -9,7 +9,6 @@ export const endTurn = async (state: GameState) => {
     cullQueue(state);
     decrementCounters(state);
     clearTurnData(state);
-    sendState(state);
     sendEvents(state);
     capPoise(state); 
     console.log('turn ended'); 

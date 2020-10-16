@@ -14,8 +14,8 @@ const stateInterface_1 = require("../interfaces/stateInterface");
 const gameSettings_1 = require("../gameSettings");
 const util_1 = require("../util");
 exports.createGame = (players) => __awaiter(this, void 0, void 0, function* () {
-    disconnect_1.handleDCDuringGame(players);
     const state = makeGameState(players);
+    disconnect_1.handleDCDuringGame(players);
     game_1.playGame(state);
 });
 const makeGameState = (agents) => {
