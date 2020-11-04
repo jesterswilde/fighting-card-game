@@ -34,7 +34,7 @@ const filterTelegraphs = (card, state) => {
     let telegraphs = card.telegraphs || [];
     const [happenningTelegraphs, remainingTelegraphs] = util_1.splitArray(telegraphs, (mech) => requirements_1.mechReqsMet(mech, card.opponent, card.player, state));
     happenningTelegraphs.forEach((mech) => {
-        const mechEffs = readiedEffects_1.readyEffects(mech.effects, card, state);
+        const mechEffs = readiedEffects_1.makeReadyEffects(mech.effects, card);
         readied.push(...mechEffs);
     });
     card.telegraphs = remainingTelegraphs;

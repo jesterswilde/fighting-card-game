@@ -22,8 +22,9 @@ import { genericStyle } from "./styles/generic";
 import { barbarianStyle } from "./styles/barbarian";
 import { deepCopy } from "../gameServer/util";
 import { drunkenStyle } from "./styles/drunkenMaster";
-
+import { testStyle } from "./teststyle"; 
 const allStyles: FightingStyle[] = [
+  testStyle, 
   grappleStyle,
   cheapShotStyle,
   crowdPleaserStyle,

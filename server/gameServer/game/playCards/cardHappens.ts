@@ -16,8 +16,8 @@ export const cardHappens = (state: GameState) => {
         collectBlockAndDamage(state);
         applyClutch(state);
         applyPoise(state);
-        applyStateEffects(state);
         applyMechanics(state);
+        applyStateEffects(state);
         clearReadiedEffectsAndMechanics(state);
         checkPredictions(state);
         checkTelegraph(state);

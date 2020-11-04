@@ -22,8 +22,10 @@ exports.default = (io) => {
 };
 const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* () {
     try {
+        console.log("configuring socket");
         socket.emit(null);
         const player = yield makePlayerObject(socket);
+        console.log("Asking playe to choose deck");
         yield playerChoosesDeck(player);
         // joinLobby(player); //NEED SWITCH STATEMENT HERE,
         playAgainstAI(player);
@@ -58,6 +60,7 @@ const playerChoosesDeck = (player) => __awaiter(this, void 0, void 0, function* 
     });
 });
 const playAgainstAI = (player) => __awaiter(this, void 0, void 0, function* () {
+    console.log("creating AI game");
     game_1.createGame([human_1.makeHumanAgent(player), random_1.makeRandomAgent()]);
 });
 const joinLobby = (player) => __awaiter(this, void 0, void 0, function* () {

@@ -82,10 +82,9 @@ const startGame = (state) => {
     });
 };
 exports.playTurn = (state) => __awaiter(this, void 0, void 0, function* () {
+    startTurn_1.startTurn(state);
     send_1.sendState(state);
-    yield startTurn_1.startTurn(state);
     yield playCard_1.playCards(state);
-    console.log("Effects at end of turn", state.currentEvent[0].effects);
     endTurn_1.endTurn(state);
 });
 const assignPlayerToDecks = (state) => {

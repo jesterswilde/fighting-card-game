@@ -4,10 +4,10 @@ import {
   PredictionState,
   PredictionEnum,
 } from "../../interfaces/stateInterface";
-import { readyEffects } from "../readiedEffects";
+import { makeReadyEffects } from "../readiedEffects";
 import { ControlEnum } from "../../errors";
-import { PredictionEvent } from "../../interfaces/gameEvent";
-import { predictionRevealEvent } from "../events";
+import { EventType, PredictionEvent } from "../../interfaces/gameEvent";
+import { startNewEvent } from "../events";
 
 /*
     Predictions are made on the turn after you play the card with prediction, but before the new card is playd. 
@@ -25,7 +25,7 @@ export const movePredictionsToPending = (
   state.pendingPredictions[card.player] = state.pendingPredictions[
     card.player
   ] || { readiedEffects: [], targetPlayer: opponent };
-  const reaEffs = readyEffects(mechanic.effects, card, state);
+  const reaEffs = makeReadyEffects(mechanic.effects, card);
   state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
 };
 
@@ -68,6 +68,7 @@ export const checkPredictions = (state: GameState) => {
       correctGuesses: getCorrectGuessArray(pred.targetPlayer, state),
     };
   });
+  state.predictions = []; 
   if (predictions.some((pred) => pred !== null || pred !== undefined))
     predictionRevealEvent(predEvents, state);
   if (stateChanged) {
@@ -122,6 +123,16 @@ export const getCorrectGuessArray = (
   return correctGuesses;
 };
 
+export const predictionRevealEvent = (
+  predictions: PredictionEvent[],
+  state: GameState
+) => {
+  startNewEvent(EventType.REVEAL_PREDICTION, state);
+  predictions.forEach((pred, i) => {
+    if (!pred) return;
+    state.currentEvent[i].prediction = pred;
+  });
+};
 //SOCKET SECTION
 export const playerMakesPredictions = async (
   player: number,
@@ -129,6 +140,7 @@ export const playerMakesPredictions = async (
 ) => {
   const { predictions, agents } = state;
   const predictionObj = predictions[player];
+  console.log("Checking for prediction of player " + player); 
   if (predictionObj) {
     console.log("Waiting for prediction of player", player);
     predictionObj.prediction = await agents[player].getPrediction();

@@ -12,6 +12,7 @@ const card_1 = require("../../../shared/card");
 const stateInterface_1 = require("../../interfaces/stateInterface");
 const readiedEffects_1 = require("../readiedEffects");
 const errors_1 = require("../../errors");
+const gameEvent_1 = require("../../interfaces/gameEvent");
 const events_1 = require("../events");
 /*
     Predictions are made on the turn after you play the card with prediction, but before the new card is playd.
@@ -20,7 +21,7 @@ const events_1 = require("../events");
 */
 exports.movePredictionsToPending = (mechanic, card, player, opponent, state) => {
     state.pendingPredictions[card.player] = state.pendingPredictions[card.player] || { readiedEffects: [], targetPlayer: opponent };
-    const reaEffs = readiedEffects_1.readyEffects(mechanic.effects, card, state);
+    const reaEffs = readiedEffects_1.makeReadyEffects(mechanic.effects, card);
     state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
 };
 exports.didPredictionHappen = (prediction, player, state) => {
@@ -55,8 +56,9 @@ exports.checkPredictions = (state) => {
             correctGuesses: exports.getCorrectGuessArray(pred.targetPlayer, state),
         };
     });
+    state.predictions = [];
     if (predictions.some((pred) => pred !== null || pred !== undefined))
-        events_1.predictionRevealEvent(predEvents, state);
+        exports.predictionRevealEvent(predEvents, state);
     if (stateChanged) {
         throw errors_1.ControlEnum.NEW_EFFECTS;
     }
@@ -103,10 +105,19 @@ exports.getCorrectGuessArray = (targetPlayer, state) => {
         correctGuesses.push(stateInterface_1.PredictionEnum.NONE);
     return correctGuesses;
 };
+exports.predictionRevealEvent = (predictions, state) => {
+    events_1.startNewEvent(gameEvent_1.EventType.REVEAL_PREDICTION, state);
+    predictions.forEach((pred, i) => {
+        if (!pred)
+            return;
+        state.currentEvent[i].prediction = pred;
+    });
+};
 //SOCKET SECTION
 exports.playerMakesPredictions = (player, state) => __awaiter(this, void 0, void 0, function* () {
     const { predictions, agents } = state;
     const predictionObj = predictions[player];
+    console.log("Checking for prediction of player " + player);
     if (predictionObj) {
         console.log("Waiting for prediction of player", player);
         predictionObj.prediction = yield agents[player].getPrediction();

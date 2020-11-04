@@ -5,34 +5,31 @@ import {
   ReadiedMechanic,
 } from "../interfaces/stateInterface";
 import { Mechanic, Card, PlayerEnum, Effect } from "../../shared/card";
-import { deepCopy, getOpponent } from "../util";
-import { fill } from "lodash";
+import { deepCopy } from "../util";
 
-export const readyMechanics = (
+export const makeReadyMechanics = (
   mechanics: Mechanic[],
   card: Card
 ): ReadiedMechanic[] => {
   return mechanics.map((mechanic) => ({ mechanic, card }));
 };
-export const readyMechanic = (
+export const makeReadyMechanic = (
   mechanic: Mechanic,
   card: Card
 ): ReadiedMechanic => {
   return { mechanic, card };
 };
 
-export const readyEffects = (
+export const makeReadyEffects = (
   effects: Effect[] = [],
   card: Card,
-  state: GameState
 ): ReadiedEffect[] => {
-  return effects.map((eff) => readyEffect(eff, card, state));
+  return effects.map((eff) => makeReadyEffect(eff, card));
 };
 
-export const readyEffect = (
+export const makeReadyEffect = (
   effect: Effect,
   card: Card,
-  state: GameState
 ): ReadiedEffect => {
   const happensTo: HappensEnum[] = [];
   happensTo[card.player] =

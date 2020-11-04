@@ -16,9 +16,6 @@ exports.startTurn = (state) => __awaiter(this, void 0, void 0, function* () {
     movePendingPredictions(state);
     exports.moveSetup(state);
     moveHandSizeMod(state);
-    // givePlayersCards(state);
-    // await playersChooseCardToPlay(state); 
-    console.log("Players chose cards");
     block_1.convertBlockToParry(state); //This happens after so that the player will see the upcoming block
 });
 const moveHandSizeMod = (state) => {

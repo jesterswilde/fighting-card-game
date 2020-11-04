@@ -8,6 +8,8 @@ const util_1 = require("../util");
 const enhance_1 = require("./mechanics/enhance");
 const critical_1 = require("./mechanics/critical");
 exports.givePlayersCards = (state, { _sendHand = send_1.sendHand } = {}) => {
+    if (state.pickedCards.length > 0 && state.pickedCards.some(card => card != null && card != undefined))
+        return;
     try {
         drawHands(state);
         critical_1.markCritical(state);

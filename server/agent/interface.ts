@@ -13,11 +13,16 @@ export interface AgentBase {
     getCardChoice: ()=>Promise<number>,
     opponentMadeCardChoice: ()=>void,
     getPrediction: ()=> Promise<PredictionEnum>,
-    getUsedForceful: (cardName: string, mechanicIndex: number) => Promise<boolean>
-    getPickOneChoice: (cardName: string, mechanicIndex: number) => Promise<number>; 
+    getUsedForceful: (mech: MechanicOnCard) => Promise<boolean>,
+    getPickOneChoice: (mech: MechanicOnCard) => Promise<number>
 }
 
 export enum AgentType{
     HUMAN = "human",
     RANDOM = "random"
+}
+
+export interface MechanicOnCard{
+    cardName: string, 
+    index: number
 }

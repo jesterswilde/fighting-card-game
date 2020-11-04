@@ -1,7 +1,7 @@
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { forEachCardInQueue } from "../queue";
 import { mechReqsMet } from "../playCards/requirements";
-import { readyEffects } from "../readiedEffects";
+import { makeReadyEffects } from "../readiedEffects";
 import { ControlEnum } from "../../errors";
 import { Card, Mechanic } from "../../../shared/card";
 import { splitArray } from "../../util";
@@ -38,7 +38,7 @@ const filterTelegraphs = (card: Card, state: GameState) => {
     let telegraphs = card.telegraphs || [];
     const [happenningTelegraphs, remainingTelegraphs] = splitArray(telegraphs, (mech) => mechReqsMet(mech, card.opponent, card.player, state))
     happenningTelegraphs.forEach((mech) => {
-        const mechEffs = readyEffects(mech.effects, card, state);
+        const mechEffs = makeReadyEffects(mech.effects, card);
         readied.push(...mechEffs)
     })
     card.telegraphs = remainingTelegraphs;

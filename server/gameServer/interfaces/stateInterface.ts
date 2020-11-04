@@ -45,7 +45,7 @@ export interface QueueCard{
 
 export interface HandCard{
   name: string
-  activeCritical?: number[]
+  activeCriticals?: number[]
   appendedEffects?: Effect[]
 }
 

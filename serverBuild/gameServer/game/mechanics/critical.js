@@ -5,6 +5,7 @@ const requirements_1 = require("../playCards/requirements");
 const util_1 = require("../../util");
 //Extra effects if certain (non-filtering) conditions are met
 exports.canUseCritical = (critical, player, opponent, state) => {
+    console.log("checking crit", critical);
     return critical.requirements.every((req) => {
         return requirements_1.meetsRequirements(req, state, player, opponent);
     });
@@ -14,9 +15,24 @@ exports.markCritical = (state) => {
         hand.forEach(({ player, mechanics }) => {
             const opponent = util_1.getOpponent(player);
             mechanics.filter(mech => mech.mechanic === card_1.MechanicEnum.CRITICAL)
-                .forEach((opt) => {
-                opt.canPlay = exports.canUseCritical(opt, player, opponent, state);
+                .forEach((crit) => {
+                crit.canPlay = exports.canUseCritical(crit, player, opponent, state);
             });
         });
     });
+};
+exports.addCriticalToHandCard = (card, handCard) => {
+    card.mechanics.filter(mech => mech.mechanic == card_1.MechanicEnum.CRITICAL)
+        .forEach(crit => {
+        if (crit.canPlay) {
+            handCard.activeCriticals = handCard.activeCriticals || [];
+            handCard.activeCriticals.push(crit.index);
+        }
+    });
+};
+exports.getEffectsFromCrits = (crits) => {
+    const effects = [];
+    crits.filter(crit => crit.canPlay)
+        .forEach(crit => effects.push(...crit.effects));
+    return effects;
 };

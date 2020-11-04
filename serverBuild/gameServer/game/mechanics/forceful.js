@@ -11,6 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = require("../../util");
 const card_1 = require("../../../shared/card");
 const readiedEffects_1 = require("../readiedEffects");
+const events_1 = require("../events");
 /*
     Give up N poise, to gain an effect.
     Forceful is it's own choice, but only shows up if you can pay it.
@@ -23,14 +24,15 @@ exports.playerChoosesForce = (player, state) => __awaiter(this, void 0, void 0, 
     let readiedEffs = [];
     for (let i = 0; i < validForcefulArr.length; i++) {
         const { card: { name: cardName }, mechanic, card, } = validForcefulArr[i];
-        const choseToPlay = yield state.agents[player].getUsedForceful(cardName, mechanic.index);
+        console.log("Sending forceful question");
+        const choseToPlay = yield state.agents[player].getUsedForceful({ cardName, index: mechanic.index });
         if (choseToPlay) {
             state.playerStates[player].poise -= mechanic.amount;
-            DisplayForcefulEvent(card, mechanic, state);
-            readiedEffs.push(...readiedEffects_1.readyEffects(mechanic.effects, card, state));
+            readiedEffs.push(...readiedEffects_1.makeReadyEffects(mechanic.effects, card));
+            events_1.addDisplayEffect("Forceful", player, state);
+            events_1.makeEventsFromReadied(state);
         }
     }
     state.readiedEffects[player].push(...readiedEffs);
     state.readiedMechanics[player] = [...unused];
 });
-const DisplayForcefulEvent = (card, mechanic, state) => { };

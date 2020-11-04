@@ -4,8 +4,8 @@ import { sendState } from "./send";
 
 export const endGame = (state: GameState) => {
     gameOverEvent(state); 
-    sendState(state); 
     sendEvents(state); 
+    sendState(state); 
     sendGameOver(state); 
 }
 

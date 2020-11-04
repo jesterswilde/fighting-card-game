@@ -3,16 +3,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const stateInterface_1 = require("../interfaces/stateInterface");
 const card_1 = require("../../shared/card");
 const util_1 = require("../util");
-exports.readyMechanics = (mechanics, card) => {
+exports.makeReadyMechanics = (mechanics, card) => {
     return mechanics.map((mechanic) => ({ mechanic, card }));
 };
-exports.readyMechanic = (mechanic, card) => {
+exports.makeReadyMechanic = (mechanic, card) => {
     return { mechanic, card };
 };
-exports.readyEffects = (effects = [], card, state) => {
-    return effects.map((eff) => exports.readyEffect(eff, card, state));
+exports.makeReadyEffects = (effects = [], card) => {
+    return effects.map((eff) => exports.makeReadyEffect(eff, card));
 };
-exports.readyEffect = (effect, card, state) => {
+exports.makeReadyEffect = (effect, card) => {
     const happensTo = [];
     happensTo[card.player] =
         effect.player === card_1.PlayerEnum.OPPONENT

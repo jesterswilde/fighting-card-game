@@ -12,8 +12,8 @@ const events_1 = require("./events");
 const send_1 = require("./send");
 exports.endGame = (state) => {
     events_1.gameOverEvent(state);
-    send_1.sendState(state);
     events_1.sendEvents(state);
+    send_1.sendState(state);
     sendGameOver(state);
 };
 const sendGameOver = (state) => __awaiter(this, void 0, void 0, function* () {

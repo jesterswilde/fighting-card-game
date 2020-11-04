@@ -17,8 +17,10 @@ export default (io: SocketIO.Server) => {
 
 const configureSocket = async (socket: Socket) => {
   try {
+    console.log("configuring socket"); 
     socket.emit(null);
     const player = await makePlayerObject(socket);
+    console.log("Asking playe to choose deck"); 
     await playerChoosesDeck(player);
     // joinLobby(player); //NEED SWITCH STATEMENT HERE,
     playAgainstAI(player);
@@ -54,6 +56,7 @@ const playerChoosesDeck = async (player: PlayerObject) => {
 };
 
 const playAgainstAI = async (player: PlayerObject) => {
+  console.log("creating AI game")
   createGame([makeHumanAgent(player), makeRandomAgent()]);
 };
 

@@ -14,11 +14,14 @@ const pickOne_1 = require("../mechanics/pickOne");
 const forceful_1 = require("../mechanics/forceful");
 const enhance_1 = require("../mechanics/enhance");
 exports.playersPickCards = (state) => {
+    if (state.pickedCards.length > 0 && state.pickedCards.some(card => card != null && card != undefined))
+        return;
     const promiseArr = state.agents.map((_, player) => playerChoosesCard(player, state));
     return Promise.all(promiseArr);
 };
 exports.playersMakePredictions = (state) => {
     const promiseArr = state.agents.map((_, player) => predict_1.playerMakesPredictions(player, state));
+    console.log("Predictions have happeend");
     return Promise.all(promiseArr);
 };
 exports.playersMakeCardChoices = (state) => {

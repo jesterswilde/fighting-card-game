@@ -1,0 +1,27 @@
+{
+  "name": "_CritOn",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [],
+  "effects": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Standing",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 11
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

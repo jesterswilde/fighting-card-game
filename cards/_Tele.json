@@ -1,0 +1,27 @@
+{
+  "name": "_Tele",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [],
+  "effects": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Both"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 20
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

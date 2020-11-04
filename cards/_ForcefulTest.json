@@ -1,0 +1,22 @@
+{
+  "name": "_ForcefulTest",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [],
+  "effects": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Forceful",
+      "amount": 2,
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 35
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

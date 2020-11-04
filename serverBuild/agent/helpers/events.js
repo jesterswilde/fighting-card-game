@@ -1,65 +1,84 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const gameEvent_1 = require("../../gameServer/interfaces/gameEvent");
 const stateInterface_1 = require("../../gameServer/interfaces/stateInterface");
 const util_1 = require("../../gameServer/util");
 const card_1 = require("../../shared/card");
-const sortOrder_1 = require("../../shared/sortOrder");
 exports.eventsToFrontend = (events) => {
     return events.map(eventPair => {
-        let standingEffs = [[], []];
-        let hasStanding = false;
-        let motionEffs = [[], []];
-        let hasMotion = false;
-        const resultEffs = [[], []];
-        eventPair.forEach((e, i) => {
-            if (!e)
-                return null;
-            e.effects.forEach(effect => {
-                const axisGroup = sortOrder_1.getAxisGroup(effect.effect.axis);
-                if (axisGroup === sortOrder_1.SortAxisEnum.STANDING) {
-                    standingEffs[i].push(effect);
-                    hasStanding = true;
-                }
-                else if (axisGroup === sortOrder_1.SortAxisEnum.MOTION) {
-                    motionEffs[i].push(effect);
-                    hasMotion = true;
-                }
-                else
-                    resultEffs[i].push(effect);
-            });
-        });
-        if (hasStanding) {
-            standingEffs = standingEffs.map(breakApartArray);
-            fillSmallerWithNull(standingEffs);
-            standingEffs.forEach((effs, i) => resultEffs[i].unshift(...effs));
-        }
-        if (hasMotion) {
-            motionEffs = motionEffs.map(breakApartArray);
-            fillSmallerWithNull(motionEffs);
-            motionEffs.forEach((effs, i) => resultEffs[i].unshift(...motionEffs[i]));
-        }
-        return eventPair.map((e, i) => {
-            const frontendEvent = util_1.deepCopy(e);
-            frontendEvent.effects = resultEffs[i].map(toFrontendEffect);
+        return eventPair.map((eventAction, i) => {
+            const effects = breakApartArray(eventAction.effects, i)
+                .map(eff => toFrontendEffect(eff));
+            const frontendEvent = util_1.deepCopy(eventAction);
+            frontendEvent.effects = effects;
             return frontendEvent;
         });
+        /*
+        let standingEffs: EventEffect[][] = [[],[]]
+        let hasStanding = false
+        let motionEffs: EventEffect[][] = [[],[]]
+        let hasMotion = false
+        const resultEffs = [[],[]]
+        eventPair.forEach((e, i)=>{
+            if(!e)
+            return null
+            e.effects.forEach(effect=>{
+            const axisGroup = getAxisGroup(effect.effect.axis)
+            if(axisGroup === SortAxisEnum.STANDING){
+                standingEffs[i].push(effect)
+                hasStanding = true
+            }
+            else if(axisGroup === SortAxisEnum.MOTION){
+                motionEffs[i].push(effect)
+                hasMotion = true
+            }
+            else resultEffs[i].push(effect)
+            })
+        })
+        if(hasStanding){
+            standingEffs = standingEffs.map(breakApartArray)
+            fillSmallerWithNull(standingEffs)
+            standingEffs.forEach((effs, i)=> resultEffs[i].unshift(...effs))
+        }
+        if(hasMotion){
+            motionEffs = motionEffs.map(breakApartArray)
+            fillSmallerWithNull(motionEffs)
+            motionEffs.forEach((effs, i)=> resultEffs[i].unshift(...motionEffs[i]))
+        }
+        return eventPair.map((e, i) =>{
+            const frontendEvent: FrontendEvent = deepCopy(e) as unknown as FrontendEvent
+            frontendEvent.effects = resultEffs[i].map(toFrontendEffect)
+            return frontendEvent;
+      })*/
     });
 };
 const toFrontendEffect = (effect) => {
     if (effect === null)
         return null;
-    return {
-        axis: effect.effect.axis,
-        amount: effect.effect.amount,
-        isBlocked: effect.happensTo.some(happens => happens === stateInterface_1.HappensEnum.BLOCKED),
-        player: effect.effect.player
-    };
+    if (effect.type === gameEvent_1.EventEffectType.EFFECT) {
+        return {
+            type: gameEvent_1.EventEffectType.EFFECT,
+            axis: effect.effect.axis,
+            amount: effect.effect.amount,
+            isBlocked: effect.happensTo.some(happens => happens === stateInterface_1.HappensEnum.BLOCKED),
+            player: effect.effect.player
+        };
+    }
+    else {
+        return {
+            type: gameEvent_1.EventEffectType.CHOICE,
+            display: effect.display
+        };
+    }
 };
-const breakApartArray = (effects, player) => {
+const breakApartArray = (effects = [], player) => {
     const result = [];
     const opponent = util_1.getOpponent(player);
     effects.forEach(effect => {
-        if (needToBeBroken(effect))
+        if (effect === null || effect.type !== gameEvent_1.EventEffectType.EFFECT) {
+            result.push(effect);
+        }
+        else if (needToBeBroken(effect))
             result.push(...breakApartEffect(effect, player, opponent));
         else
             result.push(effect);

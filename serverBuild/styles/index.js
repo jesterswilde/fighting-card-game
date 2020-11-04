@@ -23,7 +23,9 @@ const generic_1 = require("./styles/generic");
 const barbarian_1 = require("./styles/barbarian");
 const util_1 = require("../gameServer/util");
 const drunkenMaster_1 = require("./styles/drunkenMaster");
+const teststyle_1 = require("./teststyle");
 const allStyles = [
+    teststyle_1.testStyle,
     grappler_1.grappleStyle,
     cheapShot_1.cheapShotStyle,
     crowdPleaser_1.crowdPleaserStyle,

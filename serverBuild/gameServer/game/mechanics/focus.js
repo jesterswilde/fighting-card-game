@@ -37,7 +37,7 @@ const readyFocusEffects = (card, state) => {
     return card.focuses
         .filter((mech) => requirements_1.mechReqsMet(mech, card.opponent, card.player, state))
         .reduce((readied, mech) => {
-        const readiedEff = readiedEffects_1.readyEffects(mech.effects, card, state);
+        const readiedEff = readiedEffects_1.makeReadyEffects(mech.effects, card);
         readied.push(...readiedEff);
         return readied;
     }, []);

@@ -42,17 +42,18 @@ export const makeRandomAgent = (deck: Card[] = deckListToCards(deckList)): Rando
     },
     opponentMadeCardChoice: () => {},
     getPrediction: () => {
+      console.log("Asking ai for prediction"); 
       return new Promise<PredictionEnum>((res, rej) => {
         const choice = Math.floor(Math.random() * possiblePredictions.length);
-        return possiblePredictions[choice];
+        res(possiblePredictions[choice]);
       });
     },
-    getUsedForceful: (cardName: string, mechanicIndex: number) => {
+    getUsedForceful: (mechOnCard) => {
       return new Promise<boolean>((res, rej) => {
         res(Math.random() > 0.5);
       });
     },
-    getPickOneChoice: (cardName: string, mechanicIndex: number) => {
+    getPickOneChoice: (mechOnCard) => {
       return new Promise<number>((res, rej) => {
         res(Math.random() > 0.5 ? 0 : 1);
       });

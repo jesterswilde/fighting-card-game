@@ -6,6 +6,7 @@ import { startTurn } from "./startTurn";
 import { endTurn } from "./endTurn";
 import { getOpponent } from "../util";
 import { endGame } from "./endGame";
+import { HumanAgent } from "../../agent/human";
 
 /*
     Game Start - get decks
@@ -75,10 +76,9 @@ const startGame = (state: GameState) => {
 };
 
 export const playTurn = async (state: GameState) => {
+  startTurn(state);
   sendState(state);
-  await startTurn(state);
   await playCards(state);
-  console.log("Effects at end of turn", state.currentEvent[0].effects);
   endTurn(state);
 };
 

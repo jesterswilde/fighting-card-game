@@ -2,17 +2,15 @@ import { GameState, HappensEnum } from "../interfaces/stateInterface";
 import {
   EventType,
   EventEffect,
-  PredictionEvent,
-  EventAction,
-  FrontEndEffect,
+  EventEffectType,
 } from "../interfaces/gameEvent";
-import { PlayerEnum } from "../../shared/card";
-import { getAxisGroup, SortAxisEnum } from "../../shared/sortOrder";
-import { deepCopy, getOpponent } from "../util";
 
 export const newCardEvent = (state: GameState) => {
+  console.log("Adding new card event")
   startNewEvent(EventType.PLAYED_CARD, state);
   state.pickedCards.forEach((card, i) => {
+    if(!card) 
+      return null
     state.currentEvent[i].card = {
       cardName: card.name,
       priority: card.priority,
@@ -22,33 +20,26 @@ export const newCardEvent = (state: GameState) => {
 
 export const reflexEvent = (reflexingCards: string[], state: GameState) => {
   startNewEvent(EventType.REFLEX, state);
-  state.currentEvent.forEach((e, i) => {
-    e.reflexingCard = reflexingCards[i];
-  });
 };
 
-export const predictionRevealEvent = (
-  predictions: PredictionEvent[],
-  state: GameState
-) => {
-  startNewEvent(EventType.REVEAL_PREDICTION, state);
-  predictions.forEach((pred, i) => {
-    if (!pred) return;
-    state.currentEvent[i].prediction = pred;
-  });
-};
 
 export const gameOverEvent = (state: GameState) => {
   startNewEvent(EventType.GAME_OVER, state);
   state.currentEvent.forEach((e) => (e.winner = state.winner));
 };
 
-const startNewEvent = (header: EventType, state: GameState) => {
-  if (state.currentEvent) state.events.push(state.currentEvent);
-  state.currentEvent = state.agents.map((_) => ({
+export const startNewEvent = (header: EventType, state: GameState) => {
+  if (state.currentEvent)
+    state.events.push(state.currentEvent);
+  state.currentEvent = state.agents.map(() => ({
     type: header,
   }));
 };
+
+export const addDisplayEffect = (display: string, index: number, state: GameState)=>{
+  state.currentEvent[index].effects = state.currentEvent[index].effects || []
+  state.currentEvent[index].effects.push({type: EventEffectType.CHOICE, display})
+}
 
 export const makeEventsFromReadied = (state: GameState) => {
   state.readiedEffects.forEach((reaEffArr, index) => {
@@ -58,7 +49,7 @@ export const makeEventsFromReadied = (state: GameState) => {
         reaEff.eventsHaveProcessed = true;
         return result;
       })
-      .map(({ effect, happensTo }) => ({ effect, happensTo }));
+      .map(({ effect, happensTo }) => ({ effect, happensTo, type: EventEffectType.EFFECT }));
     if (!state.currentEvent[index]) throw new Error("No current event");
     state.currentEvent[index].effects = state.currentEvent[index].effects || [];
     state.currentEvent[index].effects = [
@@ -74,4 +65,6 @@ export const sendEvents = (state: GameState) => {
     state.currentEvent = null;
   }
   state.agents.forEach((agent) => agent.sendEvents(state.events));
+  state.events = []
+  state.currentEvent = null
 };

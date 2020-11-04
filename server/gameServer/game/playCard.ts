@@ -2,7 +2,7 @@ import { cardHappens } from "./playCards/cardHappens";
 import { ControlEnum } from "../errors";
 import { GameState } from "../interfaces/stateInterface";
 import { Card, MechanicEnum } from "../../shared/card";
-import { readyEffects, readyMechanics } from "./readiedEffects";
+import { makeReadyEffects, makeReadyMechanics } from "./readiedEffects";
 import {
   playersMakePredictions,
   playersPickCards,
@@ -11,17 +11,15 @@ import {
 import { markAxisChanges, playerMakesPredictions } from "./mechanics/predict";
 import { getEnhancementsFromCard } from "./mechanics/enhance";
 import { splitArray } from "../util";
-import { canUseCritical } from "./mechanics/critical";
+import { getEffectsFromCrits } from "./mechanics/critical";
 import { makeEventsFromReadied, newCardEvent } from "./events";
 import { givePlayersCards } from "./drawCards";
 
 export const playCards = async (state: GameState) => {
   try {
     await playersMakePredictions(state);
-    console.log("Players predicted");
     givePlayersCards(state);
     await playersPickCards(state);
-    console.log("Players picked cards");
     readyEffectsAndMechanics(state);
     newCardEvent(state); //Processes readed effects and mechs
     makeEventsFromReadied(state);
@@ -56,27 +54,20 @@ export const readyPlayerEffectsAndMechanics = (
   const {
     effects = [],
     mechanics = [],
-    enhancements = [],
-    player,
-    opponent,
   } = card;
-  let [criticals, nonCritMechs] = splitArray(
-    mechanics,
-    (mech) => mech.mechanic === MechanicEnum.CRITICAL
-  );
-  criticals = criticals.filter((mech) =>
-    canUseCritical(mech, playedBy, opponent, state)
-  );
+  const [crits, nonCritMechs] = splitArray(mechanics, (mech)=> mech.mechanic === MechanicEnum.CRITICAL); 
   const enhanceEffects = getEnhancementsFromCard(card);
   state.readiedMechanics[playedBy] = [
     ...state.readiedMechanics[playedBy],
-    ...readyMechanics(criticals, card),
-    ...readyMechanics(nonCritMechs, card),
+    ...makeReadyMechanics(nonCritMechs, card),
   ];
+
+  const critEffects = getEffectsFromCrits(crits); 
   state.readiedEffects[playedBy] = [
     ...state.readiedEffects[playedBy],
-    ...readyEffects(effects, card, state),
-    ...readyEffects(enhanceEffects, card, state),
+    ...makeReadyEffects(effects, card),
+    ...makeReadyEffects(enhanceEffects, card),
+    ...makeReadyEffects(critEffects, card),
   ];
 };
 

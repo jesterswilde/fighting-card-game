@@ -1,0 +1,30 @@
+{
+  "name": "_PickOneTest",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [],
+  "effects": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Pick One",
+      "choices": [
+        [
+          {
+            "axis": "Damage",
+            "player": "Them",
+            "amount": 44
+          }
+        ],
+        [
+          {
+            "axis": "Poise",
+            "player": "Me",
+            "amount": 9
+          }
+        ]
+      ]
+    }
+  ],
+  "tags": []
+}

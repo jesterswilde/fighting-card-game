@@ -1,7 +1,8 @@
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
 import { MechanicEnum, Mechanic, Card } from "../../../shared/card";
-import { readyEffects } from "../readiedEffects";
+import { makeReadyEffects } from "../readiedEffects";
+import { addDisplayEffect, makeEventsFromReadied, startNewEvent } from "../events";
 
 /*
     Give up N poise, to gain an effect. 
@@ -21,19 +22,15 @@ export const playerChoosesForce = async (player: number, state: GameState) => {
   let readiedEffs: ReadiedEffect[] = [];
   for (let i = 0; i < validForcefulArr.length; i++) {
     const {card: { name: cardName }, mechanic, card,} = validForcefulArr[i];
-    const choseToPlay = await state.agents[player].getUsedForceful(cardName, mechanic.index);
+    console.log("Sending forceful question")
+    const choseToPlay = await state.agents[player].getUsedForceful({cardName, index: mechanic.index});
     if (choseToPlay) {
       state.playerStates[player].poise -= mechanic.amount;
-      DisplayForcefulEvent(card, mechanic, state);
-      readiedEffs.push(...readyEffects(mechanic.effects, card, state));
+      readiedEffs.push(...makeReadyEffects(mechanic.effects, card));
+      addDisplayEffect("Forceful", player, state)
+      makeEventsFromReadied(state); 
     }
   }
   state.readiedEffects[player].push(...readiedEffs); 
   state.readiedMechanics[player] = [...unused];
 };
-
-const DisplayForcefulEvent = (
-  card: Card,
-  mechanic: Mechanic,
-  state: GameState
-) => {};

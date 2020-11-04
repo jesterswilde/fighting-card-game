@@ -16,8 +16,8 @@ exports.cardHappens = (state) => {
         collectDamage_1.collectBlockAndDamage(state);
         clutch_1.applyClutch(state);
         exports.applyPoise(state);
-        handleStateEffects_1.applyStateEffects(state);
         exports.applyMechanics(state);
+        handleStateEffects_1.applyStateEffects(state);
         exports.clearReadiedEffectsAndMechanics(state);
         predict_1.checkPredictions(state);
         telegraph_1.checkTelegraph(state);

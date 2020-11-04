@@ -9,6 +9,8 @@ import { addEnhacementsToHands } from "./mechanics/enhance";
 import { markCritical } from "./mechanics/critical";
 
 export const givePlayersCards = (state: GameState, { _sendHand = sendHand } = {}) => {
+    if(state.pickedCards.length > 0 && state.pickedCards.some(card => card != null && card != undefined))
+        return; 
     try {
         drawHands(state); 
         markCritical(state);

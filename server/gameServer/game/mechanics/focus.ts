@@ -1,6 +1,6 @@
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { mechReqsMet } from "../playCards/requirements";
-import { readyEffects } from "../readiedEffects";
+import { makeReadyEffects } from "../readiedEffects";
 import { ControlEnum } from "../../errors";
 import { forEachCardInQueue } from "../queue";
 import { Card, Mechanic } from "../../../shared/card";
@@ -42,7 +42,7 @@ const readyFocusEffects = (card: Card, state: GameState) => {
     return card.focuses
         .filter((mech) => mechReqsMet(mech, card.opponent, card.player, state))
         .reduce((readied: ReadiedEffect[], mech) => {
-            const readiedEff = readyEffects(mech.effects, card, state);
+            const readiedEff = makeReadyEffects(mech.effects, card);
             readied.push(...readiedEff);
             return readied;
         }, []);

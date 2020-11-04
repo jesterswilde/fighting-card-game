@@ -2,8 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const gameEvent_1 = require("../interfaces/gameEvent");
 exports.newCardEvent = (state) => {
-    startNewEvent(gameEvent_1.EventType.PLAYED_CARD, state);
+    console.log("Adding new card event");
+    exports.startNewEvent(gameEvent_1.EventType.PLAYED_CARD, state);
     state.pickedCards.forEach((card, i) => {
+        if (!card)
+            return null;
         state.currentEvent[i].card = {
             cardName: card.name,
             priority: card.priority,
@@ -11,29 +14,22 @@ exports.newCardEvent = (state) => {
     });
 };
 exports.reflexEvent = (reflexingCards, state) => {
-    startNewEvent(gameEvent_1.EventType.REFLEX, state);
-    state.currentEvent.forEach((e, i) => {
-        e.reflexingCard = reflexingCards[i];
-    });
-};
-exports.predictionRevealEvent = (predictions, state) => {
-    startNewEvent(gameEvent_1.EventType.REVEAL_PREDICTION, state);
-    predictions.forEach((pred, i) => {
-        if (!pred)
-            return;
-        state.currentEvent[i].prediction = pred;
-    });
+    exports.startNewEvent(gameEvent_1.EventType.REFLEX, state);
 };
 exports.gameOverEvent = (state) => {
-    startNewEvent(gameEvent_1.EventType.GAME_OVER, state);
+    exports.startNewEvent(gameEvent_1.EventType.GAME_OVER, state);
     state.currentEvent.forEach((e) => (e.winner = state.winner));
 };
-const startNewEvent = (header, state) => {
+exports.startNewEvent = (header, state) => {
     if (state.currentEvent)
         state.events.push(state.currentEvent);
-    state.currentEvent = state.agents.map((_) => ({
+    state.currentEvent = state.agents.map(() => ({
         type: header,
     }));
+};
+exports.addDisplayEffect = (display, index, state) => {
+    state.currentEvent[index].effects = state.currentEvent[index].effects || [];
+    state.currentEvent[index].effects.push({ type: gameEvent_1.EventEffectType.CHOICE, display });
 };
 exports.makeEventsFromReadied = (state) => {
     state.readiedEffects.forEach((reaEffArr, index) => {
@@ -43,7 +39,7 @@ exports.makeEventsFromReadied = (state) => {
             reaEff.eventsHaveProcessed = true;
             return result;
         })
-            .map(({ effect, happensTo }) => ({ effect, happensTo }));
+            .map(({ effect, happensTo }) => ({ effect, happensTo, type: gameEvent_1.EventEffectType.EFFECT }));
         if (!state.currentEvent[index])
             throw new Error("No current event");
         state.currentEvent[index].effects = state.currentEvent[index].effects || [];
@@ -59,4 +55,6 @@ exports.sendEvents = (state) => {
         state.currentEvent = null;
     }
     state.agents.forEach((agent) => agent.sendEvents(state.events));
+    state.events = [];
+    state.currentEvent = null;
 };

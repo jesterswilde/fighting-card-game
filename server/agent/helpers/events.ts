@@ -1,11 +1,18 @@
-import { EventAction, EventEffect, FrontEndEffect, FrontendEvent } from "../../gameServer/interfaces/gameEvent"
+import { EventAction, EventEffect, EventEffectType, FrontEndEffect, FrontendEvent } from "../../gameServer/interfaces/gameEvent"
 import { HappensEnum } from "../../gameServer/interfaces/stateInterface"
 import { getOpponent, deepCopy } from "../../gameServer/util"
 import { PlayerEnum } from "../../shared/card"
-import { getAxisGroup, SortAxisEnum } from "../../shared/sortOrder"
 
 export const eventsToFrontend = (events: EventAction[][]): FrontendEvent[][]=>{
     return events.map(eventPair =>{
+        return eventPair.map((eventAction, i) =>{
+          const effects = breakApartArray(eventAction.effects, i) 
+            .map(eff => toFrontendEffect(eff))
+          const frontendEvent = deepCopy(eventAction) as unknown as FrontendEvent
+          frontendEvent.effects = effects;  
+          return frontendEvent;
+        })
+        /*
         let standingEffs: EventEffect[][] = [[],[]]
         let hasStanding = false
         let motionEffs: EventEffect[][] = [[],[]]
@@ -41,26 +48,38 @@ export const eventsToFrontend = (events: EventAction[][]): FrontendEvent[][]=>{
             const frontendEvent: FrontendEvent = deepCopy(e) as unknown as FrontendEvent
             frontendEvent.effects = resultEffs[i].map(toFrontendEffect)
             return frontendEvent;
-      })
+      })*/
     })
   }
   
   const toFrontendEffect = (effect: EventEffect): FrontEndEffect=>{
     if(effect === null)
       return null
-    return {
-      axis: effect.effect.axis,
-      amount: effect.effect.amount,
-      isBlocked: effect.happensTo.some(happens => happens === HappensEnum.BLOCKED),
-      player: effect.effect.player
+    if(effect.type === EventEffectType.EFFECT){
+      return {
+        type: EventEffectType.EFFECT,
+        axis: effect.effect.axis,
+        amount: effect.effect.amount,
+        isBlocked: effect.happensTo.some(happens => happens === HappensEnum.BLOCKED),
+        player: effect.effect.player
+      }
+    }else
+    {
+      return{
+        type: EventEffectType.CHOICE,
+        display: effect.display
+      }
     }
   }
   
-  const breakApartArray = (effects: EventEffect[], player: number)=>{
+  const breakApartArray = (effects: EventEffect[] = [], player: number)=>{
     const result: EventEffect[] = []
     const opponent = getOpponent(player)
     effects.forEach(effect=>{
-      if(needToBeBroken(effect))
+      if(effect === null || effect.type !== EventEffectType.EFFECT){
+        result.push(effect)
+      }
+      else if(needToBeBroken(effect))
         result.push(...breakApartEffect(effect, player, opponent))
       else 
         result.push(effect)

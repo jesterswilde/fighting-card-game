@@ -22,10 +22,8 @@ const drawCards_1 = require("./drawCards");
 exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
         yield playerInput_1.playersMakePredictions(state);
-        console.log("Players predicted");
         drawCards_1.givePlayersCards(state);
         yield playerInput_1.playersPickCards(state);
-        console.log("Players picked cards");
         exports.readyEffectsAndMechanics(state);
         events_1.newCardEvent(state); //Processes readed effects and mechs
         events_1.makeEventsFromReadied(state);
@@ -54,19 +52,19 @@ exports.readyPlayerEffectsAndMechanics = (state, playedBy) => {
     if (card === undefined || card === null) {
         return;
     }
-    const { effects = [], mechanics = [], enhancements = [], player, opponent, } = card;
-    let [criticals, nonCritMechs] = util_1.splitArray(mechanics, (mech) => mech.mechanic === card_1.MechanicEnum.CRITICAL);
-    criticals = criticals.filter((mech) => critical_1.canUseCritical(mech, playedBy, opponent, state));
+    const { effects = [], mechanics = [], } = card;
+    const [crits, nonCritMechs] = util_1.splitArray(mechanics, (mech) => mech.mechanic === card_1.MechanicEnum.CRITICAL);
     const enhanceEffects = enhance_1.getEnhancementsFromCard(card);
     state.readiedMechanics[playedBy] = [
         ...state.readiedMechanics[playedBy],
-        ...readiedEffects_1.readyMechanics(criticals, card),
-        ...readiedEffects_1.readyMechanics(nonCritMechs, card),
+        ...readiedEffects_1.makeReadyMechanics(nonCritMechs, card),
     ];
+    const critEffects = critical_1.getEffectsFromCrits(crits);
     state.readiedEffects[playedBy] = [
         ...state.readiedEffects[playedBy],
-        ...readiedEffects_1.readyEffects(effects, card, state),
-        ...readiedEffects_1.readyEffects(enhanceEffects, card, state),
+        ...readiedEffects_1.makeReadyEffects(effects, card),
+        ...readiedEffects_1.makeReadyEffects(enhanceEffects, card),
+        ...readiedEffects_1.makeReadyEffects(critEffects, card),
     ];
 };
 exports.incrementQueue = (state) => {

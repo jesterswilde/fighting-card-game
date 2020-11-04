@@ -6,7 +6,10 @@ export enum EventType {
   MECHANIC = "MechanicActivation",
   REVEAL_PREDICTION = "RevealPrediction",
   GAME_OVER = "GameOver",
-  REFLEX = "Reflex"
+  REFLEX = "Reflex",
+  USED_FORCEFUL = "Forceful",
+  PICKED_ONE = "PickedOne",
+  HAS_PREDICTION = "HasPrediction",
 }
 
 export interface EventAction {
@@ -42,13 +45,34 @@ export interface PredictionEvent {
   correctGuesses: PredictionEnum[]
 }
 export interface EventEffect{
-  effect: Effect;
-  happensTo: HappensEnum[]
+  type: EventEffectType
+  display?: string
+  effect?: Effect
+  happensTo?: HappensEnum[]
 }
 
-export interface FrontEndEffect{
-  axis: AxisEnum
-  amount?: number
-  player?: PlayerEnum
+export enum EventEffectType {
+  EFFECT,
+  CHOICE
+}
+interface EventEffectNormal{
+  type: EventEffectType.EFFECT,
+  axis: AxisEnum, 
+  amount?: number, 
+  player: PlayerEnum, 
   isBlocked: boolean
 }
+interface EventEffectChoice{
+  type: EventEffectType.CHOICE,
+  display: string
+}
+export type FrontEndEffect = EventEffectChoice | EventEffectNormal
+/*
+export interface FrontEndEffect{
+  type: EventEffectType,
+  display?: string,
+  axis?: AxisEnum
+  amount?: number
+  player?: PlayerEnum
+  isBlocked?: boolean
+}*/

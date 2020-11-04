@@ -4,15 +4,19 @@ import { playerMakesPredictions } from "../mechanics/predict";
 import { playerPicksOne } from "../mechanics/pickOne";
 import { playerChoosesForce } from "../mechanics/forceful";
 import { removeEnhancements } from "../mechanics/enhance";
+import { some } from "lodash";
 
 
 export const playersPickCards = (state: GameState) => {
+    if(state.pickedCards.length > 0 && state.pickedCards.some(card => card != null && card != undefined))
+        return; 
     const promiseArr = state.agents.map((_, player) => playerChoosesCard(player, state));
     return Promise.all(promiseArr);
 }
 
 export const playersMakePredictions = (state:GameState)=>{
     const promiseArr = state.agents.map((_, player) => playerMakesPredictions(player, state));
+    console.log("Predictions have happeend"); 
     return Promise.all(promiseArr);
 }
 
