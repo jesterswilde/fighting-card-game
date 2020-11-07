@@ -27,6 +27,8 @@ var SocketEnum;
     SocketEnum["OPPONENT_LEFT"] = "opponentLeft";
     SocketEnum["PLAYER_SHOULD_CHOSE_DECK"] = "playerShouldChoseDeck";
     SocketEnum["PLAYER_SENT_BAD_INFO"] = "playerSentBadInfo";
+    SocketEnum["CHOOSE_GAME_MODE"] = "chooseGameMode";
+    SocketEnum["CHOSE_GAME_MODE"] = "choseGameMode";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
 var GameOverEnum;
 (function (GameOverEnum) {

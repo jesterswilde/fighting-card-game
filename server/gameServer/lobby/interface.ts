@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import { Socket } from "socket.io"; 
 import { Deck } from "../../decks/interface";
 
 export interface PlayerObject {
@@ -6,4 +6,10 @@ export interface PlayerObject {
     username: string;
     deck?: Deck;
     didDC?: boolean;
+    mode?: GameMode
+  }
+
+  export enum GameMode { 
+    VS_PLAYER = "vs Player",
+    VS_AI = "vs AI"
   }

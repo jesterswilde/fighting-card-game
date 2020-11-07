@@ -18,7 +18,7 @@ const moveHandSizeMod = (state: GameState)=>{
 
 const movePendingPredictions = (state: GameState)=>{
     state.predictions = state.pendingPredictions; 
-    state.pendingPredictions = []; 
+    state.pendingPredictions = state.agents.map(_=>null); 
 }
 
 

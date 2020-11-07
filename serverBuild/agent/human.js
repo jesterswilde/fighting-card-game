@@ -43,11 +43,7 @@ exports.makeHumanAgent = (player) => {
                 turnNumber: state.turnNumber,
                 stateDurations: state.stateDurations,
             };
-            stateToSend.queue.forEach((turn, turnI) => {
-                turn.forEach((col, colI) => {
-                    col.forEach((card, cardI) => console.log("NormalCard", state.queue[turnI][colI][cardI], "\n", "QueueCard", card));
-                });
-            });
+            console.log("Sending state", stateToSend);
             player.socket.emit(socket_1.SocketEnum.GOT_STATE, stateToSend);
         },
         sendEvents: (events) => {
@@ -71,7 +67,6 @@ exports.makeHumanAgent = (player) => {
             return new Promise((res, rej) => {
                 player.socket.emit(socket_1.SocketEnum.GOT_FORCEFUL_CHOICE, mechOnCard);
                 player.socket.once(socket_1.SocketEnum.PICKED_FORCEFUL, (useForceful) => {
-                    console.log(`Got forceful predction ${useForceful}`);
                     res(useForceful);
                 });
             });
@@ -85,7 +80,13 @@ exports.makeHumanAgent = (player) => {
     };
 };
 const processPredictions = (pred) => {
-    return pred.readiedEffects.map(reaEff => reaEff.effect);
+    if (pred)
+        console.log("Processing pred", pred);
+    if (!pred)
+        return null;
+    return {
+        effects: pred.readiedEffects.map(reaEff => reaEff.effect)
+    };
 };
 const processHandCard = (bothHands) => {
     return bothHands.map((hand) => {

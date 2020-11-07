@@ -20,6 +20,7 @@ export const playCards = async (state: GameState) => {
     await playersMakePredictions(state);
     givePlayersCards(state);
     await playersPickCards(state);
+    state.pickedCards.forEach(card => console.log("Mech: ", card.mechanics))
     readyEffectsAndMechanics(state);
     newCardEvent(state); //Processes readed effects and mechs
     makeEventsFromReadied(state);

@@ -24,6 +24,7 @@ export const playerChoosesForce = async (player: number, state: GameState) => {
     const {card: { name: cardName }, mechanic, card,} = validForcefulArr[i];
     console.log("Sending forceful question")
     const choseToPlay = await state.agents[player].getUsedForceful({cardName, index: mechanic.index});
+    console.log("Did choose to play: ", choseToPlay)
     if (choseToPlay) {
       state.playerStates[player].poise -= mechanic.amount;
       readiedEffs.push(...makeReadyEffects(mechanic.effects, card));

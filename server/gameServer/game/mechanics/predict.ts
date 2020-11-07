@@ -15,6 +15,7 @@ import { startNewEvent } from "../events";
     Predictions live on gamestate
 */
 
+//This is called by the mechanic handler
 export const movePredictionsToPending = (
   mechanic: Mechanic,
   card: Card,
@@ -27,6 +28,7 @@ export const movePredictionsToPending = (
   ] || { readiedEffects: [], targetPlayer: opponent };
   const reaEffs = makeReadyEffects(mechanic.effects, card);
   state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
+  console.log("Pending predictions", state.pendingPredictions[card.player])
 };
 
 export const didPredictionHappen = (
@@ -55,6 +57,8 @@ export const checkPredictions = (state: GameState) => {
   const { predictions } = state;
   let stateChanged = false;
   const predEvents: PredictionEvent[] = predictions.map((pred, player) => {
+    if(pred === null)
+      return null; 
     const didHappen = didPredictionHappen(pred, pred.targetPlayer, state);
     if (didHappen) {
       stateChanged = true;
@@ -142,7 +146,7 @@ export const playerMakesPredictions = async (
   const predictionObj = predictions[player];
   console.log("Checking for prediction of player " + player); 
   if (predictionObj) {
-    console.log("Waiting for prediction of player", player);
+    console.log("Waiting for prediction of player", player, predictionObj);
     predictionObj.prediction = await agents[player].getPrediction();
   }
 };

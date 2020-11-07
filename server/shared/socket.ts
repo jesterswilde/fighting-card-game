@@ -24,7 +24,9 @@ export enum SocketEnum {
   END_GAME_CHOICE = 'endGameChoice',
   OPPONENT_LEFT = 'opponentLeft',
   PLAYER_SHOULD_CHOSE_DECK = "playerShouldChoseDeck",
-  PLAYER_SENT_BAD_INFO = "playerSentBadInfo"
+  PLAYER_SENT_BAD_INFO = "playerSentBadInfo",
+  CHOOSE_GAME_MODE = "chooseGameMode",
+  CHOSE_GAME_MODE = "choseGameMode"
 }
 
 export enum GameOverEnum {

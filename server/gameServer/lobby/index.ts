@@ -4,7 +4,7 @@ import { getVerifiedUsername } from "../../auth";
 import { Deck } from "../../decks/interface";
 import { areCardsInStyles } from "../../decks/validation";
 import { ErrorEnum } from "../../error";
-import { PlayerObject } from "./interface";
+import { GameMode, PlayerObject } from "./interface";
 import { handleDCDuringLobby } from "./disconnect";
 import { addToLobbyQueue } from "./queue";
 import { createGame } from "./game";
@@ -22,8 +22,11 @@ const configureSocket = async (socket: Socket) => {
     const player = await makePlayerObject(socket);
     console.log("Asking playe to choose deck"); 
     await playerChoosesDeck(player);
-    // joinLobby(player); //NEED SWITCH STATEMENT HERE,
-    playAgainstAI(player);
+    await playerChoosesMode(player); 
+    if(player.mode == GameMode.VS_AI)
+      playAgainstAI(player);
+    else
+      joinLobby(player); //NEED SWITCH STATEMENT HERE,
   } catch (err) {
     if ((err = ErrorEnum.CARDS_ARENT_IN_STYLES)) {
       console.log(`Error in lobby ${err}`);
@@ -54,6 +57,16 @@ const playerChoosesDeck = async (player: PlayerObject) => {
     });
   });
 };
+
+const playerChoosesMode = async(player: PlayerObject)=>{
+  return new Promise((res, rej) => {
+    player.socket.emit(SocketEnum.CHOOSE_GAME_MODE); 
+    player.socket.once(SocketEnum.CHOSE_GAME_MODE, (mode: GameMode)=>{
+      player.mode = mode
+      res()
+    }); 
+  })
+}
 
 const playAgainstAI = async (player: PlayerObject) => {
   console.log("creating AI game")

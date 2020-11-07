@@ -24,6 +24,7 @@ exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
         yield playerInput_1.playersMakePredictions(state);
         drawCards_1.givePlayersCards(state);
         yield playerInput_1.playersPickCards(state);
+        state.pickedCards.forEach(card => console.log("Mech: ", card.mechanics));
         exports.readyEffectsAndMechanics(state);
         events_1.newCardEvent(state); //Processes readed effects and mechs
         events_1.makeEventsFromReadied(state);

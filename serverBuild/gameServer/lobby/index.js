@@ -12,6 +12,7 @@ const socket_1 = require("../../shared/socket");
 const auth_1 = require("../../auth");
 const validation_1 = require("../../decks/validation");
 const error_1 = require("../../error");
+const interface_1 = require("./interface");
 const disconnect_1 = require("./disconnect");
 const queue_1 = require("./queue");
 const game_1 = require("./game");
@@ -27,8 +28,11 @@ const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* ()
         const player = yield makePlayerObject(socket);
         console.log("Asking playe to choose deck");
         yield playerChoosesDeck(player);
-        // joinLobby(player); //NEED SWITCH STATEMENT HERE,
-        playAgainstAI(player);
+        yield playerChoosesMode(player);
+        if (player.mode == interface_1.GameMode.VS_AI)
+            playAgainstAI(player);
+        else
+            joinLobby(player); //NEED SWITCH STATEMENT HERE,
     }
     catch (err) {
         if ((err = error_1.ErrorEnum.CARDS_ARENT_IN_STYLES)) {
@@ -56,6 +60,15 @@ const playerChoosesDeck = (player) => __awaiter(this, void 0, void 0, function* 
                 player.deck = deck;
                 res();
             }
+        });
+    });
+});
+const playerChoosesMode = (player) => __awaiter(this, void 0, void 0, function* () {
+    return new Promise((res, rej) => {
+        player.socket.emit(socket_1.SocketEnum.CHOOSE_GAME_MODE);
+        player.socket.once(socket_1.SocketEnum.CHOSE_GAME_MODE, (mode) => {
+            player.mode = mode;
+            res();
         });
     });
 });

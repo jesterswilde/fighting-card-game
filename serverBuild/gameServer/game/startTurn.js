@@ -24,7 +24,7 @@ const moveHandSizeMod = (state) => {
 };
 const movePendingPredictions = (state) => {
     state.predictions = state.pendingPredictions;
-    state.pendingPredictions = [];
+    state.pendingPredictions = state.agents.map(_ => null);
 };
 exports.addPoise = (state) => {
     const { playerStates } = state;

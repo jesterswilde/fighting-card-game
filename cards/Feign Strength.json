@@ -1,5 +1,6 @@
 {
   "name": "Feign Strength",
+  "style": "Grappler",
   "priority": 7,
   "requirements": [
     {
@@ -22,13 +23,13 @@
     {
       "index": 0,
       "mechanic": "Predict",
-      "requirements": [
+      "effects": [
         {
           "axis": "Lose Poise",
-          "player": "Them"
+          "player": "Them",
+          "amount": 3
         }
-      ],
-      "effects": []
+      ]
     }
   ],
   "tags": []

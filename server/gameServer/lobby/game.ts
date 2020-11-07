@@ -30,7 +30,7 @@ const makeGameState = (agents: Agent[]) => {
     readiedMechanics: [[],[]],
     readiedDamageEffects: [[], []],
     modifiedAxis: [makeModifiedAxis(), makeModifiedAxis()],
-    predictions: [],
+    predictions: [null, null],
     pendingPredictions: [],
     damaged: [false, false],
     setup: [0, 0],
