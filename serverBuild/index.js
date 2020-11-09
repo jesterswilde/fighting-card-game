@@ -27,6 +27,6 @@ app.use(express.static(path.join(__dirname, "..", "game-client", "dist")));
 app.get("*", (req, res) => {
     res
         .status(200)
-        .sendfile(path.resolve(__dirname, "..", "game-client", "dist", "index.html"));
+        .sendFile(path.resolve(__dirname, "..", "game-client", "dist", "index.html"));
 });
 server.listen(port, () => console.log("listening on port " + port));

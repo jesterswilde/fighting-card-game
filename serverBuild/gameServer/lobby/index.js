@@ -19,6 +19,7 @@ const game_1 = require("./game");
 const human_1 = require("../../agent/human");
 const random_1 = require("../../agent/random");
 exports.default = (io) => {
+    console.log("Starting socket connection");
     io.on("connection", configureSocket);
 };
 const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* () {
