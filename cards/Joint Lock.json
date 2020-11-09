@@ -1,5 +1,6 @@
 {
   "name": "Joint Lock",
+  "style": "Grappler",
   "priority": 8,
   "requirements": [
     {

@@ -1,29 +1,30 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const effectHappens_1 = require("./effectHappens");
+const handleComplexMech_1 = require("./handleComplexMech");
 const errors_1 = require("../../errors");
 const telegraph_1 = require("../mechanics/telegraph");
 const reflex_1 = require("../mechanics/reflex");
 const focus_1 = require("../mechanics/focus");
 const handleStateEffects_1 = require("./handleStateEffects");
-const collectDamage_1 = require("./collectDamage");
-const util_1 = require("../../util");
-const card_1 = require("../../../shared/card");
+const handleDamage_1 = require("./handleDamage");
 const clutch_1 = require("../mechanics/clutch");
 const predict_1 = require("../mechanics/predict");
+const handleSimpleMech_1 = require("./handleSimpleMech");
+const poise_1 = require("../mechanics/poise");
 exports.cardHappens = (state) => {
     try {
-        collectDamage_1.collectBlockAndDamage(state);
+        handleDamage_1.collectBlockAndDamage(state);
         clutch_1.applyClutch(state);
-        exports.applyPoise(state);
-        exports.applyMechanics(state);
+        poise_1.applyPoise(state);
+        handleComplexMech_1.applyComplexMech(state);
+        handleSimpleMech_1.applySimpleMech(state);
         handleStateEffects_1.applyStateEffects(state);
         exports.clearReadiedEffectsAndMechanics(state);
         predict_1.checkPredictions(state);
         telegraph_1.checkTelegraph(state);
         focus_1.checkFocus(state);
         reflex_1.checkReflex(state);
-        collectDamage_1.applyCollectedDamage(state);
+        handleDamage_1.applyCollectedDamage(state);
         exports.checkForVictor(state);
     }
     catch (err) {
@@ -35,11 +36,6 @@ exports.cardHappens = (state) => {
             throw (err);
         }
     }
-};
-exports.applyMechanics = (state) => {
-    state.readiedMechanics.forEach((reaMech) => {
-        effectHappens_1.handleReadiedMechanics(reaMech, state);
-    });
 };
 exports.clearReadiedEffectsAndMechanics = (state) => {
     state.readiedEffects = state.readiedEffects.map(() => []);
@@ -59,13 +55,4 @@ exports.checkForVictor = (state) => {
     if (state.winner !== undefined) {
         throw errors_1.ControlEnum.GAME_OVER;
     }
-};
-exports.applyPoise = (state) => {
-    state.readiedEffects = state.readiedEffects.map((playerReaEffs, player) => {
-        const [poiseArr, unusedArr] = util_1.splitArray(playerReaEffs, ({ effect }) => effect.axis === card_1.AxisEnum.POISE || effect.axis === card_1.AxisEnum.LOSE_POISE);
-        poiseArr.forEach((reaEff) => {
-            effectHappens_1.handleReadiedEffects(reaEff, state);
-        });
-        return unusedArr;
-    });
 };

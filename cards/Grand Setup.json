@@ -1,5 +1,6 @@
 {
   "name": "Grand Setup",
+  "style": "Grappler",
   "priority": 9,
   "requirements": [
     {

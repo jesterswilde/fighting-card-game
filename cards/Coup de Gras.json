@@ -1,5 +1,6 @@
 {
   "name": "Coup de Gras",
+  "style": "Grappler",
   "priority": 4,
   "requirements": [
     {

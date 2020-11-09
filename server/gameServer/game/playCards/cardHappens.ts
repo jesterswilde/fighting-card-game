@@ -1,22 +1,23 @@
-import { handleReadiedMechanics, handleReadiedEffects } from "./effectHappens";
+import { applyComplexMech, handleReadiedComplexMech } from "./handleComplexMech";
 import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { ControlEnum } from "../../errors";
 import { checkTelegraph } from "../mechanics/telegraph";
 import { checkReflex } from "../mechanics/reflex";
 import { checkFocus } from "../mechanics/focus";
-import { applyStateEffects } from "./handleStateEffects";
-import { collectBlockAndDamage, applyCollectedDamage } from "./collectDamage";
-import { splitArray } from "../../util";
-import { AxisEnum } from "../../../shared/card";
+import { applyStateEffects, handleReadiedEffects } from "./handleStateEffects";
+import { collectBlockAndDamage, applyCollectedDamage } from "./handleDamage";
 import { applyClutch } from "../mechanics/clutch";
 import { checkPredictions } from "../mechanics/predict";
+import { applySimpleMech } from "./handleSimpleMech";
+import { applyPoise } from "../mechanics/poise";
 
 export const cardHappens = (state: GameState) => {
     try {
         collectBlockAndDamage(state);
         applyClutch(state);
         applyPoise(state);
-        applyMechanics(state);
+        applyComplexMech(state);
+        applySimpleMech(state); 
         applyStateEffects(state);
         clearReadiedEffectsAndMechanics(state);
         checkPredictions(state);
@@ -33,12 +34,6 @@ export const cardHappens = (state: GameState) => {
             throw (err)
         }
     }
-}
-
-export const applyMechanics = (state: GameState) => {
-    state.readiedMechanics.forEach((reaMech) => {
-        handleReadiedMechanics(reaMech, state);
-    })
 }
 
 export const clearReadiedEffectsAndMechanics = (state: GameState) => {
@@ -58,14 +53,4 @@ export const checkForVictor = (state: GameState) => {
     if (state.winner !== undefined) {
         throw ControlEnum.GAME_OVER;
     }
-}
-
-export const applyPoise = (state: GameState) => {
-    state.readiedEffects = state.readiedEffects.map((playerReaEffs, player) => {
-        const [poiseArr, unusedArr] = splitArray(playerReaEffs, ({ effect }) => effect.axis === AxisEnum.POISE || effect.axis === AxisEnum.LOSE_POISE);
-        poiseArr.forEach((reaEff) => {
-            handleReadiedEffects(reaEff, state);
-        })
-        return unusedArr;
-    });
 }

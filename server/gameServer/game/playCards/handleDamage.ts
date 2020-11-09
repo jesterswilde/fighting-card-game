@@ -5,9 +5,9 @@ import {
 } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
 import { AxisEnum, MechanicEnum } from "../../../shared/card";
-import { handleReadiedEffects } from "./effectHappens";
 import { collectParry } from "../mechanics/parry";
 import { collectBlock } from "../mechanics/block";
+import { handleReadiedEffects } from "./handleStateEffects";
 
 export const collectBlockAndDamage = (state: GameState) => {
   collectParry(state);

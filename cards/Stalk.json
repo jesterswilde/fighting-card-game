@@ -1,0 +1,37 @@
+{
+  "name": "Stalk",
+  "style": "Grappler",
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": "Them"
+    },
+    {
+      "axis": "Far",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Rigid",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Setup",
+      "player": "Me",
+      "amount": 3
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

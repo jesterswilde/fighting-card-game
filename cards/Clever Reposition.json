@@ -1,5 +1,6 @@
 {
   "name": "Clever Reposition",
+  "style": "Grappler",
   "priority": 4,
   "requirements": [
     {

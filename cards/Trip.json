@@ -1,0 +1,42 @@
+{
+  "name": "Trip",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 8
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

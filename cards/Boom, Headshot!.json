@@ -1,0 +1,46 @@
+{
+  "name": "Boom, Headshot!",
+  "style": "Grappler",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Anticipating",
+      "player": "Me"
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": "Them"
+    },
+    {
+      "axis": "Still",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 1
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 38
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Shot"
+  ]
+}

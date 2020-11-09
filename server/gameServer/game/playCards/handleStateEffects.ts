@@ -5,10 +5,10 @@ import {
   DistanceEnum,
 } from "../../interfaces/stateInterface";
 import { getAxisGroup as getAxisGroup } from "../../../shared/sortOrder";
-import { handleReadiedEffects } from "./effectHappens";
 import { splitArray } from "../../util";
-import { AxisEnum } from "../../../shared/card";
+import { AxisEnum, Card, Effect } from "../../../shared/card";
 import { calculatePriority } from "../mechanics/priority";
+import { globalAxis, playerAxis } from "./axis";
 
 interface OrderPlayerObj {
   [order: number]: {
@@ -16,7 +16,33 @@ interface OrderPlayerObj {
   };
 }
 
+export const handleReadiedEffects = (reaEff: ReadiedEffect, state: GameState) => {
+    const whoToCheck = reaEff.happensTo.map((value, i) => value === HappensEnum.HAPPENS ? i : null)
+        .filter((value) => value !== null);
+    handleStateChange(reaEff.effect, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck);
+}
+
+const handleStateChange = (effect: Effect, card: Card, player: number, opponent: number, state: GameState, appliesTo: number[]) => {
+    const applyGlobal = globalAxis[effect.axis];
+    if (appliesTo.length === 0) {
+        return;
+    }
+    if (applyGlobal !== undefined) {
+        applyGlobal(state);
+    }
+    let amount: number | null;
+    if (effect.amount !== undefined && effect.amount !== null) {
+        amount = Number(effect.amount)
+    } else {
+        amount = null;
+    }
+    const applyPlayerState = playerAxis[effect.axis];
+    if (applyPlayerState !== undefined && (amount === undefined || !isNaN(amount))) {
+        applyPlayerState(appliesTo, amount, state);
+    }
+}
 export const applyStateEffects = (state: GameState) => {
+  console.log("Applying effects"); 
   let stateReaEffs = getStateReaEffs(state);
   markConflicts(stateReaEffs, state);
   stateReaEffs.forEach((playerEffs) => {

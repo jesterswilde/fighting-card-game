@@ -1,5 +1,6 @@
 {
   "name": "Neck Break",
+  "style": "Grappler",
   "priority": 2,
   "requirements": [
     {

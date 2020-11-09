@@ -5,7 +5,7 @@ import { deepCopy } from "../../util";
 
 //permanently buffs all cards with a tag. 
 
-export const getEnhancementsFromCard = (card:Card) =>{
+export const makeEffectsFromEnhance = (card:Card) =>{
     if(!card.enhancements)
         return [];
     const effects: Effect[] = []; 
@@ -13,19 +13,21 @@ export const getEnhancementsFromCard = (card:Card) =>{
     return effects; 
 }
 
-const addEnhancementToCard = (card: Card, state: GameState) => {
-    const tags = card.tags || [];
-    const modObj = state.tagModification[card.player]
-    card.enhancements = tags.reduce((enhArr: Enhancement[], tag)=>{
-        const effects = modObj[tag] || [];
-        enhArr.push({tag, effects});
-        return enhArr;
-    },[])
-}
 export const addEnhacementsToHands = (state: GameState)=>{
     state.hands.forEach(hand =>{
         hand.forEach(card => addEnhancementToCard(card, state));
     })
+}
+
+const addEnhancementToCard = (card: Card, state: GameState) => {
+    if(!card.tags || card.tags.length == 0)
+        return
+    const modObj = state.tagModification[card.player]
+    card.enhancements = card.tags.reduce((enhArr: Enhancement[], tag)=>{
+        const effects = modObj[tag] || [];
+        enhArr.push({tag, effects: deepCopy(effects)});
+        return enhArr;
+    },[])
 }
 
 export const removeEnhancements = (card: Card)=>{

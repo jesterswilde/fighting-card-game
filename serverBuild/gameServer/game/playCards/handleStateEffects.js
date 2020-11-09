@@ -2,16 +2,42 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const stateInterface_1 = require("../../interfaces/stateInterface");
 const sortOrder_1 = require("../../../shared/sortOrder");
-const effectHappens_1 = require("./effectHappens");
 const util_1 = require("../../util");
 const card_1 = require("../../../shared/card");
 const priority_1 = require("../mechanics/priority");
+const axis_1 = require("./axis");
+exports.handleReadiedEffects = (reaEff, state) => {
+    const whoToCheck = reaEff.happensTo.map((value, i) => value === stateInterface_1.HappensEnum.HAPPENS ? i : null)
+        .filter((value) => value !== null);
+    handleStateChange(reaEff.effect, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck);
+};
+const handleStateChange = (effect, card, player, opponent, state, appliesTo) => {
+    const applyGlobal = axis_1.globalAxis[effect.axis];
+    if (appliesTo.length === 0) {
+        return;
+    }
+    if (applyGlobal !== undefined) {
+        applyGlobal(state);
+    }
+    let amount;
+    if (effect.amount !== undefined && effect.amount !== null) {
+        amount = Number(effect.amount);
+    }
+    else {
+        amount = null;
+    }
+    const applyPlayerState = axis_1.playerAxis[effect.axis];
+    if (applyPlayerState !== undefined && (amount === undefined || !isNaN(amount))) {
+        applyPlayerState(appliesTo, amount, state);
+    }
+};
 exports.applyStateEffects = (state) => {
+    console.log("Applying effects");
     let stateReaEffs = getStateReaEffs(state);
     markConflicts(stateReaEffs, state);
     stateReaEffs.forEach((playerEffs) => {
         playerEffs.forEach((reaEff) => {
-            effectHappens_1.handleReadiedEffects(reaEff, state);
+            exports.handleReadiedEffects(reaEff, state);
         });
     });
 };

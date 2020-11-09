@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const stateInterface_1 = require("../../interfaces/stateInterface");
 const card_1 = require("../../../shared/card");
 const axis_1 = require("./axis");
-const buff_1 = require("../mechanics/buff");
 const cripple_1 = require("../mechanics/cripple");
 const focus_1 = require("../mechanics/focus");
 const predict_1 = require("../mechanics/predict");
@@ -11,6 +10,7 @@ const reflex_1 = require("../mechanics/reflex");
 const telegraph_1 = require("../mechanics/telegraph");
 const enhance_1 = require("../mechanics/enhance");
 const rigidFluid_1 = require("../mechanics/rigidFluid");
+const buff_1 = require("../mechanics/buff");
 exports.handleReadiedMechanics = (readiedMechanics, state) => {
     readiedMechanics.forEach(({ mechanic: mech, card }) => {
         const handler = mechanicRouter[mech.mechanic];
@@ -55,7 +55,7 @@ const mechanicRouter = {
     [card_1.MechanicEnum.ENHANCE]: enhance_1.handleEnhancementMechanic,
 };
 const effectRouter = {
-    [card_1.AxisEnum.BUFF]: buff_1.buffCard,
+    [card_1.AxisEnum.BUFF]: buff_1.handleBuff,
     [card_1.AxisEnum.CRIPPLE]: cripple_1.addCrippleCardToOpponentsDeck,
     [card_1.AxisEnum.REFLEX]: reflex_1.markShouldReflexOnQueueCard,
     [card_1.AxisEnum.FLUID]: rigidFluid_1.handleFluid,

@@ -1,5 +1,6 @@
 {
   "name": "Death From Above",
+  "style": "Grappler",
   "priority": 7,
   "requirements": [
     {
@@ -37,5 +38,7 @@
     }
   ],
   "mechanics": [],
-  "tags": []
+  "tags": [
+    "Leap"
+  ]
 }

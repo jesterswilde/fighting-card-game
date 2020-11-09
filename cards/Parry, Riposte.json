@@ -1,5 +1,6 @@
 {
   "name": "Parry, Riposte",
+  "style": "Grappler",
   "priority": 6,
   "requirements": [
     {

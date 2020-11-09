@@ -1,5 +1,6 @@
 {
   "name": "Face Smash",
+  "style": "Grappler",
   "priority": 4,
   "requirements": [
     {

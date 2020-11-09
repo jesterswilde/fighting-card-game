@@ -1,0 +1,69 @@
+{
+  "name": "Hogtie",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": "Them"
+    },
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 4
+    },
+    {
+      "axis": "Block",
+      "amount": 5
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Prone",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Forceful",
+      "amount": 2,
+      "effects": [
+        {
+          "axis": "Clutch",
+          "amount": 4
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

@@ -1,5 +1,6 @@
 {
   "name": "Leg Grab",
+  "style": "Grappler",
   "priority": 7,
   "requirements": [
     {

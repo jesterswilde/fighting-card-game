@@ -1,5 +1,6 @@
 {
   "name": "Ready, Steady",
+  "style": "Grappler",
   "priority": 5,
   "requirements": [
     {

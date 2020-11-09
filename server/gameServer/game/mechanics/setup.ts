@@ -12,3 +12,8 @@ export const reduceSetup = (mechanic: Mechanic, card: Card, player: number, oppo
     state.pendingSetup[player] = state.pendingSetup[player] || 0; 
     state.pendingSetup[player] += Number(mechanic.amount); 
 }
+
+export const moveSetup = (state: GameState)=>{
+    state.setup = state.pendingSetup; 
+    state.pendingSetup = state.pendingSetup.map(()=> 0); 
+}

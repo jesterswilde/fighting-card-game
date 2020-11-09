@@ -1,0 +1,62 @@
+{
+  "name": "Set Snare",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Far",
+          "player": "Both"
+        },
+        {
+          "axis": "Not Anticipating",
+          "player": "Them"
+        },
+        {
+          "axis": "Moving",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 4
+        },
+        {
+          "axis": "Prone",
+          "player": "Them",
+          "amount": 2
+        },
+        {
+          "axis": "Still",
+          "player": "Them"
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

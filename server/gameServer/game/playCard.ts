@@ -9,18 +9,18 @@ import {
   playersMakeCardChoices,
 } from "./playCards/playerInput";
 import { markAxisChanges, playerMakesPredictions } from "./mechanics/predict";
-import { getEnhancementsFromCard } from "./mechanics/enhance";
+import { makeEffectsFromEnhance } from "./mechanics/enhance";
 import { splitArray } from "../util";
 import { getEffectsFromCrits } from "./mechanics/critical";
 import { makeEventsFromReadied, newCardEvent } from "./events";
 import { givePlayersCards } from "./drawCards";
+import { makeEffectsFromBuff } from "./mechanics/buff";
 
 export const playCards = async (state: GameState) => {
   try {
     await playersMakePredictions(state);
     givePlayersCards(state);
     await playersPickCards(state);
-    state.pickedCards.forEach(card => console.log("Mech: ", card.mechanics))
     readyEffectsAndMechanics(state);
     newCardEvent(state); //Processes readed effects and mechs
     makeEventsFromReadied(state);
@@ -56,19 +56,21 @@ export const readyPlayerEffectsAndMechanics = (
     effects = [],
     mechanics = [],
   } = card;
-  const [crits, nonCritMechs] = splitArray(mechanics, (mech)=> mech.mechanic === MechanicEnum.CRITICAL); 
-  const enhanceEffects = getEnhancementsFromCard(card);
+  const [crits, nonCritMechs] = splitArray(mechanics, (mech)=> mech.mechanic === MechanicEnum.CRITICAL)
   state.readiedMechanics[playedBy] = [
     ...state.readiedMechanics[playedBy],
     ...makeReadyMechanics(nonCritMechs, card),
   ];
-
+  
+  const enhanceEffects = makeEffectsFromEnhance(card)
+  const buffEffects = makeEffectsFromBuff(card)
   const critEffects = getEffectsFromCrits(crits); 
   state.readiedEffects[playedBy] = [
     ...state.readiedEffects[playedBy],
     ...makeReadyEffects(effects, card),
     ...makeReadyEffects(enhanceEffects, card),
     ...makeReadyEffects(critEffects, card),
+    ...makeReadyEffects(buffEffects, card),
   ];
 };
 

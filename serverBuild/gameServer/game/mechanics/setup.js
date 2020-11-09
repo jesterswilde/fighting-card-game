@@ -10,3 +10,7 @@ exports.reduceSetup = (mechanic, card, player, opponent, state) => {
     state.pendingSetup[player] = state.pendingSetup[player] || 0;
     state.pendingSetup[player] += Number(mechanic.amount);
 };
+exports.moveSetup = (state) => {
+    state.setup = state.pendingSetup;
+    state.pendingSetup = state.pendingSetup.map(() => 0);
+};

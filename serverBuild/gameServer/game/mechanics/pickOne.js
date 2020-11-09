@@ -26,7 +26,7 @@ exports.playerPicksOne = (player, state) => __awaiter(this, void 0, void 0, func
         const picked = mechanic.choices[choice];
         pickedEffects.push(...picked);
         state.readiedEffects[player] = [...state.readiedEffects[player], ...readiedEffects_1.makeReadyEffects(pickedEffects, card)];
-        events_1.addDisplayEffect("Picked One", player, state);
+        events_1.addDisplayEvent("Picked One", player, state);
         events_1.makeEventsFromReadied(state);
     }
 });

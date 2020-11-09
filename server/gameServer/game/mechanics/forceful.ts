@@ -2,7 +2,7 @@ import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
 import { MechanicEnum, Mechanic, Card } from "../../../shared/card";
 import { makeReadyEffects } from "../readiedEffects";
-import { addDisplayEffect, makeEventsFromReadied, startNewEvent } from "../events";
+import { addDisplayEvent, makeEventsFromReadied, startNewEvent } from "../events";
 
 /*
     Give up N poise, to gain an effect. 
@@ -28,7 +28,7 @@ export const playerChoosesForce = async (player: number, state: GameState) => {
     if (choseToPlay) {
       state.playerStates[player].poise -= mechanic.amount;
       readiedEffs.push(...makeReadyEffects(mechanic.effects, card));
-      addDisplayEffect("Forceful", player, state)
+      addDisplayEvent("Forceful", player, state)
       makeEventsFromReadied(state); 
     }
   }

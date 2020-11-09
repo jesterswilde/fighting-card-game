@@ -1,5 +1,6 @@
 {
   "name": "Leaping Clothesline",
+  "style": "Grappler",
   "priority": 8,
   "requirements": [
     {

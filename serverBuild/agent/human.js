@@ -5,6 +5,8 @@ const socket_1 = require("../shared/socket");
 const Cards_1 = require("../cards/Cards");
 const events_1 = require("./helpers/events");
 const critical_1 = require("../gameServer/game/mechanics/critical");
+const enhance_1 = require("../gameServer/game/mechanics/enhance");
+const buff_1 = require("../gameServer/game/mechanics/buff");
 exports.makeHumanAgent = (player) => {
     let index = -1;
     return {
@@ -31,6 +33,7 @@ exports.makeHumanAgent = (player) => {
             player.socket.emit(socket_1.SocketEnum.GOT_CARDS, processHandCard(cards));
         },
         sendState: (state) => {
+            console.log(state.tagModification[0]);
             var stateToSend = {
                 numPlayers: state.numPlayers,
                 queue: processQueueCards(state.queue),
@@ -43,7 +46,6 @@ exports.makeHumanAgent = (player) => {
                 turnNumber: state.turnNumber,
                 stateDurations: state.stateDurations,
             };
-            console.log("Sending state", stateToSend);
             player.socket.emit(socket_1.SocketEnum.GOT_STATE, stateToSend);
         },
         sendEvents: (events) => {
@@ -80,8 +82,6 @@ exports.makeHumanAgent = (player) => {
     };
 };
 const processPredictions = (pred) => {
-    if (pred)
-        console.log("Processing pred", pred);
     if (!pred)
         return null;
     return {
@@ -97,7 +97,11 @@ const processHandCard = (bothHands) => {
                 name: card.name,
             };
             critical_1.addCriticalToHandCard(card, handCard);
-            //IMPLEMENT ADDING ENCHANCEMENTS AND BUFFS, THEY SHOUDL BE HANDLED IN THE MECHANICS FILE
+            const enhanceEffects = enhance_1.makeEffectsFromEnhance(card);
+            const buffedEffs = buff_1.makeEffectsFromBuff(card);
+            const appendedEffects = [...enhanceEffects, ...buffedEffs];
+            if (appendedEffects.length > 0)
+                handCard.appendedEffects = appendedEffects;
             return handCard;
         });
     });

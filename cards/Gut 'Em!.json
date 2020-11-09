@@ -1,0 +1,58 @@
+{
+  "name": "Gut 'Em!",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Anticipating",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 13
+    },
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 38
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

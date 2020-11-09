@@ -1,0 +1,30 @@
+{
+  "name": "_EnhanceEnd",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Both",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Enhance",
+      "enhancedTag": "Leap",
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 5
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Leap"
+  ]
+}

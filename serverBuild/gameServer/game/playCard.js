@@ -19,12 +19,12 @@ const util_1 = require("../util");
 const critical_1 = require("./mechanics/critical");
 const events_1 = require("./events");
 const drawCards_1 = require("./drawCards");
+const buff_1 = require("./mechanics/buff");
 exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
         yield playerInput_1.playersMakePredictions(state);
         drawCards_1.givePlayersCards(state);
         yield playerInput_1.playersPickCards(state);
-        state.pickedCards.forEach(card => console.log("Mech: ", card.mechanics));
         exports.readyEffectsAndMechanics(state);
         events_1.newCardEvent(state); //Processes readed effects and mechs
         events_1.makeEventsFromReadied(state);
@@ -55,17 +55,19 @@ exports.readyPlayerEffectsAndMechanics = (state, playedBy) => {
     }
     const { effects = [], mechanics = [], } = card;
     const [crits, nonCritMechs] = util_1.splitArray(mechanics, (mech) => mech.mechanic === card_1.MechanicEnum.CRITICAL);
-    const enhanceEffects = enhance_1.getEnhancementsFromCard(card);
     state.readiedMechanics[playedBy] = [
         ...state.readiedMechanics[playedBy],
         ...readiedEffects_1.makeReadyMechanics(nonCritMechs, card),
     ];
+    const enhanceEffects = enhance_1.makeEffectsFromEnhance(card);
+    const buffEffects = buff_1.makeEffectsFromBuff(card);
     const critEffects = critical_1.getEffectsFromCrits(crits);
     state.readiedEffects[playedBy] = [
         ...state.readiedEffects[playedBy],
         ...readiedEffects_1.makeReadyEffects(effects, card),
         ...readiedEffects_1.makeReadyEffects(enhanceEffects, card),
         ...readiedEffects_1.makeReadyEffects(critEffects, card),
+        ...readiedEffects_1.makeReadyEffects(buffEffects, card),
     ];
 };
 exports.incrementQueue = (state) => {

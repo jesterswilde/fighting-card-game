@@ -1,0 +1,24 @@
+{
+  "name": "_EnhanceStart",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [],
+  "effects": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Enhance",
+      "enhancedTag": "Leap",
+      "effects": [
+        {
+          "axis": "Poise",
+          "player": "Me",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Leap"
+  ]
+}

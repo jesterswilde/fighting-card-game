@@ -36,7 +36,7 @@ export const startNewEvent = (header: EventType, state: GameState) => {
   }));
 };
 
-export const addDisplayEffect = (display: string, index: number, state: GameState)=>{
+export const addDisplayEvent = (display: string, index: number, state: GameState)=>{
   state.currentEvent[index].effects = state.currentEvent[index].effects || []
   state.currentEvent[index].effects.push({type: EventEffectType.CHOICE, display})
 }

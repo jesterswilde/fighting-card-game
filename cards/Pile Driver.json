@@ -1,5 +1,6 @@
 {
   "name": "Pile Driver",
+  "style": "Grappler",
   "priority": 3,
   "requirements": [
     {

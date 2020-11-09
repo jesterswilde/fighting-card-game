@@ -1,0 +1,39 @@
+{
+  "name": "Aim",
+  "style": "Grappler",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Enhance",
+      "enhancedTag": "Shot",
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 8
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

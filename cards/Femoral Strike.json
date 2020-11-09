@@ -1,5 +1,6 @@
 {
   "name": "Femoral Strike",
+  "style": "Grappler",
   "priority": 5,
   "requirements": [
     {

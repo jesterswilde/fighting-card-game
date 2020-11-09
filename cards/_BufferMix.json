@@ -1,0 +1,19 @@
+{
+  "name": "_BufferMix",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [],
+  "effects": [
+    {
+      "axis": "Buff",
+      "amount": 5
+    },
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 3
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

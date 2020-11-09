@@ -1,0 +1,14 @@
+{
+  "name": "_Buffer",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [],
+  "effects": [
+    {
+      "axis": "Buff",
+      "amount": 5
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

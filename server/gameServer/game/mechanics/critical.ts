@@ -6,12 +6,12 @@ import { getOpponent } from "../../util";
 //Extra effects if certain (non-filtering) conditions are met
 
 export const canUseCritical = (critical: Mechanic, player: number, opponent: number, state: GameState): boolean => {
-    console.log("checking crit", critical)
+    console.log("Checking can use critical", state.hands, state.pickedCards)
     return critical.requirements.every((req) => {
         return meetsRequirements(req, state, player, opponent)
     });
 }
-
+/**Actually marks on card whether a critical's requirements are met */
 export const markCritical = (state: GameState) => {
     state.hands.forEach((hand)=>{
         hand.forEach(({player, mechanics}) => {
@@ -23,7 +23,7 @@ export const markCritical = (state: GameState) => {
         })
     })
 }
-
+/**Puts valid critical effets into the 'activeCriticals' property of hand cards */
 export const addCriticalToHandCard = (card: Card, handCard: HandCard)=>{
     card.mechanics.filter(mech => mech.mechanic == MechanicEnum.CRITICAL)
         .forEach(crit =>{

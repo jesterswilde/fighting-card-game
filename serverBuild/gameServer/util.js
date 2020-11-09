@@ -106,6 +106,7 @@ exports.playerEnumToPlayerArray = (playerEnum, player, opponent) => {
     }
     return whoToCheck;
 };
+/** returns an array where the first index is an array of all elements that matche the filter, and the second doesn't. Both will return empty arrays if no matches (not null) */
 exports.splitArray = (arr, filter) => {
     const matches = arr.filter(filter);
     const noMatch = arr.filter((value) => !filter(value));

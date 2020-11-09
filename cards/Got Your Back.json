@@ -1,5 +1,6 @@
 {
   "name": "Got Your Back",
+  "style": "Grappler",
   "priority": 6,
   "requirements": [
     {

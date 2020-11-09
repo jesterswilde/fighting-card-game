@@ -1,5 +1,6 @@
 {
   "name": "Elbow Drop",
+  "style": "Grappler",
   "priority": 7,
   "requirements": [
     {

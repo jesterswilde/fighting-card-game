@@ -1,5 +1,6 @@
 {
   "name": "Going For The Pin",
+  "style": "Grappler",
   "priority": 5,
   "requirements": [
     {

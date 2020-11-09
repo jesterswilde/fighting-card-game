@@ -1,5 +1,6 @@
 {
   "name": "Fancy Footwork",
+  "style": "Grappler",
   "priority": 4,
   "requirements": [
     {

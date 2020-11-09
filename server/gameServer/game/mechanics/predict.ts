@@ -7,7 +7,7 @@ import {
 import { makeReadyEffects } from "../readiedEffects";
 import { ControlEnum } from "../../errors";
 import { EventType, PredictionEvent } from "../../interfaces/gameEvent";
-import { startNewEvent } from "../events";
+import { addDisplayEvent, startNewEvent } from "../events";
 
 /*
     Predictions are made on the turn after you play the card with prediction, but before the new card is playd. 
@@ -15,6 +15,10 @@ import { startNewEvent } from "../events";
     Predictions live on gamestate
 */
 
+export const movePendingPredictions = (state: GameState)=>{
+    state.predictions = state.pendingPredictions; 
+    state.pendingPredictions = state.agents.map(_=>null); 
+}
 //This is called by the mechanic handler
 export const movePredictionsToPending = (
   mechanic: Mechanic,
@@ -28,7 +32,7 @@ export const movePredictionsToPending = (
   ] || { readiedEffects: [], targetPlayer: opponent };
   const reaEffs = makeReadyEffects(mechanic.effects, card);
   state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
-  console.log("Pending predictions", state.pendingPredictions[card.player])
+  addDisplayEvent("Predicting", player, state); 
 };
 
 export const didPredictionHappen = (
@@ -144,9 +148,7 @@ export const playerMakesPredictions = async (
 ) => {
   const { predictions, agents } = state;
   const predictionObj = predictions[player];
-  console.log("Checking for prediction of player " + player); 
   if (predictionObj) {
-    console.log("Waiting for prediction of player", player, predictionObj);
     predictionObj.prediction = await agents[player].getPrediction();
   }
 };

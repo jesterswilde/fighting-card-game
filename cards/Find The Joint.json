@@ -1,5 +1,6 @@
 {
   "name": "Find The Joint",
+  "style": "Grappler",
   "priority": 3,
   "requirements": [
     {
@@ -39,7 +40,24 @@
     {
       "index": 0,
       "mechanic": "Critical",
-      "effects": []
+      "requirements": [
+        {
+          "axis": "Still",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 6
+        },
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 1
+        }
+      ]
     }
   ],
   "tags": []

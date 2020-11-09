@@ -1,5 +1,6 @@
 {
   "name": "Accurate Strike",
+  "style": "Grappler",
   "priority": 6,
   "requirements": [
     {

@@ -1,5 +1,6 @@
 {
   "name": "The Boot",
+  "style": "Grappler",
   "priority": 9,
   "requirements": [
     {

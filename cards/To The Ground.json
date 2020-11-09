@@ -1,5 +1,6 @@
 {
   "name": "To The Ground",
+  "style": "Grappler",
   "priority": 7,
   "requirements": [
     {

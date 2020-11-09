@@ -1,5 +1,6 @@
 {
   "name": "Study Balance",
+  "style": "Grappler",
   "priority": 2,
   "requirements": [
     {

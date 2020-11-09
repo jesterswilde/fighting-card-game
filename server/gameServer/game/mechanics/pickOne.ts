@@ -2,7 +2,7 @@ import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
 import { MechanicEnum, Mechanic, Effect } from "../../../shared/card";
 import { makeReadyEffects } from "../readiedEffects";
 import { splitArray } from "../../util";
-import { addDisplayEffect, makeEventsFromReadied, startNewEvent } from "../events";
+import { addDisplayEvent, makeEventsFromReadied, startNewEvent } from "../events";
 import { EventType } from "../../interfaces/gameEvent";
 
 /*
@@ -20,7 +20,7 @@ export const playerPicksOne = async (player: number, state: GameState) => {
             const picked = mechanic.choices[choice];
             pickedEffects.push(...picked)
             state.readiedEffects[player] = [...state.readiedEffects[player], ...makeReadyEffects(pickedEffects, card)];
-            addDisplayEffect("Picked One", player, state); 
+            addDisplayEvent("Picked One", player, state); 
             makeEventsFromReadied(state); 
     }
 }

@@ -111,7 +111,7 @@ export const playerEnumToPlayerArray = (playerEnum: PlayerEnum, player: number, 
     }
     return whoToCheck
 }
-
+/** returns an array where the first index is an array of all elements that matche the filter, and the second doesn't. Both will return empty arrays if no matches (not null) */
 export const splitArray = <T>(arr: T[], filter: (value: T) => boolean): [T[], T[]] => {
     const matches = arr.filter(filter);
     const noMatch = arr.filter((value) => !filter(value));

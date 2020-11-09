@@ -1,0 +1,28 @@
+{
+  "name": "_EnhanceMid",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [],
+  "effects": [
+    {
+      "axis": "Still",
+      "player": "Both"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Enhance",
+      "enhancedTag": "Leap",
+      "effects": [
+        {
+          "axis": "Still",
+          "player": "Both"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Leap"
+  ]
+}

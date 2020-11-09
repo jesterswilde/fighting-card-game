@@ -1,0 +1,60 @@
+{
+  "name": "Pinning Shot",
+  "style": "Grappler",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 3
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Forceful",
+      "amount": 2,
+      "effects": [
+        {
+          "axis": "Prone",
+          "player": "Them",
+          "amount": 3
+        },
+        {
+          "axis": "Clutch",
+          "amount": 2
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Shot"
+  ]
+}

@@ -27,7 +27,7 @@ exports.startNewEvent = (header, state) => {
         type: header,
     }));
 };
-exports.addDisplayEffect = (display, index, state) => {
+exports.addDisplayEvent = (display, index, state) => {
     state.currentEvent[index].effects = state.currentEvent[index].effects || [];
     state.currentEvent[index].effects.push({ type: gameEvent_1.EventEffectType.CHOICE, display });
 };

@@ -11,6 +11,8 @@ import { PlayerObject } from "../gameServer/lobby/interface";
 import { Card } from "../shared/card";
 import { eventsToFrontend } from "./helpers/events";
 import { addCriticalToHandCard } from "../gameServer/game/mechanics/critical";
+import { makeEffectsFromEnhance } from "../gameServer/game/mechanics/enhance";
+import { makeEffectsFromBuff } from "../gameServer/game/mechanics/buff";
 
 export interface HumanAgent extends AgentBase {
   type: AgentType.HUMAN;
@@ -43,6 +45,7 @@ export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
       player.socket.emit(SocketEnum.GOT_CARDS, processHandCard(cards));
     },
     sendState: (state) => {
+      console.log(state.tagModification[0]); 
       var stateToSend = {
         numPlayers: state.numPlayers,
         queue: processQueueCards(state.queue),
@@ -55,7 +58,6 @@ export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
         turnNumber: state.turnNumber,
         stateDurations: state.stateDurations,
       };
-      console.log("Sending state", stateToSend)
       player.socket.emit(SocketEnum.GOT_STATE, stateToSend) 
     },
     sendEvents: (events) => {
@@ -98,8 +100,6 @@ export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
   };
 };
 const processPredictions = (pred: PredictionState)=>{
-  if(pred)
-    console.log("Processing pred", pred)
   if(!pred)
     return null
   return {
@@ -113,8 +113,12 @@ const processHandCard = (bothHands: Card[][]): HandCard[][] => {
       const handCard: HandCard = {
         name: card.name,
       };
-      addCriticalToHandCard(card, handCard); 
-      //IMPLEMENT ADDING ENCHANCEMENTS AND BUFFS, THEY SHOUDL BE HANDLED IN THE MECHANICS FILE
+      addCriticalToHandCard(card, handCard)
+      const enhanceEffects = makeEffectsFromEnhance(card)
+      const buffedEffs = makeEffectsFromBuff(card)
+      const appendedEffects = [...enhanceEffects, ...buffedEffs]
+      if(appendedEffects.length > 0)
+        handCard.appendedEffects = appendedEffects
       return handCard;
     });
   });

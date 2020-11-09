@@ -30,7 +30,7 @@ exports.playerChoosesForce = (player, state) => __awaiter(this, void 0, void 0, 
         if (choseToPlay) {
             state.playerStates[player].poise -= mechanic.amount;
             readiedEffs.push(...readiedEffects_1.makeReadyEffects(mechanic.effects, card));
-            events_1.addDisplayEffect("Forceful", player, state);
+            events_1.addDisplayEvent("Forceful", player, state);
             events_1.makeEventsFromReadied(state);
         }
     }
