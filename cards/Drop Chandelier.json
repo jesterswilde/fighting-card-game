@@ -1,0 +1,56 @@
+{
+  "name": "Drop Chandelier",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Anticipating",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 9
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 3
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Prone",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

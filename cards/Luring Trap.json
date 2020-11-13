@@ -1,0 +1,46 @@
+{
+  "name": "Luring Trap",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": "Both"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Unbalanced",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 7
+        },
+        {
+          "axis": "Prone",
+          "player": "Them",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

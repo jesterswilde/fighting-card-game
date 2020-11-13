@@ -1,0 +1,70 @@
+{
+  "name": "Insidious Plan",
+  "style": "Grappler",
+  "priority": 2,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Anticipating",
+      "player": "Me"
+    }
+  ],
+  "effects": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Grappled",
+          "player": "Both"
+        },
+        {
+          "axis": "Balanced",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Me",
+          "amount": 5
+        },
+        {
+          "axis": "Lose Poise",
+          "player": "Me",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Me"
+        },
+        {
+          "axis": "Unbalanced",
+          "player": "Them"
+        },
+        {
+          "axis": "Prone",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 30
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

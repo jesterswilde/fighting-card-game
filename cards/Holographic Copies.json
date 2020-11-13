@@ -1,0 +1,61 @@
+{
+  "name": "Holographic Copies",
+  "style": "Grappler",
+  "priority": 2,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Block",
+      "amount": 4
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Not Grappled",
+          "player": "Both"
+        },
+        {
+          "axis": "Balanced",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Block",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

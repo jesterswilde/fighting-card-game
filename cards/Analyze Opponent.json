@@ -1,0 +1,56 @@
+{
+  "name": "Analyze Opponent",
+  "style": "Grappler",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": "Both"
+    },
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Both"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Block",
+      "amount": 10
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Them"
+        },
+        {
+          "axis": "Poise",
+          "player": "Me"
+        }
+      ],
+      "effects": []
+    }
+  ],
+  "tags": []
+}

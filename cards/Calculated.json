@@ -1,0 +1,53 @@
+{
+  "name": "Calculated",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": "Them"
+    },
+    {
+      "axis": "Moving",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 5
+        },
+        {
+          "axis": "Prone",
+          "player": "Them",
+          "amount": 3
+        },
+        {
+          "axis": "Parry",
+          "amount": 15
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

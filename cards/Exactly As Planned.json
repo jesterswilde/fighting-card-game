@@ -1,0 +1,53 @@
+{
+  "name": "Exactly As Planned",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": "Them"
+    },
+    {
+      "axis": "Bloodied",
+      "player": "Me"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 14
+    },
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    },
+    {
+      "axis": "Parry",
+      "player": "Them",
+      "amount": 6
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

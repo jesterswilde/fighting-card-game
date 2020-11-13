@@ -1,0 +1,37 @@
+{
+  "name": "Nailed!",
+  "style": "Grappler",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 5
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    },
+    {
+      "axis": "Rigid",
+      "player": "Them",
+      "amount": 2
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}
