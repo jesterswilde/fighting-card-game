@@ -1,0 +1,57 @@
+{
+  "name": "Set-Up",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": "Me"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": "Both"
+    },
+    {
+      "axis": "Block",
+      "amount": 6
+    },
+    {
+      "axis": "Setup",
+      "amount": 4
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Poise",
+          "player": "Me",
+          "amount": 3
+        },
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 2
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

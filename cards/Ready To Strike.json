@@ -1,0 +1,32 @@
+{
+  "name": "Ready To Strike",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    },
+    {
+      "axis": "Parry",
+      "amount": 3
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

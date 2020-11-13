@@ -1,0 +1,53 @@
+{
+  "name": "Maniacal Laughter",
+  "style": "Grappler",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 4
+    },
+    {
+      "axis": "Prone",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Forceful",
+      "amount": 3,
+      "effects": [
+        {
+          "axis": "Cripple",
+          "detail": "Pysche"
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

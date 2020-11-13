@@ -1,0 +1,50 @@
+{
+  "name": "Vicious Mockery",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Anticipating",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 3
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Parry",
+          "amount": 5
+        },
+        {
+          "axis": "Cripple",
+          "detail": "Psyche"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Perform"
+  ]
+}

@@ -6,7 +6,6 @@ import { getOpponent } from "../../util";
 //Extra effects if certain (non-filtering) conditions are met
 
 export const canUseCritical = (critical: Mechanic, player: number, opponent: number, state: GameState): boolean => {
-    console.log("Checking can use critical", state.hands, state.pickedCards)
     return critical.requirements.every((req) => {
         return meetsRequirements(req, state, player, opponent)
     });

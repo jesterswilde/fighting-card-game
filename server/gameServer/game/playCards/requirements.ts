@@ -10,6 +10,8 @@ export const canPlayCard = (card: Card, state: GameState): boolean => {
         throw ErrorEnum.NO_CARD
     }
     const opponent = getOpponent(card.player) 
+    if(!card.requirements || card.requirements.length == 0)
+        return true
     return card.requirements.every((req) => meetsRequirements(req, state, card.player, opponent));
 }
 

@@ -2,7 +2,6 @@ import { GameState, PoiseEnum, MotionEnum, StandingEnum } from "../interfaces/st
 import { QUEUE_LENGTH } from "../gameSettings";
 import { makeModifiedAxis } from "../util";
 import { sendEvents } from "./events";
-import { sendState } from "./send";
 import { forEachCardInQueue } from "./queue";
 
 export const endTurn = async (state: GameState) => {
@@ -67,5 +66,6 @@ const clearTurnData = (state: GameState) => {
     state.incrementedQueue = false;
     state.parry = state.parry.map(()=> 0);
     state.checkedFocus = false;
+    state.pickedCards = state.agents.map(_=> null)
     state.turnNumber++; 
 }

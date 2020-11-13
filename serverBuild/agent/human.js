@@ -49,6 +49,7 @@ exports.makeHumanAgent = (player) => {
             player.socket.emit(socket_1.SocketEnum.GOT_STATE, stateToSend);
         },
         sendEvents: (events) => {
+            console.log("Sending events", events);
             player.socket.emit(socket_1.SocketEnum.GOT_EVENTS, events_1.eventsToFrontend(events));
         },
         getPickOneChoice: (mechOnCard) => {

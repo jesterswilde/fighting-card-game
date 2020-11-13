@@ -1,0 +1,56 @@
+{
+  "name": "Tumble",
+  "style": "Grappler",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 3
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 4
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Pick One",
+      "choices": [
+        [
+          {
+            "axis": "Closer",
+            "player": "Both"
+          }
+        ],
+        [
+          {
+            "axis": "Further",
+            "player": "Both"
+          }
+        ]
+      ]
+    }
+  ],
+  "tags": []
+}

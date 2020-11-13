@@ -70,5 +70,6 @@ const clearTurnData = (state) => {
     state.incrementedQueue = false;
     state.parry = state.parry.map(() => 0);
     state.checkedFocus = false;
+    state.pickedCards = state.agents.map(_ => null);
     state.turnNumber++;
 };

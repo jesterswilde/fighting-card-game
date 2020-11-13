@@ -1,0 +1,60 @@
+{
+  "name": "Inertia",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Balanced",
+          "player": "Me"
+        },
+        {
+          "axis": "Still",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Block",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Balanced",
+          "player": "Me"
+        },
+        {
+          "axis": "Moving",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 4
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

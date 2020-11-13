@@ -1,0 +1,15 @@
+{
+  "name": "Crippled Everything",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Me",
+      "amount": 100
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

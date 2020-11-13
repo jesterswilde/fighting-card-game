@@ -5,7 +5,6 @@ const requirements_1 = require("../playCards/requirements");
 const util_1 = require("../../util");
 //Extra effects if certain (non-filtering) conditions are met
 exports.canUseCritical = (critical, player, opponent, state) => {
-    console.log("Checking can use critical", state.hands, state.pickedCards);
     return critical.requirements.every((req) => {
         return requirements_1.meetsRequirements(req, state, player, opponent);
     });

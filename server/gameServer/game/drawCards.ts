@@ -19,7 +19,8 @@ export const givePlayersCards = (state: GameState, { _sendHand = sendHand } = {}
         _sendHand(state);
     } catch (err) {
         if (err === ErrorEnum.NO_CARD) {
-            console.error("No card")
+            console.error("No card Found")
+            throw err
         } else {
             throw err
         }

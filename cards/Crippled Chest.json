@@ -1,0 +1,20 @@
+{
+  "name": "Crippled Chest",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Me",
+      "amount": 10
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

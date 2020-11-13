@@ -1,0 +1,14 @@
+{
+  "name": "_CripE3",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [],
+  "effects": [
+    {
+      "axis": "Cripple",
+      "detail": "Everything"
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

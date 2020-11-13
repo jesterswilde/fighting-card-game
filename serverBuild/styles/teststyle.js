@@ -3,6 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.testStyle = {
     name: "Test",
     cards: [
+        "_CripE1",
+        "_CripE2",
+        "_CripE3",
         "_Buffer",
         "_BufferMix",
         "_EnhanceStart",

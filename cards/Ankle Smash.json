@@ -1,0 +1,59 @@
+{
+  "name": "Ankle Smash",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Them"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 12
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 3
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Forceful",
+      "amount": 3,
+      "effects": [
+        {
+          "axis": "Cripple",
+          "detail": "Leg"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Smash"
+  ]
+}

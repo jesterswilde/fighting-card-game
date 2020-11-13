@@ -9,6 +9,15 @@ export const deckListToCards = (deckList: string[])=>{
   return deckList.map(cardName =>  deepCopy(allCards[cardName]))
 }
 
+export const getCardByName = (cardName: string, log: boolean = false)=>{
+  if(log){
+    console.log(`CardName |${cardName}`)
+    console.log(allCards[cardName])
+  }
+
+  return deepCopy(allCards[cardName])
+}
+
 export const makeCardsObj = async (): Promise<{ [name: string]: Card }> => {
   return new Promise(async (res, rej) => {
     const cardNames = await getCardNames();

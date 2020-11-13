@@ -65,7 +65,7 @@ exports.checkPredictions = (state) => {
         };
     });
     state.predictions = [];
-    if (predictions.some((pred) => pred !== null || pred !== undefined))
+    if (predictions.some((pred) => pred !== null && pred !== undefined))
         exports.predictionRevealEvent(predEvents, state);
     if (stateChanged) {
         throw errors_1.ControlEnum.NEW_EFFECTS;

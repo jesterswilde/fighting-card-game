@@ -15,6 +15,13 @@ exports.allCards = {};
 exports.deckListToCards = (deckList) => {
     return deckList.map(cardName => util_1.deepCopy(exports.allCards[cardName]));
 };
+exports.getCardByName = (cardName, log = false) => {
+    if (log) {
+        console.log(`CardName |${cardName}`);
+        console.log(exports.allCards[cardName]);
+    }
+    return util_1.deepCopy(exports.allCards[cardName]);
+};
 exports.makeCardsObj = () => __awaiter(this, void 0, void 0, function* () {
     return new Promise((res, rej) => __awaiter(this, void 0, void 0, function* () {
         const cardNames = yield getCardNames();

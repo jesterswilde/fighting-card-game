@@ -77,7 +77,7 @@ export const checkPredictions = (state: GameState) => {
     };
   });
   state.predictions = []; 
-  if (predictions.some((pred) => pred !== null || pred !== undefined))
+  if (predictions.some((pred) => pred !== null && pred !== undefined))
     predictionRevealEvent(predEvents, state);
   if (stateChanged) {
     throw ControlEnum.NEW_EFFECTS;

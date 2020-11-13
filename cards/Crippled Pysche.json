@@ -1,0 +1,25 @@
+{
+  "name": "Crippled Pysche",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Unbalanced",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Me",
+      "amount": 6
+    },
+    {
+      "axis": "Prone",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

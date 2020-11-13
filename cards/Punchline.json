@@ -1,0 +1,48 @@
+{
+  "name": "Punchline",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Anticipating",
+      "player": "Me"
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": "Them"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 18
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Both",
+      "amount": 3
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 4
+    },
+    {
+      "axis": "Cripple",
+      "detail": "Pysche"
+    }
+  ],
+  "mechanics": [],
+  "tags": [
+    "Punch"
+  ]
+}

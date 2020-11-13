@@ -1,0 +1,63 @@
+{
+  "name": "Cower",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": "Me"
+    },
+    {
+      "axis": "Close",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Both",
+      "amount": 2
+    },
+    {
+      "axis": "Prone",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    },
+    {
+      "axis": "Block",
+      "amount": 8
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Damage",
+          "player": "Me"
+        },
+        {
+          "axis": "Not Anticipating",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 1
+        },
+        {
+          "axis": "Block",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

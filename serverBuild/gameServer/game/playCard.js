@@ -22,6 +22,7 @@ const drawCards_1 = require("./drawCards");
 const buff_1 = require("./mechanics/buff");
 exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
     try {
+        console.log("Playing card");
         yield playerInput_1.playersMakePredictions(state);
         drawCards_1.givePlayersCards(state);
         yield playerInput_1.playersPickCards(state);

@@ -1,0 +1,33 @@
+{
+  "name": "Squirm",
+  "style": "Grappler",
+  "priority": 9,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Both",
+      "amount": 2
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

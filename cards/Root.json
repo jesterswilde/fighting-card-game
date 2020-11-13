@@ -1,0 +1,32 @@
+{
+  "name": "Root",
+  "style": "Grappler",
+  "priority": 10,
+  "requirements": [
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 3
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    },
+    {
+      "axis": "Block",
+      "amount": 10
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

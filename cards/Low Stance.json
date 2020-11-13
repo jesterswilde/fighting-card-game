@@ -1,0 +1,47 @@
+{
+  "name": "Low Stance",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Prone",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Pick One",
+      "choices": [
+        [
+          {
+            "axis": "Poise",
+            "player": "Me",
+            "amount": 2
+          },
+          {
+            "axis": "Block",
+            "amount": 3
+          }
+        ],
+        [
+          {
+            "axis": "Block",
+            "amount": 10
+          }
+        ]
+      ]
+    }
+  ],
+  "tags": []
+}

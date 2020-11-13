@@ -18,6 +18,7 @@ import { makeEffectsFromBuff } from "./mechanics/buff";
 
 export const playCards = async (state: GameState) => {
   try {
+    console.log("Playing card")
     await playersMakePredictions(state);
     givePlayersCards(state);
     await playersPickCards(state);

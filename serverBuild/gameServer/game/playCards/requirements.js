@@ -11,6 +11,8 @@ exports.canPlayCard = (card, state) => {
         throw errors_1.ErrorEnum.NO_CARD;
     }
     const opponent = util_1.getOpponent(card.player);
+    if (!card.requirements || card.requirements.length == 0)
+        return true;
     return card.requirements.every((req) => exports.meetsRequirements(req, state, card.player, opponent));
 };
 exports.mechReqsMet = (mech, opponent, player, state) => {

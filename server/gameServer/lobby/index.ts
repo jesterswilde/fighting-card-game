@@ -12,7 +12,6 @@ import { makeHumanAgent } from "../../agent/human";
 import { makeRandomAgent } from "../../agent/random";
 
 export default (io: SocketIO.Server) => {
-  console.log("Starting socket connection")
   io.on("connection", configureSocket);
 };
 
