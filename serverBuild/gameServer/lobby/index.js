@@ -18,6 +18,7 @@ const queue_1 = require("./queue");
 const game_1 = require("./game");
 const human_1 = require("../../agent/human");
 const random_1 = require("../../agent/random");
+const story_1 = require("../story");
 exports.default = (io) => {
     io.on("connection", configureSocket);
 };
@@ -27,12 +28,11 @@ const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* ()
         socket.emit(null);
         const player = yield makePlayerObject(socket);
         console.log("Asking playe to choose deck");
-        yield playerChoosesDeck(player);
         yield playerChoosesMode(player);
-        if (player.mode == interface_1.GameMode.VS_AI)
-            playAgainstAI(player);
+        if (player.mode == interface_1.GameMode.STORY)
+            handleStory(player);
         else
-            joinLobby(player); //NEED SWITCH STATEMENT HERE,
+            handleConstructeddGame(player);
     }
     catch (err) {
         if ((err = error_1.ErrorEnum.CARDS_ARENT_IN_STYLES)) {
@@ -41,6 +41,19 @@ const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* ()
             socket.disconnect();
         }
     }
+});
+const handleConstructeddGame = (player) => __awaiter(this, void 0, void 0, function* () {
+    yield playerChoosesDeck(player);
+    if (player.mode == interface_1.GameMode.VS_AI)
+        playAgainstAI(player);
+    else
+        joinLobby(player); //NEED SWITCH STATEMENT HERE,
+});
+const handleStory = (player) => __awaiter(this, void 0, void 0, function* () {
+    player.socket.emit(socket_1.SocketEnum.SHOULD_SEND_STORY_INFO);
+    player.socket.once(socket_1.SocketEnum.STORY_INFO, (storyInfo) => {
+        story_1.StartStoryCombat(player, storyInfo);
+    });
 });
 const makePlayerObject = (socket) => __awaiter(this, void 0, void 0, function* () {
     const token = socket.handshake.query.token;

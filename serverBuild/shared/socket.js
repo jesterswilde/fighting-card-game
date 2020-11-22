@@ -29,6 +29,8 @@ var SocketEnum;
     SocketEnum["PLAYER_SENT_BAD_INFO"] = "playerSentBadInfo";
     SocketEnum["CHOOSE_GAME_MODE"] = "chooseGameMode";
     SocketEnum["CHOSE_GAME_MODE"] = "choseGameMode";
+    SocketEnum["SHOULD_SEND_STORY_INFO"] = "shouldSendStoryInfo";
+    SocketEnum["STORY_INFO"] = "storyInfo";
 })(SocketEnum = exports.SocketEnum || (exports.SocketEnum = {}));
 var GameOverEnum;
 (function (GameOverEnum) {

@@ -11,5 +11,6 @@ export interface PlayerObject {
 
   export enum GameMode { 
     VS_PLAYER = "vs Player",
-    VS_AI = "vs AI"
+    VS_AI = "vs AI",
+    STORY = "Story",
   }
