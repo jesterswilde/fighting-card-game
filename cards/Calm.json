@@ -1,0 +1,46 @@
+{
+  "name": "Calm",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": "Me"
+    },
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 3
+    },
+    {
+      "axis": "Poise",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    },
+    {
+      "axis": "Parry",
+      "amount": 5
+    },
+    {
+      "axis": "Flow",
+      "player": "Me",
+      "amount": 1
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

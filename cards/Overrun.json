@@ -1,0 +1,50 @@
+{
+  "name": "Overrun",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 8
+    },
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 4
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

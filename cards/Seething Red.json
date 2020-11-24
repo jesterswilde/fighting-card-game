@@ -1,19 +1,19 @@
 {
-  "name": "Headbutt",
+  "name": "Seething Red",
   "style": "Grappler",
-  "priority": 4,
+  "priority": 5,
   "requirements": [
     {
-      "axis": "Grappled",
-      "player": "Both"
-    },
-    {
-      "axis": "Moving",
+      "axis": "Bloodied",
       "player": "Me"
     },
     {
-      "axis": "Still",
-      "player": "Them"
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
     }
   ],
   "effects": [
@@ -23,34 +23,36 @@
       "amount": 5
     },
     {
-      "axis": "Still",
-      "player": "Me"
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 1
     },
     {
       "axis": "Moving",
-      "player": "Them",
-      "amount": 3
+      "player": "Me",
+      "amount": 2
     }
   ],
   "mechanics": [
     {
       "index": 0,
-      "mechanic": "Critical",
+      "mechanic": "Focus",
       "requirements": [
         {
-          "axis": "Anticipating",
+          "axis": "Damage",
           "player": "Me"
         }
       ],
       "effects": [
         {
-          "axis": "Close",
-          "player": "Both"
-        },
-        {
           "axis": "Damage",
           "player": "Them",
-          "amount": 7
+          "amount": 5
+        },
+        {
+          "axis": "Lose Poise",
+          "player": "Me",
+          "amount": 2
         }
       ]
     }

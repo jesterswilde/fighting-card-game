@@ -1,0 +1,60 @@
+{
+  "name": "Dazzling Display",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Anticipating",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 1
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Parry",
+      "amount": 3
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Enhance",
+      "enhancedTag": "Perform",
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 1
+        },
+        {
+          "axis": "Parry",
+          "amount": 2
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Perform"
+  ]
+}

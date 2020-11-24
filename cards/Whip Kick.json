@@ -1,0 +1,75 @@
+{
+  "name": "Whip Kick",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 9
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 3
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 3
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Unbalanced",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 7
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 2
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Kick"
+  ]
+}

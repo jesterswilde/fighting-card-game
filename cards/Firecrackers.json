@@ -1,0 +1,42 @@
+{
+  "name": "Firecrackers",
+  "style": "Grappler",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": "Them"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 3
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Them"
+    },
+    {
+      "axis": "Moving",
+      "player": "Them",
+      "amount": 3
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

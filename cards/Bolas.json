@@ -1,18 +1,18 @@
 {
-  "name": "Headbutt",
+  "name": "Bolas",
   "style": "Grappler",
-  "priority": 4,
+  "priority": 8,
   "requirements": [
     {
-      "axis": "Grappled",
+      "axis": "Far",
       "player": "Both"
     },
     {
-      "axis": "Moving",
+      "axis": "Balanced",
       "player": "Me"
     },
     {
-      "axis": "Still",
+      "axis": "Moving",
       "player": "Them"
     }
   ],
@@ -20,16 +20,11 @@
     {
       "axis": "Damage",
       "player": "Them",
-      "amount": 5
+      "amount": 6
     },
     {
       "axis": "Still",
-      "player": "Me"
-    },
-    {
-      "axis": "Moving",
-      "player": "Them",
-      "amount": 3
+      "player": "Them"
     }
   ],
   "mechanics": [
@@ -38,19 +33,24 @@
       "mechanic": "Critical",
       "requirements": [
         {
-          "axis": "Anticipating",
+          "axis": "Still",
           "player": "Me"
+        },
+        {
+          "axis": "Standing",
+          "player": "Them"
         }
       ],
       "effects": [
         {
-          "axis": "Close",
-          "player": "Both"
-        },
-        {
           "axis": "Damage",
           "player": "Them",
-          "amount": 7
+          "amount": 4
+        },
+        {
+          "axis": "Prone",
+          "player": "Them",
+          "amount": 2
         }
       ]
     }

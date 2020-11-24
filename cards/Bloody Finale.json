@@ -1,0 +1,58 @@
+{
+  "name": "Bloody Finale",
+  "style": "Grappler",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": "Them"
+    },
+    {
+      "axis": "Unbalanced",
+      "player": "Them"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 10
+    },
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Forceful",
+      "amount": 8,
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 10
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

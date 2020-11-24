@@ -1,0 +1,41 @@
+{
+  "name": "Grab n Slam",
+  "style": "Grappler",
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 13
+    },
+    {
+      "axis": "Damage",
+      "player": "Me",
+      "amount": 5
+    },
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

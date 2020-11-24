@@ -1,0 +1,38 @@
+{
+  "name": "Charge",
+  "style": "Grappler",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 1
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

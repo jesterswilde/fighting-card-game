@@ -1,14 +1,18 @@
 {
-  "name": "Accurate Strike",
+  "name": "Piercing Lunge",
   "style": "Grappler",
-  "priority": 6,
+  "priority": 4,
   "requirements": [
     {
       "axis": "Not Grappled",
       "player": "Both"
     },
     {
-      "axis": "Balanced",
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
       "player": "Me"
     }
   ],
@@ -16,15 +20,20 @@
     {
       "axis": "Damage",
       "player": "Them",
-      "amount": 4
+      "amount": 8
     },
     {
-      "axis": "Close",
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 3
+    },
+    {
+      "axis": "Closer",
       "player": "Both"
     },
     {
-      "axis": "Parry",
-      "amount": 5
+      "axis": "Still",
+      "player": "Me"
     }
   ],
   "mechanics": [
@@ -36,11 +45,13 @@
           "axis": "Damage",
           "player": "Them",
           "amount": 8
+        },
+        {
+          "axis": "Still",
+          "player": "Them"
         }
       ]
     }
   ],
-  "tags": [
-    "Weak Spot"
-  ]
+  "tags": []
 }

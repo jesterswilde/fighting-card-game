@@ -1,0 +1,74 @@
+{
+  "name": "Staggering Steps",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Both"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Parry",
+      "amount": 4
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Not Far",
+          "player": "Both"
+        },
+        {
+          "axis": "Unbalanced",
+          "player": "Them"
+        },
+        {
+          "axis": "Prone",
+          "player": "Me"
+        },
+        {
+          "axis": "Standing",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 10
+        },
+        {
+          "axis": "Reflex"
+        },
+        {
+          "axis": "Prone",
+          "player": "Them",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

@@ -1,0 +1,56 @@
+{
+  "name": "Tazer",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Rigid",
+      "player": "Them",
+      "amount": 1
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Grappled",
+          "player": "Both"
+        },
+        {
+          "axis": "Still",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Rigid",
+          "player": "Them",
+          "amount": 1
+        },
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

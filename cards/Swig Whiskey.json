@@ -1,0 +1,59 @@
+{
+  "name": "Swig Whiskey",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 4
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Poise",
+          "player": "Me",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Prone",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Parry",
+          "player": "Me",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

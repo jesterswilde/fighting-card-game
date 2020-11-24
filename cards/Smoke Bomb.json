@@ -1,0 +1,50 @@
+{
+  "name": "Smoke Bomb",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Block",
+      "amount": 8
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Prone",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Poise",
+          "player": "Me",
+          "amount": 1
+        },
+        {
+          "axis": "Block",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

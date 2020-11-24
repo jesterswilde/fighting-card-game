@@ -1,0 +1,47 @@
+{
+  "name": "Haymaker",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Anticipating",
+      "player": "Me"
+    },
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 20
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 4
+    },
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    }
+  ],
+  "mechanics": [],
+  "tags": [
+    "Punch"
+  ]
+}

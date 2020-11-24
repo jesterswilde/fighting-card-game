@@ -1,0 +1,36 @@
+{
+  "name": "Eel Kick",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 7
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    },
+    {
+      "axis": "Cripple",
+      "detail": "Chest"
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

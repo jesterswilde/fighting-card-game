@@ -1,0 +1,50 @@
+{
+  "name": "Ready Trident",
+  "style": "Grappler",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Prone",
+          "player": "Them"
+        },
+        {
+          "axis": "Moving",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 10
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

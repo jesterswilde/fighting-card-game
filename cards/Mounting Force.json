@@ -1,0 +1,58 @@
+{
+  "name": "Mounting Force",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Me"
+        },
+        {
+          "axis": "Moving",
+          "player": "Me"
+        },
+        {
+          "axis": "Still",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 15
+        },
+        {
+          "axis": "Block",
+          "amount": 10
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

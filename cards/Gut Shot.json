@@ -1,0 +1,40 @@
+{
+  "name": "Gut Shot",
+  "style": "Grappler",
+  "priority": 2,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 12
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Both",
+      "amount": 1
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 1
+    }
+  ],
+  "mechanics": [],
+  "tags": [
+    "Weak Spot"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Pysch Up!",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 3
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    },
+    {
+      "axis": "Flow",
+      "player": "Me",
+      "amount": 1
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

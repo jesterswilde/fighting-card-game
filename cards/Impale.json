@@ -1,0 +1,40 @@
+{
+  "name": "Impale",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Unbalanced",
+      "player": "Them"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    },
+    {
+      "axis": "Moving",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 15
+    },
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

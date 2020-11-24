@@ -1,0 +1,38 @@
+{
+  "name": "Throw Net",
+  "style": "Grappler",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 3
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 3
+    },
+    {
+      "axis": "Moving",
+      "player": "Them",
+      "amount": 4
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

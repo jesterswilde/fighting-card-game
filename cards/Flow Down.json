@@ -1,0 +1,55 @@
+{
+  "name": "Flow Down",
+  "style": "Grappler",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Moving",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Prone",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 4
+    },
+    {
+      "axis": "Block",
+      "amount": 7
+    },
+    {
+      "axis": "Flow",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Anticipating",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Parry",
+          "amount": 4
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

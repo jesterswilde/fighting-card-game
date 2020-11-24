@@ -1,46 +1,39 @@
 {
-  "name": "Accurate Strike",
+  "name": "Knife Throw",
   "style": "Grappler",
-  "priority": 6,
+  "priority": 3,
   "requirements": [
     {
-      "axis": "Not Grappled",
-      "player": "Both"
+      "axis": "Standing",
+      "player": "Me"
     },
     {
-      "axis": "Balanced",
-      "player": "Me"
+      "axis": "Still",
+      "player": "Them"
     }
   ],
   "effects": [
     {
       "axis": "Damage",
       "player": "Them",
-      "amount": 4
-    },
-    {
-      "axis": "Close",
-      "player": "Both"
-    },
-    {
-      "axis": "Parry",
       "amount": 5
     }
   ],
   "mechanics": [
     {
       "index": 0,
-      "mechanic": "Predict",
+      "mechanic": "Forceful",
+      "amount": 3,
       "effects": [
         {
           "axis": "Damage",
           "player": "Them",
-          "amount": 8
+          "amount": 6
         }
       ]
     }
   ],
   "tags": [
-    "Weak Spot"
+    "Blade"
   ]
 }

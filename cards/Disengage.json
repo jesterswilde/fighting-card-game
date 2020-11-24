@@ -1,35 +1,31 @@
 {
-  "name": "Headbutt",
+  "name": "Disengage",
   "style": "Grappler",
-  "priority": 4,
+  "priority": 7,
   "requirements": [
     {
-      "axis": "Grappled",
+      "axis": "Not Far",
       "player": "Both"
     },
     {
       "axis": "Moving",
       "player": "Me"
-    },
-    {
-      "axis": "Still",
-      "player": "Them"
     }
   ],
   "effects": [
     {
-      "axis": "Damage",
-      "player": "Them",
-      "amount": 5
+      "axis": "Further",
+      "player": "Both"
     },
     {
-      "axis": "Still",
-      "player": "Me"
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 3
     },
     {
       "axis": "Moving",
-      "player": "Them",
-      "amount": 3
+      "player": "Me",
+      "amount": 2
     }
   ],
   "mechanics": [
@@ -44,13 +40,8 @@
       ],
       "effects": [
         {
-          "axis": "Close",
-          "player": "Both"
-        },
-        {
-          "axis": "Damage",
-          "player": "Them",
-          "amount": 7
+          "axis": "Block",
+          "amount": 5
         }
       ]
     }

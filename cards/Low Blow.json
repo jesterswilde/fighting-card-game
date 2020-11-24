@@ -1,0 +1,46 @@
+{
+  "name": "Low Blow",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": "Them"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 5
+    },
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 1
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

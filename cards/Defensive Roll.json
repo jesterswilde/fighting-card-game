@@ -1,0 +1,45 @@
+{
+  "name": "Defensive Roll",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Prone",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": "Both"
+    },
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Balanced",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Block",
+          "amount": 7
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

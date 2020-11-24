@@ -1,0 +1,62 @@
+{
+  "name": "Guarded Maneuvers",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Block",
+      "amount": 7
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Pick One",
+      "choices": [
+        [
+          {
+            "axis": "Closer",
+            "player": "Both"
+          }
+        ],
+        [
+          {
+            "axis": "Further",
+            "player": "Both"
+          }
+        ]
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Forceful",
+      "amount": 2,
+      "effects": [
+        {
+          "axis": "Block",
+          "amount": 5
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

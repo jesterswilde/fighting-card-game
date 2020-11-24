@@ -1,0 +1,54 @@
+{
+  "name": "Drop Caltrops",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Balanced",
+          "player": "Me"
+        },
+        {
+          "axis": "Further",
+          "player": "Both"
+        }
+      ],
+      "effects": []
+    },
+    {
+      "index": 1,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": "Them"
+        },
+        {
+          "axis": "Damage",
+          "player": "Them"
+        }
+      ],
+      "effects": []
+    }
+  ],
+  "tags": []
+}

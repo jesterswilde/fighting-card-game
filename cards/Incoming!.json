@@ -1,0 +1,50 @@
+{
+  "name": "Incoming!",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 4
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": "Me"
+        },
+        {
+          "axis": "Still",
+          "player": "Them"
+        },
+        {
+          "axis": "Not Far",
+          "player": "Both"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 10
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

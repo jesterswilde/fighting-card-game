@@ -1,0 +1,63 @@
+{
+  "name": "Telegraphed Punch",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Close",
+          "player": "Both"
+        },
+        {
+          "axis": "Not Anticipating",
+          "player": "Them"
+        },
+        {
+          "axis": "Still",
+          "player": "Both"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 20
+        },
+        {
+          "axis": "Rigid",
+          "player": "Them",
+          "amount": 2
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

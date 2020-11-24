@@ -1,0 +1,76 @@
+{
+  "name": "Leaping Smash",
+  "style": "Grappler",
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Prone",
+      "player": "Them"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 11
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Far",
+          "player": "Both"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 4
+        },
+        {
+          "axis": "Close",
+          "player": "Both"
+        },
+        {
+          "axis": "Lose Poise",
+          "player": "Me",
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Leap",
+    "Smash"
+  ]
+}

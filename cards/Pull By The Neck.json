@@ -1,0 +1,71 @@
+{
+  "name": "Pull By The Neck",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Closer",
+      "player": "Both"
+    },
+    {
+      "axis": "Moving",
+      "player": "Them",
+      "amount": 3
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Moving",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 7
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Unbalanced",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 10
+        },
+        {
+          "axis": "Prone",
+          "player": "Them"
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

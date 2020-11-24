@@ -1,0 +1,73 @@
+{
+  "name": "Grenade",
+  "style": "Grappler",
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Grappled",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 8
+    },
+    {
+      "axis": "Moving",
+      "player": "Me",
+      "amount": 1
+    },
+    {
+      "axis": "Prone",
+      "player": "Both",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Bloodied",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Close",
+          "player": "Both"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Me",
+          "amount": 4
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

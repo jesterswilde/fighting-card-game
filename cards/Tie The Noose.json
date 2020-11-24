@@ -1,0 +1,65 @@
+{
+  "name": "Tie The Noose",
+  "style": "Grappler",
+  "priority": 5,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    }
+  ],
+  "effects": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Unbalanced",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 7
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Far",
+          "player": "Both"
+        },
+        {
+          "axis": "Moving",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 9
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

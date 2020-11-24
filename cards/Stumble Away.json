@@ -1,0 +1,27 @@
+{
+  "name": "Stumble Away",
+  "style": "Grappler",
+  "priority": 8,
+  "requirements": [
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": "Both"
+    },
+    {
+      "axis": "Parry",
+      "amount": 4
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

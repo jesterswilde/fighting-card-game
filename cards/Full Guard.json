@@ -1,0 +1,40 @@
+{
+  "name": "Full Guard",
+  "style": "Grappler",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Lose Poise",
+      "player": "Me",
+      "amount": 3
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    },
+    {
+      "axis": "Block",
+      "amount": 15
+    },
+    {
+      "axis": "Parry",
+      "amount": 5
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

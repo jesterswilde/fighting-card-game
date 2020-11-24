@@ -1,0 +1,44 @@
+{
+  "name": "Poison Dart",
+  "style": "Grappler",
+  "priority": 3,
+  "requirements": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": "Them"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Still",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Predict",
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Them",
+          "amount": 3
+        },
+        {
+          "axis": "Rigid",
+          "player": "Them",
+          "amount": 3
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

@@ -1,0 +1,77 @@
+{
+  "name": "Gloat",
+  "style": "Grappler",
+  "priority": 6,
+  "requirements": [
+    {
+      "axis": "Fresh",
+      "player": "Me"
+    },
+    {
+      "axis": "Unbalanced",
+      "player": "Them"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Further",
+      "player": "Both"
+    },
+    {
+      "axis": "Poise",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Focus",
+      "requirements": [
+        {
+          "axis": "Fresh",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Poise",
+          "player": "Me",
+          "amount": 1
+        },
+        {
+          "axis": "Parry",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Telegraph",
+      "requirements": [
+        {
+          "axis": "Bloodied",
+          "player": "Me"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Lose Poise",
+          "player": "Me",
+          "amount": 6
+        }
+      ]
+    }
+  ],
+  "tags": [
+    "Perform"
+  ]
+}

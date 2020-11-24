@@ -1,0 +1,40 @@
+{
+  "name": "Flash Bang!",
+  "style": "Grappler",
+  "priority": 7,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Both"
+    },
+    {
+      "axis": "Moving",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Far",
+      "player": "Both"
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Them",
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": "Them"
+    },
+    {
+      "axis": "Setup",
+      "amount": 4
+    }
+  ],
+  "mechanics": [],
+  "tags": []
+}

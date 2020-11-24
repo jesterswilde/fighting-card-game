@@ -1,19 +1,19 @@
 {
-  "name": "Headbutt",
+  "name": "Skewer",
   "style": "Grappler",
-  "priority": 4,
+  "priority": 3,
   "requirements": [
     {
-      "axis": "Grappled",
+      "axis": "Not Grappled",
       "player": "Both"
     },
     {
-      "axis": "Moving",
-      "player": "Me"
+      "axis": "Prone",
+      "player": "Them"
     },
     {
-      "axis": "Still",
-      "player": "Them"
+      "axis": "Standing",
+      "player": "Me"
     }
   ],
   "effects": [
@@ -23,12 +23,13 @@
       "amount": 5
     },
     {
-      "axis": "Still",
-      "player": "Me"
+      "axis": "Prone",
+      "player": "Them",
+      "amount": 2
     },
     {
       "axis": "Moving",
-      "player": "Them",
+      "player": "Me",
       "amount": 3
     }
   ],
@@ -38,19 +39,15 @@
       "mechanic": "Critical",
       "requirements": [
         {
-          "axis": "Anticipating",
-          "player": "Me"
+          "axis": "Moving",
+          "player": "Them"
         }
       ],
       "effects": [
         {
-          "axis": "Close",
-          "player": "Both"
-        },
-        {
           "axis": "Damage",
           "player": "Them",
-          "amount": 7
+          "amount": 6
         }
       ]
     }

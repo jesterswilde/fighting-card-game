@@ -1,0 +1,63 @@
+{
+  "name": "Red Fury",
+  "style": "Grappler",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Bloodied",
+      "player": "Me"
+    },
+    {
+      "axis": "Not Far",
+      "player": "Both"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 6
+    },
+    {
+      "axis": "Lose Poise",
+      "player": "Both",
+      "amount": 2
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Bloodied",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 4
+        },
+        {
+          "axis": "Lose Poise",
+          "player": "Me",
+          "amount": 2
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "mechanic": "Focus",
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "tags": []
+}
