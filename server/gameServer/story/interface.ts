@@ -1,3 +1,6 @@
+import { AxisEnum, PlayerEnum } from "../../shared/card";
+import { StateMod } from "../lobby/interface";
+
 export interface StoryInfo{
     battleID: string,
     playerVitals: Vitals,
@@ -9,5 +12,8 @@ export interface Vitals{
 }
 
 export interface StoryBattle{
-    enmey: Vitals
+    id: string
+    name: string
+    enemy: Vitals
+    startingPositions: StateMod[]
 }

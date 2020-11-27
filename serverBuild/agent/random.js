@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeRandomAgent = void 0;
 const interface_1 = require("./interface");
 const stateInterface_1 = require("../gameServer/interfaces/stateInterface");
 const Cards_1 = require("../cards/Cards");

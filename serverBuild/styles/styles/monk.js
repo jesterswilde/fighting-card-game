@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.monkStyle = void 0;
 exports.monkStyle = {
     name: "Monk",
     description: "This some zen shit",

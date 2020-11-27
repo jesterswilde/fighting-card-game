@@ -1,13 +1,6 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.downloadCards = exports.addCard = exports.removeCard = exports.makeCardsObj = exports.getCardByName = exports.deckListToCards = exports.allCards = void 0;
 const fs_1 = require("fs");
 const path = require("path");
 const util_1 = require("../gameServer/util");
@@ -22,18 +15,18 @@ exports.getCardByName = (cardName, log = false) => {
     }
     return util_1.deepCopy(exports.allCards[cardName]);
 };
-exports.makeCardsObj = () => __awaiter(this, void 0, void 0, function* () {
-    return new Promise((res, rej) => __awaiter(this, void 0, void 0, function* () {
-        const cardNames = yield getCardNames();
+exports.makeCardsObj = async () => {
+    return new Promise(async (res, rej) => {
+        const cardNames = await getCardNames();
         const cardPromises = cardNames.map(cardName => readCardFile(cardName));
-        const cards = yield Promise.all(cardPromises);
+        const cards = await Promise.all(cardPromises);
         const cardObj = cards.reduce((obj, card) => {
             obj[card.name] = card;
             return obj;
         }, {});
         res(cardObj);
-    }));
-});
+    });
+};
 const getCardNames = () => {
     return new Promise((res, rej) => {
         fs_1.readdir(path.join(__dirname, "..", "..", "cards"), (err, cardNames) => {
@@ -63,7 +56,7 @@ const readCardFile = (fileName) => {
 };
 //INITIALIZE CARDS OBJ;
 exports.makeCardsObj().then(cardsObj => (exports.allCards = cardsObj));
-exports.removeCard = (name) => __awaiter(this, void 0, void 0, function* () {
+exports.removeCard = async (name) => {
     delete exports.allCards[name];
     return new Promise((res, rej) => {
         fs_1.unlink(path.join(__dirname, "..", "..", "cards", name + ".json"), err => {
@@ -75,8 +68,8 @@ exports.removeCard = (name) => __awaiter(this, void 0, void 0, function* () {
             }
         });
     });
-});
-exports.addCard = (cardObj, index) => __awaiter(this, void 0, void 0, function* () {
+};
+exports.addCard = async (cardObj, index) => {
     if (index !== null) {
         delete exports.allCards[cardObj.name];
     }
@@ -91,7 +84,7 @@ exports.addCard = (cardObj, index) => __awaiter(this, void 0, void 0, function* 
             }
         });
     });
-});
+};
 exports.downloadCards = () => {
     fs_1.writeFile(path.join(__dirname, "..", "..", "backup.txt"), JSON.stringify(exports.allCards, null, 2), err => {
         if (err) {

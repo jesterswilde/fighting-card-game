@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeEffectsFromBuff = exports.handleBuff = exports.applyBuff = void 0;
 const card_1 = require("../../../shared/card");
 const util_1 = require("../../util");
 /*

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleDCDuringLobby = exports.handleDCDuringGame = void 0;
 const interface_1 = require("../../agent/interface");
 const queue_1 = require("./queue");
 exports.handleDCDuringGame = (players) => {

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeFromQueue = exports.addToLobbyQueue = void 0;
 const human_1 = require("../../agent/human");
 const game_1 = require("./game");
 let pvpQueue = [];

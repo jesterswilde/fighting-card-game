@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.applyCollectedDamage = exports.collectDamage = exports.collectBlockAndDamage = void 0;
 const stateInterface_1 = require("../../interfaces/stateInterface");
 const util_1 = require("../../util");
 const card_1 = require("../../../shared/card");

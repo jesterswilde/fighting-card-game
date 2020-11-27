@@ -1,13 +1,6 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.decksRouter = void 0;
 const express_1 = require("express");
 const _1 = require(".");
 const auth_1 = require("../auth");
@@ -23,22 +16,22 @@ exports.decksRouter = express_1.Router();
     delete /deck/:id -> null - deletes a deck with id by user
 */
 //Should return an abridged version of all your decks. Names, maybe description, styles in use. Possibly card names, not full cards.
-exports.decksRouter.get("/", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.decksRouter.get("/", auth_1.authMiddleware, async (req, res) => {
     console.log("Got deck request from: " + req.user);
     try {
-        const decks = yield _1.getUsersDecks(req.user);
+        const decks = await _1.getUsersDecks(req.user);
         res.status(200).send(decks);
     }
     catch (err) {
         console.error(err);
         res.status(500).send();
     }
-}));
+});
 //Returns all info a given deck. Currently sends full cards plus possible cards.
 //This is an area to optimize later.
-exports.decksRouter.get("/:id", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.decksRouter.get("/:id", auth_1.authMiddleware, async (req, res) => {
     try {
-        const deck = yield _1.getUsersDeck(req.user, req.params.id);
+        const deck = await _1.getUsersDeck(req.user, req.params.id);
         res.status(200).send(deck);
     }
     catch (err) {
@@ -50,22 +43,22 @@ exports.decksRouter.get("/:id", auth_1.authMiddleware, (req, res) => __awaiter(t
             res.status(500).send();
         }
     }
-}));
+});
 //Makes a new deck
-exports.decksRouter.post("/new", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.decksRouter.post("/new", auth_1.authMiddleware, async (req, res) => {
     try {
-        const deck = yield _1.makeDeck(req.user);
+        const deck = await _1.makeDeck(req.user);
         res.status(200).send(deck);
     }
     catch (err) {
         console.error(err);
         res.status(500).send();
     }
-}));
+});
 //Updates a deck
-exports.decksRouter.put("/:id", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.decksRouter.put("/:id", auth_1.authMiddleware, async (req, res) => {
     try {
-        yield _1.updateDeck(req.user, req.params.id, req.body);
+        await _1.updateDeck(req.user, req.params.id, req.body);
         res.status(200).send();
     }
     catch (err) {
@@ -78,11 +71,11 @@ exports.decksRouter.put("/:id", auth_1.authMiddleware, (req, res) => __awaiter(t
             res.status(500).send();
         }
     }
-}));
+});
 //Deletes a deck
-exports.decksRouter.delete("/:id", auth_1.authMiddleware, (req, res) => __awaiter(this, void 0, void 0, function* () {
+exports.decksRouter.delete("/:id", auth_1.authMiddleware, async (req, res) => {
     try {
-        yield _1.deleteDeck(req.user, req.params.id);
+        await _1.deleteDeck(req.user, req.params.id);
         res.status(200).send();
     }
     catch (err) {
@@ -94,4 +87,4 @@ exports.decksRouter.delete("/:id", auth_1.authMiddleware, (req, res) => __awaite
             res.status(500);
         }
     }
-}));
+});

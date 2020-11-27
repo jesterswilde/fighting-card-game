@@ -69,7 +69,7 @@ const stateAxisSet = new Set([
   AxisEnum.MOVING,
   AxisEnum.STILL,
   AxisEnum.PRONE,
-  AxisEnum.STANCE,
+  AxisEnum.STANDING,
   AxisEnum.GRAPPLED,
   AxisEnum.CLOSE,
   AxisEnum.FAR,

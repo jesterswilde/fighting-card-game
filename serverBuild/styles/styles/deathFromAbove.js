@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deathFromAboveStyle = void 0;
 exports.deathFromAboveStyle = {
     name: 'Death From Above',
     identity: 'Sets up large telegraphs, with multiple requirements and has cards to follow them up. Challenges the opponent to fight you for state',

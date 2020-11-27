@@ -1,6 +1,6 @@
 {
   "name": "Opportunist",
-  "style": "Grappler",
+  "style": "Kobra Kai",
   "priority": 4,
   "requirements": [
     {
@@ -12,8 +12,8 @@
       "player": "Them"
     },
     {
-      "axis": "Still",
-      "player": "Both"
+      "axis": "Balanced",
+      "player": "Me"
     },
     {
       "axis": "Still",

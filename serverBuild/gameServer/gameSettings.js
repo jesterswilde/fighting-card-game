@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ANTICIPATING_POISE = exports.UNBALANCED_POISE = exports.MIN_POISE = exports.MAX_POISE = exports.STARTING_POISE = exports.HAND_SIZE = exports.QUEUE_LENGTH = exports.BLOODIED_HP = exports.STARTING_HEALTH = void 0;
 exports.STARTING_HEALTH = 50;
 exports.BLOODIED_HP = 25;
 exports.QUEUE_LENGTH = 3;

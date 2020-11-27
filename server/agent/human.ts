@@ -4,6 +4,7 @@ import {
   QueueCard,
   HandCard,
   PredictionState,
+  GameState,
 } from "../gameServer/interfaces/stateInterface";
 import { SocketEnum, GameOverEnum } from "../shared/socket";
 import { deckListToCards } from "../cards/Cards";
@@ -19,10 +20,11 @@ export interface HumanAgent extends AgentBase {
   player: PlayerObject;
 }
 
-export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
+export const makeHumanAgent = (player: PlayerObject, deckList: string[] = null): HumanAgent => {
   let index = -1;
+  deckList = deckList == null ? player.deck.deckList : deckList; 
   return {
-    deck: deckListToCards(player.deck.deckList),
+    deck: deckListToCards(deckList),
     username: player.username,
     type: AgentType.HUMAN,
     player,
@@ -30,35 +32,14 @@ export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
       index = _index;
       player.socket.emit(SocketEnum.START_GAME, { player: index });
     },
-    gameOver: () => {
-      player.socket.emit(SocketEnum.GAME_OVER);
-      player.socket.once(SocketEnum.END_GAME_CHOICE, (choice: GameOverEnum) => {
-        switch (choice) {
-          case GameOverEnum.FIND_NEW_OPP_WITH_NEW_DECK:
-            break;
-          case GameOverEnum.FIND_NEW_OPP_WITH_SAME_DECK:
-            break;
-        }
-      });
+    gameOver: (didWin, state) => {
+      player.socket.emit(SocketEnum.GAME_OVER, {didWin, state:toSendState(state)});
     },
     sendHand: (cards) => {
       player.socket.emit(SocketEnum.GOT_CARDS, processHandCard(cards));
     },
     sendState: (state) => {
-      console.log(state.tagModification[0]); 
-      var stateToSend = {
-        numPlayers: state.numPlayers,
-        queue: processQueueCards(state.queue),
-        health: state.health,
-        block: state.block,
-        playerStates: state.playerStates,
-        distance: state.distance,
-        setup: state.setup,
-        predictions: state.predictions.map(pred => processPredictions(pred)),
-        turnNumber: state.turnNumber,
-        stateDurations: state.stateDurations,
-      };
-      player.socket.emit(SocketEnum.GOT_STATE, stateToSend) 
+      player.socket.emit(SocketEnum.GOT_STATE, toSendState(state)) 
     },
     sendEvents: (events) => {
       console.log("Sending events", events)
@@ -100,6 +81,20 @@ export const makeHumanAgent = (player: PlayerObject): HumanAgent => {
     opponentMadeCardChoice: () => {},
   };
 };
+const toSendState = (state:GameState)=>{
+      return {
+        numPlayers: state.numPlayers,
+        queue: processQueueCards(state.queue),
+        health: state.health,
+        block: state.block,
+        playerStates: state.playerStates,
+        distance: state.distance,
+        setup: state.setup,
+        predictions: state.predictions.map(pred => processPredictions(pred)),
+        turnNumber: state.turnNumber,
+        stateDurations: state.stateDurations,
+      }
+}
 const processPredictions = (pred: PredictionState)=>{
   if(!pred)
     return null

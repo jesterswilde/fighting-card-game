@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.crowdPleaserStyle = void 0;
 exports.crowdPleaserStyle = {
     name: 'Crowd Pleaser',
     description: 'A flair for the dramatic. Focuses on moving, bloodied, and reflex',

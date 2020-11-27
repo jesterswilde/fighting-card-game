@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.onDBReady = exports.feedbackRepo = exports.userRepo = exports.deckRepo = void 0;
 const typeorm_1 = require("typeorm");
 const urLReader = require("pg-connection-string");
 const deck_1 = require("./entities/deck");
@@ -26,14 +27,17 @@ let connectionObj = {
 };
 if (process.env.DATABASE_URL) {
     const dbURL = urLReader.parse(process.env.DATABASE_URL);
-    connectionObj = Object.assign({}, connectionObj, {
-        database: dbURL.database,
-        username: dbURL.user,
-        password: dbURL.password,
-        host: dbURL.host,
-        port: Number(dbURL.port),
-        extras: { ssl: true }
-    });
+    connectionObj = {
+        ...connectionObj,
+        ...{
+            database: dbURL.database,
+            username: dbURL.user,
+            password: dbURL.password,
+            host: dbURL.host,
+            port: Number(dbURL.port),
+            extras: { ssl: true }
+        }
+    };
 }
 typeorm_1.createConnection(connectionObj).then(connection => {
     exports.deckRepo = connection.getRepository(deck_1.DBDeck);

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleEnhancementMechanic = exports.removeEnhancements = exports.addEnhacementsToHands = exports.makeEffectsFromEnhance = void 0;
 const util_1 = require("../../util");
 //permanently buffs all cards with a tag. 
 exports.makeEffectsFromEnhance = (card) => {

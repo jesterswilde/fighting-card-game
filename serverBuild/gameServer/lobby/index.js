@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const socket_1 = require("../../shared/socket");
 const auth_1 = require("../../auth");
@@ -22,13 +14,12 @@ const story_1 = require("../story");
 exports.default = (io) => {
     io.on("connection", configureSocket);
 };
-const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* () {
+const configureSocket = async (socket) => {
     try {
         console.log("configuring socket");
         socket.emit(null);
-        const player = yield makePlayerObject(socket);
-        console.log("Asking playe to choose deck");
-        yield playerChoosesMode(player);
+        const player = await makePlayerObject(socket);
+        await playerChoosesMode(player);
         if (player.mode == interface_1.GameMode.STORY)
             handleStory(player);
         else
@@ -41,28 +32,28 @@ const configureSocket = (socket) => __awaiter(this, void 0, void 0, function* ()
             socket.disconnect();
         }
     }
-});
-const handleConstructeddGame = (player) => __awaiter(this, void 0, void 0, function* () {
-    yield playerChoosesDeck(player);
+};
+const handleConstructeddGame = async (player) => {
+    await playerChoosesDeck(player);
     if (player.mode == interface_1.GameMode.VS_AI)
         playAgainstAI(player);
     else
         joinLobby(player); //NEED SWITCH STATEMENT HERE,
-});
-const handleStory = (player) => __awaiter(this, void 0, void 0, function* () {
+};
+const handleStory = (player) => {
     player.socket.emit(socket_1.SocketEnum.SHOULD_SEND_STORY_INFO);
     player.socket.once(socket_1.SocketEnum.STORY_INFO, (storyInfo) => {
-        story_1.StartStoryCombat(player, storyInfo);
+        story_1.startStoryCombat(player, storyInfo);
     });
-});
-const makePlayerObject = (socket) => __awaiter(this, void 0, void 0, function* () {
+};
+const makePlayerObject = async (socket) => {
     const token = socket.handshake.query.token;
-    const username = yield auth_1.getVerifiedUsername(token);
+    const username = await auth_1.getVerifiedUsername(token);
     const player = { socket, username };
     return player;
-});
+};
 //This is unity version, now that decks are stored locally.
-const playerChoosesDeck = (player) => __awaiter(this, void 0, void 0, function* () {
+const playerChoosesDeck = async (player) => {
     return new Promise((res, rej) => {
         player.socket.emit(socket_1.SocketEnum.PLAYER_SHOULD_CHOSE_DECK);
         player.socket.once(socket_1.SocketEnum.PICKED_DECK, (deck) => {
@@ -75,8 +66,8 @@ const playerChoosesDeck = (player) => __awaiter(this, void 0, void 0, function* 
             }
         });
     });
-});
-const playerChoosesMode = (player) => __awaiter(this, void 0, void 0, function* () {
+};
+const playerChoosesMode = async (player) => {
     return new Promise((res, rej) => {
         player.socket.emit(socket_1.SocketEnum.CHOOSE_GAME_MODE);
         player.socket.once(socket_1.SocketEnum.CHOSE_GAME_MODE, (mode) => {
@@ -84,13 +75,13 @@ const playerChoosesMode = (player) => __awaiter(this, void 0, void 0, function* 
             res();
         });
     });
-});
-const playAgainstAI = (player) => __awaiter(this, void 0, void 0, function* () {
+};
+const playAgainstAI = async (player) => {
     console.log("creating AI game");
     game_1.createGame([human_1.makeHumanAgent(player), random_1.makeRandomAgent()]);
-});
-const joinLobby = (player) => __awaiter(this, void 0, void 0, function* () {
+};
+const joinLobby = async (player) => {
     disconnect_1.handleDCDuringLobby(player);
     player.socket.emit(socket_1.SocketEnum.JOINED_LOBBY);
     queue_1.addToLobbyQueue(player);
-});
+};

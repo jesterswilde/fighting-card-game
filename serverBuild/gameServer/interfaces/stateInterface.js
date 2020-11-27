@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DistanceEnum = exports.MotionEnum = exports.StandingEnum = exports.PoiseEnum = exports.PredictionEnum = exports.HappensEnum = void 0;
 var HappensEnum;
 (function (HappensEnum) {
     HappensEnum[HappensEnum["NEVER_AFFECTED"] = 0] = "NEVER_AFFECTED";

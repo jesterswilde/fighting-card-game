@@ -1,13 +1,6 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.playTurn = exports.playGame = void 0;
 const errors_1 = require("../errors");
 const send_1 = require("./send");
 const playCard_1 = require("./playCard");
@@ -54,13 +47,13 @@ const endGame_1 = require("./endGame");
             Turn End
                 Decrement Counters
 */
-exports.playGame = (state) => __awaiter(this, void 0, void 0, function* () {
+exports.playGame = async (state) => {
     try {
         startGame(state);
         console.log("Game has started");
         while (true) {
             console.log("Entering Play Turn");
-            yield exports.playTurn(state);
+            await exports.playTurn(state);
             console.log("Exiting play turn");
         }
     }
@@ -72,7 +65,7 @@ exports.playGame = (state) => __awaiter(this, void 0, void 0, function* () {
             console.error(err);
         }
     }
-});
+};
 const startGame = (state) => {
     console.log("Game starting", state);
     assignPlayerToDecks(state);
@@ -81,12 +74,12 @@ const startGame = (state) => {
         agent.startGame(i);
     });
 };
-exports.playTurn = (state) => __awaiter(this, void 0, void 0, function* () {
+exports.playTurn = async (state) => {
     startTurn_1.startTurn(state);
     send_1.sendState(state);
-    yield playCard_1.playCards(state);
+    await playCard_1.playCards(state);
     endTurn_1.endTurn(state);
-});
+};
 const assignPlayerToDecks = (state) => {
     for (let player = 0; player < state.decks.length; player++) {
         const deck = state.decks[player];

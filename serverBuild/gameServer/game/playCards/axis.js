@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.playerAxis = exports.globalAxis = void 0;
 const stateInterface_1 = require("../../interfaces/stateInterface");
 const card_1 = require("../../../shared/card");
 exports.globalAxis = {
@@ -34,7 +35,7 @@ exports.playerAxis = {
     }),
     [card_1.AxisEnum.STANDING]: (players, amount, state) => players.forEach((i) => {
         const { stateDurations, playerStates } = state;
-        stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== stateInterface_1.StandingEnum.STANDING);
+        stateDurations[i].standing = null;
         playerStates[i].standing = stateInterface_1.StandingEnum.STANDING;
     }),
     [card_1.AxisEnum.PRONE]: (players, amount, state) => players.forEach((i) => {
@@ -45,7 +46,7 @@ exports.playerAxis = {
     [card_1.AxisEnum.STILL]: (players, amount, state) => {
         const { stateDurations, playerStates } = state;
         players.forEach((i) => {
-            stateDurations[i].motion = getMaxAmount(stateDurations[i].motion, amount, playerStates[i].motion !== stateInterface_1.MotionEnum.STILL);
+            stateDurations[i].motion = null;
             state.playerStates[i].motion = stateInterface_1.MotionEnum.STILL;
         });
     },

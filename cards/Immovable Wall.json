@@ -1,6 +1,6 @@
 {
   "name": "Immovable Wall",
-  "style": "Grappler",
+  "style": "Immovable",
   "priority": 8,
   "requirements": [
     {

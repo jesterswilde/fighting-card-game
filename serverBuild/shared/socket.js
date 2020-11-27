@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GameOverEnum = exports.SocketEnum = void 0;
 var SocketEnum;
 (function (SocketEnum) {
     SocketEnum["PICKED_CARD"] = "pickedCard";

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.barbarianStyle = void 0;
 exports.barbarianStyle = {
     name: 'Barbarian',
     cards: [

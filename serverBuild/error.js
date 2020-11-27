@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ErrorEnum = void 0;
 var ErrorEnum;
 (function (ErrorEnum) {
     ErrorEnum["INVALID_TOKEN"] = "invalid token";

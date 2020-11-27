@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.moveSetup = exports.reduceSetup = void 0;
 /*
     Setup increases the priority of all cards played next turn.
 

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SORT_ORDER = exports.SortAxisEnum = exports.getAxisGroup = void 0;
 const card_1 = require("./card");
 exports.getAxisGroup = (mechanic) => {
     const order = exports.SORT_ORDER[mechanic];

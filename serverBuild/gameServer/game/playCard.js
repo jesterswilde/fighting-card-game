@@ -1,13 +1,6 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.addCardsToQueue = exports.incrementQueue = exports.readyPlayerEffectsAndMechanics = exports.readyEffectsAndMechanics = exports.playCards = void 0;
 const cardHappens_1 = require("./playCards/cardHappens");
 const errors_1 = require("../errors");
 const card_1 = require("../../shared/card");
@@ -20,16 +13,16 @@ const critical_1 = require("./mechanics/critical");
 const events_1 = require("./events");
 const drawCards_1 = require("./drawCards");
 const buff_1 = require("./mechanics/buff");
-exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
+exports.playCards = async (state) => {
     try {
         console.log("Playing card");
-        yield playerInput_1.playersMakePredictions(state);
+        await playerInput_1.playersMakePredictions(state);
         drawCards_1.givePlayersCards(state);
-        yield playerInput_1.playersPickCards(state);
+        await playerInput_1.playersPickCards(state);
         exports.readyEffectsAndMechanics(state);
         events_1.newCardEvent(state); //Processes readed effects and mechs
         events_1.makeEventsFromReadied(state);
-        yield playerInput_1.playersMakeCardChoices(state);
+        await playerInput_1.playersMakeCardChoices(state);
         predict_1.markAxisChanges(state); //This is for predictions
         exports.incrementQueue(state);
         exports.addCardsToQueue(state);
@@ -39,13 +32,13 @@ exports.playCards = (state) => __awaiter(this, void 0, void 0, function* () {
         console.log("err", err);
         if (err === errors_1.ControlEnum.PLAY_CARD) {
             console.log("caught and playing card");
-            yield exports.playCards(state);
+            await exports.playCards(state);
         }
         else {
             throw err;
         }
     }
-});
+};
 exports.readyEffectsAndMechanics = (state) => {
     state.agents.forEach((_, i) => exports.readyPlayerEffectsAndMechanics(state, i));
 };

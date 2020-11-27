@@ -90,14 +90,6 @@ export const makeStateDurations = () => {
     }
 }
 
-export const makePlayerState = (): PlayerState => {
-    return {
-        standing: StandingEnum.STANDING,
-        motion: MotionEnum.STILL,
-        poise: STARTING_POISE
-    }
-}
-
 export const playerEnumToPlayerArray = (playerEnum: PlayerEnum, player: number, opponent: number): number[] => {
     let whoToCheck: number[];
     if (playerEnum === PlayerEnum.PLAYER) {

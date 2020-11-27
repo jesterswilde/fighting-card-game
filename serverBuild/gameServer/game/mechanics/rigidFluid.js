@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.handleFluid = exports.handleRigid = void 0;
 const card_1 = require("../../../shared/card");
 exports.handleRigid = (effect, card, player, opponent, state) => {
     if (effect.player === card_1.PlayerEnum.PLAYER || effect.player === card_1.PlayerEnum.BOTH) {

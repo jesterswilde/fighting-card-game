@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.jesterStyle = void 0;
 exports.jesterStyle = {
     name: 'Jester',
     description: "Ahhahahahah hahahahaah heee he hee!",

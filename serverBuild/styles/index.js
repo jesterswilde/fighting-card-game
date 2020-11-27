@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getFightingStyleByName = exports.getFightingStyles = exports.getAllFightingStylesArr = void 0;
 const grappler_1 = require("./styles/grappler");
 const cheapShot_1 = require("./styles/cheapShot");
 const crowdPleaser_1 = require("./styles/crowdPleaser");

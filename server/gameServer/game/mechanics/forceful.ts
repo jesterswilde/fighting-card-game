@@ -1,8 +1,9 @@
-import { GameState, ReadiedEffect } from "../../interfaces/stateInterface";
+import { GameState, ReadiedEffect, ReadiedMechanic } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
 import { MechanicEnum, Mechanic, Card } from "../../../shared/card";
 import { makeReadyEffects } from "../readiedEffects";
 import { addDisplayEvent, makeEventsFromReadied, startNewEvent } from "../events";
+import { readyEffectsAndMechanics } from "../playCard";
 
 /*
     Give up N poise, to gain an effect. 
@@ -10,6 +11,16 @@ import { addDisplayEvent, makeEventsFromReadied, startNewEvent } from "../events
 */
 
 export const playerChoosesForce = async (player: number, state: GameState) => {
+  const [valid, unused] = getValidAndUnusedForceful(state, player)
+  const newEffs = await playerChoosesFromValid(valid, player, state)
+  if(newEffs.length > 0){
+    state.readiedEffects[player].push(...newEffs); 
+    addDisplayEvent("Forceful", player, state, true)
+  }
+  state.readiedMechanics[player] = unused;
+};
+
+const getValidAndUnusedForceful = (state: GameState, player: number)=>{
   const { readiedMechanics = [] } = state;
   let readiedMechs = readiedMechanics[player] || [];
   let [forcefulMechs, unused] = splitArray(
@@ -19,19 +30,17 @@ export const playerChoosesForce = async (player: number, state: GameState) => {
   const validForcefulArr = forcefulMechs.filter(
     ({ mechanic }) => state.playerStates[player].poise >= mechanic.amount
   );
-  let readiedEffs: ReadiedEffect[] = [];
-  for (let i = 0; i < validForcefulArr.length; i++) {
-    const {card: { name: cardName }, mechanic, card,} = validForcefulArr[i];
-    console.log("Sending forceful question")
+  return [validForcefulArr, unused]
+}
+const playerChoosesFromValid = async(valid: ReadiedMechanic[], player: number, state: GameState)=>{
+  let newEffs: ReadiedEffect[] = [];
+  for (let i = 0; i < valid.length; i++) {
+    const {card: { name: cardName }, mechanic, card,} = valid[i];
     const choseToPlay = await state.agents[player].getUsedForceful({cardName, index: mechanic.index});
-    console.log("Did choose to play: ", choseToPlay)
     if (choseToPlay) {
       state.playerStates[player].poise -= mechanic.amount;
-      readiedEffs.push(...makeReadyEffects(mechanic.effects, card));
-      addDisplayEvent("Forceful", player, state)
-      makeEventsFromReadied(state); 
+      newEffs.push(...makeReadyEffects(mechanic.effects, card));
     }
   }
-  state.readiedEffects[player].push(...readiedEffs); 
-  state.readiedMechanics[player] = [...unused];
-};
+  return newEffs
+}

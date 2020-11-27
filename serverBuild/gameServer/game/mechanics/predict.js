@@ -1,13 +1,6 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.playerMakesPredictions = exports.predictionRevealEvent = exports.getCorrectGuessArray = exports.markAxisChanges = exports.checkPredictions = exports.didPredictionHappen = exports.movePredictionsToPending = exports.movePendingPredictions = void 0;
 const card_1 = require("../../../shared/card");
 const stateInterface_1 = require("../../interfaces/stateInterface");
 const readiedEffects_1 = require("../readiedEffects");
@@ -122,10 +115,10 @@ exports.predictionRevealEvent = (predictions, state) => {
     });
 };
 //SOCKET SECTION
-exports.playerMakesPredictions = (player, state) => __awaiter(this, void 0, void 0, function* () {
+exports.playerMakesPredictions = async (player, state) => {
     const { predictions, agents } = state;
     const predictionObj = predictions[player];
     if (predictionObj) {
-        predictionObj.prediction = yield agents[player].getPrediction();
+        predictionObj.prediction = await agents[player].getPrediction();
     }
-});
+};

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const stateInterface_1 = require("./interfaces/stateInterface");
-const gameSettings_1 = require("./gameSettings");
+exports.uniqByReverse = exports.splitArray = exports.playerEnumToPlayerArray = exports.makeStateDurations = exports.makeModifiedAxis = exports.makeEffect = exports.makeRequirement = exports.makeBlankCard = exports.deepCopy = exports.getOpponent = void 0;
 const card_1 = require("../shared/card");
 exports.getOpponent = (player) => {
     return player === 1 ? 0 : 1;
@@ -84,13 +83,6 @@ exports.makeStateDurations = () => {
         standing: null,
         motion: null,
         balance: null
-    };
-};
-exports.makePlayerState = () => {
-    return {
-        standing: stateInterface_1.StandingEnum.STANDING,
-        motion: stateInterface_1.MotionEnum.STILL,
-        poise: gameSettings_1.STARTING_POISE
     };
 };
 exports.playerEnumToPlayerArray = (playerEnum, player, opponent) => {

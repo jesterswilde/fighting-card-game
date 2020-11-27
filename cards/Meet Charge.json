@@ -1,0 +1,62 @@
+{
+  "name": "Meet Charge",
+  "style": "Story",
+  "priority": 4,
+  "requirements": [
+    {
+      "axis": "Close",
+      "player": "Both"
+    },
+    {
+      "axis": "Moving",
+      "player": "Them"
+    },
+    {
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "effects": [
+    {
+      "axis": "Damage",
+      "player": "Them",
+      "amount": 7
+    },
+    {
+      "axis": "Parry",
+      "amount": 4
+    },
+    {
+      "axis": "Standing",
+      "player": "Me"
+    }
+  ],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Forceful",
+      "amount": 2,
+      "effects": [
+        {
+          "axis": "Damage",
+          "player": "Them",
+          "amount": 4
+        },
+        {
+          "axis": "Prone",
+          "player": "Them",
+          "amount": 2
+        }
+      ]
+    }
+  ],
+  "tags": []
+}

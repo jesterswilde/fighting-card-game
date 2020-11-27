@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ropeADopeStyle = void 0;
 exports.ropeADopeStyle = {
     name: "Rope-a-Dope",
     cards: [

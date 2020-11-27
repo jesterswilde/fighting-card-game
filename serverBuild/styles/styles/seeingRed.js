@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.seeingRedStyle = void 0;
 exports.seeingRedStyle = {
     name: "Seeing Red",
     description: "Full of anger and reflex. Doesn't care about it's own balance, only blood.",

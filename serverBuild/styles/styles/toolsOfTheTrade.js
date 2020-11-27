@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.toolsOfTheTradeStyle = void 0;
 exports.toolsOfTheTradeStyle = {
     name: "Tools Of The Trade",
     description: "A random assortment of items, each has it's place.",

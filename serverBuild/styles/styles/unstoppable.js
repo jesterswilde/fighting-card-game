@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.unstoppableStyle = void 0;
 exports.unstoppableStyle = {
     name: 'Unstoppable',
     description: "Hurls it's great weight around with lots of motion and force.",

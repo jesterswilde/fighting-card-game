@@ -1,24 +1,18 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.createGame = void 0;
 const disconnect_1 = require("./disconnect");
 const game_1 = require("../game/game");
-const stateInterface_1 = require("../interfaces/stateInterface");
-const gameSettings_1 = require("../gameSettings");
 const util_1 = require("../util");
-exports.createGame = (players) => __awaiter(this, void 0, void 0, function* () {
-    const state = makeGameState(players);
+const stateMod_1 = require("./stateMod");
+exports.createGame = async (players, gameMods = null) => {
+    const state = makeGameState(players, gameMods);
     disconnect_1.handleDCDuringGame(players);
     game_1.playGame(state);
-});
-const makeGameState = (agents) => {
+};
+const makeGameState = (agents, mod = null) => {
+    const { distance, playerStates } = stateMod_1.makePlayerStateWithMods(mod);
+    const health = stateMod_1.healthFromMod(mod);
     const state = {
         agents,
         numPlayers: 2,
@@ -26,11 +20,11 @@ const makeGameState = (agents) => {
         decks: agents.map(({ deck }) => deck),
         hands: [[], []],
         pickedCards: [],
-        health: [gameSettings_1.STARTING_HEALTH, gameSettings_1.STARTING_HEALTH],
+        health,
         parry: [0, 0],
         block: [0, 0],
-        playerStates: [util_1.makePlayerState(), util_1.makePlayerState()],
-        distance: stateInterface_1.DistanceEnum.FAR,
+        playerStates,
+        distance,
         stateDurations: [util_1.makeStateDurations(), util_1.makeStateDurations()],
         readiedEffects: [[], []],
         readiedMechanics: [[], []],

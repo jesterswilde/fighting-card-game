@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.workTheBodyStyle = void 0;
 exports.workTheBodyStyle = {
     name: "Work The Body",
     cards: [

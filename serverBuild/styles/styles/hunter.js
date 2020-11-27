@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.hunterStyle = void 0;
 exports.hunterStyle = {
     name: 'Hunter',
     description: "Attacks from a distance, setting traps and shooting them with their bow. Gutting them once they are good n ready.",

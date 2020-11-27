@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.makeHumanAgent = void 0;
 const interface_1 = require("./interface");
 const socket_1 = require("../shared/socket");
 const Cards_1 = require("../cards/Cards");
@@ -7,10 +8,11 @@ const events_1 = require("./helpers/events");
 const critical_1 = require("../gameServer/game/mechanics/critical");
 const enhance_1 = require("../gameServer/game/mechanics/enhance");
 const buff_1 = require("../gameServer/game/mechanics/buff");
-exports.makeHumanAgent = (player) => {
+exports.makeHumanAgent = (player, deckList = null) => {
     let index = -1;
+    deckList = deckList == null ? player.deck.deckList : deckList;
     return {
-        deck: Cards_1.deckListToCards(player.deck.deckList),
+        deck: Cards_1.deckListToCards(deckList),
         username: player.username,
         type: interface_1.AgentType.HUMAN,
         player,
@@ -18,35 +20,14 @@ exports.makeHumanAgent = (player) => {
             index = _index;
             player.socket.emit(socket_1.SocketEnum.START_GAME, { player: index });
         },
-        gameOver: () => {
-            player.socket.emit(socket_1.SocketEnum.GAME_OVER);
-            player.socket.once(socket_1.SocketEnum.END_GAME_CHOICE, (choice) => {
-                switch (choice) {
-                    case socket_1.GameOverEnum.FIND_NEW_OPP_WITH_NEW_DECK:
-                        break;
-                    case socket_1.GameOverEnum.FIND_NEW_OPP_WITH_SAME_DECK:
-                        break;
-                }
-            });
+        gameOver: (didWin, state) => {
+            player.socket.emit(socket_1.SocketEnum.GAME_OVER, { didWin, state: toSendState(state) });
         },
         sendHand: (cards) => {
             player.socket.emit(socket_1.SocketEnum.GOT_CARDS, processHandCard(cards));
         },
         sendState: (state) => {
-            console.log(state.tagModification[0]);
-            var stateToSend = {
-                numPlayers: state.numPlayers,
-                queue: processQueueCards(state.queue),
-                health: state.health,
-                block: state.block,
-                playerStates: state.playerStates,
-                distance: state.distance,
-                setup: state.setup,
-                predictions: state.predictions.map(pred => processPredictions(pred)),
-                turnNumber: state.turnNumber,
-                stateDurations: state.stateDurations,
-            };
-            player.socket.emit(socket_1.SocketEnum.GOT_STATE, stateToSend);
+            player.socket.emit(socket_1.SocketEnum.GOT_STATE, toSendState(state));
         },
         sendEvents: (events) => {
             console.log("Sending events", events);
@@ -80,6 +61,20 @@ exports.makeHumanAgent = (player) => {
             });
         },
         opponentMadeCardChoice: () => { },
+    };
+};
+const toSendState = (state) => {
+    return {
+        numPlayers: state.numPlayers,
+        queue: processQueueCards(state.queue),
+        health: state.health,
+        block: state.block,
+        playerStates: state.playerStates,
+        distance: state.distance,
+        setup: state.setup,
+        predictions: state.predictions.map(pred => processPredictions(pred)),
+        turnNumber: state.turnNumber,
+        stateDurations: state.stateDurations,
     };
 };
 const processPredictions = (pred) => {

@@ -34,7 +34,7 @@ export const playerAxis: { [axis: string]: (players: number[], amount: number, s
     }),
     [AxisEnum.STANDING]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
         const { stateDurations, playerStates } = state;
-        stateDurations[i].standing = getMaxAmount(stateDurations[i].standing, amount, playerStates[i].standing !== StandingEnum.STANDING);
+        stateDurations[i].standing = null
         playerStates[i].standing = StandingEnum.STANDING
     }),
     [AxisEnum.PRONE]: (players: number[], amount: number, state: GameState) => players.forEach((i) => {
@@ -45,7 +45,7 @@ export const playerAxis: { [axis: string]: (players: number[], amount: number, s
     [AxisEnum.STILL]: (players: number[], amount: number, state: GameState) => {
         const { stateDurations, playerStates } = state;
         players.forEach((i) => {
-            stateDurations[i].motion = getMaxAmount(stateDurations[i].motion, amount, playerStates[i].motion !== MotionEnum.STILL)
+            stateDurations[i].motion = null
             state.playerStates[i].motion = MotionEnum.STILL
         })
     },

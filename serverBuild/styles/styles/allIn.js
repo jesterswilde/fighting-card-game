@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AllInStyle = void 0;
 exports.AllInStyle = {
     name: "All In",
     description: "This guy is inexperienced, but all you need is a little luck, right?",

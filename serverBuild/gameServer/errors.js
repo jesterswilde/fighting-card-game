@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ErrorEnum = exports.ControlEnum = void 0;
 var ControlEnum;
 (function (ControlEnum) {
     ControlEnum["NEW_EFFECTS"] = "newEffects";

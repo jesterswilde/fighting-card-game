@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkTelegraph = exports.putTelegraphsOntoQueueCard = void 0;
 const queue_1 = require("../queue");
 const requirements_1 = require("../playCards/requirements");
 const readiedEffects_1 = require("../readiedEffects");

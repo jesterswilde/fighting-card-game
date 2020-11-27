@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.applySimpleMech = void 0;
 const card_1 = require("../../../shared/card");
 const util_1 = require("../../util");
 const buff_1 = require("../mechanics/buff");

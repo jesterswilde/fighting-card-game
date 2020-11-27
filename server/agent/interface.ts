@@ -6,7 +6,7 @@ export interface AgentBase {
     username: string,
     deck?: Card[],
     startGame: (index: number)=> void,
-    gameOver: ()=>void,
+    gameOver: (didWin: boolean, state: GameState)=>void,
     sendState: (state: GameState)=> void,
     sendHand: (cards: Card[][])=> void,
     sendEvents: (events: EventAction[][])=> void,

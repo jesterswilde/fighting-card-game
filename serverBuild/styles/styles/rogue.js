@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.rogueStyle = void 0;
 exports.rogueStyle = {
     name: "Rogue",
     description: "Nimble, stealthy, master of the blade",

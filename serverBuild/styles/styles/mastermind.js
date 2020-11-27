@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.mastermindStyle = void 0;
 exports.mastermindStyle = {
     name: "Mastermind",
     description: "Exactly as planned! Focuses on the long game and big payoff.",

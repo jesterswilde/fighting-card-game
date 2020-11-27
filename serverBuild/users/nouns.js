@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.nouns = void 0;
 exports.nouns = [
     'Protocol',
     'Inventor',

@@ -1,37 +1,59 @@
 {
   "name": "Stalk",
-  "style": "Grappler",
-  "priority": 8,
+  "style": "Hunter",
+  "priority": 7,
   "requirements": [
     {
-      "axis": "Bloodied",
-      "player": "Them"
+      "axis": "Not Grappled",
+      "player": "Both"
     },
     {
-      "axis": "Far",
-      "player": "Both"
+      "axis": "Balanced",
+      "player": "Me"
+    },
+    {
+      "axis": "Not Anticipating",
+      "player": "Them"
     }
   ],
   "effects": [
     {
-      "axis": "Close",
+      "axis": "Far",
       "player": "Both"
     },
     {
-      "axis": "Standing",
-      "player": "Me"
-    },
-    {
-      "axis": "Rigid",
-      "player": "Them",
-      "amount": 1
-    },
-    {
-      "axis": "Setup",
+      "axis": "Poise",
       "player": "Me",
-      "amount": 3
+      "amount": 2
+    },
+    {
+      "axis": "Prone",
+      "player": "Me",
+      "amount": 2
+    },
+    {
+      "axis": "Still",
+      "player": "Me"
     }
   ],
-  "mechanics": [],
+  "mechanics": [
+    {
+      "index": 0,
+      "mechanic": "Critical",
+      "requirements": [
+        {
+          "axis": "Bloodied",
+          "player": "Them"
+        }
+      ],
+      "effects": [
+        {
+          "axis": "Rigid",
+          "player": "Them",
+          "amount": 1
+        }
+      ]
+    }
+  ],
   "tags": []
 }

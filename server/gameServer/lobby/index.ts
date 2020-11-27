@@ -10,8 +10,7 @@ import { addToLobbyQueue } from "./queue";
 import { createGame } from "./game";
 import { makeHumanAgent } from "../../agent/human";
 import { makeRandomAgent } from "../../agent/random";
-import { StoryInfo } from "../story/interface";
-import { StartStoryCombat } from "../story";
+import { startStoryCombat } from "../story";
 
 export default (io: SocketIO.Server) => {
   io.on("connection", configureSocket);
@@ -22,7 +21,6 @@ const configureSocket = async (socket: Socket) => {
     console.log("configuring socket"); 
     socket.emit(null);
     const player = await makePlayerObject(socket);
-    console.log("Asking playe to choose deck"); 
     await playerChoosesMode(player); 
     if(player.mode == GameMode.STORY)
       handleStory(player)
@@ -43,10 +41,10 @@ const handleConstructeddGame = async(player: PlayerObject)=>{
     else
       joinLobby(player); //NEED SWITCH STATEMENT HERE,
 }
-const handleStory = async(player: PlayerObject)=>{
-  player.socket.emit(SocketEnum.SHOULD_SEND_STORY_INFO); 
-  player.socket.once(SocketEnum.STORY_INFO, (storyInfo: StoryInfo)=>{
-    StartStoryCombat(player, storyInfo); 
+const handleStory = (player: PlayerObject)=>{
+  player.socket.emit(SocketEnum.SHOULD_SEND_STORY_INFO)
+  player.socket.once(SocketEnum.STORY_INFO, (storyInfo)=>{
+    startStoryCombat(player, storyInfo); 
   })
 }
 const makePlayerObject = async (socket: Socket) => {

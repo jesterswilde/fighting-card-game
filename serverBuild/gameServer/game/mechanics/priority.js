@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.calculatePriority = void 0;
 /*
     Priority is the process by which conflicting states is resolved.
     Priority is the base card's priority plus clutch (on card) plus setup (on state)

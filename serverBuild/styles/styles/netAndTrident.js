@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.netAndTridentStyle = void 0;
 exports.netAndTridentStyle = {
     name: 'Net And Trident',
     identity: "Your opponent being prone and on the ground is the 'damage' state. You being standing is what allows you to alter state. A fairly straight forward style.",

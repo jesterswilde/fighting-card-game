@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.applyStateEffects = exports.handleReadiedEffects = void 0;
 const stateInterface_1 = require("../../interfaces/stateInterface");
 const sortOrder_1 = require("../../../shared/sortOrder");
 const util_1 = require("../../util");
@@ -54,7 +55,7 @@ const stateAxisSet = new Set([
     card_1.AxisEnum.MOVING,
     card_1.AxisEnum.STILL,
     card_1.AxisEnum.PRONE,
-    card_1.AxisEnum.STANCE,
+    card_1.AxisEnum.STANDING,
     card_1.AxisEnum.GRAPPLED,
     card_1.AxisEnum.CLOSE,
     card_1.AxisEnum.FAR,

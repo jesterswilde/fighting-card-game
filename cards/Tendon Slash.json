@@ -1,5 +1,6 @@
 {
   "name": "Tendon Slash",
+  "style": "Crowd Pleaser",
   "priority": 4,
   "requirements": [
     {
@@ -40,7 +41,7 @@
       "effects": [
         {
           "axis": "Cripple",
-          "detail": "Cripple Leg"
+          "detail": "Leg"
         }
       ]
     }

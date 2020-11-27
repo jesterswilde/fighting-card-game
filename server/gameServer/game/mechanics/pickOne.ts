@@ -20,8 +20,7 @@ export const playerPicksOne = async (player: number, state: GameState) => {
             const picked = mechanic.choices[choice];
             pickedEffects.push(...picked)
             state.readiedEffects[player] = [...state.readiedEffects[player], ...makeReadyEffects(pickedEffects, card)];
-            addDisplayEvent("Picked One", player, state); 
-            makeEventsFromReadied(state); 
+            addDisplayEvent("Picked One", player, state, true); 
     }
 }
 

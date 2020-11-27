@@ -36,9 +36,11 @@ export const startNewEvent = (header: EventType, state: GameState) => {
   }));
 };
 
-export const addDisplayEvent = (display: string, index: number, state: GameState)=>{
+export const addDisplayEvent = (display: string, index: number, state: GameState, addEvents: boolean = false)=>{
   state.currentEvent[index].effects = state.currentEvent[index].effects || []
   state.currentEvent[index].effects.push({type: EventEffectType.CHOICE, display})
+  if(addEvents)
+    makeEventsFromReadied(state); 
 }
 
 export const makeEventsFromReadied = (state: GameState) => {
@@ -51,11 +53,8 @@ export const makeEventsFromReadied = (state: GameState) => {
       })
       .map(({ effect, happensTo }) => ({ effect, happensTo, type: EventEffectType.EFFECT }));
     if (!state.currentEvent[index]) throw new Error("No current event");
-    state.currentEvent[index].effects = state.currentEvent[index].effects || [];
-    state.currentEvent[index].effects = [
-      ...state.currentEvent[index].effects,
-      ...events,
-    ];
+    state.currentEvent[index].effects = state.currentEvent[index].effects ?? [];
+    state.currentEvent[index].effects.push(...events)
   });
 };
 

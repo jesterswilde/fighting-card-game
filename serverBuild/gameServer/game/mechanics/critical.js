@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getEffectsFromCrits = exports.addCriticalToHandCard = exports.markCritical = exports.canUseCritical = void 0;
 const card_1 = require("../../../shared/card");
 const requirements_1 = require("../playCards/requirements");
 const util_1 = require("../../util");

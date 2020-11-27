@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.checkForVictor = exports.clearReadiedEffectsAndMechanics = exports.cardHappens = void 0;
 const handleComplexMech_1 = require("./handleComplexMech");
 const errors_1 = require("../../errors");
 const telegraph_1 = require("../mechanics/telegraph");

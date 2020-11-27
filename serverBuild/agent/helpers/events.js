@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.eventsToFrontend = void 0;
 const gameEvent_1 = require("../../gameServer/interfaces/gameEvent");
 const stateInterface_1 = require("../../gameServer/interfaces/stateInterface");
 const util_1 = require("../../gameServer/util");

@@ -126,7 +126,7 @@ const MechanicDisplay: { [mech: string]: DisplayComponents } = {
 };
 
 export enum PlayerEnum {
-  PLAYER,
-  OPPONENT,
-  BOTH,
+  PLAYER = "Me",
+  OPPONENT = "Them",
+  BOTH = "Both",
 }

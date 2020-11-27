@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.sendEvents = exports.makeEventsFromReadied = exports.addDisplayEvent = exports.startNewEvent = exports.gameOverEvent = exports.reflexEvent = exports.newCardEvent = void 0;
 const gameEvent_1 = require("../interfaces/gameEvent");
 exports.newCardEvent = (state) => {
     console.log("Adding new card event");
@@ -27,9 +28,11 @@ exports.startNewEvent = (header, state) => {
         type: header,
     }));
 };
-exports.addDisplayEvent = (display, index, state) => {
+exports.addDisplayEvent = (display, index, state, addEvents = false) => {
     state.currentEvent[index].effects = state.currentEvent[index].effects || [];
     state.currentEvent[index].effects.push({ type: gameEvent_1.EventEffectType.CHOICE, display });
+    if (addEvents)
+        exports.makeEventsFromReadied(state);
 };
 exports.makeEventsFromReadied = (state) => {
     state.readiedEffects.forEach((reaEffArr, index) => {
@@ -42,11 +45,8 @@ exports.makeEventsFromReadied = (state) => {
             .map(({ effect, happensTo }) => ({ effect, happensTo, type: gameEvent_1.EventEffectType.EFFECT }));
         if (!state.currentEvent[index])
             throw new Error("No current event");
-        state.currentEvent[index].effects = state.currentEvent[index].effects || [];
-        state.currentEvent[index].effects = [
-            ...state.currentEvent[index].effects,
-            ...events,
-        ];
+        state.currentEvent[index].effects = state.currentEvent[index].effects ?? [];
+        state.currentEvent[index].effects.push(...events);
     });
 };
 exports.sendEvents = (state) => {

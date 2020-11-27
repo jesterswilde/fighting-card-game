@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.kobraKaiStyle = void 0;
 exports.kobraKaiStyle = {
     name: "Kobra Kai",
     description: "Karate style that focuses on putting it's opponent flat on their back",

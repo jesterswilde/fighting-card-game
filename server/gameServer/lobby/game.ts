@@ -1,18 +1,21 @@
 import { Agent } from "../../agent";
 import { handleDCDuringGame } from "./disconnect";
 import { playGame } from "../game/game";
-import { GameState, DistanceEnum } from "../interfaces/stateInterface";
-import { STARTING_HEALTH } from "../gameSettings";
-import { makePlayerState, makeStateDurations, makeModifiedAxis } from "../util";
+import { GameState, DistanceEnum, PlayerState } from "../interfaces/stateInterface";
+import { makeStateDurations, makeModifiedAxis } from "../util";
+import { GameMods } from "./interface";
+import { healthFromMod, makePlayerStateWithMods } from "./stateMod";
 
-export const createGame = async (players: Agent[]) => {
-  const state = makeGameState(players);
+export const createGame = async (players: Agent[], gameMods: GameMods = null) => {
+  const state = makeGameState(players, gameMods);
   handleDCDuringGame(players); 
   playGame(state);
 };
   
   
-const makeGameState = (agents: Agent[]) => {
+const makeGameState = (agents: Agent[], mod: GameMods = null) => {
+  const {distance, playerStates} = makePlayerStateWithMods(mod)
+  const health = healthFromMod(mod); 
   const state: GameState = {
     agents,
     numPlayers: 2,
@@ -20,11 +23,11 @@ const makeGameState = (agents: Agent[]) => {
     decks: agents.map(({deck}) => deck),
     hands: [[], []],
     pickedCards: [],
-    health: [STARTING_HEALTH, STARTING_HEALTH],
+    health,
     parry: [0, 0],
     block: [0, 0],
-    playerStates: [makePlayerState(), makePlayerState()],
-    distance: DistanceEnum.FAR,
+    playerStates,
+    distance,
     stateDurations: [makeStateDurations(), makeStateDurations()],
     readiedEffects: [[], []],
     readiedMechanics: [[],[]],

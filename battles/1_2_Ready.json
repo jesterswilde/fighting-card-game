@@ -1,0 +1,22 @@
+{
+    "id": "1_2_Ready",
+    "name": "Mook",
+    "enemy":{
+        "deckList": [
+            "Charge",
+            "Flying Slash",
+            "Body Slam",
+            "Groin Stomp",
+            "Tendon Slash"
+        ],
+        "health": 20
+    },
+    "startingPositions": [
+        {
+            "axis": "Far"
+        },{
+            "axis": "Moving",
+            "player": "Them"
+        }
+    ]
+}
