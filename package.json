@@ -24,7 +24,7 @@
     "pg-hstore": "^2.3.2",
     "reflect-metadata": "^0.1.13",
     "socket.io": "^2.2.0",
-    "typeorm": "^0.2.22"
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@types/jest": "^23.3.12",
