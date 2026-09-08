@@ -4,7 +4,7 @@ import {
   EventAction,
   EventTypeEnum,
   EVENT_PLAY_SPEED,
-  HappensEnum
+  HappensEnum,
 } from "../../events/interface";
 import { StoreState } from "../../state/store";
 import { connect } from "preact-redux";
@@ -13,7 +13,7 @@ import { dispatchFinishedDisplayingEvents } from "../../events/dispatch";
 import {
   getLosingMessage,
   getBothLoseMessage,
-  getWinningMessage
+  getWinningMessage,
 } from "../../extras/gameOverMessages";
 
 interface Props extends EventState {
@@ -37,7 +37,7 @@ class Events extends Component<Props, State> {
     this.state = {
       events: [],
       counter: 0,
-      startingEvents: props.events
+      startingEvents: props.events,
     };
     this.addEvent();
   }
@@ -50,7 +50,7 @@ class Events extends Component<Props, State> {
       this.setState({
         cancelTimeout,
         events: [...events, this.props.events[counter]],
-        counter: counter + 1
+        counter: counter + 1,
       });
     }
   };
@@ -62,7 +62,7 @@ class Events extends Component<Props, State> {
       this.setState({
         startingEvents: nextProps.events,
         events: [],
-        counter: 0
+        counter: 0,
       });
       setTimeout(() => {
         this.addEvent();
@@ -73,10 +73,7 @@ class Events extends Component<Props, State> {
     const { events = [] } = this.state;
     return (
       <div class="event-modal">
-        <div
-          class="event-background"
-          onClick={dispatchFinishedDisplayingEvents}
-        />
+        <div class="event-background" onClick={dispatchFinishedDisplayingEvents} />
         <div class="event-container">
           {events.map((event, i) => {
             return (
@@ -90,7 +87,9 @@ class Events extends Component<Props, State> {
     );
   }
   reducer = (event: EventAction, opponent?: boolean) => {
-    if (event === null) return null;
+    if (event === null) {
+      return null;
+    }
     switch (event.eventType) {
       case EventTypeEnum.CARD_NAME:
         return this.renderCard(event, opponent);
@@ -141,9 +140,7 @@ class Events extends Component<Props, State> {
   };
   renderAddedMechanic = (event: EventAction, opponent: boolean) => {
     return (
-      <div class={`event-effect ${opponent ? "opponent" : ""}`}>
-        Added: {event.mechanicName}
-      </div>
+      <div class={`event-effect ${opponent ? "opponent" : ""}`}>Added: {event.mechanicName}</div>
     );
   };
   renderRevealPrediction = (event: EventAction, opponent: boolean) => {
@@ -178,16 +175,12 @@ class Events extends Component<Props, State> {
   renderEffect = (event: EventAction, opponent: boolean) => {
     const { player, axis, mechanic, amount } = event.effect;
     const { happenedTo = [] } = event;
-    const blocked = happenedTo.some(value => value === HappensEnum.BLOCKED)
-      ? "blocked"
-      : "";
+    const blocked = happenedTo.some((value) => value === HappensEnum.BLOCKED) ? "blocked" : "";
     return (
       <div class={`event-effect ${opponent ? "opponent" : ""} ${blocked}`}>
         {mechanic !== undefined && mechanic}
         {mechanic !== undefined && " "}
-        {player !== undefined && (
-          <Arrow player={player} shouldFlip={opponent} />
-        )}
+        {player !== undefined && <Arrow player={player} shouldFlip={opponent} />}
         {axis !== undefined && <Icon name={axis} />}
         {axis !== undefined && " "}
         {amount !== undefined && amount}
@@ -207,7 +200,7 @@ class Events extends Component<Props, State> {
         {eventSection.gameEvents.map((playerEvent, playerIndex) => {
           return (
             <div class="players-events" key={playerIndex}>
-              {playerEvent.gameEvents.map(event => {
+              {playerEvent.gameEvents.map((event) => {
                 if (event === null) {
                   return <div />;
                 }
@@ -224,7 +217,9 @@ class Events extends Component<Props, State> {
     return (
       <div class="event-section">
         {events.map((playerEvent, player) => {
-          if (!playerEvent) return <div />;
+          if (!playerEvent) {
+            return <div />;
+          }
           const opponent = player !== this.props.player;
           return (
             <div class="players-events" key={player}>
@@ -241,11 +236,7 @@ class Events extends Component<Props, State> {
         {eventSection.gameEvents.map((cardEvent, playerIndex) => {
           if (cardEvent) {
             const opponent = cardEvent.playedBy !== this.props.player;
-            return (
-              <div class="card-names">
-                {this.renderCard(cardEvent, opponent)}
-              </div>
-            );
+            return <div class="card-names">{this.renderCard(cardEvent, opponent)}</div>;
           }
           return <div class="card-names" key={playerIndex} />;
         })}
@@ -254,4 +245,4 @@ class Events extends Component<Props, State> {
   };
 }
 
-export default (connect(selector)(Events) as unknown) as () => JSX.Element;
+export default connect(selector)(Events) as unknown as () => JSX.Element;

@@ -11,7 +11,7 @@ export const createToken = async (data: object) => {
   return b64 + "." + hash;
 };
 
-export const verifyToken = async token => {
+export const verifyToken = async (token) => {
   console.log("token", token);
   const [b64, userHash] = token.split(".");
   const hash = await makeHash(b64, SECRET);
@@ -24,10 +24,7 @@ export const makeHashAndSalt = async (password: string) => {
   return { salt, hash };
 };
 
-export const verifyPasswordForEmail = async (
-  email: string,
-  password: string
-) => {
+export const verifyPasswordForEmail = async (email: string, password: string) => {
   const user = await userRepo.findOne({ email });
   if (!user) {
     throw "Couldn't find email: " + email;
@@ -52,15 +49,21 @@ const makeHash = async (password: string, salt: string) => {
 
 const reqToUser = async (req: Request) => {
   let token = req.headers.authorization;
+  if (!token) {
+    throw ErrorEnum.INVALID_TOKEN;
+  }
   let spaceIndex = token.indexOf(" ");
   if (spaceIndex >= 0) {
     token = token.split(" ")[1];
   }
-  if (!verifyToken(token)) {
+  if (!(await verifyToken(token))) {
     throw ErrorEnum.INVALID_TOKEN;
   }
   const username = tokenToUsername(token);
   const user = await userRepo.findOne({ username });
+  if (!user) {
+    throw ErrorEnum.INVALID_TOKEN;
+  }
   return user;
 };
 
@@ -85,11 +88,7 @@ export const getVerifiedUsername = async (token: string) => {
   return null;
 };
 
-export const authMiddleware = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (req.headers.authorization) {
       req.user = await reqToUser(req);

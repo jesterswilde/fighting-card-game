@@ -22,7 +22,7 @@ The preview preserves the current `cards/*.json` schema: requirements, effects, 
 `data.js` is a bundled snapshot of the game's card files. To refresh it and the copied original icons after game changes, run from the repository root:
 
 ```sh
-node vizdev/sync-data.js
+bun vizdev/sync-data.js
 ```
 
 Anton Regular and Barlow Condensed Bold are bundled in `assets/fonts/`, with their SIL Open Font License files. They came from the Google Fonts repository (`ofl/anton` and `ofl/barlowcondensed`). No system font installation or remote font request is required.
@@ -35,10 +35,10 @@ All six studies have four named color buttons each. A choice applies to the sele
 
 ## Browser layout check
 
-With Chromium installed and a modern Node supporting the built-in WebSocket API, run:
+With Chromium installed and Bun, run:
 
 ```sh
-node vizdev/check-layout.js
+bun vizdev/check-layout.js
 ```
 
 The check renders all 160 cards in all six styles at 1440, 1051, 768, 650, 390 and 320px viewport widths (5,760 variants). It checks the 600px card height, horizontal/vertical overflow, requirements and mechanics, palette inheritance and the R shortcut. It writes a detailed report and a screenshot of the complex Targeted Strike card to the operating system’s temporary directory. No test dependencies are needed.

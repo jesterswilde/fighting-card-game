@@ -11,36 +11,47 @@ import { readyEffectsAndMechanics } from "../playCard";
 */
 
 export const playerChoosesForce = async (player: number, state: GameState) => {
-  const [valid, unused] = getValidAndUnusedForceful(state, player)
-  const newEffs = await playerChoosesFromValid(valid, player, state)
-  if(newEffs.length > 0){
-    state.readiedEffects[player].push(...newEffs); 
-    addDisplayEvent("Forceful", player, state, true)
+  const [valid, unused] = getValidAndUnusedForceful(state, player);
+  const newEffs = await playerChoosesFromValid(valid, player, state);
+  if (newEffs.length > 0) {
+    state.readiedEffects[player].push(...newEffs);
+    addDisplayEvent("Forceful", player, state, true);
   }
   state.readiedMechanics[player] = unused;
 };
 
-const getValidAndUnusedForceful = (state: GameState, player: number)=>{
+const getValidAndUnusedForceful = (state: GameState, player: number) => {
   const { readiedMechanics = [] } = state;
   let readiedMechs = readiedMechanics[player] || [];
   let [forcefulMechs, unused] = splitArray(
     readiedMechs,
-    ({ mechanic }) => mechanic.mechanic === MechanicEnum.FORCEFUL
+    ({ mechanic }) => mechanic.mechanic === MechanicEnum.FORCEFUL,
   );
   const validForcefulArr = forcefulMechs.filter(
-    ({ mechanic }) => state.playerStates[player].poise >= mechanic.amount
+    ({ mechanic }) => state.playerStates[player].poise >= (mechanic.amount ?? 0),
   );
-  return [validForcefulArr, unused]
-}
-const playerChoosesFromValid = async(valid: ReadiedMechanic[], player: number, state: GameState)=>{
+  return [validForcefulArr, unused];
+};
+const playerChoosesFromValid = async (
+  valid: ReadiedMechanic[],
+  player: number,
+  state: GameState,
+) => {
   let newEffs: ReadiedEffect[] = [];
   for (let i = 0; i < valid.length; i++) {
-    const {card: { name: cardName }, mechanic, card,} = valid[i];
-    const choseToPlay = await state.agents[player].getUsedForceful({cardName, index: mechanic.index});
+    const {
+      card: { name: cardName },
+      mechanic,
+      card,
+    } = valid[i];
+    const choseToPlay = await state.agents[player].getUsedForceful({
+      cardName,
+      index: mechanic.index,
+    });
     if (choseToPlay) {
-      state.playerStates[player].poise -= mechanic.amount;
+      state.playerStates[player].poise -= mechanic.amount ?? 0;
       newEffs.push(...makeReadyEffects(mechanic.effects, card));
     }
   }
-  return newEffs
-}
+  return newEffs;
+};

@@ -10,6 +10,6 @@ export const drunkenStyle: FightingStyle = {
     "Whip Kick",
     "Flow Down",
     "Stumble Away",
-    "Eel Kick"
-  ]
+    "Eel Kick",
+  ],
 };

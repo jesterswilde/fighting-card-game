@@ -4,13 +4,12 @@ import { getFightingStyles, getFightingStyleByName } from "./styles";
 import { userRouter } from "./users/router";
 import { decksRouter } from "./decks/router";
 
-const isProduction = process.env.PRODUCTION == "production"; 
+const isProduction = process.env.PRODUCTION == "production";
 
 const router = Router();
 
 router.use("/users", userRouter);
 router.use("/decks", decksRouter);
-
 
 router.get("/cards", (req, res) => {
   const cardList = Object.keys(allCards);
@@ -32,6 +31,5 @@ router.get("/styles/:style", (req, res) => {
     res.status(418).send();
   }
 });
-
 
 export default router;

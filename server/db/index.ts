@@ -1,9 +1,4 @@
-import {
-  createConnection,
-  Repository,
-  ConnectionOptions,
-  Connection
-} from "typeorm";
+import { createConnection, Repository, ConnectionOptions, Connection } from "typeorm";
 import * as urLReader from "pg-connection-string";
 import { DBDeck } from "./entities/deck";
 import { DBUser } from "./entities/user";
@@ -31,7 +26,7 @@ let connectionObj: ConnectionOptions = {
   password: "password",
   database: "fight",
   synchronize: true,
-  entities: [DBDeck, DBUser, DBFeedback]
+  entities: [DBDeck, DBUser, DBFeedback],
 };
 
 if (process.env.DATABASE_URL) {
@@ -39,23 +34,24 @@ if (process.env.DATABASE_URL) {
   connectionObj = {
     ...connectionObj,
     ...{
-      database: dbURL.database,
+      database: dbURL.database ?? undefined,
       username: dbURL.user,
       password: dbURL.password,
-      host: dbURL.host,
+      host: dbURL.host ?? undefined,
       port: Number(dbURL.port),
-      extras: { ssl: true }
-    }
+      extras: { ssl: true },
+    },
   };
 }
 
-createConnection(connectionObj).then(connection => {
+export const connectDatabase = async () => {
+  const connection = await createConnection(connectionObj);
   deckRepo = connection.getRepository(DBDeck);
   userRepo = connection.getRepository(DBUser);
   feedbackRepo = connection.getRepository(DBFeedback);
 
   dbConnection = connection;
-  dbMethods.forEach(cb => cb(connection));
-  dbMethods = undefined;
-  console.log("conencted to db");
-});
+  dbMethods.forEach((cb) => cb(connection));
+  dbMethods = [];
+  console.log("connected to db");
+};

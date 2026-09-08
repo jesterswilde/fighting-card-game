@@ -21,6 +21,7 @@ export interface Mechanic {
 
 export interface Card {
   name: string;
+  style?: string;
   requirements: Requirement[];
   effects: Effect[];
   mechanics: Mechanic[];
@@ -77,6 +78,7 @@ export enum AxisEnum {
   CLUTCH = "Clutch",
   SETUP = "Setup",
   RIGID = "Rigid",
+  FLOW = "Flow",
   FLUID = "Fluid",
   CRIPPLE = "Cripple",
   BUFF = "Buff",
@@ -128,4 +130,12 @@ export enum PlayerEnum {
   PLAYER = "Me",
   OPPONENT = "Them",
   BOTH = "Both",
+}
+
+/** Catalog cards lack participants; cards used in resolution must have both. */
+export type OwnedCard = Card & { player: number; opponent: number };
+export function assertOwnedCard(card: Card): asserts card is OwnedCard {
+  if ((card.player !== 0 && card.player !== 1) || card.opponent !== 1 - card.player) {
+    throw new Error("Card has invalid or missing participants: " + card.name);
+  }
 }

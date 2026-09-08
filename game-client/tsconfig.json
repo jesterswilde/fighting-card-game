@@ -1,17 +1,16 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "moduleResolution": "node",
-    "module": "esnext",
-    "target": "es5",
-    "lib": ["es6", "dom"],
+    "lib": ["ES2022", "DOM"],
     "jsx": "react",
     "jsxFactory": "h",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": ["bun"],
+    "paths": {
+      "react-lightweight-tooltip": ["./src/tooltip.d.ts"]
+    }
   },
-  "include":  ["src/**/*.ts"],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["index.tsx", "src/**/*.ts", "src/**/*.tsx", "*.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }

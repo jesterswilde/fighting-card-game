@@ -1,8 +1,4 @@
-import {
-  GameState,
-  ReadiedEffect,
-  HappensEnum,
-} from "../../interfaces/stateInterface";
+import { GameState, ReadiedEffect, HappensEnum } from "../../interfaces/stateInterface";
 import { splitArray } from "../../util";
 import { AxisEnum, MechanicEnum } from "../../../shared/card";
 import { collectParry } from "../mechanics/parry";
@@ -19,10 +15,9 @@ export const collectDamage = (state: GameState) => {
   state.readiedEffects = state.readiedEffects.map((playerEff, player) => {
     const [damageEffectsPlayer, otherEffects] = splitArray(
       playerEff,
-      ({ effect }) => effect.axis === AxisEnum.DAMAGE
+      ({ effect }) => effect.axis === AxisEnum.DAMAGE,
     );
-    state.readiedDamageEffects[player] =
-      state.readiedDamageEffects[player] || [];
+    state.readiedDamageEffects[player] = state.readiedDamageEffects[player] || [];
     state.readiedDamageEffects[player].push(...damageEffectsPlayer);
     markDamaged(damageEffectsPlayer, state);
     return otherEffects;

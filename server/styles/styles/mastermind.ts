@@ -13,6 +13,6 @@ export const mastermindStyle: FightingStyle = {
     "Exactly As Planned",
     "Calculated",
     "Clever Ruse",
-    "Analyze Opponent"
-  ]
+    "Analyze Opponent",
+  ],
 };

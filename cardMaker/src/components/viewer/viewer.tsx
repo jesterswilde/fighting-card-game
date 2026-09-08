@@ -1,65 +1,87 @@
-import * as React from 'react';
-import { CardJSON } from '../../interfaces/cardJSON';
-import { StoreState } from '../../state/store';
-import { cardToJSON } from '../../card/cardToJSON';
-import { connect } from 'react-redux';
-import { dispatchGetCard, dispatchChangeCurrentCard } from '../../card/dispatch';
-import Requirement from './requirement';
-import Optional from './optional';
-import Effect from './effect';
-import { dispatchToPathString } from '../../path/dispatch';
+import * as React from "react";
+import { CardJSON } from "../../interfaces/cardJSON";
+import { StoreState } from "../../state/store";
+import { cardToJSON } from "../../card/cardToJSON";
+import { connect } from "react-redux";
+import { dispatchGetCard, dispatchChangeCurrentCard } from "../../card/dispatch";
+import Requirement from "./requirement";
+import Optional from "./optional";
+import Effect from "./effect";
+import { dispatchToPathString } from "../../path/dispatch";
 
 interface Props extends InternalProps {
-    path: string[]
+  path: string[];
 }
 
 interface InternalProps {
-    card: CardJSON | null
+  card: CardJSON | null;
 }
 
 const selector = (state: StoreState): InternalProps => {
-    const card = cardToJSON(state);
-    return { card };
-}
+  const card = cardToJSON(state);
+  return { card };
+};
 
-class Viewer extends React.Component<Props>{
-    componentDidMount() {
-        const { path, card } = this.props;
-        if (card !== null && card.name !== path[0]) {
-            dispatchGetCard(path[0]);
-        }
+class Viewer extends React.Component<Props> {
+  componentDidMount() {
+    const { path, card } = this.props;
+    if (card !== null && card.name !== path[0]) {
+      dispatchGetCard(path[0]);
     }
-    public render() {
-        const { card } = this.props;
-        if (card === null) {
-            return <div> No Card</div>
-        }
-        const { requirements, optional, effects, name, tags: tagObjs } = card;
-        return <div>
-            <h3>{card.name}</h3>
-            {card.priority !== undefined &&<div> Priority: {card.priority}</div>}
-            <ul>
-                {requirements.map((req) => <Requirement key={req.id} requirement={req} />)}
-            </ul>
-            <div className="h-divider" />
-            <ul>
-                {optional.map((opt, i) => <Optional {...opt} key={i} />)}
-            </ul>
-            <div className="h-divider" />
-            <ul>
-                {effects.map((effect, i) => <Effect key={i} effect={effect} />)}
-            </ul>
-            <div className="h-divider" />
-            <div>
-                {tagObjs.map((tag, i) => <div className="inline" key={tag.id}> {tag.value}</div>)}
+  }
+  public render() {
+    const { card } = this.props;
+    if (card === null) {
+      return <div> No Card</div>;
+    }
+    const { requirements, optional, effects, name, tags: tagObjs } = card;
+    return (
+      <div>
+        <h3>{card.name}</h3>
+        {card.priority !== undefined && <div> Priority: {card.priority}</div>}
+        <ul>
+          {requirements.map((req) => (
+            <Requirement key={req.id} requirement={req} />
+          ))}
+        </ul>
+        <div className="h-divider" />
+        <ul>
+          {optional.map((opt, i) => (
+            <Optional {...opt} key={i} />
+          ))}
+        </ul>
+        <div className="h-divider" />
+        <ul>
+          {effects.map((effect, i) => (
+            <Effect key={i} effect={effect} />
+          ))}
+        </ul>
+        <div className="h-divider" />
+        <div>
+          {tagObjs.map((tag, i) => (
+            <div className="inline" key={tag.id}>
+              {" "}
+              {tag.value}
             </div>
-            <div>
-                <button className='btn btn-primary m-2' onClick={() => dispatchChangeCurrentCard(-1)}>{'<='}</button>
-                <button className='btn btn-primary m-2' onClick={() => dispatchToPathString('/edit/' + name)}>Edit</button>
-                <button className='btn btn-primary m-2' onClick={() => dispatchChangeCurrentCard(1)}>{'=>'}</button>
-            </div>
+          ))}
         </div>
-    }
+        <div>
+          <button className="btn btn-primary m-2" onClick={() => dispatchChangeCurrentCard(-1)}>
+            {"<="}
+          </button>
+          <button
+            className="btn btn-primary m-2"
+            onClick={() => dispatchToPathString("/edit/" + name)}
+          >
+            Edit
+          </button>
+          <button className="btn btn-primary m-2" onClick={() => dispatchChangeCurrentCard(1)}>
+            {"=>"}
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default connect(selector)(Viewer);

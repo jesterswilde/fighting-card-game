@@ -14,7 +14,7 @@ interface Props {
 const selector = (state: GameState): Props => {
   const player = state.player;
   const opponent = state.player === 0 ? 1 : 0;
-  let queue = state.queue.map(turnArr => {
+  let queue = state.queue.map((turnArr) => {
     return [turnArr[opponent], turnArr[player]];
   });
   return { queue, player };
@@ -55,9 +55,7 @@ const renderBoard = (queue: Card[][][] = [], identity: number) => {
                   <div class={card.showFullCard ? "" : "collapsed"}>
                     <FullQueueCard {...card} identity={identity} />
                   </div>
-                  <div
-                    class={(card.showFullCard ? "collapsed" : "") + " ongoing"}
-                  >
+                  <div class={(card.showFullCard ? "collapsed" : "") + " ongoing"}>
                     <QueueCard {...card} identity={identity} />
                   </div>
                 </div>

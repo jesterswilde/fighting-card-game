@@ -1,0 +1,14 @@
+node_modules/
+serverBuild/
+**/dist/
+bun.lock
+cards/
+battles/
+_cards_old/
+_cards_old_v2/
+vizdev/data.js
+vizdev/assets/
+**/src/styles/css/
+*.txt
+.agents/
+.codex/

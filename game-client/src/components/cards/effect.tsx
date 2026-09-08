@@ -1,5 +1,5 @@
 import { h } from 'preact';
-import Requirement from './Requirement';
+import Requirement from './requirement';
 import { Mechanic, MechanicEnum, getMechDisplay } from '../../shared/card';
 import { Arrow, Icon } from '../../images'
 import { getMechanicDescription } from '../../extras/mechanicDescriptions'
@@ -15,7 +15,9 @@ const Effect = ({ effect, shouldFlip }: Props) => {
     const {mechanicRequirements: reqs = [], choices = [], mechanicEffects: effs = []} = effect; 
     const { player: displayPlayer, axis: displayAxis, eff: displayEff, req: displayReq, valueString, pick: displayPick, state: displayState, value } = getMechDisplay(effect.mechanic);
     const mechClass = (displayEff || displayPick) ? 'mechanic' : 'icon-section'
-    if(effect.mechanic === "Rigid")console.log(effect.mechanic, getMechDisplay(effect.mechanic))
+    if(effect.mechanic === "Rigid"){
+console.log(effect.mechanic, getMechDisplay(effect.mechanic))
+}
     return <div class={mechClass}>
         {effect.mechanic !== undefined && mechWithTooltip(effect.mechanic)}
         {(displayState || displayPlayer) && <Arrow player={effect.player} shouldFlip={shouldFlip} />}

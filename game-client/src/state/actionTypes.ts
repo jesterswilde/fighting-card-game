@@ -12,6 +12,17 @@ import { UserActions } from "../user/actions";
 import { DeckEditorActions } from "../deckBuilder/actions";
 import { FilterActions } from "../filters/actions";
 
-export type ActionType = GameActions | HandActions | DisplayActions | LobbyActions | ScreenDisplayActions | 
-    EventActions | DeckViewerActions | PathActions | SocketActions | FightingStyleActions | UserActions | 
-    DeckEditorActions | FilterActions; 
+export type ActionType =
+  | GameActions
+  | HandActions
+  | DisplayActions
+  | LobbyActions
+  | ScreenDisplayActions
+  | EventActions
+  | DeckViewerActions
+  | PathActions
+  | SocketActions
+  | FightingStyleActions
+  | UserActions
+  | DeckEditorActions
+  | FilterActions;

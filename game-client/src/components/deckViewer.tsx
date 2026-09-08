@@ -1,10 +1,7 @@
 import { h, Component } from "preact";
 import { DeckDescription, Deck } from "../deckViewer/interface";
 import { StoreState } from "../state/store";
-import {
-  dispatchGetDeckList,
-  dispatchGetDeckWithName,
-} from "../deckViewer/dispatch";
+import { dispatchGetDeckList, dispatchGetDeckWithName } from "../deckViewer/dispatch";
 import Cards from "./deckViewer/cards";
 import { dispatchToPathArray } from "../path/dispatch";
 import { connect } from "preact-redux";
@@ -47,15 +44,8 @@ class DeckViewer extends Component<Props> {
     }
   };
   render = () => {
-    const {
-      path,
-      pathPrepend,
-      deck,
-      deckList,
-      isLoadingDeck,
-      isLoadingDeckList,
-      filters,
-    } = this.props;
+    const { path, pathPrepend, deck, deckList, isLoadingDeck, isLoadingDeckList, filters } =
+      this.props;
     const viewingDeck = path.length > 0;
     if (viewingDeck) {
       return (
@@ -68,11 +58,7 @@ class DeckViewer extends Component<Props> {
       );
     } else {
       return (
-        <DeckList
-          decks={deckList}
-          isLoading={isLoadingDeckList}
-          chooseDeck={this.chooseDeck}
-        />
+        <DeckList decks={deckList} isLoading={isLoadingDeckList} chooseDeck={this.chooseDeck} />
       );
     }
   };
@@ -82,6 +68,4 @@ class DeckViewer extends Component<Props> {
   };
 }
 
-export default (connect(selector)(DeckViewer) as unknown) as (
-  props: ExternalProps
-) => JSX.Element;
+export default connect(selector)(DeckViewer) as unknown as (props: ExternalProps) => JSX.Element;

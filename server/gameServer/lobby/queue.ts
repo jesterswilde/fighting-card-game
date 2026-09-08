@@ -15,9 +15,14 @@ export const removeFromQueue = (player: PlayerObject) => {
 
 const evaluateQueue = () => {
   console.log("Evaluating queue");
-  if (pvpQueue.length < 2) return;
+  if (pvpQueue.length < 2) {
+    return;
+  }
   const player1 = pvpQueue.shift();
   const player2 = pvpQueue.shift();
+  if (!player1 || !player2) {
+    throw new Error("Matchmaking requires two players");
+  }
   const agents = [makeHumanAgent(player1), makeHumanAgent(player2)];
   console.log(`Agent: ${agents[0]}`);
 

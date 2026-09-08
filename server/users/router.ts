@@ -1,16 +1,14 @@
 import { Router } from "express";
-import {
-  createUser,
-  loginWithEmail,
-  validateEmail,
-  validatePassword
-} from "./users";
+import { createUser, loginWithEmail, validateEmail, validatePassword } from "./users";
 import { authMiddleware } from "../auth";
 import { DBFeedback } from "../db/entities/feedback";
 
 export const userRouter = Router();
 
 userRouter.post("/feedback", authMiddleware, async (req, res) => {
+  if (!req.user) {
+    return res.sendStatus(403);
+  }
   const feedback = new DBFeedback();
   feedback.user = req.user;
   feedback.feedback = req.body.feedback;

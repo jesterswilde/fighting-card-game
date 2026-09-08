@@ -8,12 +8,18 @@ import { GameState } from "../../interfaces/stateInterface";
     Setup is updated at the start of each turn
 */
 
-export const reduceSetup = (mechanic: Mechanic, card: Card, player: number, opponent: number, state: GameState)=>{
-    state.pendingSetup[player] = state.pendingSetup[player] || 0; 
-    state.pendingSetup[player] += Number(mechanic.amount); 
-}
+export const reduceSetup = (
+  mechanic: Mechanic,
+  card: Card,
+  player: number,
+  opponent: number,
+  state: GameState,
+) => {
+  state.pendingSetup[player] = state.pendingSetup[player] || 0;
+  state.pendingSetup[player] += Number(mechanic.amount);
+};
 
-export const moveSetup = (state: GameState)=>{
-    state.setup = state.pendingSetup; 
-    state.pendingSetup = state.pendingSetup.map(()=> 0); 
-}
+export const moveSetup = (state: GameState) => {
+  state.setup = state.pendingSetup;
+  state.pendingSetup = state.pendingSetup.map(() => 0);
+};

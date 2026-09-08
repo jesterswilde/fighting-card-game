@@ -7,22 +7,22 @@ export class DBUser {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column("varchar", { unique: true })
   username: string;
 
-  @Column({ unique: true })
+  @Column("varchar", { unique: true })
   email: string;
 
-  @Column()
+  @Column("varchar")
   password: string;
 
-  @Column()
+  @Column("varchar")
   salt: string;
 
-  @OneToMany(type => DBDeck, deck => deck.user)
+  @OneToMany((type) => DBDeck, (deck) => deck.user)
   decks: DBDeck[];
 
-  @OneToMany(type => DBFeedback, fb => fb.user)
+  @OneToMany((type) => DBFeedback, (fb) => fb.user)
   feedbacks: DBFeedback[];
 
   serialize = () => {

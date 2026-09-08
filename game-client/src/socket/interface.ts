@@ -1,3 +1,3 @@
-interface SocketState{
-    socket: SocketIOClient.Socket
+interface SocketState {
+  socket: SocketIOClient.Socket;
 }

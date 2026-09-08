@@ -1,3 +1,4 @@
+import { gameLog } from "./runtime";
 import { GameState } from "../interfaces/stateInterface";
 
 export const sendHand = (state: GameState) => {
@@ -30,7 +31,7 @@ export const sendState = (state: GameState) => {
   if (!state) {
     return;
   }
-  console.log("Sending State");
+  gameLog(state, "Sending State");
   state.agents.forEach((agent) => {
     agent.sendState(state);
   });

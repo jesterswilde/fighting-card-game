@@ -81,3 +81,8 @@ typings/
 .dynamodb/
 
 backup.txt
+
+# Generated Bun browser bundles and legacy server output
+serverBuild/
+game-client/dist/
+cardMaker/dist/

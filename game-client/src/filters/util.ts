@@ -5,10 +5,7 @@ interface InvalidStates {
   [key: string]: boolean;
 }
 
-export const filterInvalidCards = (
-  cards: Card[] = [],
-  filters: DeckViewerFilter[]
-) => {
+export const filterInvalidCards = (cards: Card[] = [], filters: DeckViewerFilter[]) => {
   const validStates = createValidStates(filters);
   return cards.filter((card) => isCardValid(card, validStates));
 };
@@ -16,8 +13,9 @@ export const filterInvalidCards = (
 const isCardValid = (card: Card, invalidStates: InvalidStates[]) => {
   return card.requirements.every((req) => {
     return getWhoToModify(req).every((player) => {
-      if (card.name === "Groin Stomp")
+      if (card.name === "Groin Stomp") {
         console.log(player, req, invalidStates[player][req.axis]);
+      }
       return !invalidStates[player][req.axis];
     });
   });
@@ -51,10 +49,8 @@ const stateRouter = {
     state[AxisEnum.ANTICIPATING] = true;
     state[AxisEnum.BALANCED] = true;
   },
-  [AxisEnum.BALANCED]: (state: InvalidStates) =>
-    (state[AxisEnum.UNBALANCED] = true),
-  [AxisEnum.NOT_ANTICIPATING]: (state: InvalidStates) =>
-    (state[AxisEnum.ANTICIPATING] = true),
+  [AxisEnum.BALANCED]: (state: InvalidStates) => (state[AxisEnum.UNBALANCED] = true),
+  [AxisEnum.NOT_ANTICIPATING]: (state: InvalidStates) => (state[AxisEnum.ANTICIPATING] = true),
   [AxisEnum.GRAPPLED]: (state: InvalidStates) => {
     state[AxisEnum.CLOSE] = true;
     state[AxisEnum.FAR] = true;
@@ -71,10 +67,8 @@ const stateRouter = {
     state[AxisEnum.NOT_FAR] = true;
   },
   [AxisEnum.NOT_FAR]: (state: InvalidStates) => (state[AxisEnum.FAR] = true),
-  [AxisEnum.NOT_CLOSE]: (state: InvalidStates) =>
-    (state[AxisEnum.CLOSE] = true),
-  [AxisEnum.NOT_GRAPPLED]: (state: InvalidStates) =>
-    (state[AxisEnum.GRAPPLED] = true),
+  [AxisEnum.NOT_CLOSE]: (state: InvalidStates) => (state[AxisEnum.CLOSE] = true),
+  [AxisEnum.NOT_GRAPPLED]: (state: InvalidStates) => (state[AxisEnum.GRAPPLED] = true),
   [AxisEnum.STANDING]: (state: InvalidStates) => (state[AxisEnum.PRONE] = true),
   [AxisEnum.PRONE]: (state: InvalidStates) => (state[AxisEnum.STANDING] = true),
   [AxisEnum.STILL]: (state: InvalidStates) => (state[AxisEnum.MOVING] = true),

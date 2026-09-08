@@ -1,25 +1,25 @@
-import { MechanicEnum, AxisEnum, PlayerEnum } from '../shared/card';
-import { getID } from '../utils';
+import { MechanicEnum, AxisEnum, PlayerEnum } from "../shared/card";
+import { getID } from "../utils";
 
 export interface Mechanic {
-    id: number,
-    mechEnum?: MechanicEnum,
-    mechReq?: number[], // StatePiece
-    mechEff?: number[], // Mechanic
-    choices?: number[][], // Mechanic    
-    axis?: AxisEnum,
-    player?: PlayerEnum,
-    amount?: number | string
+  id: number;
+  mechEnum?: MechanicEnum;
+  mechReq?: number[]; // StatePiece
+  mechEff?: number[]; // Mechanic
+  choices?: number[][]; // Mechanic
+  axis?: AxisEnum;
+  player?: PlayerEnum;
+  amount?: number | string;
 }
 
-export const makeDefaultMechanic = (): Mechanic=>{
-    return {
-        id: getID()
-    }
-}
+export const makeDefaultMechanic = (): Mechanic => {
+  return {
+    id: getID(),
+  };
+};
 
 export interface MechanicState {
-    mechanicsById: {
-        [id: number]: Mechanic
-    }
+  mechanicsById: {
+    [id: number]: Mechanic;
+  };
 }

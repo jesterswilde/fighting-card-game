@@ -31,7 +31,7 @@ export const makeCardsObj = async (): Promise<{ [name: string]: Card }> => {
   });
 };
 const getCardNames = (): Promise<string[]> => {
-  return new Promise((res, rej) => {
+  return new Promise<string[]>((res, rej) => {
     readdir(path.join(__dirname, "..", "..", "cards"), (err, cardNames) => {
       if (err) {
         console.error("Couldn't read folder for cards");
@@ -44,7 +44,7 @@ const getCardNames = (): Promise<string[]> => {
   });
 };
 const readCardFile = (fileName: string): Promise<Card> => {
-  return new Promise((res, rej) => {
+  return new Promise<Card>((res, rej) => {
     readFile(
       path.join(__dirname, "..", "..", "cards", fileName),
       { encoding: "utf8" },
@@ -65,7 +65,7 @@ makeCardsObj().then(cardsObj => (allCards = cardsObj));
 
 export const removeCard = async (name: string) => {
   delete allCards[name];
-  return new Promise((res, rej) => {
+  return new Promise<void>((res, rej) => {
     unlink(path.join(__dirname, "..", "..", "cards", name + ".json"), err => {
       if (err) {
         rej(err);
@@ -80,7 +80,7 @@ export const addCard = async (cardObj: Card, index: string | null) => {
   if (index !== null) {
     delete allCards[cardObj.name];
   }
-  return new Promise((res, rej) => {
+  return new Promise<void>((res, rej) => {
     allCards[cardObj.name] = cardObj;
     writeFile(
       path.join(__dirname, "..", "..", "cards", cardObj.name + ".json"),

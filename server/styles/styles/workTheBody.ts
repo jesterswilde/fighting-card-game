@@ -11,6 +11,6 @@ export const workTheBodyStyle: FightingStyle = {
     "Swarm of Punches",
     "Ride The Ropes",
     "Jaw Break",
-    "Saved By The Bell"
-  ]
+    "Saved By The Bell",
+  ],
 };

@@ -1,16 +1,9 @@
 import { Router } from "express";
-import {
-  deleteDeck,
-  makeDeck,
-  updateDeck,
-  getUsersDecks,
-  getUsersDeck
-} from ".";
+import { deleteDeck, makeDeck, updateDeck, getUsersDecks, getUsersDeck } from ".";
 import { authMiddleware } from "../auth";
 import { ErrorEnum } from "../error";
 
 export const decksRouter = Router();
-
 
 /*
     All unity operations require a user to be signed in, may not be great. 
@@ -24,6 +17,9 @@ export const decksRouter = Router();
 
 //Should return an abridged version of all your decks. Names, maybe description, styles in use. Possibly card names, not full cards.
 decksRouter.get("/", authMiddleware, async (req, res) => {
+  if (!req.user) {
+    return res.sendStatus(403);
+  }
   console.log("Got deck request from: " + req.user);
   try {
     const decks = await getUsersDecks(req.user);
@@ -37,8 +33,15 @@ decksRouter.get("/", authMiddleware, async (req, res) => {
 //Returns all info a given deck. Currently sends full cards plus possible cards.
 //This is an area to optimize later.
 decksRouter.get("/:id", authMiddleware, async (req, res) => {
+  if (!req.user) {
+    return res.sendStatus(403);
+  }
+  const id = Number(req.params.id);
+  if (!Number.isSafeInteger(id) || id < 1) {
+    return res.sendStatus(400);
+  }
   try {
-    const deck = await getUsersDeck(req.user, req.params.id);
+    const deck = await getUsersDeck(req.user, id);
     res.status(200).send(deck);
   } catch (err) {
     if (err === ErrorEnum.DOESNT_OWN_DECK) {
@@ -50,9 +53,11 @@ decksRouter.get("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-
 //Makes a new deck
 decksRouter.post("/new", authMiddleware, async (req, res) => {
+  if (!req.user) {
+    return res.sendStatus(403);
+  }
   try {
     const deck = await makeDeck(req.user);
     res.status(200).send(deck);
@@ -64,14 +69,18 @@ decksRouter.post("/new", authMiddleware, async (req, res) => {
 
 //Updates a deck
 decksRouter.put("/:id", authMiddleware, async (req, res) => {
+  if (!req.user) {
+    return res.sendStatus(403);
+  }
+  const id = Number(req.params.id);
+  if (!Number.isSafeInteger(id) || id < 1) {
+    return res.sendStatus(400);
+  }
   try {
-    await updateDeck(req.user, req.params.id, req.body);
+    await updateDeck(req.user, id, req.body);
     res.status(200).send();
   } catch (err) {
-    if (
-      err === ErrorEnum.CARDS_ARENT_IN_STYLES ||
-      err === ErrorEnum.TOO_MANY_STYLES
-    ) {
+    if (err === ErrorEnum.CARDS_ARENT_IN_STYLES || err === ErrorEnum.TOO_MANY_STYLES) {
       res.status(400).send(err);
     } else {
       console.error(err);
@@ -82,8 +91,15 @@ decksRouter.put("/:id", authMiddleware, async (req, res) => {
 
 //Deletes a deck
 decksRouter.delete("/:id", authMiddleware, async (req, res) => {
+  if (!req.user) {
+    return res.sendStatus(403);
+  }
+  const id = Number(req.params.id);
+  if (!Number.isSafeInteger(id) || id < 1) {
+    return res.sendStatus(400);
+  }
   try {
-    await deleteDeck(req.user, req.params.id);
+    await deleteDeck(req.user, id);
     res.status(200).send();
   } catch (err) {
     if (err === ErrorEnum.DOESNT_OWN_DECK) {

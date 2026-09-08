@@ -1,8 +1,13 @@
-import { Card, Mechanic, AxisEnum, PlayerEnum, Effect } from "../../shared/card";
-import { EventAction } from "./gameEvent";
-import { Agent } from "../../agent";
+import type { Card, OwnedCard, Mechanic, AxisEnum, PlayerEnum, Effect } from "../../shared/card";
+import type { EventAction } from "./gameEvent";
+import type { Agent } from "../../agent";
 
 export interface GameState {
+  random?: () => number;
+  quiet?: boolean;
+  resolutionBudget?: number;
+  cardCatalog?: { [name: string]: Card };
+  initialHealth?: number[];
   agents: Agent[];
   numPlayers: number;
   decks: Card[][];
@@ -24,8 +29,8 @@ export interface GameState {
   readiedEffects: ReadiedEffect[][];
   readiedDamageEffects: ReadiedEffect[][];
   readiedMechanics: ReadiedMechanic[][];
-  predictions: PredictionState[];
-  pendingPredictions: PredictionState[];
+  predictions: (PredictionState | null)[];
+  pendingPredictions: (PredictionState | null)[];
   checkedFocus?: boolean;
   incrementedQueue?: boolean;
   events: EventAction[][];
@@ -34,31 +39,31 @@ export interface GameState {
   turnNumber: number;
   winner?: number;
   cardUID: number;
-  handSizeMod?: number[];
-  nextHandSizeMod?: number[];
+  handSizeMod: number[];
+  nextHandSizeMod: number[];
 }
 
-export interface QueueCard{
-  name: string
-  activeMechanics?: number[]
+export interface QueueCard {
+  name: string;
+  activeMechanics?: number[];
 }
 
-export interface HandCard{
-  name: string
-  activeCriticals?: number[]
-  appendedEffects?: Effect[]
+export interface HandCard {
+  name: string;
+  activeCriticals?: number[];
+  appendedEffects?: Effect[];
 }
 
-export interface UnityGameState{
-  playerStates: PlayerState[],
-  stateDurations: PlayerStateDuration,
-  block: number[],
-  queue: Card[][][],
-  distance: DistanceEnum,
-  health: number[],
-  damaged: boolean[],
-  predictions: PredictionState, 
-  turnNumber: number,
+export interface UnityGameState {
+  playerStates: PlayerState[];
+  stateDurations: PlayerStateDuration;
+  block: number[];
+  queue: Card[][][];
+  distance: DistanceEnum;
+  health: number[];
+  damaged: boolean[];
+  predictions: PredictionState;
+  turnNumber: number;
 }
 
 export interface TagModification {
@@ -66,15 +71,15 @@ export interface TagModification {
 }
 
 export interface ReadiedEffect {
-  card: Card;
-  effect: Effect
-  happensTo?: HappensEnum[];
-  eventsHaveProcessed?: boolean
+  card: OwnedCard;
+  effect: Effect;
+  happensTo: HappensEnum[];
+  eventsHaveProcessed?: boolean;
 }
-export interface ReadiedMechanic{
-  card: Card;
-  mechanic: Mechanic
-  eventsHaveProcessed?: boolean
+export interface ReadiedMechanic {
+  card: OwnedCard;
+  mechanic: Mechanic;
+  eventsHaveProcessed?: boolean;
 }
 
 export enum HappensEnum {
@@ -117,8 +122,6 @@ export interface PredictionState {
   prediction?: PredictionEnum;
   readiedEffects: ReadiedEffect[];
 }
-
-
 
 export enum PredictionEnum {
   NONE = "None",

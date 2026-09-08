@@ -21,7 +21,7 @@ export enum EventTypeEnum {
   MULTIPLE,
   EVENT_SECTION,
   CARD_NAME_SECTION,
-  PREDICTION_SECTION
+  PREDICTION_SECTION,
 }
 
 export interface EventAction {
@@ -42,5 +42,5 @@ export interface EventAction {
 export enum HappensEnum {
   NEVER_AFFECTED,
   HAPPENS,
-  BLOCKED
+  BLOCKED,
 }

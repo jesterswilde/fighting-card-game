@@ -9,12 +9,15 @@ import { MechanicEnum, AxisEnum } from "../../../shared/card";
 */
 
 export const applyClutch = (state: GameState) => {
-    state.readiedEffects = state.readiedEffects.map((playerReaffs, player) => {
-        const [clutchArr, unusedArr] = splitArray(playerReaffs, ({ effect }) => effect.axis === AxisEnum.CLUTCH)
-        clutchArr.forEach(({ effect, card }) => {
-            const clutch = card.clutch ? card.clutch : 0;
-            card.clutch = clutch + Number(effect.amount);
-        })
-        return unusedArr;
+  state.readiedEffects = state.readiedEffects.map((playerReaffs, player) => {
+    const [clutchArr, unusedArr] = splitArray(
+      playerReaffs,
+      ({ effect }) => effect.axis === AxisEnum.CLUTCH,
+    );
+    clutchArr.forEach(({ effect, card }) => {
+      const clutch = card.clutch ? card.clutch : 0;
+      card.clutch = clutch + Number(effect.amount);
     });
+    return unusedArr;
+  });
 };

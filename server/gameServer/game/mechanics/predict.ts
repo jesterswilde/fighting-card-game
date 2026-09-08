@@ -1,9 +1,6 @@
+import { assertOwnedCard } from "../../../shared/card";
 import { Mechanic, Card, AxisEnum, Effect } from "../../../shared/card";
-import {
-  GameState,
-  PredictionState,
-  PredictionEnum,
-} from "../../interfaces/stateInterface";
+import { GameState, PredictionState, PredictionEnum } from "../../interfaces/stateInterface";
 import { makeReadyEffects } from "../readiedEffects";
 import { ControlEnum } from "../../errors";
 import { EventType, PredictionEvent } from "../../interfaces/gameEvent";
@@ -15,30 +12,33 @@ import { addDisplayEvent, startNewEvent } from "../events";
     Predictions live on gamestate
 */
 
-export const movePendingPredictions = (state: GameState)=>{
-    state.predictions = state.pendingPredictions; 
-    state.pendingPredictions = state.agents.map(_=>null); 
-}
+export const movePendingPredictions = (state: GameState) => {
+  state.predictions = state.pendingPredictions;
+  state.pendingPredictions = state.agents.map((_) => null);
+};
 //This is called by the mechanic handler
 export const movePredictionsToPending = (
   mechanic: Mechanic,
   card: Card,
   player: number,
   opponent: number,
-  state: GameState
+  state: GameState,
 ) => {
-  state.pendingPredictions[card.player] = state.pendingPredictions[
-    card.player
-  ] || { readiedEffects: [], targetPlayer: opponent };
-  const reaEffs = makeReadyEffects(mechanic.effects, card);
-  state.pendingPredictions[card.player].readiedEffects.push(...reaEffs);
-  addDisplayEvent("Predicting", player, state); 
+  assertOwnedCard(card);
+
+  const pending = state.pendingPredictions[card.player] ?? {
+    readiedEffects: [],
+    targetPlayer: opponent,
+  };
+  state.pendingPredictions[card.player] = pending;
+  pending.readiedEffects.push(...makeReadyEffects(mechanic.effects, card));
+  addDisplayEvent("Predicting", player, state);
 };
 
 export const didPredictionHappen = (
   prediction: PredictionState,
   player: number,
-  state: GameState
+  state: GameState,
 ): boolean => {
   switch (prediction.prediction) {
     case PredictionEnum.DISTANCE:
@@ -54,15 +54,18 @@ export const didPredictionHappen = (
         !state.modifiedAxis[player].motion &&
         !state.modifiedAxis[player].standing
       );
+    default:
+      return false;
   }
 };
 
 export const checkPredictions = (state: GameState) => {
   const { predictions } = state;
   let stateChanged = false;
-  const predEvents: PredictionEvent[] = predictions.map((pred, player) => {
-    if(pred === null)
-      return null; 
+  const predEvents: (PredictionEvent | null)[] = predictions.map((pred, player) => {
+    if (pred === null) {
+      return null;
+    }
     const didHappen = didPredictionHappen(pred, pred.targetPlayer, state);
     if (didHappen) {
       stateChanged = true;
@@ -76,15 +79,18 @@ export const checkPredictions = (state: GameState) => {
       correctGuesses: getCorrectGuessArray(pred.targetPlayer, state),
     };
   });
-  state.predictions = []; 
-  if (predictions.some((pred) => pred !== null && pred !== undefined))
+  state.predictions = [];
+  if (predictions.some((pred) => pred !== null && pred !== undefined)) {
     predictionRevealEvent(predEvents, state);
+  }
   if (stateChanged) {
     throw ControlEnum.NEW_EFFECTS;
   }
 };
 
 const markAxisChange = (effect: Effect, card: Card, state: GameState) => {
+  assertOwnedCard(card);
+
   const { player } = card;
   const axisObj = state.modifiedAxis[player];
   switch (effect.axis) {
@@ -116,36 +122,37 @@ export const markAxisChanges = (state: GameState) => {
   }
 };
 
-export const getCorrectGuessArray = (
-  targetPlayer: number,
-  state: GameState
-) => {
+export const getCorrectGuessArray = (targetPlayer: number, state: GameState) => {
   const correctGuesses: PredictionEnum[] = [];
-  if (state.modifiedAxis[targetPlayer].distance)
+  if (state.modifiedAxis[targetPlayer].distance) {
     correctGuesses.push(PredictionEnum.DISTANCE);
-  if (state.modifiedAxis[targetPlayer].motion)
+  }
+  if (state.modifiedAxis[targetPlayer].motion) {
     correctGuesses.push(PredictionEnum.MOTION);
-  if (state.modifiedAxis[targetPlayer].standing)
+  }
+  if (state.modifiedAxis[targetPlayer].standing) {
     correctGuesses.push(PredictionEnum.STANDING);
-  if (correctGuesses.length === 0) correctGuesses.push(PredictionEnum.NONE);
+  }
+  if (correctGuesses.length === 0) {
+    correctGuesses.push(PredictionEnum.NONE);
+  }
   return correctGuesses;
 };
 
 export const predictionRevealEvent = (
-  predictions: PredictionEvent[],
-  state: GameState
+  predictions: (PredictionEvent | null)[],
+  state: GameState,
 ) => {
   startNewEvent(EventType.REVEAL_PREDICTION, state);
   predictions.forEach((pred, i) => {
-    if (!pred) return;
+    if (!pred) {
+      return;
+    }
     state.currentEvent[i].prediction = pred;
   });
 };
 //SOCKET SECTION
-export const playerMakesPredictions = async (
-  player: number,
-  state: GameState
-) => {
+export const playerMakesPredictions = async (player: number, state: GameState) => {
   const { predictions, agents } = state;
   const predictionObj = predictions[player];
   if (predictionObj) {

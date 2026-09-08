@@ -1,3 +1,4 @@
+import { gameLog } from "../runtime";
 import {
   ReadiedEffect,
   GameState,
@@ -17,32 +18,47 @@ interface OrderPlayerObj {
 }
 
 export const handleReadiedEffects = (reaEff: ReadiedEffect, state: GameState) => {
-    const whoToCheck = reaEff.happensTo.map((value, i) => value === HappensEnum.HAPPENS ? i : null)
-        .filter((value) => value !== null);
-    handleStateChange(reaEff.effect, reaEff.card, reaEff.card.player, reaEff.card.opponent, state, whoToCheck);
-}
+  const whoToCheck = reaEff.happensTo
+    .map((value, i) => (value === HappensEnum.HAPPENS ? i : null))
+    .filter((value) => value !== null);
+  handleStateChange(
+    reaEff.effect,
+    reaEff.card,
+    reaEff.card.player,
+    reaEff.card.opponent,
+    state,
+    whoToCheck,
+  );
+};
 
-const handleStateChange = (effect: Effect, card: Card, player: number, opponent: number, state: GameState, appliesTo: number[]) => {
-    const applyGlobal = globalAxis[effect.axis];
-    if (appliesTo.length === 0) {
-        return;
-    }
-    if (applyGlobal !== undefined) {
-        applyGlobal(state);
-    }
-    let amount: number | null;
-    if (effect.amount !== undefined && effect.amount !== null) {
-        amount = Number(effect.amount)
-    } else {
-        amount = null;
-    }
-    const applyPlayerState = playerAxis[effect.axis];
-    if (applyPlayerState !== undefined && (amount === undefined || !isNaN(amount))) {
-        applyPlayerState(appliesTo, amount, state);
-    }
-}
+const handleStateChange = (
+  effect: Effect,
+  card: Card,
+  player: number,
+  opponent: number,
+  state: GameState,
+  appliesTo: number[],
+) => {
+  const applyGlobal = globalAxis[effect.axis];
+  if (appliesTo.length === 0) {
+    return;
+  }
+  if (applyGlobal !== undefined) {
+    applyGlobal(state);
+  }
+  let amount: number | null;
+  if (effect.amount !== undefined && effect.amount !== null) {
+    amount = Number(effect.amount);
+  } else {
+    amount = null;
+  }
+  const applyPlayerState = playerAxis[effect.axis];
+  if (applyPlayerState !== undefined && (amount === null || !isNaN(amount))) {
+    applyPlayerState(appliesTo, amount, state);
+  }
+};
 export const applyStateEffects = (state: GameState) => {
-  console.log("Applying effects"); 
+  gameLog(state, "Applying effects");
   let stateReaEffs = getStateReaEffs(state);
   markConflicts(stateReaEffs, state);
   stateReaEffs.forEach((playerEffs) => {
@@ -55,9 +71,8 @@ export const applyStateEffects = (state: GameState) => {
 const getStateReaEffs = (state: GameState) => {
   const stateReaEffs: ReadiedEffect[][] = [];
   state.readiedEffects = state.readiedEffects.map((playerEffect, index) => {
-    const [stateEffects, unused] = splitArray(
-      playerEffect,
-      ({ effect: { axis } }) => isStateAxis(axis)
+    const [stateEffects, unused] = splitArray(playerEffect, ({ effect: { axis } }) =>
+      isStateAxis(axis),
     );
     stateReaEffs[index] = stateEffects;
     return unused;
@@ -101,7 +116,7 @@ const markConflicts = (stateReaEffs: ReadiedEffect[][], state: GameState) => {
               alreadyAffected,
               reaEff,
               targetPlayer,
-              state
+              state,
             );
           }
         }
@@ -114,9 +129,11 @@ const handleConflict = (
   reaEffA: ReadiedEffect,
   reaEffB: ReadiedEffect,
   targetPlayer: number,
-  state: GameState
+  state: GameState,
 ) => {
-  if (checkEquality(reaEffA.effect.axis, reaEffB.effect.axis, state)) return;
+  if (checkEquality(reaEffA.effect.axis, reaEffB.effect.axis, state)) {
+    return reaEffA;
+  }
   const priorityA = calculatePriority(reaEffA.card, reaEffA.card.player, state);
   const priorityB = calculatePriority(reaEffB.card, reaEffB.card.player, state);
   if (priorityA > priorityB) {
@@ -133,11 +150,7 @@ const handleConflict = (
   return reaEffA;
 };
 
-const checkEquality = (
-  axisA: AxisEnum,
-  axisB: AxisEnum,
-  state: GameState
-): boolean => {
+const checkEquality = (axisA: AxisEnum, axisB: AxisEnum, state: GameState): boolean => {
   const resolvedA = resolveRelativeAxis(axisA, state);
   const resolvedB = resolveRelativeAxis(axisB, state);
   return resolvedA === resolvedB;
@@ -145,14 +158,26 @@ const checkEquality = (
 
 const resolveRelativeAxis = (axis: AxisEnum, state: GameState) => {
   if (axis === AxisEnum.CLOSER) {
-    if (state.distance === DistanceEnum.GRAPPLED) return DistanceEnum.GRAPPLED;
-    if (state.distance === DistanceEnum.CLOSE) return DistanceEnum.GRAPPLED;
-    if (state.distance === DistanceEnum.FAR) return DistanceEnum.CLOSE;
+    if (state.distance === DistanceEnum.GRAPPLED) {
+      return DistanceEnum.GRAPPLED;
+    }
+    if (state.distance === DistanceEnum.CLOSE) {
+      return DistanceEnum.GRAPPLED;
+    }
+    if (state.distance === DistanceEnum.FAR) {
+      return DistanceEnum.CLOSE;
+    }
   }
   if (axis === AxisEnum.FURTHER) {
-    if (state.distance === DistanceEnum.GRAPPLED) return DistanceEnum.CLOSE;
-    if (state.distance === DistanceEnum.CLOSE) return DistanceEnum.FAR;
-    if (state.distance === DistanceEnum.FAR) return DistanceEnum.FAR;
+    if (state.distance === DistanceEnum.GRAPPLED) {
+      return DistanceEnum.CLOSE;
+    }
+    if (state.distance === DistanceEnum.CLOSE) {
+      return DistanceEnum.FAR;
+    }
+    if (state.distance === DistanceEnum.FAR) {
+      return DistanceEnum.FAR;
+    }
   }
   return axis;
 };

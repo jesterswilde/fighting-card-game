@@ -1,43 +1,43 @@
-import { CardJSON } from '../interfaces/cardJSON';
+import { CardJSON } from "../interfaces/cardJSON";
 
 export interface CardState {
-    editingCard: Card,
-    cardNames: string[]
-    filter: string
+  editingCard: Card;
+  cardNames: string[];
+  filter: string;
 }
 
 export interface Card {
-    name: string,
-    priority?: number,
-    tagObjs: TagObj[],
-    optional: number[], // Optional
-    requirements: number[], // StatePiece
-    effects: number[] // Mechanic
+  name: string;
+  priority?: number;
+  tagObjs: TagObj[];
+  optional: number[]; // Optional
+  requirements: number[]; // StatePiece
+  effects: number[]; // Mechanic
 }
 
 export interface TagObj {
-    id?: number,
-    value: string
+  id?: number;
+  value: string;
 }
 
-export const makeDefaultCard = (): Card =>{
-    const card: Card = {
-        name: '',
-        optional: [], 
-        requirements: [], 
-        effects: [],
-        tagObjs: []
-    }
-    return card; 
-}
+export const makeDefaultCard = (): Card => {
+  const card: Card = {
+    name: "",
+    optional: [],
+    requirements: [],
+    effects: [],
+    tagObjs: [],
+  };
+  return card;
+};
 
-export const makeDefaultCardJSON = (): CardJSON=>{
-    const card: CardJSON = {
-        name: '',
-        optional: [], 
-        requirements: [], 
-        effects: [],
-        tags: []
-    }
-    return card; 
-}
+export const makeDefaultCardJSON = (): CardJSON => {
+  const card: CardJSON = {
+    name: "",
+    optional: [],
+    requirements: [],
+    effects: [],
+    tags: [],
+  };
+  return card;
+};

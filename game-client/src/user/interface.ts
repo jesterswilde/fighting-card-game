@@ -1,4 +1,4 @@
-export interface UserState{
-    token?: string, 
-    username?: string
+export interface UserState {
+  token?: string;
+  username?: string;
 }

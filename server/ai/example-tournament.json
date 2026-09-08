@@ -1,0 +1,40 @@
+{
+  "rounds": 1,
+  "seed": 123,
+  "maxTurns": 30,
+  "personas": [
+    {
+      "name": "Grappler",
+      "schools": ["Grappler", "Cheap Shot"],
+      "cards": [
+        "Circle Opponent",
+        "Leg Grab",
+        "Pile Driver",
+        "Neck Break",
+        "Study Balance",
+        "Throat Jab",
+        "Groin Stomp",
+        "Bite"
+      ],
+      "samples": 4,
+      "dice": { "count": 1, "sides": 3 },
+      "overrides": { "cardPreferences": { "Neck Break": 1 } }
+    },
+    {
+      "name": "Berserker",
+      "schools": ["Unstoppable", "Cheap Shot"],
+      "cards": [
+        "Guarded Maneuvers",
+        "Crush",
+        "Headbutt",
+        "Leaping Smash",
+        "Throat Jab",
+        "Groin Stomp",
+        "Bite"
+      ],
+      "samples": 4,
+      "dice": { "count": 1, "sides": 3 },
+      "overrides": { "outcomes": { "selfHealthAboveHalf": 0, "selfHealthBelowHalf": 2 } }
+    }
+  ]
+}

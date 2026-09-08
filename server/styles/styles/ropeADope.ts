@@ -9,6 +9,6 @@ export const ropeADopeStyle: FightingStyle = {
     "Bolo Punch",
     "Wind Up",
     "'Ol 1, 2",
-    "Float Feetwork"
-  ]
+    "Float Feetwork",
+  ],
 };

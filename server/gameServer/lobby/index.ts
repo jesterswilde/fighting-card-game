@@ -9,7 +9,9 @@ import { handleDCDuringLobby } from "./disconnect";
 import { addToLobbyQueue } from "./queue";
 import { createGame } from "./game";
 import { makeHumanAgent } from "../../agent/human";
-import { makeRandomAgent } from "../../agent/random";
+import { makePersonaAgent } from "../../ai/agent";
+import { defaultPersona } from "../../ai/defaults";
+import { allCards } from "../../cards/Cards";
 import { startStoryCombat } from "../story";
 
 export default (io: SocketIO.Server) => {
@@ -18,14 +20,15 @@ export default (io: SocketIO.Server) => {
 
 const configureSocket = async (socket: Socket) => {
   try {
-    console.log("configuring socket"); 
-    socket.emit(null);
+    console.log("configuring socket");
+
     const player = await makePlayerObject(socket);
-    await playerChoosesMode(player); 
-    if(player.mode == GameMode.STORY)
-      handleStory(player)
-    else
-      handleConstructeddGame(player)
+    await playerChoosesMode(player);
+    if (player.mode == GameMode.STORY) {
+      handleStory(player);
+    } else {
+      handleConstructeddGame(player);
+    }
   } catch (err) {
     if ((err = ErrorEnum.CARDS_ARENT_IN_STYLES)) {
       console.log(`Error in lobby ${err}`);
@@ -34,29 +37,33 @@ const configureSocket = async (socket: Socket) => {
     }
   }
 };
-const handleConstructeddGame = async(player: PlayerObject)=>{
-    await playerChoosesDeck(player);
-    if(player.mode == GameMode.VS_AI)
-      playAgainstAI(player);
-    else
-      joinLobby(player); //NEED SWITCH STATEMENT HERE,
-}
-const handleStory = (player: PlayerObject)=>{
-  player.socket.emit(SocketEnum.SHOULD_SEND_STORY_INFO)
-  player.socket.once(SocketEnum.STORY_INFO, (storyInfo)=>{
-    startStoryCombat(player, storyInfo); 
-  })
-}
+const handleConstructeddGame = async (player: PlayerObject) => {
+  await playerChoosesDeck(player);
+  if (player.mode == GameMode.VS_AI) {
+    playAgainstAI(player);
+  } else {
+    joinLobby(player);
+  } //NEED SWITCH STATEMENT HERE,
+};
+const handleStory = (player: PlayerObject) => {
+  player.socket.emit(SocketEnum.SHOULD_SEND_STORY_INFO);
+  player.socket.once(SocketEnum.STORY_INFO, (storyInfo) => {
+    startStoryCombat(player, storyInfo);
+  });
+};
 const makePlayerObject = async (socket: Socket) => {
   const token = socket.handshake.query.token;
   const username = await getVerifiedUsername(token);
+  if (username === null) {
+    throw ErrorEnum.INVALID_TOKEN;
+  }
   const player: PlayerObject = { socket, username };
   return player;
 };
 
 //This is unity version, now that decks are stored locally.
 const playerChoosesDeck = async (player: PlayerObject) => {
-  return new Promise((res, rej) => {
+  return new Promise<void>((res, rej) => {
     player.socket.emit(SocketEnum.PLAYER_SHOULD_CHOSE_DECK);
     player.socket.once(SocketEnum.PICKED_DECK, (deck: Deck) => {
       if (!areCardsInStyles(deck.styles, deck.deckList)) {
@@ -69,19 +76,25 @@ const playerChoosesDeck = async (player: PlayerObject) => {
   });
 };
 
-const playerChoosesMode = async(player: PlayerObject)=>{
-  return new Promise((res, rej) => {
-    player.socket.emit(SocketEnum.CHOOSE_GAME_MODE); 
-    player.socket.once(SocketEnum.CHOSE_GAME_MODE, (mode: GameMode)=>{
-      player.mode = mode
-      res()
-    }); 
-  })
-}
+const playerChoosesMode = async (player: PlayerObject) => {
+  return new Promise<void>((res, rej) => {
+    player.socket.emit(SocketEnum.CHOOSE_GAME_MODE);
+    player.socket.once(SocketEnum.CHOSE_GAME_MODE, (mode: GameMode) => {
+      player.mode = mode;
+      res();
+    });
+  });
+};
 
 const playAgainstAI = async (player: PlayerObject) => {
-  console.log("creating AI game")
-  createGame([makeHumanAgent(player), makeRandomAgent()]);
+  if (!player.deck) {
+    throw new Error("Player needs a deck before starting a game");
+  }
+  console.log("creating AI game");
+  createGame([
+    makeHumanAgent(player),
+    makePersonaAgent(defaultPersona(allCards), allCards, player.deck.styles),
+  ]);
 };
 
 const joinLobby = async (player: PlayerObject) => {

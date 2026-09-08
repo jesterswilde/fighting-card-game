@@ -1,17 +1,17 @@
-import { h, Component } from 'preact';
-import { EditingDeck, PossibleCards } from '../../deckBuilder/interface';
-import { FightingStyleDescription } from '../../fightingStyles/interface';
-import { dispatchDEToggleCard } from '../../deckBuilder/dispatchEditDeck';
-import StyleList from './styleList';
-import { Card } from '../../shared/card';
-import Revert from './revert';
-import { debounce, bind } from 'decko';
-import { dispatchChangeDeckName } from '../../deckBuilder/dispatch';
-import FullCard from '../cards/fullCard';
-import Filter from '../filter';
-import { DeckViewerFilter } from '../../filters/interface';
-import { filterInvalidCards } from '../../filters/util';
-import { dispatchPopPath } from '../../path/dispatch';
+import { h, Component } from "preact";
+import { EditingDeck, PossibleCards } from "../../deckBuilder/interface";
+import { FightingStyleDescription } from "../../fightingStyles/interface";
+import { dispatchDEToggleCard } from "../../deckBuilder/dispatchEditDeck";
+import StyleList from "./styleList";
+import { Card } from "../../shared/card";
+import Revert from "./revert";
+import { debounce, bind } from "decko";
+import { dispatchChangeDeckName } from "../../deckBuilder/dispatch";
+import FullCard from "../cards/fullCard";
+import Filter from "../filter";
+import { DeckViewerFilter } from "../../filters/interface";
+import { filterInvalidCards } from "../../filters/util";
+import { dispatchPopPath } from "../../path/dispatch";
 /*
     Deck Name -edit-
     -----------------
@@ -42,119 +42,135 @@ import { dispatchPopPath } from '../../path/dispatch';
     This component is only visible if you have made changes. 
 */
 
-
 interface ExternalProps {
-    deck: EditingDeck
-    possibleCards: PossibleCards
-    styleDescriptions: FightingStyleDescription[]
-    canUpdate: boolean,
-    filters: DeckViewerFilter[],
-    showingUnusedStyles: boolean
+  deck: EditingDeck;
+  possibleCards: PossibleCards;
+  styleDescriptions: FightingStyleDescription[];
+  canUpdate: boolean;
+  filters: DeckViewerFilter[];
+  showingUnusedStyles: boolean;
 }
 
 interface Props {
-    deck: EditingDeck
-    possibleCards: PossibleCards
-    cardsObj: { [key: string]: boolean }
-    styleDescriptions: FightingStyleDescription[]
-    canUpdate: boolean
-    filters: DeckViewerFilter[]
-    showingUnusedStyles: boolean
-    totalCards: number
-    maxCards: number
+  deck: EditingDeck;
+  possibleCards: PossibleCards;
+  cardsObj: { [key: string]: boolean };
+  styleDescriptions: FightingStyleDescription[];
+  canUpdate: boolean;
+  filters: DeckViewerFilter[];
+  showingUnusedStyles: boolean;
+  totalCards: number;
+  maxCards: number;
 }
 
-
-class DeckViewer extends Component<Props>{
-    @debounce(30)
-    handleNameChange(e: Event) {
-        const el = e.target as HTMLInputElement;
-        dispatchChangeDeckName(el.value);
+class DeckViewer extends Component<Props> {
+  @debounce(30)
+  handleNameChange(e: Event) {
+    const el = e.target as HTMLInputElement;
+    dispatchChangeDeckName(el.value);
+  }
+  render({ totalCards, maxCards, showingUnusedStyles, deck, styleDescriptions, canUpdate }: Props) {
+    if (!deck) {
+      return <div>Loading...</div>;
     }
-    render({ totalCards, maxCards, showingUnusedStyles, deck, styleDescriptions, canUpdate }: Props) {
-        if (!deck) {
-            return <div>
-                Loading...
-            </div>
-        }
-        const { name } = deck;
-        return <div class='deck-builder pad-bottom'>
-            <div class="deck-name section">
-                <label for="deck-name">Deck Name</label>
-                <input id="deck-name" value={name} onChange={this.handleNameChange} />
-            </div>
-            <StyleList totalCards={totalCards} maxCards={maxCards} showingUnusedStyles={showingUnusedStyles} deck={deck} allStyles={styleDescriptions} />
-            <Filter />
-            <div class='deck'>
-                {deck.styles.map((style, i) => {
-                    return this.RenderStyle(style);
-                })}
-                {this.RenderStyle('Generic')}
-            </div>
-            {!canUpdate && <button onClick={dispatchPopPath} class='btn back-btn'>Back To Decks</button>}}
-            {canUpdate && <Revert />}
+    const { name } = deck;
+    return (
+      <div class="deck-builder pad-bottom">
+        <div class="deck-name section">
+          <label for="deck-name">Deck Name</label>
+          <input id="deck-name" value={name} onChange={this.handleNameChange} />
         </div>
-    }
-    @bind
-    RenderStyle(style: string) {
-        const { possibleCards } = this.props;
-        const { cards } = this.props.deck;
-        const styleCards = possibleCards[style];
-        if(!styleCards){
-            return <div> Loading Style...</div>
-        }
-        const maxCards = styleCards.length;
-        const cardsObj = styleCards.reduce((obj, card) => {
-            obj[card.name] = true;
-            return obj
-        }, {})
-        const usedCards = cards.reduce((count, name) => {
-            if (cardsObj[name]) {
-                return count + 1;
-            } return count;
-        }, 0)
-        return <div class="cards-section section" key={style}>
-            <div class="split-title">
-                <h3 class="style">{style}</h3>
-                <h4>Cards: {usedCards}/{maxCards}</h4>
-            </div>
-            <div class="cards">
-                {filterInvalidCards(styleCards, this.props.filters)
-                    .map((card) => this.RenderCard({ card, cardsObj: this.props.cardsObj }))}
-            </div>
+        <StyleList
+          totalCards={totalCards}
+          maxCards={maxCards}
+          showingUnusedStyles={showingUnusedStyles}
+          deck={deck}
+          allStyles={styleDescriptions}
+        />
+        <Filter />
+        <div class="deck">
+          {deck.styles.map((style, i) => {
+            return this.RenderStyle(style);
+          })}
+          {this.RenderStyle("Generic")}
         </div>
+        {!canUpdate && (
+          <button onClick={dispatchPopPath} class="btn back-btn">
+            Back To Decks
+          </button>
+        )}
+        {canUpdate && <Revert />}
+      </div>
+    );
+  }
+  @bind
+  RenderStyle(style: string) {
+    const { possibleCards } = this.props;
+    const { cards } = this.props.deck;
+    const styleCards = possibleCards[style];
+    if (!styleCards) {
+      return <div> Loading Style...</div>;
     }
-    @bind
-    RenderCard({ card, cardsObj }: { card: Card, cardsObj: { [key: string]: boolean } }) {
-        const hasCard = card ? cardsObj[card.name] : false;
-        return <div
-            key={card.name}
-            class={(hasCard ? '' : 'greyed')}
-            onClick={() => dispatchDEToggleCard(card.name, hasCard)}
-        >
-            <FullCard card={card} />
+    const maxCards = styleCards.length;
+    const cardsObj = styleCards.reduce((obj, card) => {
+      obj[card.name] = true;
+      return obj;
+    }, {});
+    const usedCards = cards.reduce((count, name) => {
+      if (cardsObj[name]) {
+        return count + 1;
+      }
+      return count;
+    }, 0);
+    return (
+      <div class="cards-section section" key={style}>
+        <div class="split-title">
+          <h3 class="style">{style}</h3>
+          <h4>
+            Cards: {usedCards}/{maxCards}
+          </h4>
         </div>
-    }
+        <div class="cards">
+          {filterInvalidCards(styleCards, this.props.filters).map((card) =>
+            this.RenderCard({ card, cardsObj: this.props.cardsObj }),
+          )}
+        </div>
+      </div>
+    );
+  }
+  @bind
+  RenderCard({ card, cardsObj }: { card: Card; cardsObj: { [key: string]: boolean } }) {
+    const hasCard = card ? cardsObj[card.name] : false;
+    return (
+      <div
+        key={card.name}
+        class={hasCard ? "" : "greyed"}
+        onClick={() => dispatchDEToggleCard(card.name, hasCard)}
+      >
+        <FullCard card={card} />
+      </div>
+    );
+  }
 }
-
-
 
 export default (props: ExternalProps) => {
-    const cards = !props.deck ? [] : props.deck.cards;
-    const cardsObj = cards.reduce((obj, name) => {
-        obj[name] = true;
-        return obj;
-    }, {});
-    let totalCards: number;
-    let maxCards: number
-    if (props.deck) {
-        const possibleCards = props.possibleCards;
-        totalCards = props.deck.cards.length;
-        maxCards = Object.keys(possibleCards).reduce((max, style) => possibleCards[style].length + max, 0);
-    } else {
-        totalCards = 0;
-        maxCards = 0;
-    }
-    return <DeckViewer {...props} cardsObj={cardsObj} totalCards={totalCards} maxCards={maxCards} />
-
-}
+  const cards = !props.deck ? [] : props.deck.cards;
+  const cardsObj = cards.reduce((obj, name) => {
+    obj[name] = true;
+    return obj;
+  }, {});
+  let totalCards: number;
+  let maxCards: number;
+  if (props.deck) {
+    const possibleCards = props.possibleCards;
+    totalCards = props.deck.cards.length;
+    maxCards = Object.keys(possibleCards).reduce(
+      (max, style) => possibleCards[style].length + max,
+      0,
+    );
+  } else {
+    totalCards = 0;
+    maxCards = 0;
+  }
+  return <DeckViewer {...props} cardsObj={cardsObj} totalCards={totalCards} maxCards={maxCards} />;
+};

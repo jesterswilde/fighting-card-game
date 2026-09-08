@@ -1,3 +1,4 @@
+import { assertOwnedCard } from "../../shared/card";
 import {
   ReadiedEffect,
   GameState,
@@ -7,39 +8,31 @@ import {
 import { Mechanic, Card, PlayerEnum, Effect } from "../../shared/card";
 import { deepCopy } from "../util";
 
-export const makeReadyMechanics = (
-  mechanics: Mechanic[],
-  card: Card
-): ReadiedMechanic[] => {
+export const makeReadyMechanics = (mechanics: Mechanic[], card: Card): ReadiedMechanic[] => {
+  assertOwnedCard(card);
+
   return mechanics.map((mechanic) => ({ mechanic, card }));
 };
-export const makeReadyMechanic = (
-  mechanic: Mechanic,
-  card: Card
-): ReadiedMechanic => {
+export const makeReadyMechanic = (mechanic: Mechanic, card: Card): ReadiedMechanic => {
+  assertOwnedCard(card);
+
   return { mechanic, card };
 };
 
-export const makeReadyEffects = (
-  effects: Effect[] = [],
-  card: Card,
-): ReadiedEffect[] => {
+export const makeReadyEffects = (effects: Effect[] = [], card: Card): ReadiedEffect[] => {
+  assertOwnedCard(card);
+
   return effects.map((eff) => makeReadyEffect(eff, card));
 };
 
-export const makeReadyEffect = (
-  effect: Effect,
-  card: Card,
-): ReadiedEffect => {
+export const makeReadyEffect = (effect: Effect, card: Card): ReadiedEffect => {
+  assertOwnedCard(card);
+
   const happensTo: HappensEnum[] = [];
   happensTo[card.player] =
-    effect.player === PlayerEnum.OPPONENT
-      ? HappensEnum.NEVER_AFFECTED
-      : HappensEnum.HAPPENS;
+    effect.player === PlayerEnum.OPPONENT ? HappensEnum.NEVER_AFFECTED : HappensEnum.HAPPENS;
   happensTo[card.opponent] =
-    effect.player === PlayerEnum.PLAYER
-      ? HappensEnum.NEVER_AFFECTED
-      : HappensEnum.HAPPENS;
+    effect.player === PlayerEnum.PLAYER ? HappensEnum.NEVER_AFFECTED : HappensEnum.HAPPENS;
   return { effect: deepCopy(effect), card, happensTo };
 };
 

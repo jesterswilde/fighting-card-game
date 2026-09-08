@@ -7,9 +7,9 @@ export const deckViewerReducer = (
     deck: null,
     deckList: [],
     isLoadingDeckList: false,
-    isLoadingDeck: false
+    isLoadingDeck: false,
   },
-  action: ActionType
+  action: ActionType,
 ): DeckViewerState => {
   switch (action.type) {
     case DeckViewerEnum.LOADING_DECK:

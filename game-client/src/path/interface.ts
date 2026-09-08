@@ -1,4 +1,3 @@
-interface PathState{
-    pathArr: string[]
+interface PathState {
+  pathArr: string[];
 }
-

@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from "typeorm";
 
-@Entity({name: 'Game'})
+@Entity({ name: "Game" })
 export class DBGame {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ default: "ONE_VS_ONE" })
-    format: string
+  @Column("varchar", { default: "ONE_VS_ONE" })
+  format: string;
 }

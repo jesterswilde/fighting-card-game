@@ -1,7 +1,3 @@
-import {h} from 'preact'; 
+import { h } from "preact";
 
-export default ()=>(
-    <h1>
-        Looking for Opponent...
-    </h1>
-)
+export default () => <h1>Looking for Opponent...</h1>;

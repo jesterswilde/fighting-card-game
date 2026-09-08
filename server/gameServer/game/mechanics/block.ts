@@ -9,22 +9,24 @@ import { splitArray } from "../../util";
 */
 
 export const collectBlock = (state: GameState) => {
-    const blockArrs: ReadiedEffect[][] = []; 
-    state.readiedEffects = state.readiedEffects.map((playerEff, index)=>{
-        const [hasBlock, unused] = splitArray(playerEff, ({effect}) => effect.axis === AxisEnum.BLOCK);
-        blockArrs[index] = hasBlock;
-        return unused;
-    })
-    const block = blockArrs.map((arr) => {
-        return arr.reduce((total, { effect: { amount = 0 } }) => total + Number(amount), 0);
-    });
-    block.forEach((amount, index)=> state.block[index] += amount); 
-}
-
+  const blockArrs: ReadiedEffect[][] = [];
+  state.readiedEffects = state.readiedEffects.map((playerEff, index) => {
+    const [hasBlock, unused] = splitArray(
+      playerEff,
+      ({ effect }) => effect.axis === AxisEnum.BLOCK,
+    );
+    blockArrs[index] = hasBlock;
+    return unused;
+  });
+  const block = blockArrs.map((arr) => {
+    return arr.reduce((total, { effect: { amount = 0 } }) => total + Number(amount), 0);
+  });
+  block.forEach((amount, index) => (state.block[index] += amount));
+};
 
 export const convertBlockToParry = (state: GameState) => {
-    state.block = state.block.map((block, index) => {
-        state.parry[index] += block;
-        return 0;
-    })
-}
+  state.block = state.block.map((block, index) => {
+    state.parry[index] += block;
+    return 0;
+  });
+};

@@ -1,3 +1,4 @@
+import { getSchoolPreferences } from "../ai/preferences";
 import { grappleStyle } from "./styles/grappler";
 import { FightingStyle, FullFightingStyle } from "./interfaces";
 import { cheapShotStyle } from "./styles/cheapShot";
@@ -22,9 +23,9 @@ import { genericStyle } from "./styles/generic";
 import { barbarianStyle } from "./styles/barbarian";
 import { deepCopy } from "../gameServer/util";
 import { drunkenStyle } from "./styles/drunkenMaster";
-import { testStyle } from "./teststyle"; 
+import { testStyle } from "./teststyle";
 const allStyles: FightingStyle[] = [
-  testStyle, 
+  testStyle,
   grappleStyle,
   cheapShotStyle,
   crowdPleaserStyle,
@@ -46,12 +47,12 @@ const allStyles: FightingStyle[] = [
   ropeADopeStyle,
   workTheBodyStyle,
   barbarianStyle,
-  genericStyle
+  genericStyle,
 ];
 
-const fightingStylesObj: {[name: string]: FightingStyle} = {};
+const fightingStylesObj: { [name: string]: FightingStyle } = {};
 
-allStyles.forEach(style => {
+allStyles.forEach((style) => {
   fightingStylesObj[style.name] = style;
 });
 
@@ -63,19 +64,18 @@ export const getFightingStyles = () => {
   return allStyles.map(
     ({ name, description, isGeneric, strengths, identity, mainMechanics, cards }) => ({
       name,
+      aiPreferences: getSchoolPreferences(name),
       cards,
       description,
       isGeneric,
       strengths,
       mainMechanics,
-      identity
-    })
+      identity,
+    }),
   );
 };
 
-export const getFightingStyleByName = (
-  styleName: string
-): FightingStyle | null => {
+export const getFightingStyleByName = (styleName: string): FightingStyle | null => {
   const style = fightingStylesObj[styleName];
   if (style) {
     return style;

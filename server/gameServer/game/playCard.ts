@@ -1,3 +1,4 @@
+import { gameLog, resolutionStep } from "./runtime";
 import { cardHappens } from "./playCards/cardHappens";
 import { ControlEnum } from "../errors";
 import { GameState } from "../interfaces/stateInterface";
@@ -18,7 +19,8 @@ import { makeEffectsFromBuff } from "./mechanics/buff";
 
 export const playCards = async (state: GameState) => {
   try {
-    console.log("Playing card")
+    resolutionStep(state);
+    gameLog(state, "Playing card");
     await playersMakePredictions(state);
     givePlayersCards(state);
     await playersPickCards(state);
@@ -31,9 +33,9 @@ export const playCards = async (state: GameState) => {
     addCardsToQueue(state);
     cardHappens(state);
   } catch (err) {
-    console.log("err", err);
+    gameLog(state, "err", err);
     if (err === ControlEnum.PLAY_CARD) {
-      console.log("caught and playing card");
+      gameLog(state, "caught and playing card");
       await playCards(state);
     } else {
       throw err;
@@ -45,27 +47,24 @@ export const readyEffectsAndMechanics = (state: GameState) => {
   state.agents.forEach((_, i) => readyPlayerEffectsAndMechanics(state, i));
 };
 
-export const readyPlayerEffectsAndMechanics = (
-  state: GameState,
-  playedBy: number
-) => {
+export const readyPlayerEffectsAndMechanics = (state: GameState, playedBy: number) => {
   const card = state.pickedCards[playedBy];
   if (card === undefined || card === null) {
     return;
   }
-  const {
-    effects = [],
-    mechanics = [],
-  } = card;
-  const [crits, nonCritMechs] = splitArray(mechanics, (mech)=> mech.mechanic === MechanicEnum.CRITICAL)
+  const { effects = [], mechanics = [] } = card;
+  const [crits, nonCritMechs] = splitArray(
+    mechanics,
+    (mech) => mech.mechanic === MechanicEnum.CRITICAL,
+  );
   state.readiedMechanics[playedBy] = [
     ...state.readiedMechanics[playedBy],
     ...makeReadyMechanics(nonCritMechs, card),
   ];
-  
-  const enhanceEffects = makeEffectsFromEnhance(card)
-  const buffEffects = makeEffectsFromBuff(card)
-  const critEffects = getEffectsFromCrits(crits); 
+
+  const enhanceEffects = makeEffectsFromEnhance(card);
+  const buffEffects = makeEffectsFromBuff(card);
+  const critEffects = getEffectsFromCrits(crits);
   state.readiedEffects[playedBy] = [
     ...state.readiedEffects[playedBy],
     ...makeReadyEffects(effects, card),

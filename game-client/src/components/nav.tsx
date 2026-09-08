@@ -12,7 +12,7 @@ interface Props {
 const selector = ({ user }: StoreState): Props => {
   return {
     isLoggedIn: !!user.username,
-    username: user.username
+    username: user.username,
   };
 };
 

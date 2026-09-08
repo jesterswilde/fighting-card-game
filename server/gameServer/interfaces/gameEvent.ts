@@ -17,56 +17,53 @@ export interface EventAction {
   mechanic?: string;
   effects?: EventEffect[];
   card?: CardEvent;
-  reflexingCard?: string; 
+  reflexingCard?: string;
   prediction?: PredictionEvent;
   winner?: number;
 }
 
-export interface FrontendEvent{
+export interface FrontendEvent {
   type: EventType;
   mechanic?: string;
   effects?: FrontEndEffect[];
   card?: CardEvent;
-  reflexingCard?: string; 
+  reflexingCard?: string;
   prediction?: PredictionEvent;
   winner?: number;
 }
 
-export interface CardEvent{
-  cardName: string,
-  priority: number
+export interface CardEvent {
+  cardName: string;
+  priority: number;
 }
 
 export interface PredictionEvent {
-  prediction: PredictionEnum;
+  prediction: PredictionEnum | undefined;
   player: number;
   targetPlayer: number;
   didHappen: boolean;
-  correctGuesses: PredictionEnum[]
+  correctGuesses: PredictionEnum[];
 }
-export interface EventEffect{
-  type: EventEffectType
-  display?: string
-  effect?: Effect
-  happensTo?: HappensEnum[]
-}
+export type EventEffect =
+  | { type: EventEffectType.EFFECT; effect: Effect; happensTo: HappensEnum[] }
+  | { type: EventEffectType.CHOICE; display: string };
 
 export enum EventEffectType {
   EFFECT,
-  CHOICE
+  CHOICE,
 }
-interface EventEffectNormal{
-  type: EventEffectType.EFFECT,
-  axis: AxisEnum, 
-  amount?: number, 
-  player: PlayerEnum, 
-  isBlocked: boolean
+interface EventEffectNormal {
+  type: EventEffectType.EFFECT;
+  axis: AxisEnum;
+  amount?: number;
+  player: PlayerEnum;
+  isBlocked: boolean;
 }
-interface EventEffectChoice{
-  type: EventEffectType.CHOICE,
-  display: string
+interface EventEffectChoice {
+  type: EventEffectType.CHOICE;
+  display: string;
 }
-export type FrontEndEffect = EventEffectChoice | EventEffectNormal
+export type FrontEndEffect = EventEffectChoice | EventEffectNormal;
 /*
 export interface FrontEndEffect{
   type: EventEffectType,

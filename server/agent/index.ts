@@ -1,4 +1,5 @@
-import { HumanAgent } from "./human";
-import { RandomAgent } from "./random";
+import type { HumanAgent } from "./human";
+import type { RandomAgent } from "./random";
 
-export type Agent = HumanAgent | RandomAgent;
+import type { PersonaAgent } from "../ai/types";
+export type Agent = HumanAgent | RandomAgent | PersonaAgent;

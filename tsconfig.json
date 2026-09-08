@@ -1,17 +1,9 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
-    "outDir": "serverBuild",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "types": ["bun"],
+    "strictNullChecks": true
   },
-  "include": [
-    "index.ts",
-    "server/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["server/**/*.ts", "scripts/**/*.ts", "*.ts", "shared/**/*.ts"],
+  "exclude": ["node_modules", "serverBuild"]
 }

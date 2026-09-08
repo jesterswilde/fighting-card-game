@@ -10,17 +10,23 @@ import { EventType } from "../../interfaces/gameEvent";
 */
 
 export const playerPicksOne = async (player: number, state: GameState) => {
-    const { agents } = state;
-    const [pickedOne, unused] = splitArray(state.readiedMechanics[player], (reaMech => reaMech.mechanic.mechanic === MechanicEnum.PICK_ONE))
-    const pickedEffects: Effect[] = []; 
-    state.readiedMechanics[player] = unused; 
-    for (let i = 0; i < pickedOne.length; i++) {
-        const { mechanic, card, } = pickedOne[i]
-            const choice = await agents[player].getPickOneChoice({cardName: card.name, index: mechanic.index});
-            const picked = mechanic.choices[choice];
-            pickedEffects.push(...picked)
-            state.readiedEffects[player] = [...state.readiedEffects[player], ...makeReadyEffects(pickedEffects, card)];
-            addDisplayEvent("Picked One", player, state, true); 
+  const { agents } = state;
+  const [pickedOne, unused] = splitArray(
+    state.readiedMechanics[player],
+    (reaMech) => reaMech.mechanic.mechanic === MechanicEnum.PICK_ONE,
+  );
+  state.readiedMechanics[player] = unused;
+  for (let i = 0; i < pickedOne.length; i++) {
+    const { mechanic, card } = pickedOne[i];
+    const choice = await agents[player].getPickOneChoice({
+      cardName: card.name,
+      index: mechanic.index,
+    });
+    const picked = mechanic.choices?.[choice];
+    if (!Number.isInteger(choice) || !picked) {
+      throw new Error("Invalid Pick One choice");
     }
-}
-
+    state.readiedEffects[player].push(...makeReadyEffects(picked, card));
+    addDisplayEvent("Picked One", player, state, true);
+  }
+};
